@@ -1,6 +1,6 @@
 # 05. 위협 판정 · 연결 규칙 · 컴플라이언스
 
-정규화된 Cross-SaaS 그래프 위에서 AEGI는 **4대 위협 판정**, **297개 Cross-SaaS 연결 확인 규칙**, **SaaS 객체별 위협 매핑**, **국내외 컴플라이언스(ISMS-P · PIPA · ISO 27001)** 판정을 수행한다.
+정규화된 Cross-SaaS 그래프 위에서 AEGI는 **4대 위협 판정**, **260개 Cross-SaaS 연결 확인 규칙**, **SaaS 객체별 위협 매핑**, **국내외 컴플라이언스(ISMS-P · PIPA · ISO 27001)** 판정을 수행한다.
 
 ---
 
@@ -23,17 +23,17 @@
 
 ---
 
-## 2. Cross-SaaS 연결 확인 규칙 (28개 쌍 · 297개 방법)
+## 2. Cross-SaaS 연결 확인 규칙 (21개 쌍 · 260개 방법)
 
-두 SaaS가 실제로 연동되어 있는지 확인하려면 "어느 API를 보고, 어떤 값이 같으면 연결로 판정하는지"가 명확해야 한다. `framework/connection-rules/`에는 특정 기업 데이터가 전혀 없는 **범용 연결 검증 규칙 297개**가 YAML로 정리되어 있다.
+두 SaaS가 실제로 연동되어 있는지 확인하려면 "어느 API를 보고, 어떤 값이 같으면 연결로 판정하는지"가 명확해야 한다. `framework/connection-rules/`에는 특정 기업 데이터가 전혀 없는 **범용 연결 검증 규칙 260개**가 YAML로 정리되어 있다.
 
-- 대상: Okta, GitHub, Google Workspace, Slack, Atlassian(Jira·Confluence·Bitbucket), Salesforce, Workday 및 외부 서버(`*-external`)
+- 대상: Okta, GitHub, Google Workspace, Slack, Atlassian(Jira·Confluence·Bitbucket), Salesforce 및 외부 서버(`*-external`)
 - 근거 강도(`tier`): `config_id` → `config_name` → `fingerprint` → `via_person` → `log_id` → `log_time`
 - 문서 및 시각화:
-  - 전체 297개 요약표: [methods.md](../../framework/connection-rules/docs/methods.md)
+  - 전체 260개 요약표: [methods.md](../../framework/connection-rules/docs/methods.md)
   - 인터랙티브 연결 지도(브라우저로 열기): [connection-map.html](../../framework/connection-rules/docs/connection-map.html)
   - 규칙 읽는 법: [how-to-read.md](../../framework/connection-rules/docs/how-to-read.md), [process.md](../../framework/connection-rules/docs/process.md)
-  - YAML 규칙 파일(28개 쌍): [framework/connection-rules/rules/](../../framework/connection-rules/rules/)
+  - YAML 규칙 파일(21개 쌍): [framework/connection-rules/rules/](../../framework/connection-rules/rules/)
 
 ---
 
@@ -41,7 +41,7 @@
 
 각 SaaS의 객체(Identity/Access, Integration/Automation, Policy/Configuration, Resource)별로 발생 가능한 위협과 수집 상태, MITRE ATT&CK / CISA ScubaGear / OWASP NHI 출처를 표준 CSV로 관리한다.
 - 형식 규격: [threat-mapping/README.md](../../framework/threat-mapping/README.md)
-- 포함 SaaS: `github/`, `gws/`, `microsoft/`, `okta/`, `slack/`
+- 포함 SaaS (10개): `atlassian/`, `gemini/`, `github/`, `gws/`, `microsoft/`, `okta/`, `onepassword/`, `salesforce/`, `slack/`, `snowflake/`
 
 ---
 

@@ -81,4 +81,4 @@ checks:
 - checks 는 현재 환경 연결 70건에 있다. 218개 중 같음 123, 원본 없음 60, 못 읽음 21, 해당 없음 9, 다름 5 다.
 - 이전 회차 연결 71건에는 checks 가 없다.
 - checks 를 채우다 찾은 근거 9개를 규칙 points_to 끝에 더했고, 규칙 항목 12곳의 칸을 실제 응답에 맞게 고쳤다. 이 항목들은 `note` 에 「시험 환경 응답에서 확인」이라고 적혀 있다.
-- 회차가 바뀌며 값이 바뀐 것(예: 같은 Atlassian 토큰의 계정 이메일이 aegi.site 에서 aegi.men 으로)은 checks 가 아니라 `history` 에 기간과 함께 적는다.
+- 회차가 바뀌며 값이 바뀐 것(예: 같은 Atlassian 토큰의 계정 이메일이 old.example.com 에서 new.example.com 으로)은 checks 가 아니라 `history` 에 기간과 함께 적는다.

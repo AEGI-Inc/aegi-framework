@@ -481,7 +481,7 @@ methods:
   - https://knowledge.workspace.google.com/admin/studio/allow-or-block-ws-integrations-steps (연동 단계 허용·차단)
   - https://support.google.com/workspace-studio/answer/16658279 (사용자 연결, 해제 위치 myaccount.google.com/connections)
   - 'https://knowledge.workspace.google.com/admin/reports/workspace-studio-log-events (Workspace Studio 로그 이벤트: Step app 속성)'
-  note: 아래는 실측(2026-10-26, CM-15, Jira 단계)에서 본 것이다. 연결하면 Atlassian 사이트에 앱 「Google」(audit_log_installation_created, 버전 8.0.0, environment DEVELOPMENT)이 설치되고 같은 시각대에 Forge logs 접근이 주어진다. 설치한 계정은 흐름 소유자와 같은 이메일(dev.junsik)로 남았다. 댓글은 연결한 Atlassian 계정 이름으로 달린다. gws 쪽에는 ADD_APPLICATION·AUTHORIZE_API_CLIENT_ACCESS 가 남지 않았고, 앱 id(668350057935)도 나오지 않았다. Atlassian 앱 id 를 담은 gws 로그도 없었다. rovo_ai_3p_connector 류 action 은 남지 않았다. Confluence 단계는 실측하지 않았다. Workspace Studio 로그에는 연동 연결·웹훅 호출 이벤트가 없고 Step app 속성만 있다
+  note: 실측 검증(Jira 단계)에서 연결하면 Atlassian 사이트에 앱 「Google」(audit_log_installation_created, environment DEVELOPMENT)이 설치되고 같은 시각대에 Forge logs 접근이 주어진다. 설치한 계정은 흐름 소유자와 같은 이메일로 남으며 댓글은 연결한 Atlassian 계정 이름으로 달린다. GWS 쪽에는 ADD_APPLICATION·AUTHORIZE_API_CLIENT_ACCESS가 남지 않고 Atlassian 앱 ID를 담은 GWS 로그도 없다. Workspace Studio 로그에는 연동 연결·웹훅 호출 이벤트가 없고 Step app 속성만 있다.
 - id: confluence_for_google_chat
   type:
   - app_grant

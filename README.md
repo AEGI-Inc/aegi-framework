@@ -14,7 +14,7 @@ flowchart LR
   S2["2. IM (Information Map)<br/>벤더 API 구조 분석<br/>식별자 연결 · 정보 지도"]
   S3["3. IM 오브젝트 모델 (V3.2)<br/>Information Map 기반 도출<br/>Interface 9종 · Relation 17종"]
   S4["4. IM Profile 정규화<br/>API 응답 → 통합 그래프<br/>Effective Access · Lineage"]
-  S5["5. 위협 판정 · 도입<br/>4대 위협 · 297개 연결 규칙<br/>컴플라이언스 · 대시보드"]
+  S5["5. 위협 판정 · 도입<br/>4대 위협 · 260개 연결 규칙<br/>컴플라이언스 · 대시보드"]
   S1 --> S2 --> S3 --> S4 --> S5
 ```
 
@@ -43,7 +43,7 @@ AEGI는 벤더마다 제각각인 API와 권한 체계를 하나의 기준으로
 | --- | --- | --- |
 | [`docs/`](docs/01-overview/architecture.md) | 프레임워크 안내서 | 아키텍처, 5단계 방법론, 기업 도입 가이드, 새 SaaS 추가 플레이북 |
 | [`framework/schema/`](framework/schema/README.md) | 의미 규격 · 온톨로지 · IM 도출 | Object/Relation/Link/EA/Profile 규격, YAML 온톨로지, Information Map·IM 추출 도구 및 V3.2 고정본 |
-| [`framework/connection-rules/`](framework/connection-rules/docs/methods.md) | Cross-SaaS 연결 확인 규칙 | 28개 SaaS 쌍, 297개 연결 검증 규칙(YAML) 및 인터랙티브 연결 지도(`connection-map.html`) |
+| [`framework/connection-rules/`](framework/connection-rules/docs/methods.md) | Cross-SaaS 연결 확인 규칙 | 21개 SaaS 쌍, 260개 연결 검증 규칙(YAML) 및 인터랙티브 연결 지도(`connection-map.html`) |
 | [`framework/threat-mapping/`](framework/threat-mapping/README.md) | SaaS 객체별 위협 매핑 | Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian, Microsoft 365, Gemini, 1Password, Snowflake 객체 위협 CSV 및 작성 규격 |
 | [`framework/compliance/`](framework/compliance/scope/README.md) | 컴플라이언스 규격 | ISMS-P, PIPA, ISO 27001 대상 판정 기준 및 권고 가이드 |
 | [`specs/`](specs/IM_PROFILE_PIPELINE.md) | 엔진 핵심 설계 명세 | IM Profile 파이프라인, 전수 수집, 위협 판정 V2, 범용 접근 엔진, 피해 범위(Blast Radius), 계보 |

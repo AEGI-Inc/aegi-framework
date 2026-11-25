@@ -1,7 +1,7 @@
 /**
  * 테넌트 확인: 자격증명이 설정의 조직·워크스페이스를 가리키는지 본다. 다르면 그 SaaS 를 수집하지 않는다.
  *
- * 회차마다 SaaS 조직이 바뀐다(예: 2회차 aegi.men 은 Slack AEGI Company, 1회차 aegi.site 는 Sandbox 2).
+ * 회차마다 SaaS 조직이 바뀐다(예: 조직 도메인 example.com, example.org).
  * 자격증명과 설정이 다른 회차를 가리키면 다른 조직의 원본이 섞여 Cross-SaaS 연결과 게시 결과가 틀어진다.
  *
  * - Okta: 자격증명 OKTA_ORG_URL 의 호스트를 설정 okta.orgHost 와 견준다(요청 없이). 다르면 Okta 호출 전부 skipped.

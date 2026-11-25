@@ -2,9 +2,7 @@
 
 운영 연결 보완(2026-10-28): Profile 단일 정규화는 main에 적용됐고 approved operation 레지스트리도 수집기에 연결됐다. 아래 도출 기록과 고정 모델 수치는 연구 시점의 근거다. 현재 사용 현황은 현재 구조와 엔진 IM_PROFILE_PIPELINE/TOTAL_COLLECTOR를 따른다.
 
-IM 모델은 SaaS의 객체, 권한, 신원, 연동을 인터페이스 9종과 관계 17종으로 표현하는 AEGI의 오브젝트 모델이다. 2026-10-19에 v1을 고정했고(옛 aegi-dashboard PR #117), v2 결정과 실측 근거 연결(r1 개정)을 반영해 2026-10-25에 V3를 고정했다([model/v3](model/v3/README.md)). Profile 정규화 중 발견한 누락을 반영한 V3.2도 고정했으며([model/v3.2](model/v3.2/README.md)), 이 폴더에는 모델이 **어떻게 도출됐는지**(설계와 조사), **판별 기록**(v1, v2 문서), **도출 도구**(연구 코드)가 있다.
-
-상태: 구현 설명과 과거 기록. 2026-10-23에 옛 aegi-dashboard `2b1e748`, aegi-adapter-engine `c6a6f7a`에서 옮겼다. 관련 이슈: [#54](https://github.com/AEGI-Inc/aegi-knowledge/issues/54), aegi-adapter-engine #85.
+IM 모델은 Information Map(정보 지도)을 바탕으로 도출해 SaaS의 객체, 권한, 신원, 연동을 인터페이스 9종과 관계 17종으로 표현하는 AEGI의 오브젝트 모델이다. 현행 고정본은 **V3.2**([model/v3.2](model/v3.2/README.md))이며, 이 폴더에는 모델이 **어떻게 도출됐는지**(설계와 조사), **현행 고정본(V3.2)**, **도출 도구**(연구 코드)가 있다.
 
 V3.2 고정 뒤의 기록: 객체 타입 보안 관련성 시험 v1은 [relevance](relevance/README.md)에, 사람이 정한 같은 실체 판정은 [identity-decisions-after-v3.2](identity-decisions-after-v3.2.md)에 있다(2026-11-01).
 
@@ -63,18 +61,11 @@ flowchart TB
 | [1단계 판단표](design/1단계%20판단표.html) | 사람 판단을 받은 표(HTML) |
 | [research/](design/research/) | Cartography 온톨로지 비교, 복잡계 모델링 조사 |
 
-### [model/](model/): v1, v2 판별 기록
-
-aegi-adapter-engine `docs/spec`에서 옮겼다.
+### [model/](model/): 현행 고정본 (V3.2)
 
 | 문서 | 내용 |
 | --- | --- |
-| [AEGI_OBJECT_MODEL_V1](model/AEGI_OBJECT_MODEL_V1.md) | IM 모델 v1 안내: 무엇을 고정했나, SaaS별 준비 상태, 새 SaaS Profile 추가 절차 |
-| [AEGI_OBJECT_MODEL_V1_RUNTIME](model/AEGI_OBJECT_MODEL_V1_RUNTIME.md) | v1 수집 Profile의 실제 수집 적용과 실행 명령 |
-| [V2_PROGRESS](model/AEGI_OBJECT_MODEL_V2_PROGRESS.md) | v2 결정과 남은 검토 항목 |
-| [AEGI_SCHEMA_REEXTRACT_VS_ADAPTER](model/AEGI_SCHEMA_REEXTRACT_VS_ADAPTER_2026-09-28.md) | 규격 기준 재추출과 정규화 어댑터의 행 단위 비교(09-28) |
-| [v3/](model/v3/README.md) | IM Object Model V3 고정본(2026-10-25): Object 타입 1,980개, binding 13건, typed reference 5,293개 처리, 결정 R1-D01~D14. `node schema/im-model/model/v3/verify-freeze.mjs`로 고정 상태를 확인한다 |
-| [v3.2/](model/v3.2/README.md) | IM Object Model V3.2 고정본(2026-10-25): Slack 대체 view 관측 및 runtime catalog 실행 판정 반영. `node schema/im-model/model/v3.2/verify-freeze.mjs`로 고정 상태를 확인한다 |
+| [v3.2/](model/v3.2/README.md) | IM Object Model V3.2 고정본(2026-10-25): Slack 대체 view 관측 및 runtime catalog 실행 판정 반영. `npm run verify:freeze`로 고정 상태를 확인한다 |
 
 ### [extraction/](extraction/): 도출 도구 (Python 연구 코드)
 

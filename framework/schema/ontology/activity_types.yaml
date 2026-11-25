@@ -295,7 +295,7 @@ calls:
     job: {id: jsonPayload.assistToken}
     change:
     - {each: 'protoPayload.serviceData.policyDelta.bindingDeltas[]', field: role, after: member}
-  # 1Password 감사 이벤트(Events API v3 beta GET /api/v3/auditevents, engine #535 수집기 OP-03, 2026-11-21). 원본 칸은 4회차(aegi.men) 실측 3건과
+  # 1Password 감사 이벤트(Events API v3 beta GET /api/v3/auditevents, engine #535 수집기 OP-03, 2026-11-21). 원본 칸은 4회차?? ?? 실측 3건과
   # www.1password.dev events-api beta reference get-v3-auditevents 의 AuditEvent 꼴(id, create_time, actor, category, action, targets, correlation_id).
   # 사건 이름은 action(target.attribute.verb 꼴)이다. 행위자 종류는 문서가 user 만 예로 든다. service-account 는 실측 값이다(수집 서비스 계정 자신)
   OP-03:

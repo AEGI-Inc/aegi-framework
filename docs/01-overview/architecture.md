@@ -9,7 +9,7 @@ flowchart TB
   subgraph L1["1. Knowledge Layer (의미 · 규격 · 규칙)"]
     K1["Schema Specs<br/>Object · Relation · Link · EA · Profile"]
     K2["Machine Ontology (YAML)<br/>9 Interfaces · 17 Relations · Capabilities"]
-    K3["Connection Rules (297)<br/>Threat Mapping · Compliance"]
+    K3["Connection Rules (260)<br/>Threat Mapping · Compliance"]
   end
 
   subgraph L2["2. Modeling Layer (벤더 문서 → IM 오브젝트)"]
