@@ -70,7 +70,7 @@ export function providerName(provider: Provider | string): string {
 export const BASE_PROVIDERS: readonly Provider[] = ['slack', 'github', 'okta', 'gws']
 
 /** AEGI가 수집·연결을 지원하는 SaaS 목록 (#adapters SaaS 연결 카드 기본 목록) */
-export const SUPPORTED_PROVIDERS: readonly Provider[] = ['slack', 'github', 'okta', 'gws', 'atlassian', 'salesforce']
+export const SUPPORTED_PROVIDERS: readonly Provider[] = ['slack', 'github', 'okta', 'gws', 'atlassian', 'salesforce', 'gcp', 'onepassword', 'microsoft']
 
 /**
  * 지식 그래프에는 존재하지만 자체 감사 로그를 남기는 SaaS가 아닌 내부·중계 식별자.

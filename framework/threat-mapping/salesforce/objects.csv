@@ -1,0 +1,228 @@
+saas,object_category,target_object,aegi_object,collection_status,collection_path,threat_count
+salesforce,Identity / Access,User,User,수집 중,SF-02,50
+salesforce,Identity / Access,PermissionSet,PermissionSet,수집 중,SF-04,33
+salesforce,Identity / Access,Profile,Profile,수집 중,SF-03,29
+salesforce,Identity / Access,OauthToken,OauthToken,수집 중,SF-07,23
+salesforce,Identity / Access,ConnectedApplication,ConnectedApplication,수집 중,SF-07,21
+salesforce,Identity / Access,PermissionSetAssignment,PermissionSetAssignment,수집 중,SF-04,20
+salesforce,Identity / Access,SamlSsoConfig,SamlSsoConfig,수집 중,SF-01,8
+salesforce,Identity / Access,EnvironmentHubMember,EnvironmentHubMember,수집 중,RG-SF-EnvironmentHubMember [11-15 출력 0건],5
+salesforce,Identity / Access,GroupMember,GroupMember,수집 중,SF-06,4
+salesforce,Identity / Access,PermissionSetGroup,PermissionSetGroup,수집 중,RG-SF-PermissionSetGroup,4
+salesforce,Identity / Access,AuthConfig,AuthConfig,수집 중,RG-SF-AuthConfig [11-15 출력 0건],3
+salesforce,Identity / Access,AuthProvider,AuthProvider,수집 중,SF-08,3
+salesforce,Identity / Access,Group,Group,수집 중,SF-06,3
+salesforce,Identity / Access,AccountOwnerSharingRule,AccountOwnerSharingRule,수집 중,RG-SF-AccountOwnerSharingRule [11-15 출력 0건],2
+salesforce,Identity / Access,AccountTeamMember,AccountTeamMember,수집 중,RG-SF-AccountTeamMember [11-15 출력 0건],2
+salesforce,Identity / Access,ActiveScratchOrg,ActiveScratchOrg,수집 중,RG-SF-ActiveScratchOrg [11-15 출력 0건],2
+salesforce,Identity / Access,CaseTeamMember,CaseTeamMember,수집 중,RG-SF-CaseTeamMember [11-15 출력 0건],2
+salesforce,Identity / Access,OauthTokenExchangeHandler,OauthTokenExchangeHandler,수집 중,RG-SF-OauthTokenExchangeHandler [11-15 출력 0건],2
+salesforce,Identity / Access,PermissionSetGroupComponent,PermissionSetGroupComponent,수집 중,RG-SF-PermissionSetGroupComponent,2
+salesforce,Identity / Access,TenantSecurityAlertRuleSelectedTenant,TenantSecurityAlertRuleSelectedTenant,수집 중,RG-SF-TenantSecurityAlertRuleSelectedTenant [11-15 출력 0건],2
+salesforce,Identity / Access,TenantSecurityPolicy,TenantSecurityPolicy,수집 중,RG-SF-TenantSecurityPolicy [11-15 출력 0건],2
+salesforce,Identity / Access,TenantSecurityPolicySelectedTenant,TenantSecurityPolicySelectedTenant,수집 중,RG-SF-TenantSecurityPolicySelectedTenant [11-15 출력 0건],2
+salesforce,Identity / Access,TwoFactorInfo,TwoFactorInfo,수집 중,RG-SF-TwoFactorInfo [11-15 출력 0건],2
+salesforce,Identity / Access,UserAuthCertificate,UserAuthCertificate,수집 중,RG-SF-UserAuthCertificate [11-15 출력 0건],2
+salesforce,Identity / Access,UserRole,UserRole,수집 중,SF-05,2
+salesforce,Identity / Access,UserTerritory2Association,UserTerritory2Association,수집 중,RG-SF-UserTerritory2Association [11-15 출력 0건],2
+salesforce,Identity / Access,AccountRelationshipShareRule,AccountRelationshipShareRule,수집 중,RG-SF-AccountRelationshipShareRule [11-15 출력 0건],1
+salesforce,Identity / Access,AssetOwnerSharingRule,AssetOwnerSharingRule,수집 중,RG-SF-AssetOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,AuthConfigProviders,AuthConfigProviders,수집 중,RG-SF-AuthConfigProviders [11-15 출력 0건],1
+salesforce,Identity / Access,CampaignOwnerSharingRule,CampaignOwnerSharingRule,수집 중,RG-SF-CampaignOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,CaseTeamRole,CaseTeamRole,수집 중,RG-SF-CaseTeamRole [11-15 출력 0건],1
+salesforce,Identity / Access,CaseTeamTemplate,CaseTeamTemplate,수집 중,RG-SF-CaseTeamTemplate [11-15 출력 0건],1
+salesforce,Identity / Access,CaseTeamTemplateMember,CaseTeamTemplateMember,수집 중,RG-SF-CaseTeamTemplateMember [11-15 출력 0건],1
+salesforce,Identity / Access,CaseTeamTemplateRecord,CaseTeamTemplateRecord,수집 중,RG-SF-CaseTeamTemplateRecord [11-15 출력 0건],1
+salesforce,Identity / Access,CustomPermission,CustomPermission,수집 중,RG-SF-CustomPermission [11-15 출력 0건],1
+salesforce,Identity / Access,DelegatedAccount,DelegatedAccount,수집 중,RG-SF-DelegatedAccount [11-15 출력 0건],1
+salesforce,Identity / Access,Domain,Domain,수집 중,RG-SF-Domain,1
+salesforce,Identity / Access,DomainSite,DomainSite,수집 중,RG-SF-DomainSite [11-15 출력 0건],1
+salesforce,Identity / Access,ExtlRecShrCnct,ExtlRecShrCnct,수집 중,RG-SF-ExtlRecShrCnct [11-15 출력 0건],1
+salesforce,Identity / Access,ExtlRecShrCnctAccnt,ExtlRecShrCnctAccnt,수집 중,RG-SF-ExtlRecShrCnctAccnt [11-15 출력 0건],1
+salesforce,Identity / Access,ExtlRecShrObject,ExtlRecShrObject,수집 중,RG-SF-ExtlRecShrObject [11-15 출력 0건],1
+salesforce,Identity / Access,FlowInterviewLogOwnerSharingRule,FlowInterviewLogOwnerSharingRule,수집 중,RG-SF-FlowInterviewLogOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,FlowInterviewOwnerSharingRule,FlowInterviewOwnerSharingRule,수집 중,RG-SF-FlowInterviewOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,MutingPermissionSet,MutingPermissionSet,수집 중,RG-SF-MutingPermissionSet [11-15 출력 0건],1
+salesforce,Identity / Access,MyDomainDiscoverableLogin,MyDomainDiscoverableLogin,수집 중,RG-SF-MyDomainDiscoverableLogin [11-15 출력 0건],1
+salesforce,Identity / Access,NetworkAuthApiSettings,NetworkAuthApiSettings,수집 중,RG-SF-NetworkAuthApiSettings [11-15 출력 0건],1
+salesforce,Identity / Access,NetworkDiscoverableLogin,NetworkDiscoverableLogin,수집 중,RG-SF-NetworkDiscoverableLogin [11-15 출력 0건],1
+salesforce,Identity / Access,NetworkMemberGroup,NetworkMemberGroup,수집 중,RG-SF-NetworkMemberGroup [11-15 출력 0건],1
+salesforce,Identity / Access,NetworkPageOverride,NetworkPageOverride,수집 중,RG-SF-NetworkPageOverride [11-15 출력 0건],1
+salesforce,Identity / Access,NetworkSelfRegistration,NetworkSelfRegistration,수집 중,RG-SF-NetworkSelfRegistration [11-15 출력 0건],1
+salesforce,Identity / Access,OauthTokenExchHandlerApp,OauthTokenExchHandlerApp,수집 중,RG-SF-OauthTokenExchHandlerApp [11-15 출력 0건],1
+salesforce,Identity / Access,ObjectTerritory2AssignmentRule,ObjectTerritory2AssignmentRule,수집 중,RG-SF-ObjectTerritory2AssignmentRule [11-15 출력 0건],1
+salesforce,Identity / Access,ObjectTerritory2Association,ObjectTerritory2Association,수집 중,RG-SF-ObjectTerritory2Association [11-15 출력 0건],1
+salesforce,Identity / Access,OpportunityTeamMember,OpportunityTeamMember,수집 중,RG-SF-OpportunityTeamMember [11-15 출력 0건],1
+salesforce,Identity / Access,OrderOwnerSharingRule,OrderOwnerSharingRule,수집 중,RG-SF-OrderOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,PartnerNetworkConnection,PartnerNetworkConnection,수집 중,RG-SF-PartnerNetworkConnection [11-15 출력 0건],1
+salesforce,Identity / Access,PartnerNetworkRecordConnection,PartnerNetworkRecordConnection,수집 중,RG-SF-PartnerNetworkRecordConnection [11-15 출력 0건],1
+salesforce,Identity / Access,PermissionSetLicense,PermissionSetLicense,수집 중,RG-SF-PermissionSetLicense,1
+salesforce,Identity / Access,PermissionSetLicenseAssign,PermissionSetLicenseAssign,수집 중,RG-SF-PermissionSetLicenseAssign,1
+salesforce,Identity / Access,PortalDelegablePermissionSet,PortalDelegablePermissionSet,수집 중,RG-SF-PortalDelegablePermissionSet [11-15 출력 0건],1
+salesforce,Identity / Access,PromptActionOwnerSharingRule,PromptActionOwnerSharingRule,수집 중,RG-SF-PromptActionOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,ReturnOrderOwnerSharingRule,ReturnOrderOwnerSharingRule,수집 중,RG-SF-ReturnOrderOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,RuleTerritory2Association,RuleTerritory2Association,수집 중,RG-SF-RuleTerritory2Association [11-15 출력 0건],1
+salesforce,Identity / Access,SelfServiceUser,SelfServiceUser,수집 중,RG-SF-SelfServiceUser [11-15 출력 0건],1
+salesforce,Identity / Access,ServiceContractOwnerSharingRule,ServiceContractOwnerSharingRule,수집 중,RG-SF-ServiceContractOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,ServiceCrewOwnerSharingRule,ServiceCrewOwnerSharingRule,수집 중,RG-SF-ServiceCrewOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,ServiceResourceOwnerSharingRule,ServiceResourceOwnerSharingRule,수집 중,RG-SF-ServiceResourceOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,ShiftOwnerSharingRule,ShiftOwnerSharingRule,수집 중,RG-SF-ShiftOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,Territory2,Territory2,수집 중,RG-SF-Territory2 [11-15 출력 0건],1
+salesforce,Identity / Access,Territory2Model,Territory2Model,수집 중,RG-SF-Territory2Model [11-15 출력 0건],1
+salesforce,Identity / Access,TerritoryAdminAssignment,TerritoryAdminAssignment,수집 중,RG-SF-TerritoryAdminAssignment [11-15 출력 0건],1
+salesforce,Identity / Access,TerritoryMgmtObjectConfig,TerritoryMgmtObjectConfig,수집 중,RG-SF-TerritoryMgmtObjectConfig [11-15 출력 0건],1
+salesforce,Identity / Access,ThirdPartyAccountLink,ThirdPartyAccountLink,수집 중,RG-SF-ThirdPartyAccountLink [11-15 출력 0건],1
+salesforce,Identity / Access,UserAccessPolicy,UserAccessPolicy,수집 중,RG-SF-UserAccessPolicy [11-15 출력 0건],1
+salesforce,Identity / Access,UserAccountTeamMember,UserAccountTeamMember,수집 중,RG-SF-UserAccountTeamMember [11-15 출력 0건],1
+salesforce,Identity / Access,UserDailyMetricOwnerSharingRule,UserDailyMetricOwnerSharingRule,수집 중,RG-SF-UserDailyMetricOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,UserLicense,UserLicense,수집 중,RG-SF-UserLicense,1
+salesforce,Identity / Access,UserMembershipSharingRule,UserMembershipSharingRule,수집 중,RG-SF-UserMembershipSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,UserMonthlyMetricOwnerSharingRule,UserMonthlyMetricOwnerSharingRule,수집 중,RG-SF-UserMonthlyMetricOwnerSharingRule [11-15 출력 0건],1
+salesforce,Identity / Access,UserProvAccount,UserProvAccount,수집 중,RG-SF-UserProvAccount [11-15 출력 0건],1
+salesforce,Identity / Access,UserProvisioningConfig,UserProvisioningConfig,수집 중,RG-SF-UserProvisioningConfig [11-15 출력 0건],1
+salesforce,Identity / Access,UserTeamMember,UserTeamMember,수집 중,RG-SF-UserTeamMember [11-15 출력 0건],1
+salesforce,Integration / Automation,ExternalClientApplication,ExternalClientApplication,수집 중,RG-SF-ExternalClientApplication,16
+salesforce,Integration / Automation,ApexClass,ApexClass,수집 중,RG-SF-ApexClass,5
+salesforce,Integration / Automation,BotDefinition,BotDefinition,수집 중,RG-SF-BotDefinition,4
+salesforce,Integration / Automation,NamedCredential,NamedCredential,수집 중,SF-10,4
+salesforce,Integration / Automation,ApexTrigger,ApexTrigger,수집 중,RG-SF-ApexTrigger [11-15 출력 0건],3
+salesforce,Integration / Automation,GenAiFunctionDefinition,GenAiFunctionDefinition,수집 중,RG-SF-GenAiFunctionDefinition,3
+salesforce,Integration / Automation,CronTrigger,CronTrigger,수집 중,RG-SF-CronTrigger,2
+salesforce,Integration / Automation,EmailServicesAddress,EmailServicesAddress,수집 중,RG-SF-EmailServicesAddress [11-15 출력 0건],2
+salesforce,Integration / Automation,EventRelayConfig,EventRelayConfig,수집 중,RG-SF-EventRelayConfig [11-15 출력 0건],2
+salesforce,Integration / Automation,FlowDefinitionView,FlowDefinitionView,수집 중,SF-09,2
+salesforce,Integration / Automation,GenAiPlannerDefinition,GenAiPlannerDefinition,수집 중,RG-SF-GenAiPlannerDefinition,2
+salesforce,Integration / Automation,GenAiPluginDefinition,GenAiPluginDefinition,수집 중,RG-SF-GenAiPluginDefinition,2
+salesforce,Integration / Automation,PackageLicense,PackageLicense,수집 중,RG-SF-PackageLicense,2
+salesforce,Integration / Automation,WorkflowOutboundMessage,FlowDefinitionView,수집 중,SF-09,2
+salesforce,Integration / Automation,CspTrustedSite,CspTrustedSite,수집 중,RG-SF-CspTrustedSite,1
+salesforce,Integration / Automation,EmailRoutingAddress,EmailRoutingAddress,수집 중,RG-SF-EmailRoutingAddress [11-15 출력 0건],1
+salesforce,Integration / Automation,EmailServicesFunction,EmailServicesFunction,수집 중,RG-SF-EmailServicesFunction,1
+salesforce,Integration / Automation,ExtKnowledgeConnector,ExtKnowledgeConnector,수집 중,RG-SF-ExtKnowledgeConnector [11-15 출력 0건],1
+salesforce,Integration / Automation,ExternalDataSource,ExternalDataSource,수집 중,RG-SF-ExternalDataSource [11-15 출력 0건],1
+salesforce,Integration / Automation,FlowOrchestration,FlowOrchestration,수집 중,RG-SF-FlowOrchestration [11-15 출력 0건],1
+salesforce,Integration / Automation,FlowRecord,FlowRecord,수집 중,RG-SF-FlowRecord,1
+salesforce,Integration / Automation,GenAiPlannerFunctionDef,GenAiPlannerFunctionDef,수집 중,RG-SF-GenAiPlannerFunctionDef,1
+salesforce,Integration / Automation,MessagingChannel,MessagingChannel,수집 중,RG-SF-MessagingChannel [11-15 출력 0건],1
+salesforce,Policy / Configuration,Organization,Organization,수집 중,SF-01,18
+salesforce,Policy / Configuration,Site,Site,수집 중,RG-SF-Site [11-15 출력 0건],4
+salesforce,Policy / Configuration,TransactionSecurityPolicy,TransactionSecurityPolicy,수집 중,RG-SF-TransactionSecurityPolicy [11-15 출력 0건],3
+salesforce,Policy / Configuration,AllowedEmailDomain,AllowedEmailDomain,수집 중,RG-SF-AllowedEmailDomain [11-15 출력 0건],1
+salesforce,Policy / Configuration,ArchivePolicyDefinition,ArchivePolicyDefinition,수집 중,RG-SF-ArchivePolicyDefinition [11-15 출력 0건],1
+salesforce,Policy / Configuration,DataDetectPolicy,DataDetectPolicy,수집 중,RG-SF-DataDetectPolicy [11-15 출력 0건],1
+salesforce,Policy / Configuration,DataEncryptionKey,DataEncryptionKey,수집 중,RG-SF-DataEncryptionKey [11-15 출력 0건],1
+salesforce,Policy / Configuration,EmailDomainFilter,EmailDomainFilter,수집 중,RG-SF-EmailDomainFilter [11-15 출력 0건],1
+salesforce,Policy / Configuration,EmailRelay,EmailRelay,수집 중,RG-SF-EmailRelay [11-15 출력 0건],1
+salesforce,Policy / Configuration,ExternalEncryptionRootKey,ExternalEncryptionRootKey,수집 중,RG-SF-ExternalEncryptionRootKey [11-15 출력 0건],1
+salesforce,Policy / Configuration,IframeWhiteListUrl,IframeWhiteListUrl,수집 중,RG-SF-IframeWhiteListUrl,1
+salesforce,Policy / Configuration,MobileSecurityAssignment,MobileSecurityAssignment,수집 중,RG-SF-MobileSecurityAssignment [11-15 출력 0건],1
+salesforce,Policy / Configuration,MobileSecurityPolicy,MobileSecurityPolicy,수집 중,RG-SF-MobileSecurityPolicy [11-15 출력 0건],1
+salesforce,Policy / Configuration,ReplyEmailSettings,ReplyEmailSettings,수집 중,RG-SF-ReplyEmailSettings [11-15 출력 0건],1
+salesforce,Policy / Configuration,SecurityCustomBaseline,SecurityCustomBaseline,수집 중,RG-SF-SecurityCustomBaseline [11-15 출력 0건],1
+salesforce,Policy / Configuration,SiteIframeWhitelistUrl,SiteIframeWhitelistUrl,수집 중,RG-SF-SiteIframeWhitelistUrl [11-15 출력 0건],1
+salesforce,Policy / Configuration,TenantSecret,TenantSecret,수집 중,RG-SF-TenantSecret [11-15 출력 0건],1
+salesforce,Policy / Configuration,TenantSecurityNotificationRule,TenantSecurityNotificationRule,수집 중,RG-SF-TenantSecurityNotificationRule [11-15 출력 0건],1
+salesforce,Resource,ContentDocumentLink,ContentDocumentLink,수집 중,RG-SF-ContentDocumentLink,3
+salesforce,Resource,CaseOwnerSharingRule,CaseOwnerSharingRule,수집 중,RG-SF-CaseOwnerSharingRule [11-15 출력 0건],2
+salesforce,Resource,CollaborationGroup,CollaborationGroup,수집 중,RG-SF-CollaborationGroup [11-15 출력 0건],2
+salesforce,Resource,ContentWorkspaceMember,ContentWorkspaceMember,수집 중,RG-SF-ContentWorkspaceMember [11-15 출력 0건],2
+salesforce,Resource,ContentWorkspacePermission,ContentWorkspacePermission,수집 중,RG-SF-ContentWorkspacePermission [11-15 출력 0건],2
+salesforce,Resource,CollaborationGroupMember,CollaborationGroupMember,수집 중,RG-SF-CollaborationGroupMember [11-15 출력 0건],1
+salesforce,Resource,ContactOwnerSharingRule,ContactOwnerSharingRule,수집 중,RG-SF-ContactOwnerSharingRule [11-15 출력 0건],1
+salesforce,Resource,DevopsEnvironment,DevopsEnvironment,수집 중,RG-SF-DevopsEnvironment [11-15 출력 0건],1
+salesforce,Resource,LeadOwnerSharingRule,LeadOwnerSharingRule,수집 중,RG-SF-LeadOwnerSharingRule [11-15 출력 0건],1
+salesforce,Resource,OpportunityOwnerSharingRule,OpportunityOwnerSharingRule,수집 중,RG-SF-OpportunityOwnerSharingRule [11-15 출력 0건],1
+salesforce,,AIApplication,AIApplication,수집 중,RG-SF-AIApplication [11-15 출력 0건],0
+salesforce,,AccountTerritoryAssignmentRule,AccountTerritoryAssignmentRule,수집 중,RG-SF-AccountTerritoryAssignmentRule [11-15 출력 0건],0
+salesforce,,AccountTerritorySharingRule,AccountTerritorySharingRule,수집 중,RG-SF-AccountTerritorySharingRule [11-15 출력 0건],0
+salesforce,,AppExtension,AppExtension,수집 중,RG-SF-AppExtension [11-15 출력 0건],0
+salesforce,,ApprovalDelegation,ApprovalDelegation,수집 중,RG-SF-ApprovalDelegation [11-15 출력 0건],0
+salesforce,,AssignmentRule,AssignmentRule,수집 중,RG-SF-AssignmentRule [11-15 출력 0건],0
+salesforce,,AuthProvParamFwdAllowlist,AuthProvParamFwdAllowlist,수집 중,RG-SF-AuthProvParamFwdAllowlist [11-15 출력 0건],0
+salesforce,,AutomatedAction,AutomatedAction,수집 중,RG-SF-AutomatedAction [11-15 출력 0건],0
+salesforce,,BriefcaseAssignment,BriefcaseAssignment,수집 중,RG-SF-BriefcaseAssignment [11-15 출력 0건],0
+salesforce,,BriefcaseRule,BriefcaseRule,수집 중,RG-SF-BriefcaseRule [11-15 출력 0건],0
+salesforce,,BroadcastTopicGroup,BroadcastTopicGroup,수집 중,RG-SF-BroadcastTopicGroup [11-15 출력 0건],0
+salesforce,,BuyerGroup,BuyerGroup,수집 중,RG-SF-BuyerGroup [11-15 출력 0건],0
+salesforce,,BuyerGroupPricebook,BuyerGroupPricebook,수집 중,RG-SF-BuyerGroupPricebook [11-15 출력 0건],0
+salesforce,,BuyerGroupRelatedObject,BuyerGroupRelatedObject,수집 중,RG-SF-BuyerGroupRelatedObject [11-15 출력 0건],0
+salesforce,,CallCenter,CallCenter,수집 중,RG-SF-CallCenter [11-15 출력 0건],0
+salesforce,,CallCenterRoutingMap,CallCenterRoutingMap,수집 중,RG-SF-CallCenterRoutingMap [11-15 출력 0건],0
+salesforce,,CallCoachingMediaProvider,CallCoachingMediaProvider,수집 중,RG-SF-CallCoachingMediaProvider [11-15 출력 0건],0
+salesforce,,ChatterExtension,ChatterExtension,수집 중,RG-SF-ChatterExtension [11-15 출력 0건],0
+salesforce,,ChatterExtensionConfig,ChatterExtensionConfig,수집 중,RG-SF-ChatterExtensionConfig [11-15 출력 0건],0
+salesforce,,CommerceEntitlementBuyerGroup,CommerceEntitlementBuyerGroup,수집 중,RG-SF-CommerceEntitlementBuyerGroup [11-15 출력 0건],0
+salesforce,,CommerceEntitlementPolicy,CommerceEntitlementPolicy,수집 중,RG-SF-CommerceEntitlementPolicy [11-15 출력 0건],0
+salesforce,,CommerceEntitlementProduct,CommerceEntitlementProduct,수집 중,RG-SF-CommerceEntitlementProduct [11-15 출력 0건],0
+salesforce,,ConversationChannelDefinition,ConversationChannelDefinition,수집 중,RG-SF-ConversationChannelDefinition [11-15 출력 0건],0
+salesforce,,ConversationVendorInfo,ConversationVendorInfo,수집 중,RG-SF-ConversationVendorInfo [11-15 출력 0건],0
+salesforce,,CorsWhitelistEntry,CorsWhitelistEntry,수집 중,RG-SF-CorsWhitelistEntry [11-15 출력 0건],0
+salesforce,,CustomPermissionDependency,CustomPermissionDependency,수집 중,RG-SF-CustomPermissionDependency [11-15 출력 0건],0
+salesforce,,DataWeaveResource,DataWeaveResource,수집 중,RG-SF-DataWeaveResource [11-15 출력 0건],0
+salesforce,,DevopsPipeline,DevopsPipeline,수집 중,RG-SF-DevopsPipeline [11-15 출력 0건],0
+salesforce,,DevopsPipelineTestProvider,DevopsPipelineTestProvider,수집 중,RG-SF-DevopsPipelineTestProvider [11-15 출력 0건],0
+salesforce,,DevopsQualityGate,DevopsQualityGate,수집 중,RG-SF-DevopsQualityGate [11-15 출력 0건],0
+salesforce,,DevopsTestProvider,DevopsTestProvider,수집 중,RG-SF-DevopsTestProvider [11-15 출력 0건],0
+salesforce,,DsarPolicy,DsarPolicy,수집 중,RG-SF-DsarPolicy [11-15 출력 0건],0
+salesforce,,EmailDomainKey,EmailDomainKey,수집 중,RG-SF-EmailDomainKey [11-15 출력 0건],0
+salesforce,,ExpressionFilter,ExpressionFilter,수집 중,RG-SF-ExpressionFilter [11-15 출력 0건],0
+salesforce,,ExtConvParticipantIntegDef,ExtConvParticipantIntegDef,수집 중,RG-SF-ExtConvParticipantIntegDef [11-15 출력 0건],0
+salesforce,,ExternalDataUserAuth,ExternalDataUserAuth,수집 중,RG-SF-ExternalDataUserAuth [11-15 출력 0건],0
+salesforce,,ExternalSocialAccount,ExternalSocialAccount,수집 중,RG-SF-ExternalSocialAccount [11-15 출력 0건],0
+salesforce,,FunctionConnection,FunctionConnection,수집 중,RG-SF-FunctionConnection [11-15 출력 0건],0
+salesforce,,FunctionReference,FunctionReference,수집 중,RG-SF-FunctionReference [11-15 출력 0건],0
+salesforce,,LiveChatBlockingRule,LiveChatBlockingRule,수집 중,RG-SF-LiveChatBlockingRule [11-15 출력 0건],0
+salesforce,,LiveChatObjectAccessDefinition,LiveChatObjectAccessDefinition,수집 중,RG-SF-LiveChatObjectAccessDefinition [11-15 출력 0건],0
+salesforce,,LiveChatSensitiveDataRule,LiveChatSensitiveDataRule,수집 중,RG-SF-LiveChatSensitiveDataRule [11-15 출력 0건],0
+salesforce,,ManagedContentChannel,ManagedContentChannel,수집 중,RG-SF-ManagedContentChannel,0
+salesforce,,MessagingConfiguration,MessagingConfiguration,수집 중,RG-SF-MessagingConfiguration [11-15 출력 0건],0
+salesforce,,MetadataPackageVersion,MetadataPackageVersion,수집 중,RG-SF-MetadataPackageVersion [11-15 출력 0건],0
+salesforce,,MktJourneyDcsnSetup,MktJourneyDcsnSetup,수집 중,RG-SF-MktJourneyDcsnSetup [11-15 출력 0건],0
+salesforce,,MobileDeviceAppRegistration,MobileDeviceAppRegistration,수집 중,RG-SF-MobileDeviceAppRegistration [11-15 출력 0건],0
+salesforce,,NetworkAffinity,NetworkAffinity,수집 중,RG-SF-NetworkAffinity [11-15 출력 0건],0
+salesforce,,NetworkEmailTmplAllowlist,NetworkEmailTmplAllowlist,수집 중,RG-SF-NetworkEmailTmplAllowlist [11-15 출력 0건],0
+salesforce,,NetworkMember,NetworkMember,수집 중,RG-SF-NetworkMember [11-15 출력 0건],0
+salesforce,,OauthCustomScope,OauthCustomScope,수집 중,RG-SF-OauthCustomScope [11-15 출력 0건],0
+salesforce,,OauthCustomScopeApp,OauthCustomScopeApp,수집 중,RG-SF-OauthCustomScopeApp [11-15 출력 0건],0
+salesforce,,OmniSupervisorConfig,OmniSupervisorConfig,수집 중,RG-SF-OmniSupervisorConfig [11-15 출력 0건],0
+salesforce,,OmniSupervisorConfigGroup,OmniSupervisorConfigGroup,수집 중,RG-SF-OmniSupervisorConfigGroup [11-15 출력 0건],0
+salesforce,,OmniSupervisorConfigProfile,OmniSupervisorConfigProfile,수집 중,RG-SF-OmniSupervisorConfigProfile [11-15 출력 0건],0
+salesforce,,OmniSupervisorConfigQueue,OmniSupervisorConfigQueue,수집 중,RG-SF-OmniSupervisorConfigQueue [11-15 출력 0건],0
+salesforce,,OmniSupervisorConfigSkill,OmniSupervisorConfigSkill,수집 중,RG-SF-OmniSupervisorConfigSkill [11-15 출력 0건],0
+salesforce,,OmniSupervisorConfigUser,OmniSupervisorConfigUser,수집 중,RG-SF-OmniSupervisorConfigUser [11-15 출력 0건],0
+salesforce,,OrgWideEmailAddress,OrgWideEmailAddress,수집 중,RG-SF-OrgWideEmailAddress [11-15 출력 0건],0
+salesforce,,PaymentGateway,PaymentGateway,수집 중,RG-SF-PaymentGateway [11-15 출력 0건],0
+salesforce,,PaymentGatewayProvider,PaymentGatewayProvider,수집 중,RG-SF-PaymentGatewayProvider [11-15 출력 0건],0
+salesforce,,PermissionSetLicenseDefinition,PermissionSetLicenseDefinition,수집 중,RG-SF-PermissionSetLicenseDefinition [11-15 출력 0건],0
+salesforce,,PersonAccountOwnerPowerUser,PersonAccountOwnerPowerUser,수집 중,RG-SF-PersonAccountOwnerPowerUser [11-15 출력 0건],0
+salesforce,,ProspectingAgentSpec,ProspectingAgentSpec,수집 중,RG-SF-ProspectingAgentSpec [11-15 출력 0건],0
+salesforce,,ProspectingAgentUserSpec,ProspectingAgentUserSpec,수집 중,RG-SF-ProspectingAgentUserSpec [11-15 출력 0건],0
+salesforce,,PushTopic,PushTopic,수집 중,RG-SF-PushTopic [11-15 출력 0건],0
+salesforce,,PushUpgradeCustomization,PushUpgradeCustomization,수집 중,RG-SF-PushUpgradeCustomization [11-15 출력 0건],0
+salesforce,,RedirectWhitelistUrl,RedirectWhitelistUrl,수집 중,RG-SF-RedirectWhitelistUrl [11-15 출력 0건],0
+salesforce,,RegisteredExternalService,RegisteredExternalService,수집 중,RG-SF-RegisteredExternalService [11-15 출력 0건],0
+salesforce,,RpaRobotPool,RpaRobotPool,수집 중,RG-SF-RpaRobotPool [11-15 출력 0건],0
+salesforce,,RpaRobotPoolAsgnRobot,RpaRobotPoolAsgnRobot,수집 중,RG-SF-RpaRobotPoolAsgnRobot [11-15 출력 0건],0
+salesforce,,RpaRobotPoolDefinition,RpaRobotPoolDefinition,수집 중,RG-SF-RpaRobotPoolDefinition [11-15 출력 0건],0
+salesforce,,RpaRobotPoolFlowAsgn,RpaRobotPoolFlowAsgn,수집 중,RG-SF-RpaRobotPoolFlowAsgn [11-15 출력 0건],0
+salesforce,,SharingRecordCollection,SharingRecordCollection,수집 중,RG-SF-SharingRecordCollection [11-15 출력 0건],0
+salesforce,,SharingRecordCollectionItem,SharingRecordCollectionItem,수집 중,RG-SF-SharingRecordCollectionItem [11-15 출력 0건],0
+salesforce,,SharingRecordCollectionMember,SharingRecordCollectionMember,수집 중,RG-SF-SharingRecordCollectionMember [11-15 출력 0건],0
+salesforce,,SiteDomain,SiteDomain,수집 중,RG-SF-SiteDomain [11-15 출력 0건],0
+salesforce,,SourceCodeRepoProvider,SourceCodeRepoProvider,수집 중,RG-SF-SourceCodeRepoProvider [11-15 출력 0건],0
+salesforce,,SourceCodeRepository,SourceCodeRepository,수집 중,RG-SF-SourceCodeRepository [11-15 출력 0건],0
+salesforce,,StoreIntegratedService,StoreIntegratedService,수집 중,RG-SF-StoreIntegratedService [11-15 출력 0건],0
+salesforce,,TaxEngine,TaxEngine,수집 중,RG-SF-TaxEngine [11-15 출력 0건],0
+salesforce,,TaxEngineProvider,TaxEngineProvider,수집 중,RG-SF-TaxEngineProvider [11-15 출력 0건],0
+salesforce,,TenantSecurityCustomMetricSetup,TenantSecurityCustomMetricSetup,수집 중,RG-SF-TenantSecurityCustomMetricSetup [11-15 출력 0건],0
+salesforce,,Territory,Territory,수집 중,RG-SF-Territory [11-15 출력 0건],0
+salesforce,,Territory2ObjectExclusion,Territory2ObjectExclusion,수집 중,RG-SF-Territory2ObjectExclusion [11-15 출력 0건],0
+salesforce,,TopInsight,TopInsight,수집 중,RG-SF-TopInsight [11-15 출력 0건],0
+salesforce,,UserEmailCalendarSync,UserEmailCalendarSync,수집 중,RG-SF-UserEmailCalendarSync [11-15 출력 0건],0
+salesforce,,UserPackageLicense,UserPackageLicense,수집 중,RG-SF-UserPackageLicense [11-15 출력 0건],0
+salesforce,,UserProfile,UserProfile,수집 중,RG-SF-UserProfile [11-15 출력 0건],0
+salesforce,,UserTerritory,UserTerritory,수집 중,RG-SF-UserTerritory [11-15 출력 0건],0
+salesforce,,VoiceUserLine,VoiceUserLine,수집 중,RG-SF-VoiceUserLine [11-15 출력 0건],0
+salesforce,,VoiceVendorInfo,VoiceVendorInfo,수집 중,RG-SF-VoiceVendorInfo [11-15 출력 0건],0
+salesforce,,WebStoreNetwork,WebStoreNetwork,수집 중,RG-SF-WebStoreNetwork [11-15 출력 0건],0
+salesforce,,WebstoreBuyerGroup,WebstoreBuyerGroup,수집 중,RG-SF-WebstoreBuyerGroup [11-15 출력 0건],0

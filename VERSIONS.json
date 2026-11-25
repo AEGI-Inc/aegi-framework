@@ -1,10 +1,10 @@
 {
-  "synced_at": "2026-11-25T08:52:54.236Z",
+  "synced_at": "2026-11-25T09:19:44.886Z",
   "sources": {
     "knowledge": {
       "repo": "AEGI-Inc/aegi-knowledge",
-      "ref": "HEAD",
-      "commit": "9f0fb226b93fccfc52ede747f7d5c0a53fcf9f66",
+      "ref": "origin/main",
+      "commit": "7c5b94437faf4b34dafcd327920e5f813ff379a1",
       "paths": [
         "schema/README.md",
         "schema/specs",
@@ -21,8 +21,8 @@
     },
     "engine_specs": {
       "repo": "AEGI-Inc/aegi-adapter-engine",
-      "ref": "HEAD",
-      "commit": "305acb99fdc55e7ca9efbc05c963e812e4853111",
+      "ref": "origin/main",
+      "commit": "a78f303d7c45d4f88ee670e8fe464440c4ca3941",
       "paths": [
         "docs/IM_PROFILE_PIPELINE.md",
         "docs/TOTAL_COLLECTOR.md",
@@ -35,8 +35,8 @@
     },
     "runtime": {
       "repo": "AEGI-Inc/aegi-solution",
-      "ref": "HEAD",
-      "commit": "eff8a6f282ee69deba34af25650f1d8d371d59f6"
+      "ref": "origin/main",
+      "commit": "5f5031f137ca736c4451f184fab67a68cd674ec2"
     }
   }
 }
