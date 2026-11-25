@@ -46,6 +46,8 @@ const CONTENT_CHECKS = [
   { name: 'AWS Access Key', re: /\bAKIA(?!IOSFODNN7EXAMPLE)[0-9A-Z]{16}\b/ },
   { name: 'Anthropic Key', re: /\bsk-ant-[A-Za-z0-9_-]{20,}\b/ },
   { name: 'Private Key Block', re: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----\r?\n[A-Za-z0-9+/=]{40,}/ },
+  { name: '내부 시험 도메인(aegi.men)', re: /\baegi\.men\b/i },
+  { name: '내부 시험 계정(junsik)', re: /\b(?:dev\.)?junsik\b/i },
 ]
 
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'data', 'release', 'web'])

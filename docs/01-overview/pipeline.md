@@ -9,7 +9,7 @@ flowchart TB
     B2["벤더 명세 구조화<br/>framework/schema/im-model/extraction/"]
     B3["ID 공간 · Information Map<br/>결정론적 후보 추출 및 동치류 구성"]
     B4["IM Object Model V3.2 고정<br/>1,991개 타입 판정 · Interface 9종 · Relation 17종"]
-    B5["IM Profile & Overlay 작성<br/>+ 연결 규칙(297) · 위협 매핑(CSV)"]
+    B5["IM Profile & Overlay 작성<br/>+ 연결 규칙(260) · 위협 매핑(CSV)"]
     B1 --> B2 --> B3 --> B4 --> B5
   end
 

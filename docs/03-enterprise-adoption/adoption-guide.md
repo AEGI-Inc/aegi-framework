@@ -34,7 +34,6 @@ AEGI Framework는 기업의 보안 성숙도와 인프라 여건에 따라 **1�
 
 지원 SaaS 중 자사가 사용하는 SaaS만 선택해 읽기 전용으로 수집한다.
 - **수집·정규화·판정 지원 (9개)**: Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence), Microsoft 365(Entra ID), Google Cloud / Gemini Enterprise, 1Password
-- **제외**: Snowflake(수집기 엔진 연동 예정), AWS
 
 1. **최소 읽기 권한 확인 및 발급**
    - [SaaS 수집 가이드](../../runtime/docs/saas-collection-guide.md)
@@ -69,7 +68,7 @@ AEGI Framework는 기업의 보안 성숙도와 인프라 여건에 따라 **1�
 
 ### 3. 사내 보안 체계·SIEM/SOAR 통합
 - **온톨로지 활용**: `framework/schema/ontology/*.yaml`을 사내 자산 관리(CMDB)나 SIEM 정규화 어휘로 직접 참조한다.
-- **연결 규칙 활용**: `framework/connection-rules/rules/*.yaml`의 297개 연결 검증 방법을 사내 보안 점검 체크리스트나 탐지 규칙으로 이식한다.
+- **연결 규칙 활용**: `framework/connection-rules/rules/*.yaml`의 260개 연결 검증 방법을 사내 보안 점검 체크리스트나 탐지 규칙으로 이식한다.
 - **위협 매핑·컴플라이언스 활용**: `framework/threat-mapping/`과 `framework/compliance/`를 사내 리스크 평가 및 ISMS-P/ISO 27001 증적 기준선으로 사용한다.
 
 ### 4. 자사 SaaS 신규 추가

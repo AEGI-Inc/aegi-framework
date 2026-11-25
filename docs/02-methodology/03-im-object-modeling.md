@@ -34,7 +34,6 @@ flowchart TB
 ```
 
 - 단계별 조사 기록: [im-model/README.md](../../framework/schema/im-model/README.md), [im-model/design/](../../framework/schema/im-model/design/)
-- V1/V2 판별 기록: [AEGI_OBJECT_MODEL_V1.md](../../framework/schema/im-model/model/AEGI_OBJECT_MODEL_V1.md), [AEGI_OBJECT_MODEL_V2_PROGRESS.md](../../framework/schema/im-model/model/AEGI_OBJECT_MODEL_V2_PROGRESS.md)
 - r1 개정 파이프라인(V3 생성 도구): [extraction/r1/README.md](../../framework/schema/im-model/extraction/r1/README.md)
 - V3.2 고정본 상세: [model/v3.2/README.md](../../framework/schema/im-model/model/v3.2/README.md)
 - 객체 타입 보안 관련성 시험: [relevance/README.md](../../framework/schema/im-model/relevance/README.md)

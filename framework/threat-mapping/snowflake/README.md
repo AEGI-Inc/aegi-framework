@@ -14,7 +14,7 @@ Snowflake 객체 40종 중 34종에 위협 61건을 매핑한 초안. 2026-09 �
 | --- | --- |
 | `threat_id` | 범주 안 순서대로 새 번호. 9월 ID는 `legacy_ids` |
 | `target_object` | 행마다 주 객체 하나. 나머지는 `notes`의 「함께 보는 객체」 |
-| `aegi_object` | 빈칸. engine main 305acb99에 Snowflake 수집기와 overlay가 없음. 수집기는 [aegi-adapter-engine#539](https://github.com/AEGI-Inc/aegi-adapter-engine/issues/539)(SNOW-01~SNOW-03)로 예정 |
+| `aegi_object` | 빈칸. 현재 판에는 Snowflake 수집기와 overlay가 없으며 수집기 엔진 연동 예정(SNOW-01~SNOW-03) |
 | `collection_status`, `collection_path` | 행 61건, 객체 40종 모두 `미수집(API 있음)`. 경로는 REST 명세의 목록 경로(예: `/api/v2/users`) |
 | `observation` | STATE, DIFF, EVENT 밖에 이 SaaS 작업 값 셋을 그대로 둠. `STATE+DIFF`는 스냅샷 하나로 상태가 보이고 두 스냅샷 차이로 변경도 보임. `조건부`는 수집기 공백 속성이나 수집 역할 권한이 채워져야 판정됨. `NOT_OBSERVABLE`은 구성 수집으로 안 보이고 로그도 없음 |
 | `actor`, `engine_threat_type`, `cross_saas` | 다른 SaaS v0에서 같은 9월 ID에 붙은 값의 다수결. Snowflake 행의 적용 SaaS에 다른 SaaS가 있으면 `cross_saas`는 direct. 다른 SaaS v0에 같은 9월 ID 값이 없는 4건은 직접 판정 |
@@ -22,7 +22,7 @@ Snowflake 객체 40종 중 34종에 위협 61건을 매핑한 초안. 2026-09 �
 
 `조건부`가 많은 이유
 
-- 이슈 #539 수집 역할에 MANAGE GRANTS가 없음. SHOW USERS, DESCRIBE USER 문서 기준 그 경우 다른 User의 name 밖 칸이 NULL이고, SHOW GRANTS, SHOW ROLES는 수집 역할이 권한을 가진 객체만 돌려줄 수 있음
+- 예정된 수집 역할에 MANAGE GRANTS가 없음. SHOW USERS, DESCRIBE USER 문서 기준 그 경우 다른 User의 name 밖 칸이 NULL이고, SHOW GRANTS, SHOW ROLES는 수집 역할이 권한을 가진 객체만 돌려줄 수 있음
 - 계정 파라미터, authentication policy, session policy, OAuth와 SCIM security integration, PAT 목록이 REST 명세나 이슈 #539 호출 목록에 없어 SQL로만 보임
 
 ## 요약

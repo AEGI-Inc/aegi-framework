@@ -44,8 +44,8 @@ sources:
   email_match: >-
     Relation 주담당 2026-11-03 결정(decided.email_same_person). 공용 주소 앞부분은 RFC 2142(역할 메일함 이름 — postmaster, abuse, security,
     webmaster, info, sales, support 등)와 흔한 역할 주소에서 골랐다. 자리표시 값과 가린 값의 모양은 join.py, 엔진 join.ts 의 email_address 에 같이 있다. domain_alias(2026-11-08)는 Atlassian 조직 도메인(실측 값 claim_status verified, claim_type dns)과
-    Google Workspace 도메인(admin#directory#domain, verified)에서 읽는다. 실측 dataset-prod3-relineage-20261108 에서 Atlassian 조직 하나가 aegi.men 과
-    aegi.site 를 둘 다 DNS 로 확인했고, Okta login 은 aegi.men, GitHub 조직 확인 도메인 메일은 aegi.site 라 같은 주소 줄로는 안 이어졌다
+    Google Workspace 도메인(admin#directory#domain, verified)에서 읽는다. 실측 dataset-prod3-relineage-20261108 에서 Atlassian 조직 하나가 example.com 과
+    example.org 를 둘 다 DNS 로 확인했고, Okta login 은 example.com, GitHub 조직 확인 도메인 메일은 example.org 라 같은 주소 줄로는 안 이어졌다
   kinds: >-
     키 종류 · 단계 — docs/Link_Schema_v3.md 「맞추는 방법」(M1–M4) · 「허브 구조」. 관계와 Link 의 경계 — docs/Relation_Schema_v3.md
     「교차 provider 관계는 stated 만」 · docs/Profile_Schema_v4.2.md external_refs. 이어지는 동작 — aegi-dashboard
@@ -593,7 +593,7 @@ fields:
 # M3 — 1Password 사용자(2026-11-21, engine #535 Profile overlays/onepassword new-user.yaml). 1Password 는 사람을 메일로 초대하고
 # op user list 가 그 메일(email)을 준다. Link_Schema_v3 「허브 구조」 표의 줄 모양 그대로 허브(Okta · GWS · Microsoft 365)의 사람 메일과 잇는다.
 # 손님(type GUEST)도 자기 메일로 초대받으므로 같은 메일이면 같은 사람이라 빼지 않는다. 서비스 계정은 사용자 목록에 없다(ServiceAccount Profile).
-# 4회차(aegi.men) 실측: 1Password 사용자 1명이 같은 메일의 Okta · GWS 사람 Link 에 든다(이 줄 없이는 Link 0)
+# 4회차?? ?? 실측: 1Password 사용자 1명이 같은 메일의 Okta · GWS 사람 Link 에 든다(이 줄 없이는 Link 0)
 - {kind: natural_key, side: b, provider: onepassword, object_type: User, path: properties.email, transform: [email_address]}
 - {kind: natural_key, side: a, provider: okta, object_type: User, path: properties.login, transform: [email_address], to: {provider: onepassword, object_type: User}}
 - {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_address], to: {provider: onepassword, object_type: User}}

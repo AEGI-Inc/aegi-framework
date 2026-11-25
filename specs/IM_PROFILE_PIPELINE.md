@@ -1,8 +1,8 @@
 # IM Profile 단일 정규화 파이프라인
 
-현재 상태(2026-10-28, main 2a8931b): 실행기 통합과 이전 디렉터리 제거는 main에 반영됐다. 레지스트리 수집과 실행 병합은 [TOTAL_COLLECTOR](TOTAL_COLLECTOR.md)를 따른다. 문서에 남긴 브랜치명은 구현 이력이다.
+현재 상태: IM Profile 단일 실행기 통합이 완료되어 있으며, 레지스트리 수집과 실행 병합은 [TOTAL_COLLECTOR](TOTAL_COLLECTOR.md)를 따른다.
 
-정규화는 `npm run normalize`로 IM Profile 실행기만 호출한다. 객체 추출에 손코드 정규화, 카탈로그 정규화 또는 v1 투영을 이어 붙이지 않는다. 이 문서는 `refactor/im-profile-pipeline` 브랜치 및 `refactor/remove-legacy-normalizers`의 구현을 설명한다. 작업 이슈는 [#103](https://github.com/AEGI-Inc/aegi-adapter-engine/issues/103)과 [#110](https://github.com/AEGI-Inc/aegi-adapter-engine/issues/110)이다.
+정규화는 `npm run normalize`로 IM Profile 실행기만 호출한다. 객체 추출에 손코드 정규화, 카탈로그 정규화 또는 v1 투영을 이어 붙이지 않는다.
 
 ```mermaid
 flowchart LR
@@ -30,8 +30,8 @@ flowchart LR
 ## 실행과 입력 계약
 
 ```bash
-npm run normalize -- --raw collected --run <완료된-수집-run-ID> --out src/data/aegi_inc_measured_profiles
-npm run normalize -- --raw collected --run <완료된-수집-run-ID> --out src/data/aegi_inc_measured_profiles --check
+npm run normalize -- --raw collected --run <완료된-수집-run-ID> --out datasets/<run-id>
+npm run normalize -- --raw collected --run <완료된-수집-run-ID> --out datasets/<run-id> --check
 npm run test:profiles
 ```
 

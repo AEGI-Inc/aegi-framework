@@ -1,6 +1,6 @@
 # r1 개정 도구: IM Object Model V3를 만든 파이프라인
 
-**[V3 고정본](../../model/v3/README.md)을 만든 Node.js 스크립트와 판정 설정이다.** 실측 수집 envelope를 pinned IR(out2)의 operation·shape에 연결한다. 그 근거로 동일성, 고아 정보, Object, Relation을 정리한 뒤 V3로 고정한다. SaaS API를 부르지 않는다. 동일성 재생성 단계만 [ir2/dup_audit.py](../ir2/dup_audit.py)를 캐시로 실행한다(`--send` 없음).
+**[V3.2 고정본](../../model/v3.2/README.md)을 만든 Node.js 스크립트와 판정 설정이다.** 실측 수집 envelope를 pinned IR(out2)의 operation·shape에 연결한다. 그 근거로 동일성, 고아 정보, Object, Relation을 정리한 뒤 V3 계열로 고정한다. SaaS API를 부르지 않는다. 동일성 재생성 단계만 [ir2/dup_audit.py](../ir2/dup_audit.py)를 캐시로 실행한다(`--send` 없음).
 
 상태: 2026-10-25 기록. 원 작업 공간은 로컬 `bob/aegi/im-model-revision/`이다. 스크립트의 입력 경로는 그 PC 기준 절대 경로이므로 다시 돌리려면 `config/bridge-config.json`의 `cohort.root`, `ir_root`, 각 스크립트의 지식 저장소 경로를 맞춘다.
 

@@ -383,7 +383,7 @@ methods:
   - https://knowledge.workspace.google.com/admin/studio/allow-or-block-ws-integrations-steps (연동 단계 허용·차단)
   - https://support.google.com/workspace-studio/answer/16658279 (사용자 연결, 해제 위치 myaccount.google.com/connections)
   - 'https://knowledge.workspace.google.com/admin/reports/workspace-studio-log-events (Workspace Studio 로그 이벤트: Step app 속성)'
-  note: 아래는 실측(2026-10-26, CM-14, Enterprise Plus)에서 본 것이다. 연결하면 Slack 쪽에 앱 「Google Integration」(app_installed)이 설치되고 메시지는 그 앱 이름으로 올라간다. 설치한 계정은 흐름 소유자와 같은 이메일(dev.junsik)로 남았다. gws 쪽에는 ADD_APPLICATION·AUTHORIZE_API_CLIENT_ACCESS 가 남지 않았고, Slack 앱 id 나 이름을 담은 gws 로그도 없었다. Marketplace 앱 434877244351 은 감사 로그가 아니라 연결 화면 주소의 connector= 값으로만 나왔다. Slack 을 연결하기 전 첫 실행은 end_flow_run_error 로 끝났다. Workspace Studio 로그에는 연동 연결·웹훅 호출 이벤트가 없고 Step app 속성만 있다
+  note: 실측 검증(Enterprise Plus)에서 연결하면 Slack 쪽에 앱 「Google Integration」(app_installed)이 설치되고 메시지는 그 앱 이름으로 올라간다. 설치한 계정은 흐름 소유자와 같은 이메일로 남는다. GWS 쪽에는 ADD_APPLICATION·AUTHORIZE_API_CLIENT_ACCESS가 남지 않고 Slack 앱 ID나 이름을 담은 GWS 로그도 없다. Workspace Studio 로그에는 연동 연결·웹훅 호출 이벤트가 없고 Step app 속성만 있다.
 - id: slack_domain_wide_google_auth
   type: app_grant
   what: Slack 소유자·관리자가 Google Calendar 또는 Google Drive 앱에서 도메인을 추가하고, Google Super Admin 이 Domain Install 과 도메인 소유권 확인을 하면, 그 도메인 이메일을 가진 모든 멤버의 Slack 계정이 자동으로 Google 계정에 연결된다. 멤버는 연결을 끊을 수 없다. 사용자가 각자 승인하는 slack_app_google_oauth 와 달리 승인 주체가 도메인 관리자다. Free·Pro·Business+ 는 소유자·관리자, Enterprise 는 Org 소유자·관리자가 설정하며 모든 플랜에서 쓸 수 있다.

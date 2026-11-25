@@ -249,12 +249,12 @@ Finding 위반 대상 대조와 기존 권한 차집합 다리(`detectAccessGaps
 ### 7-1. 돌리기
 
 ```bash
-npm run collect                      # 필요하면 수집부터 (docs/spec/AEGI_REAL_DATA_COLLECTION_PLAN_V2.md)
-npm run normalize:v2                 # src/data/aegi_inc_measured_v2/ 에 쓰고 coverage.json 도 쓴다. 끝에 엔진 요약이 찍힌다
-npm run engine:verify -- --dataset src/data/aegi_inc_measured_v2 --out engine-reports/measured-v2
+npm run collect                      # 필요하면 수집부터
+npm run normalize -- --raw collected --run <완료된-run> --out datasets/<dataset-id>
+npm run engine:verify -- --dataset datasets/<dataset-id> --out engine-reports/verify
 ```
 
-`engine-reports/measured-v2/` 에 셋이 생긴다: `access_engine_report.md`(사람이 읽는다) · `access_engine.json`(간선 수, 수집 완결성, 경고) · `access_engine_parity.json`(EA 대조).
+`engine-reports/verify/` 에 셋이 생긴다: `access_engine_report.md`(사람이 읽는다) · `access_engine.json`(간선 수, 수집 완결성, 경고) · `access_engine_parity.json`(EA 대조).
 `coverage.json` 이 없다는 경고가 나오면 `normalize -- --raw <원본> --run <완료된-run> --out <데이터셋>` 를 이 판으로 다시 돌린다.
 
 ### 7-2. 보고서에서 볼 것 (순서대로)
@@ -277,8 +277,8 @@ npm run engine:verify -- --dataset src/data/aegi_inc_measured_v2 --out engine-re
 | `not_collected:*` · `coverage:*` | 해당 호출을 켜고 다시 수집 | 수집 |
 
 ```bash
-cp docs/spec/access_engine_overrides.example.json src/data/aegi_inc_measured_v2/access_engine_overrides.json   # 고쳐서 쓴다
-npm run engine:verify -- --dataset src/data/aegi_inc_measured_v2 --out engine-reports/measured-v2-ov
+cp docs/spec/access_engine_overrides.example.json datasets/<dataset-id>/access_engine_overrides.json   # 고쳐서 쓴다
+npm run engine:verify -- --dataset datasets/<dataset-id> --out engine-reports/verify-ov
 ```
 
 `normalize -- --raw <원본> --run <완료된-run> --out <데이터셋>` 도 같은 폴더의 overrides 를 읽는다. 데이터셋 폴더는 git 제외라 overrides 도 커밋되지 않는다 — 확인한 사실은 이 문서 §8 이나 팀 문서에 옮겨 적는다.
@@ -286,9 +286,9 @@ npm run engine:verify -- --dataset src/data/aegi_inc_measured_v2 --out engine-re
 ### 7-4. 한 쌍만 따져 보기
 
 ```bash
-npm run engine:verify -- --dataset src/data/aegi_inc_measured_v2 --ask can   --who <계정 키> --cap write --on <객체 키>
-npm run engine:verify -- --dataset src/data/aegi_inc_measured_v2 --ask acts  --who <자동화 키> --cap read --on <객체 키>
-npm run engine:verify -- --dataset src/data/aegi_inc_measured_v2 --ask derived --who <계정 키> --cap write --on <객체 키>   # 위협 판정의 파생 접근
+npm run engine:verify -- --dataset datasets/<dataset-id> --ask can   --who <계정 키> --cap write --on <객체 키>
+npm run engine:verify -- --dataset datasets/<dataset-id> --ask acts  --who <자동화 키> --cap read --on <객체 키>
+npm run engine:verify -- --dataset datasets/<dataset-id> --ask derived --who <계정 키> --cap write --on <객체 키>   # 위협 판정의 파생 접근
 ```
 
 can, acts 는 답(yes · unknown · no), 근거 경로 간선, 못 닿았을 때 열린 목록을 찍는다. derived 는 확정, 미확정, 없음과 파생 접근 길을 찍는다. 옛 `know`, `cause`, `--gap`, `--no-cuts` 는 지웠다(2026-11-17).
