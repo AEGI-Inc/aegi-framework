@@ -530,7 +530,6 @@ const DATASET_ROWS: Array<[string, ReactNode]> = [
   ['최신 상태', '수집해 올린 시점의 모습입니다. 테넌트에서 바꾼 내용은 다시 수집해 올린 뒤 반영됩니다.'],
   ['시각', '모든 화면의 시각은 한국 시각 KST로 적습니다. 커서를 올리면 데이터에 찍힌 UTC 원문이 보입니다.'],
   ['수집 상태', <>Adapters 카드마다 마지막 수집 시각과 상태 배지가 있습니다. 수집 기록이 있으면 <b>정상</b>, 마지막 수집이 7일보다 오래되면 <b>갱신 지연</b>, 기록이 없으면 <b>미수집</b>입니다. 덜 받은 호출과 원인은 카드의 다 못 받은 호출에서 따로 봅니다. Overview 마지막 수집 칸의 <b>SaaS 수집 정상 n / m</b>은 정상인 SaaS 수입니다. 객체, 관계, 동일인 연결, 증적 수는 Adapters 위쪽에 있습니다. 테넌트 키는 카드의 SaaS 이름에 커서를 올리면 보입니다.</>],
-  ['이전 자료', <a href="https://drive.google.com/drive/folders/1ESjgzqvxr62vZtwRsUgnlfhyq2kl92zl" target="_blank" rel="noreferrer">Drive 보존 폴더</a>],
   ['로그아웃', '배포본에서 왼쪽 메뉴 아래 로그아웃을 누르면 팀 로그인 세션을 끝냅니다.'],
 ]
 

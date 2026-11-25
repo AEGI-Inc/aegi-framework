@@ -217,7 +217,7 @@
         }
       },
       "properties": {
-        "name": "user-a@aegi.site"
+        "name": "user-a@example.com"
       },
       "judged": {},
       "source": {
@@ -232,7 +232,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "user-a@aegi.site",
+      "display_name": "user-a@example.com",
       "normal": false
     }
   },
@@ -331,7 +331,7 @@
         }
       },
       "properties": {
-        "name": "user-a@aegi.site"
+        "name": "user-a@example.com"
       },
       "judged": {},
       "source": {
@@ -346,7 +346,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "user-a@aegi.site",
+      "display_name": "user-a@example.com",
       "normal": false
     }
   },
@@ -388,7 +388,7 @@
         }
       },
       "properties": {
-        "name": "user-b@aegi.site"
+        "name": "user-b@example.com"
       },
       "judged": {},
       "source": {
@@ -403,7 +403,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "user-b@aegi.site",
+      "display_name": "user-b@example.com",
       "normal": false
     }
   },
@@ -445,7 +445,7 @@
         }
       },
       "properties": {
-        "name": "user-b@aegi.site"
+        "name": "user-b@example.com"
       },
       "judged": {},
       "source": {
@@ -460,7 +460,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "user-b@aegi.site",
+      "display_name": "user-b@example.com",
       "normal": false
     }
   },
@@ -502,7 +502,7 @@
         }
       },
       "properties": {
-        "name": "user-c@aegi.site"
+        "name": "user-c@example.com"
       },
       "judged": {},
       "source": {
@@ -517,7 +517,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "user-c@aegi.site",
+      "display_name": "user-c@example.com",
       "normal": false
     }
   },
@@ -616,7 +616,7 @@
         }
       },
       "properties": {
-        "name": "user-d@aegi.site"
+        "name": "user-d@example.com"
       },
       "judged": {},
       "source": {
@@ -631,7 +631,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "user-d@aegi.site",
+      "display_name": "user-d@example.com",
       "normal": false
     }
   },
@@ -673,7 +673,7 @@
         }
       },
       "properties": {
-        "name": "user-f@aegi.site"
+        "name": "user-f@example.com"
       },
       "judged": {},
       "source": {
@@ -688,7 +688,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "user-f@aegi.site",
+      "display_name": "user-f@example.com",
       "normal": false
     }
   },
@@ -730,7 +730,7 @@
         }
       },
       "properties": {
-        "name": "user-f@aegi.site"
+        "name": "user-f@example.com"
       },
       "judged": {},
       "source": {
@@ -745,7 +745,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "user-f@aegi.site",
+      "display_name": "user-f@example.com",
       "normal": false
     }
   },
@@ -787,7 +787,7 @@
         }
       },
       "properties": {
-        "name": "user-e@aegi.site"
+        "name": "user-e@example.com"
       },
       "judged": {},
       "source": {
@@ -802,7 +802,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "user-e@aegi.site",
+      "display_name": "user-e@example.com",
       "normal": false
     }
   },
@@ -844,7 +844,7 @@
         }
       },
       "properties": {
-        "name": "user-e@aegi.site"
+        "name": "user-e@example.com"
       },
       "judged": {},
       "source": {
@@ -859,7 +859,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "user-e@aegi.site",
+      "display_name": "user-e@example.com",
       "normal": false
     }
   },
@@ -2132,7 +2132,7 @@
         }
       },
       "properties": {
-        "name": "target.user@aegi.site"
+        "name": "target.user@example.com"
       },
       "judged": {},
       "source": {
@@ -2147,7 +2147,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "target.user@aegi.site",
+      "display_name": "target.user@example.com",
       "normal": false,
       "scenario": "C"
     }
@@ -7014,7 +7014,7 @@
         }
       },
       "properties": {
-        "name": "normal.user1@aegi.site"
+        "name": "normal.user1@example.com"
       },
       "judged": {},
       "source": {
@@ -7029,7 +7029,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "normal.user1@aegi.site",
+      "display_name": "normal.user1@example.com",
       "normal": true
     }
   },
@@ -7071,7 +7071,7 @@
         }
       },
       "properties": {
-        "name": "normal.user2@aegi.site"
+        "name": "normal.user2@example.com"
       },
       "judged": {},
       "source": {
@@ -7086,7 +7086,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "normal.user2@aegi.site",
+      "display_name": "normal.user2@example.com",
       "normal": true
     }
   },
@@ -7128,7 +7128,7 @@
         }
       },
       "properties": {
-        "name": "normal.user3@aegi.site"
+        "name": "normal.user3@example.com"
       },
       "judged": {},
       "source": {
@@ -7143,7 +7143,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "normal.user3@aegi.site",
+      "display_name": "normal.user3@example.com",
       "normal": true
     }
   },
@@ -7185,7 +7185,7 @@
         }
       },
       "properties": {
-        "name": "normal.user4@aegi.site"
+        "name": "normal.user4@example.com"
       },
       "judged": {},
       "source": {
@@ -7200,7 +7200,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "normal.user4@aegi.site",
+      "display_name": "normal.user4@example.com",
       "normal": true
     }
   },
@@ -7242,7 +7242,7 @@
         }
       },
       "properties": {
-        "name": "normal.user5@aegi.site"
+        "name": "normal.user5@example.com"
       },
       "judged": {},
       "source": {
@@ -7257,7 +7257,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "normal.user5@aegi.site",
+      "display_name": "normal.user5@example.com",
       "normal": true
     }
   },
@@ -7299,7 +7299,7 @@
         }
       },
       "properties": {
-        "name": "normal.user6@aegi.site"
+        "name": "normal.user6@example.com"
       },
       "judged": {},
       "source": {
@@ -7314,7 +7314,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "normal.user6@aegi.site",
+      "display_name": "normal.user6@example.com",
       "normal": true
     }
   },
@@ -7356,7 +7356,7 @@
         }
       },
       "properties": {
-        "name": "normal.user7@aegi.site"
+        "name": "normal.user7@example.com"
       },
       "judged": {},
       "source": {
@@ -7371,7 +7371,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "normal.user7@aegi.site",
+      "display_name": "normal.user7@example.com",
       "normal": true
     }
   },
@@ -7413,7 +7413,7 @@
         }
       },
       "properties": {
-        "name": "normal.user8@aegi.site"
+        "name": "normal.user8@example.com"
       },
       "judged": {},
       "source": {
@@ -7428,7 +7428,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "normal.user8@aegi.site",
+      "display_name": "normal.user8@example.com",
       "normal": true
     }
   },
@@ -7470,7 +7470,7 @@
         }
       },
       "properties": {
-        "name": "normal.user9@aegi.site"
+        "name": "normal.user9@example.com"
       },
       "judged": {},
       "source": {
@@ -7485,7 +7485,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "normal.user9@aegi.site",
+      "display_name": "normal.user9@example.com",
       "normal": true
     }
   },
@@ -8610,7 +8610,7 @@
         }
       },
       "properties": {
-        "name": "gws.user1@aegi.site"
+        "name": "gws.user1@example.com"
       },
       "judged": {},
       "source": {
@@ -8625,7 +8625,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "gws.user1@aegi.site",
+      "display_name": "gws.user1@example.com",
       "normal": true
     }
   },
@@ -8667,7 +8667,7 @@
         }
       },
       "properties": {
-        "name": "gws.user2@aegi.site"
+        "name": "gws.user2@example.com"
       },
       "judged": {},
       "source": {
@@ -8682,7 +8682,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "gws.user2@aegi.site",
+      "display_name": "gws.user2@example.com",
       "normal": true
     }
   },
@@ -8724,7 +8724,7 @@
         }
       },
       "properties": {
-        "name": "gws.user3@aegi.site"
+        "name": "gws.user3@example.com"
       },
       "judged": {},
       "source": {
@@ -8739,7 +8739,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "gws.user3@aegi.site",
+      "display_name": "gws.user3@example.com",
       "normal": true
     }
   },
@@ -8781,7 +8781,7 @@
         }
       },
       "properties": {
-        "name": "gws.user4@aegi.site"
+        "name": "gws.user4@example.com"
       },
       "judged": {},
       "source": {
@@ -8796,7 +8796,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "gws.user4@aegi.site",
+      "display_name": "gws.user4@example.com",
       "normal": true
     }
   },
@@ -8838,7 +8838,7 @@
         }
       },
       "properties": {
-        "name": "gws.user5@aegi.site"
+        "name": "gws.user5@example.com"
       },
       "judged": {},
       "source": {
@@ -8853,7 +8853,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "gws.user5@aegi.site",
+      "display_name": "gws.user5@example.com",
       "normal": true
     }
   },
@@ -8895,7 +8895,7 @@
         }
       },
       "properties": {
-        "name": "gws.user6@aegi.site"
+        "name": "gws.user6@example.com"
       },
       "judged": {},
       "source": {
@@ -8910,7 +8910,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "gws.user6@aegi.site",
+      "display_name": "gws.user6@example.com",
       "normal": true
     }
   },
@@ -8952,7 +8952,7 @@
         }
       },
       "properties": {
-        "name": "gws.user7@aegi.site"
+        "name": "gws.user7@example.com"
       },
       "judged": {},
       "source": {
@@ -8967,7 +8967,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "gws.user7@aegi.site",
+      "display_name": "gws.user7@example.com",
       "normal": true
     }
   },
@@ -9009,7 +9009,7 @@
         }
       },
       "properties": {
-        "name": "all-staff@aegi.site"
+        "name": "all-staff@example.com"
       },
       "judged": {},
       "source": {
@@ -9024,7 +9024,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "all-staff@aegi.site",
+      "display_name": "all-staff@example.com",
       "normal": true
     }
   },
@@ -9066,7 +9066,7 @@
         }
       },
       "properties": {
-        "name": "design-leads@aegi.site"
+        "name": "design-leads@example.com"
       },
       "judged": {},
       "source": {
@@ -9081,7 +9081,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "design-leads@aegi.site",
+      "display_name": "design-leads@example.com",
       "normal": true
     }
   },
@@ -9123,7 +9123,7 @@
         }
       },
       "properties": {
-        "name": "marketing@aegi.site"
+        "name": "marketing@example.com"
       },
       "judged": {},
       "source": {
@@ -9138,7 +9138,7 @@
       }
     },
     "fixture_meta": {
-      "display_name": "marketing@aegi.site",
+      "display_name": "marketing@example.com",
       "normal": true
     }
   },
