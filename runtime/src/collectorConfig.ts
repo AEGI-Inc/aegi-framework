@@ -173,12 +173,6 @@ export function collectorConfig(env: Record<string, string>, now = new Date()): 
       tenantId: env.M365_TENANT_ID.trim(),
     }
   }
-  if (env.AWS_ACCESS_KEY_ID?.trim() || env.AWS_REGION?.trim()) {
-    config.aws = {
-      region: env.AWS_REGION?.trim() || 'ap-northeast-2',
-      ...(env.AWS_ACCOUNT_ID?.trim() ? { accountId: env.AWS_ACCOUNT_ID.trim() } : {}),
-    }
-  }
   return config
 }
 

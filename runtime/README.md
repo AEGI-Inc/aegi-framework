@@ -1,7 +1,8 @@
 # AEGI 로컬 설치판 (`aegi-solution`)
 
 회사 PC 한 대에 AEGI를 설치해 쓰는 판이다. 클라우드나 DB 서버 없이 그 PC 안에서 모두 돈다.
-- 6개 SaaS 수집: Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence)
+- 9개 SaaS 수집·정규화·판정: Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence), Microsoft 365(Entra ID), Google Cloud / Gemini Enterprise, 1Password
+- 연결 설정 선반영: Snowflake (수집기 엔진 연동 예정) / 제외: AWS
 - 정규화와 위협 판정
 - 대시보드
 - AI 질문
@@ -161,7 +162,7 @@ Compliance: 「관리자 인증 보호」 검사는 수집 데이터로 로컬�
 
 ## 지금 판에 없는 것
 
-- **수집 SaaS**: 이 판은 6개만 수집한다. 운영에서 시험 중인 Microsoft 365, Google Cloud(Gemini), 1Password, Snowflake, AWS 수집은 넣지 않았다.
+- **수집 SaaS**: 이 판은 9개 SaaS(Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian, Microsoft 365, Google Cloud/Gemini Enterprise, 1Password) 수집·정규화·판정과 Snowflake 연결 설정을 포함하며, **AWS는 제외**한다.
 - **감사 로그 샘플**: 합성 샘플에는 감사 로그가 없다. 로그 화면은 Splunk를 연결해야 채워진다.
 - **규모**: 화면이 그래프 전체를 브라우저로 받는다. 수천 명 규모 tenant는 무거울 수 있다.
 

@@ -45,8 +45,10 @@ flowchart LR
 5. [04. IM Profile 정규화와 Effective Access](docs/02-methodology/04-profile-and-normalization.md)
 6. [05. 위협 판정 · 연결 규칙 · 컴플라이언스](docs/02-methodology/05-threat-and-compliance.md)
 
-### 2. 사내 환경에 바로 도입·실행하기 (6개 기본 SaaS)
-지원 SaaS: **Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence)**
+### 2. 사내 환경에 바로 도입·실행하기 (10개 지원 SaaS, AWS 제외)
+- **기본 수집·정규화·판정 지원 (9개)**: **Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence), Microsoft 365(Entra ID), Google Cloud / Gemini Enterprise, 1Password**
+- **연결·자격증명 선반영 (1개)**: **Snowflake** (UI·`.env` 설정 선반영, 수집기 엔진 연동 예정)
+- **제외**: AWS
 
 - Windows: `runtime\start.cmd`
 - macOS / Linux: `./runtime/start.sh`
@@ -54,7 +56,7 @@ flowchart LR
 상세 도입 절차는 [기업 도입 가이드](docs/03-enterprise-adoption/adoption-guide.md)와 [런타임 안내](runtime/README.md)를 따른다. SaaS별 최소 읽기 권한은 [수집 가이드](runtime/docs/saas-collection-guide.md)와 [권한 범위 표](runtime/docs/saas-adapter-scopes.md)에 정리되어 있다.
 
 ### 3. 자사 SaaS를 프레임워크에 새로 추가하기
-기본 6개 외에 Microsoft 365, Workday 또는 사내 커스텀 SaaS를 추가하려면 [새 SaaS 추가 플레이북](docs/03-enterprise-adoption/adding-new-saas.md)을 따른다.
+지원 목록 외에 Workday 또는 사내 커스텀 SaaS를 추가하려면 [새 SaaS 추가 플레이북](docs/03-enterprise-adoption/adding-new-saas.md)을 따른다.
 
 ---
 

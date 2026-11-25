@@ -37,6 +37,7 @@ export function collectorStatus(env: Record<string, string>, now = new Date()): 
   let callsProblem: string | null = null
   try {
     for (const call of selectCalls({ config: collectorConfig(env, now), creds, transport: fetchTransport })) {
+      if (call.provider === 'aws') continue
       let unavailable: string | null = null
       try { unavailable = call.unavailable?.() ?? null } catch (err) { unavailable = err instanceof Error ? err.message : String(err) }
       const list = callsByCred.get(call.credential) ?? []
@@ -47,8 +48,8 @@ export function collectorStatus(env: Record<string, string>, now = new Date()): 
     callsProblem = `호출 목록을 만들지 못했습니다 (${err instanceof Error ? err.message : String(err)})`
   }
   const credentials = (Object.keys(CREDENTIAL_KEYS) as CredentialId[])
-    // 시험 환경 전용 자격증명(시나리오 봇 Worker, Cloudflare)은 설치판에서 보이지 않는다
-    .filter(id => !['CRED-WK-01', 'CRED-CF-01'].includes(id))
+    // 시험 환경 전용 자격증명(시나리오 봇 Worker, Cloudflare) 및 프레임워크 제외 대상(AWS)은 표시하지 않는다
+    .filter(id => !['CRED-WK-01', 'CRED-CF-01', 'CRED-AWS-01'].includes(id))
     .map(id => {
       const keys = credentialKeyNames(creds, id).map(name => keyState(env, creds, name))
       const calls = callsByCred.get(id) ?? []

@@ -32,7 +32,9 @@ AEGI Framework는 기업의 보안 성숙도와 인프라 여건에 따라 **1�
 
 ## Phase 2. 실제 SaaS 테넌트 파일럿 (읽기 전용 연동)
 
-기본 지원 6개 SaaS(**Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian**) 중 자사가 사용하는 SaaS만 선택해 읽기 전용으로 수집한다.
+지원 SaaS 중 자사가 사용하는 SaaS만 선택해 읽기 전용으로 수집한다. (AWS 제외)
+- **수집·정규화·판정 지원 (9개)**: Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence), Microsoft 365(Entra ID), Google Cloud / Gemini Enterprise, 1Password
+- **연결 설정 선반영 (1개)**: Snowflake (수집기 엔진 연동 예정)
 
 1. **최소 읽기 권한 확인 및 발급**
    - [SaaS 수집 가이드](../../runtime/docs/saas-collection-guide.md)
