@@ -66,7 +66,7 @@ function walk(dir, relBase = '') {
       continue
     }
 
-    if (rel === 'scripts/check-public-safety.mjs' || rel === 'scripts/sync.mjs') continue
+    if (rel === 'scripts/check-public-safety.mjs') continue
     if (!TEXT_EXTS.has(path.extname(entry.name).toLowerCase())) continue
 
     const stat = fs.statSync(full)

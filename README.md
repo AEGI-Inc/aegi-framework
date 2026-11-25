@@ -46,7 +46,7 @@ AEGI는 벤더마다 제각각인 API와 권한 체계를 하나의 기준으로
 | [`framework/compliance/`](framework/compliance/scope/README.md) | 컴플라이언스 규격 | ISMS-P, PIPA, ISO 27001 대상 판정 기준 및 권고 가이드 |
 | [`specs/`](specs/IM_PROFILE_PIPELINE.md) | 엔진 핵심 설계 명세 | IM Profile 파이프라인, 전수 수집, 위협 판정 V2, 범용 접근 엔진, 피해 범위(Blast Radius), 계보 |
 | [`runtime/`](runtime/README.md) | 로컬 실행 런타임 | 클라우드·외부 DB 없이 한 PC에서 수집·정규화·판정·대시보드·AI 조사를 실행하는 통합 런타임 |
-| [`scripts/`](scripts/check-public-safety.mjs) | 검증·유지보수 도구 | 외부 공개 안전성 검사, 링크 검사, 정본 동기화(`VERSIONS.json`) |
+| [`scripts/`](scripts/check-public-safety.mjs) | 검증·유지보수 도구 | 외부 공개 안전성 검사, 링크 검사 |
 
 ---
 
