@@ -1,0 +1,158 @@
+legacy_id,legacy_name,legacy_saas,threat_ids,not_applicable_reason
+IDA-01,퇴사/이동 후 계정 잔존,"Okta, Google Workspace, Slack, GitHub, Atlassian, Salesforce",SF-IDA-01,
+IDA-02,백도어용 신규 사용자 계정 생성,"Okta, Google Workspace, Microsoft 365, Slack",SF-IDA-02,
+IDA-03,생성 계정 이름을 정상 계정처럼 위장,"Okta, Google Workspace, Slack, GitHub",SF-IDA-03,
+IDA-04,공유/공용 계정으로 행위 귀속 회피,"Okta, Google Workspace, Salesforce, Atlassian",SF-IDA-04,
+IDA-05,타 사용자 계정 대량 비활성화/삭제,"Okta, Google Workspace, Microsoft 365, Slack",SF-IDA-05,
+IDA-06,게스트/외부 협력사 계정의 계약 종료 후 잔존,"Microsoft 365, Slack, Atlassian, Google Workspace",SF-IDA-06,
+IDA-07,휴면 계정/휴면 관리자 계정 방치,"Okta, Google Workspace, Salesforce, GitHub",SF-IDA-07,
+IDA-08,온보딩 절차 밖에서 만들어진 테스트 계정,"Salesforce, ServiceNow, Okta",SF-IDA-08,
+IDA-09,IT 통제 밖 로컬/미관리 계정 유지 (Shadow IAM),"Salesforce, Atlassian, Slack, GitHub",SF-IDA-09,
+IDA-10,한 사람이 복수 계정을 보유해 행위 귀속 회피,"Okta, Google Workspace, Slack, Atlassian",SF-IDA-10,
+IDA-11,기본/공급자 제공 관리자 계정 사용,"Salesforce, Atlassian, Okta",,"확인한 공식 문서 범위에서 Salesforce가 모든 조직에 기본으로 넣는 사용자는 Platform Integration User이며 내부 API 전용 사용자이고 고객이 만들거나 관리할 수 없어 내부자가 로그인해 쓸 수 있는 공급자 제공 관리자 계정이 아님. 사이트마다 비인증 방문자가 실행되는 Site guest user가 있으나 관리자 계정이 아니고 NEW-IDA-A-1에서 다룸. Salesforce 지원, AppExchange 패키지 공급자 Login Access는 별도 계정이 아닌 Login As 경로라 IDA-31에서 다룸"
+IDA-12,개인 지속 접근용 서비스 계정 생성,"Okta, Google Workspace, GitHub, Atlassian",SF-IDA-11,
+IDA-13,소유자 없는/퇴사자 소유 NHI 잔존,"GitHub, Okta, AWS, Atlassian",SF-IDA-12,
+IDA-14,사람이 NHI 자격증명으로 직접 작업,"AWS, GitHub, Okta, Salesforce",SF-IDA-13,
+IDA-15,과도 권한 NHI,"AWS, GitHub, Okta, Salesforce",SF-IDA-14,
+IDA-16,동일 NHI 신원의 환경/앱 간 재사용,"AWS, GitHub, Okta",SF-IDA-15,
+IDA-17,서비스 계정/봇에 상위 Role 배정,"Okta, Google Workspace, GitHub, AWS",SF-IDA-16,
+IDA-62,테넌트 수준 머신 통합으로 계정 삭제 후에도 지속,"Google Workspace, Microsoft 365, Slack",SF-IDA-17,
+IDA-18,자기 계정을 Priviliged Group에 추가,"Okta, Google Workspace, Slack, GitHub, Atlassian",SF-IDA-18,
+IDA-19,퇴사/이동 후 그룹 멤버십 잔존,"Okta, Google Workspace, Slack, GitHub, Atlassian",SF-IDA-19,
+IDA-20,사용자 속성 변경으로 동적 그룹에 자동 편입,"Microsoft Entra ID, Okta",SF-IDA-20,
+IDA-21,부서 이동 시 구 멤버십을 남긴 채 신규 멤버십만 추가,"Okta, Google Workspace, Slack, Atlassian",SF-IDA-21,
+IDA-22,게스트 속성을 홈 테넌트에서 조작해 대상 조직 동적 그룹 진입,Microsoft Entra ID,,Salesforce에는 다른 조직의 홈 테넌트가 게스트 속성을 소유하는 B2B 게스트 초대 모델이 없음. 가장 가까운 경로는 외부 IdP를 SamlSsoConfig로 신뢰하고 JIT handler updateUser가 SSO 로그인마다 assertion 속성으로 User 필드를 갱신하는 구성인데 페더레이션 신뢰 구성 문제라 handoff로 넘김. 이 속성이 User Access Policy 조건으로 이어져 권한을 얻은 공개 사례나 공식 경고는 찾지 못함
+IDA-23,그룹과 Role의 중첩으로 은닉된 권한이 상속되어 누적,"Okta, Google Workspace, Salesforce, Atlassian",SF-IDA-22,
+IDA-24,자기 계정에 상위 Role 배정,"Okta, Google Workspace, Salesforce, GitHub, AWS",SF-IDA-23,
+IDA-25,JIT/임시 권한 상승 경로의 상시적 남용,"Microsoft Entra PIM, Okta, AWS",SF-IDA-24,
+IDA-26,퇴사 예정자의 특권 역할 유지,"Okta, Google Workspace, Salesforce",SF-IDA-25,
+IDA-27,최소권한 위반 상태의 광범위 접근 보유,"Salesforce, Atlassian, Google Workspace, Slack",SF-IDA-26,
+IDA-28,JIT 승격 자격(eligible) 과다 보유,"Microsoft Entra PIM, Okta, AWS",SF-IDA-27,
+IDA-29,권한 범위 확대를 통한 접근 확장,"Okta (Resource Set), Salesforce (Sharing Rule), AWS",SF-IDA-28,
+IDA-30,메일박스/캘린더 위임 권한 자가 부여,"Microsoft 365, Google Workspace",,"objects.tsv 범위 안에 다른 User의 메일함이나 캘린더 열람 권한을 위임하는 객체가 없음. 이름이 비슷한 UserEmailCalendarSync는 Einstein Activity Capture 동기화 설정에 User나 Profile을 배정하는 객체이고 ApprovalDelegation은 기간을 정해 승인 책임을 다른 User, 그룹, 큐에 넘기는 객체라 타인 메일함, 캘린더 열람 위임과 수법이 다름"
+IDA-31,관리자가 사용자로 로그인 기능 남용,"Salesforce, Atlassian, Zendesk",,11-16 팀 결정의 관리자 신뢰 전제. 관리자가 Login As로 남의 세션에 들어가는 경로는 다루지 않음
+IDA-32,개인 API 토큰 무단 발급,"Atlassian, GitHub, Slack, Okta",SF-IDA-29,
+IDA-33,계정/NHI에 추가 자격증명 부착,"Microsoft Entra ID, Okta, AWS, GitHub",SF-IDA-30,
+IDA-34,만료 없는 토큰/키 방치,"GitHub, AWS, Okta, Atlassian",SF-IDA-31,
+IDA-35,협업 도구에 평문 자격증명 노출,"Slack, Confluence, Jira, Notion",,"Salesforce에서도 Case, Chatter 같은 레코드 본문에 비밀번호, API 키가 남을 수 있고 UNC6395가 빼낸 데이터에서 AWS 키, Snowflake 토큰을 찾은 사례가 있음. 다만 자격증명이 레코드 본문 콘텐츠에 있어 이번 범위의 정적 구성 Object에 대응할 대상이 없음"
+IDA-36,시크릿 하드코딩 후 반출,"GitHub, GitLab, Bitbucket",SF-INT-20,
+IDA-37,API 경로 사용을 통한 감사 회피,"Okta, Atlassian, GitHub, Slack",SF-IDA-32,
+IDA-38,개인 토큰을 이용한 대량 데이터 반출,"Salesforce, Google Workspace, Atlassian",SF-IDA-33,
+IDA-39,타 주체의 애플리케이션 액세스 토큰 취득,"Microsoft 365, Google Workspace, Slack",SF-IDA-34,
+IDA-40,취득한 앱 액세스 토큰으로 타 신원 가장,"Microsoft 365, Google Workspace, Slack",SF-IDA-35,
+IDA-41,SAML 토큰 서명 자격 오용/토큰 위조,"Microsoft Entra ID, Okta, ADFS",SF-IDA-36,
+IDA-42,인증 인증서 탈취/위조,"Microsoft Entra ID, Okta, AWS",SF-IDA-37,
+IDA-43,통합에 저장된 API 시크릿을 읽어 횡적 이동,"Zapier, Workato, Slack, Atlassian",,"Salesforce 표준 연동 자격증명 저장 객체 NamedCredential, ExternalDataUserAuth는 문서상 org별 자동 생성 키로 암호화 저장되고 NamedCredential 객체에는 비밀값 필드가 없음. AuthProvider는 OptionsSendSecretInApis 기본값 true라 Customize Application, Manage AuthProviders 보유자의 SOAP API 응답에 consumer secret이 들어가나 객체 문서는 이 값을 encrypted consumer secret으로 적고 Metadata API는 2022-11부터 placeholder만 돌려줌. 이 secret은 외부 제공자에 등록한 앱의 비밀이라 그 값만으로 다른 SaaS 데이터에 닿는다는 문서, 공개 사례, Salesforce 경고를 찾지 못함"
+IDA-44,앱 전용 비밀번호로 MFA/SSO 우회,"Google Workspace, Microsoft 365",SF-IDA-38,
+IDA-45,SSO 전환 후 로컬 비밀번호 경로 잔존 (Ghost login),"Salesforce, Atlassian, Slack, Zoom",SF-IDA-39,
+IDA-46,타인 계정에 공격자 통제 MFA 기기 등록,"Okta, Microsoft Entra ID, Google Workspace",SF-IDA-40,
+IDA-47,복구 연락처를 개인 것으로 변경해 계정 장악,"Okta, Google Workspace, Atlassian",,realism_evidence가 비어 있고 Salesforce에서 복구 연락처 변경으로 계정을 장악한 공개 사례나 공식 경고를 찾지 못함
+IDA-48,이메일 OTP 패스워드리스 경로 횡적 이동,"Slack, Notion, Figma, Zoom",,"Salesforce 직원 사용자 로그인 수단으로 확인한 것은 비밀번호, SAML, Auth. Provider, 인증서, Lightning Login, passkey이고 이메일 코드만으로 들어오는 경로는 확인되지 않음. 이메일, 문자 코드 passwordless 로그인은 Apex 문서와 NetworkAuthApiSettings 문서에서 Salesforce Site, Experience Cloud site의 고객, 파트너 로그인용으로 설명됨"
+IDA-49,조직이 쓰지 않는 IdP의 소셜 로그인으로 SSO 우회,"Slack, Notion, Figma, Atlassian",SF-IDA-41,
+IDA-50,자신 or 특정대상를 MFA 적용 대상에서 제외,"Okta, Microsoft Entra ID, Google Workspace",SF-IDA-42,
+IDA-51,강한 팩터 제거 후 약한 팩터로 다운그레이드,"Okta, Microsoft Entra ID, Google Workspace",SF-IDA-43,
+IDA-52,MFA 팩터 리셋 후 자기 기기 재등록,"Okta, Microsoft Entra ID, Google Workspace",SF-IDA-44,
+IDA-53,반복 비밀번호 변경으로 만료 정책 우회,"Okta, Microsoft Entra ID, Google Workspace",,realism_evidence가 비어 있고 Salesforce 대상 공개 사례나 공식 경고를 찾지 못함
+IDA-54,관리자의 타 사용자 비밀번호 재설정을 통한 계정 접수,"Okta, Google Workspace, Salesforce",,11-16 팀 결정의 관리자 신뢰 전제. 관리자가 자기 권한으로 남의 비밀번호를 재설정해 그 계정으로 들어가는 경로는 다루지 않음
+IDA-55,기존 OAuth 통합 재이용을 통한 접근 유지,"Google Workspace, Microsoft 365, Slack, Salesforce",SF-IDA-46,
+IDA-56,퇴사 후 OAuth Grant/토큰 잔존,"Google Workspace, Microsoft 365, Slack",SF-IDA-47,
+IDA-59,사용자가 개인용 외부 앱에 회사 데이터 스코프 동의,"Google Workspace, Microsoft 365, Slack",SF-IDA-48,
+IDA-60,관리자가 광범위 스코프의 테넌트 전역 동의 부여,"Microsoft 365, Google Workspace",SF-IDA-49,
+IDA-57,Refresh Token으로 비밀번호/MFA 변경 이후에도 접근 유지,"Google Workspace, Microsoft 365, Slack",SF-IDA-50,
+IDA-58,세션 쿠키/잠금 해제 단말 재사용으로 재인증 우회,전 SaaS,SF-IDA-51,
+IDA-61,SSO 세션 없이 동작하는 credential authorization 잔존,"Atlassian, Slack, GitHub",SF-IDA-52,
+IDA-63,외부 조직/위탁사를 신뢰 범위에 추가/존속,"Microsoft 365, Google Workspace, Atlassian",SF-IDA-53,
+IDA-64,외부 협업 경계 완화로 게스트 범위 과다,"Microsoft 365, Slack, Atlassian",SF-IDA-54,
+IDA-65,검증 도메인 추가를 통한 신원 공간 확장,"Microsoft Entra ID, Google Workspace, Okta",,Salesforce Domain 객체는 사이트에 붙인 사용자 지정 웹 주소이고 AllowedEmailDomain은 User.Email에 허용할 도메인 목록임. 도메인을 추가해도 그 도메인 주소를 가진 사람이 조직 구성원으로 취급되지 않고 사용자는 생성 동작이 있어야 생김
+IDA-66,도메인을 페더레이션으로 전환해 인증 경로 탈취,"Microsoft Entra ID, Okta",,11-16 팀 결정의 관리자 신뢰 전제. 관리자가 SAML 설정을 다른 IdP 값으로 바꾸는 경로는 다루지 않음
+IDA-67,인바운드 페더레이션 추가로 타 사용자 계정 사칭,"Okta, Microsoft Entra ID",SF-IDA-56,
+IDA-69,페더레이션 신원으로 타 SaaS 관리 평면 진입,Okta + Google Workspace + Slack + Atlassian,SF-IDA-57,
+IDA-68,하이브리드 ID 동기화 경로 변조/백도어,"Microsoft Entra ID, Okta",SF-IDA-58,
+IDA-76,SCIM 프로비저닝 경로를 통한 계정 무단 생성,"Okta, Microsoft Entra ID, Google Workspace",SF-IDA-59,
+IDA-70,테넌트/OU 수준 신원 구성 변경을 통한 정책 회피,"Google Workspace, Microsoft Entra ID",SF-IDA-60,
+IDA-71,IT 통제 밖 신규 조직/워크스페이스/인스턴스 생성,"Slack, Notion, Atlassian, Google Workspace",SF-IDA-61,
+IDA-72,회사 이메일로 조직 사칭/외부 테넌트 생성,"Slack, Notion, Figma, Atlassian",,"Salesforce 조직은 같은 이메일 도메인 사람이 스스로 합류하는 워크스페이스 구조가 아니고 사용자는 그 조직의 생성 동작이 있어야 생김. 회사 도메인으로 만든 외부 조직이 이 조직에 남기는 흔적은 사용자가 그 조직의 connected app을 승인한 OauthToken뿐이고 IDA-59, INT-08에서 다룸"
+IDA-73,Enterprise 하위에 관리 사각지대 워크스페이스 유지,"Slack Enterprise Grid, Atlassian, Google Workspace",SF-IDA-62,
+IDA-74,조직을 상위 Enterprise에서 분리,"Slack Enterprise Grid, Atlassian, GitHub",SF-IDA-63,
+IDA-75,조직 소유권 이전/소유자 추가,"GitHub, Slack, Atlassian, Google Workspace",,"Salesforce Organization 객체 필드에 소유자 관계가 없고 PrimaryContact는 연락처 이름 문자열임. 최상위 통제는 System Administrator 프로필, Modify All Data 같은 권한 배정으로 정해져 Role / Permission의 IDA-24가 다룸"
+IDA-77,조직 간 계정 이전으로 감사 이력 단절,"Slack Enterprise Grid, Atlassian, GitHub",,Salesforce User는 한 조직 안 레코드이고 다른 조직으로 옮기는 호출이 User 객체 문서에 없음. 조직 사이 사용자 이동처럼 보이는 것은 Organization Sync 복제 연결의 IsSyncUsers 동기화뿐
+IDA-78,비운영/테스트 테넌트가 운영 데이터에 신뢰 접근 보유,"Microsoft 365, Salesforce, Atlassian",SF-IDA-64,
+IDA-79,인수합병 등으로 생긴 중복 인스턴스의 거버넌스 공백,"Microsoft 365, Slack, Atlassian, Salesforce",SF-IDA-65,
+INT-01,미승인 서드파티 App 설치,"Slack, GitHub, Google Workspace, Salesforce",SF-INT-01,
+INT-02,검증되지 않은 외부 퍼블리셔 App의 과다 권한 보유,"Slack, GitHub, Google Workspace, Okta",SF-INT-02,
+INT-03,타 SaaS API 토큰 및 클라우드 자격증명을 하드코딩한 App,"Slack, GitHub, Google Workspace, Okta",,"Salesforce의 App 정의 객체 ConnectedApplication, ExternalClientApplication과 OAuth 설정 ExtlClntAppOauthSettings, ExtlClntAppOauthPlcyCnfg에는 다른 SaaS의 API 키나 토큰을 담는 필드가 없음. 다른 SaaS 자격증명이 코드에 박히는 곳은 Apex 클래스 Body라 Function 단위 INT-24로 판정. 외부 자격증명 저장 기능인 Named Credential은 org 키로 암호화 저장돼 하드코딩 상태가 아님."
+INT-04,비활성/퇴사자 계정이 설치한 고아 App Installation 잔존,"GitHub, Slack, Google Workspace, Okta",SF-INT-03,
+INT-05,다수 테넌트 중복 설치로 인한 침해 전파 (Blast Radius 확대),"GitHub, Slack, Google Workspace, Okta",SF-INT-04,
+INT-06,조직 단위(Org)와 Workspace 간 설치 경계 모호성 악용,"Slack, GitHub",SF-INT-05,
+INT-07,shadow AI Agent 자율 배포 및 지속 접근,"Slack, GitHub, Hugging Face, Dify",SF-INT-06,
+INT-08,OAuth Consent Phishing 및 악성 토큰 획득,"Google Workspace, Microsoft 365, Slack",SF-INT-07,
+INT-09,도메인 전체 위임 과다 부여,Google Workspace,SF-INT-08,
+INT-10,미사용 및 방치된 legacy OAuth 위임 스코프 잔존,"Google Workspace, Slack, GitHub, Salesforce",SF-INT-09,
+INT-11,AI Agent 서비스 주체에 대한 과도한 위임 인가 및 자율 권한 오남용,"GitHub, Slack, Okta, AWS, Google Workspace",SF-INT-10,
+INT-12,Poisoned Pipeline Execution(PPE)을 통한 빌드 러너 장악,"GitHub, GitLab",,"Salesforce에는 Lifecycle Center 객체 DevopsPipeline, DevopsPipelineStageTrigger, DevopsEnvironment가 있으나 DevopsPipelineStageTrigger.TriggerType은 Pre-Promote, Post-Promote, Review 단계의 검증, 테스트, 품질 기준 실행 시점이고 DevopsEnvironment 연결 대상은 Salesforce org뿐임. pull_request_target 같은 외부 fork PR 트리거로 쓰기 토큰과 Secret을 받은 러너가 PR 코드를 실행하는 문맥은 문서에서 확인되지 않음. 운영 org의 Apex 클래스와 트리거는 API로 생성, 수정, 삭제할 수 없음. 외부 CI가 Salesforce로 배포하는 경우 위협은 그 CI SaaS 쪽 Workflow 객체에서 판정."
+INT-13,가변 태그(Unpinned Action) 의존성 변조를 통한 빌드 산출물 오염,"GitHub, GitLab",,"Salesforce 자동화 정의 ApexClass, ApexTrigger, FlowDefinitionView에는 외부 저장소의 Action이나 의존성을 가변 태그, 브랜치로 참조하는 필드가 없고 실행 때 외부 태그를 따라 새 코드를 받아 오지 않음. 설치된 managed package 코드는 개발사 push upgrade로 바뀌고 구독 org의 차단은 개발사가 허용한 경우에만 가능하나 이는 빌드 산출물 의존성이 아닌 패키지 공급망 경로라 이 위협에 넣지 않음."
+INT-14,워크플로우 스텝 내 비인가 외부 엔드포인트 데이터 반출,"GitHub, Slack, Zapier",SF-INT-12,
+INT-15,타 SaaS 배포 및 프로비저닝을 연쇄 트리거하는 복합 Workflow 악용,"Slack, GitHub, AWS",,"unverified 스스로 Event Relay, Slack flow를 거친 연쇄 격발 공개 사례 없음을 인정했고 Salesforce 공식 경고도 찾지 못함"
+INT-16,외부 웹훅 트리거 하이재킹을 통한 비인가 파이프라인 강제 실행,"GitHub, Slack, Zapier, n8n",SF-INT-13,
+INT-17,미검증 외부 C2 엔드포인트 대상 shadow Webhook 데이터 유출,"Slack, GitHub, Google Workspace, Salesforce",SF-INT-14,
+INT-18,Webhook Secret 미설정으로 인한 페이로드 위조 및 중간자 공격,"GitHub, Slack",,"Salesforce Outbound Message 정의에는 공유 Secret이나 HMAC 서명 설정 필드가 없음. 송신 위조 방지는 수신 쪽이 Salesforce IP 범위 허용, Salesforce client certificate 검증, 메시지 안 organization Id 확인으로 하도록 문서가 안내함. 송신 측 Salesforce 객체에 점검할 Secret 설정 값이 없어 이 위협을 판정할 Salesforce 객체가 없음."
+INT-19,배치 스캔 주기 갭을 악용한 일시적 Webhook 변조 후 원복,"GitHub, Slack, Salesforce",SF-INT-15,
+INT-20,"iPaaS(Zapier, n8n) 커넥터를 통한 무인가 cross-SaaS 데이터 동기화","Zapier, n8n, Slack, Google Workspace, Salesforce",SF-INT-17,
+INT-21,SaaS 연동 커넥터 간 권한 격차(Privilege Disparity) 악용,"Jira, GitHub, Slack, ServiceNow",SF-INT-18,
+INT-22,Multi-Agent 오케스트레이션 신뢰 관계 악용을 통한 연쇄적 권한 탈취,"GitHub, Slack, CrewAI, AutoGen, LangGraph",SF-INT-19,
+INT-23,AI Agent 장기 기억 및 벡터 인덱스 오염,"Slack, GitHub, Claude Enterprise, ChatGPT Enterprise",,"Agentforce 에이전트 정의 객체 BotDefinition, BotVersion, GenAiPlannerDefinition, GenAiPluginDefinition, GenAiFunctionDefinition 어디에도 세션 간 장기 기억 저장소나 벡터 인덱스를 가리키는 필드가 없어 이 위협을 붙일 범위 안 대상 객체가 없음. CRM 레코드에 심은 지시문이 에이전트를 조작하는 경우는 INT-27에서 판정."
+INT-24,서버리스 자동화 함수 내 하드코딩된 API Secret 유출,"Google Workspace, Slack",SF-INT-20,
+INT-25,과도 권한을 가진 자동화 함수 악용,"Slack, Google Workspace, AWS",SF-INT-21,
+INT-26,악의적 서드파티 AI Skill·Tool Plugin 로드를 통한 로컬 실행 환경 장악 (RCE),"GitHub, Slack, LangChain, Claude Enterprise",SF-INT-22,
+INT-27,에이전트 추론 경로 조작 및 Confused Deputy 도구 오남용,"Slack, GitHub, Google Workspace, Jira",SF-INT-23,
+POL-01,다중 인증(MFA) 설정 변경,"Okta, Google Workspace",SF-POL-01,
+POL-02,비밀번호 정책 약화,"Okta, Google Workspace",SF-POL-02,
+POL-03,계정 복구 정책 조작(조직 레벨),"Okta, Google Workspace",SF-POL-03,
+POL-04,조건부 접근 정책 변경,"Okta, Google Workspace",SF-POL-04,
+POL-05,IP 허용목록 / 네트워크 존 제거,"Okta, GitHub",SF-POL-05,
+POL-06,세션 수명/타임아웃 정책 약화,"Okta, Google Workspace, Slack, GitHub",SF-POL-06,
+POL-07,취약한 인증 구성,"Okta, Google Workspace, GitHub",SF-POL-07,
+POL-08,비밀 유출 / 시크릿 스캐닝 통제,GitHub,SF-POL-08,
+POL-09,AI content-exclusion 제거,GitHub,,"GitHub Copilot content exclusion으로 저장소 파일을 AI 문맥에서 빼는 설정이 대상. Salesforce 범위 안 Object 중 AI 응답 문맥에서 데이터를 경로나 파일 단위로 빼는 설정 객체 없음. AIApplication, AIApplicationConfig 수집 프로필 필드는 이름, 상태, 유형뿐이고 GenAi 정의 객체는 에이전트 action, topic 구성이라 Integration 범위"
+POL-10,OAuth 동의 설정 조작,Google Workspace,SF-POL-09,
+POL-11,서드파티 앱 거버넌스 완화,"Google Workspace, GitHub, Slack",SF-POL-10,
+POL-12,Slack AI 거버넌스/데이터 사용 완화,Slack,,Slack AI의 file usage와 신규 AI 기능 자동 허용 토글이 대상. Salesforce 조직에는 Slack AI 설정 객체 없음. 범위 안 Slack 관련 항목 FlowSlackActionEndpoint는 flow가 가리키는 Slack 주소 REFERENCE라 AI 거버넌스 설정 아님
+POL-13,클라우드 로그 비활성화/변조,"Okta, GitHub",SF-POL-11,
+POL-14,보존 기간 단축 / 법적 보존 해제,Google Workspace,SF-POL-12,
+POL-15,보안 알림/탐지 기능 비활성화,"Okta, Google Workspace",SF-POL-13,
+POL-16,AI 상호작용 보존 정책 조작,Google Workspace,,"Gemini 대화와 활동 보존 기간 설정이 대상. Salesforce 범위 안 AI 관련 Object인 BotDefinition, BotVersion, GenAiPlannerDefinition, GenAiPluginDefinition, GenAiFunctionDefinition, AIApplication의 수집 필드에 대화 기록 보존 기간 필드 없음"
+POL-17,DLP 정책 약화/비활성화,Google Workspace,SF-POL-14,
+POL-18,외부/링크 공유 정책 변경,"Google Workspace, Slack",SF-POL-15,
+POL-19,암호화 키/EKM 구성 약화,"Google Workspace, Slack",SF-POL-16,
+POL-20,내보내기/eDiscovery 남용 (대량 반출),Google Workspace,SF-POL-17,
+POL-21,메일 자동전달/숨김 규칙 악용,Google Workspace,SF-POL-18,
+POL-22,AI 데이터 접근 거버넌스 완화,Google Workspace,,"Gemini, Workspace Intelligence가 읽을 데이터 범위를 OU, 서비스 단위로 여는 정책이 대상. Salesforce 범위 안 Object 중 조직 전체 AI 데이터 접근 범위를 켜고 끄는 정책 객체 없음. Agentforce 에이전트별 action, topic 구성 GenAiFunctionDefinition, GenAiPluginDefinition, GenAiPlannerDefinition은 개별 자동화 구성이라 Integration 범위"
+POL-23,CSE/EKM 해제로 AI에 데이터 노출,Google Workspace,,"Google Workspace Client-side encryption을 꺼서 Gemini가 보호 데이터를 읽게 만드는 수법이 대상. Salesforce 범위 안 Object에 클라이언트 측 암호화 설정 없음. 범위 안 암호화 키 객체 TenantSecret, DataEncryptionKey, ExternalEncryptionRootKey 약화는 POL-19에서 다룸"
+POL-24,취약한 클라우드 배포 구성,GitHub,,"CI/CD가 미검증 OIDC 신뢰나 고정 장기 자격으로 클라우드에 붙는 배포 구성이 대상. objects.tsv 범위 안 Policy 객체 중 배포 파이프라인 인증 방식을 정하는 조직 정책 객체 없음. DevOps Center 객체 DevopsPipeline, DevopsEnvironment, SourceCodeRepository는 11-15 not_called이고 DevopsEnvironment.NamedCredential 같은 연결 구성은 Integration 범위"
+POL-25,보안 기준 구성 변경,GitHub,SF-POL-19,
+RES-001,공유 드라이브 파일 무단 수집,Google Workspace ,SF-RES-01,
+RES-002,반출 전 자료 집적(data staged),Google Workspace; GitHub ,,"T1074는 반출 전에 수집물을 한 위치에 모으는 단계. Salesforce 공개 사례인 UNC6040, UNC6395에서 공격자는 Data Loader와 API 질의로 데이터를 org 밖으로 바로 가져갔고 org 안에 모으는 단계는 확인 못 함. 질의 결과가 잠시 남는 query job은 정적 구성 Object가 아니어서 target으로 둘 Object도 없음"
+RES-003,자동화 수단으로 데이터 일괄 수집,Slack; GitHub; Google Workspace,SF-RES-02,
+RES-004,정보 저장소 대량 열람,Slack; GitHub; Google Workspace,SF-RES-03,
+RES-005,Confluence 스페이스 권한 과다,Confluence,,"T1213.001은 Atlassian Confluence 스페이스 대상. Salesforce에는 Confluence 스페이스가 없음. Salesforce 안 협업 공간 열람은 RES-004, CRM 레코드 열람은 RES-008에서 다룸"
+RES-006,SharePoint 사이트 권한 과다,SharePoint,,T1213.002는 Microsoft SharePoint 사이트와 라이브러리 대상이고 그 권한은 Microsoft 365 쪽 구성. Salesforce가 SharePoint Online에 닿는 경로는 Files Connect용 ExternalDataSource 연결 정의뿐이고 SharePoint 사이트 권한 자체는 Salesforce Object에 없음. Files Connect를 거쳐 SharePoint 문서를 수집한 공개 사례도 확인 못 함
+RES-007,저장소 소스·설정 파일 수집,GitHub,,"T1213.003은 GitHub, GitLab 같은 코드 저장소 대상. Salesforce org는 코드 저장소가 아니고 Lifecycle Center의 SourceCodeRepository는 외부 GitHub 저장소를 가리키는 연결 정보라 저장소 수집은 GitHub 매핑 대상. ApexClass.Body에 박힌 비밀은 RES-015에서 다룸"
+RES-008,CRM 고객 정보 대량 조회,CRM 전용,SF-RES-04,
+RES-009,데이터베이스 레코드 무단 추출,데이터베이스 전용,,초안 스스로 Salesforce Connect를 거쳐 외부 데이터베이스를 턴 공개 사례를 못 찾았고 Salesforce 공식 보안 경고도 확인 못 함
+RES-010,권한 범위 내 대량 열람,Slack; GitHub; Google Workspace,SF-RES-05,
+RES-011,공유 링크 방치로 외부 접근 상시 허용,Google Workspace; Slack; GitHub,SF-RES-06,
+RES-012,전체 내보내기로 데이터 일괄 반출,Google Workspace ,SF-RES-08,
+RES-013,개인 계정으로 자료 이관,Slack; GitHub; Google Workspace,,"초안 스스로 Salesforce to Salesforce, Organization Sync, Partner Connect 경로를 쓴 공개 침해 사례를 못 찾았고 realism_evidence는 T1537 기법 페이지뿐이라 Salesforce 현실성 근거가 아님"
+RES-014,외부 클라우드로 자료 반출,Google Workspace; GitHub; Slack ,,"T1567.002는 데이터를 외부 cloud storage 서비스로 올려 반출하는 수법. Salesforce 데이터를 외부 저장소로 밀어내려면 Apex callout, Flow, outbound message 같은 자동화 구성이 있어야 하고 그 경로는 Integration 범위인 INT-14, INT-17. 공개 사례 UNC6040, UNC6395에서는 공격자가 Salesforce API로 직접 끌어갔고 MITRE C0059는 이를 T1567 웹 서비스 반출로 기록. Resource Object로 짚을 성립 조건 없음"
+RES-015,저장소·설정 파일 비밀 유출,"GitHub (primary - secret scanning and push protection settings plus repo visibility); Slack (tokens pasted into channels, DMs, snippets, and uploaded files); Google Workspace (secrets in Drive docs, plus external sharing posture); Okta (least applicable - it stores few user-authored secrets in content).",SF-INT-20,
+RES-016,파일·위키에 적힌 공용 비밀번호,Google Workspace; Slack; GitHub,SF-RES-09,
+RES-017,자원 내 자격증명 평문 보관,Slack; GitHub; Google Workspace; Okta,SF-RES-10,
+RES-018,채널 내 내부자 사칭,Slack; Google Workspace ,,SAT1019는 메신저 앱에서 표시 이름과 사진을 바꿔 내부 인물로 행세하는 수법. Salesforce 협업 공간인 Chatter와 Experience Cloud 피드에서 이 수법을 쓴 공개 사례와 Salesforce 보안 권고를 찾지 못함. 표시 이름 변경 통제를 짚을 Object와 필드도 objects.tsv와 공식 문서에서 확인 못 함. 현실성 근거가 없어 Salesforce 매핑에서 뺌
+RES-019,의존성·배포 경로 변조,GitHub,,T1195 성립 지점인 의존성과 배포 경로는 Salesforce에서 AppExchange 관리 패키지와 publisher의 push upgrade. 이 경로는 앱 설치 구성이라 Integration 범위로 handoff. 저장소 쪽 전달 경로인 Lifecycle Center SourceCodeRepository는 외부 GitHub 저장소를 가리키는 연결 정보라 저장소 변조는 GitHub 매핑 대상. Salesforce에서 패키지나 저장소 변조로 전달된 공개 침해 사례도 확인 못 함
+RES-020,배포 설정에 고정된 자격증명,"GitHub (primary and near-exclusive - Actions secrets, workflow files, OIDC subject claim configuration); Google Workspace (only indirectly, via associated GCP service account keys, not the Workspace tenant itself); Slack and Okta (not applicable - neither is a CI/CD deployment surface).",,NHI6가 말하는 배포 설정 파일 속 고정 자격증명과 느슨한 OIDC 신뢰는 CI 시스템 쪽 구성. Salesforce Lifecycle Center는 대상 org 인증에 쓸 Named Credential 이름만 DevopsEnvironment.NamedCredential에 두고 자격증명은 org별 키로 암호화되는 Named Credential에 보관. Salesforce Object 안에 배포 설정 파일과 OIDC 신뢰 정책이 없어 매핑 대상 아님. Apex 코드 속 고정 비밀은 RES-015
+RES-021,미승인 자동화 워크플로로 데이터 반출,Slack; GitHub; Google Workspace,SF-INT-17; SF-INT-12; SF-INT-14,
+RES-022,배포 시스템 악용 횡적 이동,GitHub,,초안 스스로 Salesforce 배포 도구를 거친 공개 침해 사례를 못 찾았고 realism_evidence는 T1072 기법 페이지뿐
+RES-023,실행 자원 무단 점유,GitHub,,"Apex는 multitenant 환경이라 runtime이 트랜잭션별 governor limit을 강제하고 넘으면 처리할 수 없는 예외로 끊음. 고객이 연산 자원을 임의로 끌어 쓸 실행 환경이 없음. 별도 연산 서비스였던 Salesforce Functions는 2023-10-31 판매 종료, 2024-01-31 갱신 종료. 자원 점유 대상 Object 없음"
+RES-024,파이프라인 변조로 빌드 중 비밀 유출,GitHub,,T1677은 저장소의 파이프라인 정의를 고쳐 빌드 러너가 악성 단계를 실행하게 하는 수법. Salesforce DevopsPipeline은 개발에서 운영까지 work item이 지나는 단계 순서와 SourceCodeRepositoryId만 담고 빌드 단계 정의나 러너 설정 필드가 없음. 파이프라인 정의 파일과 러너는 연결된 CI 쪽에 있어 GitHub 매핑 대상
+RES-025,공유 자원 목록 열거,Google Workspace ,SF-RES-11,
+RES-026,테넌트 사용 서비스 열거,Slack; GitHub; Google Workspace; Okta,,초안 스스로 Salesforce에서 연동 서비스 열거를 쓴 공개 사례를 못 찾았고 realism_evidence는 T1526 기법 페이지뿐

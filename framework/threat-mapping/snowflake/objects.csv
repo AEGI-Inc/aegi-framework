@@ -1,0 +1,41 @@
+saas,object_category,target_object,aegi_object,collection_status,collection_path,threat_count
+snowflake,Identity / Access,User,,미수집(API 있음),/api/v2/users,41
+snowflake,Identity / Access,Role,,미수집(API 있음),/api/v2/roles,23
+snowflake,Identity / Access,NetworkPolicy,,미수집(API 있음),/api/v2/network-policies,5
+snowflake,Identity / Access,CodeBundle,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/code-bundles,2
+snowflake,Identity / Access,ManagedAccount,,미수집(API 있음),/api/v2/managed-accounts,2
+snowflake,Identity / Access,Secret,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/secrets,2
+snowflake,Identity / Access,DatabaseRole,,미수집(API 있음),/api/v2/databases/{database}/database-roles,1
+snowflake,Identity / Access,ServiceRole,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/services/{name}/roles,1
+snowflake,Integration / Automation,Procedure,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/procedures,4
+snowflake,Integration / Automation,Streamlit,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/streamlits,4
+snowflake,Integration / Automation,UserDefinedFunction,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/user-defined-functions,4
+snowflake,Integration / Automation,ApiIntegration,,미수집(API 있음),/api/v2/api-integrations,3
+snowflake,Integration / Automation,Notebook,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/notebooks,3
+snowflake,Integration / Automation,Alert,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/alerts,2
+snowflake,Integration / Automation,DynamicTable,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/dynamic-tables,2
+snowflake,Integration / Automation,Service,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/services,2
+snowflake,Integration / Automation,ArtifactRepository,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/artifact-repositories,1
+snowflake,Integration / Automation,CortexSearchService,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/cortex-search-services,1
+snowflake,Integration / Automation,Function,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/functions,1
+snowflake,Integration / Automation,ServiceEndpoint,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/services/{name}/endpoints,1
+snowflake,Integration / Automation,Task,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/tasks,1
+snowflake,Policy / Configuration,Account,,미수집(API 있음),/api/v2/accounts,17
+snowflake,Policy / Configuration,NetworkRule,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/network-rules,3
+snowflake,Policy / Configuration,EventTable,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/event-tables,1
+snowflake,Policy / Configuration,NotificationIntegration,,미수집(API 있음),/api/v2/notification-integrations,1
+snowflake,Policy / Configuration,PasswordPolicy,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/password-policies,1
+snowflake,Policy / Configuration,Tag,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/tags,1
+snowflake,Resource,Schema,,미수집(API 있음),/api/v2/databases/{database}/schemas,8
+snowflake,Resource,Database,,미수집(API 있음),/api/v2/databases,6
+snowflake,Resource,Stage,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/stages,4
+snowflake,Resource,Table,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/tables,3
+snowflake,Resource,View,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/views,3
+snowflake,Resource,ExternalVolume,,미수집(API 있음),/api/v2/external-volumes,1
+snowflake,Resource,IcebergTable,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/iceberg-tables,1
+snowflake,,CatalogIntegration,,미수집(API 있음),/api/v2/catalog-integrations,0
+snowflake,,ComputePool,,미수집(API 있음),/api/v2/compute-pools,0
+snowflake,,ImageRepository,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/image-repositories,0
+snowflake,,Pipe,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/pipes,0
+snowflake,,Stream,,미수집(API 있음),/api/v2/databases/{database}/schemas/{schema}/streams,0
+snowflake,,Warehouse,,미수집(API 있음),/api/v2/warehouses,0

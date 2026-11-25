@@ -1,0 +1,1 @@
+import"./UnifiedFullGraph-CnYCTj0k.js";var e=async(e,t,n)=>(n?.throwIfAborted(),{events:[],links:null,total:0,available:!1});export{e as readLocalEvents};

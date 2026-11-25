@@ -1,8 +1,7 @@
 # AEGI 로컬 런타임 (`runtime/`)
 
 회사 PC 한 대에 AEGI를 설치해 쓰는 판이다. 클라우드나 DB 서버 없이 그 PC 안에서 모두 돈다.
-- 9개 SaaS 수집·정규화·판정: Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence), Microsoft 365(Entra ID), Google Cloud / Gemini Enterprise, 1Password
-- 연결 설정 선반영: Snowflake (수집기 엔진 연동 예정)
+- 9개 SaaS 수집: Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence), Google Cloud(Gemini Enterprise), Microsoft 365, 1Password
 - 정규화와 위협 판정
 - 대시보드
 - AI 질문
@@ -99,7 +98,7 @@ macOS, Linux cron(매일 03:00). cron은 `PATH`가 짧으므로 `node`를 전체
 
 ### 6. 감사 로그와 AI (선택)
 
-- **Splunk**: 감사 로그를 쓰는 Timeline, Event Board, AI 로그 검색이 켜진다. Adapters의 「Splunk 연결」 카드나 아래 「Splunk 연결」을 따른다.
+- **Splunk**: 감사 로그를 쓰는 Timeline, Event Board, AI 로그 검색이 켜진다. Adapters의 「Splunk 연결」 카드나 아래 「Splunk 연결」을 따른다. 지금은 Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian 6개의 감사 로그만 해석한다.
 - **AI 키**: Anthropic, Gemini, OpenAI 중 하나를 넣으면 「AEGI AI에게 질문」이 켜진다. Adapters의 「AI 연결」 카드나 `.env`에 넣는다.
 
 ### 막히면
@@ -199,7 +198,9 @@ Compliance: 「관리자 인증 보호」 검사는 수집 데이터로 로컬�
 
 ## 지금 판에 없는 것
 
-- **수집 SaaS**: 이 판은 9개 SaaS(Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian, Microsoft 365, Google Cloud/Gemini Enterprise, 1Password) 수집·정규화·판정과 Snowflake 연결 설정을 포함하며, **AWS는 제외**한다.
+- **수집 SaaS**: 이 판은 9개를 수집한다. Snowflake, AWS 수집은 넣지 않았다.
+- **연결 문서**: Google Cloud(Gemini), Microsoft 365, 1Password 연결 방법은 `docs/` 문서에 아직 없다. Adapters의 연결 창 안내를 따른다.
+- **Splunk 감사 로그**: Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian 6개만 해석한다. Google Cloud(Gemini), Microsoft 365, 1Password 감사 로그는 Splunk로 받아도 Timeline, Event Board, AI 로그 검색에 쓰지 않는다.
 - **감사 로그 샘플**: 합성 샘플에는 감사 로그가 없다. 로그 화면은 Splunk를 연결해야 채워진다.
 - **규모**: 화면이 그래프 전체를 브라우저로 받는다. 수천 명 규모 tenant는 무거울 수 있다.
 
@@ -209,31 +210,12 @@ Compliance: 「관리자 인증 보호」 검사는 수집 데이터로 로컬�
 npm install
 npm start                                       # bin/aegi.ts start (tsx)
 npm test
-npm run sync -- --dashboard origin/dash-prod    # 옆 폴더 세 저장소를 vendor/ 로 가져오고 화면을 다시 빌드
 npm run release                                 # release/aegi-solution-<버전>/ 와 .zip
 ```
 
 **vendor**
-- `vendor/`는 `scripts/sync.mjs`가 만든 사본이라 손으로 고치지 않는다.
-- 고칠 것은 원래 저장소에서 고치고 다시 `sync`한다.
-- 원래 저장소:
-  - `aegi-adapter-engine`: main
-  - `aegi-dashboard-new`: dash-prod
-  - `aegi-knowledge`: main
-
-**화면 빌드**
-- 화면은 `VITE_AEGI_LOCAL=on`(로컬 설치판)으로 빌드한다.
-- 메뉴는 운영과 같게 그린다. 로컬 서버가 있어야 하는 기능만 켠다:
-  - Splunk·AI 설정 카드
-  - 위협 다시 확인
-  - 빈 데이터셋
-  - 샘플
-  - 수집 실행
-- 공개 데모용 `VITE_AEGI_DEMO`, `VITE_AEGI_PUBLIC_DEMO`는 켜지 않는다.
-
-**patches/**
-- 원래 저장소에 아직 없는 설치판 수정이다.
-- sync가 가져온 뒤 이름 순서로 얹는다. 원래 저장소에 들어가면 해당 패치를 지운다.
+- `vendor/`에는 엔진(`engine`), 대시보드(`dashboard`), IM 모델(`knowledge`) 코드와 미리 빌드한 화면(`web`)이 들어 있다.
+- 처음 가져온 원본 커밋은 `vendor/VERSIONS.json`에 있고, `doctor`가 보여 준다.
 
 **코드 규칙**
 - 설치판 전용 코드는 `src/`, `bin/`에만 둔다.
