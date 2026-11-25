@@ -1,10 +1,10 @@
-# Gemini Enterprise (GCP Discovery Engine) 객체별 위협 매핑
+# Gemini Enterprise 객체별 위협 매핑
 
-- 버전: v0 (초안, 2026-11-24 · 검토 반영 2026-11-25)
-- 상태: 초안 (PR 검토 반영)
-- 폴더 / provider id: `gemini` (약어 `GEM`)
-- 범위: GCP Discovery Engine / Agent Registry / IAM 기반 Gemini Enterprise 객체 30종(수집 중 29종 + API 밖 1종)과 27건의 객체별 위협
-- 주요 출처: OWASP NHI Top 10 (2025), OWASP LLM Top 10, OWASP Citizen Development Top 10, OWASP CI/CD Top 10, MITRE ATT&CK, Push Security, BloodHound/GitHound, 공개 보안 연구·사고 보고서
+- 버전: v0, 2026-11-24 초안, 2026-11-25 검토 반영
+- 상태: 초안, PR 검토 반영
+- 폴더와 provider id: `gemini`, 약어 `GEM`
+- 범위: GCP Discovery Engine, Agent Registry, IAM 기반 Gemini Enterprise 객체 30종(수집 중 29종, API 밖 1종)과 객체별 위협 27건
+- 주요 출처: OWASP NHI Top 10 (2025), OWASP LLM Top 10, OWASP Citizen Development Top 10, OWASP CI/CD Top 10, MITRE ATT&CK, Push Security, BloodHound/GitHound, 공개 보안 연구와 사고 보고서
 - 남은 일:
   1. `Agent` 정의 본문(`workflowAgentDefinition` 등)의 연결 참조 수집 여부 확인
   2. `scenarios.csv` 39건을 테넌트에서 실행해 `status`와 `evidence`를 채우기
