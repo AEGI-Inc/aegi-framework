@@ -2,7 +2,7 @@
 
 2026-11-01에 고정했다. 정규화 출력의 객체 타입이 보안 분석에 쓰이는지 세 시험으로 가른다. **아직 삭제 기준이 아니다.** 세 시험을 모두 실패한 타입은 사람이 검토할 후보 목록으로만 쓴다.
 
-## 왜 하는가
+## 배경
 
 V3.2 객체 타입 1,991개 가운데 1,981개가 `object`이고 모두 interface를 받았다. V3.2는 「interface를 줄 수 있으면 object」로 판정했고 그 판정을 LLM이 했다. 그래서 interface만으로는 보안과 무관한 객체를 거를 수 없다. 이 시험은 LLM 없이 파일만 읽어 다른 근거 셋을 댄다.
 
@@ -10,11 +10,13 @@ V3.2 객체 타입 1,991개 가운데 1,981개가 `object`이고 모두 interfac
 
 | 시험 | 재료 | 통과 조건 |
 | --- | --- | --- |
-| T1 접근 구조 | `schema/ontology/relation_semantics.yaml` effects, 엔진이 실제로 쓰는 IM Profile 관계 선언(`schema/validation/check_im_relations.py`의 `engine_model`, `declarations`), 정규화 출력의 실제 관계 | 접근(G, M) 또는 신뢰(A, F, T) 효과를 내는 관계의 끝. 또는 정책 의미 관계(`applies_to`, `excludes`, `evaluates`, `permits`, `trusts`, `authenticates_with`)의 끝. 구조(U)만 내는 연결은 근거에서 뺀다 |
+| T1 접근 구조 | `framework/schema/ontology/relation_semantics.yaml` effects, 엔진이 실제로 쓰는 IM Profile 관계 선언(aegi-knowledge `schema/validation/check_im_relations.py`의 `engine_model`, `declarations`), 정규화 출력의 실제 관계 | 접근(G, M) 또는 신뢰(A, F, T) 효과를 내는 관계의 끝. 또는 정책 의미 관계(`applies_to`, `excludes`, `evaluates`, `permits`, `trusts`, `authenticates_with`)의 끝. 구조(U)만 내는 연결은 근거에서 뺀다 |
 | T2 보안 속성 | Profile 필드 이름, 타입 이름 | 이름을 낱말로 나눴을 때 낱말 하나나 이어진 낱말 묶음이 [t2_words.py](t2_words.py) 사전에 있다 |
 | T3 소비처 | knowledge ontology, groundtruth와 engine 판정, 접근 규칙, 이벤트, 연결 규칙 파일(211개, 2026-11-19) | provider와 타입 이름이 같은 파일에 함께 나온다 |
 
 ## 돌리는 법
+
+스크립트가 읽는 `schema/validation/check_im_relations.py`와 `groundtruth/`는 이 저장소에 없다. aegi-knowledge 저장소 루트에서 돌리세요.
 
 ```bash
 pip install pyyaml
@@ -55,11 +57,11 @@ AEGI_ENGINE=<aegi-adapter-engine 클론> python schema/im-model/relevance/check_
 | provider | 타입 | v1에서 붙은 근거 | 남은 일 |
 | --- | --- | --- | --- |
 | github | `actions-secret` | 타입 이름 secret | 관계 선언 |
-| salesforce | `PermissionSetGroup` | 타입 이름 permission | 관계 선언(권한 세트 묶음 → 사용자) |
+| salesforce | `PermissionSetGroup` | 타입 이름 permission | 관계 선언(권한 세트 묶음에서 사용자로) |
 | salesforce | `CspTrustedSite` | 타입 이름 trusted | |
 | okta | `AuthenticatorMethodBase` | 타입 이름 authenticator | |
-| okta | `PolicyMapping` | 타입 이름 policy | 관계 선언(정책 → 앱) |
-| okta | `ResourceSetResource` | 타입 이름 resource set | 관계 선언(리소스 세트 → 대상) |
+| okta | `PolicyMapping` | 타입 이름 policy | 관계 선언(정책에서 앱으로) |
+| okta | `ResourceSetResource` | 타입 이름 resource set | 관계 선언(리소스 세트에서 대상으로) |
 | okta | `BehaviorRule` | 타입 이름 behavior | |
 | okta | `ProvisioningConnectionResponse` | 타입 이름 provisioning | |
 | atlassian | `SecurityScheme` | 필드 defaultSecurityLevelId, 타입 이름 security | |

@@ -2,9 +2,9 @@
 
 끝점 SaaS 폴더로 나누기 전에 만들어 둔 Cross-SaaS 시나리오를 [시나리오 양식](../README.md#scenarioscsv)에 맞춰 한 파일에 모은 곳이다. 여기 있는 줄을 다듬어 끝점 SaaS 폴더의 `scenarios.csv`로 옮기면 이 파일에서는 지운다.
 
-- 상태: 2026-11-25 옮김. `scenarios.csv` 267줄로 시작했다. 같은 날 끝점이 Atlassian·1Password 인 45줄을 [atlassian/scenarios.csv](../atlassian/scenarios.csv)·[onepassword/scenarios.csv](../onepassword/scenarios.csv)로 옮겨 지우고, 다른 끝점으로 넘길 5줄(BL-268~272)을 더해 227줄이다.
-- BL-268~272 는 Atlassian·1Password 담당이 만들었지만 사람이 마지막으로 내용을 보는 곳이 Slack·Salesforce·GitHub 라 넘긴 줄이다. 경로의 Atlassian·1Password 위협 ID 는 `notes` 에 있다.
-- BL-041, BL-042, BL-055, BL-076, BL-100, BL-137, BL-139, BL-150, BL-152, BL-157, BL-160, BL-166, BL-167, BL-169, BL-186, BL-194 는 Atlassian·1Password 부분만 옮겼다. 같은 줄에 다른 끝점 부분이 남아 지우지 않았다.
+- 상태: 2026-11-25 옮김. `scenarios.csv` 267줄로 시작했다. 같은 날 끝점이 Atlassian과 1Password 인 45줄을 [atlassian/scenarios.csv](../atlassian/scenarios.csv)와 [onepassword/scenarios.csv](../onepassword/scenarios.csv)로 옮겨 지우고, 다른 끝점으로 넘길 5줄(BL-268~272)을 더해 227줄이다.
+- BL-268~272 는 Atlassian과 1Password 담당이 만들었지만 사람이 마지막으로 내용을 보는 곳이 Slack, Salesforce, GitHub 라 넘긴 줄이다. 경로의 Atlassian과 1Password 위협 ID 는 `notes` 에 있다.
+- BL-041, BL-042, BL-055, BL-076, BL-100, BL-137, BL-139, BL-150, BL-152, BL-157, BL-160, BL-166, BL-167, BL-169, BL-186, BL-194 는 Atlassian과 1Password 부분만 옮겼다. 같은 줄에 다른 끝점 부분이 남아 지우지 않았다.
 - 계정 이름과 테넌트 값은 역할 이름(개발자 A, 영업 담당 A 등)과 `(id)` 같은 자리 표시로 바꿨다. 시나리오가 정한 객체 이름(저장소, 프로시저, 규칙 이름)은 남겼다.
 
 ## ID

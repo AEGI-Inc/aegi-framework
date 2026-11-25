@@ -3,7 +3,7 @@
 GitHub 객체 39종에 위협 83건을 매핑한 초안이다. 2026-09 표의 GitHub 해당분 72건을 옮기고 11건을 보완했다.
 
 - 버전 v0, 상태 초안(검토 전), 2026-11-25 작성
-- 범위: 9월 표 「AEGI_Threat_Mapping」에서 적용 SaaS 에 GitHub 가 적힌 위협. 
+- 범위: 9월 표 「AEGI_Threat_Mapping」에서 적용 SaaS 에 GitHub 가 적힌 위협.
 - 9월 표의 이름, 설명, 원리, 출처는 그대로 옮겼다. 출처 주소는 9월 값이며 이번에 다시 확인하지 않았다. 보완 위협은 notes 가 `11-25 보완` 으로 시작하고, 관련 9월 ID 는 legacy_ids 가 아니라 notes 에 있다.
 - 범주, 대상 객체, 엔진 유형, 행위자, Cross-SaaS 구분은 이번에 붙인 값이다. Resource 행위자와 관측은 9월 비고를 따랐다(관측 조건부와 STATIC, BOTH 는 STATE, DYNAMIC 과 NOT_OBSERVABLE, OUT 은 EVENT).
 - 수집 상태는 engine main 305acb99 의 호출 목록과 api-list(approved), overlay 필드와 대조했다. `수집 중` 은 호출과 정규화가 있다는 뜻이고, 11-17 운영 정규화 출력에 그 타입이 없으면 경로 끝에 `[11-17 출력 0건]` 을 붙였다(9종). 위협별 필드 유무는 일부만 확인했다.

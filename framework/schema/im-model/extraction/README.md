@@ -29,11 +29,11 @@ python info_map.py jira                 # 정보 지도
 | `normalize_<provider>.py` | 형식 변환만. provider마다 하나 |
 | `slack_docs.py` | docs.slack.dev 서버 렌더링 HTML 파서 (parser@1) |
 | `extract.py` | 후보 규칙. provider와 무관 |
-| `normalize_okta.py`, `normalize_gws.py` | Okta(OpenAPI YAML, System Log 이벤트 유형), Google Workspace(Discovery 문서, Reports 활동 부록) -> `out/<provider>/ir/` |
+| `normalize_okta.py`, `normalize_gws.py` | Okta(OpenAPI YAML, System Log 이벤트 유형), Google Workspace(Discovery 문서, Reports 활동 부록). 출력 `out/<provider>/ir/` |
 | `info_map_index.py` | 정보 지도 첫 쪽 `out/index.html` |
-| `normalize_atlassian.py`, `atlassian_docs.py` | Atlassian 자료(Jira, Confluence, 조직) -> `out/<provider>/ir/`. 문서 HTML 은 제목과 표 첫 칸만 읽는다 |
-| `normalize_github.py` | GitHub 자료(OpenAPI 경로와 웹훅, 감사 이벤트 목록, App 권한 문서) -> `out/github/ir/` |
-| `info_map.py`, `info_map_view.html` | 정보 지도 v0(「정보 지도 설계.md」). `python info_map.py <provider>` (slack, github, jira, confluence, atlassian, salesforce) -> `out/<provider>/info_map.json`, `info_map.html` |
+| `normalize_atlassian.py`, `atlassian_docs.py` | Atlassian 자료(Jira, Confluence, 조직). 출력 `out/<provider>/ir/`. 문서 HTML 은 제목과 표 첫 칸만 읽는다 |
+| `normalize_github.py` | GitHub 자료(OpenAPI 경로와 웹훅, 감사 이벤트 목록, App 권한 문서). 출력 `out/github/ir/` |
+| `info_map.py`, `info_map_view.html` | 정보 지도 v0(「정보 지도 설계.md」). `python info_map.py <provider>` (slack, github, jira, confluence, atlassian, salesforce). 출력 `out/<provider>/info_map.json`, `info_map.html` |
 | `lexicons/common.yaml`, `lexicons/<provider>.yaml` | 사람이 정하는 판단 전부. 줄마다 이유를 적는다 |
 | `validation/` | 사람이 쓴 대조표 |
 | `out/<provider>/report.md` | 실행 결과 |
