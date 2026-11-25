@@ -1409,7 +1409,7 @@ test('GET /__aegi/github/orgs: 설치된 조직 또는 엔터프라이즈 산하
   await migrate(local)
   const mockTransport: Transport = async req => {
     if (req.url.includes('/enterprises/aegi-ent/orgs')) {
-      return { status: 200, headers: {}, body: [{ login: 'aegi-r3-org', name: 'AEGI R3 Org', description: 'Test Org' }] }
+      return { status: 200, headers: {}, body: [{ login: 'example-org', name: 'Example Org', description: 'Test Org' }] }
     }
     return { status: 404, headers: {}, body: {} }
   }
@@ -1431,7 +1431,7 @@ test('GET /__aegi/github/orgs: 설치된 조직 또는 엔터프라이즈 산하
     const body = await res.json() as { ok: boolean; orgs: Array<{ login: string; name?: string }> }
     assert.equal(body.ok, true)
     assert.equal(body.orgs.length, 1)
-    assert.equal(body.orgs[0]?.login, 'aegi-r3-org')
+    assert.equal(body.orgs[0]?.login, 'example-org')
   } finally {
     server.close()
     local.close()
