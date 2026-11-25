@@ -1,4 +1,4 @@
-# AEGI 로컬 설치판 (`aegi-solution`)
+# AEGI 로컬 런타임 (`runtime/`)
 
 회사 PC 한 대에 AEGI를 설치해 쓰는 판이다. 클라우드나 DB 서버 없이 그 PC 안에서 모두 돈다.
 - 9개 SaaS 수집·정규화·판정: Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence), Microsoft 365(Entra ID), Google Cloud / Gemini Enterprise, 1Password
@@ -7,7 +7,7 @@
 - 대시보드
 - AI 질문
 
-화면과 판정은 운영 대시보드(dash.aegi.site)와 같은 코드다. 커밋은 `vendor/VERSIONS.json`에 있다.
+화면과 판정은 AEGI 대시보드와 같은 코드다. 가져온 원본 커밋은 `vendor/VERSIONS.json`에 있다.
 
 수집한 데이터와 자격증명은 그 PC의 `data/`와 `.env`에만 남는다. 밖으로 나가는 요청은 셋뿐이다.
 - 각 SaaS의 읽기 전용 API
@@ -25,11 +25,11 @@
 ### 1. 받기
 
 ```bash
-git clone https://github.com/AEGI-Inc/aegi-solution.git
-cd aegi-solution
+git clone https://github.com/AEGI-Inc/aegi-framework.git
+cd aegi-framework/runtime
 ```
 
-배포 zip(`aegi-solution-<버전>.zip`)을 받았으면 풀기만 한다.
+아래 명령과 경로는 모두 이 `runtime/` 폴더 기준이다. 배포 zip(`aegi-solution-<버전>.zip`)을 받았으면 풀기만 한다.
 
 ### 2. 실행
 
@@ -60,7 +60,44 @@ SaaS별로 필요한 권한과 발급 방법은 다음 문서에 있다.
 
 먼저 화면을 둘러보려면 빈 그래프의 「샘플로 둘러보기」를 누른다. 합성 샘플 회사(`aegi.site`)가 올라온다.
 
-### 5. 감사 로그와 AI (선택)
+### 5. 다시 수집하기
+
+수집은 자동으로 반복되지 않는다. SaaS 설정이 바뀐 것을 화면에 반영하려면 수집을 다시 실행한다. 방법은 처음 수집과 같다(화면의 「이 SaaS 수집 실행」, `collect.cmd`, `aegi collect`).
+
+- 다시 수집할 때마다 처음부터 전부 읽는다. 지난 수집 이후 바뀐 것만 읽는 증분 수집은 없다.
+- 감사 로그처럼 기간이 있는 호출은 `AEGI_COLLECT_DAYS`(기본 30)일 전부터 읽는다. 시작 시각을 고정하려면 `AEGI_COLLECT_SINCE`(예: `2026-11-01T00:00:00Z`)를 둔다.
+- 끝나면 새 스냅샷을 게시한다. 열려 있는 화면은 새로 고치면 새 스냅샷을 읽는다.
+- 스냅샷은 최근 3개만 남긴다. 위협·컴플라이언스 예외와 조치 진행 상태는 스냅샷과 따로 저장돼 다시 수집해도 남는다.
+- Splunk 로그 조회 캐시는 비운다. 객체 키가 바뀔 수 있기 때문이다.
+- SaaS 하나만 다시 수집하면(화면의 SaaS별 버튼, `--only`), 나머지 SaaS는 가장 최근에 받은 원본을 붙여 함께 게시한다. 그래프에서 다른 SaaS가 빠지지 않는다.
+- 호출 일부가 실패해도 받은 것으로 게시하고, 못 읽은 영역은 coverage에 「미확인」으로 남긴다. 받은 호출이 하나도 없으면 게시하지 않고 이전 스냅샷을 그대로 둔다.
+- 수집 원본(`data/collected/runs/`, `data/collected/raw/`)은 실행마다 쌓이고 자동으로 지우지 않는다. 공간이 모자라면 오래된 실행의 `runs/<run id>.json`과 `raw/<run id>/`를 지우거나, `reset --yes` 뒤 다시 수집한다.
+
+**정기 실행**
+
+런타임에는 스케줄러가 없다. OS 예약 작업으로 `collect`를 부른다.
+- `--serve` 없이 부른다. `collect.cmd`·`collect.sh`는 `--serve`를 붙여 수집 뒤 서버를 띄우므로, 서버가 이미 떠 있으면 포트가 겹친다.
+- 서버가 떠 있어도 된다. 수집은 같은 `data/aegi.sqlite`에 게시하고, 화면은 새로 고치면 새 스냅샷을 읽는다.
+- 터미널·예약 수집은 화면의 「수집 실행 중」 상태를 보지 않는다. 화면에서 수집을 돌리는 시간과 겹치지 않게 잡는다.
+- 실패하면 종료 코드 1로 끝난다. 로그의 `[오류]` 줄에서 원인을 본다.
+- 토큰을 회전하는 SaaS는 수집이 새 토큰을 `.env`에 다시 쓴다. 예약 작업을 돌리는 계정이 `.env`에 쓸 수 있어야 한다.
+- 주기는 테넌트 크기와 SaaS API 호출 한도에 맞춘다. 한 번 수집에 걸리는 시간은 실행 로그와 Adapters의 호출 현황에서 본다.
+
+Windows 작업 스케줄러(매일 03:00, 폴더 경로는 설치 위치로 바꾼다):
+
+```powershell
+schtasks /Create /TN "AEGI collect" /SC DAILY /ST 03:00 /TR "cmd /c cd /d C:\aegi\runtime && node --import tsx bin\aegi.ts collect >> data\collect.log 2>&1"
+```
+
+macOS, Linux cron(매일 03:00). cron은 `PATH`가 짧으므로 `node`를 전체 경로로 적는다:
+
+```bash
+0 3 * * * cd /opt/aegi/runtime && /usr/local/bin/node --import tsx bin/aegi.ts collect >> data/collect.log 2>&1
+```
+
+배포 zip이면 `node --import tsx bin/aegi.ts collect` 대신 `node dist/aegi.mjs collect`를 쓴다.
+
+### 6. 감사 로그와 AI (선택)
 
 - **Splunk**: 감사 로그를 쓰는 Timeline, Event Board, AI 로그 검색이 켜진다. Adapters의 「Splunk 연결」 카드나 아래 「Splunk 연결」을 따른다.
 - **AI 키**: Anthropic, Gemini, OpenAI 중 하나를 넣으면 「AEGI AI에게 질문」이 켜진다. Adapters의 「AI 연결」 카드나 `.env`에 넣는다.

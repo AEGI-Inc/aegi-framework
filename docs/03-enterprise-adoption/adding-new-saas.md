@@ -1,6 +1,6 @@
 # 새 SaaS 추가 플레이북 (Adding a New SaaS)
 
-AEGI Framework의 핵심 강점은 기본 6개 SaaS 외에 **Microsoft 365, Workday, 또는 기업 내부 SaaS**를 동일한 방법론과 규격으로 확장할 수 있다는 점이다. 아래 6단계 절차를 따르면 엔진 코어를 수정하지 않고 새 SaaS를 Cross-SaaS 그래프와 위협 판정에 편입할 수 있다.
+AEGI Framework의 핵심 강점은 지원 SaaS 외에 **Workday나 기업 내부 SaaS**를 동일한 방법론과 규격으로 확장할 수 있다는 점이다. 아래 6단계 절차를 따르면 엔진 코어를 수정하지 않고 새 SaaS를 Cross-SaaS 그래프와 위협 판정에 편입할 수 있다.
 
 ---
 
@@ -55,8 +55,9 @@ flowchart LR
 2. 읽기 전용 API 호출 정의를 수집기(`runtime/vendor/engine/scripts/collect/`)에 등록한다.
 3. 완료된 수집 run에 대해 정규화 검증을 실행한다.
    ```bash
+   # 먼저 런타임 패키지를 설치한다: npm run runtime:install
    # 정규화 결과 및 형식/EA/OpenLineage 스키마 무결성 검사 (파일 미생성 dry-run)
-   npm run normalize -- --raw <수집폴더> --run <run-id> --out <출력폴더> --check
+   node runtime/vendor/engine/scripts/collect/profile-binding/runner/normalize.mjs --raw <수집폴더> --run <run-id> --out <출력폴더> --check
    ```
 
 ---

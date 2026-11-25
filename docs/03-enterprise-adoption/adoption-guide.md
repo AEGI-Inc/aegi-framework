@@ -60,12 +60,17 @@ AEGI Framework는 기업의 보안 성숙도와 인프라 여건에 따라 **1�
 
 ### 1. 사내 공용 서버 운영 (On-Premise / Private VPC)
 - `runtime/.env`에 `AEGI_HOST=0.0.0.0`과 `AEGI_PASSWORD=<강한 비밀번호>`를 설정한다. (비밀번호 없이는 외부 바인딩을 거부한다.)
-- 수집 데이터와 스냅샷은 `runtime/data/`(`AEGI_DATA_DIR`로 경로 변경 가능)의 `aegi.sqlite`에만 저장된다.
+- 수집 원본은 `runtime/data/collected/`, 정규화 결과와 스냅샷은 `runtime/data/`의 `datasets/`와 `aegi.sqlite`에 저장된다(`AEGI_DATA_DIR`로 경로 변경 가능).
 
-### 2. 사내 보안 체계·SIEM/SOAR 통합
+### 2. 정기 재수집
+- 런타임은 수집을 자동으로 반복하지 않는다. SaaS 변경을 반영하려면 수집을 다시 실행하거나, OS 예약 작업(Windows 작업 스케줄러, cron)으로 `collect`를 정기 실행한다.
+- 다시 수집할 때마다 전체를 읽고(증분 수집 없음) 새 스냅샷을 게시한다. 예외와 조치 진행 상태는 그대로 남는다.
+- 예약 명령, 겹침 주의, 데이터 보존은 [런타임 안내의 「다시 수집하기」](../../runtime/README.md#5-다시-수집하기)를 따른다.
+
+### 3. 사내 보안 체계·SIEM/SOAR 통합
 - **온톨로지 활용**: `framework/schema/ontology/*.yaml`을 사내 자산 관리(CMDB)나 SIEM 정규화 어휘로 직접 참조한다.
 - **연결 규칙 활용**: `framework/connection-rules/rules/*.yaml`의 297개 연결 검증 방법을 사내 보안 점검 체크리스트나 탐지 규칙으로 이식한다.
 - **위협 매핑·컴플라이언스 활용**: `framework/threat-mapping/`과 `framework/compliance/`를 사내 리스크 평가 및 ISMS-P/ISO 27001 증적 기준선으로 사용한다.
 
-### 3. 자사 SaaS 신규 추가
-- 기본 6개 외에 Microsoft 365, Workday, 또는 사내 자체 SaaS를 통합하려면 [새 SaaS 추가 플레이북](adding-new-saas.md)을 따른다.
+### 4. 자사 SaaS 신규 추가
+- 지원 SaaS 외에 Workday나 사내 자체 SaaS를 통합하려면 [새 SaaS 추가 플레이북](adding-new-saas.md)을 따른다.
