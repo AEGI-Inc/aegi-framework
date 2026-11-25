@@ -1,6 +1,6 @@
-# 02. IR과 Information Map (정보 지도 · ID 공간)
+# 02. Information Map 도출 (정보 지도 · ID 공간)
 
-벤더마다 API 문서 형식(OpenAPI, GraphQL SDL, HTML, PDF)과 용어가 다르다. AEGI는 벤더 종속성을 제거하고 "어떤 필드가 같은 대상을 가리키는지"를 객관적으로 밝히기 위해 **IR(Intermediate Representation) → ID 공간(ID Space) → Information Map(정보 지도)**의 3단계 결정론적 도출 과정을 거친다.
+벤더마다 API 문서 형식(OpenAPI, GraphQL SDL, HTML, PDF)과 용어가 다르다. AEGI는 벤더 종속성을 제거하고 "어떤 필드가 같은 대상을 가리키는지"를 객관적으로 밝히기 위해 **벤더 명세 구조화 → ID 공간(ID Space) → Information Map(정보 지도)**의 3단계 결정론적 도출 과정을 거친다.
 
 ---
 
@@ -16,14 +16,14 @@
 
 ```mermaid
 flowchart LR
-  V["벤더 공식 자료<br/>OpenAPI · SDL · Docs"] --> IR["1. IR (중간 표현)<br/>operation · param · response shape"]
-  IR --> IDS["2. ID 공간 (ID Space)<br/>같은 실체를 가리키는<br/>식별자 자리의 동치류"]
+  V["벤더 공식 자료<br/>OpenAPI · SDL · Docs"] --> S["1. 벤더 명세 구조화<br/>API 오퍼레이션 · 파라미터 · 응답 형태"]
+  S --> IDS["2. ID 공간 (ID Space)<br/>같은 실체를 가리키는<br/>식별자 자리의 동치류"]
   IDS --> IM["3. Information Map<br/>자리 · 결정자 · 항목 지도<br/>참조 방향과 구조 시각화"]
 ```
 
-### 단계 1: IR (Intermediate Representation)
+### 단계 1: 벤더 명세 구조화 (공통 형식 변환)
 벤더별 `normalize_<provider>.py` 및 `ir2/norm_<provider>.py`가 각 API의 오퍼레이션(경로, 메서드), 요청 파라미터, 응답 shape, 감사 이벤트 유형을 공통 JSONL 형식(`ir/*.jsonl`)으로 변환한다.
-- 설계 문서: [IR 설계.md](../../framework/schema/im-model/design/IR%20설계.md)
+- 상세 설계 문서: [IR 설계.md](../../framework/schema/im-model/design/IR%20설계.md)
 - 구현 코드: [ir2/ir_schema.py](../../framework/schema/im-model/extraction/ir2/ir_schema.py), [ir2/README.md](../../framework/schema/im-model/extraction/ir2/README.md)
 
 ### 단계 2: ID 공간 (ID Space)
@@ -32,7 +32,7 @@ flowchart LR
 - 대조 결과: [ID 공간 오브젝트 대조.md](../../framework/schema/im-model/design/ID%20공간%20오브젝트%20대조.md)
 
 ### 단계 3: Information Map (정보 지도)
-사람이 미리 만든 사전에 의존하지 않고, IR과 ID 공간의 근거만으로 SaaS 내부의 **자리(Slot), 결정자(Determinant), 항목(Item)** 관계를 지도로 구성한다. 이를 통해 어떤 API가 어떤 오브젝트를 생성·조회하고, 어떤 필드가 다른 오브젝트를 참조하는지 한눈에 검증할 수 있다.
+사람이 미리 만든 사전에 의존하지 않고, 구조화된 API 명세와 ID 공간의 근거만으로 SaaS 내부의 **자리(Slot), 결정자(Determinant), 항목(Item)** 관계를 지도로 구성한다. 이를 통해 어떤 API가 어떤 오브젝트를 생성·조회하고, 어떤 필드가 다른 오브젝트를 참조하는지 한눈에 검증할 수 있다.
 - 설계 문서: [정보 지도 설계.md](../../framework/schema/im-model/design/정보%20지도%20설계.md), [Information Map 설계.md](../../framework/schema/im-model/design/Information%20Map%20설계.md)
 - 도출 도구: [extract.py](../../framework/schema/im-model/extraction/extract.py), [info_map.py](../../framework/schema/im-model/extraction/info_map.py), [ir2/map3.py](../../framework/schema/im-model/extraction/ir2/map3.py)
 

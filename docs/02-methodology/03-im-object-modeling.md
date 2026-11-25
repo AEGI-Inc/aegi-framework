@@ -28,7 +28,7 @@ IM Object Model은 벤더 문서에서 뽑은 후보를 단계별 검증과 실�
 flowchart TB
   V1["v1 (1~5단계 검증)<br/>누락 조사 → Relation 조사 → Interface 판정<br/>→ Relation 적용 → 검증 71건"]
   V2["v2 (결정 48건)<br/>실행 Profile 122개 도출<br/>미결 판정 정리"]
-  V3["V3 (r1 개정)<br/>실측 envelope와 IR operation 연결<br/>고아 4,669건 · 중복 323쌍 정리"]
+  V3["V3 (r1 개정)<br/>실측 envelope와 API 오퍼레이션 연결<br/>고아 4,669건 · 중복 323쌍 정리"]
   V32["V3.2 (현행 고정본)<br/>Object 타입 행 1,991개 (Object 1,981 / non_object 10)<br/>실행 투영·대체 view 반영 · 무결성 30개 통과"]
   V1 --> V2 --> V3 --> V32
 ```

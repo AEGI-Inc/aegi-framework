@@ -14,7 +14,7 @@ flowchart TB
 
   subgraph L2["2. Modeling Layer (벤더 문서 → IM 오브젝트)"]
     M1["Vendor Spec Normalizer<br/>OpenAPI · GraphQL · Docs"]
-    M2["IR · ID Space · Information Map"]
+    M2["명세 구조화 · ID 공간 · Information Map"]
     M3["IM Object Model V3.2 (Frozen)"]
     M1 --> M2 --> M3
   end
@@ -51,7 +51,7 @@ flowchart TB
 | 계층 | 저장소 위치 | 입력 | 출력 | 핵심 원칙 |
 | --- | --- | --- | --- | --- |
 | **Knowledge** | `framework/schema/`, `connection-rules/`, `threat-mapping/`, `compliance/` | 보안 표준, 벤더 공식 문서 | 닫힌 어휘(YAML), 규격 문서, 검증 규칙 | 특정 기업·테넌트 데이터를 포함하지 않는 범용 정본 |
-| **Modeling** | `framework/schema/im-model/` | OpenAPI, GraphQL SDL, API 문서 | IR, Information Map, IM Object Model V3.2 | 결정론적 추출(동일 입력 → 바이트 단위 동일 출력) |
+| **Modeling** | `framework/schema/im-model/` | OpenAPI, GraphQL SDL, API 문서 | Information Map, IM Object Model V3.2 | 결정론적 추출(동일 입력 → 바이트 단위 동일 출력) |
 | **Collection & Normalization** | `runtime/vendor/engine/` | SaaS 읽기 전용 API, IM V3.2, Profile | `objects.json`, `relations.json`, `links.json`, `effective_access.json`, `coverage.json`, `lineage_events.json` | 단일 IM Profile 파이프라인, 실패 응답은 객체 미생성, 수집 누락은 `coverage`로 보존 |
 | **Reasoning & Judgment** | `runtime/vendor/engine/src/detection/` | 정규화 그래프 + `coverage` | 위협 목록(4유형), Access Gap, Blast Radius, 컴플라이언스 판정 | 사실(`Relation`)과 추론(`Link`, `EA`)의 저장·질의 분리 |
 | **Presentation & Investigation** | `runtime/vendor/dashboard/`, `runtime/src/` | SQLite 스냅샷, (선택) Splunk 검색 REST, AI API | 웹 대시보드, 경로 탐색, 예외 관리, AI 질의 | 모든 데이터는 도입 기업 로컬/사내 저장소에만 유지 |
