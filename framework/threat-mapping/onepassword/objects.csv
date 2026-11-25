@@ -1,0 +1,55 @@
+saas,object_category,target_object,aegi_object,collection_status,collection_path,threat_count
+onepassword,Identity / Access,User (member),User,수집 중,OP-01,2
+onepassword,Identity / Access,User (guest),User,수집 중,OP-01 [11-24 출력 0건],1
+onepassword,Identity / Access,"User (invited, pending)",User,수집 중,OP-01 [11-24 출력 0건],2
+onepassword,Identity / Access,"Group (built-in: Owners, Administrators, Team Members, Security)",Group,수집 중,OP-01,1
+onepassword,Identity / Access,"Group (custom group, group manager role)",Group,수집 중,OP-01,1
+onepassword,Identity / Access,Group (Provision Managers),Group,수집 중,OP-01 [11-24 출력 0건],1
+onepassword,Identity / Access,Group membership,User,수집 중,OP-01,1
+onepassword,Identity / Access,"Custom group account permissions (Recover Accounts, Manage All Groups, Manage Settings, Delete Account)",,API 밖,관리 화면 Groups(읽는 호출 확인 못 함),0
+onepassword,Identity / Access,Service account (collector),ServiceAccount,수집 중,OP-01,0
+onepassword,Identity / Access,"Service account (others: creator, expiry, vault permissions)",,API 밖,관리 화면 Developer(목록 읽는 호출 확인 못 함),1
+onepassword,Identity / Access,Unlock with SSO configuration,,API 밖,관리 화면 Unlock with SSO,1
+onepassword,Identity / Access,Emergency Kit; Secret Key,,API 밖,상대 SaaS 파일 저장소; 관리 화면 Emergency Kit 끄기,1
+onepassword,Identity / Access,"Device (app, browser extension, local data)",,API 밖,기기 안; 감사 로그 기기 사건(OP-03),1
+onepassword,Identity / Access,Account recovery,,로그만,OP-03 [11-24 출력 0건],0
+onepassword,Identity / Access,Vault permission (Manage Vault),Vault; Group; User,수집 중,OP-02,1
+onepassword,Identity / Access,User (account recovery),User,수집 중,OP-01; OP-03,1
+onepassword,Identity / Access,Group (automated provisioning),Group,수집 중,OP-01,1
+onepassword,Identity / Access,"Service account (vault permissions, can-create-vaults)",ServiceAccount; Vault,수집 중,OP-01; OP-02,1
+onepassword,Identity / Access,Vault permission (Team Members group),Vault; Group,수집 중,OP-02,1
+onepassword,Integration / Automation,"Automated provisioning (IdP SCIM, bearer token)",,API 밖,상대 SaaS IdP 앱 프로비저닝 설정,0
+onepassword,Integration / Automation,"SCIM bridge (self-hosted, scimsession)",,API 밖,고객 서버 배포,1
+onepassword,Integration / Automation,"Automated provisioning job (Google Workspace, Cloud Run)",,API 밖,상대 SaaS(Google Cloud) Cloud Run 작업,1
+onepassword,Integration / Automation,"Connect server (credentials file, access token)",,API 밖,관리 화면 Developer; 고객 인프라,1
+onepassword,Integration / Automation,Service account token in CI (GitHub Actions secret),ServiceAccount,수집 중,OP-01; 상대 SaaS(GitHub) workflow,1
+onepassword,Integration / Automation,"Kubernetes Operator (OnePasswordItem, Secret)",,API 밖,상대(Kubernetes 클러스터),1
+onepassword,Integration / Automation,Environment (AWS Secrets Manager integration),,API 밖,Environments(읽는 API 확인 못 함); 상대(AWS),1
+onepassword,Integration / Automation,Terraform provider (state file),,API 밖,상대(상태 저장소),1
+onepassword,Integration / Automation,Slack integration,,API 밖,관리 화면 Integrations; 상대 SaaS(Slack),1
+onepassword,Integration / Automation,"SaaS Manager (roles, offboarding workflow, integration account)",,API 밖,SaaS Manager(공개 API 확인 못 함),1
+onepassword,Integration / Automation,1Password CLI; SSH agent; Git commit signing,,API 밖,기기 안,0
+onepassword,Integration / Automation,"Service account (item usage, audit event)",ServiceAccount,수집 중,OP-01; OP-03,1
+onepassword,Integration / Automation,Events Reporting integration (bearer token),,API 밖,1Password.com Integrations 화면 Events Reporting(토큰 목록 읽는 공개 API 확인 못 함); 상대 SaaS(SIEM) 연동 설정,1
+onepassword,Policy / Configuration,Account,Account,수집 중,OP-01,0
+onepassword,Policy / Configuration,"Vault permission (has_role_on, permission_names)",Vault,수집 중,OP-02,1
+onepassword,Policy / Configuration,"Team policies (two-factor, firewall rules, password, auto-lock)",,API 밖,관리 화면 Policies,1
+onepassword,Policy / Configuration,Item sharing policy,,API 밖,관리 화면 Policies > Sharing and permissions,0
+onepassword,Policy / Configuration,Account creation policy (verified domains),,API 밖,관리 화면 Authentication policy,1
+onepassword,Policy / Configuration,Passkey policy,,API 밖,관리 화면 Policies,0
+onepassword,Policy / Configuration,Audit log; Events Reporting integration (bearer token),,로그만,OP-03,1
+onepassword,Policy / Configuration,Travel Mode policy,,API 밖,관리 화면 Policies,0
+onepassword,Policy / Configuration,Extended Access Management (Device Trust),,API 밖,별도 제품(수집 없음),0
+onepassword,Policy / Configuration,"Unlock with SSO configuration (groups, grace period)",Group,API 밖,1Password.com 관리 화면 Unlock with SSO(읽는 공개 API 확인 못 함),1
+onepassword,Resource,"Vault (shared, user-created)",Vault,수집 중,OP-02,0
+onepassword,Resource,"Vault (Employee, Private, Personal)",,API 밖,서비스 계정은 받을 수 없음,0
+onepassword,Resource,"Item (Login, API Credential)",Item,수집 중,OP-02,4
+onepassword,Resource,Item (SSH Key),Item,수집 중,OP-02,1
+onepassword,Resource,Item share link,,로그만,OP-03 [11-24 출력 0건],1
+onepassword,Resource,Item usage (Vault item usages),,로그만,OP-03 [11-24 출력 0건],0
+onepassword,Resource,"Vault export (1PUX, CSV); print; move to other account",,로그만,OP-03 [11-24 출력 0건],1
+onepassword,Resource,Linked family account (Families membership),,API 밖,개인 계정(조직 밖),0
+onepassword,Resource,Watchtower; Insights; Business Watchtower report,,API 밖,관리 화면 Reports,1
+onepassword,Resource,Browser extension autofill,,API 밖,기기·브라우저 확장 설정,1
+onepassword,Resource,"Item (bulk read via app, CLI, SDK)",Item; Vault,로그만,OP-03 [11-24 출력 0건],1
+onepassword,Resource,SSH agent forwarding (SSH Key item),Item,API 밖,기기·원격 호스트 SSH 설정(ForwardAgent); 항목 메타는 OP-02,1

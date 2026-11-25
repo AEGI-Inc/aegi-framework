@@ -1,0 +1,31 @@
+saas,object_category,target_object,aegi_object,collection_status,collection_path,threat_count
+gemini,Resource,Engine,Engine,수집 중,GCP-03,5
+gemini,Integration / Automation,Agent,Agent,수집 중,GCP-03,4
+gemini,Integration / Automation,Assistant,Assistant,수집 중,GCP-03,2
+gemini,Integration / Automation,DataConnector,DataConnector,수집 중,GCP-03,5
+gemini,Resource,DataStore,DataStore,수집 중,GCP-03,1
+gemini,Policy / Configuration,AclConfig,AclConfig,수집 중,GCP-03,1
+gemini,Policy / Configuration,WidgetConfig,WidgetConfig,수집 중,GCP-03,2
+gemini,Resource,UserStore,UserStore,수집 중,GCP-03,1
+gemini,Policy / Configuration,LicenseConfig,LicenseConfig,수집 중,GCP-03,1
+gemini,Identity / Access,UserLicense,UserLicense,수집 중,GCP-03,1
+gemini,Identity / Access,IamMember,IamMember,수집 중,GCP-01; GCP-03,3
+gemini,Policy / Configuration,Role,Role,수집 중,GCP-01; GCP-03,1
+gemini,Identity / Access,Project,Project,수집 중,GCP-01,1
+gemini,Integration / Automation,McpServer,McpServer,수집 중,GCP-03,1
+gemini,Integration / Automation,RegistryAgent,RegistryAgent,수집 중,GCP-03,1
+gemini,Resource,Branch,Branch,수집 중,GCP-03,0
+gemini,Resource,Schema,Schema,수집 중,GCP-03,0
+gemini,Resource,ServingConfig,ServingConfig,수집 중,GCP-03,0
+gemini,Identity / Access,DataConnector Keystore Token,,API 밖,dataConnector:acquireAndStoreRefreshToken,2
+gemini,Resource,Session,Session,수집 중,GCP-03 (sessions) [11-21 출력 0건],1
+gemini,Integration / Automation,Memory,Memory,수집 중,GCP-06 [11-21 출력 0건],1
+gemini,Identity / Access,Authorization,Authorization,수집 중,GCP-03 [11-21 출력 0건],0
+gemini,Identity / Access,AgentIdentityAuthorization,AgentIdentityAuthorization,수집 중,GCP-05 [11-21 출력 0건],0
+gemini,Identity / Access,ServiceAccount,ServiceAccount,수집 중,GCP-02,0
+gemini,Identity / Access,ServiceAccountKey,ServiceAccountKey,수집 중,GCP-02,0
+gemini,Identity / Access,OauthClient,OauthClient,수집 중,GCP-02 [11-21 출력 0건],0
+gemini,Identity / Access,OauthClientCredential,OauthClientCredential,수집 중,GCP-02 [11-21 출력 0건],0
+gemini,Identity / Access,WorkforcePool,WorkforcePool,수집 중,GCP-02 [11-21 출력 0건],0
+gemini,Identity / Access,WorkforcePoolProvider,WorkforcePoolProvider,수집 중,GCP-02 [11-21 출력 0건],0
+gemini,Resource,Conversation,Conversation,수집 중,GCP-03 [11-21 출력 0건],0

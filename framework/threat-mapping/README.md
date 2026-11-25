@@ -2,7 +2,7 @@
 
 SaaS마다 객체(계정, 앱, 정책, 자원)별로 생길 수 있는 위협을 같은 형식의 CSV로 모으는 곳이다. 팀이 SaaS를 나눠 맡아 채우고, 이 표를 바탕으로 Cross-SaaS 시나리오와 엔진 위협 판정 규칙을 만든다.
 
-- 상태: 형식 초안(2026-11-24). [microsoft/](microsoft/README.md)(M365), [okta/](okta/README.md), [gws/](gws/README.md), [slack/](slack/README.md), [github/](github/README.md)가 v0로 있다. 마지막 네 개는 9월 표를 옮기고 보완한 것이다.
+- 상태: 형식 초안(2026-11-24). [microsoft/](microsoft/README.md)(M365), [okta/](okta/README.md), [gws/](gws/README.md), [slack/](slack/README.md), [github/](github/README.md), [salesforce/](salesforce/README.md), [snowflake/](snowflake/README.md), [atlassian/](atlassian/README.md)(Jira, Confluence, Loom, 조직 공통), [onepassword/](onepassword/README.md)(1Password)가 v0로 있다. okta, gws, slack, github 네 개는 9월 표를 옮기고 보완한 것이고 salesforce, snowflake는 9월 표 157건을 그 SaaS 객체에 맞춰 다시 쓰고 검증한 것이다. atlassian, onepassword는 2026-11-24 우리 환경 실측 목록을 이 형식으로 옮기고 9월 표와 공식 문서로 보완한 것이다.
 - 위협 유형의 뜻은 [`schema/ontology/threat_types.yaml`](../schema/ontology/threat_types.yaml), 판정 절차는 Adapter Engine [위협 판정 명세 V2](https://github.com/AEGI-Inc/aegi-adapter-engine/blob/main/docs/spec/AEGI_THREAT_JUDGMENT_V2.md)를 따른다. 이 폴더는 판정 규칙이 아니라 규칙을 만들 재료 목록이다.
 - 출발 자료는 2026-09 「AEGI_Threat_Mapping」(Identity·Integration·Policy·Resource 4갈래 157건, 공유 드라이브 `위협매핑`)이다. 열 이름은 그 표를 따르고 판정에 필요한 칸을 더했다.
 
@@ -11,11 +11,13 @@ SaaS마다 객체(계정, 앱, 정책, 자원)별로 생길 수 있는 위협을
 ```text
 threat-mapping/
 ├── README.md              # 이 형식 규칙
+├── scenarios-backlog/     # 끝점 폴더로 나누기 전의 기존 시나리오 모음
 └── <provider>/            # SaaS 하나. 이름은 engine overlay 폴더 이름 (okta, gws, slack, github, salesforce, atlassian, aws, microsoft …)
     ├── README.md          # 버전, 상태, 담당, 범위, 출처, 남은 일
     ├── threats.csv        # 위협 목록 (필수)
     ├── objects.csv        # 대상 객체와 수집 상태 (필수)
-    └── legacy_map.csv     # 9월 표 ID 대응 (있으면)
+    ├── legacy_map.csv     # 9월 표 ID 대응 (있으면)
+    └── scenarios.csv      # 이 SaaS에서 끝나는 Cross-SaaS 시나리오 (있으면)
 ```
 
 - 버전은 `<provider>/README.md` 맨 위에 적는다. 파일 이름에 버전을 붙이지 않고 git 이력으로 남긴다. v0 초안 → 검토 반영 v1 → 시나리오·규칙과 맞춘 뒤 v2 처럼 올린다.
@@ -57,6 +59,8 @@ threat-mapping/
 | okta | OKTA | atlassian | ATL |
 | gws | GWS | aws | AWS |
 | slack | SLACK | github | GH |
+| snowflake | SNOW | onepassword | 1P |
+| gemini | GEM | | |
 
 목록에 없는 SaaS는 PR에서 약어를 더한다.
 
@@ -68,9 +72,32 @@ threat-mapping/
 
 `legacy_id`, `legacy_name`, `legacy_saas`, `threat_ids`, `not_applicable_reason`. 9월 표 157건 각각에 이 SaaS의 대응 위협 ID를 적고, 없으면 이유를 적는다.
 
+## scenarios.csv
+
+Cross-SaaS 시나리오 한 줄이 하나다(초안, 2026-11-25). 표만 보고 시험 환경에 세팅할 수 있게 적는다. 실행했든 안 했든 같은 칸을 채우고, 실행 여부는 `status`와 `evidence`에만 적는다. 파일은 마지막 위협이 일어나는 SaaS의 폴더에 둔다. 끝점 폴더로 나누기 전의 시나리오는 [scenarios-backlog/](scenarios-backlog/README.md)에 모아 두었다.
+
+| 열 | 뜻 | 값 |
+| --- | --- | --- |
+| `scenario_id` | 시나리오 ID | `SC-<SAAS>-<번호>`. SAAS 약어는 끝점 SaaS |
+| `name` | 이름 | 한 줄 |
+| `saas_path` | 거치는 SaaS 순서 | provider id를 ` -> `로 잇는다. 한 단계에 여럿이면 `; `. 예: `okta -> gws -> gemini`. `external`은 테넌트 밖 |
+| `threat_type` | 위협 유형 | `비인가 접근`, `권한 상승`, `데이터 반출`, `추적성 상실`(`threat_types.yaml`의 넷) 또는 `비정상 설정`(threats.csv의 `posture`). 여럿이면 대표 유형을 먼저 |
+| `actor` | 시작하는 사람 | 역할로 적는다(개발자, 영업 담당, 외부인). 계정 이름을 쓰지 않는다 |
+| `actor_must_lack` | 그 사람에게 없어야 하는 권한 | 이 권한이 있으면 시나리오가 성립하지 않는다 |
+| `trigger` | 시작 행동 | 하나 |
+| `path` | 경로 | ` -> `로 잇는다. 관계 이름(`triggered_by`, `runs_as` 등)을 쓰면 그대로 적는다 |
+| `setup_objects` | 세팅할 객체 | `<provider>: 객체와 조건` 을 `; `로 나눈다 |
+| `setup_relations` | 있어야 하는 관계 | `relation_types.yaml`의 이름 |
+| `expected_result` | 성립하면 남는 것 | 무엇이 어디에, 누구 이름으로 |
+| `premise` | 전제 | `프롬프트 주입`, `계정 이탈`, `출발 객체 없음` 등. 없으면 빈칸 |
+| `end_threat_ids` | 끝점 위협 ID | 그 폴더 `threats.csv`의 `threat_id` |
+| `status` | 상태 | 지금 시험 환경 기준으로 적는다. `후보`(세팅 전), `세팅됨`(객체는 있고 실행 전), `성립`, `불성립`, `제외`(시나리오로 세지 않기로 함). 예전 환경에서의 결과는 `evidence`에만 남긴다 |
+| `evidence` | 세팅·실행 기록 | `<환경 이름이나 회차> <날짜> <결과>` 꼴로 적고 환경이 여럿이면 `; `로 나눈다. 예: `2회차 2026-10-23 성립; 4회차 2026-11-25 봇 서버 무응답`. 기록이 없으면 빈칸. id와 값은 적지 않는다 |
+| `notes` | 비고 | 경로에 든 다른 SaaS 폴더의 위협 ID, 성립을 가르는 조건 |
+
 ## 올리는 법
 
 1. `<provider>/` 폴더를 만들고 세 파일과 README를 넣는다. 스프레드시트에서 만들었다면 열 이름을 위 표와 똑같이 맞춰 CSV(UTF-8)로 내보낸다.
 2. 브랜치 `docs/threat-mapping-<provider>`로 PR을 연다. 제목은 `threat-mapping: <SaaS> v<버전>`.
 3. 머지 전에 `npm test`, `npm run lint`, `npm run build`를 통과시킨다. 같은 `threat_id` 중복, 허용값 밖의 값이 없는지 확인한다.
-4. 시나리오(`scenarios.csv`)와 판정 규칙(`rules.csv`) 형식은 SaaS별 매핑이 모인 뒤 이 문서에 더한다.
+4. 시나리오는 아래 `scenarios.csv` 양식으로 끝점 SaaS 폴더에 올린다. 판정 규칙(`rules.csv`) 형식은 SaaS별 매핑이 모인 뒤 이 문서에 더한다.

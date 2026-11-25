@@ -1,0 +1,227 @@
+saas,object_category,target_object,aegi_object,collection_status,collection_path,threat_count
+atlassian,Identity / Access,Organization,Org,수집 중,RG-AT-getOrgs [11-20 응답 비어 정책·도메인 호출에서 스텁],0
+atlassian,Identity / Access,Organization (app transfer),Org,API 밖,admin.atlassian.com Settings > Transfer apps,1
+atlassian,Identity / Access,Domain,Domain,수집 중,RG-AT-getDomains,2
+atlassian,Identity / Access,Rovo organization,RovoOrganization,수집 중,AT-UI-01(화면 스냅샷) [11-24 출력 0건],0
+atlassian,Identity / Access,Special principal,SpecialPrincipal,수집 중,"CF-02(Confluence SpacePermission 레코드 투영, 바인딩 on_demand_or_uncollected)",0
+atlassian,Identity / Access,User,User,수집 중,AT-02; JI-02,10
+atlassian,Identity / Access,User (password reset),User,API 밖,재설정 흐름 API 없음; 대상 계정 AT-02,1
+atlassian,Identity / Access,Role assignment,User,수집 중,AT-03(org-admin),1
+atlassian,Identity / Access,"Role assignment (site, app roles)",User,필드 없음,AT-03 응답에 사이트·앱 역할 있음(overlay 는 org-admin 만),1
+atlassian,Identity / Access,Group,FoundGroup,수집 중,AT-04; JI-03,1
+atlassian,Identity / Access,Directory user,,미수집(API 있음),RG-AT-getDirectoryUserDetails(blocked); RG-AT-getDirectoryUsers(blocked); GET /v1/orgs/{orgId}/directory/users/{accountId}/last-active-dates,1
+atlassian,Identity / Access,Directory group,,미수집(API 있음),RG-AT-getGroup(blocked); GET /v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}/role-assignments,0
+atlassian,Identity / Access,Managed account profile (manage),,미수집(API 있음),RG-AT-users.account_id.manage(blocked),0
+atlassian,Identity / Access,API token,,미수집(API 있음),RG-AT-users.account_id.manage.api-tokens(blocked); GET /admin/api-access/v1/orgs/{orgId}/api-tokens,2
+atlassian,Identity / Access,Organization API key,,미수집(API 있음),GET /admin/api-access/v1/orgs/{orgId}/api-keys,1
+atlassian,Identity / Access,Service account,service-accounts,수집 중,RG-AT-listServiceAccounts [11-24 출력 0건],3
+atlassian,Identity / Access,Service account credential,,미수집(API 있음),GET /admin/api-access/v1/orgs/{orgId}/service-accounts/api-tokens; /service-accounts/oauth-clients,0
+atlassian,Identity / Access,Organization OAuth client,OAuthClient,수집 중,RG-AT-listOAuthClients [11-24 출력 0건],0
+atlassian,Identity / Access,SCIM group,,미수집(API 있음),RG-AT-get(blocked); RG-AT-getAllGroupsFromAnActiveDirectory(blocked),0
+atlassian,Identity / Access,"SCIM user, SCIM links",,미수집(API 있음),RG-AT-getAUserFromActiveDirectory(blocked); RG-AT-getScimLinks(blocked),0
+atlassian,Identity / Access,SCIM directory API key,,API 밖,admin.atlassian.com Identity providers,1
+atlassian,Identity / Access,Identity provider,,API 밖,admin.atlassian.com Identity providers; AT-90 사건,2
+atlassian,Identity / Access,App access settings,,API 밖,admin.atlassian.com Apps > App access settings,2
+atlassian,Identity / Access,External user security policy,,API 밖,admin.atlassian.com Security > External users,1
+atlassian,Identity / Access,Project role,ProjectRole,수집 중,JI-05; JI-06,2
+atlassian,Identity / Access,Project role (default members),,미수집(API 있음),GET /rest/api/3/role/{id}/actors,1
+atlassian,Identity / Access,Jira global permission,,로그만,JI-90,3
+atlassian,Identity / Access,Assets object schema role,,미수집(API 있음),Assets REST API (developer.atlassian.com/cloud/assets/rest),1
+atlassian,Identity / Access,Jira general configuration (User email visibility),,API 밖,Jira 설정 > System > General configuration (REST 대응 키 확인 못 함),1
+atlassian,Identity / Access,FoundUsersAndGroups,,미수집(API 있음),RG-JI-findUsersAndGroups [rejected],0
+atlassian,Identity / Access,IssueSecurityLevelMember,,미수집(API 있음),RG-JI-getIssueSecurityLevelMembers [blocked],0
+atlassian,Identity / Access,GetTeamResponseForPage,,필드 없음,RG-JI-getTeams (overlay 없음),0
+atlassian,Identity / Access,OrganizationDTO,,미수집(API 있음),"RG-JI-getOrganization [blocked] JSM, 우리 플랜에 없음",0
+atlassian,Identity / Access,Space permission,SpacePermission,수집 중,CF-02,4
+atlassian,Identity / Access,Loom workspace,,API 밖,Loom Workspace settings > Members; Atlassian Administration,2
+atlassian,Identity / Access,Group membership,Group,수집 중,CF-03; AT-04,0
+atlassian,Identity / Access,AdminKeyResponse,,필드 없음,RG-CF-getAdminKey(approved),0
+atlassian,Identity / Access,User property (parent:user),,필드 없음,RG-CF-getUserProperties(approved),0
+atlassian,Identity / Access,AccountIdEmailRecord,,미수집(API 있음),RG-CF-getPrivacyUnsafeUserEmailBulk(rejected),0
+atlassian,Identity / Access,UserWatch (content watch),,미수집(API 있음),RG-CF-getContentWatchStatus(blocked),0
+atlassian,Identity / Access,Space access request,,API 밖,Confluence 관리 > Permissions > Access requests(화면),0
+atlassian,Integration / Automation,Connected apps settings,,API 밖,admin.atlassian.com Connected apps > Settings,1
+atlassian,Integration / Automation,OAuth 2.0 (3LO) app,,API 밖,admin.atlassian.com Connected apps(설치·동의 앱 공개 API 없음),1
+atlassian,Integration / Automation,Connect app,,API 밖,admin.atlassian.com Connected apps(앱 scope 목록 공개 API 없음),1
+atlassian,Integration / Automation,Forge app,,API 밖,admin.atlassian.com Connected apps(설치 앱·모듈·egress 공개 API 없음),2
+atlassian,Integration / Automation,Marketplace app,,로그만,"AT-90(audit_log_installation_created, audit_log_app_upgraded)",1
+atlassian,Integration / Automation,App user,User,수집 중,JI-02(accountType app); JI-05; JI-06,3
+atlassian,Integration / Automation,Atlassian MCP server,,로그만,AT-90(mcp_tool_invoked); 설정은 admin.atlassian.com Connectors > Atlassian MCP server,2
+atlassian,Integration / Automation,External MCP server,,API 밖,admin.atlassian.com Connected apps > Add external MCP server,1
+atlassian,Integration / Automation,Teamwork Graph CLI,,로그만,AT-90(Invoked TWG CLI command 활동); 설정은 admin.atlassian.com Connectors,1
+atlassian,Integration / Automation,Rovo Dev,,API 밖,admin.atlassian.com AI settings > Rovo Dev,1
+atlassian,Integration / Automation,Rovo agent,,API 밖,admin.atlassian.com AI and Rovo > Agents; 에이전트 계정은 JI-02,2
+atlassian,Integration / Automation,Rovo connector,RovoConnector,수집 중,AT-UI-01(화면 스냅샷) [11-24 출력 0건],1
+atlassian,Integration / Automation,Automation rule,AutomationRule,수집 중,JI-10; CF-10,6
+atlassian,Integration / Automation,Automation rule (Send web request),AutomationRequestEndpoint,수집 중,"JI-10; CF-10(request_targets host, sha256)",1
+atlassian,Integration / Automation,"Automation rule (components, rule details)",AutomationRule,필드 없음,JI-10; CF-10(요약이 동작 type 만 남기고 설정·비밀·받는 곳은 버림),5
+atlassian,Integration / Automation,Automation connection,,필드 없음,"JI-10(connection_ids, overlay 미사용)",1
+atlassian,Integration / Automation,Automation audit log,,API 밖,사용량 API 확인 못 함,1
+atlassian,Integration / Automation,Audit log webhook,,API 밖,admin.atlassian.com Audit log webhooks,1
+atlassian,Integration / Automation,Atlassian Data Lake,,API 밖,"Atlassian Analytics > Data shares, 연결(화면)",2
+atlassian,Integration / Automation,Atlassian integration app,,API 밖,"상대 SaaS(Google Workspace, Slack, Microsoft Teams) 앱 설치 기록; Rovo 는 Slack /rovo manage, Loom 은 Loom Workspace settings > Integrations",7
+atlassian,Integration / Automation,Third-party connector,,API 밖,"상대 SaaS(Google Cloud, Salesforce, Slack) 커넥터 수집",5
+atlassian,Integration / Automation,Webhook,,미수집(API 있음),GET /rest/webhooks/1.0/webhook,3
+atlassian,Integration / Automation,Workflow transition rule,,미수집(API 있음),"RG-JI-searchWorkflows [blocked]; JI-11(쓸 수 있는 규칙 목록만, AvailableWorkflowForgeRule) [11-24 출력 0건]",2
+atlassian,Integration / Automation,Development information,,미수집(API 있음),RG-JI-getRepository [blocked]; GitHub 쪽 installation 수집,1
+atlassian,Integration / Automation,Incoming mail handler,,API 밖,Jira 설정 > System > Mail > Incoming mail,1
+atlassian,Integration / Automation,Incoming mail server,,API 밖,Jira 설정 > System > Mail > Incoming mail,1
+atlassian,Integration / Automation,Form / Issue collector,,API 밖,공간 설정 > Forms; 이슈 수집기 설정,1
+atlassian,Integration / Automation,Application link,,API 밖,Jira 설정 > Apps > Application links,1
+atlassian,Integration / Automation,SoftwareInfoDTO,SoftwareInfoDTO,수집 중,RG-JI-getInfo,0
+atlassian,Integration / Automation,TimeTrackingProvider,TimeTrackingProvider,수집 중,RG-JI-getAvailableTimeTrackingImplementations,0
+atlassian,Integration / Automation,parent:rest/atlassian-connect/1/addons/{},,미수집(API 있음),RG-JI-AddonPropertiesResource.getAddonProperties_get [blocked],0
+atlassian,Integration / Automation,StreamingResponseBody,,미수집(API 있음),RG-JI-getAvatarImageByType [blocked],0
+atlassian,Integration / Automation,parent:app/field/{},,미수집(API 있음),RG-JI-getCustomFieldConfiguration [blocked],0
+atlassian,Integration / Automation,DefaultWorkflow,DefaultWorkflow,수집 중,RG-JI-getDefaultWorkflow,0
+atlassian,Integration / Automation,"Webhook (app, REST /rest/api/3/webhook)",,필드 없음,RG-JI-getDynamicWebhooksForApp (overlay 없음),0
+atlassian,Integration / Automation,parent:workflow/{},,미수집(API 있음),RG-JI-getProjectUsagesForWorkflow [blocked],0
+atlassian,Integration / Automation,EntityProperty,,미수집(API 있음),RG-JI-getUserPropertyKeys [blocked],0
+atlassian,Integration / Automation,PublishedWorkflowId,,미수집(API 있음),RG-JI-getWorkflowsPaginated [blocked],0
+atlassian,Integration / Automation,WorkflowSchemeIdName,,미수집(API 있음),RG-JI-getWorkflowsPaginated [blocked],0
+atlassian,Integration / Automation,WorkflowMetadataRestModel,,미수집(API 있음),RG-JI-readWorkflowSchemes [blocked],0
+atlassian,Integration / Automation,WorkflowSchemeReadResponse,,미수집(API 있음),RG-JI-readWorkflowSchemes [blocked],0
+atlassian,Integration / Automation,devopscomponents,,미수집(API 있음),RG-JI-getComponentById [blocked],0
+atlassian,Integration / Automation,parent:rest/deployments/0.1/pipelines/{},,미수집(API 있음),RG-JI-getDeploymentByKey [blocked],0
+atlassian,Integration / Automation,parent:rest/deployments/0.1/pipelines/{}/environments/{},,미수집(API 있음),RG-JI-getDeploymentByKey [blocked],0
+atlassian,Integration / Automation,parent:rest/software/1.0/board/{},,미수집(API 있음),RG-JI-getIssuesForBacklogJSIS [blocked],0
+atlassian,Integration / Automation,linkedWorkspaces,,미수집(API 있음),RG-JI-getLinkedWorkspaceById [blocked],0
+atlassian,Integration / Automation,1.0_2,,미수집(API 있음),RG-JI-getLinkedWorkspaces [rejected],0
+atlassian,Integration / Automation,parent:rest/agile/1.0/sprint/{},,미수집(API 있음),RG-JI-getSprint [blocked],0
+atlassian,Integration / Automation,1.0,,미수집(API 있음),RG-JI-getWorkspaces [rejected],0
+atlassian,Integration / Automation,CustomerTransitionDTO,,미수집(API 있음),"RG-JI-getCustomerTransitions [blocked] JSM, 우리 플랜에 없음",0
+atlassian,Integration / Automation,Loom AI,,API 밖,Loom Workspace settings > Loom AI; Atlassian Administration > AI and Rovo,2
+atlassian,Integration / Automation,SystemInfoEntity (site edition),,필드 없음,RG-CF-getSystemInfo(approved),0
+atlassian,Integration / Automation,properties (Forge app properties),,미수집(API 있음),RG-CF-getForgeAppProperties(rejected),0
+atlassian,Integration / Automation,Webhook (Connect app module),,API 밖,Connect 앱 descriptor 로만 등록(조회 API 없음),0
+atlassian,Integration / Automation,API token (다른 SaaS 에 둔 것),,미수집(API 있음),GET /admin/api-access/v1/orgs/{orgId}/api-tokens(read:tokens:admin); 상대 SaaS 쪽 Named Credential·스크립트 속성·Actions 비밀·Worker 비밀·메시지·문서,1
+atlassian,Integration / Automation,Issue / Page (다른 SaaS 자동화가 만든 것),,미수집(API 있음),Jira issue·Confluence page 의 작성자와 작성 수단(RG-CF-getPages 등 blocked); 상대 SaaS 쪽 Flow·Apex·Worker 정의,1
+atlassian,Policy / Configuration,Authentication policy,,API 밖,admin.atlassian.com Security > Authentication policies; 사용자별 정책 ID 는 Control API bulk-fetch(미수집),1
+atlassian,Policy / Configuration,Data security policy,,미수집(API 있음),GET /admin/control/v2/orgs/{orgId}/policies(deprecated),3
+atlassian,Policy / Configuration,Classification level,DataClassificationTagBean,수집 중,RG-JI-getAllUserDataClassificationLevels [11-24 출력 0건],1
+atlassian,Policy / Configuration,Organization policy,Policy,수집 중,RG-AT-getPolicies,5
+atlassian,Policy / Configuration,Mobile browser access policy,,API 밖,admin.atlassian.com Mobile,0
+atlassian,Policy / Configuration,Guard Detect detection settings,,API 밖,admin.atlassian.com Guard Detect > Detections,1
+atlassian,Policy / Configuration,Organization audit log,,수집 중,AT-90,1
+atlassian,Policy / Configuration,Audit log webhook (registration),,API 밖,admin.atlassian.com Audit log webhooks(목록 공개 API 없음),1
+atlassian,Policy / Configuration,External sites policy,,API 밖,admin.atlassian.com Security > External sites,1
+atlassian,Policy / Configuration,Shadow IT controls,,API 밖,admin.atlassian.com Apps > Shadow IT,1
+atlassian,Policy / Configuration,Atlassian Guard subscription,,API 밖,admin.atlassian.com Billing and subscriptions,1
+atlassian,Policy / Configuration,Permission scheme,PermissionScheme,수집 중,JI-06,5
+atlassian,Policy / Configuration,Project (team-managed access level),Project,필드 없음,JI-04,1
+atlassian,Policy / Configuration,Issue security scheme,SecurityScheme,수집 중,RG-JI-getProjectIssueSecurityScheme; RG-JI-getSecurityLevels [11-24 출력 0건]; RG-JI-getSecurityLevelMembers [11-24 출력 0건],1
+atlassian,Policy / Configuration,Jira audit log,,수집 중,JI-90; AT-90,1
+atlassian,Policy / Configuration,Jira audit log (settings),,로그만,JI-90,1
+atlassian,Policy / Configuration,Jira general configuration,,API 밖,Jira 설정 > System > General configuration,1
+atlassian,Policy / Configuration,Incoming mail DMARC setting,,API 밖,Jira 설정 > System > Incoming Mail > DMARC,1
+atlassian,Policy / Configuration,Help center customer access settings,,API 밖,JSM 설정 > Customer access(우리 플랜에 없음),1
+atlassian,Policy / Configuration,NotificationScheme,NotificationScheme,수집 중,RG-JI-getNotificationSchemes,0
+atlassian,Policy / Configuration,priorityscheme,priorityscheme,수집 중,RG-JI-getPrioritySchemes,0
+atlassian,Policy / Configuration,issuetypescreenscheme,issuetypescreenscheme,수집 중,RG-JI-getIssueTypeScreenSchemes,0
+atlassian,Policy / Configuration,screens,screens,수집 중,RG-JI-getScreens,0
+atlassian,Policy / Configuration,tabs,tabs,수집 중,RG-JI-getAllScreenTabs,0
+atlassian,Policy / Configuration,features,features,수집 중,RG-JI-getFeaturesForProject,0
+atlassian,Policy / Configuration,DefaultWorkflowEditorResponse,DefaultWorkflowEditorResponse,수집 중,RG-JI-getDefaultEditor,0
+atlassian,Policy / Configuration,ApplicationRole,ApplicationRole,수집 중,RG-JI-getAllApplicationRoles,0
+atlassian,Policy / Configuration,Permissions,Permissions,수집 중,RG-JI-getAllPermissions,0
+atlassian,Policy / Configuration,WorkflowScheme,WorkflowScheme,수집 중,RG-JI-getAllWorkflowSchemes,0
+atlassian,Policy / Configuration,WorkspaceDataPolicy,,미수집(API 있음),RG-JI-getPolicy [rejected],0
+atlassian,Policy / Configuration,Confluence audit log,,수집 중,CF-90; AT-90,1
+atlassian,Policy / Configuration,Confluence audit log (retention setting),,API 밖,Confluence 관리 > Audit log 보관 설정(화면),1
+atlassian,Policy / Configuration,Confluence global permission,,로그만,CF-90(Permissions 범주),1
+atlassian,Policy / Configuration,Confluence global permission (View User Profile),,API 밖,Confluence 관리 전역 권한 화면,1
+atlassian,Policy / Configuration,Public link settings,,로그만,CF-90(Public Link 범주); AT-90,1
+atlassian,Policy / Configuration,Classification level (Confluence),,미수집(API 있음),RG-CF-getClassificationLevels(blocked); Classification Level REST v2,1
+atlassian,Policy / Configuration,Loom workspace settings,,API 밖,Loom Workspace settings(화면); Loom Settings > Data(활동 로그 CSV),2
+atlassian,Policy / Configuration,space-roles,space-roles,수집 중,RG-CF-getAvailableSpaceRoles,0
+atlassian,Policy / Configuration,Page analytics / privacy mode,,API 밖,Confluence 관리 Analytics(화면),0
+atlassian,Policy / Configuration,Email notification settings,,API 밖,Confluence 관리 Notifications(화면),0
+atlassian,Resource,Backup (Backup and restore),,API 밖,admin.atlassian.com Data management > Backup and restore,1
+atlassian,Resource,Sandbox,,API 밖,admin.atlassian.com Apps > Sandboxes; Data management > Transfer data,1
+atlassian,Resource,Goal,,API 밖,공개 REST API 확인 못 함,1
+atlassian,Resource,Issue / Page / Attachment,,미수집(API 있음),RG-JI-getIssue(blocked); RG-CF-getPages(blocked); RG-CF-getAttachments(blocked),1
+atlassian,Resource,Issue / Page (activity log),,로그만,"AT-90(jira_accessed_api, confluence_accessed_api)",1
+atlassian,Resource,Project,Project,수집 중,JI-04,1
+atlassian,Resource,Share permission,SharePermission,수집 중,JI-07; RG-JI-getAllDashboards,1
+atlassian,Resource,Filter,Filter,수집 중,JI-07,0
+atlassian,Resource,Dashboard,Dashboard,수집 중,RG-JI-getAllDashboards,0
+atlassian,Resource,Issue,,미수집(API 있음),RG-JI-getIssue [blocked],1
+atlassian,Resource,Issue (export),,API 밖,기록 없음(Guard Detect 첨부 대량 내려받기 감지만),1
+atlassian,Resource,Issue (activity log),,로그만,"JI-90; AT-90(jira_accessed_api, jira_issue_viewed); Guard Detect",2
+atlassian,Resource,Site backup (Jira),,API 밖,Jira 설정 > System > Backup manager,1
+atlassian,Resource,Jira Product Discovery published view,,API 밖,제품 없음(게시 보기 API 확인 못 함),1
+atlassian,Resource,External system import,,API 밖,Jira 설정 > System > External System Import,1
+atlassian,Resource,board,board,수집 중,RG-JI-getAllBoards,0
+atlassian,Resource,200.filter,200.filter,수집 중,RG-JI-getConfiguration,0
+atlassian,Resource,quickfilter,quickfilter,수집 중,RG-JI-getAllQuickFilters,0
+atlassian,Resource,IssueTypeWithStatus,IssueTypeWithStatus,수집 중,RG-JI-getAllStatuses,0
+atlassian,Resource,ProjectDetails,ProjectDetails,수집 중,RG-JI-getProjectsForIssueTypeScreenScheme,0
+atlassian,Resource,fieldconfigurationscheme,,필드 없음,RG-JI-getAllFieldConfigurationSchemes (overlay 없음),0
+atlassian,Resource,ProjectCategory,,필드 없음,RG-JI-getAllProjectCategories (overlay 없음),0
+atlassian,Resource,GetAtlassianTeamResponse,,미수집(API 있음),RG-JI-getAtlassianTeam [blocked],0
+atlassian,Resource,AttachmentMetadata,,미수집(API 있음),RG-JI-getAttachment [blocked],0
+atlassian,Resource,parent:comment/{},,미수집(API 있음),RG-JI-getCommentPropertyKeys [blocked],0
+atlassian,Resource,Comment,,미수집(API 있음),RG-JI-getComments [blocked],0
+atlassian,Resource,context,,미수집(API 있음),RG-JI-getContextsForField [blocked],0
+atlassian,Resource,BulkContextualConfiguration,,미수집(API 있음),RG-JI-getCustomFieldsConfigurations [blocked],0
+atlassian,Resource,parent:dashboard/{}/items/{},,미수집(API 있음),RG-JI-getDashboardItemPropertyKeys [blocked],0
+atlassian,Resource,IssueTypesWorkflowMapping,,미수집(API 있음),RG-JI-getDraftWorkflow [blocked],0
+atlassian,Resource,IssueLink,,미수집(API 있음),RG-JI-getIssueLink [blocked],0
+atlassian,Resource,LinkedIssue,,미수집(API 있음),RG-JI-getIssueLink [blocked],0
+atlassian,Resource,GetPlanOnlyTeamResponse,,미수집(API 있음),RG-JI-getPlanOnlyTeam [blocked],0
+atlassian,Resource,"GetPlanResponse (Jira Plans, Premium)",,필드 없음,RG-JI-getPlans (overlay 없음),0
+atlassian,Resource,ProjectComponent,,필드 없음,RG-JI-getProjectComponents (overlay 없음),0
+atlassian,Resource,Version,,필드 없음,RG-JI-getProjectVersions (overlay 없음),0
+atlassian,Resource,relatedwork,,미수집(API 있음),RG-JI-getRelatedWork [blocked],0
+atlassian,Resource,RemoteIssueLink,,미수집(API 있음),RG-JI-getRemoteIssueLinks [blocked],0
+atlassian,Resource,ScreenWithTab,,미수집(API 있음),RG-JI-getScreensForField [blocked],0
+atlassian,Resource,TaskProgressBeanObject,,미수집(API 있음),RG-JI-getTask [blocked],0
+atlassian,Resource,uiModifications,,필드 없음,RG-JI-getUiModifications (overlay 없음),0
+atlassian,Resource,WorkflowDocumentDTO,,미수집(API 있음),RG-JI-readWorkflowFromHistory [blocked],0
+atlassian,Resource,filter,,미수집(API 있음),RG-JI-getBoardByFilterId [blocked],0
+atlassian,Resource,parent:rest/agile/1.0/epic/{},,미수집(API 있음),RG-JI-getEpic [blocked],0
+atlassian,Resource,flag,,미수집(API 있음),RG-JI-getFeatureFlagById [blocked],0
+atlassian,Resource,incidents,,미수집(API 있음),RG-JI-getIncidentById [blocked],0
+atlassian,Resource,IssueBean_2,,미수집(API 있음),RG-JI-getIssuesWithoutEpicJSIS [rejected],0
+atlassian,Resource,remotelink,,미수집(API 있음),RG-JI-getRemoteLinkById [blocked],0
+atlassian,Resource,post-incident-reviews,,미수집(API 있음),RG-JI-getReviewById [blocked],0
+atlassian,Resource,vulnerability,,미수집(API 있음),RG-JI-getVulnerabilityById [blocked],0
+atlassian,Resource,ApprovalDTO,,미수집(API 있음),"RG-JI-getApprovalById [blocked] JSM, 우리 플랜에 없음",0
+atlassian,Resource,CustomerRequestDTO,,미수집(API 있음),"RG-JI-getCustomerRequestByIdOrKey [blocked] JSM, 우리 플랜에 없음",0
+atlassian,Resource,CSATFeedbackFullDTO,,미수집(API 있음),"RG-JI-getFeedback [blocked] JSM, 우리 플랜에 없음",0
+atlassian,Resource,IssueBean_3,,미수집(API 있음),"RG-JI-getIssuesInQueue [blocked] JSM, 우리 플랜에 없음",0
+atlassian,Resource,QueueDTO,,미수집(API 있음),"RG-JI-getQueue [blocked] JSM, 우리 플랜에 없음",0
+atlassian,Resource,CommentDTO,,미수집(API 있음),"RG-JI-getRequestCommentById [blocked] JSM, 우리 플랜에 없음",0
+atlassian,Resource,RequestTypeDTO,,미수집(API 있음),"RG-JI-getRequestTypeById [blocked] JSM, 우리 플랜에 없음",0
+atlassian,Resource,ServiceDeskDTO,,미수집(API 있음),"RG-JI-getServiceDeskById [blocked] JSM, 우리 플랜에 없음",0
+atlassian,Resource,Space,spaces,수집 중,CF-01; CF-02,4
+atlassian,Resource,Public link,,로그만,CF-90; AT-90; CF-02(스페이스 스위치 manage_public_links),1
+atlassian,Resource,Whiteboard,,미수집(API 있음),RG-CF-getWhiteboardById(blocked),1
+atlassian,Resource,Page restriction,,미수집(API 있음),GET /wiki/rest/api/content/{id}/restriction; CF-02(restrict_content),3
+atlassian,Resource,Page,,미수집(API 있음),RG-CF-getPages(blocked),1
+atlassian,Resource,Page (activity log),,로그만,"CF-90; AT-90(confluence_page_viewed, confluence_accessed_api, confluence_page_deleted)",2
+atlassian,Resource,Site backup (Confluence),,API 밖,Confluence 관리 Backup manager(화면); AT-90,1
+atlassian,Resource,Knowledge base permissions,,API 밖,Settings > Products > Jira Service Management > Knowledge base permissions(화면),1
+atlassian,Resource,Content template,,필드 없음,"RG-CF-getBlueprintTemplates(approved, 정규화 없음); CF-02(manage_templates)",1
+atlassian,Resource,Notification email,,API 밖,메일 쪽(M365·GWS 메일 수집),1
+atlassian,Resource,Loom video,,API 밖,Loom 공개 API 없음(Record SDK 만); Loom 활동 로그(CSV 내보내기),6
+atlassian,Resource,"Content template (global, space)",,필드 없음,"RG-CF-getBlueprintTemplates(approved, 정규화 없음); CF-02(manage_templates)",0
+atlassian,Resource,space (personal space of current user),,필드 없음,RG-CF-getCurrentUser(approved),0
+atlassian,Resource,blogposts,,미수집(API 있음),RG-CF-getBlogPosts(blocked),0
+atlassian,Resource,databases,,미수집(API 있음),RG-CF-getDatabaseById(blocked),0
+atlassian,Resource,folders,,미수집(API 있음),RG-CF-getFolderById(blocked),0
+atlassian,Resource,custom-content,,미수집(API 있음),RG-CF-getCustomContentByType(blocked),0
+atlassian,Resource,attachments,,미수집(API 있음),RG-CF-getAttachments(blocked),0
+atlassian,Resource,DetailedVersion (attachment version),,미수집(API 있음),RG-CF-getAttachmentVersions(blocked),0
+atlassian,Resource,"ContentProperty (attachment, comment)",,미수집(API 있음),RG-CF-getAttachmentContentProperties(blocked); RG-CF-getCommentContentProperties(blocked),0
+atlassian,Resource,footer-comments,,미수집(API 있음),RG-CF-getFooterComments(blocked),0
+atlassian,Resource,inline-comments,,미수집(API 있음),RG-CF-getInlineComments(blocked),0
+atlassian,Resource,MacroInstance / ContentBody,,미수집(API 있음),RG-CF-getMacroBodyByMacroId(blocked); RG-CF-getAndConvertMacroBodyByMacroId(blocked),0
+atlassian,Resource,embeds (Smart Link),,미수집(API 있음),RG-CF-getSmartLinkById(blocked),0
+atlassian,Resource,label / LabelDetails,,미수집(API 있음),RG-CF-getLabelsForSpace(blocked); RG-CF-getLabelAttachments(blocked); RG-CF-getAllLabelContent(rejected),0
+atlassian,Resource,Task,,미수집(API 있음),RG-CF-getTasks(blocked),0
+atlassian,Resource,instance (CQL search result),,미수집(API 있음),RG-CF-searchContentByCQL(blocked),0
+atlassian,Resource,relation (content relation),,미수집(API 있음),RG-CF-findSourcesForTarget(blocked); RG-CF-findTargetFromSource(blocked),0
+atlassian,Resource,content descendants,,미수집(API 있음),RG-CF-getContentDescendants(blocked),0
+atlassian,Resource,ContentStateResponse (content status),,미수집(API 있음),RG-CF-getContentState(blocked),0
+atlassian,Resource,Loom space (video folder),,API 밖,Loom 공개 API 없음,0

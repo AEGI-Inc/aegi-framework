@@ -2,42 +2,42 @@ saas,object_category,target_object,aegi_object,collection_status,collection_path
 microsoft,Identity / Access,organization,Tenant,수집 중,M365-01,2
 microsoft,Identity / Access,subscribedSku,SubscribedSku,수집 중,M365-10,2
 microsoft,Identity / Access,domain,Domain,수집 중,M365-10,3
-microsoft,Identity / Access,internalDomainFederation,,미수집(API 있음),domains/{id}/federationConfiguration,2
-microsoft,Identity / Access,"crossTenantAccessPolicy (default, partners)",,미수집(API 있음),policies/crossTenantAccessPolicy,2
-microsoft,Identity / Access,crossTenantIdentitySyncPolicyPartner,,미수집(API 있음),policies/crossTenantAccessPolicy/partners/{id}/identitySynchronization,1
-microsoft,Identity / Access,delegatedAdminRelationship,,미수집(API 있음),tenantRelationships/delegatedAdminRelationships,1
-microsoft,Identity / Access,onPremisesDirectorySynchronization,,미수집(API 있음),directory/onPremisesSynchronization,1
-microsoft,Identity / Access,certificateBasedAuthConfiguration / certificateAuthority,,미수집(API 있음),organization/{id}/certificateBasedAuthConfiguration,1
-microsoft,Policy / Configuration,"groupSetting (비밀번호 보호, 스마트 잠금, 그룹 생성·게스트 설정)",,미수집(API 있음),"groupSettings (Password Rule Settings, Group.Unified)",2
+microsoft,Identity / Access,internalDomainFederation,DomainFederation,수집 중,M365-25 [11-24 출력 0건],2
+microsoft,Identity / Access,"crossTenantAccessPolicy (default, partners)",CrossTenantAccessDefault; CrossTenantAccessPartner,수집 중,M365-19,2
+microsoft,Identity / Access,crossTenantIdentitySyncPolicyPartner,CrossTenantAccessPartner,수집 중,M365-19 [11-24 출력 0건],1
+microsoft,Identity / Access,delegatedAdminRelationship,DelegatedAdminRelationship,수집 중,M365-20 [11-24 출력 0건],1
+microsoft,Identity / Access,onPremisesDirectorySynchronization,DirectorySync,수집 중,M365-21,1
+microsoft,Identity / Access,certificateBasedAuthConfiguration / certificateAuthority,CertificateBasedAuthConfiguration,수집 중,M365-25 [11-24 출력 0건],1
+microsoft,Policy / Configuration,"groupSetting (비밀번호 보호, 스마트 잠금, 그룹 생성·게스트 설정)",GroupSetting,수집 중,M365-30,2
 microsoft,Policy / Configuration,Copilot 노출 제한 설정 (Restricted SharePoint Search 등),,API 밖,SharePoint Online PowerShell,1
 microsoft,Policy / Configuration,Customer Key / Double Key Encryption,,API 밖,"Purview, Azure Key Vault",1
 microsoft,Identity / Access,user (member),User,수집 중,"M365-02, M365-03",17
 microsoft,Identity / Access,user (userType=Guest),User,수집 중,M365-02,3
-microsoft,Identity / Access,"authenticationMethod (전화, Authenticator, FIDO2, TAP 등)",,권한 없음,M365-03 (UserAuthenticationMethod.Read.All 없음),7
+microsoft,Identity / Access,"authenticationMethod (전화, Authenticator, FIDO2, TAP 등)",AuthenticationMethod,수집 중,M365-03,7
 microsoft,Identity / Access,"group (보안, M365, 역할 할당 가능, 동적)",Group,수집 중,M365-04,6
 microsoft,Identity / Access,unifiedRoleDefinition / directoryRole,DirectoryRole,수집 중,M365-08,1
 microsoft,Identity / Access,unifiedRoleAssignment,DirectoryRoleAssignment,수집 중,M365-08,7
 microsoft,Identity / Access,unifiedRoleEligibilitySchedule,DirectoryRoleAssignment (eligible=true),수집 중,M365-08,2
-microsoft,Policy / Configuration,unifiedRoleManagementPolicy (PIM 활성화 규칙),,미수집(API 있음),policies/roleManagementPolicies,2
+microsoft,Policy / Configuration,unifiedRoleManagementPolicy (PIM 활성화 규칙),RoleManagementPolicy,수집 중,M365-22,2
 microsoft,Identity / Access,administrativeUnit,AdministrativeUnit,수집 중,M365-09,2
 microsoft,Integration / Automation,application,Application,수집 중,M365-05,6
-microsoft,Integration / Automation,application.passwordCredentials / keyCredentials,Application (필드 없음),필드 없음,"M365-05 응답에 있음, overlay 미반영",3
-microsoft,Integration / Automation,federatedIdentityCredential,,미수집(API 있음),applications/{id}/federatedIdentityCredentials,1
-microsoft,Integration / Automation,application.web.redirectUris,Application (필드 없음) / ServicePrincipal.replyUrls,필드 없음,"M365-05, M365-06",1
+microsoft,Integration / Automation,application.passwordCredentials / keyCredentials,AppCredential,수집 중,"M365-05, M365-06",3
+microsoft,Integration / Automation,federatedIdentityCredential,FederatedIdentityCredential,수집 중,M365-05,1
+microsoft,Integration / Automation,application.web.redirectUris,Application; ServicePrincipal,수집 중,"M365-05, M365-06",1
 microsoft,Integration / Automation,servicePrincipal,ServicePrincipal,수집 중,M365-06,9
 microsoft,Integration / Automation,appRoleAssignment (애플리케이션 권한),AppRoleAssignment,수집 중,M365-06,3
 microsoft,Integration / Automation,oAuth2PermissionGrant (위임 동의),OAuth2PermissionGrant,수집 중,M365-07,6
-microsoft,Integration / Automation,teamsAppInstallation / resourceSpecificPermissionGrant,,미수집(API 있음),"teams/{id}/installedApps, permissionGrants",2
+microsoft,Integration / Automation,teamsAppInstallation / resourceSpecificPermissionGrant,TeamsAppInstallation; ResourceSpecificPermissionGrant,수집 중,M365-26,2
 microsoft,Integration / Automation,subscription (Graph 변경 알림 웹훅),,API 밖,"앱 자기 구독만 조회 가능, 테넌트 전체 목록 API 없음",1
 microsoft,Integration / Automation,Power Automate 흐름 / 연결(connection),,API 밖,Power Platform 관리 API,4
-microsoft,Integration / Automation,Copilot Studio 에이전트 / Graph 커넥터(externalConnection),,미수집(API 있음),"external/connections, Copilot Studio 는 Power Platform",2
+microsoft,Integration / Automation,Copilot Studio 에이전트 / Graph 커넥터(externalConnection),ExternalConnection,수집 중,M365-27 (Graph 커넥터만. Copilot Studio 는 Power Platform) [11-24 출력 0건],2
 microsoft,Policy / Configuration,conditionalAccessPolicy,ConditionalAccessPolicy,수집 중,M365-11,7
 microsoft,Policy / Configuration,namedLocation,NamedLocation,수집 중,M365-11,2
-microsoft,Policy / Configuration,"authorizationPolicy (사용자 기본 권한, 게스트, 초대, 동의)",,미수집(API 있음),policies/authorizationPolicy,4
-microsoft,Policy / Configuration,authenticationMethodsPolicy,,미수집(API 있음),policies/authenticationMethodsPolicy,2
-microsoft,Policy / Configuration,identitySecurityDefaultsEnforcementPolicy,,미수집(API 있음),policies/identitySecurityDefaultsEnforcementPolicy,1
-microsoft,Policy / Configuration,permissionGrantPolicy / adminConsentRequestPolicy,,미수집(API 있음),"policies/permissionGrantPolicies, policies/adminConsentRequestPolicy",2
-microsoft,Policy / Configuration,tokenLifetimePolicy / claimsMappingPolicy / homeRealmDiscoveryPolicy,,미수집(API 있음),policies/*,2
+microsoft,Policy / Configuration,"authorizationPolicy (사용자 기본 권한, 게스트, 초대, 동의)",AuthorizationPolicy,수집 중,M365-23,4
+microsoft,Policy / Configuration,authenticationMethodsPolicy,AuthenticationMethodsPolicy; AuthenticationMethodConfiguration,수집 중,M365-23,2
+microsoft,Policy / Configuration,identitySecurityDefaultsEnforcementPolicy,SecurityDefaultsPolicy,수집 중,M365-23,1
+microsoft,Policy / Configuration,permissionGrantPolicy / adminConsentRequestPolicy,PermissionGrantPolicy; AdminConsentRequestPolicy,수집 중,M365-23,2
+microsoft,Policy / Configuration,tokenLifetimePolicy / claimsMappingPolicy / homeRealmDiscoveryPolicy,TokenPolicy,수집 중,M365-24 [11-24 출력 0건],2
 microsoft,Policy / Configuration,통합 감사 설정 / 메일박스 감사 / 감사 보존,,API 밖,"Exchange Online PowerShell, Purview",4
 microsoft,Policy / Configuration,Entra 진단 설정 (로그 전송),,API 밖,Azure Resource Manager microsoft.aadiam/diagnosticSettings,1
 microsoft,Policy / Configuration,Defender 경고 정책 / 억제 규칙,,API 밖,"Defender 포털, Security & Compliance PowerShell",1
@@ -48,10 +48,10 @@ microsoft,Policy / Configuration,Purview DLP 정책,,API 밖,Security & Complian
 microsoft,Policy / Configuration,sensitivityLabel,,미수집(API 있음),security/dataSecurityAndGovernance/sensitivityLabels,1
 microsoft,Policy / Configuration,"Exchange 조직 설정 (원격 도메인 자동 전달, SMTP AUTH, 공유 정책, 스팸 정책)",,API 밖,Exchange Online PowerShell,5
 microsoft,Policy / Configuration,Exchange 메일 흐름 규칙 (transport rule),,API 밖,Exchange Online PowerShell,2
-microsoft,Policy / Configuration,"sharepointSettings (테넌트 외부 공유 수준, 기본 링크)",,미수집(API 있음),admin/sharepoint/settings,5
+microsoft,Policy / Configuration,"sharepointSettings (테넌트 외부 공유 수준, 기본 링크)",SharePointSettings,수집 중,M365-28,5
 microsoft,Policy / Configuration,Teams 외부 액세스 / 앱 정책 / 회의 정책,,API 밖,Teams PowerShell,3
 microsoft,Policy / Configuration,Power Platform DLP / 테넌트 격리 / 환경 생성 권한,,API 밖,Power Platform 관리 API,2
-microsoft,Policy / Configuration,"도메인 DNS (SPF, DKIM, DMARC)",Domain (필드 없음),API 밖,"DNS 조회, Exchange DKIM 설정",1
+microsoft,Policy / Configuration,"도메인 DNS (SPF, DKIM, DMARC)",Domain,수집 중,M365-34,1
 microsoft,Identity / Access,accessPackage / accessPackageAssignmentPolicy / connectedOrganization,,미수집(API 있음),identityGovernance/entitlementManagement,1
 microsoft,Policy / Configuration,accessReviewScheduleDefinition,,미수집(API 있음),identityGovernance/accessReviews/definitions,1
 microsoft,Integration / Automation,identityGovernance.workflow (수명 주기 워크플로),,미수집(API 있음),identityGovernance/lifecycleWorkflows/workflows,1
@@ -84,7 +84,7 @@ microsoft,Resource,"channel (표준, 비공개, 공유)",Channel,수집 중,M365
 microsoft,Resource,chat / chatMessage,,미수집(API 있음),내용 수집 안 함(의도),1
 microsoft,Resource,mailbox / message,,미수집(API 있음),"본문 수집 안 함(의도), Mail.Read 없음",5
 microsoft,Resource,"메일박스 위임 권한 (FullAccess, SendAs, 폴더 권한)",,API 밖,Exchange Online PowerShell,1
-microsoft,Resource,messageRule (받은편지함 규칙) / mailboxSettings 전달,,미수집(API 있음),users/{id}/mailFolders/inbox/messageRules (MailboxSettings.Read),1
+microsoft,Resource,messageRule (받은편지함 규칙) / mailboxSettings 전달,MessageRule,수집 중,M365-29 [11-24 출력 0건],1
 microsoft,Resource,device,Device,수집 중,M365-12,2
-microsoft,Resource,bitlockerRecoveryKey,,미수집(API 있음),informationProtection/bitlocker/recoveryKeys,1
-microsoft,Resource,deviceLocalCredentialInfo (Windows LAPS),,미수집(API 있음),directory/deviceLocalCredentials,1
+microsoft,Resource,bitlockerRecoveryKey,BitlockerRecoveryKey,수집 중,M365-31 [11-24 출력 0건],1
+microsoft,Resource,deviceLocalCredentialInfo (Windows LAPS),DeviceLocalCredential,수집 중,M365-31 [11-24 출력 0건],1
