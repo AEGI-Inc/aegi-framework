@@ -1,0 +1,153 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/salesforce/profiles/group_member.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SF-06
+        items: records
+        where:
+          path: attributes.type
+          eq: GroupMember
+    id_expr: Id
+    vars:
+      member:
+        op: str
+        of:
+          any:
+            - UserOrGroupId
+          empty_as: ""
+      kind:
+        op: map
+        of:
+          op: slice
+          of: $vars.member
+          start: 0
+          end: 3
+        table:
+          "005": user
+          00G: group
+        default:
+          const: none
+      group_name:
+        ref:
+          type: Group
+          id: GroupId
+        prop: name
+    require:
+      all:
+        - has:
+            type: Group
+            id: GroupId
+        - path: $vars.kind
+          ne: none
+    parent:
+      ref:
+        type: Group
+        id: GroupId
+      when: always
+    refs:
+      member:
+        ref:
+          switch: $vars.kind
+          cases:
+            user:
+              type: User
+              id: $vars.member
+            group:
+              type: Group
+              id: $vars.member
+    display: "{$vars.group_name|GroupId} ← {$vars.member}"
+    relations:
+      - type: member_of
+        source:
+          switch: $vars.kind
+          cases:
+            user:
+              type: User
+              id: $vars.member
+            group:
+              type: Group
+              id: $vars.member
+        target:
+          type: Group
+          id: GroupId
+        basis: stated
+        properties:
+          via_assignment: $self
+    identity:
+      primary:
+        - name: id
+          expr: Id
+          stability: catalog_reviewed
+          normalization: &a1
+            - to_18_char
+      scope: tenant
+    key_template: SF-GM-{id}
+runtime_stub: null
+runtime_key: SF-GM-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+    normalization: *a1
+relation_rules:
+  - id: GroupMember:list
+    sources:
+      - call: SF-06
+        items: records
+        where:
+          path: attributes.type
+          eq: GroupMember
+    vars:
+      member:
+        op: str
+        of:
+          any:
+            - UserOrGroupId
+          empty_as: ""
+      kind:
+        op: map
+        of:
+          op: slice
+          of: $vars.member
+          start: 0
+          end: 3
+        table:
+          "005": user
+          00G: group
+        default:
+          const: none
+      group_name:
+        ref:
+          type: Group
+          id: GroupId
+        prop: name
+    require:
+      all:
+        - has:
+            type: Group
+            id: GroupId
+        - path: $vars.kind
+          ne: none
+    relations:
+      - type: member_of
+        source:
+          switch: $vars.kind
+          cases:
+            user:
+              type: User
+              id: $vars.member
+            group:
+              type: Group
+              id: $vars.member
+        target:
+          type: Group
+          id: GroupId
+        basis: stated
+        properties:
+          via_assignment: $self
+    self_identity: object_rule

@@ -1,0 +1,101 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: cloudresourcemanager
+object_type: Project
+interfaces: [Tenant]
+# 근거: Resource Manager v3 Project 스키마(Discovery 문서). 저장된 실제 응답은 없다(명세에만 있음, 우리 환경 미조회).
+# 호출 ID GCP-01 과 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# 조직·폴더는 객체로 만들지 않고 parent 속성으로만 둔다(테넌트 해석이 처음 만나는 Tenant 하나만 잡는다).
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: GCP-PROJ-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-01
+        request: {kind: project}
+        items: (root)
+    id_expr: name
+    mutable_ids:
+      project_id: projectId
+    properties:
+      projectId: projectId
+      displayName: displayName
+      state: state
+      parent: parent
+      createTime: createTime
+      updateTime: updateTime
+      deleteTime: deleteTime
+      labels: labels
+      etag: etag
+    display: "{displayName|projectId|name}"
+    relations: []
+  # 프로젝트에 효력이 있는 IAM 명단(Cloud Asset effectiveIamPolicies). 수집기가 층별 정책을 바인딩 목록으로 펴서
+  # 바인딩마다 어느 자원에 붙었는지(attached_resource)와 위에서 내려온 것인지(inherited)를 단다.
+  # bindings[] × members[] 한 줄이 has_role_on 하나이고, 폴더·조직에서 내려온 줄에는 출처(inherited_from)가 붙는다.
+  # 근거: 바인딩 모양은 2026-11-18 조직 getIamPolicy 실제 응답, 층 구조는 Cloud Asset 문서. 실제 effectiveIamPolicies 응답은 받아 보지 않았다
+  - id: effective_iam
+    kind: relation
+    sources:
+      - call: GCP-01
+        request: {kind: effective_iam}
+        items: bindings
+        each: members
+    vars:
+      mtype:
+        any:
+          - {op: regex, of: ".", pattern: "^([A-Za-z]+):"}
+        empty_as: special
+      mvalue:
+        any:
+          - {op: regex, of: ".", pattern: "^[A-Za-z]+:(.+)$"}
+          - "."
+    relations:
+      - type: has_role_on
+        when: {not: {all: [{path: $vars.mtype, eq: serviceAccount}, {has: {type: ServiceAccount, lookup: email, value: $vars.mvalue}}]}}
+        source:
+          type: IamMember
+          id: "."
+          create:
+            rule: make
+            record:
+              object:
+                member: "."
+                member_type: $vars.mtype
+                value: $vars.mvalue
+        target: {type: Project, id: $req.project}
+        role:
+          ref: {type: Role, id: $parent.role}
+          name: $parent.role
+        basis: stated
+        membership_enforced: true
+        properties:
+          role: $parent.role
+          condition_title: $parent.condition.title
+          condition_expression: $parent.condition.expression
+          inherited_from: {if: {path: $parent.inherited, truthy: true}, then: $parent.attached_resource}
+        require: [source, target]
+      # 주체가 수집된 서비스 계정이면 그 ServiceAccount 객체가 출발점이다
+      - type: has_role_on
+        when: {all: [{path: $vars.mtype, eq: serviceAccount}, {has: {type: ServiceAccount, lookup: email, value: $vars.mvalue}}]}
+        source: {type: ServiceAccount, lookup: email, value: $vars.mvalue}
+        target: {type: Project, id: $req.project}
+        role:
+          ref: {type: Role, id: $parent.role}
+          name: $parent.role
+        basis: stated
+        membership_enforced: true
+        properties:
+          role: $parent.role
+          condition_title: $parent.condition.title
+          condition_expression: $parent.condition.expression
+          inherited_from: {if: {path: $parent.inherited, truthy: true}, then: $parent.attached_resource}
+        require: [source, target]

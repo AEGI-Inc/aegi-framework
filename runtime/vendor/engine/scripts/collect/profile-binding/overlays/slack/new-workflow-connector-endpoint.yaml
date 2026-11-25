@@ -1,0 +1,84 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: slack
+object_type: WorkflowConnectorEndpoint
+interfaces: [Endpoint]
+model:
+  runtime_type_id: automation-source-bindings/1:slack:WorkflowConnectorEndpoint
+  source: aegi-knowledge/schema/ontology/automation-sources.yaml
+identity:
+  primary:
+    - {name: workflow, expr: $parent.id, stability: stable}
+    - {name: step, expr: id, stability: stable}
+  scope: parent
+fields: {}
+runtime_key: SLK-WF-CONN-{workflow}-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+# Slack 워크플로 단계 가운데 다른 SaaS 커넥터 단계(GitHub 이슈 만들기, Jira 이슈 만들기, Google Sheets 행 더하기)마다 통로 하나.
+# 단계 입력에 보낼 곳(저장소 주소, Jira 사이트와 프로젝트 키, 스프레드시트 id)을 글자로 넣은 단계만 만든다.
+# 변수({{...}})로 넣은 값은 어디로 가는지 모르니 만들지 않는다. 단계는 워크플로가 아니라 커넥터 토큰(END_USER · BUILDER 등)으로 부른다
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-17
+        items: workflows
+        each: steps
+        where:
+          all:
+            - {path: $parent.id, present: true}
+            - {path: id, present: true}
+            - any:
+                - {path: inputs.repository.value, matches: '^https://api\.github\.com/repos/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+/?$'}
+                - all:
+                    - {path: inputs.project.value, matches: '^[A-Z][A-Z0-9_]{0,9}$'}
+                    - {path: inputs.jira_domain.value, matches: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'}
+                - {path: inputs.spreadsheet_id.value, matches: '^[A-Za-z0-9_-]+$'}
+    id_expr: id
+    parts:
+      workflow: $parent.id
+    parent:
+      ref:
+        type: 200.workflows[*]
+        id: $parent.id
+      when: always
+    properties:
+      workflow_id: $parent.id
+      step_id: id
+      function_id: {op: null_if_missing, of: function_id}
+      github_repo: {op: regex, of: inputs.repository.value, pattern: '^https://api\.github\.com/repos/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)/?$'}
+      jira_cloud_id: {op: regex, of: inputs.jira_domain.value, pattern: '^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$'}
+      jira_project_key:
+        if:
+          path: inputs.jira_domain.value
+          present: true
+        then: {op: regex, of: inputs.project.value, pattern: '^([A-Z][A-Z0-9_]{0,9})$'}
+        else: {const: null}
+      gws_file_id: {op: regex, of: inputs.spreadsheet_id.value, pattern: '^([A-Za-z0-9_-]+)$'}
+      credential_source:
+        any:
+          - inputs.github_access_token.value.credential_source
+          - inputs.atlassian_access_token.value.credential_source
+          - inputs.google_access_token.value.credential_source
+      user_context_source:
+        any:
+          - inputs.github_access_token.value.user_context_source
+          - inputs.atlassian_access_token.value.user_context_source
+          - inputs.google_access_token.value.user_context_source
+      external_token_id:
+        any:
+          - inputs.github_access_token.value.external_token_id
+          - inputs.atlassian_access_token.value.external_token_id
+          - inputs.google_access_token.value.external_token_id
+      direction: {const: out}
+    display: "워크플로 {$parent.title|$parent.id} 커넥터 단계 {function_id|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: 200.workflows[*]
+          id: $parent.id
+        basis: stated
+        require: [target]

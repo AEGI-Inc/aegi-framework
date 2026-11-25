@@ -1,0 +1,115 @@
+# Salesforce 사전 v0 (2026-10-12)
+# 자료: Object Reference for the Salesforce Platform (공식 PDF). sObject 의 Supported Calls 를 표준 REST 동작으로 펼친다.
+
+
+# 권한 필드 묶음을 한 줄로 적은 자리. PDF 는 PermissionSet, Profile 의 수백 개 권한 필드를 이 이름 하나로 적는다 (2026-10-13)
+permission_family_fields: [PermissionsPermissionName]
+
+# Tenant 임시 (Organization 객체)
+scope_spaces: [organization]
+
+vendor_hosts: [salesforce.com, force.com, my.salesforce.com]
+
+collect_tiers: []
+default_tier: standard_token
+
+# EventLogFile 필드 이름 -> 공간 (2026-10-14). 대문자 밑줄 이름이라 꼬리 규칙이 안 맞는다. 공간이 있는 것만
+field_space:
+  ACTUAL_LOGGED_IN_USER_ID: user
+  ARTICLE_ID: knowledgearticle
+  ARTICLE_VERSION_ID: knowledgearticleversion
+  ASSET_ID: asset
+  AUTHENTICATION_SERVICE_ID: authprovider
+  BATCH_ID: asyncapexjob
+  CONNECTED_APP_ID: connectedapplication
+  DASHBOARD_COMPONENT_ID: dashboardcomponent
+  DASHBOARD_ID: dashboard
+  DASHBOARD_ID_DERIVED: dashboard
+  DELEGATED_USER_ID: user
+  DELEGATED_USER_ID_DERIVED: user
+  DOCUMENT_ID: document
+  DOCUMENT_ID_DERIVED: document
+  EFFECTIVE_ACCOUNT_ID: account
+  GROUP_ID: group
+  JOB_ID: asyncapexjob
+  KEY_ID: tenantsecret
+  KEY_ID_DERIVED: tenantsecret
+  MASTER_REPORT_ID: report
+  NETWORK_ID: network
+  ORGANIZATION_ID: organization
+  POLICY_ID: transactionsecuritypolicy
+  POLICY_ID_DERIVED: transactionsecuritypolicy
+  REPORT_ID: report
+  REPORT_ID_DERIVED: report
+  SAVED_VIEW_ID: listview
+  SITE_ID: site
+  USER_ID: user
+  USER_ID_DERIVED: user
+  VIEWING_USER_ID: user
+  WEBSTORE_ID: webstore
+
+# EventLogFile 유형은 범주가 하나(event_log_file)다. 이름의 명사로 공간을 정한다 (info_map.py audit_space_from_name)
+audit_space_from_name: true
+action_stop_extra: [api, event, apex, lightning, wave, ui, external]
+
+# ID 공간 설명 (2026-10-14). 정보 지도 화면과 인계 문서가 쓴다.
+# 형식: "설명 | 상태". 상태: 대상 = Object 로 볼 만함, 확인 = 묶음이나 범위를 정해야 함, 의심 = 독립 대상이 아닐 수 있음
+space_notes:
+  user: "Salesforce 사용자 계정 (005 접두사). 로그인 및 권한 주체 | 대상"
+  group: "공용 그룹 및 큐 (00G 접두사). 공유 및 배정 대상 | 대상"
+  profile: "사용자 프로필 (00e 접두사). 기본 권한 및 페이지 레이아웃 정의 | 대상"
+  permissionset: "권한 집합 (0PS 접두사). 추가 기능 및 권한을 부여하는 정책 | 대상"
+  permissionsetassignment: "사용자에게 권한 집합을 배정하는 관계 레코드 | 대상"
+  permissionsetlicenseassign: "사용자에게 권한 집합 라이선스를 배정하는 관계 레코드 | 대상"
+  mutingpermissionset: "권한 집합 그룹에서 특정 권한을 차단하는 음소거 정책 | 대상"
+  objectpermissions: "권한 집합 또는 프로필 내 객체별 CRUD 권한 정의 | 대상"
+  groupmember: "공용 그룹 또는 큐의 구성원 매핑 | 대상"
+  account: "고객/기업 계정 레코드 (001 접두사). 핵심 비즈니스 리소스 | 대상"
+  contact: "계정에 속한 연락처/개인 (003 접두사) | 대상"
+  lead: "영업 리드/잠재 고객 (00Q 접두사) | 대상"
+  opportunity: "영업 기회 (006 접두사) | 대상"
+  case: "고객 지원 케이스/티켓 (500 접두사) | 대상"
+  asset: "고객에게 판매되거나 설치된 자산 (02i 접두사) | 대상"
+  contract: "비즈니스 계약 레코드 (800 접두사) | 대상"
+  campaign: "마케팅 캠페인 레코드 (701 접두사) | 대상"
+  connectedapp: "Connected App 외부 연동 애플리케이션 설정 (OAuth, SAML 등) | 대상"
+  namedcredential: "외부 서비스 호출을 위한 인증 정보 및 엔드포인트 정의 | 대상"
+  authprovider: "소셜 로그인 및 SSO를 위한 외부 인증 제공자 설정 | 대상"
+  corswhitelistorigin: "CORS 허용 도메인 오리진 설정 | 대상"
+  corswhitelistentry: "CORS 허용 목록 엔트리 (sObject 레코드) | 대상"
+  remotesitesetting: "Apex 및 웹에서 호출 가능한 외부 원격 사이트 URL 설정 | 대상"
+  csptrustedsite: "Lightning 컴포넌트용 CSP 신뢰 사이트 설정 | 대상"
+  externalcredential: "외부 시스템 접근 자격 증명 (Named Credential과 연계) | 대상"
+  externalclientapplication: "차세대 외부 클라이언트 애플리케이션 메타데이터 | 대상"
+  oauthcustomscope: "사용자 정의 OAuth 스코프 정의 | 대상"
+  profilesessionsetting: "프로필별 세션 타임아웃 및 보안 수준 설정 | 대상"
+  transactionsecuritypolicy: "실시간 이벤트 기반 보안 정책 (차단, 알림, 2FA 요구) | 대상"
+  certificate: "SAML 및 API 상호 인증용 보안 인증서/키 | 대상"
+  tenantsecret: "Shield Platform Encryption 암호화 테넌트 시크릿 키 | 대상"
+  organization: "Salesforce 조직(테넌트) 정보 및 전역 설정 | 대상"
+  network: "Experience Cloud 디지털 경험/커뮤니티 사이트 | 대상"
+  site: "Force.com 공개 웹사이트 설정 | 대상"
+  document: "클래식 문서 저장소 파일 레코드 | 대상"
+  contentdocument: "Salesforce Files 문서 메타데이터 | 대상"
+  contentversion: "Salesforce Files 문서 버전 레코드 | 대상"
+  contentworkspace: "문서 라이브러리/워크스페이스 | 대상"
+  contentworkspacemember: "라이브러리 구성원 및 접근 권한 배정 | 대상"
+  contentworkspacepermission: "라이브러리 접근 권한 템플릿 | 대상"
+  caseteammember: "지원 케이스 팀 구성원 배정 | 대상"
+  event: "달력 일정 이벤트 활동 레코드 | 확인"
+  task: "할 일/과업 활동 레코드 | 확인"
+  eventlogfile: "감사 및 모니터링 이벤트 로그 파일 | 확인"
+  setupaudittrail: "관리자 설정 변경 이력 감사 로그 | 확인"
+  report: "Salesforce 분석 리포트 정의 | 대상"
+  dashboard: "리포트 차트 대시보드 | 대상"
+  listview: "객체별 레코드 목록 뷰 설정 | 확인"
+  apexclass: "Apex 소스 코드 클래스 정의 | 대상"
+  apextrigger: "Apex 데이터 트리거 정의 | 대상"
+  emailtemplate: "이메일 템플릿 메타데이터 | 대상"
+  businesshours: "지원 업무 시간 설정 | 확인"
+
+
+# 스키마 계열 우선 공간 (2026-10-14, extract.py schema_spaces). sObject 정의가 곧 스키마라 대부분 그대로다. 결과 out/salesforce/space_rebuild.json
+space_from_schema: true
+record_key_fields: [Id]
+schema_affixes: []

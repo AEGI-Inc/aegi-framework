@@ -1,0 +1,239 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/policy.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-24
+        items: policies
+        where:
+          path: name
+          truthy: true
+    id_expr: name
+    vars:
+      gid:
+        op: strip_prefix
+        of:
+          op: str
+          of:
+            any:
+              - policyQuery.group
+            empty_as: ""
+        prefix: groups/
+      ouid:
+        op: strip_prefix
+        of:
+          op: str
+          of:
+            any:
+              - policyQuery.orgUnit
+            empty_as: ""
+        prefix: orgUnits/
+      target:
+        if:
+          all:
+            - path: $vars.gid
+              truthy: true
+            - has:
+                type: Group
+                id: $vars.gid
+        then:
+          const: group
+        else:
+          if:
+            all:
+              - path: $vars.ouid
+                truthy: true
+              - has:
+                  type: OrgUnit
+                  id:
+                    template: id:{$vars.ouid}
+          then:
+            const: ou_prefixed
+          else:
+            if:
+              all:
+                - path: $vars.ouid
+                  truthy: true
+                - has:
+                    type: OrgUnit
+                    id: $vars.ouid
+            then:
+              const: ou
+            else:
+              # 루트 OU 는 OU 목록 API 가 돌려주지 않는다. 하위 OU 의 상위(경로 /)가 이 id 이면 루트 OU 이고, 루트 OU 정책은 고객 전체에 걸린다.
+              # 그룹을 지정한 정책은 그 그룹 구성원에게만 걸리므로, 그룹이 수집되지 않았다고 고객 전체로 넓히지 않는다
+              if:
+                all:
+                  - path: $vars.gid
+                    truthy: false
+                  - path: $vars.ouid
+                    truthy: true
+                  - path:
+                      op: some
+                      of:
+                        op: objects
+                        type: OrgUnit
+                      where:
+                        all:
+                          - path: $item.properties.parentOrgUnitPath
+                            eq: /
+                          - path: $item.properties.parentOrgUnitId
+                            eq_expr:
+                              template: id:{$vars.ouid}
+                    truthy: true
+              then:
+                const: root_ou
+    properties:
+      setting_type: setting.type
+      setting_value:
+        op: null_if_missing
+        of: setting.value
+      policy_type:
+        op: null_if_missing
+        of: type
+      query:
+        op: null_if_missing
+        of: policyQuery.query
+      org_unit:
+        op: null_if_missing
+        of: policyQuery.orgUnit
+      group:
+        if:
+          path: policyQuery.group
+          truthy: true
+        then: policyQuery.group
+        else:
+          const: null
+      sort_order:
+        op: null_if_missing
+        of: policyQuery.sortOrder
+    display: 정책 {setting.type|name}
+    relations:
+      - type: applies_to
+        source: $self
+        target:
+          switch: $vars.target
+          cases:
+            group:
+              type: Group
+              id: $vars.gid
+            ou_prefixed:
+              type: OrgUnit
+              id:
+                template: id:{$vars.ouid}
+            ou:
+              type: OrgUnit
+              id: $vars.ouid
+            root_ou: $tenant
+        basis: stated
+        properties:
+          binding:
+            if:
+              path: policyQuery.group
+              truthy: true
+            then:
+              const: group
+            else:
+              const: org_unit
+    identity:
+      primary:
+        - name: id
+          expr: name
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-POLICY-{id}
+runtime_stub: null
+runtime_key: GWS-POLICY-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Policy:list
+    sources:
+      - call: GW-24
+        items: policies
+        where:
+          path: name
+          truthy: true
+    vars:
+      gid:
+        op: strip_prefix
+        of:
+          op: str
+          of:
+            any:
+              - policyQuery.group
+            empty_as: ""
+        prefix: groups/
+      ouid:
+        op: strip_prefix
+        of:
+          op: str
+          of:
+            any:
+              - policyQuery.orgUnit
+            empty_as: ""
+        prefix: orgUnits/
+      target:
+        if:
+          all:
+            - path: $vars.gid
+              truthy: true
+            - has:
+                type: Group
+                id: $vars.gid
+        then:
+          const: group
+        else:
+          if:
+            all:
+              - path: $vars.ouid
+                truthy: true
+              - has:
+                  type: OrgUnit
+                  id:
+                    template: id:{$vars.ouid}
+          then:
+            const: ou_prefixed
+          else:
+            if:
+              all:
+                - path: $vars.ouid
+                  truthy: true
+                - has:
+                    type: OrgUnit
+                    id: $vars.ouid
+            then:
+              const: ou
+    relations:
+      - type: applies_to
+        source: $self
+        target:
+          switch: $vars.target
+          cases:
+            group:
+              type: Group
+              id: $vars.gid
+            ou_prefixed:
+              type: OrgUnit
+              id:
+                template: id:{$vars.ouid}
+            ou:
+              type: OrgUnit
+              id: $vars.ouid
+        basis: stated
+        properties:
+          binding:
+            if:
+              path: policyQuery.group
+              truthy: true
+            then:
+              const: group
+            else:
+              const: org_unit
+    self_identity: object_rule

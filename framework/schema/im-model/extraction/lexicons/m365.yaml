@@ -1,0 +1,100 @@
+# Microsoft 365 (Microsoft Graph v1.0) 수집 범위 설정 (2026-11-20)
+# 판정 사전이 아니라 수집 범위 설정이다 (IR 설계.md 11절).
+# 경로 첫 조각(괄호 앞, 예: /applications(appId='{appId}') -> applications) 기준.
+
+scope:
+  include_first_segments:
+    - users
+    - groups
+    - applications
+    - servicePrincipals
+    - applicationTemplates
+    - servicePrincipalsWithAppId
+    - directoryObjects
+    - directoryRoles
+    - directoryRoleTemplates
+    - roleManagement
+    - directory
+    - organization
+    - domains
+    - subscribedSkus
+    - contracts
+    - devices
+    - oauth2PermissionGrants
+    - permissionGrants
+    - identity
+    - policies
+    - identityGovernance
+    - identityProtection
+    - tenantRelationships
+    - invitations
+    - auditLogs
+    - admin
+    - agreements
+    - groupSettings
+    - groupSettingTemplates
+    - schemaExtensions
+    - sites
+    - drives
+    - shares
+    - teams
+    - teamwork
+    - chats
+    - connections
+    - external
+    - subscriptions
+    - deviceManagement
+    - deviceAppManagement
+    - security
+    - informationProtection
+    - copilot
+
+  exclude_prefixes:
+    - segment: me
+      reason: "/users/{user-id} 와 같은 대상의 별칭이라 중복"
+
+  exclude_subpaths:
+    - pattern: "sites/{}/lists"
+      reason: "사용자 결정(11-20)으로 제외한 서비스 (SharePoint Lists)"
+
+  exclude_segments:
+    # 사용자 결정(11-20)으로 제외한 서비스
+    - segment: onenote
+      reason: "사용자 결정(11-20)으로 제외한 서비스 (OneNote)"
+    - segment: planner
+      reason: "사용자 결정(11-20)으로 제외한 서비스 (Planner)"
+    - segment: forms
+      reason: "사용자 결정(11-20)으로 제외한 서비스 (Forms)"
+    - segment: loop
+      reason: "사용자 결정(11-20)으로 제외한 서비스 (Loop)"
+    # 일정·연락처·개인 기록
+    - segment: calendar
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: calendars
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: calendarView
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: calendarGroups
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: events
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: contacts
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: contactFolders
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: todo
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: insights
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: people
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: presence
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: onlineMeetings
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: employeeExperience
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: solutions
+      reason: "일정·연락처·개인 기록 제외"
+    - segment: cloudClipboard
+      reason: "일정·연락처·개인 기록 제외"

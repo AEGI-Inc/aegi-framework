@@ -1,0 +1,107 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/oauth2_refresh_token.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-09
+        request:
+          client: present
+    vars:
+      client:
+        op: str
+        of:
+          any:
+            - clientId
+            - $req.client
+    parent:
+      ref:
+        type: User
+        id: $req.user
+    refs:
+      client:
+        ref:
+          type: Application
+          id: $vars.client
+        value: $vars.client
+    properties:
+      clientId: $vars.client
+      status: status
+      scopes: scopes
+      created: created
+      expiresAt: expiresAt
+      issuer: issuer
+    display: refresh token ({$vars.client})
+    relations:
+      - type: authenticates_with
+        source:
+          type: User
+          id: $req.user
+        target: $self
+        basis: stated
+      - type: owned_by
+        source: $self
+        target:
+          type: Application
+          id: $vars.client
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-RT-{id}
+runtime_stub: null
+runtime_key: OKTA-RT-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: OAuth2RefreshToken:list
+    sources:
+      - call: OK-09
+        request:
+          client: present
+    vars:
+      client:
+        op: str
+        of:
+          any:
+            - clientId
+            - $req.client
+    relations:
+      - type: authenticates_with
+        source:
+          type: User
+          id: $req.user
+        target: $self
+        basis: stated
+      - type: owned_by
+        source: $self
+        target:
+          type: Application
+          id: $vars.client
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: OKTA-RT-{id}
+    replaced:
+      - $req.parent_id
+      - id
+# Profile 상수: knowledge schema/catalog/okta/research.json 의 OAuth2RefreshToken decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml owned_by.app_refresh_token)이 이 값으로 고른다
+constants:
+  credential_kind:
+    const: bearer_token

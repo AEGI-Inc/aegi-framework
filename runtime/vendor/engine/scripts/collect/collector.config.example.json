@@ -1,0 +1,136 @@
+{
+  "since": "2026-09-17T00:00:00Z",
+  "github": {
+    "org": "<실험 조직 login>",
+    "enterprise": "<엔터프라이즈 slug>",
+    "repos": [
+      "<수집할 저장소 1>",
+      "<수집할 저장소 2>"
+    ],
+    "maxCommitDetails": 200
+  },
+  "okta": {
+    "orgHost": "trial-0000000.okta.com",
+    "scopes": [
+      "okta.orgs.read",
+      "okta.users.read",
+      "okta.groups.read",
+      "okta.roles.read",
+      "okta.apps.read",
+      "okta.clients.read",
+      "okta.logs.read",
+      "okta.schemas.read"
+    ],
+    "policyTypes": [
+      "OKTA_SIGN_ON",
+      "ACCESS_POLICY",
+      "MFA_ENROLL",
+      "PASSWORD"
+    ]
+  },
+  "slack": {
+    "teamId": "<T…>",
+    "enterpriseId": "<E…>",
+    "extraChannels": [
+      "<#eng-support C…>",
+      "<#dev-automation C…>",
+      "<#helpdesk C…>",
+      "<#sales-customer-intake C…>"
+    ],
+    "appIds": [
+      "<DevBot A…>",
+      "<MFA Reset A…>",
+      "<Customer Intake Sync A…>"
+    ],
+    "usergroupIds": [
+      "<Okta Group Push 로 만든 IdP 그룹 S… (선택)>"
+    ],
+    "idpUsergroupIds": [],
+    "integrationLogs": false
+  },
+  "gws": {
+    "adminSubject": "<읽기 전용 관리자 이메일>",
+    "driveUsers": [
+      "<원본 소유자>",
+      "<수신자 F>"
+    ],
+    "forms": [
+      {
+        "id": "<formId>",
+        "owner": "<E 이메일>"
+      }
+    ],
+    "scripts": [
+      {
+        "id": "<scriptId>",
+        "owner": "<E 이메일>"
+      }
+    ],
+    "reportApplications": [
+      "drive",
+      "token:authorize",
+      "login",
+      "admin",
+      "groups"
+    ],
+    "grantedScopes": [],
+    "licenseProducts": ["Google-Apps"]
+  },
+  "salesforce": {
+    "apiVersion": "61.0",
+    "auditDays": 180
+  },
+  "atlassian": {
+    "jira": true,
+    "confluence": true,
+    "audit": false,
+    "orgId": "<admin.atlassian.com/o/ 뒤의 조직 id>"
+  },
+  "worker": {
+    "baseUrl": "https://<worker>.workers.dev",
+    "tables": [
+      "slash-requests",
+      "github-webhooks",
+      "oauth-callbacks"
+    ]
+  },
+  "aws": {
+    "region": "ap-northeast-2",
+    "accountId": "123456789012"
+  },
+  "gcp": {
+    "projects": ["example-project"],
+    "discoveryLocations": ["global"],
+    "regions": ["us-central1"]
+  },
+  "microsoft": {
+    "tenantId": "00000000-0000-0000-0000-000000000000"
+  },
+  "normalize": {
+    "people": {
+      "admin": "<관리자 이메일>",
+      "A": "<A 이메일>",
+      "B": "<B 이메일>",
+      "C": "<C 이메일>",
+      "D": "<D 이메일>",
+      "E": "<E 이메일>",
+      "F": "<F 이메일>",
+      "target": "<리셋 대상 이메일>"
+    },
+    "accounts": {
+      "A": {
+        "github": "<A GitHub login>",
+        "slack": "<U…>"
+      }
+    },
+    "sensitivePaths": [
+      "scenario-lab/logging/**",
+      "scenario-lab/auth/**"
+    ],
+    "measurementPrincipals": {
+      "slack": [
+        "<수집 봇 사용자 id U…>"
+      ]
+    }
+  }
+}

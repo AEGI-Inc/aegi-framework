@@ -1,0 +1,46 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: discoveryengine
+object_type: BillingAccountLicenseConfig
+interfaces: [Policy]
+# 근거: Discovery Engine v1alpha Discovery 문서의 GoogleCloudDiscoveryengineV1alphaBillingAccountLicenseConfig 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-03 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# 결제 계정 아래에 있어 프로젝트 경로가 없다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-GE-BALICENSE-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-03
+        request: {kind: billing_account_license_configs}
+        items: billingAccountLicenseConfigs
+    id_expr: name
+    properties:
+      earlyTerminationDate: earlyTerminationDate
+      subscriptionName: subscriptionName
+      autoRenew: autoRenew
+      subscriptionTier: subscriptionTier
+      licenseConfigDistributions: licenseConfigDistributions
+      subscriptionTerm: subscriptionTerm
+      licenseCount: licenseCount
+      geminiBundle: geminiBundle
+      earlyTerminated: earlyTerminated
+      startDate: startDate
+      subscriptionDisplayName: subscriptionDisplayName
+      state: state
+      endDate: endDate
+      procurementEntitlementId: procurementEntitlementId
+      activation: {const: standing}
+    display: "{name}"
+    relations: []

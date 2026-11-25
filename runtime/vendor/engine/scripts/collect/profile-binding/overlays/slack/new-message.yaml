@@ -1,0 +1,232 @@
+format: im-pilot-profile/1
+scope: catalog_spec5_record_projection
+provider: slack
+service: null
+object_type: Message
+interfaces:
+  - Resource
+model:
+  research_type: null
+  runtime_type_id: model-v1:slack:Message
+  decision_refs:
+    - model-v1 runtime record_projection
+vars:
+  channel_name:
+    ref:
+      type: conversation
+      id: $req.channel
+    prop: name
+identity:
+  primary:
+    - name: ch
+      expr: $req.channel
+      stability: catalog_reviewed
+    - name: ts
+      expr: ts
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: SLK-MSG-{ch}-{ts}
+binding:
+  status: catalog_call
+  call: SL-05
+  operation_id: op:slack_openapi_legacy:conversations.history
+  paths:
+    - shape: sh:slack_docs_methods:op:conversations.history:resp:200.messages[*]
+      path:
+        - messages
+        - "*"
+  basis: catalog spec:5 sources
+fields:
+  channel_id:
+    expr:
+      op: str
+      of: $req.channel
+    source: catalog_spec5
+  ts:
+    expr: ts
+    source: catalog_spec5
+  thread_ts:
+    expr: thread_ts
+    source: catalog_spec5
+  user:
+    expr: user
+    source: catalog_spec5
+  bot_id:
+    expr: bot_id
+    source: catalog_spec5
+  app_id:
+    expr: app_id
+    source: catalog_spec5
+  subtype:
+    expr: subtype
+    source: catalog_spec5
+  reply_count:
+    expr: reply_count
+    source: catalog_spec5
+  text:
+    expr: text
+    source: catalog_spec5
+  file_ids:
+    expr:
+      op: pluck
+      of: files
+      field: id
+      keep_empty: true
+    source: catalog_spec5
+references: []
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - password
+    - token
+overlay_basis:
+  from: aegi-adapter-engine catalog/slack/profiles/message.yaml
+  engine_commit: d78062d
+  research_agreement: no_research_type
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-05
+        items: messages
+        where:
+          all:
+            - path: ts
+              present: true
+            - any:
+                - path: bot_id
+                  present: true
+                - path: app_id
+                  present: true
+                - path: subtype
+                  in:
+                    - bot_message
+                    - bot_add
+                    - bot_remove
+                    - channel_join
+                    - channel_leave
+                    - pinned_item
+                    - unpinned_item
+                - path: reply_count
+                  truthy: true
+                - path: files
+                  truthy: true
+                - path: text.urls
+                  truthy: true
+    id_expr:
+      template: "{$req.channel}:{ts}"
+    parts:
+      ch: $req.channel
+      ts: ts
+    vars:
+      channel_name:
+        ref:
+          type: conversation
+          id: $req.channel
+        prop: name
+    parent:
+      ref:
+        type: conversation
+        id: $req.channel
+      when: always
+    refs:
+      author:
+        ref:
+          type: 200.members[*]
+          id: user
+        value: user
+    properties:
+      channel_id:
+        op: str
+        of: $req.channel
+      ts: ts
+      thread_ts: thread_ts
+      user: user
+      bot_id: bot_id
+      app_id: app_id
+      subtype: subtype
+      reply_count: reply_count
+      text: text
+      file_ids:
+        op: pluck
+        of: files
+        field: id
+        keep_empty: true
+    display: "#{$vars.channel_name|$req.channel} {ts}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: conversation
+          id: $req.channel
+        basis: stated
+    identity:
+      primary:
+        - name: ch
+          expr: $req.channel
+          stability: catalog_reviewed
+        - name: ts
+          expr: ts
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-MSG-{ch}-{ts}
+runtime_stub: null
+runtime_key: SLK-MSG-{ch}-{ts}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Message:list
+    sources:
+      - call: SL-05
+        items: messages
+        where:
+          all:
+            - path: ts
+              present: true
+            - any:
+                - path: bot_id
+                  present: true
+                - path: app_id
+                  present: true
+                - path: subtype
+                  in:
+                    - bot_message
+                    - bot_add
+                    - bot_remove
+                    - channel_join
+                    - channel_leave
+                    - pinned_item
+                    - unpinned_item
+                - path: reply_count
+                  truthy: true
+                - path: files
+                  truthy: true
+                - path: text.urls
+                  truthy: true
+    vars:
+      channel_name:
+        ref:
+          type: conversation
+          id: $req.channel
+        prop: name
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: conversation
+          id: $req.channel
+        basis: stated
+    self_identity: object_rule

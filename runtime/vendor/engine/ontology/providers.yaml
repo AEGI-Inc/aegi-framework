@@ -1,0 +1,158 @@
+# provider 권한 모델 — 벤더마다 다른 동작
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  model_version: aegi-dashboard src/detection/v2/engine/accessModel.ts MODEL_VERSION @ 0ee565f
+  tenant_grants_inherit: aegi-dashboard src/detection/v2/engine/accessModel.ts TENANT_GRANTS_INHERIT @ 0ee565f. 2026-11-15 gws members(Relation 주담당 위임, Claude 가 정함) — Google 관리 콘솔 도움말 「Pre-built administrator roles」 의 사용자 관리 권한(사용자 만들기 · 고치기 · 이름 바꾸기 · 비밀번호), 11-04 운영 로그 admin:CHANGE_* 사건. salesforce members 같은 날 — Salesforce 도움말 「Manage Users」 권한(사용자 만들기 · 고치기), 11-04 운영 로그 changedfederationid · useremailchangesent
+  inherit_caps: aegi-dashboard src/detection/v2/engine/accessModel.ts INHERIT_CAPS @ 0ee565f
+  tenant_scope: 2026-11-16 사용자 결정(직접 권한 정의, aegi-knowledge#308, 엔진 aegi-adapter-engine#435). 테넌트 권한이 테넌트 아래로 내려가는 범위를 객체 종류(내용, 설정, 계정)마다 정한다. 예외 줄마다 공식 문서. r3 11-13 실측에서 판정 직접 권한 30147 묶음 중 판정에만 있는 24312 의 99% 가 테넌트 권한이 아래 전부로 퍼진 것이었다(Atlassian 사이트 소속 51명이 모든 프로젝트 읽기 등)
+  entry_points: aegi-dashboard src/detection/v2/engine/accessModel.ts ENTRY_POINTS @ 0ee565f
+  container_bound_automations: aegi-dashboard src/detection/v2/engine/accessModel.ts CONTAINER_BOUND_AUTOMATIONS @ 0ee565f
+  open_respondent_resources: aegi-dashboard src/detection/v2/engine/accessModel.ts OPEN_RESPONDENT_RESOURCES @ 0ee565f
+  visibility_scoped: aegi-dashboard src/detection/v2/engine/accessModel.ts VISIBILITY_SCOPED @ 0ee565f
+  coverage_calls: aegi-dashboard src/detection/v2/engine/accessModel.ts COVERAGE_CALLS @ 0ee565f
+  resource_set_coverage: 2026-11-09 새로 적음(Relation 주담당 위임, Claude 가 정함). Okta 관리 API 문서의 리소스 세트 ORN 모양(groups:{id}:contained_resources 는 그 그룹의 사용자 전부)과 11-04 운영 테넌트 수집(OK-05 /iam/resource-sets/{id}/resources)의 orn. 2026-11-12 org_wide 칸과 iam 줄을 더함(Relation 주담당 위임, Claude 가 정함). 범위(resource_set_scope)를 정규화가 관계에 적던 것을 엔진이 이 표로 판정 때 계산하게 옮겼다. 정규화 시점에 굳으면 규칙이 바뀐 뒤 원본 없이 옛 스냅샷을 고칠 수 없었다(11-04 운영 스냅샷이 범위 칸 없이 남아 판정 보류 3건). org_wide 줄은 엔진 #321 정규화 규칙(users, groups, apps, iam contained_resources)과 같다
+
+model_version: 1
+
+# 테넌트(조직) 수준 권한이 그 안으로 내려가나. true = 전부, false = 안 내려감, members = 그 테넌트의 계정(그룹 아닌 주체)에만.
+# gws members(2026-11-15): Workspace 관리자 역할은 Drive 파일 ACL 이 아니지만(파일로는 안 내려감) 사용자 계정은 관리한다.
+# 11-04 운영 로그에서 최고 관리자가 남의 이름 · 전화 · 언어 · 관계 칸을 바꾼 사건 9건이 이 칸이 false 라 설명되지 않았다.
+# salesforce members(2026-11-15): 조직 권한은 레코드로 안 내려가지만(공유 설정 · EA 가 푼다) 사용자 계정은 관리한다(시스템 관리자가 남의 메일 · federation id 를 바꾼 3건)
+tenant_grants_inherit: {okta: true, github: true, slack: false, gws: members, salesforce: members}
+
+# tenant_grants_inherit 는 엔진이 tenant_scope 로 옮긴 뒤(aegi-adapter-engine#435) 아무도 읽지 않는다. 엔진 생성기(scripts/ontology/generate.ts)가
+# 이 칸을 꼭 받고 accessModel.ts 가 내보내기만 해서 아직 못 지운다 — 엔진 #455 뒤 그 두 곳을 지우고 여기서 지운다(2026-11-18)
+
+# 테넌트 권한이 테넌트 아래로 내려가는 범위 (직접 권한, 2026-11-16)
+#   직접 권한 = 사람 계정이 소속, 권한, 범위 내려가기 간선만으로 닿는 객체와 수준. 이 표는 그중 권한 간선의 도착이 테넌트일 때 어디까지 내려가나다.
+#   classes     테넌트 아래 객체 종류. 위에서부터 처음 맞는 줄. interfaces 중 하나라도 있으면 맞는다. group 은 그룹 같은 주체(그룹, 팀)인지
+#   kinds       테넌트에 걸린 권한의 출처 종류. relation 은 그 관계 종류에서 온 권한, record 는 semantic_mapping.yaml records emit 의 tenant_grant 값.
+#               어느 종류에도 안 맞는 테넌트 권한은 내려가지 않는다(테넌트 객체 자체에만 걸린다)
+#   reach       종류마다 객체 종류별로 내려가는 수준. level 은 그 권한 자기 수준, none 은 안 내려감
+#   exceptions  SaaS 예외. 기본과 다른 것만 적는다. when.caps 는 그 능력이 있을 때, when.flag 는 capabilities.yaml 의 그 표가 정한다
+#   테넌트 객체 자체는 어느 종류든 그 권한 수준을 그대로 받는다. 테넌트 사이 범위(하위 테넌트)로는 내려가지 않는다
+#   로그인(authenticate)은 수준이 아니다(capabilities.yaml capability_levels). 소속은 전제 조건일 뿐 아래로 읽기를 주지 않는다
+tenant_scope:
+  classes:
+  - {class: config, interfaces: [Automation, Credential, Policy, Assignment, Integration, Endpoint]}
+  - {class: config, interfaces: [Principal], group: true}
+  - {class: account, interfaces: [Principal]}
+  - {class: content, interfaces: [Resource]}
+  kinds:
+  - {kind: membership, from: {relation: [member_of]}}
+  - {kind: console_role, from: {relation: [has_role_on]}}
+  - {kind: console_role, from: {record: console_role}}
+  - {kind: product_use, from: {record: product_use}}
+  - {kind: base_permission, from: {record: base_permission}}
+  reach:
+    membership: {content: none, config: none, account: none}
+    product_use: {content: none, config: none, account: none}
+    console_role: {content: none, config: level, account: level}
+    base_permission: {content: level, config: none, account: none}
+  exceptions:
+  # 조직 owner 는 조직의 모든 저장소에 admin
+  # https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/repository-roles-for-an-organization
+  - {provider: github, kind: console_role, when: {caps: [configure]}, reach: {content: level}}
+  # 프로필, 권한 집합은 권한 칸(perm_*)마다 닿는 종류가 다르다. 칸별 표는 capabilities.yaml role_flag_reach
+  # https://help.salesforce.com/s/articleView?id=users_profiles_view_all_mod_all.htm&language=en_US&type=5
+  - {provider: salesforce, kind: console_role, when: {flag: role_flag_reach}}
+  # AdministratorAccess(Action *, Resource *)는 계정 안 전부. 엔진이 IAM 정책을 아직 안 읽어 수준 모름으로 남는다
+  # https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AdministratorAccess.html
+  - {provider: aws, kind: console_role, when: {policy: '*:*'}, reach: {content: level}}
+  # Google Cloud IAM 은 프로젝트에 준 역할이 프로젝트 안 모든 자원에 그대로 걸린다(정책 상속). 관리 역할(owner, agentspaceAdmin 은 engines · dataStores ·
+  # agents 의 update · delete · setIamPolicy 를 가진다, 3회차 실측 includedPermissions)은 앱 · 저장소 · 에이전트를 고치고 지운다.
+  # 보기 · 사용 역할은 상속돼도 그 역할에 든 권한만큼이다. 3회차 프로젝트 역할 agentspaceRestrictedUser(21개)는 agents · engines · IAM 권한이 하나도 없고
+  # 자기 커넥터 연결 · 저장소 메타데이터 보기뿐이라, 기본값(설정 · 계정까지 같은 세기)으로 두면 비공개(PRIVATE) 에이전트까지 읽는 것으로 나왔다(15명 × 3개).
+  # 그래서 gcp 는 관리 역할만 내려보낸다. 앞 줄이 내림을 끄고 뒤 줄이 관리 역할에 다시 켠다(엔진 directAccess.ts tenantReach 는 맞는 줄을 차례로 덮어쓴다).
+  # 원본 권한을 따르는 저장소의 내용은 관리자도 부른 사람 자신의 연결로만 본다(relation_semantics contained_in.gcp_app_store_caller)
+  # https://cloud.google.com/iam/docs/resource-hierarchy-access-control
+  - {provider: gcp, kind: console_role, when: {}, reach: {config: none, account: none}}
+  - {provider: gcp, kind: console_role, when: {caps: [configure]}, reach: {content: level, config: level, account: level}}
+  # Atlassian, Google Workspace, Okta, Slack 은 내용 예외가 없다. 관리자도 남의 내용을 바로 읽지 못하고 스스로 권한을 줘야 한다
+  #   Jira 제품 접근은 Browse Project 가 아니다 https://support.atlassian.com/jira/kb/new-users-in-the-developers-group-do-not-have-access-to-any-projects-in-jira/
+  #   Confluence 관리자는 Recover Permissions 로 스스로 권한을 얻는다 https://support.atlassian.com/confluence-cloud/docs/manage-global-permissions/
+  #   Workspace super admin 은 Drive 원문을 바로 연다는 문서가 없다(내보내기, Vault) https://knowledge.workspace.google.com/admin/users/prebuilt-administrator-roles?hl=en
+  #   Slack owner, admin 은 비공개 채널 메시지를 못 본다 https://slack.com/help/articles/360047512554-Use-channel-management-tools
+  #   Okta 사용자는 앱 배정으로만 앱에 닿는다 https://help.okta.com/en-us/Content/Topics/Apps/apps-assign-applications.htm
+
+inherit_caps:
+- {provider: slack, parent: conversation, child: message, cap: 1}
+
+entry_points:
+- provider: slack
+  objectType: slash command request endpoint
+  invokers: tenant_members
+  reason: invoker_gate_not_stored
+
+container_bound_automations:
+- {provider: gws, objectType: project}
+# 2026-11-08. GitHub Actions 워크플로는 저장소 안 파일이라 저장소 쓰기 권한자가 고친다. GitHub 문서 「Any user with write access to your
+# repository has read access to all secrets configured in your repository」(docs.github.com/en/actions/reference/security/secure-use)
+- {provider: github, objectType: workflow}
+
+open_respondent_resources:
+- {provider: gws, objectType: form, reason: form_responders_unknown}
+
+visibility_scoped:
+- {provider: slack, objectType: conversation, property: is_private}
+
+# 리소스 세트가 덮는 대상 (효과 표의 간선 끝 resource_set, relation_semantics.yaml has_role_on.okta_resource_set_partial)
+#   orn      리소스 세트 대상(ResourceSetResource properties.orn)의 모양. {org} 는 조직 id, {id} 는 객체 id 자리(콜론이 없는 한 마디)
+#   covers   members  {id} 그룹의 구성원(member_of 관계의 출발 가운데 member_types 종류) 전부
+#            object   {id} 객체 하나 (object_types 중 identifiers 의 id 가 {id})
+#            kind     object_types 의 객체 전부
+#            service  그 서비스 전체. object_types 가 비면 덮는 객체를 모으지 않은 것이라 펴지 않는다(펼치지 않음 사유가 남는다)
+#   org_wide true 면 그 대상은 조직 전체 관리에 해당한다(모든 사용자, 모든 그룹, 모든 앱, IAM 전체)
+#   위에서부터 처음 맞는 줄 하나. 맞는 줄이 없거나 펴지 않는 대상이 하나라도 있으면 그 세트는 다 펴지 못한 것이다(효과 표의 간선 끝 resource_set_unexpanded)
+#   범위 resource_set_scope 는 저장 속성이 아니라 엔진이 판정 때 계산하는 칸이다. 세트의 수집한 대상(ResourceSetResource) 가운데 org_wide 줄에 맞는 것이
+#   하나라도 있으면 org, 대상은 있는데 하나도 없으면 partial, 대상을 못 모았으면 비운다(효과 표 has_role_on.okta_resource_set_partial, _org 가 이 값을 본다)
+#   근거: https://developer.okta.com/docs/api/openapi/okta-management/guides/roles/ (Supported resources)
+resource_set_coverage:
+- {provider: okta, orn: 'orn:okta:directory:{org}:groups:{id}:contained_resources', covers: members, object_types: [Group], member_types: [User]}
+- {provider: okta, orn: 'orn:okta:directory:{org}:groups:{id}', covers: object, object_types: [Group]}
+- {provider: okta, orn: 'orn:okta:directory:{org}:users:{id}', covers: object, object_types: [User]}
+- {provider: okta, orn: 'orn:okta:directory:{org}:users', covers: kind, object_types: [User], org_wide: true}
+- {provider: okta, orn: 'orn:okta:directory:{org}:groups', covers: kind, object_types: [Group], org_wide: true}
+- {provider: okta, orn: 'orn:okta:idp:{org}:apps:{app}:{id}', covers: object, object_types: [Application]}
+- {provider: okta, orn: 'orn:okta:idp:{org}:apps', covers: kind, object_types: [Application], org_wide: true}
+- {provider: okta, orn: 'orn:okta:idp:{org}:authorization_servers', covers: kind, object_types: [AuthorizationServer]}
+- {provider: okta, orn: 'orn:okta:hooks:{org}:eventhooks', covers: kind, object_types: [EventHook]}
+- {provider: okta, orn: 'orn:okta:iam:{org}:contained_resources', covers: service, object_types: [], org_wide: true}
+- {provider: okta, orn: 'orn:okta:workflow:{org}:contained_resources', covers: service, object_types: []}
+- {provider: okta, orn: 'orn:okta:workflow:{org}:flows', covers: kind, object_types: []}
+
+coverage_calls:
+  SL-01:
+  - {family: members, provider: slack, objectTypes: [workspace, enterprise]}
+  SL-02:
+  - {family: members, provider: slack, objectTypes: [workspace, enterprise]}
+  SL-04:
+  - {family: grants, provider: slack, objectTypes: [conversation]}
+  SL-06:
+  - {family: members, provider: slack, objectTypes: [usergroup]}
+  SL-15:
+  - {family: members, provider: slack, objectTypes: [usergroup]}
+  GH-02:
+  - {family: members, provider: github, objectTypes: [organization]}
+  GH-04:
+  - {family: members, provider: github, objectTypes: [team]}
+  - {family: grants, provider: github, objectTypes: [repository]}
+  GH-06:
+  - {family: grants, provider: github, objectTypes: [repository]}
+  OK-02:
+  - {family: members, provider: okta, objectTypes: [org]}
+  OK-03:
+  - {family: members, provider: okta, objectTypes: [group]}
+  OK-06:
+  - {family: grants, provider: okta, objectTypes: [org]}
+  OK-07:
+  - {family: grants, provider: okta, objectTypes: [application]}
+  GW-03:
+  - {family: members, provider: gws, objectTypes: [customer]}
+  GW-04:
+  - {family: members, provider: gws, objectTypes: [group]}
+  GW-07:
+  - {family: grants, provider: gws, objectTypes: [file]}

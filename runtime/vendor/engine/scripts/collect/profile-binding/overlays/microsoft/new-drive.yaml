@@ -1,0 +1,77 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: sharepoint
+object_type: Drive
+interfaces: [Resource]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-DRV-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: site_drives
+    kind: object
+    sources:
+      - call: M365-13
+        request: {kind: drives}
+        items: value
+    id_expr: id
+    properties:
+      grant_target: {const: true}
+      drive_id: id
+      name: name
+      description: description
+      driveType: driveType
+      webUrl: webUrl
+      owner: owner
+      quota: quota
+      createdDateTime: createdDateTime
+      lastModifiedDateTime: lastModifiedDateTime
+    display: "{name|driveType|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: Site
+          id: $req.site
+        basis: stated
+        require: [target]
+  - id: user_drive
+    kind: object
+    sources:
+      - call: M365-15
+        request: {kind: user_drive}
+        items: (root)
+    id_expr: id
+    properties:
+      grant_target: {const: true}
+      drive_id: id
+      name: name
+      description: description
+      driveType: driveType
+      webUrl: webUrl
+      owner: owner
+      quota: quota
+      createdDateTime: createdDateTime
+      lastModifiedDateTime: lastModifiedDateTime
+    display: "{name|driveType|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: User
+          id: $req.user
+        basis: stated
+        require: [target]
+      - type: owned_by
+        source: $self
+        target:
+          type: User
+          id: $req.user
+        basis: stated
+        require: [target]

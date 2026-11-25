@@ -1,0 +1,420 @@
+# slack ↔ atlassian 연결 규칙
+# Atlassian 은 Jira Cloud, Confluence Cloud, Bitbucket Cloud, Jira Service Management. 벤더 문서로만 썼다 (2026-10-14). 시험 테넌트 결과는 ../test-environment/slack-atlassian.yaml 에 채운다
+
+pair:
+- slack
+- atlassian
+written: '2026-10-14'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/slack-atlassian.yaml
+methods:
+- id: jira_cloud_for_slack
+  type: app_grant
+  what: Slack 앱 「Jira Cloud」(Atlassian 게시, 앱 A2RPP3NFR) 로 채널이 Jira 프로젝트를 구독하고 /jira 명령을 씀. Jira 사이트 관리자가 Slack 연동을 켜야 하고, 새 워크스페이스는 승인 전까지 Needs review
+  identify:
+    api: slack 감사 app_installed (Enterprise), admin.apps.approved.list (Enterprise), team.integrationLogs
+    when: 앱 이름 Jira Cloud (app_id A2RPP3NFR)
+  points_to:
+  - tier: config_id
+    a: slack 설치 앱 app_id A2RPP3NFR
+    b: atlassian Jira 의 Slack 연동 설정 (https://<site>.atlassian.net/plugins/servlet/ac/jira-slack-integration/addon-config-page) 에 연결된 워크스페이스
+    check: Jira 쪽에 그 워크스페이스가 있다
+    if_unreadable: 'Jira 쪽 API 없음. 사람: 위 관리 주소 (사이트 관리자). Slack 쪽: 채널에서 /jira manage 로 구독 목록'
+  - tier: config_name
+    a: slack 채널의 /jira manage 구독 목록 (프로젝트)
+    b: atlassian Jira 프로젝트 키
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: slack 사용자 email
+    b: atlassian 계정 email (앱 연결 때 Atlassian 로그인)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: slack 감사 app_installed 의 entity.app.id, entity.app.name
+    b: Jira Cloud 앱 A2RPP3NFR
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: atlassian Jira 이슈 변경 시각
+    b: slack 구독 채널의 Jira Cloud 봇 알림 ts
+    check: 시각이 같다
+  - tier: log_id
+    a: slack 감사 app_installed 의 context.app (문서는 앱 정보가 context 에 든다고만 함. 하위 필드 이름은 예시 JSON 에만 있음)
+    b: Jira Cloud 앱 A2RPP3NFR
+    check: "a 와 b 가 같다 (정정: 기존 rule 의 log_id a 칸 entity.app.id, entity.app.name 은 공식 페이지에 없다. 페이지는 entity 를 'the thing that the actor has taken the action upon' 으로만 정의하고 app 은 ID 형식만 보여 준다. 근거는 Slack 공식 SDK 소스(logs.py)뿐이다. 실로그에서 앱 id 가 context.app 에 있는지 entity 에 있는지 확인해야 한다. 플랜 조건은 Enterprise plan 이다. 문서에 'Enterprise Grid' 라는 말은 없다. app_installed 설명은 'An app has been installed.' 이다.)"
+  activity:
+  - slack app_installed (Jira Cloud), 봇 @Jira 메시지, 슬래시 명령 /jira
+  - atlassian 조직 감사 「App successful installation」(이 연동이 그 action 으로 남는지는 문서에 없음), Jira 이슈 변경의 actor
+  sources:
+  - https://support.atlassian.com/jira-software-cloud/docs/use-jira-cloud-for-slack/ (관리자 설정 주소, /jira 명령, Needs review)
+  - https://slack.com/apps/A2RPP3NFR-jira-cloud (Slack 디렉터리, 게시자 Atlassian)
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (app_installed)
+  - https://docs.slack.dev/reference/methods/admin.apps.approved.list.md
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+  - https://docs.slack.dev/admins/audit-logs-api (context.app, entity 정의, Enterprise plan 조건)
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (app_installed 설명)
+- id: confluence_cloud_for_slack
+  type: app_grant
+  what: Slack 앱 「Confluence Cloud」 로 채널이 Confluence 페이지·스페이스를 구독. 스페이스 구독은 Confluence 에서는 스페이스 관리자만, Slack 에서는 누구나 만든다
+  identify:
+    api: slack 감사 app_installed, admin.apps.approved.list
+    when: 앱 이름 Confluence Cloud
+  points_to:
+  - tier: config_name
+    a: slack 채널의 /confluence list 구독 목록
+    b: atlassian Confluence Space settings > Integrations > Slack Notifications 의 구독 목록
+    check: a 와 b 가 같다
+    if_unreadable: 'Confluence 쪽 API 없음. 전체 끄기: Settings > Atlassian Marketplace > Manage apps > System > Slack'
+  - tier: via_person
+    a: slack 사용자 email
+    b: atlassian 계정 email
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: slack 감사 app_installed 의 entity.app.id, entity.app.name
+    b: Confluence Cloud 앱
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: atlassian Confluence 페이지 변경 시각
+    b: slack 구독 채널의 Confluence Cloud 봇 알림 ts
+    check: 시각이 같다
+  activity:
+  - slack app_installed (Confluence Cloud), 봇 메시지
+  - atlassian Confluence 알림 발송은 「Chat Notification」 사용자 권한으로 나감
+  sources:
+  - https://support.atlassian.com/confluence-cloud/docs/use-slack-and-confluence-together (구독 경로, /confluence 명령, 관리 위치)
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+- id: jsm_chat_assist
+  type: app_grant
+  what: Jira Service Management 「Chat」 이 Slack 앱 「Assist」 로 요청 채널·에이전트 채널을 만듦. 서비스 프로젝트 전용. Slack 로그인 이메일과 Atlassian 계정 이메일이 같아야 한다
+  identify:
+    api: slack 감사 app_installed, admin.apps.approved.list
+    when: 앱 이름 Assist
+  points_to:
+  - tier: config_name
+    a: slack Assist 가 들어간 요청 채널·에이전트 채널 이름
+    b: atlassian 서비스 프로젝트 Space settings > Channels & self service > Chat 의 채널 설정
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: slack 사용자 email
+    b: atlassian 계정 email
+    check: a 와 b 가 같다 (요건)
+  - tier: log_id
+    a: slack 감사 app_installed 의 entity.app.id, entity.app.name
+    b: Assist 앱
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack 요청 채널 메시지 ts 와 사용자
+    b: atlassian JSM 요청 생성 시각과 reporter
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - slack app_installed (Assist), 채널 메시지
+  - atlassian JSM 요청 생성 (actor)
+  sources:
+  - https://support.atlassian.com/jira-service-management-cloud/docs/set-up-chat/ (설정 경로, 이메일 요건)
+  - https://support.atlassian.com/jira/kb/what-is-the-difference-between-chat-and-the-slack-integration/ (Chat = Assist, Slack Integration = Jira)
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference
+- id: jira_automation_slack_webhook
+  type: event_delivery
+  what: Jira Automation 「Send Slack message」 액션이 Slack 수신 웹훅 주소로 게시
+  identify:
+    api: atlassian 룰 목록 GET https://api.atlassian.com/automation/public/{product}/{cloudid}/rest/v1/rule/summary, 룰 상세
+    when: 룰에 Send Slack message 가 있음 (Webhook URL 이 어느 필드에 담기는지, Cloud 에서 숨김 값으로 저장되는지는 문서에 없음)
+  points_to:
+  - tier: fingerprint
+    a: atlassian 룰의 Webhook URL
+    b: slack:incoming-webhook:webhook_url_sha256
+    check: a 의 sha256 과 b 가 같다
+    if_unreadable: 'Jira Automation 룰 화면의 [Webhook URL] 필드 (글로벌 관리자)'
+  - tier: log_time
+    a: atlassian 룰 Audit log 실행 시각
+    b: slack 메시지 시각 (bot_id = 웹훅 봇)
+    check: 시각이 가깝다
+  activity:
+  - atlassian Automation 화면 Audit log 탭
+  - slack 메시지 (bot_id)
+  sources:
+  - https://support.atlassian.com/jira/kb/use-send-slack-message-action-in-automation-to-send-a-slack-direct-message/ ([Webhook URL] 필드, Incoming Webhooks)
+  - https://developer.atlassian.com/cloud/automation/rest/api-group-rule-management/
+- id: jira_automation_slack_api
+  type: stored_credential
+  what: Jira Automation 「Send web request」 가 Slack Web API (slack.com/api/…) 를 앱 OAuth 토큰(Authorization Bearer)으로 부름
+  identify:
+    api: atlassian 룰 상세
+    when: web request URL 호스트가 slack.com
+  points_to:
+  - tier: config_name
+    a: atlassian 룰 상세 응답 rule.components[].value.url (https://slack.com/api/chat.postMessage), headers 의 Authorization (값은 숨김)
+    b: slack 설치 앱 (범위 users:read, users:read.email 등)
+    check: 토큰이 어느 앱인지는 Slack 쪽 app_installed 범위와 시각으로만 짝짓는다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  - tier: log_id
+    a: slack 메시지의 bot_id·app_id
+    b: 그 룰이 토큰을 쓰는 slack 앱
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: atlassian 룰 Audit log 실행 시각
+    b: slack 그 앱 메시지 ts
+    check: 시각이 같다
+  activity:
+  - slack app_installed (앱 이름은 만든 사람이 정함), API 호출
+  - atlassian Automation 화면 Audit log 탭
+  sources:
+  - https://support.atlassian.com/jira/kb/use-send-slack-message-action-in-automation-to-send-a-slack-direct-message/ (users.lookupByEmail, Bearer, users:read·users:read.email)
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+- id: slack_workflow_connector_jira
+  type: app_grant
+  what: Slack 워크플로 빌더의 「Jira Cloud」 커넥터 단계 (create_issue, edit_issue). Confluence 커넥터는 없다
+  identify:
+    api: slack admin.workflows.search (steps 의 커넥터), 감사 external_auth_oauth2_token_*
+    when: 워크플로 단계에 Jira Cloud 커넥터
+  points_to:
+  - tier: config_name
+    a: slack 워크플로 단계의 Jira Cloud 커넥터
+    b: atlassian 사용자 Connected apps 의 Slack 커넥터 항목 (앱 이름·client ID 는 문서에 없음. 커넥터를 승인해 보고 읽는다)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: slack 감사 workflow_published 의 entity.workflow_v2.step_configuration[].step_function_app_id
+    b: Slack 워크플로 빌더 Jira Cloud 커넥터 앱 ID (값은 문서에 없어 커넥터를 넣어 보고 읽는다)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack external_auth_oauth2_token_fetched 시각과 actor
+    b: atlassian 조직 감사 「Third-party app Jira API request」 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - slack workflow_published 등 워크플로 감사, external_auth_oauth2_token_fetched
+  - atlassian 조직 감사 (3LO 동의 action 은 문서에 없음)
+  sources:
+  - https://slack.com/intl/en-in/help/articles/20155812595219-Slack-connectors-for-Workflow-Builder (Jira Cloud, Jira Data Center 항목)
+  - https://docs.slack.dev/tools/deno-slack-sdk/reference/connector-functions (JIRA Cloud create_issue, edit_issue)
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference
+- id: person_link
+  type: same_person
+  what: 같은 사람 (Slack 계정 ↔ Atlassian 계정)
+  identify:
+    api: slack users.list email; atlassian GET /admin/v1/orgs/{orgId}/users
+    when: 항상
+  points_to:
+  - tier: via_person
+    a: slack user profile.email
+    b: atlassian data[].email
+    check: a 와 b 가 같다
+  sources:
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/ (data[].email)
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: content_ref
+  type: content_ref
+  what: Slack 메시지의 Atlassian 링크 (<site>.atlassian.net)
+  identify:
+    api: slack 메시지 본문 (수집하면)
+    when: 본문에 atlassian.net 주소
+  points_to:
+  - tier: config_name
+    a: slack 메시지의 atlassian.net 호스트
+    b: atlassian 사이트 주소
+    check: a 와 b 가 같다
+  sources: ["https://docs.slack.dev/reference/methods/conversations.history (messages[].text)"]
+  note: 로그 등급 없음. 본문 속 주소라 연결이 동작한 기록이 없다
+- id: confluence_automation_slack_webhook
+  type: event_delivery
+  what: Confluence Automation 「Send Slack message」 액션이 Slack 수신 웹훅 주소로 채널·개인에게 게시 (전역 플로우는 Confluence 관리자, 스페이스 플로우는 스페이스 관리자)
+  identify:
+    api: atlassian 룰 관리 REST ({product} 에 confluence 가 되는지는 첫 호출로 확인), 플로우 화면
+    when: 플로우에 Send Slack message 가 있음
+  points_to:
+  - tier: fingerprint
+    a: atlassian 플로우의 수신 웹훅 URL
+    b: slack:incoming-webhook:webhook_url_sha256
+    check: a 의 sha256 과 b 가 같다
+    if_unreadable: 'Confluence 전역 Automation 화면(Confluence 관리자) 또는 스페이스 Automation 화면(스페이스 관리자)에서 플로우 열기'
+  - tier: log_time
+    a: atlassian 플로우 Audit log 실행 시각
+    b: slack 메시지 시각 (bot_id = 웹훅 봇)
+    check: 시각이 가깝다
+  activity:
+  - atlassian 플로우 Audit log
+  - slack 메시지 (bot_id)
+  sources:
+  - https://support.atlassian.com/cloud-automation/docs/actions-in-confluence-automation/ (Send Slack message 는 incoming webhook URL 필요)
+  - https://support.atlassian.com/confluence-cloud/docs/what-is-confluence-automation/
+- id: bitbucket_cloud_for_slack
+  type: app_grant
+  what: Bitbucket 저장소가 Slack 워크스페이스에 연결돼 채널이 저장소 알림을 구독 (저장소 Settings > Slack > Settings > Connect, 저장소 관리자). /bitbucket 명령. 예전 방식 연동은 저장소 Webhooks 목록에 Slack 웹훅으로 남는다
+  identify:
+    api: slack 감사 app_installed (Bitbucket 앱), admin.apps.approved.list; atlassian 워크스페이스 감사 「Slack notification rule added」
+    when: 앱 이름 Bitbucket
+  points_to:
+  - tier: config_name
+    a: slack 채널의 /bitbucket list 결과 (연결된 저장소)
+    b: atlassian Bitbucket 저장소 full_name
+    check: a 와 b 가 같다
+    if_unreadable: 'Bitbucket 저장소 More actions > Settings > Slack (연결 워크스페이스, 구독)'
+  - tier: fingerprint
+    a: atlassian Bitbucket 저장소 웹훅 url (예전 방식)
+    b: slack:incoming-webhook:webhook_url_sha256
+    check: a 의 sha256 과 b 가 같다
+  - tier: via_person
+    a: slack 사용자 (/bitbucket login)
+    b: atlassian 계정 email
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: slack 감사 app_installed 의 entity.app.id, entity.app.name
+    b: Bitbucket 앱
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: atlassian 워크스페이스 감사 「Slack notification rule added」 시각
+    b: slack 감사 app_installed (Bitbucket) 시각
+    check: 시각이 가깝다
+  - tier: log_time
+    a: atlassian Bitbucket push·PR 시각
+    b: slack 구독 채널의 Bitbucket 봇 알림 ts
+    check: 시각이 같다
+  activity:
+  - slack app_installed (Bitbucket), 봇 메시지
+  - atlassian 워크스페이스 감사 「Slack notification rule added」, 「Slack notification rule removed」
+  sources:
+  - https://support.atlassian.com/bitbucket-cloud/docs/integrate-bitbucket-cloud-with-slack/ (연결 경로, /bitbucket 명령, 예전 웹훅 삭제)
+  - https://support.atlassian.com/bitbucket-cloud/kb/bitbucket-cloud-audit-log-events/ (Slack notification rule added/removed)
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+- id: slack_workflow_connector_bitbucket
+  type: app_grant
+  what: Slack 워크플로 빌더의 「Atlassian Bitbucket」 커넥터 단계 (create_issue, update_issue, merge_pull_request)
+  identify:
+    api: slack admin.workflows.search (steps 의 커넥터), 감사 external_auth_oauth2_token_*
+    when: 워크플로 단계에 Atlassian Bitbucket 커넥터
+  points_to:
+  - tier: config_name
+    a: slack 워크플로 단계의 Atlassian Bitbucket 커넥터
+    b: atlassian Bitbucket 사용자 개인 설정 「OAuth integrated applications」 의 항목 (인증 방식·앱 이름은 문서에 없음. 커넥터를 승인해 보고 읽는다)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: slack 감사 workflow_published 의 entity.workflow_v2.step_configuration[].step_function_app_id
+    b: Slack 워크플로 빌더 Atlassian Bitbucket 커넥터 앱 ID (값은 문서에 없어 커넥터를 넣어 보고 읽는다)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack external_auth_oauth2_token_fetched 시각과 actor
+    b: atlassian Bitbucket 사용자 감사 「User account access granted to an application」 시각과 사용자
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - slack workflow_published 등, external_auth_oauth2_token_fetched
+  - atlassian Bitbucket 사용자 감사 「User account access granted to an application」
+  sources:
+  - https://docs.slack.dev/tools/deno-slack-sdk/reference/connector-functions (Atlassian Bitbucket create_issue, update_issue, merge_pull_request)
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference
+- id: enterprise_search_jira_confluence
+  type: app_grant
+  what: Slack 엔터프라이즈 검색의 데이터 소스 「Jira Cloud」·「Confluence Cloud」. 관리자가 데이터 소스의 Manage integrations 에 Jira·Confluence 서브도메인(각각 최대 5개)을 넣고, 멤버가 각자 계정을 연결한다. Enterprise+ 필요. jira_cloud_for_slack 같은 채널 앱과는 다른 방법이다
+  identify:
+    api: slack 엔터프라이즈 검색 Manage integrations (화면); slack 감사 external_data_source_updated
+    when: slack 엔터프라이즈 검색 데이터 소스에 Jira 또는 Confluence 서브도메인이 있음
+  points_to:
+  - tier: config_name
+    a: slack 데이터 소스 설정의 Jira·Confluence 서브도메인
+    b: atlassian 사이트 서브도메인
+    check: a 와 b 가 같다
+    if_unreadable: '읽는 API 가 문서에 없다. 사람: Slack 관리 > 엔터프라이즈 검색 > 데이터 소스'
+  - tier: via_person
+    a: slack 멤버
+    b: atlassian 계정 (멤버가 「authorize your account」 로 연결)
+    check: 같은 사람
+  activity:
+  - slack 감사 external_data_source_updated, pref.enterprise_search_connectors_changed, pref.enterprise_search_connectors_config_changed, external_auth_oauth2_token_fetched, external_auth_oauth2_token_refreshed, external_auth_oauth2_token_deleted
+  sources:
+  - https://slack.com/help/articles/39044407124755-Set-up-and-manage-Slack-enterprise-search (데이터 소스, 서브도메인, 멤버 연결)
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (Slack 감사 로그 action 이름)
+  note: Atlassian 쪽에 생기는 것과 OAuth 종류는 문서에 없다. 로그 등급 없음
+- id: slackbot_mcp_atlassian_rovo
+  type: app_grant
+  what: Slackbot 의 MCP 클라이언트가 Atlassian Rovo MCP 서버에 붙는다. Slack 앱이 MCP 서버를 선언하면(매니페스트 mcp:connect) 관리자가 앱 디렉터리 심사로 승인하고, 멤버가 Slackbot 의 Apps 에서 추가한다(사용자당 활성 MCP 서버 최대 5개). 도구 호출마다 Allow once, Always allow, Deny
+  identify:
+    api: slack 설치 앱 목록·Slackbot Apps (화면); atlassian Connectors > Atlassian MCP server (화면)
+    when: slack 에 Atlassian Rovo MCP 앱이 설치되어 있음
+  points_to:
+  - tier: config_name
+    a: slack Slackbot 에 추가된 MCP 서버(Atlassian Rovo)
+    b: slack 감사 slack_ai_mcp_tool_called 의 details.server_url (https://mcp.atlassian.com/v2/mcp), details.app_id
+    check: a 와 b 가 같다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  - tier: log_time
+    a: slack 감사 slack_ai_mcp_tool_called 의 date_create, actor.user.email, details.tool_name (acting_agent Slackbot)
+    b: atlassian 조직 감사 mcp_tool_invoked 의 시각과 사용자
+    check: 시각이 가깝고 사람이 같다
+    note: 도구 호출이 실패해도 success true 로 남을 수 있다 (chains.yaml chain-slackbot-rovomcp-salesforce). 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  - tier: log_id
+    a: slack 감사 slack_ai_mcp_connector_changed 의 details.connectors_enabled (app:<앱 id>:<서버 이름>)
+    b: slack 설치 앱 id (Atlassian Rovo A08B0EYMUPR 꼴)
+    check: a 와 b 가 같다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  activity:
+  - atlassian 조직 감사 mcp_tool_invoked (Rovo MCP User Actions)
+  - slack 감사 app_installed (앱 설치)
+  sources:
+  - https://docs.slack.dev/ai/slackbot-mcp-client/ (Slackbot MCP 클라이언트, 승인, 호출 확인)
+  - https://slack.com/help/articles/52414744085139-Connect-Slackbot-to-other-apps-with-MCP (파트너 목록) [Exa]
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Atlassian 감사 로그 활동 목록. 표시 이름) [Exa]
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (Slack 감사 로그 action 이름)
+  note: Slack 도움말의 파트너 목록에 Atlassian Rovo 가 있다는 것은 검색 요약으로 확인했다(원문 일부). Atlassian 쪽 MCP 설정 문서와 OAuth 토큰이 어디에 남는지는 열지 못했다
+- id: rovo_app_for_slack
+  type: app_grant
+  what: Slack Marketplace 의 Atlassian Rovo 앱에서 Rovo 로 Jira·Confluence 를 검색하고 Jira 항목을 만들고 고친다. 누구나 설치할 수 있다고 쓴다. 공개 채널에 답하게 하려면 Atlassian 조직 관리자가 워크스페이스마다 공유 계정을 한 번 설정한다(채널마다 /rovo manage 로 Requesting user 또는 Shared account). jira_cloud_for_slack 과는 다른 앱이다
+  identify:
+    api: slack 설치 앱 목록 (화면), slack 감사 app_installed; atlassian Rovo Studio 공유 계정 (화면)
+    when: slack 에 Atlassian Rovo 앱이 설치되어 있음
+  points_to:
+  - tier: config_name
+    a: slack 설치 앱 Atlassian Rovo
+    b: atlassian 사이트 (온보딩에서 고른 사이트)
+    check: a 와 b 가 같다
+    if_unreadable: '읽는 API 가 문서에 없다. 사람: Slack 앱 목록, 앱 온보딩'
+  - tier: via_person
+    a: slack 조직 감사 app_installed 의 actor 이메일 (사용자가 Rovo 앱을 연결 승인)
+    b: atlassian 조직 감사 rovo_chat_invoked 의 actor 이메일
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack 채널에서 Rovo 에게 한 질문의 시각
+    b: atlassian 조직 감사 rovo_chat_invoked 중 context.surface 가 slack 인 행의 시각
+    check: 시각이 가깝다
+  - tier: log_id
+    a: slack 채널의 Rovo 에이전트 답글 텍스트에 있는 JSM work item 링크 (항목 키)
+    b: atlassian JSM 에서 생성된 요청 work item 의 키
+    check: 'a 와 b 가 같은 항목이다. 감사 로그가 아니라 메시지 본문의 링크라 log_id 로 적었다 (이미 있음. 같은 Rovo 앱(rovo_app_for_slack)으로 Rovo 에이전트를 만들고 「Raise a request」 도구로 JSM 요청을 만든다. 문서만 봤고 실측은 없다. 플랜은 Standard·Premium·Enterprise 사이트. 채널에서 /rovo add 로 에이전트를 추가하며 관리자 권한이 필요하다. 같은 채널에 jsm_chat_assist(Assist 앱)가 있으면 충돌한다. 문서: Live virtual service agents must be deactivated, or the Assist app removed from the Slack channel (WebFetch 요약). Slack 사용자와 Atlassian 계정을 맞추는 방법은 문서에 없다. Slack 감사와 Atlassian 감사의 action 이름도 문서에 없다.)'
+  activity:
+  - slack 감사 app_installed (앱 이름 Rovo)
+  - atlassian 조직 감사 rovo_chat_invoked (context.surface = slack, toolsInvoked), rovo_chat_session_started
+  sources:
+  - https://support.atlassian.com/rovo/docs/using-the-atlassian-rovo-slack-app/ (설치, 온보딩, 공유 계정)
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (Slack 감사 로그 action 이름)
+  - https://support.atlassian.com/rovo/docs/use-a-rovo-agent-to-sync-conversations-between-slack-and-jsm/ ("respond in the Slack thread with a link to the JSM work item") [WebFetch 요약의 원문 인용, 재확인 안 함]
+  note: 아래는 실측(2026-10-26, CM-16 C)에서 본 것이다. 앱은 따로 설치하지 않고 Atlassian 의 Slack 커넥터(rovo_connector_slack)가 설치한 「Atlassian Rovo」(A08B0EYMUPR)다. 사용자가 연결을 승인할 때 app_installed·app_scopes_expanded 가 사용자 이름으로 남는다. Rovo 를 처음 부르는 채널에서는 Rovo 가 채널 설정 확인을 요구한다. Atlassian 감사에는 rovo_chat_invoked 가 context.surface = slack 으로 남지만, 6개 질문 중 이 값으로 남은 행은 GitHub 도구를 쓴 2건뿐이었다(같은 시각대 웹 Rovo 채팅은 surface = rovoChat). 답 본문은 채널이 아니라 스레드 답글에 있다
+- id: rovo_connector_slack
+  type: app_grant
+  what: Atlassian Teamwork Graph 의 Slack 커넥터가 Rovo 검색·채팅에 Slack 메시지를 쓴다. Atlassian 관리자가 Connectors > Add connector > Slack > Authorize Slack 을 누르고 Slack 에서 인증한다. 2025-10-02 이후 새 연결은 Slack 검색을 직접 호출하며 Atlassian 이 메시지를 색인하지 않는다. 멤버는 Slack 계정을 Atlassian 에 연결한다
+  identify:
+    api: atlassian 조직 감사 rovo_ai_3p_connector_connection_created; slack 감사 (action 은 문서에 없음)
+    when: atlassian 조직에 Slack 커넥터 연결이 있음
+  points_to:
+  - tier: via_person
+    a: atlassian 조직 감사 rovo_ai_3p_connector_connection_created 의 actor 이메일
+    b: slack 조직 감사 app_installed 의 actor 이메일 (Authorize Slack 에서 승인한 계정)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: atlassian 조직 감사 rovo_ai_3p_connector_connection_created 시각 (connectorType slack-connector)
+    b: slack 조직 감사 app_installed 시각 (앱 「Atlassian Rovo」)
+    check: 시각이 가깝다
+  - tier: log_time
+    a: atlassian 조직 감사 rovo_chat_invoked 의 toolsInvoked 에 slack 도구(…slack_atlassian_channel_create_message) 와 시각
+    b: slack 메시지 ts 와 app_id (앱 Atlassian Connector), user
+    check: 시각이 가깝고 사람이 같다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  activity:
+  - atlassian 조직 감사 rovo_ai_3p_connector_connection_created, .updated, .deleted
+  - slack 감사 app_installed (앱 「Atlassian Rovo」), user_created (봇 사용자 Rovo), app_scopes_expanded
+  - atlassian 조직 감사 rovo_chat_invoked 의 context.toolsInvoked (slack_atlassian_slack_search_realtime, slack_atlassian_channel_create_message), skill_invoked
+  - slack 앱 「Atlassian Connector」(Rovo 채팅이 Slack 에 글을 쓸 때 쓰는 앱)의 app_installed 와 글
+  sources:
+  - https://support.atlassian.com/organization-administration/docs/connect-slack-to-teamwork-graph/ (설정, 직접 호출) [Exa]
+  - 'https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (event-actions: 조직이 낼 수 있는 action 값 목록. 값 자체는 조직에서 GET /v1/orgs/{orgId}/event-actions 로 읽는다) [Exa]'
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (Slack 감사 로그 action 이름)
+  note: 아래는 실측(2026-10-26, CM-16 B)에서 본 것이다. 연결하면 Slack 에 앱 「Atlassian Rovo」(app_installed, user scope 20개·bot scope 22개)가 설치되고 봇 사용자 Rovo 가 만들어지며, Atlassian 감사 rovo_ai_3p_connector_connection_created 가 17초 뒤에 남는다. 연결한 계정은 양쪽에서 같은 이메일이었다. Rovo 채팅이 이 연결로 Slack 을 읽은 것은 Atlassian 감사 rovo_chat_invoked 의 toolsInvoked 에 남는다. 글을 쓸 때는 Slack 쓰기 동의를 한 번 더 받았고 그때 별도 앱 「Atlassian Connector」(app_installed)가 설치되어 그 앱 이름으로 글이 올라갔다. 파일과 canvas 는 검색되지 않는다. 기존 jira_cloud_for_slack, jsm_chat_assist 와는 다른 방법이다

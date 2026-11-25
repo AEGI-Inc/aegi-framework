@@ -1,0 +1,383 @@
+# github ↔ atlassian 연결 규칙
+# Atlassian 은 Jira Cloud, Confluence Cloud, Bitbucket Cloud. 벤더 문서로만 썼다 (2026-10-14). 시험 테넌트 결과는 ../test-environment/github-atlassian.yaml 에 채운다
+
+pair:
+- github
+- atlassian
+written: '2026-10-14'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/github-atlassian.yaml
+methods:
+- id: github_for_atlassian_app
+  type: app_grant
+  what: Atlassian Marketplace 앱 「GitHub for Atlassian」(Atlassian 게시) 이 GitHub 조직에 GitHub App 으로 설치돼 브랜치·커밋·PR·배포 정보를 Jira 에 보냄. 연결 절차 문서는 GitHub Cloud 와 GitHub Enterprise Cloud 대상이고, Marketplace 목록은 GitHub Enterprise Server 연결도 적는다
+  identify:
+    api: github GET /orgs/{org}/installations
+    when: app_slug 가 GitHub for Atlassian 의 GitHub App. slug 값은 문서에 없어 설치 뒤 응답에서 읽는다 (GitHub Marketplace 목록 이름 GitHub for Atlassian, 게시자 atlassian)
+  note: 설치에는 Jira 사이트 관리자와 GitHub 조직 소유자가 필요하다. Jira 쪽 연결 목록은 Jira 「Manage your apps」 > 「GitHub for Atlassian」 아래 조직 이름이다
+  points_to:
+  - tier: config_name
+    a: github installation account.login (조직)
+    b: atlassian Jira 「GitHub for Atlassian」 설정 화면의 연결된 GitHub 조직 이름
+    check: a 와 b 가 같다
+    if_unreadable: 'Jira 쪽 API 없음. 사람: Jira > Apps > Manage your apps > GitHub for Atlassian (사이트 관리자)'
+  - tier: config_name
+    a: github installation app_slug, app_id
+    b: atlassian Marketplace 앱 GitHub for Atlassian (앱 ID 1219592)
+    check: a 가 그 앱의 GitHub App 이다 (값은 설치 뒤 확인)
+  - tier: log_time
+    a: github integration_installation.create 시각과 actor
+    b: atlassian 조직 감사 로그 「App successful installation」 시각 (이 앱 설치가 그 action 으로 남는지는 문서에 없음)
+    check: 시각이 가깝다
+  - tier: log_time
+    a: github 감사 integration_installation.create 시각 (필드 application_client_id, integration, name)
+    b: atlassian 조직 감사 「App successful installation」 시각 (표시명. API action 값은 문서에 없음)
+    check: 시각이 가깝다 (Atlassian 이 이 활동을 Marketplace 와 third-party 앱 설치로 설명한다. rule 이 '문서에 없음'이라 적은 칸의 근거 후보이고, GitHub for Atlassian 이 이 action 으로 남는지는 실로그로 확인해야 한다. 이 활동은 Atlassian 조직 감사다. Jira 제품 감사 로그가 아니다. integration 필드의 값 형식은 문서에 없다.)
+  - tier: config_name
+    a: github 감사 integration_installation.repositories_added 의 repositories_added_names 필드 (문서는 필드 이름만 적음. 값 형식은 없음)
+    b: atlassian Jira 「GitHub for Atlassian」 설정 화면 또는 개발 패널의 연결 저장소 이름 (Jira 쪽 조회 API 문서 확인 못 함, 화면)
+    check: 이름 목록이 같다 (문서의 필드 이름은 repositories_added 와 repositories_added_names 다. 'repositories' 라는 필드는 없다. repositories_removed 와 repositories_removed_names 도 같은 구조다.)
+  activity:
+  - github integration_installation.create, .repositories_added, .destroy
+  - atlassian Jira 이슈의 개발 패널 (브랜치·커밋·PR). Jira 감사 로그에는 앱 설치·GitHub 연결 항목이 없다
+  sources:
+  - https://support.atlassian.com/jira-cloud-administration/docs/integrate-with-github-cloud/ (권한, 연결 절차, Manage your apps 확인)
+  - https://marketplace.atlassian.com/apps/1219592 (GitHub for Atlassian, GitHub Cloud·Enterprise Cloud·Enterprise Server)
+  - https://github.com/marketplace/jira-software-github (GitHub for Atlassian, By atlassian, PR·배포·브랜치 동기화)
+  - https://docs.github.com/en/rest/orgs/orgs (GET /orgs/{org}/installations, app_slug, 조직 소유자)
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (integration_installation.*)
+  - https://support.atlassian.com/jira-cloud-administration/docs/audit-activities-in-jira-applications/ (Jira 감사 로그 범주에 앱·연결 없음)
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database (App successful installation)
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (integration_installation.create 설명과 필드)
+  - 'https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (App actions 표: App successful installation) [Exa 검색 요약, 원문 미열람]'
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (integration_installation.repositories_added 설명과 필드)
+- id: dvcs_connector_legacy
+  type: stored_credential
+  what: Jira 「DVCS accounts」 가 GitHub Enterprise 의 OAuth 앱 Client ID·Secret 으로 저장소를 읽음 (레거시). GitHub.com 은 Marketplace 앱을 쓰고, 레거시 커넥터는 2024-03-31 이후 지원되지 않는다고 GHES 문서가 적는다
+  identify:
+    api: atlassian Jira 설정 > Jira apps > DVCS accounts (화면. 조회 API 는 문서에 없음)
+    when: 계정이 있음
+  points_to:
+  - tier: config_id
+    a: atlassian DVCS 계정의 Client ID
+    b: github OAuth 앱 client_id (Settings > Developer settings > OAuth apps)
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: github OAuth 앱 Homepage URL, Authorization callback URL
+    b: atlassian Jira base URL
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: github 사용자 보안 로그 oauth_authorization.create 의 oauth_application_name, oauth_application_id
+    b: github OAuth 앱 (client_id = atlassian DVCS 계정의 Client ID)
+    check: a 와 b 가 같다
+  activity:
+  - github oauth_application.create, oauth_authorization.create (사용자 보안 로그)
+  sources:
+  - https://confluence.atlassian.com/servicedeskcloud/connect-jira-cloud-to-github-1097175825.html (2021-11-17. Client ID, Client Secret, Host URL, callback = Jira base URL)
+  - https://support.atlassian.com/jira-cloud-administration/docs/connect-a-github-enterprise-server-account-to-jira-software/ (레거시 커넥터 2024-03-31 지원 종료, Disconnect 경로)
+  - https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/security-log-events
+- id: actions_to_jira
+  type: stored_credential
+  what: GitHub Actions 워크플로가 비밀에 넣은 Atlassian API 토큰으로 Jira REST 를 부름 (Atlassian 공식 gajira 액션은 2026 기준 유지보수 중단. 비밀 이름 JIRA_BASE_URL, JIRA_USER_EMAIL, JIRA_API_TOKEN 이 예시)
+  identify:
+    api: github GET /repos/{o}/{r}/actions/secrets, GET /orgs/{org}/actions/secrets
+    when: 비밀 이름에 JIRA, ATLASSIAN
+  points_to:
+  - tier: config_name
+    a: github 비밀 이름 (값은 볼 수 없음), 워크플로 파일의 호출 호스트 (<site>.atlassian.net, api.atlassian.com)
+    b: atlassian 사이트 주소
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: github 비밀 JIRA_USER_EMAIL 의 사람 (워크플로 파일에서만 보임)
+    b: atlassian API 토큰 소유자 (Insights > API token activity, GET /admin/api-access/v1/orgs/{orgId}/api-tokens)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: atlassian 조직 감사 로그 actor.auth.tokenId, tokenLabel
+    b: 그 토큰으로 한 Jira 변경의 시각 ↔ github 워크플로 실행 시각
+    check: 시각이 가깝다
+  activity:
+  - github 워크플로 실행
+  - atlassian 조직 감사 「Created API token」, 「Third-party app Jira API request」, 사용자 API 토큰 활동
+  sources:
+  - https://github.com/atlassian/gajira (유지보수 중단. 비밀 JIRA_BASE_URL, JIRA_USER_EMAIL, JIRA_API_TOKEN)
+  - https://support.atlassian.com/security-and-access-policies/docs/revoke-user-api-tokens/ (Insights > API token activity)
+  - https://developer.atlassian.com/cloud/admin/api-access/rest/api-group-api-token/ (GET /orgs/{orgId}/api-tokens, read:tokens:admin)
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (actor.auth.tokenId, tokenLabel)
+- id: jira_automation_to_github
+  type: event_delivery
+  what: Jira Automation 「Send web request」 액션이 api.github.com 을 부름 (GitHub 토큰은 룰의 숨김 값에 저장)
+  identify:
+    api: atlassian GET https://api.atlassian.com/automation/public/{product}/{cloudid}/rest/v1/rule/summary, 룰 상세 GET .../rest/v1/rule/{ruleUuid} (Forge·OAuth 2.0 앱은 못 씀)
+    when: 룰 상세 components 에 Send web request 가 있고 URL 호스트가 api.github.com (URL 이 어느 필드에 담기는지는 문서에 없음. 룰을 만들어 응답에서 찾는다)
+  points_to:
+  - tier: config_name
+    a: atlassian 룰 상세 응답 rule.components[type=jira.issue.outgoing.webhook].value.url (저장소와 이슈 번호까지 나온다)
+    b: github 저장소
+    check: a 와 b 가 같다
+    if_unreadable: 'Jira Automation 룰 화면 (글로벌 관리자)'
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  - tier: log_id
+    a: github 감사 로그 hashed_token, programmatic_access_type (토큰으로 한 동작)
+    b: atlassian 룰 실행 Audit log 의 실행 시각
+    check: 시각이 가깝다
+  activity:
+  - atlassian Automation 화면 Audit log 탭 (실행 시각, 상태)
+  - github 토큰으로 한 동작의 감사 로그
+  sources:
+  - https://developer.atlassian.com/cloud/automation/rest/api-group-rule-management/ (rule/summary, rule/{ruleUuid}, Forge·OAuth2 불가)
+  - https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/ (Send web request, 허용 포트, 도메인 제한, 숨김 값)
+  - https://support.atlassian.com/cloud-automation/docs/view-execution-data-for-a-rule/ (Audit log 탭)
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/identifying-audit-log-events-performed-by-an-access-token (hashed_token, programmatic_access_type)
+- id: github_webhook_to_jira_automation
+  type: event_delivery
+  what: GitHub 웹훅이 Jira Automation 「Incoming webhook」 트리거 주소(고유 URL + secret)로 보냄
+  identify:
+    api: github GET /orgs/{org}/hooks, GET /repos/{o}/{r}/hooks
+    when: config.url 호스트가 Atlassian 의 Automation 웹훅 호스트 (문서에 값 없음. 트리거를 만들어 URL 을 보고 적는다)
+  points_to:
+  - tier: fingerprint
+    a: github webhook config.url sha256
+    b: atlassian 룰 Incoming webhook 트리거 URL 의 sha256 (룰 화면. URL 을 API 로 나열하는 방법은 문서에 없음)
+    check: a 의 sha256 과 b 가 같다
+    note: 룰 상세 응답(rule.trigger.type jira.incoming.webhook)에는 트리거 URL 이 없고 webhookToken 만 있다. 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  - tier: log_time
+    a: github 웹훅 배달 기록 시각
+    b: atlassian 룰 Audit log 실행 시각
+    check: 시각이 가깝다
+  activity:
+  - github hook.create, 배달 기록
+  - atlassian Automation 화면 Audit log 탭
+  sources:
+  - 'https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/ (Incoming webhook: HTTP POST, 고유 URL 과 secret, {{webhookData}})'
+  - https://docs.github.com/en/rest/orgs/webhooks#list-organization-webhooks (GET /orgs/{org}/hooks, config.url)
+  - https://docs.github.com/en/rest/repos/webhooks (GET /repos/{owner}/{repo}/hooks)
+  - https://support.atlassian.com/cloud-automation/docs/view-execution-data-for-a-rule/ (Audit log 탭)
+- id: smart_links_github
+  type: content_ref
+  what: Jira·Confluence 본문의 github.com 링크를 Smart Link 로 펼침. 인증이 필요한 미리보기는 사용자가 GitHub 에 로그인해야 한다
+  identify:
+    api: atlassian 페이지·이슈 본문 (REST), 사용자 Connected apps
+    when: 본문에 github.com 주소
+  points_to:
+  - tier: config_name
+    a: atlassian 본문의 github.com 주소 (조직·저장소)
+    b: github 조직·저장소
+    check: a 와 b 가 같다
+  sources:
+  - https://support.atlassian.com/platform-experiences/docs/smart-links-from-jira-and-other-products/ (GitHub 는 Non-Atlassian apps 소스, 로그인 필요)
+  - https://support.atlassian.com/security-and-access-policies/docs/manage-your-users-third-party-apps/ (사용자 Connected apps, 관리자 Connected apps)
+  note: 로그 등급 없음. 본문 속 주소라 연결이 동작한 기록이 없다
+- id: confluence_github_marketplace_apps
+  type: stored_credential
+  what: Confluence 에 GitHub 를 붙이는 제3자 Marketplace 앱(예 GitHub links for Confluence, Move Work Forward). GitHub 인증 방식은 앱마다 다르고 문서는 미열람
+  identify:
+    api: atlassian Connected apps (admin.atlassian.com > Apps > 사이트 > Connected apps)
+    when: GitHub 관련 제3자 앱이 설치됨
+  points_to:
+  - tier: config_name
+    a: atlassian 설치 앱 이름·게시자
+    b: github 토큰 소유 계정 (앱 설정 화면. Cloud 절차는 문서 미열람)
+    check: 앱 설정에서 연결한 GitHub 계정을 본다
+  - tier: log_time
+    a: atlassian 조직 감사 「App successful installation」 시각
+    b: github oauth_authorization.create 또는 integration_installation.create 시각
+    check: 시각이 가깝다
+  activity:
+  - atlassian 조직 감사 「App successful installation」, 「Third-party app Confluence API request」
+  - github 토큰으로 한 동작 (programmatic_access_type)
+  sources:
+  - https://marketplace.atlassian.com/apps/1216106 (GitHub links for Confluence, Partner Supported)
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database (App successful installation, Third-party app Confluence API request)
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)
+  - https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/security-log-events
+- id: person_link
+  type: same_person
+  what: 같은 사람 (GitHub 계정 ↔ Atlassian 계정)
+  identify:
+    api: github GraphQL externalIdentities (SAML nameId), 커밋 이메일; atlassian GET /admin/v1/orgs/{orgId}/users
+    when: 항상
+  points_to:
+  - tier: via_person
+    a: github SAML nameId, 검증 이메일
+    b: atlassian data[].email
+    check: a 와 b 가 같다
+  sources:
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/ (data[].email)
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: confluence_automation_to_github
+  type: event_delivery
+  what: Confluence Automation 「Send web request」 가 api.github.com 을 부름 (GitHub 토큰은 플로우에 저장). 반대로 GitHub 웹훅이 Confluence 플로우의 Incoming webhook 을 부를 수도 있다 (atlassian-external confluence_automation_incoming_webhook)
+  identify:
+    api: atlassian 룰 관리 REST ({product} 에 confluence 가 되는지는 첫 호출로 확인), 플로우 화면
+    when: Send web request URL 호스트가 api.github.com
+  points_to:
+  - tier: config_name
+    a: atlassian 룰 상세 응답 rule.components[type=outgoing.webhook].value.url (저장소와 이슈 번호까지 나온다)
+    b: github 저장소
+    check: a 와 b 가 같다
+    if_unreadable: 'Confluence 전역 Automation 화면(Confluence 관리자), 스페이스 Automation 화면(스페이스 관리자)'
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  - tier: log_id
+    a: github 감사 로그 hashed_token, programmatic_access_type
+    b: atlassian 플로우 Audit log 실행 시각
+    check: 시각이 가깝다
+  - tier: fingerprint
+    a: github webhook config.url sha256 (GitHub → Confluence 방향)
+    b: atlassian 플로우 Incoming webhook URL 의 sha256
+    check: a 의 sha256 과 b 가 같다
+  activity:
+  - atlassian 플로우 Audit log
+  - github 토큰으로 한 동작, hook.create
+  sources:
+  - https://support.atlassian.com/cloud-automation/docs/actions-in-confluence-automation/ (Send web request)
+  - https://support.atlassian.com/cloud-automation/docs/triggers-in-confluence-automation/ (Incoming webhook)
+  - https://support.atlassian.com/cloud-automation/docs/configure-the-incoming-webhook-trigger-in-atlassian-automation/
+- id: bitbucket_import_from_github
+  type: stored_credential
+  what: Bitbucket 「Import repository」 가 GitHub personal access token 으로 저장소를 복제해 옮김. 한 번 복사이며 동기화·미러링 설명은 문서에 없다
+  identify:
+    api: atlassian Bitbucket Create > Repository > Import repository (URL, Workspace, Project, Name). 원본 URL 을 저장하는지는 문서에 없음
+    when: 가져온 저장소가 있음
+  points_to:
+  - tier: config_name
+    a: atlassian Bitbucket 저장소 이름·내용 (가져온 커밋 SHA)
+    b: github 저장소 커밋 SHA
+    check: a 와 b 가 같다 (복제라 커밋이 같다)
+  - tier: log_id
+    a: github 토큰 동작 감사 (hashed_token, programmatic_access_type)
+    b: atlassian Bitbucket 「Repository created」 감사 시각
+    check: 시각이 가깝다
+  activity:
+  - github 사용자 보안 로그 personal_access_token 계열, 토큰으로 한 clone
+  - atlassian Bitbucket 워크스페이스 감사 「Repository created」. 조직에 연결하면 조직 감사 「Created repository」
+  sources:
+  - https://support.atlassian.com/bitbucket-cloud/docs/import-a-repository-from-github-or-gitlab/ (personal access token, 복제)
+  - https://support.atlassian.com/bitbucket-cloud/kb/bitbucket-cloud-audit-log-events/ (Repository created)
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Created repository)
+- id: copilot_for_jira
+  type: app_grant
+  what: Jira 에서 GitHub Copilot 코딩 에이전트를 시작한다 (담당자 칸에 Copilot 지정, @GitHub Copilot 멘션, Jira 자동화의 「Use GitHub Copilot」). Atlassian Marketplace 앱 「GitHub Copilot for Jira」(게시자 GitHub)와 짝이 되는 GitHub App 이 조직에 설치된다. 유료 Copilot 플랜, AI 지원 앱으로 설정된 Jira, 조직의 Rovo 활성화가 필요하다. GA
+  identify:
+    api: github GET /orgs/{org}/installations (app_slug 는 문서에 없음); atlassian 설치 앱 목록 (Marketplace, 화면)
+    when: github 조직에 「GitHub Copilot for Jira」 GitHub App 이 설치되어 있고 Jira 에 같은 이름의 Marketplace 앱이 설치되어 있음
+  points_to:
+  - tier: config_name
+    a: github 조직 설치 앱 이름 (GitHub Copilot for Jira)
+    b: atlassian 설치 앱 이름 (GitHub Copilot for Jira)
+    check: a 와 b 가 같다
+    if_unreadable: 'Jira 쪽 설치 앱 목록은 화면. 사람: Jira Apps > Manage apps'
+  - tier: via_person
+    a: jira 사용자
+    b: github 계정 (처음 쓸 때 연결)
+    check: 같은 사람
+  - tier: log_time
+    a: github 감사 integration_installation.create 시각
+    b: atlassian 설치 앱 목록의 설치 시각
+    check: 시각이 가깝다
+  activity:
+  - github 조직 감사 integration_installation.create, copilot.swe_agent_repo_enablement_updated, copilot.swe_agent_repo_enabled, copilot.swe_agent_repo_disabled
+  - atlassian 앱 설치 이벤트 이름은 문서에 없음
+  sources:
+  - https://docs.github.com/en/copilot/how-tos/use-copilot-agents/cloud-agent/integrate-cloud-agent-with-jira (시작 방법, 설치 주체, 요건)
+  - https://marketplace.atlassian.com/apps/1582455624/github-copilot-for-jira (Atlassian Marketplace 앱)
+  - https://github.blog/changelog/2026-06-25-github-copilot-for-jira-is-now-generally-available (GA)
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (GitHub 조직 감사 이벤트 이름)
+  note: 기존 github_for_atlassian_app(Atlassian 이 게시한 「GitHub for Atlassian」)과는 다른 앱이다. 작업 항목의 제목·설명·댓글이 PR 에 들어가며 저장소가 공개면 누구나 본다고 문서가 쓴다
+- id: rovo_connector_github
+  type: app_grant
+  what: Atlassian Teamwork Graph 의 GitHub 커넥터가 GitHub 저장소·PR·이슈·커밋을 색인해 Rovo 검색에 쓴다. 「GitHub for Atlassian」 앱 설치에 커넥터가 기본 선택되어 있어, 설치 뒤 Jira 설정이 「Rovo Search for GitHub」 켜기를 묻는다. 사용자는 각자 GitHub 계정을 연결한다
+  identify:
+    api: atlassian 조직 감사 GET /admin/v1/orgs/{orgId}/events (action rovo_ai_3p_connector_connection_created); github GET /orgs/{org}/installations (app_slug)
+    when: atlassian 조직 감사에 GitHub 커넥터 연결 행이 있고 github 조직에 GitHub for Atlassian 이 설치되어 있음
+  points_to:
+  - tier: config_name
+    a: atlassian GitHub 커넥터 연결이 가리키는 GitHub 조직
+    b: github 조직의 GitHub for Atlassian 설치 (app_slug atlassian)
+    check: a 와 b 가 같다
+    if_unreadable: 커넥터 설정은 Atlassian Administration > Connectors (화면). 설치는 github GET /orgs/{org}/installations
+  - tier: via_person
+    a: atlassian 사용자
+    b: github 계정 (사용자가 연결)
+    check: 같은 사람
+  - tier: log_time
+    a: atlassian 조직 감사 rovo_ai_3p_connector_connection_created 시각 (message 에 connectorType github-connector)
+    b: github 감사 integration_installation.create 또는 integration_installation.repositories_added 시각
+    check: 시각이 가깝다
+  - tier: log_time
+    a: atlassian 조직 감사 rovo_chat_invoked 의 toolsInvoked 에 githubagent__invoke_* 도구와 시각
+    b: github 저장소 (Rovo 답에 나온 저장소. GitHub 은 저장소 읽기를 감사에 남기지 않는다)
+    check: 시각과 저장소가 맞다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  activity:
+  - atlassian 조직 감사 rovo_ai_3p_connector_connection_created, rovo_ai_3p_connector_connection_updated, rovo_ai_3p_connector_connection_deleted (공식 목록의 표시 이름 Created/Updated/Deleted third-party Connector connection 과의 대응은 이름으로 본 것이고, created 는 실환경 행으로 확인)
+  - github 조직 감사 integration_installation.create, .repositories_added, .repositories_removed, .version_updated, .destroy
+  sources:
+  - https://support.atlassian.com/organization-administration/docs/connect-github-to-rovo (GitHub 커넥터 설정, 기본 선택, 사용자 연결) [Exa]
+  - 'https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (event-actions: 조직이 낼 수 있는 action 값 목록. 값 자체는 조직에서 GET /v1/orgs/{orgId}/event-actions 로 읽는다) [Exa]'
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (GitHub 조직 감사 이벤트 이름)
+  note: 「Rovo Search for GitHub」는 공식 문서에 이 이름이 없다. 시험 환경에서 이 설정을 켠 감사 행의 action 이 rovo_ai_3p_connector_connection_created 였고 connectorType 이 github-connector 였다 (../test-environment/v3/github-atlassian.yaml). connectorType 값은 공식 문서에 값 목록이 없어 실환경 행에서 읽는다
+- id: rovo_dev_code_review
+  type: app_grant
+  what: Rovo Dev 가 GitHub PR 을 자동 리뷰한다. 조직 관리자가 Rovo Dev 설정에서 코드 리뷰를 켜고, 저장소 관리자가 저장소마다 트리거(PR 생성 시, 커밋마다, 자동 안 함)를 고른다. PR 작성자의 Rovo Dev Standard 플랜이 GitHub 조직과 연결된 Jira 사이트에 있어야 한다. PR 댓글 @atlassian /review 로 수동 실행
+  identify:
+    api: atlassian Rovo Dev 설정 (화면); github 저장소의 .rovodev 폴더
+    when: atlassian Rovo Dev 설정에 코드 리뷰가 켜져 있고 해당 GitHub 저장소가 연결되어 있음
+  points_to:
+  - tier: config_name
+    a: atlassian Rovo Dev 설정의 코드 리뷰 대상 저장소
+    b: github 저장소
+    check: a 와 b 가 같다
+    if_unreadable: '읽는 API 가 문서에 없다. 사람: Atlassian 조직의 Rovo Dev 설정 페이지'
+  activity:
+  - 문서에 없음
+  sources:
+  - https://support.atlassian.com/rovo/docs/enable-code-reviews/ (설정, 트리거, 플랜 요건) [Exa]
+  note: GitHub 쪽에 무엇이 남는지 문서에 없다. GitHub 앱은 방법 rovo_connector_github 과 같은 「GitHub for Atlassian」으로 보이나 문서가 명시하지 않는다
+- id: copilot_agent_atlassian_mcp
+  type: stored_credential
+  what: GitHub Copilot 이 Atlassian MCP 서버(Rovo MCP)로 Jira·Confluence 를 읽는다. 코딩 에이전트는 저장소 설정의 MCP 구성(mcpServers JSON)에 서버를 넣고 인증 비밀을 COPILOT_MCP_ 접두사 이름의 에이전트 비밀로 둔다. Copilot Chat(VS Code)은 사용자가 mcp.json 에 서버를 넣고 OAuth 2.1 로 로그인한다. 원격 서버는 type http 또는 sse 만 되고 OAuth 원격 서버는 코딩 에이전트 구성에서 지원하지 않는다
+  identify:
+    api: github 저장소 Settings > Copilot > MCP servers 의 구성 (화면); atlassian Atlassian Administration > Connectors > Atlassian MCP server (화면)
+    when: github 저장소의 MCP 구성에 mcp.atlassian.com 서버가 있음
+  points_to:
+  - tier: config_name
+    a: github 저장소 MCP 구성의 서버 URL (mcp.atlassian.com)
+    b: atlassian MCP 서버 주소
+    check: a 와 b 가 같다
+    if_unreadable: 저장소 MCP 구성은 화면. 사용자 PC 의 mcp.json 은 조직이 읽을 수 없다
+  - tier: log_time
+    a: github 감사 copilot.swe_agent_mcp_config_updated 시각 (저장소 MCP 구성 변경)
+    b: atlassian 조직 감사 mcp_tool_invoked 의 시각과 사용자
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - github 조직 감사 copilot.swe_agent_mcp_config_updated, mcp_registry.allowlist_assign, mcp_registry.allowlist_remove_assignment
+  - atlassian 조직 감사 mcp_tool_invoked
+  sources:
+  - https://docs.github.com/en/copilot/how-tos/copilot-on-github/customize-copilot/configure-mcp-servers (저장소 MCP 구성, 제약)
+  - https://github.blog/changelog/2026-03-25-github-copilot-for-jira-public-preview-enhancements/ (Confluence 맥락을 MCP 로, 인증은 PAT 라고만 적음)
+  - https://support.atlassian.com/rovo/docs/getting-started-with-the-atlassian-remote-mcp-server/ (Atlassian MCP 서버 주소, OAuth 2.1, 지원 클라이언트) [Exa]
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (GitHub 조직 감사 이벤트 이름)
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Atlassian 감사 로그 활동 목록. 표시 이름) [Exa]
+  note: 코딩 에이전트 경로의 PAT 를 만든 사람·권한 범위·관리자 승인 여부는 문서에 없다. Atlassian 공식 페이지는 OAuth 2.1 또는 API 토큰을 든다(PAT 를 받는지 확인 못 함)
+- id: copilot_connector_atlassian_rovo
+  type: app_grant
+  what: GitHub Copilot(Copilot 앱, Copilot CLI, VS Code, 클라우드)이 GitHub 이 검증한 Atlassian Rovo 커넥터로 Atlassian 을 부른다. 사용자가 서비스에 로그인해 접근을 승인하면 연결이 생기고 같은 연결을 여러 Copilot 화면에서 쓴다. public preview 이고 바뀔 수 있다
+  identify:
+    api: github Copilot 앱 Customize 탭의 Connectors, Copilot CLI 의 /mcp 연결 화면 (읽는 API 는 문서에 없다)
+    when: Connectors 에 Atlassian Rovo 가 연결되어 있음
+  points_to:
+  - tier: via_person
+    a: Copilot 연결을 승인한 GitHub 사용자
+    b: 그 연결에서 Atlassian 에 로그인한 계정
+    check: 같은 사람
+    if_unreadable: '양쪽을 읽는 API 가 문서에 없다. 사람: Copilot Connectors 화면, Atlassian 관리 화면'
+  - tier: log_time
+    a: github 쪽 연결 기록 위치는 문서에 없다
+    b: atlassian 쪽 대응 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - 문서에 없다
+  sources:
+  - https://docs.github.com/en/copilot/concepts/customizations/copilot-connectors (Atlassian Rovo·Slack 이 GitHub 검증 커넥터 목록에 있음, public preview, 쓰는 화면, GitHub Actions 세션은 아직 안 됨)
+  note: 저장소에 mcpServers 를 적는 기존 copilot_agent_atlassian_mcp 와 달리 사용자 로그인으로 잇는 방식이라 따로 둔다. 연결 엔드포인트 주소, Atlassian 쪽 흔적, 감사 이벤트 이름, GA 일자, 비용은 문서에 없다. 실측 없음

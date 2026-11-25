@@ -1,0 +1,170 @@
+[
+  {
+    "id": "EVL-A-001",
+    "scenarioKey": "A",
+    "from": {
+      "kind": "object",
+      "id": "SLK-MSG-A-CONTEXT"
+    },
+    "to": {
+      "kind": "observation",
+      "id": "OBS-A-AGENT-RUN-001"
+    },
+    "evidenceType": "context_used_by",
+    "label": "AI 실행 컨텍스트로 참조됨"
+  },
+  {
+    "id": "EVL-A-002",
+    "scenarioKey": "A",
+    "from": {
+      "kind": "observation",
+      "id": "OBS-A-AGENT-RUN-001"
+    },
+    "to": {
+      "kind": "object",
+      "id": "GH-PR-A-LOGGING"
+    },
+    "evidenceType": "produced",
+    "label": "Pull Request 생성"
+  },
+  {
+    "id": "EVL-A-003",
+    "scenarioKey": "A",
+    "from": {
+      "kind": "object",
+      "id": "GH-PR-A-LOGGING"
+    },
+    "to": {
+      "kind": "object",
+      "id": "GH-COMMIT-A-LOGGING"
+    },
+    "evidenceType": "produced",
+    "label": "커밋 변경 반영"
+  },
+  {
+    "id": "EVL-A-004",
+    "scenarioKey": "A",
+    "from": {
+      "kind": "object",
+      "id": "GH-COMMIT-A-LOGGING"
+    },
+    "to": {
+      "kind": "observation",
+      "id": "OBS-A-CODE-CHANGE-001"
+    },
+    "evidenceType": "observed_as",
+    "label": "개인정보 로깅 확대 변경 관측"
+  },
+  {
+    "id": "EVL-B-001",
+    "scenarioKey": "B",
+    "from": {
+      "kind": "observation",
+      "id": "OBS-B-REQ-UC"
+    },
+    "to": {
+      "kind": "object",
+      "id": "GH-COMMIT-B-UC"
+    },
+    "evidenceType": "correlates_by",
+    "label": "Commit SHA 상관관계 일치"
+  },
+  {
+    "id": "EVL-B-002",
+    "scenarioKey": "B",
+    "from": {
+      "kind": "observation",
+      "id": "OBS-B-REQ-UD"
+    },
+    "to": {
+      "kind": "object",
+      "id": "GH-COMMIT-B-UD"
+    },
+    "evidenceType": "correlates_by",
+    "label": "Commit SHA 상관관계 일치 (사용자 D 요청)"
+  },
+  {
+    "id": "EVL-B-003",
+    "scenarioKey": "B",
+    "from": {
+      "kind": "object",
+      "id": "GH-COMMIT-B-UD"
+    },
+    "to": {
+      "kind": "object",
+      "id": "GH-U-UC"
+    },
+    "evidenceType": "attributed_as",
+    "label": "GitHub 감사 로그 상 사용자 C 계정으로만 기록됨"
+  },
+  {
+    "id": "EVL-C-001",
+    "scenarioKey": "C",
+    "from": {
+      "kind": "object",
+      "id": "SLK-END-MFARESET"
+    },
+    "to": {
+      "kind": "observation",
+      "id": "OBS-C-AUTOMATION-RUN-UA"
+    },
+    "evidenceType": "requested_via",
+    "label": "슬랙 엔드포인트를 통한 MFA 리셋 호출"
+  },
+  {
+    "id": "EVL-C-002",
+    "scenarioKey": "C",
+    "from": {
+      "kind": "observation",
+      "id": "OBS-C-AUTOMATION-RUN-UA"
+    },
+    "to": {
+      "kind": "object",
+      "id": "OKTA-UF-TESTTARGET"
+    },
+    "evidenceType": "produced",
+    "label": "Okta 사용자 인증 팩터 초기화 성공"
+  },
+  {
+    "id": "EVL-D-001",
+    "scenarioKey": "D",
+    "from": {
+      "kind": "object",
+      "id": "GWS-FILE-CUSTOMER-RESPONSES"
+    },
+    "to": {
+      "kind": "object",
+      "id": "GWS-PROJECT-CUSTOMER-SYNC"
+    },
+    "evidenceType": "context_used_by",
+    "label": "Apps Script 소스 데이터 읽기"
+  },
+  {
+    "id": "EVL-D-002",
+    "scenarioKey": "D",
+    "from": {
+      "kind": "object",
+      "id": "GWS-PROJECT-CUSTOMER-SYNC"
+    },
+    "to": {
+      "kind": "object",
+      "id": "SLK-END-CUSTOMER-WEBHOOK"
+    },
+    "evidenceType": "delivered_to",
+    "label": "Slack Webhook으로 고객 데이터 전송"
+  },
+  {
+    "id": "EVL-D-003",
+    "scenarioKey": "D",
+    "from": {
+      "kind": "object",
+      "id": "SLK-END-CUSTOMER-WEBHOOK"
+    },
+    "to": {
+      "kind": "object",
+      "id": "SLK-MSG-D-CUSTOMER-DATA"
+    },
+    "evidenceType": "produced",
+    "label": "Slack 채널 내 고객 정보 메시지 수신"
+  }
+]

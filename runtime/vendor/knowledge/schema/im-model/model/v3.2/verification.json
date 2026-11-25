@@ -1,0 +1,553 @@
+{
+  "revision": "r3",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "bridge_one_link_per_envelope",
+      "ok": true,
+      "detail": {
+        "envelopes": 510,
+        "links": 510
+      }
+    },
+    {
+      "name": "bridge_page_totals",
+      "ok": true,
+      "detail": {
+        "matched": 485,
+        "unmapped": 2,
+        "unusable": 16,
+        "matched_operation_only": 3,
+        "out_of_scope": 4
+      }
+    },
+    {
+      "name": "bridge_operations_exist_in_pinned_ir",
+      "ok": true,
+      "detail": {
+        "matched_pages": 488
+      }
+    },
+    {
+      "name": "bridge_file_hashes_match_raw",
+      "ok": true,
+      "detail": {
+        "files": 510
+      }
+    },
+    {
+      "name": "bridge_no_first_candidate_pick",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "drive_replay_matches_investigation",
+      "ok": true,
+      "detail": {
+        "file_records": 6,
+        "unique_files": 6,
+        "permission_records": 7,
+        "permission_files": 6,
+        "unique_permission_ids": 4,
+        "permission_ids_on_several_files": 2,
+        "unique_file_permission_pairs": 7,
+        "permission_id_to_grantee_functional": true,
+        "grantee_to_permission_id_functional": true,
+        "roles": {
+          "owner": 6,
+          "reader": 1
+        },
+        "grantee_types": {
+          "user": 7
+        },
+        "owner_permissions": 6,
+        "owner_permissions_matching_file_owners": 6,
+        "user_grantees_resolvable_to_directory_user_by_email": 6,
+        "after_R1_D01": {
+          "has_role_on": 1,
+          "has_role_on_source_resolvable": 0,
+          "owned_by": 6,
+          "owned_by_with_via_assignment": 6,
+          "owner_permissions_kept_as_has_role_on": 0,
+          "before": {
+            "has_role_on": 7,
+            "owned_by": 6
+          }
+        }
+      }
+    },
+    {
+      "name": "drive_scoped_identity_no_collision",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "drive_permission_id_grantee_bijection",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "github_list_detail_replay",
+      "ok": true,
+      "detail": {
+        "repo_owner_types": {
+          "Organization": 4
+        },
+        "repo_owner_org_matches_orgs_get": 4,
+        "member_types": {
+          "User": 4
+        },
+        "detail_types": {
+          "User": 3
+        },
+        "collaborator_types": {
+          "User": 4
+        },
+        "member_ids": 3,
+        "detail_ids": 3,
+        "member_detail_shared_ids": 3,
+        "collaborator_ids_in_members": 2,
+        "login_id_conflicts": 0
+      }
+    },
+    {
+      "name": "okta_client_replay",
+      "ok": true,
+      "detail": {
+        "applications": 5,
+        "applications_with_declared_client_id": 2,
+        "clients_listClients": 2,
+        "clients_matching_declared": 2,
+        "clients_matching_app_id_only": 0,
+        "user_client_records": 2,
+        "user_client_ids": 2,
+        "user_clients_matching_declared": 0,
+        "user_clients_unmatched": 2,
+        "user_clients_unmatched_in_listClients": 0,
+        "user_clients_unmatched_names": [
+          "Okta Admin Console",
+          "Okta Workflows"
+        ],
+        "declared_client_id_equals_app_id": 2,
+        "identity_source_user_records": 0
+      }
+    },
+    {
+      "name": "orphan_items_preserved",
+      "ok": true,
+      "detail": {
+        "map": 4669,
+        "dispositions": 4669
+      }
+    },
+    {
+      "name": "orphan_unresolved_have_reason",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "orphan_resolved_have_basis",
+      "ok": true,
+      "detail": {}
+    },
+    {
+      "name": "no_raw_values_in_outputs",
+      "ok": true,
+      "detail": {
+        "candidates_checked": 3760,
+        "leaks": []
+      }
+    },
+    {
+      "name": "no_open_conflicts",
+      "ok": true,
+      "detail": [
+        "conflict:gws-drive-owner-double-relation:decided",
+        "conflict:okta-UserGetSingleton-UserResponseSchema:resolved_by_regeneration",
+        "conflict:github-User-simple-user:resolved_by_regeneration",
+        "conflict:github-public-user-simple-user:resolved_by_regeneration",
+        "conflict:gws-Member.memberKey-User:resolved_by_regeneration",
+        "conflict:jira-RemoteIssueLink-{}_2:resolved_by_regeneration",
+        "conflict:okta-Application-OAuth2Client:resolved_by_existing_decision"
+      ]
+    },
+    {
+      "name": "R1_D01_owner_folded",
+      "ok": true,
+      "detail": {
+        "has_role_on": 1,
+        "has_role_on_source_resolvable": 0,
+        "owned_by": 6,
+        "owned_by_with_via_assignment": 6,
+        "owner_permissions_kept_as_has_role_on": 0,
+        "before": {
+          "has_role_on": 7,
+          "owned_by": 6
+        }
+      }
+    },
+    {
+      "name": "R1_D02_D03_D04_spaces_added",
+      "ok": true,
+      "detail": [
+        "gws:DriveGrantee",
+        "slack:SlashCommandRequestEndpoint",
+        "confluence:SpacePermission",
+        "parent_property_binding"
+      ]
+    },
+    {
+      "name": "R1_D03_matches_runtime_counts",
+      "ok": true,
+      "detail": {
+        "im": {
+          "slash_commands": 8,
+          "slash_command_unique_keys": 8,
+          "space_permission_rows": 622,
+          "space_permission_bundles": 28,
+          "slack_approval_records": 0
+        },
+        "runtime": {
+          "SpacePermission": 28,
+          "Slash Command Request Endpoint": 8
+        }
+      }
+    },
+    {
+      "name": "R1_D05_regeneration_equals_overlay",
+      "ok": true,
+      "detail": {
+        "regenSplits": [
+          "github:User|simple-user",
+          "github:public-user|simple-user",
+          "gws:Member.memberKey|User",
+          "jira:RemoteIssueLink|{}_2",
+          "okta:UserGetSingleton|UserResponseSchema"
+        ],
+        "overlaySplits": [
+          "github:User|simple-user",
+          "github:public-user|simple-user",
+          "gws:Member.memberKey|User",
+          "jira:RemoteIssueLink|{}_2",
+          "okta:UserGetSingleton|UserResponseSchema"
+        ]
+      }
+    },
+    {
+      "name": "duplicates_all_323_linked",
+      "ok": true,
+      "detail": {
+        "pairs": 323
+      }
+    },
+    {
+      "name": "graph_orphans_all_classified",
+      "ok": true,
+      "detail": {
+        "valid_unlinked": 119,
+        "missing_binding": 33,
+        "invalid_object_projection": 898,
+        "referenced_indirectly": 27,
+        "unresolved": 4
+      }
+    },
+    {
+      "name": "objects_cover_all_v1_types",
+      "ok": true,
+      "detail": {
+        "v1": 1973,
+        "rows": 1991
+      }
+    },
+    {
+      "name": "type_ids_match_model_baseline",
+      "ok": true,
+      "detail": {
+        "baseline": 1977,
+        "drift": []
+      }
+    },
+    {
+      "name": "v2_interface_overrides_applied",
+      "ok": true,
+      "detail": {
+        "overrides": [
+          "V2-T1"
+        ],
+        "missing": []
+      }
+    },
+    {
+      "name": "model_v1_runtime_decisions_applied",
+      "ok": true,
+      "detail": {
+        "runtime_decisions": 18,
+        "missing": []
+      }
+    },
+    {
+      "name": "key_reference_members_moved",
+      "ok": true,
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "name": "typed_references_all_disposed",
+      "ok": true,
+      "detail": {
+        "refs": 5293
+      }
+    },
+    {
+      "name": "no_open_decision_or_version_conflicts",
+      "ok": true,
+      "detail": {
+        "decision_conflicts": 15,
+        "version_conflicts": 1
+      }
+    },
+    {
+      "name": "all_revision_refs_declared",
+      "ok": true,
+      "detail": {
+        "used": [
+          "R1-D02",
+          "R1-D03",
+          "R1-D04",
+          "R1-D06",
+          "R1-D07",
+          "R1-D08",
+          "R1-D09",
+          "R1-D11"
+        ],
+        "declared": [
+          "R1-D01",
+          "R1-D02",
+          "R1-D03",
+          "R1-D04",
+          "R1-D05",
+          "R1-D06",
+          "R1-D07",
+          "R1-D08",
+          "R1-D09",
+          "R1-D10",
+          "R1-D11",
+          "R1-D12",
+          "R1-D13",
+          "R1-D14",
+          "R2-D01",
+          "R3-D01",
+          "R3-D02"
+        ]
+      }
+    },
+    {
+      "name": "investigation_sources_unchanged",
+      "ok": true,
+      "detail": {
+        "compared": 47,
+        "changed": []
+      }
+    }
+  ],
+  "failures": [],
+  "inputs": {
+    "config": [
+      {
+        "path": "config/bridge-config.json",
+        "sha256": "57b1d751f1ff5e3dff22137692dacd870ee195805266f3d91acdc8237f5a111e"
+      },
+      {
+        "path": "config/orphan-judgments.json",
+        "sha256": "14896414e45bb56982ba4d06dad8bb78766551d457fb77bc1cb30db5cd80aab5"
+      },
+      {
+        "path": "config/decisions.json",
+        "sha256": "2ee4be2a9c5b649ece88f0bd697e8457262380bb228ce0aa65c79804486be6eb"
+      }
+    ],
+    "knowledge": [
+      {
+        "path": "workspace/aegi-knowledge/schema/im-model/extraction/ir2/v2/research_overrides_v2.json",
+        "sha256": "9025daf165de799a2e15ebbf8c83e23c9528746491cdfdc1a2104e836769020c"
+      },
+      {
+        "path": "workspace/aegi-knowledge/schema/im-model/extraction/ir2/v2/relation_decisions_v2.json",
+        "sha256": "9ab580f85ceeef0759545f0110353ddd2192c07ef63ccb31d4e1ae129036ef8b"
+      },
+      {
+        "path": "workspace/aegi-knowledge/schema/im-model/extraction/ir2/v2/rulebook/rules.json",
+        "sha256": "32217d89b2a1f7a910e7824eaf797e0a50f09b77dd4d68719aecc11458e5c368"
+      }
+    ],
+    "pinned_ir": [
+      {
+        "path": "github/ir/operation.jsonl",
+        "sha256": "27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b"
+      },
+      {
+        "path": "github/ir/shape.jsonl",
+        "sha256": "bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5"
+      },
+      {
+        "path": "github/ir/instance.jsonl",
+        "sha256": "27bccb82bfa6cfeaabf8f3d7383c7f1ae3ce6f9b5d60c6e7176b5ede7ba9a3d5"
+      },
+      {
+        "path": "github/map/info_map.json",
+        "sha256": "7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db"
+      },
+      {
+        "path": "github/map/same_entity.json",
+        "sha256": "e775036b20834b791216fda2310448534f3f314f721c645d86897d3df6455d45"
+      },
+      {
+        "path": "okta/ir/operation.jsonl",
+        "sha256": "29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46"
+      },
+      {
+        "path": "okta/ir/shape.jsonl",
+        "sha256": "46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77"
+      },
+      {
+        "path": "okta/ir/instance.jsonl",
+        "sha256": "e99901f7a14ca04ebf5972191560227ef1e99121cb8a1243c11a002425fa0775"
+      },
+      {
+        "path": "okta/map/info_map.json",
+        "sha256": "d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18"
+      },
+      {
+        "path": "okta/map/same_entity.json",
+        "sha256": "b0291067cb8637c42c7a42a5bb53c1afe47aaf02fc05ba5132d0cbcf85aac666"
+      },
+      {
+        "path": "slack/ir/operation.jsonl",
+        "sha256": "5f61d17fe234449c5cd1c291def84c2453e244f73063e1ce5d43b65caf9348cf"
+      },
+      {
+        "path": "slack/ir/shape.jsonl",
+        "sha256": "e0251d3f1d8d7f441387bb9666f63eff7398545254d0b92ccab02c9503bbfbf3"
+      },
+      {
+        "path": "slack/ir/instance.jsonl",
+        "sha256": "6ee3ccedd57761c5e7812b7484595b3d052edcff57f111b69d6538b901be3295"
+      },
+      {
+        "path": "slack/map/info_map.json",
+        "sha256": "fe9343e56ffad6f2b0e007b7d616aa5a36dc671b5d93ef108740be1799dc2887"
+      },
+      {
+        "path": "slack/map/same_entity.json",
+        "sha256": "adb7b03bea79dea71397b2f0df32ddc5914284bf492ef5568917e4ca825840aa"
+      },
+      {
+        "path": "gws/ir/operation.jsonl",
+        "sha256": "14fd7a38425bfeae03709952cd2c90c62f41d51658abd12c249f48def14db67f"
+      },
+      {
+        "path": "gws/ir/shape.jsonl",
+        "sha256": "998cf62cfd25e0d4d9d9e705e0e34b0b8c31494250a970686a7d8867e0503fbc"
+      },
+      {
+        "path": "gws/ir/instance.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "gws/map/info_map.json",
+        "sha256": "8d48095984113f27a11dc420a752b717df59eae51bc3bbd4797896c8ad4af30d"
+      },
+      {
+        "path": "gws/map/same_entity.json",
+        "sha256": "b3e603686813655fa82430fd8bf779b171f684f40ab7c6d7395897f50a61236d"
+      },
+      {
+        "path": "jira/ir/operation.jsonl",
+        "sha256": "bb433b0144fc822588adb64649c5592094ef6f67746759ec57a2e9677bac5a94"
+      },
+      {
+        "path": "jira/ir/shape.jsonl",
+        "sha256": "04cf5db894bbfdfc38d902b2036b3e757a28481b16ff75ae2d2c4b7e06b0160e"
+      },
+      {
+        "path": "jira/ir/instance.jsonl",
+        "sha256": "9eb94e204df864d76aa1146f3e466fdddb8b76893cec4c8d74676de3d106278d"
+      },
+      {
+        "path": "jira/map/info_map.json",
+        "sha256": "50149499a641110c6bf94b3e0ee694a3701d3edc48d8b17420580571d73451f8"
+      },
+      {
+        "path": "jira/map/same_entity.json",
+        "sha256": "2b30a0050cebc987f398ed12a3f5daf49a1df458d5a40012efdbc25965c64062"
+      },
+      {
+        "path": "confluence/ir/operation.jsonl",
+        "sha256": "50e8e81bd51c7189f98371308a059657fe71e759e3bca74b0a954307084f4570"
+      },
+      {
+        "path": "confluence/ir/shape.jsonl",
+        "sha256": "07219a625b7ba774972cb75ea00cadf20dcf4ada7b9bc586f8e97d822695c0e7"
+      },
+      {
+        "path": "confluence/ir/instance.jsonl",
+        "sha256": "e291dab011f4432c03c187ff408b8ed1218e6536e9e69cc68960fe7a8fdf8251"
+      },
+      {
+        "path": "confluence/map/info_map.json",
+        "sha256": "fcade0e0d3a98180585704e08d614b03f045dbbee0bb4e95b19e5f19625b3a47"
+      },
+      {
+        "path": "confluence/map/same_entity.json",
+        "sha256": "32d25a7af0649822f043a03ca89d6b7cad41e1ecf9155a7a9ade9b01b6dee478"
+      },
+      {
+        "path": "atlassian/ir/operation.jsonl",
+        "sha256": "791b21142f4885470a66beb7f80d550db969c448a1efe8283e57122059abf044"
+      },
+      {
+        "path": "atlassian/ir/shape.jsonl",
+        "sha256": "4efdbeff3f2f2da90b51ff0408016f32d6fbaa235d2e448defe4e407dbf432b8"
+      },
+      {
+        "path": "atlassian/ir/instance.jsonl",
+        "sha256": "84d5605e993a9fb0b57aa330acb359cb3fffb461efc64939363c0d8702960ec5"
+      },
+      {
+        "path": "atlassian/map/info_map.json",
+        "sha256": "a2820d78ff69e70a12c11245c6e8eaa6735191962bc9453e2398b3661dec8dff"
+      },
+      {
+        "path": "atlassian/map/same_entity.json",
+        "sha256": "5dab8fed5e5a90de16f6a173c4c04361049f7d43c588d4edc96dda9304fd7022"
+      },
+      {
+        "path": "salesforce/ir/operation.jsonl",
+        "sha256": "e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9"
+      },
+      {
+        "path": "salesforce/ir/shape.jsonl",
+        "sha256": "9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e"
+      },
+      {
+        "path": "salesforce/ir/instance.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "salesforce/map/info_map.json",
+        "sha256": "6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750"
+      },
+      {
+        "path": "salesforce/map/same_entity.json",
+        "sha256": "a6bf0c53740904a7ed2f161f2a7ad5829932e2d46705ff238c2a425583b89c12"
+      }
+    ],
+    "run_record": {
+      "path": "runs/20261023T070520Z-42c1.json",
+      "sha256": "3542057ae99eb37a8d66ef06f0ee0d9cb9069e1dd00db2fbeb14ce1940ec7173"
+    },
+    "raw_pages": 510
+  },
+  "scope": "파일럿 산출물의 보존·분모·재현·비유출 검사. 의미 판정의 정답 검증이 아니며 Profile·운영 계약 검증을 포함하지 않는다"
+}

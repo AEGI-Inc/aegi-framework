@@ -1,0 +1,292 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: AssignmentDetail
+interfaces: &a1
+  - Assignment
+model:
+  research_type: object-type:6bde0c933ee01f51cf20a436
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:6bde0c933ee01f51cf20a436.identity_evidence
+  parent:
+    type: parent:v1/teams/{}
+    expr: $req.parent_id
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  created_at:
+    path: created_at
+    source: research_shape
+    shape: sh:okta_opa_openapi:AssignmentDetail
+    declaration:
+      format: date-time
+      name: created_at
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AssignmentDetail|created_at
+  created_by:
+    path: created_by
+    source: research_shape
+    shape: sh:okta_opa_openapi:AssignmentDetail
+    declaration:
+      name: created_by
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AssignmentDetail|created_by
+  description:
+    path: description
+    source: research_shape
+    shape: sh:okta_opa_openapi:AssignmentDetail
+    declaration:
+      name: description
+      required: false
+      scalar: string
+    map_items:
+      - space:AssignmentDetail|description
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_opa_openapi:AssignmentDetail
+    declaration:
+      format: uuid
+      name: id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AssignmentDetail|id
+  name:
+    path: name
+    source: research_shape
+    shape: sh:okta_opa_openapi:AssignmentDetail
+    declaration:
+      name: name
+      required: true
+      scalar: string
+    map_items:
+      - space:AssignmentDetail|name
+  relationship_assignments:
+    path: relationship_assignments
+    source: research_shape
+    shape: sh:okta_opa_openapi:AssignmentDetail
+    declaration:
+      name: relationship_assignments
+      required: false
+      shape: sh:okta_opa_openapi:AssignmentDetail.relationship_assignments
+    map_items: []
+  resource_assignments:
+    path: resource_assignments
+    source: research_shape
+    shape: sh:okta_opa_openapi:AssignmentDetail
+    declaration:
+      name: resource_assignments
+      required: false
+      shape: sh:okta_opa_openapi:AssignmentResourceAssignments
+    map_items: []
+  updated_at:
+    path: updated_at
+    source: research_shape
+    shape: sh:okta_opa_openapi:AssignmentDetail
+    declaration:
+      format: date-time
+      name: updated_at
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AssignmentDetail|updated_at
+  updated_by:
+    path: updated_by
+    source: research_shape
+    shape: sh:okta_opa_openapi:AssignmentDetail
+    declaration:
+      name: updated_by
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AssignmentDetail|updated_by
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: parent:v1/teams/{}
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:6e1391da71b8b71dbb8b5c03 (v1/teams/{}) -> parent:v1/teams/{}
+  - name: relationships_id
+    field: relationships.id
+    target: InfrastructureOrchestratorWithCounts
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2c64bee7a77d581c510fb2f8; relation=no_relation
+  - name: relationship_assignments_relationship
+    field: relationship_assignments.relationship
+    target: TypedNamedObject
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2d064e188ccdad1c4545e44b; relation=no_relation
+  - name: resource_assignments_secret_or_folder_assignments
+    field: resource_assignments.secret_or_folder_assignments
+    target: SecretOrFolderResourceSelector
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c6b7704f64e66441c530f7aa; relation=no_relation
+  - name: relationship_assignments_principal
+    field: relationship_assignments.principal
+    target: TypedNamedObject
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f82a247155aaf147e441880a; relation=no_relation
+constants: {}
+row_contracts:
+  expires_at:
+    const: null
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: AssignmentDetail
+  interfaces: *a1
+  model:
+    research_type: object-type:6bde0c933ee01f51cf20a436
+  extract:
+    key: PILOT-okta-AssignmentDetail-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-OKTA-20a436
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          created_at: created_at
+          created_by: created_by
+          description: description
+          id: id
+          name: name
+          relationship_assignments: relationship_assignments
+          resource_assignments: resource_assignments
+          updated_at: updated_at
+          updated_by: updated_by
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_opa_openapi:ListAssignments
+  operation: ListAssignments
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /v1/teams/[^/]+/assignments(?:\?|$)
+  endpoint_template: /v1/teams/{team_name}/assignments
+  request: {}
+  required_params:
+    - team_name
+  paths:
+    - shape: sh:okta_opa_openapi:Assignment
+      path:
+        - list
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:okta_opa_openapi:GetAssignment
+      method: GET
+      kind: read_one
+      endpoint_template: /v1/teams/{team_name}/assignments/{assignment_id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - relationships.id
+    - relationship_assignments.relationship
+    - resource_assignments.secret_or_folder_assignments
+    - relationship_assignments.principal
+  metadata_paths: *a2
+  remaining_declared_fields: properties

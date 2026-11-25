@@ -1,0 +1,480 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: confluence
+service: null
+object_type: ContentBody
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:11dfac9a0ef01c42f7bdc005
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: value
+      expr: value
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:11dfac9a0ef01c42f7bdc005.identity_evidence
+  parent:
+    type: MacroInstance
+    expr: $req.parent_id
+tenant_binding:
+  type: Space
+  service: null
+  call: CF-01
+  items: results
+  id: id
+fields:
+  value:
+    path: value
+    source: research_shape
+    shape: sh:confluence_openapi_v1:ContentBody
+    declaration:
+      name: value
+      required: true
+      scalar: string
+    map_items:
+      - space:ContentBody|value
+  representation:
+    path: representation
+    source: research_shape
+    shape: sh:confluence_openapi_v1:ContentBody
+    declaration:
+      enum:
+        - view
+        - export_view
+        - styled_view
+        - storage
+        - editor
+        - editor2
+        - anonymous_export_view
+        - wiki
+        - atlas_doc_format
+        - raw
+      name: representation
+      required: true
+      scalar: string
+    map_items:
+      - space:ContentBody|representation
+  embeddedContent:
+    path: embeddedContent
+    source: research_shape
+    shape: sh:confluence_openapi_v1:ContentBody
+    declaration:
+      name: embeddedContent
+      required: false
+      shape: sh:confluence_openapi_v1:ContentBody.embeddedContent
+    map_items: []
+  webresource:
+    path: webresource
+    source: research_shape
+    shape: sh:confluence_openapi_v1:ContentBody
+    declaration:
+      name: webresource
+      required: false
+      shape: sh:confluence_openapi_v1:WebResourceDependencies
+    map_items: []
+  mediaToken:
+    path: mediaToken
+    source: research_shape
+    shape: sh:confluence_openapi_v1:ContentBody
+    declaration:
+      name: mediaToken
+      required: false
+      shape: sh:confluence_openapi_v1:ContentBody.mediaToken
+    map_items: []
+  _expandable:
+    path: _expandable
+    source: research_shape
+    shape: sh:confluence_openapi_v1:ContentBody
+    declaration:
+      name: _expandable
+      required: false
+      shape: sh:confluence_openapi_v1:ContentBody._expandable
+    map_items: []
+  _links:
+    path: _links
+    source: research_shape
+    shape: sh:confluence_openapi_v1:ContentBody
+    declaration:
+      name: _links
+      required: false
+      shape: sh:confluence_openapi_v1:GenericLinks
+    map_items:
+      - space:ContentBody|_links
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: MacroInstance
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:cc6e774ecaecd14e9a4547b6 (content/{}/history/{}/macro/id/{}) -> MacroInstance
+  - name: mediatoken_contentid
+    field: mediaToken.contentId
+    target: instance
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:34e425ff4ca86df351a6e16f; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: confluence
+  object_type: ContentBody
+  interfaces: *a1
+  model:
+    research_type: object-type:11dfac9a0ef01c42f7bdc005
+  extract:
+    key: PILOT-confluence-ContentBody-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{value}"
+        sources:
+          - call: AUTO-CONFLUENCE-bdc005
+            endpoint: /
+            items:
+              - results.relationData.createdBy.personalSpace.homepage.body.view
+              - results.relationData.createdBy.personalSpace.homepage.body.export_view
+              - results.relationData.createdBy.personalSpace.homepage.body.styled_view
+              - results.relationData.createdBy.personalSpace.homepage.body.storage
+              - results.relationData.createdBy.personalSpace.homepage.body.wiki
+              - results.relationData.createdBy.personalSpace.homepage.body.editor
+              - results.relationData.createdBy.personalSpace.homepage.body.editor2
+              - results.relationData.createdBy.personalSpace.homepage.body.anonymous_export_view
+              - results.relationData.createdBy.personalSpace.homepage.body.atlas_doc_format
+              - results.relationData.createdBy.personalSpace.homepage.body.dynamic
+              - results.relationData.createdBy.personalSpace.homepage.body.raw
+              - results.source.body.view
+              - results.source.body.export_view
+              - results.source.body.styled_view
+              - results.source.body.storage
+              - results.source.body.wiki
+              - results.source.body.editor
+              - results.source.body.editor2
+              - results.source.body.anonymous_export_view
+              - results.source.body.atlas_doc_format
+              - results.source.body.dynamic
+              - results.source.body.raw
+              - results.source.personalSpace.homepage.body.view
+              - results.source.personalSpace.homepage.body.export_view
+              - results.source.personalSpace.homepage.body.styled_view
+              - results.source.personalSpace.homepage.body.storage
+              - results.source.personalSpace.homepage.body.wiki
+              - results.source.personalSpace.homepage.body.editor
+              - results.source.personalSpace.homepage.body.editor2
+              - results.source.personalSpace.homepage.body.anonymous_export_view
+              - results.source.personalSpace.homepage.body.atlas_doc_format
+              - results.source.personalSpace.homepage.body.dynamic
+              - results.source.personalSpace.homepage.body.raw
+              - results.source.homepage.body.view
+              - results.source.homepage.body.export_view
+              - results.source.homepage.body.styled_view
+              - results.source.homepage.body.storage
+              - results.source.homepage.body.wiki
+              - results.source.homepage.body.editor
+              - results.source.homepage.body.editor2
+              - results.source.homepage.body.anonymous_export_view
+              - results.source.homepage.body.atlas_doc_format
+              - results.source.homepage.body.dynamic
+              - results.source.homepage.body.raw
+              - results.target.body.view
+              - results.target.body.export_view
+              - results.target.body.styled_view
+              - results.target.body.storage
+              - results.target.body.wiki
+              - results.target.body.editor
+              - results.target.body.editor2
+              - results.target.body.anonymous_export_view
+              - results.target.body.atlas_doc_format
+              - results.target.body.dynamic
+              - results.target.body.raw
+              - results.target.personalSpace.homepage.body.view
+              - results.target.personalSpace.homepage.body.export_view
+              - results.target.personalSpace.homepage.body.styled_view
+              - results.target.personalSpace.homepage.body.storage
+              - results.target.personalSpace.homepage.body.wiki
+              - results.target.personalSpace.homepage.body.editor
+              - results.target.personalSpace.homepage.body.editor2
+              - results.target.personalSpace.homepage.body.anonymous_export_view
+              - results.target.personalSpace.homepage.body.atlas_doc_format
+              - results.target.personalSpace.homepage.body.dynamic
+              - results.target.personalSpace.homepage.body.raw
+              - results.target.homepage.body.view
+              - results.target.homepage.body.export_view
+              - results.target.homepage.body.styled_view
+              - results.target.homepage.body.storage
+              - results.target.homepage.body.wiki
+              - results.target.homepage.body.editor
+              - results.target.homepage.body.editor2
+              - results.target.homepage.body.anonymous_export_view
+              - results.target.homepage.body.atlas_doc_format
+              - results.target.homepage.body.dynamic
+              - results.target.homepage.body.raw
+        properties:
+          _expandable: _expandable
+          _links: _links
+          embeddedContent: embeddedContent
+          mediaToken: mediaToken
+          representation: representation
+          value: value
+          webresource: webresource
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:confluence_openapi_v1:getAndConvertMacroBodyByMacroId
+  operation: getAndConvertMacroBodyByMacroId
+  surface: rest
+  method: GET
+  kind: read_one
+  endpoint: /wiki/rest/api/content/[^/]+/history/[^/]+/macro/id/[^/]+/convert/[^/]+(?:\?|$)
+  endpoint_template: /wiki/rest/api/content/{id}/history/{version}/macro/id/{macroId}/convert/{to}
+  request: {}
+  required_params:
+    - id
+    - macroId
+    - to
+    - version
+  paths:
+    - shape: sh:confluence_openapi_v1:ContentBody
+      path: []
+  alternatives_total: 19
+  alternatives:
+    - operation_id: op:confluence_openapi_v1:getBlueprintTemplates
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/template/blueprint
+      path:
+        - results
+        - "*"
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:getContentTemplates
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/template/page
+      path:
+        - results
+        - "*"
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:getCurrentUser
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/user/current
+      path: &a3
+        - personalSpace
+        - homepage
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:getUser
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/user
+      path: *a3
+    - operation_id: op:confluence_openapi_v1:searchContentByCQL
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/content/search
+      path: &a4
+        - results
+        - "*"
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:getContentsWithState
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/space/{spaceKey}/state/content
+      path: *a4
+    - operation_id: op:confluence_openapi_v1:searchByCQL
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/search
+      path: &a5
+        - results
+        - "*"
+        - content
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:searchUser
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/search/user
+      path: *a5
+    - operation_id: op:confluence_openapi_v1:getRestrictions
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/content/{id}/restriction
+      path:
+        - results
+        - "*"
+        - content
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:getBulkUserLookup
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/user/bulk
+      path:
+        - results
+        - "*"
+        - personalSpace
+        - homepage
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:getGroupMembersByGroupId
+      method: GET
+      kind: read_many
+      endpoint_template: /wiki/rest/api/group/{groupId}/membersByGroupId
+      path:
+        - results
+        - "*"
+        - personalSpace
+        - homepage
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:getContentTemplate
+      method: GET
+      kind: read_one
+      endpoint_template: /wiki/rest/api/template/{contentTemplateId}
+      path:
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:getRestrictionsForOperation
+      method: GET
+      kind: read_one
+      endpoint_template: /wiki/rest/api/content/{id}/restriction/byOperation/{operationKey}
+      path:
+        - content
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:getRelationship
+      method: GET
+      kind: read_one
+      endpoint_template: /wiki/rest/api/relation/{relationName}/from/{sourceType}/{sourceKey}/to/{targetType}/{targetKey}
+      path:
+        - source
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:getRestrictionsByOperation
+      method: GET
+      kind: read_one
+      endpoint_template: /wiki/rest/api/content/{id}/restriction/byOperation
+      path:
+        - "*"
+        - operationType
+        - content
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:findSourcesForTarget
+      method: GET
+      kind: read_one
+      endpoint_template: /wiki/rest/api/relation/{relationName}/to/{targetType}/{targetKey}/from/{sourceType}
+      path: &a6
+        - results
+        - "*"
+        - source
+        - body
+        - view
+    - operation_id: op:confluence_openapi_v1:findTargetFromSource
+      method: GET
+      kind: read_one
+      endpoint_template: /wiki/rest/api/relation/{relationName}/from/{sourceType}/{sourceKey}/to/{targetType}
+      path: *a6
+    - operation_id: op:confluence_openapi_v1:getDescendantsOfType
+      method: GET
+      kind: read_one
+      endpoint_template: /wiki/rest/api/content/{id}/descendant/{type}
+      path: *a4
+      deprecated: deprecated
+    - operation_id: op:confluence_openapi_v1:getContentDescendants
+      method: GET
+      kind: read_one
+      endpoint_template: /wiki/rest/api/content/{id}/descendant
+      path:
+        - attachment
+        - results
+        - "*"
+        - body
+        - view
+      deprecated: deprecated
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: fcade0e0d3a98180585704e08d614b03f045dbbee0bb4e95b19e5f19625b3a47
+    ir/shape.jsonl: 07219a625b7ba774972cb75ea00cadf20dcf4ada7b9bc586f8e97d822695c0e7
+    ir/operation.jsonl: 50e8e81bd51c7189f98371308a059657fe71e759e3bca74b0a954307084f4570
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - value
+  reference_paths:
+    - mediaToken.contentId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

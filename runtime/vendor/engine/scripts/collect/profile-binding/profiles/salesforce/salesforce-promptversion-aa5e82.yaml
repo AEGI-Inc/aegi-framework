@@ -1,0 +1,769 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: PromptVersion
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:c3eceaf19e649cde89aa5e82
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:c3eceaf19e649cde89aa5e82.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|Id
+  ActionButtonLabel:
+    path: ActionButtonLabel
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: ActionButtonLabel
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ActionButtonLabel
+  ActionButtonLink:
+    path: ActionButtonLink
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: url
+      name: ActionButtonLink
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ActionButtonLink
+  Body:
+    path: Body
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: textarea
+      name: Body
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|Body
+  DelayDays:
+    path: DelayDays
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: int
+      name: DelayDays
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:PromptVersion|DelayDays
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|Description
+  DismissButtonLabel:
+    path: DismissButtonLabel
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: DismissButtonLabel
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|DismissButtonLabel
+  DisplayPosition:
+    path: DisplayPosition
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: picklist
+      name: DisplayPosition
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|DisplayPosition
+  DisplayType:
+    path: DisplayType
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: picklist
+      name: DisplayType
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|DisplayType
+  ElementRelativePosition:
+    path: ElementRelativePosition
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: picklist
+      name: ElementRelativePosition
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ElementRelativePosition
+  EndDate:
+    path: EndDate
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: date
+      name: EndDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|EndDate
+  Experience:
+    path: Experience
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: picklist
+      name: Experience
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|Experience
+  ExperienceContextId:
+    path: ExperienceContextId
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: reference
+      name: ExperienceContextId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ExperienceContextId
+  Header:
+    path: Header
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: Header
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|Header
+  ImageAltText:
+    path: ImageAltText
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: ImageAltText
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ImageAltText
+  ImageId:
+    path: ImageId
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: reference
+      name: ImageId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ImageId
+  ImageLocation:
+    path: ImageLocation
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: picklist
+      name: ImageLocation
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ImageLocation
+  IndexWithIsPublished:
+    path: IndexWithIsPublished
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: IndexWithIsPublished
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|IndexWithIsPublished
+  IndexWithoutIsPublished:
+    path: IndexWithoutIsPublished
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: IndexWithoutIsPublished
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|IndexWithoutIsPublished
+  IsPublished:
+    path: IsPublished
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: boolean
+      name: IsPublished
+      required: false
+      scalar: boolean
+    map_items:
+      - space:PromptVersion|IsPublished
+  MasterLabel:
+    path: MasterLabel
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: MasterLabel
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|MasterLabel
+  ParentId:
+    path: ParentId
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: reference
+      name: ParentId
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ParentId
+  PublishedByUserId:
+    path: PublishedByUserId
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: reference
+      name: PublishedByUserId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|PublishedByUserId
+  PublishedDate:
+    path: PublishedDate
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: date
+      name: PublishedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|PublishedDate
+  ReferenceElementContext:
+    path: ReferenceElementContext
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: textarea
+      name: ReferenceElementContext
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ReferenceElementContext
+  ShouldDisplayActionButton:
+    path: ShouldDisplayActionButton
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: boolean
+      name: ShouldDisplayActionButton
+      required: false
+      scalar: boolean
+    map_items:
+      - space:PromptVersion|ShouldDisplayActionButton
+  ShouldIgnoreGlobalDelay:
+    path: ShouldIgnoreGlobalDelay
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: boolean
+      name: ShouldIgnoreGlobalDelay
+      required: false
+      scalar: boolean
+    map_items:
+      - space:PromptVersion|ShouldIgnoreGlobalDelay
+  StartDate:
+    path: StartDate
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: date
+      name: StartDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|StartDate
+  StepNumber:
+    path: StepNumber
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: int
+      name: StepNumber
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:PromptVersion|StepNumber
+  TargetAppDeveloperName:
+    path: TargetAppDeveloperName
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: TargetAppDeveloperName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|TargetAppDeveloperName
+  TargetAppNamespacePrefix:
+    path: TargetAppNamespacePrefix
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: TargetAppNamespacePrefix
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|TargetAppNamespacePrefix
+  TargetPageKey1:
+    path: TargetPageKey1
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: TargetPageKey1
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|TargetPageKey1
+  TargetPageKey1Ref:
+    path: TargetPageKey1Ref
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: picklist
+      name: TargetPageKey1Ref
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|TargetPageKey1Ref
+  TargetPageKey2:
+    path: TargetPageKey2
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: TargetPageKey2
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|TargetPageKey2
+  TargetPageKey3:
+    path: TargetPageKey3
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: TargetPageKey3
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|TargetPageKey3
+  TargetPageKey4:
+    path: TargetPageKey4
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: TargetPageKey4
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|TargetPageKey4
+  TargetPageType:
+    path: TargetPageType
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: TargetPageType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|TargetPageType
+  TargetRecordType:
+    path: TargetRecordType
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: reference
+      name: TargetRecordType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|TargetRecordType
+  ThemeColor:
+    path: ThemeColor
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: picklist
+      name: ThemeColor
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ThemeColor
+  ThemeSaturation:
+    path: ThemeSaturation
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: picklist
+      name: ThemeSaturation
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|ThemeSaturation
+  TimesToDisplay:
+    path: TimesToDisplay
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: int
+      name: TimesToDisplay
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:PromptVersion|TimesToDisplay
+  Title:
+    path: Title
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: string
+      name: Title
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|Title
+  UserAccess:
+    path: UserAccess
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: picklist
+      name: UserAccess
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|UserAccess
+  UserProfileAccess:
+    path: UserProfileAccess
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: picklist
+      name: UserProfileAccess
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|UserProfileAccess
+  VersionNumber:
+    path: VersionNumber
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: int
+      name: VersionNumber
+      required: false
+      scalar: integer
+    map_items:
+      - space:PromptVersion|VersionNumber
+  VideoLink:
+    path: VideoLink
+    source: research_shape
+    shape: sh:sf_object_reference:PromptVersion
+    declaration:
+      format: url
+      name: VideoLink
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:PromptVersion|VideoLink
+references:
+  - name: imageid
+    field: ImageId
+    target: ContentAsset
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:107d9ecae5bd935bc7ae1158; relation=no_relation
+  - name: publishedbyuserid
+    field: PublishedByUserId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:10e62c518cbca9ee5966bc4d; relation=no_relation
+  - name: targetrecordtype
+    field: TargetRecordType
+    target: RecordType
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8ec5c5cc8c2853c5c91e9fc4; relation=no_relation
+  - name: experiencecontextid
+    field: ExperienceContextId
+    target: Site
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9ce244fc2983d3302252ff51; relation=no_relation
+  - name: parentid
+    field: ParentId
+    target: Prompt
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:e8a8ea458d7182ec4779cdc4; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: PromptVersion
+  interfaces: *a1
+  model:
+    research_type: object-type:c3eceaf19e649cde89aa5e82
+  extract:
+    key: PILOT-salesforce-PromptVersion-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-aa5e82
+            endpoint: /
+            items:
+              - records
+        properties:
+          ActionButtonLabel: ActionButtonLabel
+          ActionButtonLink: ActionButtonLink
+          Body: Body
+          DelayDays: DelayDays
+          Description: Description
+          DismissButtonLabel: DismissButtonLabel
+          DisplayPosition: DisplayPosition
+          DisplayType: DisplayType
+          ElementRelativePosition: ElementRelativePosition
+          EndDate: EndDate
+          Experience: Experience
+          ExperienceContextId: ExperienceContextId
+          Header: Header
+          Id: Id
+          ImageAltText: ImageAltText
+          ImageId: ImageId
+          ImageLocation: ImageLocation
+          IndexWithIsPublished: IndexWithIsPublished
+          IndexWithoutIsPublished: IndexWithoutIsPublished
+          IsPublished: IsPublished
+          MasterLabel: MasterLabel
+          ParentId: ParentId
+          PublishedByUserId: PublishedByUserId
+          PublishedDate: PublishedDate
+          ReferenceElementContext: ReferenceElementContext
+          ShouldDisplayActionButton: ShouldDisplayActionButton
+          ShouldIgnoreGlobalDelay: ShouldIgnoreGlobalDelay
+          StartDate: StartDate
+          StepNumber: StepNumber
+          TargetAppDeveloperName: TargetAppDeveloperName
+          TargetAppNamespacePrefix: TargetAppNamespacePrefix
+          TargetPageKey1: TargetPageKey1
+          TargetPageKey1Ref: TargetPageKey1Ref
+          TargetPageKey2: TargetPageKey2
+          TargetPageKey3: TargetPageKey3
+          TargetPageKey4: TargetPageKey4
+          TargetPageType: TargetPageType
+          TargetRecordType: TargetRecordType
+          ThemeColor: ThemeColor
+          ThemeSaturation: ThemeSaturation
+          TimesToDisplay: TimesToDisplay
+          Title: Title
+          UserAccess: UserAccess
+          UserProfileAccess: UserProfileAccess
+          VersionNumber: VersionNumber
+          VideoLink: VideoLink
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:PromptVersion.query
+  operation: PromptVersion.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: PromptVersion
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:PromptVersion
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:PromptVersion.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/PromptVersion/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - ImageId
+    - PublishedByUserId
+    - TargetRecordType
+    - ExperienceContextId
+    - ParentId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

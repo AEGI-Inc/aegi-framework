@@ -1,0 +1,72 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/log_stream.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-17
+        request:
+          kind: log_streams
+      - call: OK-17
+        request:
+          kind: absent
+        endpoint: /logStreams(\?|$)
+    properties:
+      name: name
+      type: type
+      status: status
+      created: created
+      lastUpdated: lastUpdated
+    display: 로그 스트림 {name|id}
+    relations:
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-LOGSTRM-{id}
+runtime_stub: null
+runtime_key: OKTA-LOGSTRM-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: LogStream:list
+    sources:
+      - call: OK-17
+        request:
+          kind: log_streams
+      - call: OK-17
+        request:
+          kind: absent
+        endpoint: /logStreams(\?|$)
+    relations:
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+binding:
+  status: catalog_call
+  call: OK-17
+  operation_id: op:okta_management_openapi:listEventHooks
+  paths:
+    - shape: null
+      path:
+        - "*"
+  basis: catalog spec:5 sources
+  previous_status: documented_not_collected
+# Profile 상수: knowledge schema/catalog/okta/research.json 의 LogStream decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml owned_by.outbound_endpoint)이 이 값으로 고른다
+constants:
+  direction:
+    const: out

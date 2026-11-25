@@ -1,0 +1,97 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: onepassword
+service: vaults
+object_type: Vault
+interfaces: [Resource]
+# 근거: op vault list(CLI 2.34.1)와 SDK 0.5.0 vaults.get(id, { accessors: true }) 실제 응답(2026-11-20). 서비스 계정에 Read Items 를 준 금고만 보인다.
+# 금고 권한 한 줄(access[]: accessorType, accessorUuid, permissions)이 has_role_on 하나다. permissions 는 SDK 상수 비트의 합이고,
+# 수집기가 켜진 비트 이름을 permission_names 로 붙인다(read_items, reveal_item_password, manage_vault 등). 같은 구성을 Cartography onepassword 모듈이 CAN_ACCESS 로 넣는다.
+# 서비스 계정도 accessorType user 로 나온다. 그 id 가 수집된 서비스 계정이면 ServiceAccount 가 출발점이다.
+# 관계의 permissions 칸은 켜진 권한 이름 목록이다(Interface 명세 Assignment 「연산 목록은 properties.permissions 배열」). 엔진은 이 목록의 이름마다
+# 사전(capabilities.yaml role_name_rank · capability_names)으로 세기와 능력을 센다. 정수 비트 합은 permission_bits 에 남긴다(2026-11-21)
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: OP-VAULT-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OP-02
+        request: {kind: vaults}
+        items: (items)
+    id_expr: id
+    properties:
+      name: name
+      items: items
+      content_version: content_version
+      created_at: created_at
+      updated_at: updated_at
+      grant_target: {const: true}
+    display: "{name|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+  - id: access
+    kind: enrich
+    sources:
+      - call: OP-02
+        request: {kind: vault_access}
+        items: (root)
+    target: {type: Vault, id: $req.vault_id}
+    set:
+      vault_type: vaultType
+      active_item_count: activeItemCount
+      description: description
+    relations:
+      - each: access
+        type: has_role_on
+        when: {path: $item.accessorType, eq: group}
+        source: {type: Group, id: $item.accessorUuid}
+        target: $self
+        role:
+          name: {op: str, of: $item.permissions}
+        basis: stated
+        membership_enforced: true
+        properties:
+          permissions: $item.permission_names
+          permission_bits: $item.permissions
+          accessor_type: $item.accessorType
+        require: [source, target]
+      - each: access
+        type: has_role_on
+        when: {all: [{path: $item.accessorType, eq: user}, {not: {has: {type: ServiceAccount, id: $item.accessorUuid}}}]}
+        source: {type: User, id: $item.accessorUuid}
+        target: $self
+        role:
+          name: {op: str, of: $item.permissions}
+        basis: stated
+        membership_enforced: true
+        properties:
+          permissions: $item.permission_names
+          permission_bits: $item.permissions
+          accessor_type: $item.accessorType
+        require: [source, target]
+      - each: access
+        type: has_role_on
+        when: {all: [{path: $item.accessorType, eq: user}, {has: {type: ServiceAccount, id: $item.accessorUuid}}]}
+        source: {type: ServiceAccount, id: $item.accessorUuid}
+        target: $self
+        role:
+          name: {op: str, of: $item.permissions}
+        basis: stated
+        membership_enforced: true
+        properties:
+          permissions: $item.permission_names
+          permission_bits: $item.permissions
+          accessor_type: $item.accessorType
+        require: [source, target]

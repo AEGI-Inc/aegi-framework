@@ -1,0 +1,615 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: FlowRecordVersion
+interfaces: &a1
+  - Automation
+model:
+  research_type: object-type:403ef5c1fca08e675685f251
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:403ef5c1fca08e675685f251.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  ActivatedById:
+    path: ActivatedById
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: reference
+      name: ActivatedById
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|ActivatedById
+  ActivatedDate:
+    path: ActivatedDate
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: dateTime
+      name: ActivatedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|ActivatedDate
+  ApiVersion:
+    path: ApiVersion
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: double
+      name: ApiVersion
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:FlowRecordVersion|ApiVersion
+  AreMetricsLoggedToDataCloud:
+    path: AreMetricsLoggedToDataCloud
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: boolean
+      name: AreMetricsLoggedToDataCloud
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:FlowRecordVersion|AreMetricsLoggedToDataCloud
+  Builder:
+    path: Builder
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: string
+      name: Builder
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|Builder
+  CapacityCategory:
+    path: CapacityCategory
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: picklist
+      name: CapacityCategory
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|CapacityCategory
+  DataSpaceId:
+    path: DataSpaceId
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: reference
+      name: DataSpaceId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|DataSpaceId
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|Description
+  Entries:
+    path: Entries
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: int
+      name: Entries
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:FlowRecordVersion|Entries
+  Errors:
+    path: Errors
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: int
+      name: Errors
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:FlowRecordVersion|Errors
+  Exits:
+    path: Exits
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: int
+      name: Exits
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:FlowRecordVersion|Exits
+  FlowRecordId:
+    path: FlowRecordId
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: reference
+      name: FlowRecordId
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|FlowRecordId
+  FlowType:
+    path: FlowType
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: picklist
+      name: FlowType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|FlowType
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: text
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|Id
+  IsOverridable:
+    path: IsOverridable
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: boolean
+      name: IsOverridable
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:FlowRecordVersion|IsOverridable
+  IsPaused:
+    path: IsPaused
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: boolean
+      name: IsPaused
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:FlowRecordVersion|IsPaused
+  IsTemplate:
+    path: IsTemplate
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: boolean
+      name: IsTemplate
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:FlowRecordVersion|IsTemplate
+  OverriddenById:
+    path: OverriddenById
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: reference
+      name: OverriddenById
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|OverriddenById
+  OverriddenFlowId:
+    path: OverriddenFlowId
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: text
+      name: OverriddenFlowId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|OverriddenFlowId
+  PausedDate:
+    path: PausedDate
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: dateTime
+      name: PausedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|PausedDate
+  PausingUserId:
+    path: PausingUserId
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: reference
+      name: PausingUserId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|PausingUserId
+  ProgressStatus:
+    path: ProgressStatus
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: picklist
+      name: ProgressStatus
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|ProgressStatus
+  ReasonPaused:
+    path: ReasonPaused
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: textarea
+      name: ReasonPaused
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|ReasonPaused
+  ResumedDate:
+    path: ResumedDate
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: dateTime
+      name: ResumedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|ResumedDate
+  ResumingUserId:
+    path: ResumingUserId
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: reference
+      name: ResumingUserId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|ResumingUserId
+  RunInMode:
+    path: RunInMode
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: picklist
+      name: RunInMode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|RunInMode
+  ScheduledStartDate:
+    path: ScheduledStartDate
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: dateTime
+      name: ScheduledStartDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|ScheduledStartDate
+  SourceTemplateId:
+    path: SourceTemplateId
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: reference
+      name: SourceTemplateId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|SourceTemplateId
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: picklist
+      name: Status
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|Status
+  TriggerObjectOrEventLabel:
+    path: TriggerObjectOrEventLabel
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: string
+      name: TriggerObjectOrEventLabel
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:FlowRecordVersion|TriggerObjectOrEventLabel
+  VersionNumber:
+    path: VersionNumber
+    source: research_shape
+    shape: sh:sf_object_reference:FlowRecordVersion
+    declaration:
+      format: int
+      name: VersionNumber
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:FlowRecordVersion|VersionNumber
+references:
+  - name: flowrecordid
+    field: FlowRecordId
+    target: FlowRecord
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2264a67bb66e7ad36461119b; relation=no_relation
+  - name: overriddenbyid
+    field: OverriddenById
+    target: FlowRecord
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:33e60bdcb32400f243f40f88; relation=no_relation
+  - name: dataspaceid
+    field: DataSpaceId
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:46a561782cd33c78597d4717; relation=no_relation
+  - name: activatedbyid
+    field: ActivatedById
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6588892dc5a1085c09379f57; relation=no_relation
+  - name: resuminguserid
+    field: ResumingUserId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a6c0fad79a4642310d2c03ea; relation=no_relation
+  - name: pausinguserid
+    field: PausingUserId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:dc637c7a5187a40481efa791; relation=no_relation
+  - name: sourcetemplateid
+    field: SourceTemplateId
+    target: FlowRecord
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:e1f4309dfb08a05fa7883bc7; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: FlowRecordVersion
+  interfaces: *a1
+  model:
+    research_type: object-type:403ef5c1fca08e675685f251
+  extract:
+    key: PILOT-salesforce-FlowRecordVersion-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-85f251
+            endpoint: /
+            items:
+              - records
+        properties:
+          ActivatedById: ActivatedById
+          ActivatedDate: ActivatedDate
+          ApiVersion: ApiVersion
+          AreMetricsLoggedToDataCloud: AreMetricsLoggedToDataCloud
+          Builder: Builder
+          CapacityCategory: CapacityCategory
+          DataSpaceId: DataSpaceId
+          Description: Description
+          Entries: Entries
+          Errors: Errors
+          Exits: Exits
+          FlowRecordId: FlowRecordId
+          FlowType: FlowType
+          Id: Id
+          IsOverridable: IsOverridable
+          IsPaused: IsPaused
+          IsTemplate: IsTemplate
+          OverriddenById: OverriddenById
+          OverriddenFlowId: OverriddenFlowId
+          PausedDate: PausedDate
+          PausingUserId: PausingUserId
+          ProgressStatus: ProgressStatus
+          ReasonPaused: ReasonPaused
+          ResumedDate: ResumedDate
+          ResumingUserId: ResumingUserId
+          RunInMode: RunInMode
+          ScheduledStartDate: ScheduledStartDate
+          SourceTemplateId: SourceTemplateId
+          Status: Status
+          TriggerObjectOrEventLabel: TriggerObjectOrEventLabel
+          VersionNumber: VersionNumber
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:FlowRecordVersion.query
+  operation: FlowRecordVersion.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: FlowRecordVersion
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:FlowRecordVersion
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:FlowRecordVersion.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/FlowRecordVersion/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - FlowRecordId
+    - OverriddenById
+    - DataSpaceId
+    - ActivatedById
+    - ResumingUserId
+    - PausingUserId
+    - SourceTemplateId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

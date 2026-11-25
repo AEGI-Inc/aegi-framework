@@ -1,0 +1,63 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/email_server.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-21
+        request:
+          kind: email_servers
+        items: email-servers
+        where:
+          path: id
+          present: true
+    properties:
+      alias: alias
+      host: host
+      port: port
+      username:
+        op: null_if_missing
+        of: username
+    display: 메일 서버 {alias|host|id}
+    relations:
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-SMTP-{id}
+runtime_stub: null
+runtime_key: OKTA-SMTP-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: EmailServer:list
+    sources:
+      - call: OK-21
+        request:
+          kind: email_servers
+        items: email-servers
+        where:
+          path: id
+          present: true
+    relations:
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+# Profile 상수: knowledge schema/catalog/okta/research.json 의 EmailServer decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml owned_by.outbound_endpoint)이 이 값으로 고른다
+constants:
+  direction:
+    const: out

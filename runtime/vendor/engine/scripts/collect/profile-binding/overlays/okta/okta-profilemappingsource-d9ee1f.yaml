@@ -1,0 +1,2 @@
+emit: reference_only
+manual_basis: 프로필 매핑의 source 는 Application 또는 사용자 타입을 가리키는 참조다. 겹친 값 Application 2

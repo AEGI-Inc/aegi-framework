@@ -1,0 +1,238 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/iam_role.yaml
+  engine_commit: d78062d
+  research_agreement: same
+  # 2026-11-04 권한 목록 규칙 permissions 를 aegi-knowledge schema/catalog/okta/review.yaml(1354ab7) 그대로 더함
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-05
+        request:
+          resource_set: absent
+          role: absent
+        items: roles
+    properties:
+      name: label
+      description: description
+      created: created
+    display: "{label}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-ROLE-{id}
+  - id: permissions
+    kind: enrich
+    sources:
+      - call: OK-05
+        request:
+          role: present
+        items: (root)
+    target:
+      type: IamRole
+      id: $req.role
+      exists: true
+    set:
+      permissions:
+        if:
+          path: permissions
+          is_array: true
+        then:
+          op: pluck
+          of: permissions
+          field: label
+          keep_empty: true
+  - id: assignments
+    kind: relations
+    sources:
+      - call: OK-06
+        not_endpoint: /targets/
+        where:
+          path: type
+          present: true
+    vars:
+      inherited:
+        if:
+          all:
+            - path: $req.user
+              present: true
+            - path: assignmentType
+              eq: GROUP
+        then: true
+        else: false
+    relations:
+      - type: has_role_on
+        source:
+          switch:
+            if:
+              path: $req.user
+              present: true
+            then:
+              const: user
+            else:
+              if:
+                path: $req.group
+                present: true
+              then:
+                const: group
+              else:
+                if:
+                  path: $req.client
+                  present: true
+                then:
+                  const: client
+          cases:
+            user:
+              type: User
+              id: $req.user
+            group:
+              type: Group
+              id: $req.group
+            client:
+              type: OAuth2Client
+              id: $req.client
+        target: $tenant
+        role:
+          ref:
+            switch:
+              if:
+                all:
+                  - path: type
+                    eq: CUSTOM
+                  - path: role
+                    present: true
+              then:
+                const: custom
+            cases:
+              custom:
+                type: IamRole
+                id: role
+          name: type
+        basis:
+          if:
+            path: $vars.inherited
+            truthy: true
+          then:
+            const: computed
+          else:
+            const: stated
+        properties:
+          assignment_id: id
+          assignment_type: assignmentType
+          resource_set: resource-set
+          status: status
+          ...:
+            if:
+              path: $vars.inherited
+              truthy: true
+            then:
+              object:
+                decomposable: false
+                undecomposed:
+                  list:
+                    - const: group
+            else:
+              object: {}
+    key_template: OKTA-ROLE-{id}
+runtime_stub: null
+runtime_key: OKTA-ROLE-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: IamRole:assignments
+    sources:
+      - call: OK-06
+        not_endpoint: /targets/
+        where:
+          path: type
+          present: true
+    vars:
+      inherited:
+        if:
+          all:
+            - path: $req.user
+              present: true
+            - path: assignmentType
+              eq: GROUP
+        then: true
+        else: false
+    relations:
+      - type: has_role_on
+        source:
+          switch:
+            if:
+              path: $req.user
+              present: true
+            then:
+              const: user
+            else:
+              if:
+                path: $req.group
+                present: true
+              then:
+                const: group
+              else:
+                if:
+                  path: $req.client
+                  present: true
+                then:
+                  const: client
+          cases:
+            user:
+              type: User
+              id: $req.user
+            group:
+              type: Group
+              id: $req.group
+            client:
+              type: OAuth2Client
+              id: $req.client
+        target: $tenant
+        role:
+          ref:
+            switch:
+              if:
+                all:
+                  - path: type
+                    eq: CUSTOM
+                  - path: role
+                    present: true
+              then:
+                const: custom
+            cases:
+              custom:
+                type: IamRole
+                id: role
+          name: type
+        basis:
+          if:
+            path: $vars.inherited
+            truthy: true
+          then:
+            const: computed
+          else:
+            const: stated
+        properties:
+          assignment_id: id
+          assignment_type: assignmentType
+          resource_set: resource-set
+          status: status
+          ...:
+            if:
+              path: $vars.inherited
+              truthy: true
+            then:
+              object:
+                decomposable: false
+                undecomposed:
+                  list:
+                    - const: group
+            else:
+              object: {}

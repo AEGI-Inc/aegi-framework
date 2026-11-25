@@ -1,0 +1,131 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: sharepoint
+object_type: DrivePermission
+interfaces: [Assignment]
+identity:
+  primary:
+    - {name: item, expr: $req.item, stability: stable}
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-DPERM-{item}-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-15
+        request: {kind: permissions}
+        items: value
+    id_expr:
+      template: "{$req.item}:{id}"
+    parts:
+      item: $req.item
+      id: id
+    properties:
+      permission_id: id
+      item_id: $req.item
+      drive_id: $req.drive
+      roles: roles
+      link_scope: link.scope
+      link_type: link.type
+      expiration_date_time: expirationDateTime
+      granted_to_user_id: grantedToV2.user.id
+      granted_to_group_id: grantedToV2.group.id
+      has_password: hasPassword
+    display: "{link_scope|id} → {$req.item}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: DriveItem
+          id: $req.item
+        basis: stated
+        require: [target]
+      # 사람 · 그룹에 준 권한은 GWS Drive 권한(gws-permission has_role_on)과 같이 「주체 → 항목, 역할」이다. 역할은 read · write · owner
+      # (Graph driveItem permission roles). shared_with 는 조직 · 누구나에 건 링크만 쓴다(relation_types shared_with Resource>Tenant)
+      - type: has_role_on
+        when:
+          path: grantedToV2.user.id
+          present: true
+        source:
+          type: User
+          id: grantedToV2.user.id
+        target:
+          type: DriveItem
+          id: $req.item
+        role:
+          name: {op: first, of: roles}
+        basis: stated
+        properties:
+          via_assignment: $self
+          roles: roles
+        require: [source, target]
+      - type: has_role_on
+        when:
+          path: grantedToV2.group.id
+          present: true
+        source:
+          type: Group
+          id: grantedToV2.group.id
+        target:
+          type: DriveItem
+          id: $req.item
+        role:
+          name: {op: first, of: roles}
+        basis: stated
+        properties:
+          via_assignment: $self
+          roles: roles
+        require: [source, target]
+      # 앱에 준 권한(Sites.Selected 등). grantedToV2.application.id 는 앱 id(appId)라 서비스 주체를 appId 로 찾는다
+      - type: has_role_on
+        when:
+          path: grantedToV2.application.id
+          present: true
+        source:
+          type: ServicePrincipal
+          lookup: appId
+          value: grantedToV2.application.id
+        target:
+          type: DriveItem
+          id: $req.item
+        role:
+          name: {op: first, of: roles}
+        basis: stated
+        properties:
+          via_assignment: $self
+          roles: roles
+        require: [source, target]
+      # 공유 링크. anonymous 는 링크를 가진 누구나(로그인 없이), organization 은 조직 사람 누구나다(Graph sharingLink scope).
+      # users(지정한 사람 링크)는 받는 사람이 grantedToIdentitiesV2 에 있어 아직 펴지 않는다(2026-11-20 수집본 0개)
+      - type: shared_with
+        when:
+          path: link.scope
+          in: [anonymous, organization]
+        source:
+          type: DriveItem
+          id: $req.item
+        target: $tenant
+        basis: stated
+        properties:
+          via_assignment: $self
+          link_scope: link.scope
+          link_type: link.type
+          role: {op: first, of: roles}
+          ...:
+            if:
+              path: link.scope
+              eq: anonymous
+            then:
+              object:
+                permission_type: {const: anyone}
+                target_kind: {const: set}
+                set: {const: anyone}
+            else:
+              object: {}
+        require: [source, target]

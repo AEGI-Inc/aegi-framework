@@ -1,0 +1,360 @@
+# gws ↔ salesforce 연결 규칙
+# 벤더 문서로만 썼다 (2026-10-14). 시험 테넌트 결과는 ../test-environment/gws-salesforce.yaml 에 채운다
+
+pair:
+- gws
+- salesforce
+written: '2026-10-14'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/gws-salesforce.yaml
+methods:
+- id: google_saml_idp
+  type: identity
+  what: Google Workspace 가 SAML IdP 로 Salesforce 로그인을 맡음 (Google 관리 콘솔 앱 카탈로그 「Salesforce」, 최고 관리자)
+  identify:
+    api: salesforce SOQL SamlSsoConfig; gws Reports applicationName=saml 의 application_name
+    when: SamlSsoConfig.Issuer 가 Google Entity ID
+  points_to:
+  - tier: config_id
+    a: gws SAML 앱 Entity ID
+    b: salesforce SamlSsoConfig.Issuer
+    check: a 와 b 가 같다
+    if_unreadable: 'Google 관리 콘솔 > 앱 > 웹 및 모바일 앱 > Salesforce. Salesforce Setup > Single Sign-On Settings'
+  - tier: config_name
+    a: gws SAML 앱 SSO URL
+    b: salesforce SamlSsoConfig.LoginUrl
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: gws SAML 앱 ACS URL, Entity ID, Start URL (Salesforce 서브도메인)
+    b: salesforce My Domain, SamlSsoConfig.Audience
+    check: a 와 b 가 같다
+  - tier: fingerprint
+    a: gws SAML 앱 Certificate
+    b: salesforce Identity Provider Certificate (Setup 화면)
+    check: a 의 sha256 과 b 가 같다
+  - tier: via_person
+    a: gws user primaryEmail
+    b: salesforce User.FederationIdentifier 또는 Username
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws saml login_success (application_name, initiated_by idp·sp)
+    b: salesforce LoginHistory (LoginType Saml·Saml2, AuthenticationServiceId = 그 SamlSsoConfig)
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws Reports applicationName=saml login_success, login_failure
+  - salesforce LoginHistory
+  sources:
+  - https://support.google.com/a/answer/6194938 (Salesforce cloud app. SSO URL, Entity ID, Certificate, ACS URL, Salesforce 쪽 입력 값) [Exa]
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/saml (application_name, initiated_by) [Exa]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_samlssoconfig.htm [브라우저·Exa]
+- id: google_login_auth_provider
+  type: identity
+  what: Salesforce Auth. Provider(ProviderType Google)로 Google 계정으로 Salesforce 에 로그인
+  identify:
+    api: salesforce SOQL AuthProvider (ProviderType, ConsumerKey, FriendlyName, RegistrationHandlerId, ExecutionUserId)
+    when: ProviderType = Google
+  points_to:
+  - tier: config_id
+    a: salesforce AuthProvider.ConsumerKey
+    b: gws(Google Cloud) OAuth 클라이언트 ID, token 감사 authorize 의 client_id
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: salesforce LoginHistory.AuthenticationServiceId
+    b: salesforce AuthProvider.Id (그 Google 제공자)
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: gws user primaryEmail
+    b: salesforce User (등록 처리기가 연결한 사용자)
+    check: a 와 b 가 같다
+  activity:
+  - gws token 감사 authorize (client_id)
+  - salesforce LoginHistory (AuthenticationServiceId)
+  sources:
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_authprovider.htm (ProviderType Google, ConsumerKey, RegistrationHandlerId, ExecutionUserId) [브라우저]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_loginhistory.htm [Exa]
+- id: files_connect_google_drive
+  type: app_grant
+  what: Salesforce Files Connect 가 Google Drive 를 외부 데이터 소스로 붙임. Auth. Provider(OpenID Connect, scope …/auth/drive)와 Google Cloud OAuth 클라이언트를 쓰고, 신원은 Per User 또는 Named Principal
+  identify:
+    api: 'salesforce SOQL AuthProvider (AuthorizeUrl 이 accounts.google.com), 외부 데이터 소스 (Setup. Type 「Files Connect: Google Drive」)'
+    when: 그런 제공자·데이터 소스가 있음
+  points_to:
+  - tier: config_id
+    a: salesforce AuthProvider.ConsumerKey
+    b: gws(Google Cloud) OAuth 클라이언트 ID (Google Drive API 사용)
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: gws OAuth 클라이언트의 Authorized Redirect URIs
+    b: salesforce Setup > Auth. Providers 상세 화면의 Callback URL (AuthProvider 객체 필드에는 없음)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: gws token 감사 authorize·activity 의 client_id, product_bucket Drive
+    b: salesforce AuthProvider.ConsumerKey
+    check: a 와 b 가 같다
+  activity:
+  - gws token 감사 authorize, activity (Drive)
+  sources:
+  - https://help.salesforce.com/s/articleView?id=sf.admin_files_connect_google_auth.htm&language=en_US&type=5 (OpenID Connect, 엔드포인트, scope, Client ID·Secret, Redirect URI) [Exa]
+  - https://help.salesforce.com/s/articleView?id=sf.admin_files_connect_google_xds.htm&language=en_US&type=5 (Per User, Named Principal) [Exa]
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (client_id, product_bucket) [Exa]
+- id: einstein_activity_capture
+  type: app_grant
+  what: Einstein Activity Capture 가 Google 메일·캘린더를 Salesforce 와 동기화. 연결 방식은 사용자 단위 인증 또는 Google Workspace Marketplace 앱(「Salesforce - Einstein Activity Capture」, Salesforce.com 게시)
+  identify:
+    api: gws token 감사 authorize (app_name), Marketplace 앱 목록 (화면); salesforce Einstein Activity Capture 설정 (화면)
+    when: 그 앱 승인이 있음
+  points_to:
+  - tier: config_name
+    a: gws token 감사 app_name, client_id (값은 연결해 보고 읽는다)
+    b: salesforce Einstein Activity Capture 연결 사용자
+    check: 같은 사람과 시각
+  - tier: via_person
+    a: gws 사용자
+    b: salesforce 사용자 (자기 Google 계정을 연결)
+    check: 같은 사람
+  - tier: log_id
+    a: gws token 감사 authorize·activity 의 client_id
+    b: gws tokens.list 의 clientId (Einstein Activity Capture)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 authorize 시각과 actor.email
+    b: salesforce 사용자가 Einstein Activity Capture 에 Google 계정을 연결한 시각 (기록 위치는 문서에 없음)
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws token 감사 authorize, activity (Gmail·Calendar)
+  sources:
+  - https://help.salesforce.com/s/articleView?language=en_US&id=sf.aac_connection_google_parent.htm&type=5 (사용자 단위 인증, Marketplace 앱 방식) [Exa]
+  - https://workspace.google.com/marketplace/search/salesforce (Salesforce - Einstein Activity Capture, Salesforce.com) [Exa]
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+  - https://developers.google.com/workspace/admin/directory/reference/rest/v1/tokens (clientId, displayText)
+- id: lightning_sync_domain_wide_delegation
+  type: stored_credential
+  what: Lightning Sync for Google 이 Google Cloud 서비스 계정 키와 도메인 전체 위임(scope contacts, calendar)으로 연락처·일정을 동기화. 2027 년 종료 예정이고 신규 고객에게는 제공되지 않는다
+  identify:
+    api: gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS (API_CLIENT_NAME, API_SCOPES)
+    when: scope 가 auth/contacts, auth/calendar 인 위임이 있음
+  points_to:
+  - tier: config_id
+    a: gws 도메인 전체 위임의 client ID (서비스 계정)
+    b: salesforce Lightning Sync 연결 설정의 서비스 계정 (키 업로드. 화면)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: gws token 감사 activity 의 client_id
+    b: gws AUTHORIZE_API_CLIENT_ACCESS 의 API_CLIENT_NAME (서비스 계정 client ID)
+    check: a 와 b 가 같다
+  activity:
+  - gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS, token 감사 activity (app_name 이 숫자 client ID)
+  sources:
+  - https://help.salesforce.com/s/articleView?language=en_US&id=sf.lightning_sync_admin_google_prep_google.htm&type=5 (서비스 계정, JSON 키, 위임 scope, 2027 종료) [Exa]
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (AUTHORIZE_API_CLIENT_ACCESS)
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+- id: sheets_salesforce_connector
+  type: app_grant
+  what: Google Sheets 부가기능 「Salesforce Connector」(Google Cloud 제작)가 Salesforce 관리자가 정한 필드·객체 권한 안에서 보고서·SOQL 을 가져오고 변경을 반영
+  identify:
+    api: gws Marketplace 앱 허용 목록 (화면), token 감사; salesforce SOQL OauthToken (AppName)
+    when: 부가기능을 쓰는 사용자가 있음
+  points_to:
+  - tier: config_name
+    a: salesforce OauthToken.AppName (부가기능이 쓰는 connected app 라벨. 이름은 문서에 없음), UserId
+    b: gws 부가기능 사용자
+    check: 같은 사람
+  - tier: log_time
+    a: salesforce LoginHistory 시각과 UserId (그 connected app 으로 로그인)
+    b: gws 그 사용자의 Sheets 부가기능 사용 시각 (token 감사 activity)
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - salesforce OauthToken, LoginHistory
+  sources:
+  - https://support.google.com/a/answer/9077764 (The Salesforce add-on is made by Google Cloud, 필드·객체 권한, 허용 설정) [Exa]
+  - https://workspace.google.com/marketplace/app/data_connector_for_salesforce/857627895310 (보고서·SOQL 가져오기, Insert/Update/Delete) [Exa]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_loginhistory.htm [Exa] (UserId, LoginTime, LoginType, SourceIp, Application, AuthenticationServiceId)
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+- id: marketplace_salesforce_apps
+  type: app_grant
+  what: Google Workspace Marketplace 의 Salesforce 앱 — 「Salesforce for Google Chat」(Google 게시, 레코드 찾기·공유), 「Salesforce integration」(Google 게시, Gemini 에서 Salesforce 동작)
+  identify:
+    api: gws admin 감사 ADD_APPLICATION, Marketplace 앱 목록 (화면), token 감사; gws Reports applicationName=chat 의 app_invoked, message_posted, history_turned_on, conversation_read (conversation_type USER_TO_APP_DIRECT_MESSAGE; 앱 이름 파라미터는 없고 room_id 가 앱과의 DM 하나를 가른다)
+    when: 앱이 설치됨
+  points_to:
+  - tier: config_name
+    a: gws 설치 앱 이름
+    b: salesforce OauthToken.AppName (앱이 쓰는 connected app. 이름은 문서에 없음)
+    check: 같은 사람과 시각
+  - tier: log_id
+    a: gws admin 감사 ADD_APPLICATION 의 APP_ID, APPLICATION_NAME
+    b: 설치한 Salesforce 앱
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 authorize 시각과 actor.email
+    b: salesforce OauthToken.CreatedDate 와 UserId
+    check: 시각이 가깝고 사람이 같다
+  - tier: log_time
+    a: gws token 감사 authorize 행 중 app_name 이 Marketplace 앱 「Salesforce Connector」인 행의 시각과 actor.email
+    b: salesforce API Total Usage 행 (API_CLIENT_CATEGORY = SALESFORCE_HOSTED_MCP)의 USER_NAME 과 시각 (시각 필드 이름은 문서에 없음)
+    check: '사람이 같고 시각이 가깝다. SALESFORCE_HOSTED_MCP 는 다른 MCP 클라이언트와 같이 쓰이므로 이 행만으로 Google 앱을 가르지 못한다 (Google 앱 상세의 sobject-reads 요구는 필요 조건이지 식별 근거가 아니다. 그래서 check 에 넣지 않았다. Salesforce 쪽 ECA 이름과 Consumer Key 는 문서에 없으니 OauthToken.AppName 으로 확인한다. 앱 이름 불일치: 기존 what 은 「Salesforce integration」이고 현재 목록 제목은 「Salesforce Connector」다(URL 슬러그 salesforce_integration, 앱 ID 823564434168 동일). 기존 what 을 고치는 것은 이번 조사 범위 밖이다. 게시자 칸은 추출 결과 빈칸이라 확인하지 못했다. Gemini 가 이 MCP 경로로 Salesforce 를 부른다는 것은 문서로 직접 확인하지 못했다. 간접 근거는 Marketplace 상세의 sobject-reads 요구다.)'
+  activity:
+  - gws admin 감사 ADD_APPLICATION, token 감사 authorize
+  - salesforce OauthToken, LoginHistory
+  - gws Reports applicationName=chat 의 app_invoked, message_posted, history_turned_on, conversation_read (conversation_type USER_TO_APP_DIRECT_MESSAGE; 앱 이름 파라미터는 없고 room_id 가 앱과의 DM 하나를 가른다)
+  sources:
+  - https://workspace.google.com/marketplace/search/salesforce (검색 목록의 앱 이름·게시자·설명. 상세 페이지 미열람) [Exa]
+  - 'https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (ADD_APPLICATION·ADD_APPLICATION_TO_WHITELIST: APP_ID, APPLICATION_NAME. AUTHORIZE_API_CLIENT_ACCESS: API_CLIENT_NAME, API_SCOPES)'
+  - 'https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)'
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_oauthtoken.htm [Exa] (AppName, UserId, CreatedDate, LastUsedDate, UseCount)
+  - 'https://workspace.google.com/marketplace/app/salesforce_integration/823564434168 (현재 제목 「Salesforce Connector」, Required setup on Salesforce: sobject-reads MCP, 권한은 기본 프로필 이메일 조회) [WebFetch] [Exa]'
+  - https://developer.salesforce.com/docs/platform/hosted-mcp-servers/guide/security-best-practices.html (API_CLIENT_CATEGORY = SALESFORCE_HOSTED_MCP) [Exa]
+  - https://developer.salesforce.com/docs/platform/hosted-mcp-servers/references/reference/sobject-reads.html (sobject-reads 는 읽기 전용) [Exa]
+- id: person_link
+  type: same_person
+  what: 같은 사람 (Google 계정 ↔ Salesforce 사용자)
+  identify:
+    api: gws users primaryEmail; salesforce SOQL User
+    when: 항상
+  points_to:
+  - tier: via_person
+    a: gws user primaryEmail
+    b: salesforce User.Email, Username, FederationIdentifier
+    check: a 와 b 가 같다
+  sources: ["https://developers.google.com/workspace/admin/directory/reference/rest/v1/users (primaryEmail)", "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_user.htm [Exa] (Email, Username, FederationIdentifier)"]
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: data360_google_drive_connector
+  type:
+  - stored_credential
+  - app_grant
+  what: Salesforce Data 360 의 Google Drive 비정형 커넥터(Beta)가 Drive 파일을 수집해 AI 응답 근거용 검색 인덱스를 만든다. Google Cloud 서비스 계정과 JSON 키를 쓰고, 전체 드라이브를 수집하려면 도메인 전체 위임을 설정한다(특정 공유 드라이브 ID 만 쓰면 생략 가능). 범위는 Drive 읽기 전용이다. 구조화 Drive, Google Sheets, Google Contacts 커넥터도 목록에 있다
+  identify:
+    api: gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS (API_CLIENT_NAME, API_SCOPES); salesforce Data Cloud Setup > Other Connectors 의 Google Drive 커넥션 (화면)
+    when: gws 도메인 전체 위임의 client ID 가 salesforce Data 360 Google Drive 커넥션에 입력한 Client ID
+  points_to:
+  - tier: config_id
+    a: gws 도메인 전체 위임의 client ID (서비스 계정)
+    b: salesforce Data 360 Google Drive 커넥션에 입력한 Client ID
+    check: a 와 b 가 같다
+    if_unreadable: 커넥션은 화면. 읽는 API 이름은 문서에 없다
+  - tier: config_name
+    a: gws 서비스 계정 이메일
+    b: salesforce Data 360 Google Drive 커넥션에 입력한 서비스 계정 이메일
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: gws token 감사 activity 의 client_id
+    b: gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS 의 API_CLIENT_NAME (서비스 계정 client ID)
+    check: a 와 b 가 같다
+  activity:
+  - gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS, token 감사 activity (app_name 이 숫자 client ID)
+  - salesforce Data 360 데이터 스트림 상태 (이벤트 이름은 문서에 없음)
+  sources:
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-googledrive-unstructured-connector.html (Beta, 서비스 계정, 도메인 위임) [Exa]
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-create-googledrive-unstructured-udlo.html (UDLO, 공유 드라이브) [Exa]
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-thirdparty-connectors.html (커넥터 목록) [Exa]
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (ADD_APPLICATION, AUTHORIZE_API_CLIENT_ACCESS)
+  note: 기존 lightning_sync_domain_wide_delegation 과 같은 종류의 도메인 전체 위임 구조지만 Lightning Sync 가 아니라 Data 360 커넥터다. 구조화 Drive·Sheets·Contacts 커넥터의 설정 페이지는 열지 못했다. 이 커넥터의 client ID 로 token 감사가 남는지는 확인하지 못했다
+- id: gemini_enterprise_salesforce
+  type: app_grant
+  what: Gemini Enterprise 의 Salesforce 데이터 저장소가 Salesforce 를 검색하고(페더레이티드 검색, 공개 미리보기) 액션(Create case)을 한다. 데이터 수집은 비공개 미리보기(allowlist). Salesforce 관리자가 외부 클라이언트 앱(콜백은 vertexaisearch 리디렉션)을 만들고 사용자를 사전 승인하고 권한 세트를 준다. Enterprise 또는 Developer 에디션만 되고 체험판은 안 된다고 문서가 쓴다
+  identify:
+    api: salesforce Setup > App manager 의 외부 클라이언트 앱 (OauthToken·LoginHistory 로 확인); google Cloud Audit Logs discoveryengine.googleapis.com
+    when: salesforce 에 콜백 URL 이 vertexaisearch.cloud.google.com 인 외부 클라이언트 앱이 있음
+  points_to:
+  - tier: config_id
+    a: salesforce 외부 클라이언트 앱의 Consumer Key
+    b: gemini enterprise Salesforce 커넥터에 입력한 Consumer Key
+    check: a 와 b 가 같다
+    if_unreadable: 커넥터 설정은 화면. 읽는 API 이름은 문서에 없다
+  - tier: log_time
+    a: google Cloud 감사 DataConnectorService.SetUpDataConnector 시각
+    b: salesforce LoginHistory 의 외부 클라이언트 앱 로그인 시각과 사용자
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - google Cloud 감사 DataConnectorService.SetUpDataConnector, .UpdateDataConnector
+  - salesforce LoginHistory, OauthToken (외부 클라이언트 앱 로그인)
+  sources:
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/salesforce/connect-salesforce (출시 상태, 액션)
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/salesforce/salesforce-configuration (외부 클라이언트 앱, 스코프, 에디션)
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/salesforce/set-up-data-store (JWT bearer·client credentials)
+  - 'https://docs.cloud.google.com/gemini/enterprise/docs/audit-logging (Cloud Audit Logs 메서드 이름: DataConnectorService.SetUpDataConnector 등)'
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/connect-third-party-data-source (커넥터 목록과 출시 상태)
+  note: 페더레이티드 스코프는 api, refresh_token, offline_access 이고 수집 모드는 full 을 더한다. 누가 어느 단계를 하는지는 문서가 명시하지 않는다. Salesforce 쪽 감사 이벤트 이름은 문서에 없다. 기존 marketplace_salesforce_apps(Marketplace 의 Salesforce integration)와 다른 방법이다
+- id: workspace_studio_salesforce
+  type: app_grant
+  what: Google Workspace Studio 흐름의 외부 연동 단계(Third-party integrations, 베타)로 Salesforce 를 부른다. 기본 꺼짐이고 관리자가 연동·Custom steps·Webhook 설정을 따로 켠다. 사용자는 Connect 로 연결한다. 문서가 든 에디션에 Enterprise Standard·Plus 가 들어 있다. Marketplace 의 「Salesforce integration」(앱 ID 823564434168)은 기존 marketplace_salesforce_apps 와 같은 앱이고 Workspace Studio 배지도 있다. 목록은 Salesforce 쪽에 sobject-reads MCP 설정이 필요하다고 쓴다.
+  identify:
+    api: gws Reports applicationName=workspace_studio (flow_run 의 start_flow_step·end_flow_step, step_app 「Salesforce Connector [Beta]」); gws Reports applicationName=token authorize (app_name 이 흐름 이름); gws 관리 콘솔 Workspace Studio > Connector settings (화면); salesforce SetupAuditTrail, OauthToken, LoginHistory
+    when: Studio 흐름에 Salesforce Connector 단계가 있고 그 단계가 실행됨
+  points_to:
+  - tier: config_name
+    a: gws admin 감사 CREATE_APPLICATION_SETTING (APPLICATION_NAME 「Workspace Studio」, SETTING_NAME 「Connector Access Setting Connectors」) 의 NEW_VALUE, 또는 관리 콘솔 Workspace Studio > Connector settings > Connector use in steps
+    b: 'On'
+    check: a 가 On 이다. 서비스별 허용 목록은 이 화면에 없어 이 서비스만 가려내지 못한다
+    if_unreadable: 'CREATE_APPLICATION_SETTING 은 설정을 바꾼 때만 남는다. 현재 값을 읽는 API 는 확인하지 못했다. 사람: 관리 콘솔 Workspace Studio 설정, Studio 흐름 편집기의 단계 목록 (잠겨 있으면 「Workspace 관리자가 해당 단계에 대한 액세스를 제한했습니다」 라고 뜬다)'
+  - tier: log_time
+    a: gws Reports workspace_studio 의 start_flow_step·end_flow_step (step_app 「Salesforce Connector [Beta]」, step_name 「Create task」) 시각
+    b: salesforce 만들어진 Task 의 CreatedDate, 그리고 LoginHistory 의 Application 「Google Integration」(Remote Access 2.0) LoginTime
+    check: Task 가 흐름 실행 시각에 만들어졌고 LoginHistory 의 Application 이 Google Integration 이다
+  activity:
+  - 'gws Reports workspace_studio: flow_management(create_flow, update_flow, view_flow), flow_run(start_flow_run, start_flow_step, end_flow_step, end_flow_run_success, end_flow_run_error)'
+  - 'gws Reports token authorize: app_name 이 흐름 이름 (scope workspace.studio.execution)'
+  - salesforce SetupAuditTrail insertConnectedApplication (연결된 앱 「Google Integration」), OauthToken (AppName 「Google Integration」), LoginHistory (Application 「Google Integration」), 만들어진 Task
+  sources:
+  - https://workspaceupdates.googleblog.com/2026/09/automate-workflows-with-custom-starters-and-steps-third-party-integrations-and-webhooks-in-Workspace-Studio.html (외부 연동 베타 목록, 관리자 설정 위치, 기본 꺼짐)
+  - https://knowledge.workspace.google.com/admin/studio/allow-or-block-ws-integrations-steps (연동 단계 허용·차단)
+  - https://support.google.com/workspace-studio/answer/16658279 (사용자 연결, 해제 위치 myaccount.google.com/connections)
+  - 'https://knowledge.workspace.google.com/admin/reports/workspace-studio-log-events (Workspace Studio 로그 이벤트: Step app 속성)'
+  note: 아래는 실측(2026-10-26, CM-15, Create task 단계)에서 본 것이다. Connect 화면은 Salesforce 에 helper app 설치를 요구하고 링크로 설치 승인 화면(app_id 0CiHp000000CeVS)을 준다. 설치하면 패키지가 아니라 연결된 앱 「Google Integration」으로 들어가 InstalledSubscriberPackage 목록은 변하지 않았다. 설치와 연결은 Salesforce 쪽 관리자 계정(admin_e1hq5@aegi.site)이 했고 흐름 소유자(dev.junsik@aegi.men)와 이메일이 달라 사람 등급은 맞지 않는다. gws 쪽에는 ADD_APPLICATION·AUTHORIZE_API_CLIENT_ACCESS 가 남지 않았고, 앱 id(823564434168)도 나오지 않았다. 첫 실행은 인증 오류(end_flow_run_error)였고 둘째 실행이 성공했다. Workspace Studio 로그에는 연동 연결·웹훅 호출 이벤트가 없고 Step app 속성만 있다
+- id: gmail_integration_chrome_extension
+  type: app_grant
+  what: Salesforce 의 Gmail 통합(Lightning for Gmail) Chrome 확장을 사용자가 설치하고, 자기 Gmail 계정을 Salesforce 에 연결한다. 사용자가 Google 계정을 고르고 「Allow」로 Google 권한을 주며, 「Link account」로 연결을 마친다. Salesforce 관리자는 Setup 에서 기능을 켠다. 문서는 G Suite(유료 Google 서비스)를 요구한다고 쓴다(게시본 2025-02, Spring '21 기준 정보).
+  identify:
+    api: salesforce Setup 의 「Gmail Integration and Sync」 화면 (Allow users to access Salesforce record from Gmail 설정). Chrome 확장 설치 기록과 연결 기록을 읽는 API 는 문서에 없음
+    when: 설정이 켜져 있고, 사용자가 Chrome 확장에서 Salesforce 로그인과 Link account 를 마침
+  points_to:
+  - tier: via_person
+    a: gws 사용자 primaryEmail (Google 계정 선택 화면에서 고른 Gmail 계정)
+    b: salesforce 로그인한 사용자 (Username 또는 Email 필드. 필드 이름은 문서에 없음)
+    check: 같은 사람인지 사람이 확인한다. 문서는 두 계정이 같아야 한다고 쓰지 않는다
+  - tier: log_time
+    a: gws token 감사 authorize 행의 시각과 actor.email (Chrome 확장의 Google 권한 허용 시점. app_name, client_id 는 문서에 없음)
+    b: salesforce LoginHistory 의 LoginTime, UserId (확장 로그인이 여기 찍히는지 문서에 없음)
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws token 감사 authorize (확장 이름이 남는지 문서에 없음)
+  - salesforce LoginHistory (Application 값에 확장이 찍히는지 문서에 없음)
+  sources:
+  - https://help.salesforce.com/s/articleView?id=000384623&language=en_US&type=1 (Setup 설정 이름, Chrome 확장 설치, Allow·Link account 단계, Google 쪽 관리자 단계 없음) [WebFetch] [Exa]
+  - https://help.salesforce.com/s/articleView?id=000979031&language=en_US&type=1 (Chrome 확장은 Gmail 쪽 연결이 있어야 패널이 데이터를 가져온다) [Exa 검색 발췌, 원문 미열람]
+  - https://help.salesforce.com/s/issue?id=a028c00000qQ2n6AAC (Einstein Activity Capture 권한 세트를 받은 사용자가 EAC 연결 없이 로그인하면 오류) [Exa 검색 발췌, 원문 미열람]
+  - https://trailhead.salesforce.com/content/learn/modules/gmail_integration/gmail_integration_unit_2 (Setup 에서 Gmail Integration and Sync 검색, Enhanced Email 옵션) [Exa 검색 발췌, 원문 미열람]
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize 행 필드) [기존 인용, 원문 미열람]
+  note: "문서에 없음: 확장 이름과 Google OAuth 클라이언트 ID, Google Marketplace 등록 여부(Chrome 웹 스토어 확장), Chrome 확장을 관리 콘솔에서 막거나 허용하는 설정 위치, Salesforce 쪽 연결 기록 위치. 이 방법은 einstein_activity_capture 와 같은 「Gmail Integration and Sync」 화면을 공유하지만, Chrome 확장 로그인 경로는 별도로 적는다. 2025-02 게시 문서는 Spring '21 기준 정보라 현재 UI 와 다를 수 있다. 확장 이름으로 된 Google 쪽 앱 설치 기록은 확인하지 못했다."
+- id: agentforce_registry_google_workspace_mcp
+  type:
+  - app_grant
+  - stored_credential
+  what: Salesforce Agentforce 가 Agentforce Registry 에 등록한 Google Workspace 원격 MCP 서버(Gmail https://gmailmcp.googleapis.com/mcp/v1, Drive https://drivemcp.googleapis.com/mcp/v1, Calendar https://calendarmcp.googleapis.com/mcp/v1, Chat https://chatmcp.googleapis.com/mcp/v1)로 Google Workspace 를 부른다. Google 쪽은 Developer Preview Program 가입과 Google Cloud 프로젝트의 웹 애플리케이션 OAuth 클라이언트가 필요하다. 등록 때 서버 이름·URL·인증 방식(No Authentication, OAuth 2.0, Use External Credential)을 정하면 Salesforce 가 Named Credential, External Credential, 「{서버이름} Permission Set」을 만들고, 허용한 도구가 Agentforce Assets > Actions 에 「도구 이름 서버 이름」 꼴로 나온다. 사용자별 인증은 Employee 에이전트에만 된다
+  identify:
+    api: salesforce Setup > Agentforce Registry 의 MCP 서버 (이름, URL, 인증), Named Credential·External Credential·PermissionSet 「{서버이름} Permission Set」, Agentforce Assets > Actions. gws Google Cloud 프로젝트의 웹 애플리케이션 OAuth 클라이언트 (「Use this client for an AI-powered agent」)
+    when: salesforce Agentforce Registry 에 URL 이 *mcp.googleapis.com/mcp/v1 인 MCP 서버가 있음
+  points_to:
+  - tier: config_name
+    a: salesforce Agentforce Registry 의 MCP 서버 URL
+    b: gws MCP 서버 주소 (gmailmcp·drivemcp·calendarmcp·chatmcp.googleapis.com/mcp/v1 중 하나)
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: salesforce External Credential 의 OAuth Client ID
+    b: gws Google Cloud 프로젝트 OAuth 클라이언트 ID
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: salesforce 사용자 (사용자별 인증일 때 본인이 OAuth 동의)
+    b: gws OAuth 동의한 Google 계정
+    check: 같은 사람
+  - tier: log_time
+    a: gws 관리 콘솔 OAuth 로그 이벤트 (문서는 OAuth 로그로만 적는다)
+    b: salesforce 쪽 대응 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - gws Reports API token 활동 (OAuth 클라이언트 ID 로 짝을 찾는 것은 문서로 확인하지 않음)
+  sources:
+  - https://help.salesforce.com/s/articleView?id=ai.agent_mcp_connect_register.htm&language=en_US (Agentforce Registry > New, 인증 No Authentication·OAuth 2.0·Use External Credential, 사용자별 인증은 Employee 에이전트만, 자동 생성 Named Credential·External Credential·「{서버이름} Permission Set」, 도구 이름 「Tool Name ServerName」, 에디션 Enterprise·Performance·Unlimited·Developer, 권한 Manage AI Agents) [Exa]
+  - https://developers.google.com/workspace/guides/configure-mcp-servers (서버 주소, Developer Preview, OAuth 클라이언트 설정, redirect URI 예시는 Antigravity·Claude 뿐)
+  note: Google 문서는 Agentforce 를 클라이언트로 들지 않는다. 2024-09-17 Salesforce 보도자료의 「Agentforce Agent Actions for Google Workspace」(AppExchange)는 현재 목록을 찾지 못해 넣지 않았다. 실측 없음

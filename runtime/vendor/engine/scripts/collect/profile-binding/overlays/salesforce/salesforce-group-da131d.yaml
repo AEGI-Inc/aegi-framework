@@ -1,0 +1,40 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/salesforce/profiles/group.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SF-06
+        items: records
+        where:
+          path: attributes.type
+          eq: Group
+    id_expr: Id
+    properties:
+      name: Name
+      developer_name: DeveloperName
+      type: Type
+      principal_kind:
+        const: group
+    display: "{Name|Id}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: Id
+          stability: catalog_reviewed
+          normalization: &a1
+            - to_18_char
+      scope: tenant
+    key_template: SF-G-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: SF-G-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+    normalization: *a1

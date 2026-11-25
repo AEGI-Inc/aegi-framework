@@ -1,0 +1,6 @@
+{
+  "version": "v1",
+  "approved_by": "user",
+  "approved_on": "2026-10-19",
+  "change": "Object model v1 frozen for team use and 7-SaaS measurement through PR #117 (AEGI-Inc/aegi-dashboard). Later model work happens as v2 on a separate track; v1 artifacts change only by an explicit new decision."
+}

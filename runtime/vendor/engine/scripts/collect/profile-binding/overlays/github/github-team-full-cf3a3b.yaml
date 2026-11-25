@@ -1,0 +1,211 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/team.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-04
+        request:
+          team: absent
+        items: (items)
+    mutable_ids:
+      slug: slug
+    properties:
+      name: name
+      slug: slug
+      privacy: privacy
+      permission: permission
+    display: "{name}"
+    relations:
+      - type: member_of
+        when:
+          path: parent.id
+          present: true
+        source: $self
+        target:
+          type: team-full
+          id: parent.id
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-TEAM-{id}
+  - id: members
+    kind: relations
+    sources:
+      - call: GH-04
+        request:
+          team: present
+        items: (items)
+        where:
+          has:
+            type: team-full
+            lookup: slug
+            value:
+              op: str
+              of: $req.team
+    relations:
+      - type: member_of
+        when:
+          path: login
+          truthy: true
+        source:
+          type: simple-user
+          lookup: login
+          value: login
+          create:
+            rule: account
+        target:
+          type: team-full
+          lookup: slug
+          value:
+            op: str
+            of: $req.team
+        basis: stated
+        props_when:
+          path: role
+          truthy: true
+        properties:
+          team_role: role
+      - type: has_role_on
+        when:
+          all:
+            - path: login
+              truthy: false
+            - path: full_name
+              truthy: true
+            - path: role_name
+              truthy: true
+        source:
+          type: team-full
+          lookup: slug
+          value:
+            op: str
+            of: $req.team
+        target:
+          type: Repository
+          lookup: name
+          value: name
+        role:
+          ref:
+            type: organization-custom-repository-role
+            lookup: name
+            value: role_name
+          name:
+            any:
+              - role_name
+            empty_as: unknown
+        basis: stated
+    key_template: GH-TEAM-{id}
+runtime_stub: null
+runtime_key: GH-TEAM-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  slug:
+    stability: mutable
+relation_rules:
+  - id: Team:list
+    sources:
+      - call: GH-04
+        request:
+          team: absent
+        items: (items)
+    relations:
+      - type: member_of
+        when:
+          path: parent.id
+          present: true
+        source: $self
+        target:
+          type: team-full
+          id: parent.id
+        basis: stated
+    self_identity: object_rule
+  - id: Team:members
+    sources:
+      - call: GH-04
+        request:
+          team: present
+        items: (items)
+        where:
+          has:
+            type: Team
+            lookup: slug
+            value:
+              op: str
+              of: $req.team
+    relations:
+      - type: member_of
+        when:
+          path: login
+          truthy: true
+        source:
+          type: simple-user
+          lookup: login
+          value: login
+          create:
+            rule: account
+        target:
+          type: team-full
+          lookup: slug
+          value:
+            op: str
+            of: $req.team
+        basis: stated
+        props_when:
+          path: role
+          truthy: true
+        properties:
+          team_role: role
+      - type: has_role_on
+        when:
+          all:
+            - path: login
+              truthy: false
+            - path: full_name
+              truthy: true
+            - path: role_name
+              truthy: true
+        source:
+          type: team-full
+          lookup: slug
+          value:
+            op: str
+            of: $req.team
+        target:
+          type: Repository
+          lookup: name
+          value: name
+        role:
+          ref:
+            type: organization-custom-repository-role
+            lookup: name
+            value: role_name
+          name:
+            any:
+              - role_name
+            empty_as: unknown
+        basis: stated
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-TEAM-{id}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

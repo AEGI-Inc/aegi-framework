@@ -1,0 +1,135 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: discoveryengine
+object_type: DataConnector
+interfaces: [Integration]
+# 다른 SaaS 와 잇는 커넥터. 근거: 2026-11-18 collections.dataConnector 실제 응답 7건(v1alpha).
+# params·actionParams 는 통째로 옮기지 않고 비밀값이 아닌 칸만 고른다(actionParams.auth_key 는 옮기지 않는다).
+# 상대 SaaS 테넌트와의 연결은 instance_uri 속성만 남기고 여기서 관계를 만들지 않는다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, refresh_token, client_secret, clientSecret, password, token, auth_key, private_key]
+runtime_key: GCP-GE-CONN-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-03
+        request: {kind: data_connector}
+        items: (root)
+    vars:
+      project: {op: regex, of: name, pattern: "^(projects/[^/]+)"}
+    tenant: {type: Project, id: $vars.project}
+    id_expr: name
+    refs:
+      data_stores:
+        each: entities
+        ref: {type: DataStore, id: $item.dataStore}
+        value: $item.dataStore
+        key_if_exists: true
+    properties:
+      state: state
+      operational_state:
+        op: map
+        of: state
+        table:
+          ACTIVE: active
+        default: {const: unknown}
+      dataSource: dataSource
+      connectorType: connectorType
+      connectorModes: connectorModes
+      # 데이터를 가져와 저장소에 넣는 방식(DATA_INGESTION)의 커넥터가 갖는 칸. Discovery 문서 DataConnector 스키마에서 옮겼고 실제 응답으로는 보지 못했다
+      # (3회차 커넥터 7개는 모두 FEDERATED 이고 응답에 이 칸들이 하나도 없었다)
+      syncMode: syncMode
+      realtimeState: realtimeState
+      lastSyncTime: lastSyncTime
+      latestPauseTime: latestPauseTime
+      incrementalRefreshInterval: incrementalRefreshInterval
+      hybridIngestionDisabled: hybridIngestionDisabled
+      aclEnabled: aclEnabled
+      blockingReasons: blockingReasons
+      staticIpEnabled: staticIpEnabled
+      vpcscEnabled: vpcscEnabled
+      privateConnectivityProjectId: privateConnectivityProjectId
+      createEuaSaas: createEuaSaas
+      refreshInterval: refreshInterval
+      createTime: createTime
+      updateTime: updateTime
+      autoRunDisabled: autoRunDisabled
+      incrementalSyncDisabled: incrementalSyncDisabled
+      actionState: actionState
+      connectorSourceId: connectorSourceId
+      tag: tag
+      instance_uri: params.instance_uri
+      instance_id: params.instance_id
+      action_configured: actionConfig.isActionConfigured
+      action_auth_type: actionConfig.actionParams.auth_type
+      action_instance_uri: actionConfig.actionParams.instance_uri
+      action_owner_login: actionConfig.actionParams.owner_login
+      supported_connector_modes: bapConfig.supportedConnectorModes
+      enabled_actions: bapConfig.enabledActions
+      entity_names: {op: pluck, of: entities, field: entityName}
+      destination_keys: {op: pluck, of: destinationConfigs, field: key}
+      identity_refresh_interval: identityScheduleConfig.refreshInterval
+    display: "{dataSource|name}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: {type: Project, id: $vars.project}
+        basis: stated
+        require: [target]
+  # 커넥터가 가리키는 저장소(DataConnector.entities[].dataStore). 커넥터의 엔터티 하나에 저장소 하나가 있다.
+  # 이름으로는 포함이 아니다(커넥터는 자기 컬렉션, 저장소는 default_collection 아래). 관계 어휘에서 Resource 와 Integration 사이에
+  # 허용된 contained_in 으로 넣는다. 저장소의 Project 소속(contained_in)은 그대로 둔다
+  - id: data_stores
+    kind: relation
+    sources:
+      - call: GCP-03
+        request: {kind: data_connector}
+        items: (root)
+        each: entities
+    relations:
+      - type: contained_in
+        source: {type: DataStore, id: dataStore}
+        target: {type: DataConnector, id: $parent.name}
+        basis: stated
+        # FEDERATED 커넥터의 저장소는 내용을 옮겨 오지 않고, 부른 사람 자신의 연결(OAuth)로 상대 SaaS 에 묻는다.
+        # 3회차 실측 커넥터 7개 모두 FEDERATED, 저장소 9개 가운데 aclEnabled 칸이 있는 것은 Workspace 3개뿐이라 이 칸으로 가른다.
+        # aegi-knowledge relation_semantics.yaml contained_in.gcp_app_store_caller 가 읽는다
+        properties:
+          association: {const: connector_data_store}
+          federated:
+            if:
+              path: {op: some, of: $parent.connectorModes, where: {path: $item, eq: FEDERATED}}
+              truthy: true
+            then: {const: true}
+        require: [source, target]
+  # 사람별 커넥터 동의. API 로 나열할 수 없고 감사 로그(data_access)의 AcquireAndStoreRefreshToken 으로만 보인다.
+  # 근거: 2026-11-18 Cloud Logging 실제 로그 27건의 키 구조(protoPayload.methodName, resourceName, authenticationInfo.principalEmail, status).
+  # 수집기는 로그를 받지 않는다(Cloud Logging 조회가 POST 뿐이라 수집기의 GET 전용 규칙에 걸린다). 호출 ID GCP-07 은 임시 이름이고,
+  # 이 규칙은 로그 원본이 들어올 때만 돈다. 성공 여부는 가르지 않고 status_code 를 같이 남긴다.
+  - id: user_consent
+    kind: enrich
+    sources:
+      - call: GCP-07
+        request: {kind: log_entries}
+        items: (array_or:entries)
+        where: {path: protoPayload.methodName, matches: "AcquireAndStoreRefreshToken$"}
+    target: {type: DataConnector, id: protoPayload.resourceName}
+    append:
+      user_consent_observations:
+        object:
+          principal_email: protoPayload.authenticationInfo.principalEmail
+          time: timestamp
+          status_code: protoPayload.status.code
+          evidence: {const: observed}
+    observe: true
+    relations: []

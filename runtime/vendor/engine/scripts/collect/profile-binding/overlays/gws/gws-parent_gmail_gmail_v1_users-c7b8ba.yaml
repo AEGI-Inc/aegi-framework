@@ -1,0 +1,4 @@
+emit: reference_only
+emit_basis: 타입 이름이 API 경로 조각(parent:gmail/gmail/v1/users/{})이고 선언 필드가 없다. 레코드는 Gmail 경로의
+  userId 값과 레코드 해시뿐이다. 같은 사용자는 Directory User 객체로 있다. 식별자가 달라 merge_into 로 합칠 수 없어
+  객체로 만들지 않는다. 이 타입을 가리키는 Gmail Profile(Draft, Filter, CSE 등)의 참조는 미해결로 남는다

@@ -1,0 +1,119 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/package.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-33
+        items: (items)
+        where:
+          all:
+            - path: name
+              truthy: true
+            - path: package_type
+              truthy: true
+    vars:
+      repo:
+        if:
+          path: repository.name
+          truthy: true
+        then:
+          ref:
+            type: Repository
+            lookup: name
+            value: repository.name
+          prop: $key
+    id_expr:
+      any:
+        - id
+        - template: "{package_type}:{name}"
+    parts:
+      t: package_type
+      n: name
+    parent:
+      ref:
+        key: $vars.repo
+      when: always
+    properties:
+      name: name
+      package_type: package_type
+      visibility: visibility
+      version_count: version_count
+      repository:
+        op: null_if_missing
+        of: repository.full_name
+      created_at: created_at
+      updated_at: updated_at
+    display: 패키지 {package_type}/{name}
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    identity:
+      primary:
+        - name: t
+          expr: package_type
+          stability: catalog_reviewed
+        - name: n
+          expr: name
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-PACKAGE-{t}-{n}
+runtime_stub: null
+runtime_key: GH-PACKAGE-{t}-{n}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Package:list
+    sources:
+      - call: GH-33
+        items: (items)
+        where:
+          all:
+            - path: name
+              truthy: true
+            - path: package_type
+              truthy: true
+    vars:
+      repo:
+        if:
+          path: repository.name
+          truthy: true
+        then:
+          ref:
+            type: Repository
+            lookup: name
+            value: repository.name
+          prop: $key
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: t
+      expr: package_type
+      stability: catalog_reviewed
+    - name: n
+      expr: name
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-PACKAGE-{t}-{n}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

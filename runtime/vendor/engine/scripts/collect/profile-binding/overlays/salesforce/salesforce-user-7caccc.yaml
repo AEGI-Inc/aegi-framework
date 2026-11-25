@@ -1,0 +1,225 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/salesforce/profiles/user.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SF-02
+        request:
+          part: absent
+        items: records
+        where:
+          path: attributes.type
+          eq: User
+    id_expr: Id
+    vars:
+      id18:
+        op: sf_id18
+        of: Id
+    mutable_ids:
+      username:
+        op: lower
+        of:
+          op: str
+          of:
+            any:
+              - Username
+            empty_as: ""
+      email:
+        op: nonempty
+        of:
+          op: lower
+          of:
+            op: str
+            of:
+              any:
+                - Email
+              empty_as: ""
+      federation_id:
+        op: index
+        name: federation
+        key: $vars.id18
+    refs:
+      profile:
+        when:
+          path: ProfileId
+          truthy: true
+        ref:
+          type: Profile
+          id: ProfileId
+        value:
+          op: sf_id18
+          of: ProfileId
+      role:
+        when:
+          path: UserRoleId
+          truthy: true
+        ref:
+          type: UserRole
+          id: UserRoleId
+        value:
+          op: sf_id18
+          of: UserRoleId
+    properties:
+      username: Username
+      name: Name
+      is_active: IsActive
+      account_state:
+        op: map
+        of: IsActive
+        table:
+          'true': active
+          'false': suspended
+        default:
+          const: unknown
+      user_type: UserType
+      last_login: LastLoginDate
+      created: CreatedDate
+      principal_kind:
+        op: map
+        of: UserType
+        table:
+          AutomatedProcess: service
+        default:
+          const: unknown
+      mfa_methods:
+        if:
+          path:
+            op: index
+            name: mfa_seen
+            key:
+              const: all
+          truthy: true
+        then:
+          any:
+            - op: index
+              name: mfa
+              key: $vars.id18
+          empty_as: []
+    display: "{Username|Name|Id}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: Id
+          stability: catalog_reviewed
+          normalization: &a1
+            - to_18_char
+      scope: tenant
+    key_template: SF-U-{id}
+  - id: roles
+    kind: relations
+    sources:
+      - call: SF-02
+        request:
+          part: absent
+        items: records
+        where:
+          path: attributes.type
+          eq: User
+    relations:
+      - type: has_role_on
+        when:
+          path: ProfileId
+          truthy: true
+        source:
+          type: User
+          id: Id
+        target: $tenant
+        role:
+          # 시스템 프로필(AutomatedProcess, CloudIntegrationUser 등)은 SOQL Profile 조회에 나오지 않는다. 관계를 버리지 않고 프로필 스텁을 둔다
+          stub: true
+          ref:
+            type: Profile
+            id: ProfileId
+        basis: stated
+        require:
+          - role
+        properties:
+          field:
+            const: ProfileId
+      - type: has_role_on
+        when:
+          path: UserRoleId
+          truthy: true
+        source:
+          type: User
+          id: Id
+        target: $tenant
+        role:
+          ref:
+            type: UserRole
+            id: UserRoleId
+        basis: stated
+        require:
+          - role
+        properties:
+          field:
+            const: UserRoleId
+    key_template: SF-U-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: SF-U-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+    normalization: *a1
+  email:
+    stability: mutable
+  federation_id:
+    stability: mutable
+  username:
+    stability: mutable
+relation_rules:
+  - id: User:roles
+    sources:
+      - call: SF-02
+        request:
+          part: absent
+        items: records
+        where:
+          path: attributes.type
+          eq: User
+    relations:
+      - type: has_role_on
+        when:
+          path: ProfileId
+          truthy: true
+        source:
+          type: User
+          id: Id
+        target: $tenant
+        role:
+          # 시스템 프로필(AutomatedProcess, CloudIntegrationUser 등)은 SOQL Profile 조회에 나오지 않는다. 관계를 버리지 않고 프로필 스텁을 둔다
+          stub: true
+          ref:
+            type: Profile
+            id: ProfileId
+        basis: stated
+        require:
+          - role
+        properties:
+          field:
+            const: ProfileId
+      - type: has_role_on
+        when:
+          path: UserRoleId
+          truthy: true
+        source:
+          type: User
+          id: Id
+        target: $tenant
+        role:
+          ref:
+            type: UserRole
+            id: UserRoleId
+        basis: stated
+        require:
+          - role
+        properties:
+          field:
+            const: UserRoleId

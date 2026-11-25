@@ -1,0 +1,44 @@
+overlay_basis:
+  from: 11-04 운영 수집 run 20261104T102155Z-ad5b 의 /api/v1/policies/{policyId}/mappings 응답
+  note: 매핑 행의 _links.application.href 가 그 정책이 걸린 앱이다(Okta Policy API, Policy Mapping 객체). 생성 Profile 은 이 링크를 참조로 적지 않아
+    사건 policy.mapping.create(정책 → 앱 applies_to)가 스냅샷에서 찾을 관계가 없었다
+# 배열은 통째로 바뀐다. 생성 Profile 의 참조 셋과 관계 계획 하나를 그대로 두고 application 과 applies_to 를 더한다
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: Policy
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:a607902c80f12e41ab3198c7 (policies/{}) -> Policy
+  - name: id
+    field: id
+    target: Policy
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:44721ee94b20a3a120e49a77; relation=no_relation
+  - name: links_self_href
+    field: _links.self.href
+    target: BehaviorRule
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:56487c09f1f967a2b0086eda; relation=no_relation
+  - name: application
+    expr:
+      op: regex
+      of: _links.application.href
+      pattern: /api/v1/apps/([^/?#]+)$
+    target: Application
+    relation: applies_to
+    reviewed_at: 2026-11-13
+    rationale: 매핑의 앱 링크(/api/v1/apps/{appId}). 11-04 수집본 매핑 34행 모두 이 꼴이고 32행이 수집한 앱으로 풀린다(2행은 앱 목록에 없음)
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+  - type: applies_to
+    source: $refs.parent_scope
+    target: $refs.application
+    produced_by_reference: application
+    basis: stated

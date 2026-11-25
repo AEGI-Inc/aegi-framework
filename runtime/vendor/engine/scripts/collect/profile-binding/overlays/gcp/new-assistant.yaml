@@ -1,0 +1,66 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: discoveryengine
+object_type: Assistant
+interfaces: [Automation, Resource]
+# 근거: Discovery Engine v1alpha Discovery 문서의 GoogleCloudDiscoveryengineV1alphaAssistant 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-03 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# 도구(enabledTools)를 호출한 사람 권한으로 실행한다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-GE-ASSISTANT-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-03
+        request: {kind: assistants}
+        items: assistants
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    properties:
+      webGroundingType: webGroundingType
+      defaultWebGroundingToggleOff: defaultWebGroundingToggleOff
+      disableLocationContext: disableLocationContext
+      enabledTools: enabledTools
+      displayName: displayName
+      updateTime: updateTime
+      customerPolicy: customerPolicy
+      description: description
+      generationConfig: generationConfig
+      knowledgeCatalogEnabled: knowledgeCatalogEnabled
+      createTime: createTime
+      run_as_resolution: {const: caller}
+    display: "{displayName|title|name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Engine, id: {op: regex, of: name, pattern: "^(.+)/assistants/[^/]+$"}}
+        basis: stated
+        require: [target]
+  # 추천 질문(cannedQueries)은 객체로 두지 않고 도우미에 목록으로 붙인다(2026-11-20). 앱 화면에 띄우는 예시 질문이라 「X 에 대한 권한」이 없고
+  # 3회차 실측 객체 148개 가운데 40개(도우미 2개 × 20)였다. 오브젝트 모델 3단계 판정 규칙 5 「설정 묶음은 부모의 속성」
+  - id: canned_queries
+    kind: enrich
+    sources:
+      - call: GCP-03
+        request: {kind: canned_queries}
+        items: cannedQueries
+    target: {type: Assistant, id: {op: regex, of: name, pattern: "^(.+)/cannedQueries/[^/]+$"}}
+    append:
+      canned_queries:
+        object:
+          display_name: displayName
+          enabled: enabled
+          google_defined: googleDefined
+          required_capabilities: requiredCapabilities
+    relations: []

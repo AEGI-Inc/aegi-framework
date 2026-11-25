@@ -1,0 +1,85 @@
+[
+  {
+    "id": "OBS-G-FORWARD-GWS-U-101476901694912674983",
+    "scenarioKey": "G",
+    "kind": "access_snapshot",
+    "objectKeys": [
+      "GWS-U-101476901694912674983"
+    ],
+    "attributes": {
+      "enabled": false
+    },
+    "occurredAt": "2026-10-20T09:18:44.425Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+    },
+    "title": "Gmail 자동 전달 설정"
+  },
+  {
+    "id": "OBS-H-VERSION-12FNggvPXXTY7HrO_D9CceblX7vI3iTFSqqIpqmftEl60th-viQs8DmZe-1",
+    "scenarioKey": "H",
+    "kind": "access_snapshot",
+    "objectKeys": [
+      "GWS-PROJECT-12FNggvPXXTY7HrO_D9CceblX7vI3iTFSqqIpqmftEl60th-viQs8DmZe"
+    ],
+    "attributes": {
+      "versionNumber": 1,
+      "manifest": {
+        "webapp": {
+          "executeAs": "USER_ACCESSING",
+          "access": "DOMAIN"
+        },
+        "executionApi": null,
+        "oauthScopes": [
+          "https://www.googleapis.com/auth/admin.directory.user.readonly",
+          "https://www.googleapis.com/auth/script.external_request",
+          "https://www.googleapis.com/auth/userinfo.email"
+        ],
+        "advancedServices": [
+          {
+            "userSymbol": "AdminDirectory",
+            "serviceId": "admin",
+            "version": "directory_v1"
+          }
+        ],
+        "runtimeVersion": "V8"
+      },
+      "code_markers": {
+        "advanced_services_called": [
+          "AdminDirectory"
+        ]
+      }
+    },
+    "occurredAt": "2026-10-20T09:18:03.962Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-12#f70079a3de4d43ad820adfa88ad1f0c562db262a53b75ef2a28991cb8222d1dc"
+    },
+    "title": "웹앱 버전 1 설정"
+  },
+  {
+    "id": "OBS-H-DEPLOY-AKfycbwT2Lba1yajYxLFFSwMUak-yTawouB98BVSiXkBwHiiychXsrNwpOqPeniWd2-_XCBefA",
+    "scenarioKey": "H",
+    "kind": "access_snapshot",
+    "objectKeys": [
+      "GWS-PROJECT-12FNggvPXXTY7HrO_D9CceblX7vI3iTFSqqIpqmftEl60th-viQs8DmZe",
+      "GWS-U-101476901694912674983"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-12FNggvPXXTY7HrO_D9CceblX7vI3iTFSqqIpqmftEl60th-viQs8DmZe",
+      "author": "GWS-U-101476901694912674983",
+      "deploymentId": "AKfycbwT2Lba1yajYxLFFSwMUak-yTawouB98BVSiXkBwHiiychXsrNwpOqPeniWd2-_XCBefA",
+      "versionNumber": 1,
+      "updateTime": "2026-10-20T04:58:43.759Z",
+      "access": "DOMAIN",
+      "executeAs": "USER_ACCESSING"
+    },
+    "occurredAt": "2026-10-20T09:17:52.594Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-11#94127b9157a124683b23cda76f2651f138e9f8110f0b9ac00d29d377925ff05b"
+    },
+    "title": "접속자 권한 실행 배포"
+  }
+]

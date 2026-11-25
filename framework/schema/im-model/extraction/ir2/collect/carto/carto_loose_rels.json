@@ -1,0 +1,315 @@
+[
+ {
+  "class": "SlackTeamToTeamRel",
+  "file": "group.py",
+  "source": null,
+  "label": "RESOURCE",
+  "target": "SlackTeam",
+  "dir": "INWARD",
+  "matcher": {
+   "id": "ref:TEAM_ID(set)"
+  },
+  "module": "slack"
+ },
+ {
+  "class": "DependencyGraphManifestToCodeOwnerRuleMatchLink",
+  "file": "codeowners.py",
+  "source": "GitHubDependencyGraphManifest",
+  "label": "MATCHES_CODEOWNER_RULE",
+  "target": "GitHubCodeOwnerRule",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:rule_id"
+  },
+  "module": "github"
+ },
+ {
+  "class": "GitHubUserCommittedToRepoRel",
+  "file": "commits.py",
+  "source": "GitHubUser",
+  "label": "COMMITTED_TO",
+  "target": "GitHubRepository",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:repo_url"
+  },
+  "module": "github"
+ },
+ {
+  "class": "GitHubRepoProvenancePackagedFromMatchLink",
+  "file": "packaged_matchlink.py",
+  "source": "Image",
+  "label": "PACKAGED_FROM",
+  "target": "GitHubRepository",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:repo_url"
+  },
+  "module": "github"
+ },
+ {
+  "class": "GitHubRepoDockerfilePackagedFromMatchLink",
+  "file": "packaged_matchlink.py",
+  "source": "Image",
+  "label": "PACKAGED_FROM",
+  "target": "GitHubRepository",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:repo_url"
+  },
+  "module": "github"
+ },
+ {
+  "class": "GitHubRepoPackageOwnerPackagedFromMatchLink",
+  "file": "packaged_matchlink.py",
+  "source": "Image",
+  "label": "PACKAGED_FROM",
+  "target": "GitHubRepository",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:repo_url"
+  },
+  "module": "github"
+ },
+ {
+  "class": "ImagePackagedByWorkflowMatchLink",
+  "file": "packaged_matchlink.py",
+  "source": "Image",
+  "label": "PACKAGED_BY",
+  "target": "GitHubWorkflow",
+  "dir": "OUTWARD",
+  "matcher": {
+   "repo_url": "ref:repo_url",
+   "path": "ref:workflow_path"
+  },
+  "module": "github"
+ },
+ {
+  "class": "GitHubCollaboratorToRepositoryRel",
+  "file": "repos.py",
+  "source": null,
+  "label": "DIRECT_COLLAB_ADMIN",
+  "target": "GitHubRepository",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:repo_url"
+  },
+  "module": "github"
+ },
+ {
+  "class": "OktaGroupToAWSRoleHasRoleMatchLink",
+  "file": "awssaml.py",
+  "source": "OktaGroup",
+  "label": "HAS_ROLE",
+  "target": "AWSRole",
+  "dir": "OUTWARD",
+  "matcher": {
+   "arn": "ref:aws_role_arn"
+  },
+  "module": "okta"
+ },
+ {
+  "class": "OktaGroupToAWSRoleAllowedByMatchLink",
+  "file": "awssaml.py",
+  "source": "OktaGroup",
+  "label": "ALLOWED_BY",
+  "target": "AWSRole",
+  "dir": "OUTWARD",
+  "matcher": {
+   "arn": "ref:aws_role_arn"
+  },
+  "module": "okta"
+ },
+ {
+  "class": "OktaUserOwnsDeviceRel",
+  "file": "device.py",
+  "source": "OktaUser",
+  "label": "OWNS",
+  "target": "OktaDevice",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:device_id"
+  },
+  "module": "okta"
+ },
+ {
+  "class": "GoogleWorkspaceGroupToMemberRel",
+  "file": "group.py",
+  "source": null,
+  "label": "MEMBER_OF",
+  "target": "GoogleWorkspaceUser",
+  "dir": "INWARD",
+  "matcher": {
+   "primary_email": "ref:member_ids"
+  },
+  "module": "googleworkspace"
+ },
+ {
+  "class": "GoogleWorkspaceGroupToOwnerRel",
+  "file": "group.py",
+  "source": null,
+  "label": "OWNER_OF",
+  "target": "GoogleWorkspaceUser",
+  "dir": "INWARD",
+  "matcher": {
+   "primary_email": "ref:owner_ids"
+  },
+  "module": "googleworkspace"
+ },
+ {
+  "class": "GoogleWorkspaceGroupToGroupMemberRel",
+  "file": "group.py",
+  "source": "GoogleWorkspaceGroup",
+  "label": "MEMBER_OF",
+  "target": "GoogleWorkspaceGroup",
+  "dir": "INWARD",
+  "matcher": {
+   "email": "ref:subgroup_email"
+  },
+  "module": "googleworkspace"
+ },
+ {
+  "class": "GoogleWorkspaceGroupToGroupOwnerRel",
+  "file": "group.py",
+  "source": "GoogleWorkspaceGroup",
+  "label": "OWNER_OF",
+  "target": "GoogleWorkspaceGroup",
+  "dir": "INWARD",
+  "matcher": {
+   "email": "ref:subgroup_email"
+  },
+  "module": "googleworkspace"
+ },
+ {
+  "class": "GoogleWorkspaceUserToGroupInheritedMemberRel",
+  "file": "group.py",
+  "source": "GoogleWorkspaceUser",
+  "label": "INHERITED_MEMBER_OF",
+  "target": "GoogleWorkspaceGroup",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:group_id"
+  },
+  "module": "googleworkspace"
+ },
+ {
+  "class": "GoogleWorkspaceUserToGroupInheritedOwnerRel",
+  "file": "group.py",
+  "source": "GoogleWorkspaceUser",
+  "label": "INHERITED_OWNER_OF",
+  "target": "GoogleWorkspaceGroup",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:group_id"
+  },
+  "module": "googleworkspace"
+ },
+ {
+  "class": "GoogleWorkspaceGroupToGroupInheritedMemberRel",
+  "file": "group.py",
+  "source": "GoogleWorkspaceGroup",
+  "label": "INHERITED_MEMBER_OF",
+  "target": "GoogleWorkspaceGroup",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:target_group_id"
+  },
+  "module": "googleworkspace"
+ },
+ {
+  "class": "GoogleWorkspaceGroupToGroupInheritedOwnerRel",
+  "file": "group.py",
+  "source": "GoogleWorkspaceGroup",
+  "label": "INHERITED_OWNER_OF",
+  "target": "GoogleWorkspaceGroup",
+  "dir": "OUTWARD",
+  "matcher": {
+   "id": "ref:target_group_id"
+  },
+  "module": "googleworkspace"
+ },
+ {
+  "class": "GoogleWorkspaceUserToOAuthAppRel",
+  "file": "oauth_app.py",
+  "source": "GoogleWorkspaceUser",
+  "label": "AUTHORIZED",
+  "target": "GoogleWorkspaceOAuthApp",
+  "dir": "OUTWARD",
+  "matcher": {
+   "client_id": "ref:client_id"
+  },
+  "module": "googleworkspace"
+ },
+ {
+  "class": "GSuiteGroupToMemberRel",
+  "file": "group.py",
+  "source": null,
+  "label": "MEMBER_GSUITE_GROUP",
+  "target": "GSuiteUser",
+  "dir": "INWARD",
+  "matcher": {
+   "id": "ref:member_ids"
+  },
+  "module": "gsuite"
+ },
+ {
+  "class": "GSuiteGroupToMemberMemberOfRel",
+  "file": "group.py",
+  "source": null,
+  "label": "MEMBER_OF",
+  "target": "GSuiteUser",
+  "dir": "INWARD",
+  "matcher": {
+   "id": "ref:member_ids"
+  },
+  "module": "gsuite"
+ },
+ {
+  "class": "GSuiteGroupToOwnerRel",
+  "file": "group.py",
+  "source": null,
+  "label": "OWNER_GSUITE_GROUP",
+  "target": "GSuiteUser",
+  "dir": "INWARD",
+  "matcher": {
+   "id": "ref:owner_ids"
+  },
+  "module": "gsuite"
+ },
+ {
+  "class": "GSuiteGroupToGroupMemberRel",
+  "file": "group.py",
+  "source": "GSuiteGroup",
+  "label": "MEMBER_GSUITE_GROUP",
+  "target": "GSuiteGroup",
+  "dir": "INWARD",
+  "matcher": {
+   "id": "ref:subgroup_id"
+  },
+  "module": "gsuite"
+ },
+ {
+  "class": "GSuiteGroupToGroupMemberMemberOfRel",
+  "file": "group.py",
+  "source": "GSuiteGroup",
+  "label": "MEMBER_OF",
+  "target": "GSuiteGroup",
+  "dir": "INWARD",
+  "matcher": {
+   "id": "ref:subgroup_id"
+  },
+  "module": "gsuite"
+ },
+ {
+  "class": "GSuiteGroupToGroupOwnerRel",
+  "file": "group.py",
+  "source": "GSuiteGroup",
+  "label": "OWNER_GSUITE_GROUP",
+  "target": "GSuiteGroup",
+  "dir": "INWARD",
+  "matcher": {
+   "id": "ref:subgroup_id"
+  },
+  "module": "gsuite"
+ }
+]

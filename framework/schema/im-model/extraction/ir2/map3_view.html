@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>/*TITLE*/ 정보 지도</title>
+<style>
+:root { --bg: #ffffff; --text: #111111; --text2: #333333; --line: #d0d0d0; --line2: #8a8a8a; --accent: #0b5cad; --accent-bg: #e8f0fa; --row: #f6f6f6; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 "Pretendard", "Malgun Gothic", system-ui, sans-serif; }
+header { padding: 14px 20px 10px; border-bottom: 1px solid var(--line); }
+h1 { margin: 0 0 8px; font-size: 18px; }
+h1 a { color: var(--accent); font-weight: 400; font-size: 14px; margin-right: 10px; }
+.totals { display: flex; flex-wrap: wrap; border: 1px solid var(--line); width: fit-content; max-width: 100%; }
+.totals div { padding: 5px 12px; border-right: 1px solid var(--line); }
+.totals div:last-child { border-right: 0; }
+.totals b { display: block; font-size: 16px; }
+main { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); min-height: calc(100vh - 110px); }
+#graphwrap { border-right: 1px solid var(--line); position: relative; }
+svg { width: 100%; height: 100%; min-height: 560px; display: block; }
+.node circle { stroke: #fff; stroke-width: 2; cursor: pointer; }
+.node text { font-size: 12px; fill: var(--text); pointer-events: none; paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+.node.sel circle { stroke: var(--accent); stroke-width: 3; }
+.edge { stroke: var(--line2); fill: none; }
+.edge.member { stroke-dasharray: 4 3; }
+.edge.hi { stroke: var(--accent); }
+.keys { position: absolute; left: 12px; bottom: 10px; font-size: 12px; background: #fff; border: 1px solid var(--line); padding: 6px 10px; }
+.keys span { margin-right: 12px; white-space: nowrap; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: -1px; margin-right: 4px; }
+#panel { padding: 14px 18px; overflow: auto; max-height: calc(100vh - 110px); }
+#panel h2 { font-size: 16px; margin: 14px 0 6px; }
+#panel h2:first-child { margin-top: 0; }
+.tabs { display: flex; flex-wrap: wrap; margin: 10px 0; border: 1px solid var(--line); width: fit-content; max-width: 100%; }
+.tabs button { white-space: nowrap; border: 0; border-right: 1px solid var(--line); background: #fff; padding: 6px 12px; font: inherit; cursor: pointer; color: var(--text); }
+.tabs button:last-child { border-right: 0; }
+.tabs button.on { background: var(--accent); color: #fff; }
+.ctrl { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+input[type=search] { border: 1px solid var(--line2); padding: 5px 8px; font: inherit; min-width: 200px; border-radius: 0; }
+select { border: 1px solid var(--line2); padding: 5px 8px; font: inherit; border-radius: 0; background: #fff; color: var(--text); }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { border-bottom: 1px solid var(--line); padding: 5px 6px; text-align: left; vertical-align: top; }
+th { background: var(--row); font-weight: 600; position: sticky; top: 0; }
+td.path, .mono { font-family: Consolas, monospace; word-break: break-all; }
+tr.go { cursor: pointer; }
+tr.go:hover { background: var(--row); }
+.b { display: inline-block; border: 1px solid currentColor; padding: 0 5px; margin: 1px 3px 1px 0; font-size: 12px; white-space: nowrap; }
+.b.k { color: var(--accent); }
+.list { font-family: Consolas, monospace; font-size: 12px; word-break: break-all; }
+@media (max-width: 900px) { main { grid-template-columns: 1fr; } #graphwrap { border-right: 0; border-bottom: 1px solid var(--line); } #panel { max-height: none; } }
+</style>
+</head>
+<body>
+<header>
+  <h1><a href="../../index.html">SaaS 목록</a>/*TITLE*/ 정보 지도</h1>
+  <div class="totals" id="totals"></div>
+</header>
+<main>
+  <div id="graphwrap">
+    <svg id="g"></svg>
+    <div class="keys">
+      <span><i class="dot" style="background:#111"></i>ID 공간</span>
+      <span><i class="dot" style="background:#0b5cad"></i>부모 안 레코드</span>
+      <span><i class="dot" style="background:#8a4b00"></i>relation (ID × ID)</span>
+      <span>실선 참조, 점선 구성</span>
+    </div>
+  </div>
+  <div id="panel"></div>
+</main>
+<script>
+const D = /*DATA*/null;
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const FORM = {global: '전역', local: '부모 안 위치', singleton: '단일 자원', local_singleton: '부모 아래 단일 자원', model_key: 'Jev 판정 키(model)', key_only: '원문 키만', write_addressed: '쓰기 위치', value_identity: '값 정체성'};
+const KIND = {property: '속성', self_key: '자기 키', address_key: '주소 키', ref: '참조', ref_url: 'URL 참조', embedded_ref: '박힌 레코드', embedded_local: '부모 안 레코드'};
+const DETK = {space: 'ID 공간', local: '부모 안 레코드', relation: 'relation (ID × ID)', catalog: '이벤트 레코드', envelope: '응답 봉투', orphan: '고아'};
+const M = D.metrics;
+const byDet = {};
+for (const it of D.items) (byDet[it.det] = byDet[it.det] || []).push(it);
+const nItems = d => (byDet[d] || []).length;
+document.getElementById('totals').innerHTML = [
+  ['ID 공간', M.spaces], ['오브젝트 후보', M.object_candidates], ['정보 항목', M.items], ...Object.entries(M.items_by_determinant).map(([k, v]) => [(DETK[k] || k) + ' 항목', v]),
+  ['참조 간선', M.refs], ['중복 후보', M.duplicate_candidates || 0]
+].map(([k, v]) => `<div>${esc(k)}<b>${esc(v)}</b></div>`).join('');
+
+// ---------------- 그래프 (항목이 많은 결정자부터)
+const MAXN = 50;
+const dets = Object.keys(byDet).filter(d => /^(space|local|relation):/.test(d)).sort((a, b) => nItems(b) - nItems(a) || a.localeCompare(b)).slice(0, MAXN);
+const nodes = dets.map(d => ({id: d, items: nItems(d), kind: d.split(':')[0]}));
+const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
+const edges = [];
+for (const [a, b, n] of D.refs) if (byId['space:' + a] && byId['space:' + b] && a !== b) edges.push({s: 'space:' + a, t: 'space:' + b, n, kind: 'ref'});
+for (const n of nodes) {
+  if (n.kind === 'relation') n.id.slice(9).split('x').forEach(m => byId['space:' + m] && edges.push({s: n.id, t: 'space:' + m, n: 1, kind: 'member'}));
+  if (n.kind === 'local') { const p = 'space:' + n.id.slice(6).split('/')[0]; byId[p] && edges.push({s: n.id, t: p, n: 1, kind: 'member'}); }
+}
+const label = d => d.replace(/^space:/, '').replace(/^local:(.+)\/(.+)$/, '$1 안의 $2').replace(/^relation:/, '').replace(/x/g, ' × ');
+const svg = document.getElementById('g');
+function layout() {
+  const W = svg.clientWidth || 700, H = svg.clientHeight || 600, L = Math.min(W, H);
+  nodes.forEach((n, i) => { const a = 2 * Math.PI * i / Math.max(1, nodes.length); n.x = W / 2 + Math.cos(a) * W * 0.32; n.y = H / 2 + Math.sin(a) * H * 0.34; });
+  const r = n => 6 + Math.sqrt(n.items) * 1.2;
+  for (let it = 0; it < 500; it++) {
+    const t = 1 - it / 500;
+    for (const a of nodes) for (const b of nodes) if (a !== b) {
+      const dx = a.x - b.x, dy = a.y - b.y, d = Math.sqrt(dx * dx + dy * dy) + 0.01, f = Math.min(8, (L * L * 0.02) / (d * d)) * t;
+      a.x += dx / d * f; a.y += dy / d * f;
+    }
+    for (const e of edges) {
+      const a = byId[e.s], b = byId[e.t], dx = b.x - a.x, dy = b.y - a.y, d = Math.sqrt(dx * dx + dy * dy) + 0.01;
+      const k = (d - (e.kind === 'member' ? L * 0.12 : L * 0.28)) * 0.01 * t; a.x += dx / d * k; a.y += dy / d * k; b.x -= dx / d * k; b.y -= dy / d * k;
+    }
+    for (const n of nodes) { n.x += (W / 2 - n.x) * 0.01 * t; n.y += (H / 2 - n.y) * 0.01 * t; }
+    for (const a of nodes) for (const b of nodes) if (a !== b) {
+      const dx = a.x - b.x, dy = a.y - b.y, d = Math.sqrt(dx * dx + dy * dy) + 0.01, m = r(a) + r(b) + 44;
+      if (d < m) { const s = (m - d) / 2; a.x += dx / d * s; a.y += dy / d * s; b.x -= dx / d * s; b.y -= dy / d * s; }
+    }
+    for (const n of nodes) { n.x = Math.max(40, Math.min(W - 150, n.x)); n.y = Math.max(30, Math.min(H - 60, n.y)); }
+  }
+  const color = {space: '#111', local: '#0b5cad', relation: '#8a4b00'};
+  svg.innerHTML = edges.map((e, i) => { const a = byId[e.s], b = byId[e.t];
+    return `<line class="edge ${e.kind}" data-i="${i}" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke-width="${e.kind === 'ref' ? Math.min(6, 0.8 + Math.log2(e.n)) : 1}"/>`; }).join('')
+    + nodes.map(n => `<g class="node" data-id="${esc(n.id)}" transform="translate(${n.x},${n.y})"><circle r="${r(n)}" fill="${color[n.kind]}"></circle></g>`).join('')
+    + nodes.map(n => `<g class="node lbl" transform="translate(${n.x},${n.y})"><text x="${r(n) + 4}" y="4">${esc(label(n.id))} ${n.items}</text></g>`).join('');
+  svg.querySelectorAll('.node:not(.lbl)').forEach(g => g.addEventListener('click', () => select(g.dataset.id)));
+  if (cur) mark(cur);
+}
+let cur = null, tab = 'items';
+function mark(id) {
+  svg.querySelectorAll('.node:not(.lbl)').forEach(g => g.classList.toggle('sel', g.dataset.id === id));
+  svg.querySelectorAll('.edge').forEach(l => { const e = edges[l.dataset.i]; l.classList.toggle('hi', e.s === id || e.t === id); });
+}
+function select(id) { cur = id; tab = 'items'; mark(id); render(); }
+
+// ---------------- 패널
+const panel = document.getElementById('panel');
+function itemTable(its) {
+  return `<div class="ctrl"><input type="search" id="q" placeholder="경로 검색"><select id="f"><option value="">모든 종류</option>${Object.entries(KIND).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></div><div id="tbl"></div>`;
+}
+function drawItems(its) {
+  const q = document.getElementById('q').value.trim().toLowerCase(), f = document.getElementById('f').value;
+  const rows = its.filter(i => (!q || i.rel.toLowerCase().includes(q)) && (!f || i.kind === f)).sort((a, b) => b.n_read_by - a.n_read_by || a.rel.localeCompare(b.rel));
+  document.getElementById('tbl').innerHTML = `<table><tr><th>경로</th><th>종류</th><th>대상</th><th>읽는 동작</th><th>모양</th></tr>${rows.slice(0, 600).map(i =>
+    `<tr><td class="path">${esc(i.rel)}</td><td>${esc(KIND[i.kind] || i.kind)}</td><td class="path">${esc(Array.isArray(i.target) ? i.target.join(', ') : i.target || '')}</td><td>${i.n_read_by}</td><td class="path">${esc((i.slots[0] || [''])[0].split(':').slice(-1)[0])}</td></tr>`).join('')}</table>${rows.length > 600 ? `<p>앞 600개만 보입니다 (전체 ${rows.length})</p>` : ''}`;
+}
+function render() {
+  if (!cur) { renderHome(); return; }
+  const its = byDet[cur] || [];
+  const name = cur.startsWith('space:') ? cur.slice(6) : null;
+  const sp = name ? D.spaces[name] : null;
+  const outs = D.refs.filter(r => name && r[0] === name), ins = D.refs.filter(r => name && r[1] === name);
+  const dups = (D.duplicate_candidates || []).filter(d => name && d.spaces.includes(name));
+  const roles = name ? D.id_roles.filter(([s, p, v]) => v.target === name || (Array.isArray(v.target) && v.target.includes(name))) : [];
+  panel.innerHTML = `<h2>${esc(label(cur))}</h2>
+    ${sp ? `<div><span class="b k">${esc(FORM[sp.form] || sp.form)}</span><span class="b">${sp.object_candidate === false ? '오브젝트 후보 아님' : '오브젝트 후보'}</span> 위치 <span class="mono">${esc(sp.item_positions.map(p => '/' + p).join(', ') || '없음')}</span></div>
+    <div>모양 ${sp.shapes.length}: <span class="mono">${esc(sp.shapes.slice(0, 12).map(s => s.split(':').slice(-1)[0]).join(', '))}${sp.shapes.length > 12 ? ' 외' : ''}</span></div>` : ''}
+    <div class="tabs"><button data-t="items" class="${tab === 'items' ? 'on' : ''}">정보 항목 ${its.length}</button>
+      <button data-t="refs" class="${tab === 'refs' ? 'on' : ''}">참조 ${outs.length + ins.length}</button>
+      <button data-t="ids" class="${tab === 'ids' ? 'on' : ''}">이 공간을 가리키는 ID ${roles.length}</button>
+      <button data-t="dups" class="${tab === 'dups' ? 'on' : ''}">중복 후보 ${dups.length}</button>
+      <button data-t="home">전체</button></div><div id="body"></div>`;
+  panel.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.t === 'home') { cur = null; mark(null); render(); return; } tab = b.dataset.t; render(); }));
+  const body = document.getElementById('body');
+  if (tab === 'items') { body.innerHTML = itemTable(its); const d = () => drawItems(its); document.getElementById('q').addEventListener('input', d); document.getElementById('f').addEventListener('change', d); d(); }
+  else if (tab === 'refs') body.innerHTML = `<table><tr><th>방향</th><th>공간</th><th>자리 수</th></tr>${outs.map(r => `<tr class="go" data-d="space:${esc(r[1])}"><td>나감</td><td>${esc(r[1])}</td><td>${r[2]}</td></tr>`).join('')}${ins.map(r => `<tr class="go" data-d="space:${esc(r[0])}"><td>들어옴</td><td>${esc(r[0])}</td><td>${r[2]}</td></tr>`).join('')}</table>`;
+  else if (tab === 'ids') body.innerHTML = `<table><tr><th>모양</th><th>속성</th><th>역할</th><th>근거 등급</th><th>근거</th></tr>${roles.slice(0, 400).map(([s, p, v]) =>
+    `<tr><td class="path">${esc(s.split(':').slice(-1)[0])}</td><td class="path">${esc(p)}</td><td>${esc(KIND[v.role] || v.role)}</td><td>${esc(v.grade)}</td><td class="path">${esc(v.why)}</td></tr>`).join('')}</table>`;
+  else body.innerHTML = dupTable(dups);
+  body.querySelectorAll('tr.go').forEach(tr => tr.addEventListener('click', () => select(tr.dataset.d)));
+}
+function dupTable(dups) {
+  const jev = Object.fromEntries((D.jev || []).map(j => [j.pair.slice().sort().join('|'), j]));
+  return `<table><tr><th>공간 쌍</th><th>근거 수</th><th>막힌 근거</th><th>Jev 합친 점수</th></tr>${dups.map(d => { const j = jev[d.spaces.slice().sort().join('|')];
+    return `<tr><td class="path">${esc(d.spaces.join(' , '))}<br>${esc(d.positions.map(p => p.map(x => '/' + x).join(' ')).join(' | '))}</td><td>${d.edges}</td><td class="path">${esc(d.why.map(w => w[0]).join(' / '))}</td><td>${j && j.combined != null ? j.combined.toFixed(2) : ''}</td></tr>`; }).join('')}</table>`;
+}
+function renderHome() {
+  const all = Object.keys(byDet);
+  const forms = {};
+  for (const s of Object.values(D.spaces)) forms[s.form] = (forms[s.form] || 0) + 1;
+  const orph = all.filter(d => d.startsWith('orphan:')).sort((a, b) => nItems(b) - nItems(a));
+  panel.innerHTML = `<h2>결정자 종류</h2><table><tr><th>종류</th><th>결정자</th><th>정보 항목</th></tr>${Object.entries(DETK).map(([k, v]) => { const g = all.filter(d => d.startsWith(k + ':'));
+      return `<tr><td>${v}</td><td>${g.length}</td><td>${g.reduce((s, d) => s + nItems(d), 0)}</td></tr>`; }).join('')}</table>
+    <h2>ID 공간의 꼴</h2><table><tr><th>꼴</th><th>공간</th></tr>${Object.entries(forms).map(([k, v]) => `<tr><td>${esc(FORM[k] || k)}</td><td>${v}</td></tr>`).join('')}</table>
+    <h2>ID 공간 (항목 많은 순)</h2><table><tr><th>공간</th><th>꼴</th><th>오브젝트 후보</th><th>정보 항목</th><th>위치</th></tr>${Object.entries(D.spaces).sort((a, b) => nItems('space:' + b[0]) - nItems('space:' + a[0]) || a[0].localeCompare(b[0])).map(([n, s]) =>
+      `<tr class="go" data-d="space:${esc(n)}"><td class="path">${esc(n)}</td><td>${esc(FORM[s.form] || s.form)}</td><td>${s.object_candidate === false ? '아님' : '후보'}</td><td>${nItems('space:' + n)}</td><td class="path">${esc(s.item_positions.slice(0, 2).map(p => '/' + p).join(' '))}</td></tr>`).join('')}</table>
+    <h2>중복 후보 ${(D.duplicate_candidates || []).length}</h2>${dupTable(D.duplicate_candidates || [])}
+    <h2>고아 (뿌리 모양별)</h2><table><tr><th>뿌리 모양</th><th>정보 항목</th></tr>${orph.slice(0, 200).map(d => `<tr class="go" data-d="${esc(d)}"><td class="path">${esc(d.slice(7))}</td><td>${nItems(d)}</td></tr>`).join('')}</table>
+    <h2>ID 역할과 근거 등급</h2><table><tr><th>역할/등급</th><th>자리</th></tr>${Object.entries(M.id_role_grades).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join('')}</table>
+    <h2>검증 (이름을 쓰는 규칙과 대조)</h2><table><tr><th>규칙</th><th>값</th></tr>${Object.entries(M.verify).map(([k, v]) => `<tr><td>${esc(k)}</td><td class="path">${esc(JSON.stringify(v))}</td></tr>`).join('')}</table>`;
+  panel.querySelectorAll('tr.go').forEach(tr => tr.addEventListener('click', () => select(tr.dataset.d)));
+}
+layout(); render();
+window.addEventListener('resize', layout);
+</script>
+</body>
+</html>

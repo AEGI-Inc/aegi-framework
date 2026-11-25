@@ -1,0 +1,74 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/site.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AT-01
+        items: (root)
+      - call: JI-02
+        items: (root)
+      - call: JI-04
+        items: (root)
+      - call: CF-01
+        items: (root)
+    group_by:
+      const: site
+    vars:
+      base:
+        op: str
+        of:
+          any:
+            - baseUrl
+            - op: url_origin
+              of: $env.endpoint
+      host:
+        op: url_host
+        of: $vars.base
+    id_expr: $vars.host
+    tenant: none
+    properties:
+      base_url: $vars.base
+      deployment_type: deploymentType
+      version: version
+      server_title: serverTitle
+    display: "{serverTitle|$vars.host}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: $vars.host
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: AT-SITE-{id}
+runtime_stub: null
+runtime_key: AT-SITE-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+vars:
+  base:
+    op: str
+    of:
+      any:
+        - baseUrl
+        - op: url_origin
+          of: $env.endpoint
+  host:
+    op: url_host
+    of: $vars.base
+identity:
+  primary:
+    - name: id
+      expr: $vars.host
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: AT-SITE-{id}
+    replaced:
+      - $record_hash

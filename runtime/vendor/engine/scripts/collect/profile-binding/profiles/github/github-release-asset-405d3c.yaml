@@ -1,0 +1,453 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: release-asset
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:324a976e20a4acc33e405d3c
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:324a976e20a4acc33e405d3c.identity_evidence
+  parent:
+    type: full-repository
+    expr: $req.parent_id
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  url:
+    path: url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      format: uri
+      name: url
+      required: true
+      scalar: string
+    map_items:
+      - space:release-asset|url
+  browser_download_url:
+    path: browser_download_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      format: uri
+      name: browser_download_url
+      required: true
+      scalar: string
+    map_items:
+      - space:release-asset|browser_download_url
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      name: id
+      required: true
+      scalar: integer
+    map_items:
+      - space:release-asset|id
+  node_id:
+    path: node_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      name: node_id
+      required: true
+      scalar: string
+    map_items:
+      - space:release-asset|node_id
+  name:
+    path: name
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      name: name
+      required: true
+      scalar: string
+    map_items:
+      - space:release-asset|name
+  label:
+    path: label
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      name: label
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:release-asset|label
+  state:
+    path: state
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      enum:
+        - uploaded
+        - open
+      name: state
+      required: true
+      scalar: string
+    map_items:
+      - space:release-asset|state
+  content_type:
+    path: content_type
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      name: content_type
+      required: true
+      scalar: string
+    map_items:
+      - space:release-asset|content_type
+  size:
+    path: size
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      name: size
+      required: true
+      scalar: integer
+    map_items:
+      - space:release-asset|size
+  digest:
+    path: digest
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      name: digest
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:release-asset|digest
+  download_count:
+    path: download_count
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      name: download_count
+      required: true
+      scalar: integer
+    map_items:
+      - space:release-asset|download_count
+  created_at:
+    path: created_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      format: date-time
+      name: created_at
+      required: true
+      scalar: string
+    map_items:
+      - space:release-asset|created_at
+  updated_at:
+    path: updated_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      format: date-time
+      name: updated_at
+      required: true
+      scalar: string
+    map_items:
+      - space:release-asset|updated_at
+  uploader:
+    path: uploader
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+    declaration:
+      name: uploader
+      nullable: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    map_items:
+      - space:release-asset|uploader
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: full-repository
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:77748b736682b869fec1f0ac (repos/{}/{}) -> full-repository
+  - name: url
+    field: url
+    target: release-asset
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:09ea95ac9f4f3ed3f58bcdfb; relation=no_relation
+  - name: uploader
+    field: uploader
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:559f94aa29d7c1264601f6a0; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: release-asset
+  interfaces: *a1
+  model:
+    research_type: object-type:324a976e20a4acc33e405d3c
+  extract:
+    key: PILOT-github-release-asset-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-GITHUB-405d3c
+            endpoint: /
+            items:
+              - payload.release.assets
+        properties:
+          browser_download_url: browser_download_url
+          content_type: content_type
+          created_at: created_at
+          digest: digest
+          download_count: download_count
+          id: id
+          label: label
+          name: name
+          node_id: node_id
+          size: size
+          state: state
+          updated_at: updated_at
+          uploader: uploader
+          url: url
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_empty
+  call: GH-90
+  operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/list-releases
+  operation: repos/list-releases
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /repos/[^/]+/[^/]+/releases(?:\?|$)
+  endpoint_template: /repos/{owner}/{repo}/releases
+  request: {}
+  required_params:
+    - owner
+    - repo
+  paths:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:release-asset
+      path:
+        - "*"
+        - assets
+        - "*"
+  alternatives_total: 14
+  alternatives:
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/list-release-assets
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/releases/{release_id}/assets
+      path:
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/get-latest-release
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/releases/latest
+      path: &a3
+        - assets
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/get-release-asset
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/releases/assets/{asset_id}
+      path: []
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/get-release
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/releases/{release_id}
+      path: *a3
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/get-release-by-tag
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/releases/tags/{tag}
+      path: *a3
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-events
+      method: GET
+      kind: read_many
+      endpoint_template: /events
+      path:
+        - "*"
+        - payload
+        - release
+        - assets
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-events-for-authenticated-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/events
+      path:
+        - "*"
+        - payload
+        - release
+        - assets
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-events-for-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/events/public
+      path:
+        - "*"
+        - payload
+        - release
+        - assets
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-org-events
+      method: GET
+      kind: read_many
+      endpoint_template: /orgs/{org}/events
+      path:
+        - "*"
+        - payload
+        - release
+        - assets
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-received-events-for-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/received_events
+      path:
+        - "*"
+        - payload
+        - release
+        - assets
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-received-public-events-for-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/received_events/public
+      path:
+        - "*"
+        - payload
+        - release
+        - assets
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-events-for-repo-network
+      method: GET
+      kind: read_many
+      endpoint_template: /networks/{owner}/{repo}/events
+      path:
+        - "*"
+        - payload
+        - release
+        - assets
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-repo-events
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/events
+      path:
+        - "*"
+        - payload
+        - release
+        - assets
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-org-events-for-authenticated-user
+      method: GET
+      kind: read_one
+      endpoint_template: /users/{username}/events/orgs/{org}
+      path:
+        - "*"
+        - payload
+        - release
+        - assets
+        - "*"
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 0
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - url
+    - uploader
+  metadata_paths: *a2
+  remaining_declared_fields: properties

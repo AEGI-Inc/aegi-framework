@@ -1,0 +1,18 @@
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full
+
+overlay_basis:
+  from: GitHub REST repos/list-branches 응답(branch.protection)
+  note: protection 요약 객체에는 브랜치 이름이 없다(2026-10-27 실측 identity 거부 4건). 이름은 펼치기 전 브랜치 레코드($parent)에서 읽는다
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: name
+      expr: $parent.name
+      stability: undocumented
+emit: reference_only
+manual_basis: list-branches 의 protection 은 브랜치 레코드 안 요약이다. 같은 값이 branch-with-protection 의
+  protection 속성에 그대로 남는다. 식별자도 브랜치와 같다(저장소|브랜치 이름). 겹친 값 branch-with-protection 4

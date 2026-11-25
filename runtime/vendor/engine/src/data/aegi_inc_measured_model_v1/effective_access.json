@@ -1,0 +1,1225 @@
+{
+ "format": "aegi-effective-access/v1",
+ "schema": "Effective_Access_Schema_v1",
+ "view_version": 4,
+ "inputs_view_version": 2,
+ "computed_at": "2026-10-02T05:57:11Z",
+ "x_rule_inputs": {
+  "runs_as_inherits": 2,
+  "x_member_grant": 71,
+  "x_dynamic_holder": 0,
+  "x_acts_as_inherits": 5,
+  "x_token_inherits": 27,
+  "x_token_scoped": 27
+ },
+ "rows": [
+  {
+   "id": "EA-1ssmufsh6g3",
+   "effect": null,
+   "effect_query": "이 자동화가 Customer Intake PoC Form 에 접근할 수 있는가",
+   "references": {
+    "source": "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+    "target": "GWS-FILE-1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|runs_as|GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC|GWS-U-106407534911626909122",
+     "relation_type": "runs_as",
+     "source": "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+     "target": "GWS-U-106407534911626909122",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|GWS-U-106407534911626909122|GWS-FILE-1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY|name:owner",
+     "relation_type": "has_role_on",
+     "source": "GWS-U-106407534911626909122",
+     "target": "GWS-FILE-1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY",
+     "role": "MODEL-ROLE-d4cd95d48de68faf7926a922",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "실행 신원을 바꾸면 이 자동화만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "sales.taewook@aegi.men 본인과 그 신원으로 도는 자동화 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "runs_as_inherits",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "runs_as_inherits"
+   }
+  },
+  {
+   "id": "EA-2fb2v19llt0",
+   "effect": null,
+   "effect_query": "이 자동화가 Customer Intake PoC Form (Responses) 에 접근할 수 있는가",
+   "references": {
+    "source": "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+    "target": "GWS-FILE-1iarAHlKO3C_148XaF5SB6LC7tmKksYgGP8YhL7X8xP0"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|runs_as|GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC|GWS-U-106407534911626909122",
+     "relation_type": "runs_as",
+     "source": "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+     "target": "GWS-U-106407534911626909122",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|GWS-U-106407534911626909122|GWS-FILE-1iarAHlKO3C_148XaF5SB6LC7tmKksYgGP8YhL7X8xP0|name:owner",
+     "relation_type": "has_role_on",
+     "source": "GWS-U-106407534911626909122",
+     "target": "GWS-FILE-1iarAHlKO3C_148XaF5SB6LC7tmKksYgGP8YhL7X8xP0",
+     "role": "MODEL-ROLE-d4cd95d48de68faf7926a922",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "실행 신원을 바꾸면 이 자동화만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "sales.taewook@aegi.men 본인과 그 신원으로 도는 자동화 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "runs_as_inherits",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "runs_as_inherits"
+   }
+  },
+  {
+   "id": "EA-1k7ythlh0id",
+   "effect": null,
+   "effect_query": "이 자동화가 Customer Intake PoC Form 에 접근할 수 있는가",
+   "references": {
+    "source": "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+    "target": "GWS-FILE-1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|runs_as|GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC|GWS-U-106407534911626909122",
+     "relation_type": "runs_as",
+     "source": "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+     "target": "GWS-U-106407534911626909122",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|owned_by|GWS-FILE-1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY|GWS-U-106407534911626909122",
+     "relation_type": "owned_by",
+     "source": "GWS-FILE-1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY",
+     "target": "GWS-U-106407534911626909122",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "실행 신원을 바꾸면 이 자동화만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "sales.taewook@aegi.men 본인과 그 신원으로 도는 자동화 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "runs_as_inherits",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "runs_as_inherits"
+   }
+  },
+  {
+   "id": "EA-1lm2vf4yd7y",
+   "effect": null,
+   "effect_query": "이 자동화가 Customer Intake PoC Form (Responses) 에 접근할 수 있는가",
+   "references": {
+    "source": "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+    "target": "GWS-FILE-1iarAHlKO3C_148XaF5SB6LC7tmKksYgGP8YhL7X8xP0"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|runs_as|GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC|GWS-U-106407534911626909122",
+     "relation_type": "runs_as",
+     "source": "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+     "target": "GWS-U-106407534911626909122",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|owned_by|GWS-FILE-1iarAHlKO3C_148XaF5SB6LC7tmKksYgGP8YhL7X8xP0|GWS-U-106407534911626909122",
+     "relation_type": "owned_by",
+     "source": "GWS-FILE-1iarAHlKO3C_148XaF5SB6LC7tmKksYgGP8YhL7X8xP0",
+     "target": "GWS-U-106407534911626909122",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "실행 신원을 바꾸면 이 자동화만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "sales.taewook@aegi.men 본인과 그 신원으로 도는 자동화 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "runs_as_inherits",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "runs_as_inherits"
+   }
+  },
+  {
+   "id": "EA-1ij6p73joay",
+   "effect": null,
+   "effect_query": "이 계정이 Finance-App-Users 소속으로 Finance Portal 에 assigned 역할을 가지는가",
+   "references": {
+    "source": "OKTA-U-00u188pdmjxPT3YQ3698",
+    "target": "OKTA-APP-0oa184hxqtkd9OGOq698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|member_of|OKTA-U-00u188pdmjxPT3YQ3698|OKTA-G-00g184i07t2PrDRQY698",
+     "relation_type": "member_of",
+     "source": "OKTA-U-00u188pdmjxPT3YQ3698",
+     "target": "OKTA-G-00g184i07t2PrDRQY698",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-G-00g184i07t2PrDRQY698|OKTA-APP-0oa184hxqtkd9OGOq698|name:assigned",
+     "relation_type": "has_role_on",
+     "source": "OKTA-G-00g184i07t2PrDRQY698",
+     "target": "OKTA-APP-0oa184hxqtkd9OGOq698",
+     "role": "MODEL-ROLE-da515b0df106482304e97f98",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "count": 1,
+      "note": "Finance-App-Users 멤버 1명 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [
+    {
+     "at": "via[0]",
+     "from": "computation",
+     "reason": "enforcement_unknown"
+    }
+   ],
+   "source": {
+    "rule": "x_member_grant",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_member_grant"
+   }
+  },
+  {
+   "id": "EA-1ochqun1lre",
+   "effect": null,
+   "effect_query": "이 계정이 HelpDesk-Admins 소속으로 Slack 에 assigned 역할을 가지는가",
+   "references": {
+    "source": "OKTA-U-00u188pdmklQat4Of698",
+    "target": "OKTA-APP-0oa1831xaxhBtqsBD698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|member_of|OKTA-U-00u188pdmklQat4Of698|OKTA-G-00g17zd0kzpY7qEqa698",
+     "relation_type": "member_of",
+     "source": "OKTA-U-00u188pdmklQat4Of698",
+     "target": "OKTA-G-00g17zd0kzpY7qEqa698",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-G-00g17zd0kzpY7qEqa698|OKTA-APP-0oa1831xaxhBtqsBD698|name:assigned",
+     "relation_type": "has_role_on",
+     "source": "OKTA-G-00g17zd0kzpY7qEqa698",
+     "target": "OKTA-APP-0oa1831xaxhBtqsBD698",
+     "role": "MODEL-ROLE-da515b0df106482304e97f98",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "count": 1,
+      "note": "HelpDesk-Admins 멤버 1명 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [
+    {
+     "at": "via[0]",
+     "from": "computation",
+     "reason": "enforcement_unknown"
+    }
+   ],
+   "source": {
+    "rule": "x_member_grant",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_member_grant"
+   }
+  },
+  {
+   "id": "EA-0dipthtkfhb",
+   "effect": null,
+   "effect_query": "이 계정이 HelpDesk-Admins 소속으로 aegi-trial-9523037 에 AEGI HelpDesk Operator 역할을 가지는가",
+   "references": {
+    "source": "OKTA-U-00u188pdmklQat4Of698",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "indeterminate",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|member_of|OKTA-U-00u188pdmklQat4Of698|OKTA-G-00g17zd0kzpY7qEqa698",
+     "relation_type": "member_of",
+     "source": "OKTA-U-00u188pdmklQat4Of698",
+     "target": "OKTA-G-00g17zd0kzpY7qEqa698",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-G-00g17zd0kzpY7qEqa698|OKTA-ORG-00o17oo1dq4SBzVpF698|OKTA-ROLE-cr017zczapo9SVejf698",
+     "relation_type": "has_role_on",
+     "source": "OKTA-G-00g17zd0kzpY7qEqa698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "OKTA-ROLE-cr017zczapo9SVejf698",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "count": 1,
+      "note": "HelpDesk-Admins 멤버 1명 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [
+    {
+     "at": "via[1]",
+     "from": "computation",
+     "reason": "role_rank_unknown"
+    },
+    {
+     "at": "via[1]",
+     "from": "computation",
+     "reason": "resource_set_not_expanded"
+    },
+    {
+     "at": "via[0]",
+     "from": "computation",
+     "reason": "enforcement_unknown"
+    }
+   ],
+   "source": {
+    "rule": "x_member_grant",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_member_grant"
+   }
+  },
+  {
+   "id": "EA-0c7mxwjru7m",
+   "effect": null,
+   "effect_query": "이 앱이 #dev-automation 에 접근할 수 있는가",
+   "references": {
+    "source": "SLK-APP-A0C5HFF9NTZ",
+    "target": "SLK-CH-C0C5WTS9V46"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|acts_as|SLK-APP-A0C5HFF9NTZ|SLK-U-U0C5YSMHS4A",
+     "relation_type": "acts_as",
+     "source": "SLK-APP-A0C5HFF9NTZ",
+     "target": "SLK-U-U0C5YSMHS4A",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|member_of|SLK-U-U0C5YSMHS4A|SLK-CH-C0C5WTS9V46",
+     "relation_type": "member_of",
+     "source": "SLK-U-U0C5YSMHS4A",
+     "target": "SLK-CH-C0C5WTS9V46",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "앱을 지우면 이 앱만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "botuser-t0c60hwmgd7-a0c5hff9ntz@slack-bots.com과 그 주체로 동작하는 앱 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_acts_as_inherits",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_acts_as_inherits"
+   }
+  },
+  {
+   "id": "EA-1dcmlladwmz",
+   "effect": null,
+   "effect_query": "이 앱이 #helpdesk 에 접근할 수 있는가",
+   "references": {
+    "source": "SLK-APP-A0C5YMWRL7L",
+    "target": "SLK-CH-C0C60QPJFHP"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|acts_as|SLK-APP-A0C5YMWRL7L|SLK-U-U0C5SQLUZEF",
+     "relation_type": "acts_as",
+     "source": "SLK-APP-A0C5YMWRL7L",
+     "target": "SLK-U-U0C5SQLUZEF",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|member_of|SLK-U-U0C5SQLUZEF|SLK-CH-C0C60QPJFHP",
+     "relation_type": "member_of",
+     "source": "SLK-U-U0C5SQLUZEF",
+     "target": "SLK-CH-C0C60QPJFHP",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "앱을 지우면 이 앱만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "botuser-t0c60hwmgd7-a0c5ymwrl7l@slack-bots.com과 그 주체로 동작하는 앱 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_acts_as_inherits",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_acts_as_inherits"
+   }
+  },
+  {
+   "id": "EA-0s0a3aggjgb",
+   "effect": null,
+   "effect_query": "이 토큰(받은 scope 만큼)으로 aegi-trial-9523037 에 접근할 수 있는가",
+   "references": {
+    "source": "OKTA-RT-oar4jpwpf85t30pol697",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|authenticates_with|OKTA-U-00u17oo1dupojisBy698|OKTA-RT-oar4jpwpf85t30pol697",
+     "relation_type": "authenticates_with",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-RT-oar4jpwpf85t30pol697",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-U-00u17oo1dupojisBy698|OKTA-ORG-00o17oo1dq4SBzVpF698|name:SUPER_ADMIN",
+     "relation_type": "has_role_on",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "MODEL-ROLE-d63f13b571c181a266e351ef",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "토큰을 거두면 이 토큰만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "admin@aegi.site 본인과 그 사람이 앱에 준 토큰 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_token_scoped",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_token_scoped"
+   },
+   "x_capability": {
+    "rank": 1,
+    "object_types": [
+     "Application",
+     "AppUser",
+     "ApplicationGroupAssignment"
+    ],
+    "scopes": [
+     "okta.roles.read",
+     "okta.apps.read"
+    ],
+    "unmapped": [
+     "okta.manifests.read"
+    ]
+   }
+  },
+  {
+   "id": "EA-0y7vvny9w6p",
+   "effect": null,
+   "effect_query": "이 토큰(받은 scope 만큼)으로 aegi-trial-9523037 에 접근할 수 있는가",
+   "references": {
+    "source": "OKTA-RT-oar4jpzw91H61RNNQ697",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|authenticates_with|OKTA-U-00u17oo1dupojisBy698|OKTA-RT-oar4jpzw91H61RNNQ697",
+     "relation_type": "authenticates_with",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-RT-oar4jpzw91H61RNNQ697",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-U-00u17oo1dupojisBy698|OKTA-ORG-00o17oo1dq4SBzVpF698|name:SUPER_ADMIN",
+     "relation_type": "has_role_on",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "MODEL-ROLE-d63f13b571c181a266e351ef",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "토큰을 거두면 이 토큰만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "admin@aegi.site 본인과 그 사람이 앱에 준 토큰 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_token_scoped",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_token_scoped"
+   },
+   "x_capability": {
+    "rank": 3,
+    "object_types": [
+     "User",
+     "UserFactor"
+    ],
+    "scopes": [
+     "okta.users.manage",
+     "okta.users.read"
+    ]
+   }
+  },
+  {
+   "id": "EA-1j64wonie4l",
+   "effect": null,
+   "effect_query": "이 토큰(받은 scope 만큼)으로 aegi-trial-9523037 에 접근할 수 있는가",
+   "references": {
+    "source": "OKTA-RT-oar4jq08eiPJ9ENfs697",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|authenticates_with|OKTA-U-00u17oo1dupojisBy698|OKTA-RT-oar4jq08eiPJ9ENfs697",
+     "relation_type": "authenticates_with",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-RT-oar4jq08eiPJ9ENfs697",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-U-00u17oo1dupojisBy698|OKTA-ORG-00o17oo1dq4SBzVpF698|name:SUPER_ADMIN",
+     "relation_type": "has_role_on",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "MODEL-ROLE-d63f13b571c181a266e351ef",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "토큰을 거두면 이 토큰만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "admin@aegi.site 본인과 그 사람이 앱에 준 토큰 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_token_scoped",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_token_scoped"
+   },
+   "x_capability": {
+    "rank": 3,
+    "object_types": [
+     "User",
+     "UserFactor"
+    ],
+    "scopes": [
+     "okta.users.manage",
+     "okta.users.read"
+    ]
+   }
+  },
+  {
+   "id": "EA-2bfwxlq9lms",
+   "effect": null,
+   "effect_query": "이 토큰(받은 scope 만큼)으로 aegi-trial-9523037 에 접근할 수 있는가",
+   "references": {
+    "source": "OKTA-RT-oar4jq0bcfoEAaAHa697",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|authenticates_with|OKTA-U-00u17oo1dupojisBy698|OKTA-RT-oar4jq0bcfoEAaAHa697",
+     "relation_type": "authenticates_with",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-RT-oar4jq0bcfoEAaAHa697",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-U-00u17oo1dupojisBy698|OKTA-ORG-00o17oo1dq4SBzVpF698|name:SUPER_ADMIN",
+     "relation_type": "has_role_on",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "MODEL-ROLE-d63f13b571c181a266e351ef",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "토큰을 거두면 이 토큰만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "admin@aegi.site 본인과 그 사람이 앱에 준 토큰 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_token_scoped",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_token_scoped"
+   },
+   "x_capability": {
+    "rank": 3,
+    "object_types": [
+     "User",
+     "UserFactor"
+    ],
+    "scopes": [
+     "okta.users.manage",
+     "okta.users.read"
+    ]
+   }
+  },
+  {
+   "id": "EA-07ykjotmjes",
+   "effect": null,
+   "effect_query": "이 토큰(받은 scope 만큼)으로 aegi-trial-9523037 에 접근할 수 있는가",
+   "references": {
+    "source": "OKTA-RT-oar4jq20l1bO5KUkJ697",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|authenticates_with|OKTA-U-00u17oo1dupojisBy698|OKTA-RT-oar4jq20l1bO5KUkJ697",
+     "relation_type": "authenticates_with",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-RT-oar4jq20l1bO5KUkJ697",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-U-00u17oo1dupojisBy698|OKTA-ORG-00o17oo1dq4SBzVpF698|name:SUPER_ADMIN",
+     "relation_type": "has_role_on",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "MODEL-ROLE-d63f13b571c181a266e351ef",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "토큰을 거두면 이 토큰만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "admin@aegi.site 본인과 그 사람이 앱에 준 토큰 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_token_scoped",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_token_scoped"
+   },
+   "x_capability": {
+    "rank": 1,
+    "object_types": [
+     "Application",
+     "AppUser",
+     "ApplicationGroupAssignment"
+    ],
+    "scopes": [
+     "okta.roles.read",
+     "okta.apps.read"
+    ],
+    "unmapped": [
+     "okta.manifests.read"
+    ]
+   }
+  },
+  {
+   "id": "EA-06pko6ffop0",
+   "effect": null,
+   "effect_query": "이 토큰(받은 scope 만큼)으로 aegi-trial-9523037 에 접근할 수 있는가",
+   "references": {
+    "source": "OKTA-RT-oar4jq7jzbVZCpBFC697",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|authenticates_with|OKTA-U-00u17oo1dupojisBy698|OKTA-RT-oar4jq7jzbVZCpBFC697",
+     "relation_type": "authenticates_with",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-RT-oar4jq7jzbVZCpBFC697",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-U-00u17oo1dupojisBy698|OKTA-ORG-00o17oo1dq4SBzVpF698|name:SUPER_ADMIN",
+     "relation_type": "has_role_on",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "MODEL-ROLE-d63f13b571c181a266e351ef",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "토큰을 거두면 이 토큰만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "admin@aegi.site 본인과 그 사람이 앱에 준 토큰 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_token_scoped",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_token_scoped"
+   },
+   "x_capability": {
+    "rank": 1,
+    "object_types": [
+     "Application",
+     "AppUser",
+     "ApplicationGroupAssignment"
+    ],
+    "scopes": [
+     "okta.roles.read",
+     "okta.apps.read"
+    ],
+    "unmapped": [
+     "okta.manifests.read"
+    ]
+   }
+  },
+  {
+   "id": "EA-1iiz5u3kvc5",
+   "effect": null,
+   "effect_query": "이 토큰(받은 scope 만큼)으로 aegi-trial-9523037 에 접근할 수 있는가",
+   "references": {
+    "source": "OKTA-RT-oar4jsl62tbpWxItv697",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|authenticates_with|OKTA-U-00u17oo1dupojisBy698|OKTA-RT-oar4jsl62tbpWxItv697",
+     "relation_type": "authenticates_with",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-RT-oar4jsl62tbpWxItv697",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-U-00u17oo1dupojisBy698|OKTA-ORG-00o17oo1dq4SBzVpF698|name:SUPER_ADMIN",
+     "relation_type": "has_role_on",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "MODEL-ROLE-d63f13b571c181a266e351ef",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "토큰을 거두면 이 토큰만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "admin@aegi.site 본인과 그 사람이 앱에 준 토큰 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_token_scoped",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_token_scoped"
+   },
+   "x_capability": {
+    "rank": 1,
+    "object_types": [
+     "Application",
+     "AppUser",
+     "ApplicationGroupAssignment"
+    ],
+    "scopes": [
+     "okta.roles.read",
+     "okta.apps.read"
+    ],
+    "unmapped": [
+     "okta.manifests.read"
+    ]
+   }
+  },
+  {
+   "id": "EA-12ajw224ara",
+   "effect": null,
+   "effect_query": "이 토큰(받은 scope 만큼)으로 aegi-trial-9523037 에 접근할 수 있는가",
+   "references": {
+    "source": "OKTA-RT-oar4jssl20812pmWj697",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|authenticates_with|OKTA-U-00u17oo1dupojisBy698|OKTA-RT-oar4jssl20812pmWj697",
+     "relation_type": "authenticates_with",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-RT-oar4jssl20812pmWj697",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-U-00u17oo1dupojisBy698|OKTA-ORG-00o17oo1dq4SBzVpF698|name:SUPER_ADMIN",
+     "relation_type": "has_role_on",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "MODEL-ROLE-d63f13b571c181a266e351ef",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "토큰을 거두면 이 토큰만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "admin@aegi.site 본인과 그 사람이 앱에 준 토큰 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_token_scoped",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_token_scoped"
+   },
+   "x_capability": {
+    "rank": 1,
+    "object_types": [
+     "Application",
+     "AppUser",
+     "ApplicationGroupAssignment"
+    ],
+    "scopes": [
+     "okta.roles.read",
+     "okta.apps.read"
+    ],
+    "unmapped": [
+     "okta.manifests.read"
+    ]
+   }
+  },
+  {
+   "id": "EA-1kw1y2f3vds",
+   "effect": null,
+   "effect_query": "이 토큰(받은 scope 만큼)으로 aegi-trial-9523037 에 접근할 수 있는가",
+   "references": {
+    "source": "OKTA-RT-oar4jzbr74rnZiX9w697",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|authenticates_with|OKTA-U-00u17oo1dupojisBy698|OKTA-RT-oar4jzbr74rnZiX9w697",
+     "relation_type": "authenticates_with",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-RT-oar4jzbr74rnZiX9w697",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-U-00u17oo1dupojisBy698|OKTA-ORG-00o17oo1dq4SBzVpF698|name:SUPER_ADMIN",
+     "relation_type": "has_role_on",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "MODEL-ROLE-d63f13b571c181a266e351ef",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "토큰을 거두면 이 토큰만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "admin@aegi.site 본인과 그 사람이 앱에 준 토큰 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_token_scoped",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_token_scoped"
+   },
+   "x_capability": {
+    "rank": 1,
+    "object_types": [
+     "Application",
+     "AppUser",
+     "ApplicationGroupAssignment"
+    ],
+    "scopes": [
+     "okta.roles.read",
+     "okta.apps.read"
+    ],
+    "unmapped": [
+     "okta.manifests.read"
+    ]
+   }
+  },
+  {
+   "id": "EA-0gnmolr0hve",
+   "effect": null,
+   "effect_query": "이 토큰(받은 scope 만큼)으로 aegi-trial-9523037 에 접근할 수 있는가",
+   "references": {
+    "source": "OKTA-RT-oar4jzi31k2SDge8L697",
+    "target": "OKTA-ORG-00o17oo1dq4SBzVpF698"
+   },
+   "level": "computed",
+   "via": [
+    {
+     "kind": "relation",
+     "ref": "R|authenticates_with|OKTA-U-00u17oo1dupojisBy698|OKTA-RT-oar4jzi31k2SDge8L697",
+     "relation_type": "authenticates_with",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-RT-oar4jzi31k2SDge8L697",
+     "basis": "stated"
+    },
+    {
+     "kind": "relation",
+     "ref": "R|has_role_on|OKTA-U-00u17oo1dupojisBy698|OKTA-ORG-00o17oo1dq4SBzVpF698|name:SUPER_ADMIN",
+     "relation_type": "has_role_on",
+     "source": "OKTA-U-00u17oo1dupojisBy698",
+     "target": "OKTA-ORG-00o17oo1dq4SBzVpF698",
+     "role": "MODEL-ROLE-d63f13b571c181a266e351ef",
+     "basis": "stated"
+    }
+   ],
+   "cut": [
+    {
+     "via": 0,
+     "x_scope": {
+      "affects": "source_only",
+      "note": "토큰을 거두면 이 토큰만 영향"
+     }
+    },
+    {
+     "via": 1,
+     "x_scope": {
+      "affects": "group",
+      "note": "admin@aegi.site 본인과 그 사람이 앱에 준 토큰 모두 영향"
+     }
+    }
+   ],
+   "undecomposed": [],
+   "source": {
+    "rule": "x_token_scoped",
+    "view_version": 4,
+    "computed_at": "2026-10-02T05:57:11Z",
+    "inputs_view_version": 2
+   },
+   "x_asked_by": {
+    "rule_id": "ACCESS_RULES",
+    "check_id": "x_token_scoped"
+   },
+   "x_capability": {
+    "rank": 1,
+    "object_types": [
+     "Application",
+     "AppUser",
+     "ApplicationGroupAssignment"
+    ],
+    "scopes": [
+     "okta.roles.read",
+     "okta.apps.read"
+    ],
+    "unmapped": [
+     "okta.manifests.read"
+    ]
+   }
+  }
+ ]
+}

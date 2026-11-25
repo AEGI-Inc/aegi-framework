@@ -1,0 +1,971 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: SocialPost
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:249762cd25e4e6b326cfcc84
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:249762cd25e4e6b326cfcc84.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Id
+  AnalyzerScore:
+    path: AnalyzerScore
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: double
+      name: AnalyzerScore
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SocialPost|AnalyzerScore
+  AssignedTo:
+    path: AssignedTo
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: AssignedTo
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|AssignedTo
+  AttachmentType:
+    path: AttachmentType
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: picklist
+      name: AttachmentType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|AttachmentType
+  AttachmentUrl:
+    path: AttachmentUrl
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: url
+      name: AttachmentUrl
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|AttachmentUrl
+  Classification:
+    path: Classification
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: picklist
+      name: Classification
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Classification
+  CommentCount:
+    path: CommentCount
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: int
+      name: CommentCount
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SocialPost|CommentCount
+  Content:
+    path: Content
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: textarea
+      name: Content
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Content
+  DeletedById:
+    path: DeletedById
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: reference
+      name: DeletedById
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|DeletedById
+  EngagementLevel:
+    path: EngagementLevel
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: picklist
+      name: EngagementLevel
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|EngagementLevel
+  ExternalPostId:
+    path: ExternalPostId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: ExternalPostId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|ExternalPostId
+  Handle:
+    path: Handle
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: Handle
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Handle
+  HarvestDate:
+    path: HarvestDate
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: dateTime
+      name: HarvestDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|HarvestDate
+  Headline:
+    path: Headline
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: Headline
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Headline
+  HiddenById:
+    path: HiddenById
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: reference
+      name: HiddenById
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|HiddenById
+  InboundLinkCount:
+    path: InboundLinkCount
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: int
+      name: InboundLinkCount
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SocialPost|InboundLinkCount
+  IsOutbound:
+    path: IsOutbound
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: boolean
+      name: IsOutbound
+      required: false
+      scalar: boolean
+    map_items:
+      - space:SocialPost|IsOutbound
+  KeywordGroupName:
+    path: KeywordGroupName
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: KeywordGroupName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|KeywordGroupName
+  Language:
+    path: Language
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: Language
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Language
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|LastViewedDate
+  LikedBy:
+    path: LikedBy
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: LikedBy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|LikedBy
+  LikesAndVotes:
+    path: LikesAndVotes
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: int
+      name: LikesAndVotes
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SocialPost|LikesAndVotes
+  MediaProvider:
+    path: MediaProvider
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: MediaProvider
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|MediaProvider
+  MediaType:
+    path: MediaType
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: MediaType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|MediaType
+  MessageType:
+    path: MessageType
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: picklist
+      name: MessageType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|MessageType
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: Name
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Name
+  Notes:
+    path: Notes
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: textarea
+      name: Notes
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Notes
+  OutboundSocialAccountId:
+    path: OutboundSocialAccountId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: reference
+      name: OutboundSocialAccountId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|OutboundSocialAccountId
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|OwnerId
+  ParentId:
+    path: ParentId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: reference
+      name: ParentId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|ParentId
+  PersonaId:
+    path: PersonaId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: reference
+      name: PersonaId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|PersonaId
+  PostPriority:
+    path: PostPriority
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: PostPriority
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|PostPriority
+  PostTags:
+    path: PostTags
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: textarea
+      name: PostTags
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|PostTags
+  PostUrl:
+    path: PostUrl
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: url
+      name: PostUrl
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|PostUrl
+  Posted:
+    path: Posted
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: dateTime
+      name: Posted
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Posted
+  Provider:
+    path: Provider
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: picklist
+      name: Provider
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Provider
+  R6PostId:
+    path: R6PostId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: R6PostId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|R6PostId
+  R6SourceId:
+    path: R6SourceId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: R6SourceId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|R6SourceId
+  R6TopicId:
+    path: R6TopicId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: R6TopicId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|R6TopicId
+  Recipient:
+    path: Recipient
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: Recipient
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Recipient
+  RecipientType:
+    path: RecipientType
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: RecipientType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|RecipientType
+  ReplyToId:
+    path: ReplyToId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: reference
+      name: ReplyToId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|ReplyToId
+  ResponseContextExternalId:
+    path: ResponseContextExternalId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: ResponseContextExternalId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|ResponseContextExternalId
+  ReviewScale:
+    path: ReviewScale
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: double
+      name: ReviewScale
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SocialPost|ReviewScale
+  ReviewScore:
+    path: ReviewScore
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: double
+      name: ReviewScore
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SocialPost|ReviewScore
+  ReviewedStatus:
+    path: ReviewedStatus
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: picklist
+      name: ReviewedStatus
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|ReviewedStatus
+  Sentiment:
+    path: Sentiment
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: picklist
+      name: Sentiment
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Sentiment
+  Shares:
+    path: Shares
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: int
+      name: Shares
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SocialPost|Shares
+  SourceTags:
+    path: SourceTags
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: textarea
+      name: SourceTags
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|SourceTags
+  SpamRating:
+    path: SpamRating
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: picklist
+      name: SpamRating
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|SpamRating
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: picklist
+      name: Status
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|Status
+  StatusMessage:
+    path: StatusMessage
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: textarea
+      name: StatusMessage
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|StatusMessage
+  ThreadSize:
+    path: ThreadSize
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: int
+      name: ThreadSize
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SocialPost|ThreadSize
+  TopicProfileName:
+    path: TopicProfileName
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: TopicProfileName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|TopicProfileName
+  TopicType:
+    path: TopicType
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: picklist
+      name: TopicType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|TopicType
+  TruncatedContent:
+    path: TruncatedContent
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: string
+      name: TruncatedContent
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|TruncatedContent
+  UniqueCommentors:
+    path: UniqueCommentors
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: int
+      name: UniqueCommentors
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SocialPost|UniqueCommentors
+  ViewCount:
+    path: ViewCount
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: int
+      name: ViewCount
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SocialPost|ViewCount
+  WhoId:
+    path: WhoId
+    source: research_shape
+    shape: sh:sf_object_reference:SocialPost
+    declaration:
+      format: reference
+      name: WhoId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SocialPost|WhoId
+references:
+  - name: ownerid
+    field: OwnerId
+    target: Group
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1ce2139c0e1cef8d8acca4a8; relation=no_relation
+  - name: hiddenbyid
+    field: HiddenById
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2791714400e7a89e1d7844cc; relation=no_relation
+  - name: whoid
+    field: WhoId
+    target: Lead
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2f116dfa793db5e5f8828962; relation=no_relation
+  - name: outboundsocialaccountid
+    field: OutboundSocialAccountId
+    target: ExternalSocialAccount
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8a0817685a70e3218b8c5fa2; relation=no_relation
+  - name: parentid
+    field: ParentId
+    target: Case
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:ae7e9adcb5294c8cb9dca747; relation=no_relation
+  - name: personaid
+    field: PersonaId
+    target: SocialPersona
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:deabb3b2fdf9bf27bb11dd02; relation=no_relation
+  - name: deletedbyid
+    field: DeletedById
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:dff20e2a33b223370aeea8a3; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: SocialPost
+  interfaces: *a1
+  model:
+    research_type: object-type:249762cd25e4e6b326cfcc84
+  extract:
+    key: PILOT-salesforce-SocialPost-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-cfcc84
+            endpoint: /
+            items:
+              - records
+        properties:
+          AnalyzerScore: AnalyzerScore
+          AssignedTo: AssignedTo
+          AttachmentType: AttachmentType
+          AttachmentUrl: AttachmentUrl
+          Classification: Classification
+          CommentCount: CommentCount
+          Content: Content
+          DeletedById: DeletedById
+          EngagementLevel: EngagementLevel
+          ExternalPostId: ExternalPostId
+          Handle: Handle
+          HarvestDate: HarvestDate
+          Headline: Headline
+          HiddenById: HiddenById
+          Id: Id
+          InboundLinkCount: InboundLinkCount
+          IsOutbound: IsOutbound
+          KeywordGroupName: KeywordGroupName
+          Language: Language
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          LikedBy: LikedBy
+          LikesAndVotes: LikesAndVotes
+          MediaProvider: MediaProvider
+          MediaType: MediaType
+          MessageType: MessageType
+          Name: Name
+          Notes: Notes
+          OutboundSocialAccountId: OutboundSocialAccountId
+          OwnerId: OwnerId
+          ParentId: ParentId
+          PersonaId: PersonaId
+          PostPriority: PostPriority
+          PostTags: PostTags
+          PostUrl: PostUrl
+          Posted: Posted
+          Provider: Provider
+          R6PostId: R6PostId
+          R6SourceId: R6SourceId
+          R6TopicId: R6TopicId
+          Recipient: Recipient
+          RecipientType: RecipientType
+          ReplyToId: ReplyToId
+          ResponseContextExternalId: ResponseContextExternalId
+          ReviewScale: ReviewScale
+          ReviewScore: ReviewScore
+          ReviewedStatus: ReviewedStatus
+          Sentiment: Sentiment
+          Shares: Shares
+          SourceTags: SourceTags
+          SpamRating: SpamRating
+          Status: Status
+          StatusMessage: StatusMessage
+          ThreadSize: ThreadSize
+          TopicProfileName: TopicProfileName
+          TopicType: TopicType
+          TruncatedContent: TruncatedContent
+          UniqueCommentors: UniqueCommentors
+          ViewCount: ViewCount
+          WhoId: WhoId
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:SocialPost.query
+  operation: SocialPost.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: SocialPost
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:SocialPost
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:SocialPost.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/SocialPost/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - OwnerId
+    - HiddenById
+    - WhoId
+    - OutboundSocialAccountId
+    - ParentId
+    - PersonaId
+    - DeletedById
+  metadata_paths: *a2
+  remaining_declared_fields: properties

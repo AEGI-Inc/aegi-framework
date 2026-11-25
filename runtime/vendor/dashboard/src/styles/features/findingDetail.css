@@ -1,0 +1,987 @@
+/* =========================================================================
+   Finding Detail & Focused Topology DAG Styles
+   ========================================================================= */
+
+.fd-back-btn {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  color: var(--color-text-primary);
+  font-weight: 600;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 0;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fd-back-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+/* 증적: 머리에 건수, 같은 종류 기록은 한 묶음. 공통 값은 칸 목록, 달라지는 값은 표 */
+.fd-evidence-panel > .fd-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fd-evidence-facts {
+  display: flex;
+  gap: 18px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.fd-evidence-facts b {
+  margin-right: 4px;
+  font-size: var(--font-size-md);
+}
+
+.fd-evidence-none {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.fd-evidence-group + .fd-evidence-group,
+.fd-evidence-group + .fd-relation-records {
+  margin-top: 20px;
+}
+
+.fd-evidence-group-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 6px;
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+}
+
+.fd-evidence-kind {
+  flex: none;
+  padding: 1px 6px;
+  border: 1px solid var(--color-text-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+}
+
+.fd-evidence-fields {
+  margin: 0;
+  display: grid;
+}
+
+.fd-evidence-fields > div {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.fd-evidence-fields dt {
+  padding: 7px 12px 7px 0;
+  overflow-wrap: anywhere;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.fd-evidence-fields dd {
+  margin: 0;
+  padding: 7px 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.fd-evidence-fields code,
+.fd-evidence-table code {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.fd-evidence-table {
+  width: 100%;
+  margin-top: 8px;
+  border-collapse: collapse;
+  border-top: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.fd-evidence-table th {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border);
+  font-weight: var(--font-weight-bold);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.fd-evidence-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-border-subtle);
+  vertical-align: middle;
+}
+
+.fd-evidence-table td:first-child,
+.fd-evidence-table td:has(> code) {
+  white-space: nowrap;
+}
+
+.fd-evidence-table tbody tr {
+  cursor: pointer;
+}
+
+.fd-evidence-table tbody tr:hover,
+.fd-evidence-table tr.is-open {
+  background: var(--color-bg-app);
+}
+
+.fd-evidence-table tbody tr:focus-visible {
+  outline: 2px solid var(--color-select);
+  outline-offset: -2px;
+}
+
+.fd-evidence-toggle {
+  font-weight: var(--font-weight-medium);
+  text-align: right;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.fd-evidence-table .fd-evidence-raw-row td {
+  padding: 0 12px 10px;
+  background: var(--color-bg-app);
+  cursor: default;
+}
+
+.fd-evidence-raw {
+  position: relative;
+}
+
+.fd-evidence-raw .fd-ev-copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+
+.fd-evidence-raw .fd-ev-json {
+  max-height: 260px;
+}
+
+/* 위반 대상이 없으면 오른쪽 칸을 두지 않고 왼쪽이 전체 폭을 쓴다 */
+.finding-detail-grid.is-single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* 그래프 패널은 본문 그리드 밖에서 전체 폭을 쓴다. */
+.fd-graph-full {
+  margin-bottom: var(--space-gap);
+}
+
+/* =========================================================================
+   판정 근거 — 규칙이 확인한 조건
+   ========================================================================= */
+
+.fd-check-mark {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  background: #fff;
+  color: #16a34a;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* =========================================================================
+   판정 근거 — 규칙이 따진 조건을 행으로 나눈 표
+   ========================================================================= */
+
+.fd-check-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 1px solid var(--color-border);
+}
+
+.fd-check-table th {
+  width: 160px;
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  background: var(--color-bg-app);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.fd-check-table td {
+  padding: 4px 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.fd-check-table .fd-check-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fd-check-table .fd-check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 0;
+}
+
+.fd-check-table .fd-check-mark {
+  flex: 0 0 22px;
+}
+
+.fd-check-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+/* 그래프 오른쪽 패널 위협 요약(FindingSummary)의 판정 근거 목록 */
+.fd-check-list {
+  list-style: none;
+  margin: 0 0 4px;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.fd-check-row {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--color-border-subtle, #f1f5f9);
+}
+
+.fd-check-row:last-child {
+  border-bottom: 0;
+}
+
+.fd-check-text {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.fd-check-text b {
+  font-size: var(--font-size-sm, 13px);
+  font-weight: var(--font-weight-medium, 600);
+  color: var(--color-text-primary, #0f172a);
+  line-height: 1.35;
+}
+
+.fd-check-row.unknown .fd-check-text b {
+  color: #0f172a;
+}
+
+.fd-check-row.unknown .fd-check-mark {
+  border-color: var(--color-border, #e2e8f0);
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* 추정: 값은 있지만 약한 계정 연결(이메일 일치 등)에 기댄 판정 */
+.fd-check-row.inferred .fd-check-mark {
+  border-color: var(--color-card-line);
+  background: #fff;
+  color: #b45309;
+}
+
+.fd-check-state {
+  margin-left: 6px;
+  padding: 0 5px;
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  background: #fff;
+  color: #0f172a;
+  font-size: var(--font-size-xs, 11px);
+  font-style: normal;
+  font-weight: 600;
+  vertical-align: 1px;
+}
+
+/* 규칙에 딸린 산문 설명. 기본은 접어 둔다. */
+.fd-rail-note {
+  margin-top: 12px;
+  border-top: 1px solid var(--color-border-subtle, #f1f5f9);
+  padding-top: 10px;
+}
+
+.fd-rail-note > summary {
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--font-size-xs, 11px);
+  font-weight: var(--font-weight-medium, 600);
+  color: #0f172a;
+}
+
+.fd-rail-note > summary::-webkit-details-marker {
+  display: none;
+}
+
+.fd-rail-note > summary::before {
+  content: '▸';
+  display: inline-block;
+  margin-right: 5px;
+  transition: transform 0.15s ease;
+}
+
+.fd-rail-note[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+.fd-note-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+  padding: 3px 8px;
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+}
+.fd-note-copy:hover { border-color: var(--color-select); }
+.fd-note-copy:focus-visible { outline: 2px solid var(--color-select); outline-offset: 1px; }
+.fd-note-copy.done { border-color: #15803d; color: #15803d; }
+
+.fd-rail-note p {
+  margin: 8px 0 0;
+  font-size: var(--font-size-xs, 11px);
+  line-height: 1.65;
+  color: var(--color-text-primary, #0f172a);
+  word-break: keep-all;
+}
+
+
+/* =========================================================================
+   Effective Access (계산된 결론), docs/spec/AEGI_EFFECTIVE_ACCESS_DASHBOARD_PLAN_V1.md §6
+   저장 관계와 섞지 않는다: 패널 테두리는 파선이다(파생). 판정 배지, 경로 그림, 카드 모양은
+   그래프의 선 상세와 같이 effectiveAccess.css 에 있다.
+   ========================================================================= */
+.ea-panel {
+  border-style: dashed;
+  border-color: #94a3b8;
+}
+
+.ea-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ea-head h3 {
+  margin: 0;
+}
+
+.ea-counts {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ea-lead {
+  margin: 0 0 12px;
+  font-size: 13px !important;
+  line-height: 1.6;
+  color: #0f172a !important;
+  word-break: keep-all;
+}
+
+/* 결론 요약 한 칸 */
+.ea-summary-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ea-summary {
+  position: relative;
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  padding: 12px 40px 12px 14px;
+  border: 1px solid var(--color-card-line, #cbd5e1);
+  background: #fff;
+  font: inherit;
+  color: #0f172a;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ea-summary:hover {
+  border-color: var(--color-select);
+  background: #f8fbff;
+}
+
+.ea-summary:focus-visible {
+  outline: 2px solid var(--color-select);
+  outline-offset: 2px;
+}
+
+.ea-summary-q {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.ea-summary-marks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.ea-summary-marks > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ea-summary-marks .is-warn {
+  color: #92400e;
+}
+
+.ea-summary-marks .is-cut {
+  color: #1d4ed8;
+}
+
+.ea-summary-chev {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  color: #0f172a;
+}
+
+/* ---- Effective Access 상세 화면 ---- */
+.ea-detail-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 880px) 320px;
+  gap: 16px;
+  align-items: start;
+  margin-top: 16px;
+}
+
+.ea-detail-grid > .ea-rows:only-child {
+  grid-column: 1 / 2;
+}
+
+.ea-rows {
+  display: grid;
+  gap: 12px;
+}
+
+.ea-rows .ea-card {
+  padding: 18px 20px;
+  border-color: var(--color-card-line, #cbd5e1);
+}
+
+.ea-rows .ea-card + .ea-card {
+  margin-top: 0;
+}
+
+.ea-rows .ea-row {
+  gap: 16px;
+}
+
+.ea-rows .ea-row .ea-card-sec + .ea-card-sec,
+.ea-rows .ea-row .ea-row-foot {
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+}
+
+.ea-multi,
+.ea-note {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #0f172a;
+}
+
+.ea-multi {
+  font-weight: 700;
+}
+
+.ea-cut-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.ea-cut-list li {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 8px;
+  color: #0f172a;
+}
+
+.ea-cut-list li > svg {
+  margin-top: 4px;
+  color: #1d4ed8;
+}
+
+.ea-cut-note {
+  display: block;
+}
+
+.ea-affects {
+  margin-left: 4px;
+  padding: 0 5px;
+  border: 1px solid var(--color-card-line);
+  background: #fff;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+}
+
+.ea-row-foot {
+  font-size: 13px;
+  color: #0f172a;
+}
+
+.ea-detail-others {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--color-card-line, #cbd5e1);
+  background: #fff;
+}
+
+.ea-detail-others h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+@media (max-width: 1240px) {
+  .ea-detail-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* 관계 수집 기록. 원본 로그 카드와 달리 흰 바탕 한 줄 목록이다. */
+.fd-relation-records {
+  margin-top: 12px;
+}
+
+.fd-relation-records h4 {
+  margin: 0 0 8px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.fd-relation-records ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--color-card-line);
+}
+
+.fd-relation-records li {
+  display: grid;
+  gap: 3px;
+  padding: 9px 12px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  overflow-wrap: anywhere;
+}
+
+.fd-relation-records li + li {
+  border-top: 1px solid var(--color-border);
+}
+
+.fd-relation-records b {
+  font-weight: var(--font-weight-medium);
+}
+
+.fd-relation-records small {
+  font-size: var(--font-size-xs);
+}
+
+.fd-relation-records code {
+  font-family: var(--font-family-mono);
+}
+
+.fd-relation-more {
+  margin-top: 8px;
+  padding: 5px 10px;
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.fd-relation-more:hover {
+  border-color: var(--color-select);
+}
+
+/* 요약 줄: 1순위 조치, 근거, 수집 */
+.fd-summary-line {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: var(--space-gap);
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-line);
+}
+
+.fd-summary-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px 16px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.fd-summary-cell + .fd-summary-cell { border-left: 1px solid var(--color-card-line); }
+.fd-summary-cell > span { font-weight: var(--font-weight-bold); white-space: nowrap; }
+.fd-summary-cell > b { font-weight: var(--font-weight-medium); }
+.fd-summary-main { flex: 1 1 360px; }
+.fd-summary-main > b { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.fd-summary-btn {
+  margin-left: auto;
+  padding: 5px 12px;
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: #fff;
+  background: var(--color-select-fill);
+  border: 1px solid var(--color-select-fill);
+  border-radius: 0;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.fd-record-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.fd-record-badge.measured { background: #15803d; }
+.fd-record-badge.synthetic { background: var(--color-caution); }
+
+/* 보고서용 문장: 줄바꿈 없이 한 문단으로 읽히게 */
+.fd-report-text {
+  font-size: var(--font-size-md);
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+.fd-record-badge.inferred {
+  display: inline-block;
+  white-space: nowrap;
+  margin-left: 6px;
+  background: var(--color-severity-low);
+  color: var(--color-surface);
+  vertical-align: middle;
+}
+
+
+/* 위협 확산 본문 요약 한 줄 */
+.fd-spread-sentence {
+  margin: 8px 0 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-medium);
+}
+
+/* 비슷한 위협 영역 */
+.fd-similar-threats {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  margin-top: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.fd-similar-threats .fd-panel-head {
+  padding: 12px 18px;
+  background: var(--color-card-head-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.fd-similar-threats .fd-panel-head h3 {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.fd-similar-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fd-similar-list li {
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.fd-similar-list li:last-child {
+  border-bottom: 0;
+}
+
+.fd-similar-btn {
+  width: 100%;
+  padding: 12px 18px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: var(--color-text-primary);
+}
+
+.fd-similar-btn:hover {
+  background: var(--color-bg-app);
+}
+
+.fd-similar-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  flex: 1;
+}
+
+/* 이 위협 다시 확인 상태 표시 */
+.fd-recheck-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.fd-recheck-status {
+  font-size: var(--font-size-sm);
+  color: #0f172a;
+  display: inline-flex;
+  align-items: center;
+}
+
+.fd-recheck-status.is-error {
+  color: var(--color-danger-text);
+}
+
+
+/* 위협 판정 V2 차단 지점: 탐지 경로 그래프 아래 표. 칸이 다섯이라 화면 폭과 상관없이 그래프 아래 전체 폭에 둔다 */
+.fd-graph-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.fd-cut-side {
+  padding: 12px 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* 「차단 지점 보기」로 왔을 때 표를 잠깐 두른다 */
+.fd-cut-side.is-flash {
+  outline: 3px solid var(--color-danger);
+  outline-offset: -3px;
+}
+
+.fd-cut-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 8px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.fd-cut-head h4 {
+  margin: 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.fd-cut-head b {
+  margin-right: 4px;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.fd-cut-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.fd-cut-table th {
+  padding: 7px 10px;
+  font-weight: var(--font-weight-bold);
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.fd-cut-table th:nth-child(1) {
+  width: 72px;
+}
+
+.fd-cut-table th:nth-child(2) {
+  width: 160px;
+}
+
+.fd-cut-table th:nth-child(4) {
+  width: 22%;
+}
+
+.fd-cut-table th:nth-child(5) {
+  width: 170px;
+  text-align: right;
+}
+
+.fd-cut-table td {
+  padding: 8px 10px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.fd-cut-table tbody tr {
+  cursor: pointer;
+}
+
+.fd-cut-table tbody tr:hover,
+.fd-cut-table tbody tr.is-hot {
+  background: var(--color-bg-app);
+}
+
+.fd-cut-table tbody tr:focus-visible {
+  outline: 2px solid var(--color-select);
+  outline-offset: -2px;
+}
+
+/* 고른 줄은 번호 배지가 빨갛게. 그래프에서도 그 차단 지점만 빨갛게 남는다 */
+.fd-cut-table tr.is-hot .tpg-cut-no {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.fd-cut-table td b {
+  font-weight: var(--font-weight-bold);
+}
+
+/* 긴 계정 이름은 한 줄에 두고 넘치면 말줄임. 전체 이름은 커서를 올려 본다 */
+.fd-cut-name {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fd-cut-sub {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-primary);
+}
+
+.fd-cut-count {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.fd-cut-bar {
+  display: inline-block;
+  width: 60px;
+  height: 8px;
+  margin-right: 8px;
+  vertical-align: middle;
+  background: var(--color-border);
+}
+
+.fd-cut-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--color-text-primary);
+}
+
+.fd-cut-none {
+  margin: 4px 0 8px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+/* 새 위협 요약 문장. 사람 수, 경유, 대상은 굵게, 유형은 배지 */
+.fd-headline {
+  font-size: var(--font-size-md);
+  line-height: 1.7;
+  color: var(--color-text-primary);
+}
+
+.fd-headline b {
+  font-weight: var(--font-weight-bold);
+}
+
+.fd-headline em {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 8px;
+  font-size: var(--font-size-sm);
+  font-style: normal;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.5;
+  color: var(--color-danger-text);
+  border: 1px solid var(--color-danger-text);
+}
+
+.fd-evidence-rawbtn {
+  margin: 8px 0;
+  padding: 5px 10px;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+}
+
+.fd-evidence-rawbtn:hover {
+  border-color: var(--color-text-primary);
+}

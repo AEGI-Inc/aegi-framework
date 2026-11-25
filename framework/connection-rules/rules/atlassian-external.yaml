@@ -1,0 +1,382 @@
+# Atlassian 공통 수단 연결 규칙
+# Atlassian(Jira Cloud, Confluence Cloud, Bitbucket Cloud, 조직)이 밖의 서버·앱과 붙는 수단. 4개 SaaS 와의 쌍은 ../rules/<saas>-atlassian.yaml
+# 벤더 문서로만 썼다 (2026-10-14). 시험 테넌트 값은 ../test-environment/atlassian-external.yaml. 범례는 legend.yaml
+# 참고: IP allowlist 는 Connect·Forge·OAuth 2.0 (3LO) 앱과 2LO application link 에는 적용되지 않는다 (https://support.atlassian.com/security-and-access-policies/docs/specify-ip-addresses-for-product-access/)
+
+anchor: atlassian
+written: '2026-10-14'
+verified: '2026-10-14'
+kind: rules
+
+methods:
+- id: jira_admin_webhook
+  type: event_delivery
+  what: "Jira 관리자가 만든 웹훅(또는 /rest/webhooks/1.0/webhook 으로 등록)이 밖의 주소로 이벤트를 보냄"
+  identify: {api: "atlassian GET https://<site>.atlassian.net/rest/webhooks/1.0/webhook (name, url, events, filters, excludeBody, enabled, lastUpdated, isSigned)", when: "웹훅이 있음"}
+  note: "공개 이슈 JRACLOUD-95143 은 스코프 API 토큰으로는 이 경로로 만들 수 없다고 보고한다. 감사 로그 활동 목록에 Jira 웹훅 생성 항목은 없다"
+  points_to:
+  - {tier: config_name, a: "atlassian 웹훅 url 호스트·경로", b: "받는 서버", check: "a 와 b 가 같다", if_unreadable: "Jira 관리자 설정의 Webhooks 화면"}
+  - {tier: fingerprint, a: "atlassian 웹훅 url", b: "받는 쪽이 보관한 주소", check: "a 의 sha256 과 b 가 같다"}
+  - {tier: log_time, a: "받는 서버 수신 기록의 본문 timestamp, webhookEvent, 헤더 X-Atlassian-Webhook-Identifier", b: "atlassian Jira 이슈 변경 시각", check: "시각이 같다. X-Atlassian-Webhook-Identifier 는 전달 하나를 가리켜 재시도에도 같지만 Jira 쪽에 맞댈 전달 기록이 없다"}
+  activity: ["재시도 최대 5회. 전달 기록 화면은 문서에 없음"]
+  sources: ["https://developer.atlassian.com/cloud/jira/platform/webhooks/ (admin webhooks, 필드, GET /rest/webhooks/1.0/webhook)", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Jira 웹훅 항목 없음)"]
+
+- id: jira_app_webhook
+  type: event_delivery
+  what: "Connect 앱이나 OAuth 2.0 앱이 REST 로 등록한 웹훅 (30일 만료, 갱신 필요). 앱 쪽에서만 조회된다"
+  identify: {api: "atlassian GET /rest/api/2/webhook (등록한 앱의 인증으로만)", when: "웹훅이 있음"}
+  points_to:
+  - {tier: config_name, a: "atlassian 웹훅 url (앱 baseUrl 과 같은 호스트)", b: "앱 서버", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "앱 서버 수신 기록의 본문 matchedWebhookIds", b: "atlassian GET /rest/api/2/webhook 의 id", check: "a 가 b 를 포함한다"}
+  activity: ["앱 서버 수신 기록"]
+  sources: ["https://developer.atlassian.com/cloud/jira/platform/webhooks/ (REST 등록 웹훅, 30일 만료, Connect 앱당 테넌트 100개·OAuth 앱 사용자당 5개)", "https://developer.atlassian.com/cloud/jira/platform/rest/v2/api-group-webhooks/ (Only Connect and OAuth 2.0 apps can register and manage webhooks)"]
+
+- id: jira_automation_web_request
+  type: event_delivery
+  what: "Jira Automation 룰의 「Send web request」 가 밖의 주소를 부름. 숨김 값은 저장 뒤 별표로 바뀌고 복제·내보내기에서 사라진다. 글로벌 관리자가 허용 도메인을 제한할 수 있다"
+  identify: {api: "atlassian GET https://api.atlassian.com/automation/public/{product}/{cloudid}/rest/v1/rule/summary (uuid, name, state, ruleScopeARIs, authorAccountId, actorAccountId), GET .../rest/v1/rule/{ruleUuid} (components, connections). Forge·OAuth 2.0 앱 불가", when: "룰 components 에 Send web request"}
+  points_to:
+  - {tier: config_name, a: "atlassian 룰 상세 응답 rule.components[type=jira.issue.outgoing.webhook].value.url 의 호스트", b: "받는 서버", check: "a 와 b 가 같다", if_unreadable: "Jira Automation 룰 화면 (글로벌 관리자)", note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다}
+  - {tier: log_time, a: "atlassian 룰 Audit log 실행 시각", b: "받는 서버 수신 기록 시각", check: "시각이 같다"}
+  activity: ["atlassian Automation 화면 상단 Audit log 탭 (실행 시각, 상태, 단계)"]
+  sources: ["https://support.atlassian.com/cloud-automation/docs/jira-automation-actions/ (Send web request, 허용 포트, 도메인 제한, 숨김 값)", "https://developer.atlassian.com/cloud/automation/rest/api-group-rule-management/", "https://support.atlassian.com/cloud-automation/docs/view-execution-data-for-a-rule/ (Audit log)"]
+
+- id: jira_automation_incoming_webhook
+  type: event_delivery
+  what: "밖의 시스템이 Jira Automation 「Incoming webhook」 트리거의 고유 URL 로 HTTP POST 해 룰을 실행. secret 은 X-Automation-Webhook-Token 헤더 또는 URL 경로 끝에 붙인다. 2025-01-28 이전 룰의 옛 주소는 2025-05-30 에 끊겼다"
+  identify: {api: "atlassian 룰 목록·상세 (위와 같음)", when: "룰 트리거가 Incoming webhook"}
+  points_to:
+  - {tier: fingerprint, a: "atlassian 트리거 URL (룰 화면. API 로 나열하는 방법은 문서에 없음)", b: "부르는 쪽이 보관한 주소", check: "a 의 sha256 과 b 가 같다"}
+  - {tier: log_time, a: "부르는 쪽 호출 기록 시각", b: "atlassian 룰 Audit log 실행 시각", check: "시각이 같다"}
+  activity: ["atlassian Automation 화면 상단 Audit log 탭"]
+  sources: ["https://support.atlassian.com/cloud-automation/docs/jira-automation-triggers/ (고유 URL 과 secret, {{webhookData}})", "https://support.atlassian.com/cloud-automation/docs/configure-the-incoming-webhook-trigger-in-atlassian-automation/ (X-Automation-Webhook-Token, URL/SECRET, 2025-05-30, Trigger 필터로 찾기)"]
+
+- id: confluence_connect_webhook
+  type: event_delivery
+  what: "Confluence Cloud 웹훅은 Connect 앱 디스크립터의 webhook 모듈로만 등록된다 (event, url 상대 경로, excludeBody). 관리자 UI 나 공식 REST 등록은 Cloud 문서에 없다. 전달은 best effort"
+  identify: {api: "atlassian 설치 앱 목록 (Connected apps) 과 앱 디스크립터", when: "Connect 앱이 webhook 모듈을 선언"}
+  points_to:
+  - {tier: config_name, a: "atlassian 앱 디스크립터 baseUrl + webhook url", b: "앱 서버", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "atlassian Confluence 변경 시각", b: "앱 서버 수신 기록 시각", check: "시각이 같다"}
+  activity: ["앱 서버 수신 기록"]
+  sources: ["https://developer.atlassian.com/cloud/confluence/modules/webhook/ (Connect webhook 모듈, read 스코프, best effort)"]
+
+- id: connect_app
+  type: external_relay
+  what: "Connect 앱: 앱 서버(baseUrl)가 Jira·Confluence 와 JWT 로 통신. 설치 때 clientKey, sharedSecret 을 앱 서버로 보낸다"
+  identify: {api: "atlassian 화면: admin.atlassian.com > Apps > 사이트 > Connected apps. 목록 API 는 공식 문서에 없음", when: "앱이 설치됨"}
+  points_to:
+  - {tier: config_name, a: "atlassian 앱 디스크립터 baseUrl (https)", b: "앱 서버 호스트", check: "a 와 b 가 같다"}
+  - {tier: config_id, a: "atlassian 앱 key, 설치 때 보낸 clientKey", b: "앱 서버가 보관한 clientKey", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "앱 서버가 받은 installed 콜백의 clientKey, baseUrl", b: "atlassian 사이트 주소, 앱 서버가 보관한 clientKey", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "atlassian 조직 감사 「Third-party app Jira API request」 의 actor.app.id", b: "그 Connect 앱 (actor.app.id 와 앱 key 의 대응은 설치해 보고 읽는다)", check: "a 가 그 앱이다"}
+  - {tier: log_time, a: "atlassian 조직 감사 「App successful installation」 시각", b: "앱 서버 installed 콜백 수신 시각", check: "시각이 같다"}
+  activity: ["atlassian 조직 감사 「App successful installation」, 「App successful uninstallation」, 「Third-party app Jira API request」·「Third-party app Confluence API request」"]
+  sources: ["https://developer.atlassian.com/cloud/jira/platform/app-descriptor/ (baseUrl, key, authentication, installed 라이프사이클 페이로드)", "https://support.atlassian.com/organization-administration/docs/managing-an-installed-app/ (Connected apps)", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (App successful installation, Third-party app API request)", "https://developer.atlassian.com/cloud/jira/platform/connect-app-descriptor/ (lifecycle installed 콜백, clientKey, baseUrl)", "https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)"]
+
+- id: forge_app_egress
+  type: external_relay
+  what: "Forge 앱이 매니페스트 permissions.external.fetch.backend 나 remotes[].baseUrl 에 적은 밖의 도메인을 부름. 적지 않은 도메인 호출은 거부. 설치별로 egress 를 따로 둘 수 있다"
+  identify: {api: "atlassian Connected apps (화면), 조직 감사 「App created a dynamic egress on the site」", when: "Forge 앱이 외부 도메인을 선언"}
+  points_to:
+  - {tier: config_name, a: "atlassian 앱 매니페스트의 외부 도메인", b: "받는 서버", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "atlassian 조직 감사 「App created a dynamic egress on the site」 의 actor.app.id, context[]", b: "그 Forge 앱과 도메인 (context 에 무엇이 오는지는 문서에 없어 만들어 보고 읽는다)", check: "a 가 그 앱이다"}
+  - {tier: log_time, a: "받는 서버 수신 기록 시각", b: "Forge 앱 실행 시각 (개발자 콘솔 로그, 앱 개발자만 봄)", check: "시각이 같다", if_unreadable: "앱을 쓰는 조직은 Forge 실행 로그를 볼 수 없다. 앱 개발자에게 요청하거나 받는 서버 기록만 쓴다"}
+  activity: ["atlassian 조직 감사 「App created a dynamic egress on the site」, 「App removed a dynamic egress from the site」"]
+  sources: ["https://developer.atlassian.com/platform/forge/manifest-reference/permissions/", "https://developer.atlassian.com/platform/forge/runtime-egress-permissions/", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (App created a dynamic egress on the site, App removed a dynamic egress from the site)", "https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)"]
+
+- id: oauth_3lo_app
+  type: app_grant
+  what: "OAuth 2.0 (3LO) 앱에 사용자가 동의해 밖의 서비스가 사용자 권한으로 API 를 부름. 사이트 관리자 승인이 필요할 수 있다. 관리자는 Connected apps 에서 앱을 제거해야만 모든 사용자의 권한을 취소한다"
+  identify: {api: "atlassian Connected apps (admin.atlassian.com > Apps > 사이트 > Connected apps), 사용자 자기 계정의 Connected apps", when: "3LO 앱이 있음"}
+  points_to:
+  - {tier: config_id, a: "atlassian 앱 Client ID (developer console), redirect_uri", b: "밖의 서비스의 클라이언트·콜백 주소", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "atlassian 조직 감사 actor.app.id, actor.auth", b: "앱", check: "a 와 b 가 같다", note: "3LO 동의 자체의 action 이름은 Cloud 활동 목록에 없다"}
+  activity: ["atlassian 조직 감사 「Third-party app Jira API request」, 「Third-party app Confluence API request」"]
+  sources: ["https://developer.atlassian.com/cloud/confluence/oauth-2-3lo-apps/ (auth.atlassian.com/authorize, accessible-resources)", "https://support.atlassian.com/security-and-access-policies/docs/manage-your-users-third-party-apps/ (Connected apps, Uninstall 이 전원 취소)", "https://support.atlassian.com/atlassian-cloud/kb/your-site-admin-must-authorize-this-app-error-in-atlassian-cloud-apps/", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Third-party app API request. 3LO 동의 항목 없음)"]
+
+- id: user_api_token
+  type: stored_credential
+  what: "사용자 API 토큰(id.atlassian.com, 기본 1년 만료, 스코프 선택)을 밖의 시스템이 보관해 REST 를 부름"
+  identify: {api: "atlassian GET https://api.atlassian.com/admin/api-access/v1/orgs/{orgId}/api-tokens (read:tokens:admin, 관리 계정의 토큰 전부). 화면: Insights > API token activity", when: "토큰이 있음"}
+  note: "인증 정책의 API token access 설정으로 생성·사용을 막을 수 있다 (Atlassian Guard Standard)"
+  points_to:
+  - {tier: config_name, a: "atlassian 토큰 이름(label), 소유자, 만료·마지막 사용", b: "밖의 시스템 (이름으로만)", check: "이름 일치뿐 (약한 근거)"}
+  - {tier: log_id, a: "atlassian 조직 감사 actor.auth.tokenId, tokenLabel", b: "그 토큰으로 한 동작", check: "a 가 그 토큰이다"}
+  activity: ["atlassian 조직 감사 「Created API token」, 「Revoked API token」, 「Viewed API token」, 「Exported API tokens」"]
+  sources: ["https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/", "https://developer.atlassian.com/cloud/admin/api-access/rest/api-group-api-token/", "https://support.atlassian.com/security-and-access-policies/docs/revoke-user-api-tokens/", "https://support.atlassian.com/security-and-access-policies/docs/set-api-token-access/", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Created API token, Revoked API token, Viewed API token, Exported API tokens)"]
+
+- id: admin_api_key
+  type: stored_credential
+  what: "조직 관리자 API 키(Organization settings > API keys, 최대 1년, 스코프 선택 또는 전체)를 밖의 시스템이 보관해 관리자 API 를 부름"
+  identify: {api: "atlassian GET https://api.atlassian.com/admin/api-access/v1/orgs/{orgId}/api-keys (read:keys:admin)", when: "키가 있음"}
+  points_to:
+  - {tier: config_name, a: "atlassian 키 id, label", b: "밖의 시스템 (이름으로만)", check: "이름 일치뿐"}
+  - {tier: log_id, a: "atlassian 조직 감사 actor.auth (키)", b: "그 키로 한 동작", check: "a 가 그 키다"}
+  activity: ["atlassian 조직 감사 「Created admin API key」, 「Revoked admin API key」"]
+  sources: ["https://support.atlassian.com/organization-administration/docs/manage-an-organization-with-the-admin-apis/", "https://developer.atlassian.com/cloud/admin/api-access/rest/api-group-api-key/", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Created admin API key, Revoked admin API key)"]
+
+- id: service_account_token
+  type: stored_credential
+  what: "서비스 계정(Directory > Service accounts) 의 토큰을 밖의 시스템이 보관"
+  identify: {api: "atlassian 화면: Directory > Service accounts > 계정 > Create credentials", when: "서비스 계정 토큰이 있음"}
+  points_to:
+  - {tier: config_name, a: "atlassian 서비스 계정 이름·이메일 (bot@serviceaccount.atlassian.com 꼴)", b: "밖의 시스템", check: "이름으로만"}
+  - {tier: log_id, a: "atlassian 조직 감사 actor.auth.tokenId, tokenLabel (actor 가 서비스 계정)", b: "그 서비스 계정 토큰", check: "a 가 그 토큰이다"}
+  - {tier: log_time, a: "atlassian 그 토큰으로 한 동작 시각", b: "밖의 시스템 요청 기록 시각", check: "시각이 같다"}
+  activity: ["atlassian 조직 감사 「Created API token」, 「Revoked API token」(서비스 계정)"]
+  sources: ["https://support.atlassian.com/user-management/docs/manage-api-tokens-for-service-accounts/", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Service account: Created API token, Revoked API token)", "https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)"]
+
+- id: audit_log_webhook
+  type: event_delivery
+  what: "조직 감사 로그를 밖의 도구로 웹훅으로 보냄. 조직당 3개, Enterprise 또는 Guard Premium"
+  identify: {api: "atlassian Insights > Audit log > Settings > Webhook 탭 (화면. 나열 API 는 문서에 없음)", when: "웹훅이 있음"}
+  points_to:
+  - {tier: config_name, a: "atlassian 감사 로그 웹훅 URL 호스트", b: "받는 도구", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "atlassian 조직 감사 이벤트 attributes.time", b: "받는 도구 수신 시각", check: "시각이 가깝다. 웹훅 본문이 이벤트 id 를 담는지는 문서에서 확인하지 않아, 등록 뒤 받은 본문으로 맞춘다"}
+  activity: ["atlassian 조직 감사 「Created audit log webhook registration」, 「Updated audit log webhook registration」, 「Deleted audit log webhook registration」. 재시도 3회, 순서·중복 보장 없음"]
+  sources: ["https://support.atlassian.com/security-and-access-policies/docs/learn-more-about-audit-log-webhooks/", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (audit log webhook registration)", "https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)"]
+
+- id: application_link
+  type: external_relay
+  what: "Jira Application links 로 다른 서버(온프레미스 Atlassian 제품 등)와 연결. Cloud 의 나열 API 는 문서에 없다"
+  identify: {api: "atlassian Jira 설정 > Jira apps > App Links (화면)", when: "링크가 있음"}
+  points_to:
+  - {tier: config_name, a: "atlassian 링크의 상대 URL", b: "상대 서버", check: "a 와 b 가 같다"}
+  sources: ["https://support.atlassian.com/jira-cloud-administration/docs/use-applinks-to-link-to-atlassian-products/", "https://support.atlassian.com/jira/kb/how-to-list-outbound-hosts-url-in-jira/ (Application Links, WebHooks and Web Requests, 3rd party apps 가 아웃바운드 연결)"]
+  note: "로그 등급 없음. App Links 를 만들거나 쓴 기록이 조직 감사 활동 목록에 있는지 문서에서 찾지 못했다. 화면으로만 본다"
+
+- id: org_audit_api_reader
+  type: stored_credential
+  what: "밖의 시스템(수집기 등)이 관리자 API 키로 조직 감사 로그·사용자 목록을 읽음"
+  identify: {api: "atlassian GET https://api.atlassian.com/admin/v1/orgs/{orgId}/events (read:events:admin, 분당 10회), /events-stream, /users, /domains", when: "그런 키가 있음"}
+  points_to:
+  - {tier: config_name, a: "atlassian 관리자 API 키 이름과 스코프 (read:events:admin, read:accounts:admin 등)", b: "읽는 시스템", check: "이름으로만"}
+  - tier: log_id
+    a: atlassian 조직 감사 actor.auth.tokenId, tokenName 과 그 이벤트의 요청 주소(ip)
+    b: 읽는 시스템 (토큰 이름, 그 시스템의 주소)
+    check: a 와 b 가 같다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  activity: ["atlassian 조직 감사 「Created admin API key」, 「Revoked admin API key」 (키를 만든 기록. admin_api_key 와 같음)"]
+  sources: ["https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (경로, 파라미터, 응답 필드, 분당 10회)", "https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/ (/users, read:accounts:admin)", "https://developer.atlassian.com/cloud/admin/organization/rest/api-group-domains/ (/domains)", "https://developer.atlassian.com/cloud/admin/organization/rest/intro/ (API 키 Bearer)"]
+  note: "벤더 문서로는 로그로 잇는 값이 없다(관리자 API 로 감사 로그를 읽은 기록이 감사 로그에 남는다는 문서가 없다). 2026-10-29 시험 환경 응답에서 log_id 를 찾아 points_to 끝에 더했다"
+
+- id: confluence_automation_web_request
+  type: event_delivery
+  what: "Confluence Automation 플로우의 「Send web request」 가 밖의 주소를 부름. 전역 플로우는 Confluence 관리자가, 스페이스 플로우는 스페이스 관리자가 만든다. 같은 플로우에 Send email, Send Microsoft Teams message 액션도 있다"
+  identify: {api: "atlassian 룰 관리 REST (GET https://api.atlassian.com/automation/public/{product}/{cloudid}/rest/v1/rule/summary). {product} 에 confluence 가 되는지는 문서에 없어 첫 호출로 확인한다", when: "플로우 components 에 Send web request"}
+  points_to:
+  - {tier: config_name, a: "atlassian 룰 상세 응답 rule.components[type=outgoing.webhook].value.url 의 호스트 ({product}=confluence 로 부른다)", b: "받는 서버", check: "a 와 b 가 같다", if_unreadable: "Confluence 전역 Automation 화면(Confluence 관리자), 스페이스 Automation 화면(스페이스 관리자)", note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다}
+  - {tier: log_time, a: "atlassian 룰 Audit log 실행 시각", b: "받는 서버 수신 기록 시각", check: "시각이 같다"}
+  activity: ["atlassian 플로우의 audit log"]
+  sources: ["https://support.atlassian.com/cloud-automation/docs/actions-in-confluence-automation/ (Send web request, Send Slack message, Send Microsoft Teams message, Send email)", "https://support.atlassian.com/confluence-cloud/docs/what-is-confluence-automation/ (전역·스페이스 플로우, 관리자 역할)", "https://developer.atlassian.com/cloud/automation/rest/api-group-rule-management/"]
+
+- id: confluence_automation_incoming_webhook
+  type: event_delivery
+  what: "밖의 시스템이 Confluence Automation 「Incoming webhook」 트리거의 URL 로 HTTP POST 해 플로우를 실행. secret 은 X-Automation-Webhook-Token 헤더 또는 URL 경로 끝에 붙인다. 2025-01-28 이전 플로우의 옛 주소는 2025-05-30 에 끊겼다"
+  identify: {api: "atlassian 플로우 목록 (Trigger 필터 Incoming webhook)", when: "트리거가 Incoming webhook"}
+  points_to:
+  - {tier: fingerprint, a: "atlassian 트리거 URL (플로우 화면. 나열 API 는 문서에 없음)", b: "부르는 쪽이 보관한 주소", check: "a 의 sha256 과 b 가 같다"}
+  - {tier: log_time, a: "부르는 쪽 호출 기록 시각", b: "atlassian 룰 Audit log 실행 시각", check: "시각이 같다"}
+  activity: ["atlassian 플로우의 audit log. 본문이 올바르지 않으면 플로우가 돌지 않고 오류 메시지도 없다고 공개 이슈 AUTO-1634 가 보고한다"]
+  sources: ["https://support.atlassian.com/cloud-automation/docs/triggers-in-confluence-automation/ (Incoming webhook: HTTP POST)", "https://support.atlassian.com/cloud-automation/docs/configure-the-incoming-webhook-trigger-in-atlassian-automation/ (Jira·Confluence, URL 과 secret, X-Automation-Webhook-Token, 2025-05-30)", "https://jira.atlassian.com/browse/AUTO-1634 (공개 이슈)"]
+
+# ── Bitbucket Cloud (워크스페이스·저장소 단위. 조직 수준 수단은 위와 같다)
+- id: bitbucket_repository_webhook
+  type: event_delivery
+  what: "Bitbucket 저장소 웹훅이 밖의 주소로 이벤트를 보냄 (저장소당 50개, 저장소 관리자가 만듦). secret 을 두면 X-Hub-Signature 헤더(HMAC, 지금은 sha256)로 서명하고 secret 은 저장 뒤 볼 수 없다"
+  identify: {api: "atlassian GET /2.0/repositories/{workspace}/{repo_slug}/hooks (read:webhook:bitbucket)", when: "훅이 있음"}
+  points_to:
+  - {tier: config_name, a: "bitbucket 웹훅 url 호스트·경로, events, active", b: "받는 서버", check: "a 와 b 가 같다", if_unreadable: "저장소 Settings > Workflow > Webhooks"}
+  - {tier: fingerprint, a: "bitbucket 웹훅 url", b: "받는 쪽이 보관한 주소", check: "a 의 sha256 과 b 가 같다"}
+  - {tier: log_id, a: "받는 서버 수신 기록의 X-Hook-UUID, X-Request-UUID", b: "bitbucket 웹훅 uuid, 웹훅 요청 기록 (Webhooks > View requests, Enable history 를 켠 뒤부터)", check: "a 와 b 가 같다"}
+  activity: ["bitbucket 워크스페이스 감사 「Webhook added」, 「Webhook removed」 (Workspace Settings > Security > Audit Log). 조직에 연결하면 조직 감사 「Created repository webhook」, 「Deleted repository webhook」"]
+  sources: ["https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks (필드, secret, X-Hub-Signature, 50개)", "https://developer.atlassian.com/cloud/bitbucket/rest/api-group-repositories/ (hooks 경로)", "https://support.atlassian.com/bitbucket-cloud/kb/bitbucket-cloud-audit-log-events/ (Webhook added/removed)", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Created/Deleted repository webhook)", "https://support.atlassian.com/bitbucket-cloud/docs/event-payloads/ (헤더 X-Hook-UUID, X-Request-UUID, X-Event-Key)", "https://support.atlassian.com/bitbucket-cloud/docs/troubleshoot-webhooks/ (Webhooks > View requests > Enable history)"]
+
+- id: bitbucket_workspace_webhook
+  type: event_delivery
+  what: "워크스페이스 웹훅이 그 안 모든 저장소의 이벤트를 밖으로 보냄. UI 로는 못 만들고 REST 로만 만들며 워크스페이스 owner 만 만든다"
+  identify: {api: "atlassian GET /2.0/workspaces/{workspace}/hooks (uuid, url, description, subject_type, active, created_at, events, secret_set)", when: "훅이 있음"}
+  points_to:
+  - {tier: config_name, a: "bitbucket 워크스페이스 훅 url, events", b: "받는 서버", check: "a 와 b 가 같다"}
+  - {tier: fingerprint, a: "bitbucket 훅 url", b: "받는 쪽이 보관한 주소", check: "a 의 sha256 과 b 가 같다"}
+  - {tier: log_id, a: "받는 서버 수신 기록의 X-Hook-UUID, X-Request-UUID", b: "bitbucket 웹훅 uuid, 웹훅 요청 기록 (Webhooks > View requests, Enable history 를 켠 뒤부터)", check: "a 와 b 가 같다"}
+  activity: ["감사 이벤트 이름은 저장소 웹훅과 같은 「Webhook added」 인지 문서에 없다. 만들어 보고 읽는다"]
+  sources: ["https://developer.atlassian.com/cloud/bitbucket/rest/api-group-workspaces/ (hooks 경로, 필드, Only workspace owners can install webhooks on workspaces, scope read:webhook:bitbucket)", "https://support.atlassian.com/bitbucket-cloud/kb/how-to-create-workspace-level-webhooks/ (UI 불가, REST 로 생성)", "https://support.atlassian.com/bitbucket-cloud/docs/event-payloads/ (헤더 X-Hook-UUID, X-Request-UUID, X-Event-Key)"]
+
+- id: bitbucket_deploy_key
+  type: stored_credential
+  what: "저장소·프로젝트 접근 키(API 이름 deploy key, 화면 이름 access key. 읽기 전용 공개키) 와 워크스페이스 키(읽기·쓰기) 를 밖의 서버가 개인키로 씀"
+  identify: {api: "atlassian GET /2.0/repositories/{workspace}/{repo_slug}/deploy-keys, GET /2.0/workspaces/{workspace}/projects/{project_key}/deploy-keys (id, key, label, type, created_on, last_used, comment. scope admin:repository:bitbucket)", when: "키가 있음"}
+  points_to:
+  - {tier: fingerprint, a: "bitbucket deploy key 의 key (공개키)", b: "밖의 서버가 가진 개인키의 공개키", check: "a 와 b 가 같다", if_unreadable: "워크스페이스 키: Workspace Settings > SSH Keys (목록 API 는 문서에 없음)"}
+  - {tier: config_name, a: "bitbucket deploy key 의 label, comment, last_used", b: "밖의 서버 (이름으로만)", check: "이름 일치뿐"}
+  activity: ["bitbucket 워크스페이스 감사 「Repository Access key added/removed」, 「Project Access key added/removed」, 사용자 「SSH key added/removed」. 조직 감사 「Added repository deploy key」, 「Removed repository deploy key」, 「Authorized workspace SSH key」, 「Revoked workspace SSH key」"]
+  sources: ["https://developer.atlassian.com/cloud/bitbucket/rest/api-group-deployments/ (deploy-keys 경로, 필드, scope)", "https://support.atlassian.com/bitbucket-cloud/kb/difference-between-repository-project-and-workspace-access-keys/ (저장소·프로젝트 읽기 전용, 워크스페이스 읽기·쓰기, Workspace Settings > SSH Keys)", "https://support.atlassian.com/bitbucket-cloud/kb/bitbucket-cloud-audit-log-events/", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (repository deploy key, workspace SSH key)"]
+  note: "로그 등급 없음. 접근 키로 clone·pull 한 기록이 감사 활동 목록에 없다. 쓴 흔적은 설정 값 last_used 뿐이다"
+
+- id: bitbucket_oauth_consumer
+  type: app_grant
+  what: "워크스페이스 OAuth consumer(클라이언트) 로 밖의 앱이 사용자 대신 Bitbucket API 를 부름 (authorization code, implicit, JWT 교환). Connect 앱도 consumer 를 거친다"
+  identify: {api: "atlassian 화면: Workspace settings > Apps and features > OAuth consumers (Name, Callback URL, URL). 목록 API 는 문서에 없음", when: "consumer 가 있음"}
+  points_to:
+  - {tier: config_name, a: "bitbucket consumer 의 Callback URL 호스트, Name", b: "밖의 앱의 콜백 주소", check: "a 와 b 가 같다"}
+  - {tier: config_name, a: "사용자 개인 설정 「OAuth integrated applications」 의 앱", b: "그 consumer", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "bitbucket 사용자 감사 「User account access granted to an application」 시각과 사용자", b: "밖의 앱 OAuth 콜백 기록 시각과 사용자", check: "시각이 가깝고 사람이 같다"}
+  activity: ["bitbucket 사용자 감사 「User account access granted to an application」, 「User account access to an application revoked」. 조직 감사 「Created OAuth 2.0 consumer」, 「Updated OAuth 2.0 consumer」, 「Deleted OAuth 2.0 consumer」"]
+  sources: ["https://support.atlassian.com/bitbucket-cloud/docs/use-oauth-on-bitbucket-cloud/ (경로, 필드, 흐름, 토큰 엔드포인트)", "https://support.atlassian.com/bitbucket-cloud/docs/bitbucket-cloud-apps-overview/ (앱은 OAuth consumer 로 동작, OAuth integrated applications)", "https://support.atlassian.com/bitbucket-cloud/kb/bitbucket-cloud-audit-log-events/", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (OAuth 2.0 consumer)"]
+
+- id: bitbucket_access_token
+  type: stored_credential
+  what: "저장소·프로젝트·워크스페이스 access token(워크스페이스 토큰은 Premium) 을 밖의 시스템이 보관. 한 번만 보이고 뒤에 조회할 수 없다. 사용자 API 토큰(Bitbucket 스코프)은 조직 수단 user_api_token 과 같고, 앱 패스워드는 2026-06-09 에 영구 비활성화 예정이었다"
+  identify: {api: "atlassian 화면: 저장소 Settings > Access tokens, Workspace settings > Security > Access tokens. 목록 API 는 문서에 없음", when: "토큰이 있음"}
+  points_to:
+  - {tier: config_name, a: "bitbucket 토큰 이름, 범위, 만료", b: "밖의 시스템 (이름으로만)", check: "이름 일치뿐 (약한 근거)"}
+  activity: ["조직 감사 「Created repository access token」, 「Created project access token」, 「Created workspace access token」. 앱 패스워드는 조직 감사 「Added Bitbucket app password」, 「Removed Bitbucket app password」, 워크스페이스 감사 「App password added/removed」"]
+  sources: ["https://support.atlassian.com/bitbucket-cloud/docs/repository-access-tokens", "https://support.atlassian.com/bitbucket-cloud/docs/create-a-workspace-access-token (Premium, 한 번만 표시)", "https://support.atlassian.com/bitbucket-cloud/docs/api-tokens/ (관리 계정의 Bitbucket 용 API 토큰은 항상 생성 가능)", "https://www.atlassian.com/blog/bitbucket/bitbucket-cloud-enters-phase-2-of-app-password-deprecation (2025-09-09 생성 중단, 2026-06-09 비활성화)", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (access token, app password)", "https://support.atlassian.com/bitbucket-cloud/kb/bitbucket-cloud-audit-log-events/ (App password added/removed)"]
+  note: "로그 등급 없음. 토큰을 만든 기록은 남지만, 그 토큰으로 한 동작을 가르는 감사 값은 문서에 없다"
+
+- id: bitbucket_pipelines_variables
+  type: stored_credential
+  what: "Pipelines 저장소·워크스페이스·배포 변수에 밖의 비밀·주소를 둠. Secured 변수는 로그에서 가려지고 편집 대신 교체만 된다"
+  identify: {api: "atlassian 화면: Repository Settings > Pipelines > Repository variables, Workspace Settings > Pipelines > Workspace variables, Deployments. 변수 API 는 문서에 없음", when: "변수가 있음"}
+  points_to:
+  - {tier: config_name, a: "bitbucket 변수 이름 (Secured 값은 못 봄), 보통 변수의 값", b: "밖의 서비스", check: "a 와 b 가 같다"}
+  activity: ["감사 이벤트 목록에 변수 변경은 없다"]
+  sources: ["https://support.atlassian.com/bitbucket-cloud/docs/variables-and-secrets/"]
+  note: "로그 등급 없음 (감사 이벤트 목록에 변수 변경이 없다)"
+
+- id: bitbucket_pipelines_oidc
+  type: stored_credential
+  what: "Pipelines 단계가 OIDC 토큰(BITBUCKET_STEP_OIDC_TOKEN)으로 AWS·GCP·Vault 등 밖의 자원을 씀. 상대 쪽이 Bitbucket 을 OIDC 제공자로 등록한다"
+  identify: {api: "atlassian 화면: 저장소 Settings > Pipelines > OpenID Connect (Identity provider URL, Audience). bitbucket-pipelines.yml 의 oidc: true", when: "상대 쪽에 Bitbucket issuer 신뢰가 있음"}
+  points_to:
+  - {tier: config_id, a: "bitbucket 저장소의 Identity provider URL, Audience", b: "밖의 클라우드 OIDC 제공자 등록의 issuer, audience", check: "a 와 b 가 같다"}
+  - {tier: config_id, a: "토큰의 워크스페이스·저장소·배포 환경 UUID", b: "상대 쪽 신뢰 조건(sub 등)", check: "a 와 b 가 같다 (문서는 예시 페이로드에 UUID 를 보인다. 토큰을 받아 읽는다)"}
+  - {tier: log_id, a: "밖의 클라우드가 토큰을 받은 감사 로그의 subject (Google Cloud 는 ExchangeToken 의 protoPayload.authenticationInfo.principalSubject)", b: "bitbucket OIDC 토큰 sub (꼴은 문서에서 찾지 못해 실행해 보고 읽는다)", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "bitbucket Pipelines 단계 실행 시각", b: "밖의 클라우드 토큰 교환 시각", check: "시각이 실행 구간 안이다"}
+  activity: ["밖의 클라우드의 토큰 교환 감사 로그 (Google Cloud ExchangeToken 등)"]
+  sources: ["https://support.atlassian.com/bitbucket-cloud/docs/integrate-pipelines-with-resource-servers-using-oidc/ (oidc: true, audiences, 화면 위치, UUID)", "https://cloud.google.com/iam/docs/audit-logging/examples-workload-identity (ExchangeToken 감사 로그 protoPayload.authenticationInfo.principalSubject = IdP 토큰의 subject)"]
+
+- id: bitbucket_installed_app
+  type: app_grant
+  what: "워크스페이스에 설치한 Marketplace 앱(Connect, Forge). Connect 앱은 OAuth consumer 로 사용자 대신 동작하고 사용자가 처음 쓸 때 권한을 준다"
+  identify: {api: "atlassian 화면: Workspace settings > Apps and features > Installed apps. 목록 API 는 문서에 없음", when: "앱이 있음"}
+  points_to:
+  - {tier: config_name, a: "bitbucket 설치 앱 이름, 그 앱의 OAuth consumer", b: "앱 업체 서버", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "atlassian 조직 감사 「Installed application」 시각 (워크스페이스를 조직에 연결했을 때)", b: "앱 업체 서버 설치 콜백 시각", check: "시각이 같다"}
+  activity: ["bitbucket 사용자 감사 「User account access granted to an application」. 조직에 연결하면 조직 감사 「Installed application」, 「Uninstalled application」, 「Updated application」(워크스페이스)"]
+  sources: ["https://support.atlassian.com/bitbucket-cloud/docs/bitbucket-cloud-apps-overview/ (Installed apps, OAuth consumer)", "https://support.atlassian.com/bitbucket-cloud/kb/bitbucket-cloud-audit-log-events/", "https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Bitbucket workspace: Installed/Uninstalled/Updated application)"]
+- id: rovo_mcp_oauth_client
+  type: app_grant
+  what: Claude, ChatGPT, Cursor 같은 외부 AI 클라이언트가 Atlassian Rovo MCP 서버(https://mcp.atlassian.com/v2/mcp)에 붙는다. 사용자가 OAuth 2.1 동의 화면에서 허용하면 Atlassian MCP 앱이 자동으로 설치되고, 그 뒤 사용자 권한으로 Jira·Confluence 도구를 부른다. 관리자는 OAuth 2.1 으로 붙는 도구의 허용 도메인과 API 토큰 사용 여부를 정한다. 클라이언트별로 따로 잡힌 연결(GitHub Copilot, Okta EMA, Slackbot)은 각 쌍 파일에 있다
+  identify:
+    api: 'atlassian 관리 화면: Apps > Sites > 사이트 > Site settings > Connected apps (설치된 OAuth 앱 목록, 화면). Rovo > Rovo MCP server (허용 도메인과 API 토큰 토글, 화면. 다른 문서는 Connectors > Atlassian MCP server 로 적는다). 조직 감사: Insights > Audit log 에서 Rovo MCP User Actions 필터'
+    when: Connected apps 에 Atlassian MCP 앱이 있음, 또는 조직 감사에 Rovo MCP User Actions 의 Invoked tool 행이 있음
+  points_to:
+  - tier: config_name
+    a: atlassian Rovo MCP server 설정의 허용 도메인 목록 (화면)
+    b: 외부 클라이언트 OAuth 리디렉션 주소의 호스트. 허용 도메인 검사는 리디렉션 기반이라고 문서에 있다 (API 토큰 경로에는 적용 안 됨)
+    check: a 와 b 가 같다
+    if_unreadable: 허용 도메인 목록은 화면. 읽는 API 이름은 문서에 없다
+  - tier: via_person
+    a: atlassian 조직 감사 Invoked tool 의 사용자
+    b: '같은 사용자가 Connected apps 에서 동의한 Atlassian MCP 앱 (문서: 추가 승인 사용자는 감사에 안 남는다)'
+    check: 같은 사람
+  activity:
+  - atlassian 조직 감사 Rovo MCP User Actions 의 Invoked tool (도구 이름, 액션, 사용자)
+  - atlassian 조직 감사 「An OAuth app is installed for the first time」 (문서 표기. Guard Standard 필요)
+  sources:
+  - https://developer.atlassian.com/cloud/rovo-mcp/guides/getting-started/ (서버 주소, 지원 클라이언트 목록, OAuth 2.1 권장)
+  - https://developer.atlassian.com/cloud/rovo-mcp/guides/authentication-and-authorization/ (OAuth 2.1 기본, API 토큰은 관리자 활성화) [Exa 검색 발췌, 원문 미열람]
+  - https://support.atlassian.com/security-and-access-policies/docs/control-atlassian-rovo-mcp-server-settings/ (허용 도메인, OAuth 2.1 만 차단 가능, Rovo > Rovo MCP server 경로) [Exa 검색 발췌, 원문 미열람]
+  - https://support.atlassian.com/security-and-access-policies/docs/monitor-atlassian-rovo-mcp-server-activity/ (Insights > Audit log, 도구 호출마다 기록, Apps > Sites > Connected apps, 첫 설치 Guard Standard) [Exa 검색 발췌, 원문 미열람]
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Rovo MCP User Actions 의 Invoked tool) [Exa 검색 발췌, 원문 미열람]
+  note: '기존 oauth_3lo_app 과 겹치는지 따졌다. 같은 app_grant 이고 같은 Connected apps 화면을 쓴다. 다른 점은 식별 로그가 Third-party app API request 가 아니라 Rovo MCP User Actions 의 Invoked tool 이라는 것과, 연결 주체가 MCP 클라이언트라는 것이다. 새 방법으로 두되 oauth_3lo_app 과 같이 본다. 문서에 없는 것: Invoked tool 기록에 어느 클라이언트인지 나오는지, 클라이언트 식별 값, 관리자 API 로 Connected apps 를 읽는 방법. 로그 등급은 log_id 를 쓰지 못했다 (앱 ID 와 클라이언트를 잇는 값이 문서에 없음). 실측 없음'
+- id: rovo_dev_cli_mcp_client
+  type: stored_credential
+  what: Atlassian 의 Rovo Dev CLI 가 사용자가 ~/.rovodev/mcp.json 에 적은 외부 MCP 서버를 부른다. 전송 방식은 stdio, HTTP, SSE 이고 HTTP 서버의 예시는 Authorization 헤더에 Bearer 토큰을 넣는다. acli rovodev mcp 로 파일을 연다
+  identify:
+    api: Rovo Dev CLI 가 도는 PC 의 ~/.rovodev/mcp.json (파일, API 는 없다)
+    when: mcp.json 에 외부 MCP 서버가 적혀 있음
+  points_to:
+  - tier: config_name
+    a: mcp.json 의 서버 주소
+    b: 외부 MCP 서버의 실제 주소
+    check: a 와 b 가 같다
+    if_unreadable: '파일은 사용자 PC 에 있어 수집기가 못 읽는다. 사람: 해당 PC 의 mcp.json'
+  activity:
+  - 문서에 없다
+  sources:
+  - https://support.atlassian.com/rovo/docs/connect-to-an-mcp-server-in-rovo-dev-cli/ (설정 파일 경로, 전송 방식, 예시 인증. 특정 SaaS 이름은 나오지 않는다)
+  note: 문서는 여섯 SaaS 중 어느 것도 예로 들지 않는다. 이 방법은 쌍을 정하는 근거가 약하고 Atlassian 이 밖의 서버를 부르는 설정 위치만 보여 준다. 실측 없음
+- id: rovo_admin_external_mcp_server
+  type: app_grant
+  what: Atlassian 조직 관리자가 사이트에 외부 MCP 서버를 등록하면 Rovo 와 Rovo Studio 에이전트가 그 서버의 도구를 부른다. 서버는 Streamable HTTP 를 지원하고 유효한 TLS 인증서로 공개 접근 가능해야 하며, OAuth 2.1 인가 코드 흐름과 PKCE, Dynamic Client Registration 이 필요하다. 등록 위치는 Atlassian Administration > Apps > Sites > Connected apps 의 「Add external MCP server」 이다
+  identify:
+    api: atlassian Administration 의 Connected apps 에 추가된 외부 MCP 서버
+    when: Connected apps 에 외부 MCP 서버가 추가되어 있음
+  points_to:
+  - tier: config_name
+    a: atlassian Connected apps 의 외부 MCP 서버 주소
+    b: 외부 MCP 서버의 실제 주소
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: atlassian 에서 서버를 등록한 관리자
+    b: 서버 쪽 OAuth 에 동의한 사용자
+    check: 같은 사람
+    if_unreadable: 문서가 역할을 적지 않았다
+  - tier: log_time
+    a: atlassian 조직 감사의 서버 등록 시각
+    b: 서버 쪽 대응 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - atlassian 조직 감사 (등록 이벤트 이름은 문서에 없다)
+  sources:
+  - https://support.atlassian.com/organization-administration/docs/add-an-external-mcp-server-from-atlassian-administration/ (전송, 인증, 등록 경로, 관리자 역할 문서에 없음)
+  note: 문서의 기본 제공 서버 목록(Figma, Canva 등)에 여섯 SaaS 는 없다고 조사 에이전트가 요약했으나 직접 열지 않았다. 출시 단계와 플랜은 문서에 없다. 실측 없음
+- id: rovo_mcp_forge_module
+  type: app_grant
+  what: Forge 앱의 rovo:mcp 모듈이 앱의 Forge 액션을 도구로 내놓고, 외부 MCP 클라이언트가 https://mcp.atlassian.com/forge/<앱 ID> 로 붙는다. 외부 클라이언트 연결은 Preview 다. 인증은 OAuth 2.1 이고 사용자가 앱이 설치된 사이트를 골라 범위와 도구를 보고 승인한다. 실행은 그 사용자의 권한이다. 외부 노출은 기본 꺼져 있어 사이트·조직 관리자가 Atlassian Administration 에서 켜야 한다
+  identify:
+    api: atlassian Forge 앱 매니페스트의 rovo:mcp 모듈, Atlassian Administration 의 외부 노출 설정
+    when: 앱 매니페스트에 rovo:mcp 모듈이 있고 관리자가 외부 노출을 켬
+  points_to:
+  - tier: config_id
+    a: 앱 매니페스트 app.id 의 UUID
+    b: MCP 클라이언트가 붙는 주소의 <앱 ID>
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: atlassian 에서 승인한 사용자
+    b: MCP 클라이언트의 로그인 사용자
+    check: 같은 사람
+  - tier: log_time
+    a: atlassian 쪽 승인·호출 기록 위치는 문서에 없다
+    b: 대응 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - 문서에 없다
+  sources:
+  - https://developer.atlassian.com/platform/forge/manifest-reference/modules/rovo-mcp/ (모듈 목적, 주소 형식, Preview, 인증, 외부 노출 기본 꺼짐)
+  note: 기존 rovo_mcp_oauth_client 는 Atlassian 이 직접 내는 Rovo MCP 서버이고 이 방법은 앱이 내는 서버다. 플랜은 문서에 없다. 실측 없음
+- id: rovo_mcp_api_token_client
+  type: stored_credential
+  what: '외부 AI 클라이언트가 OAuth 동의 화면 없이 API 토큰으로 Atlassian Rovo MCP 서버에 붙는다. 개인 API 토큰은 Authorization: Basic <base64(이메일:토큰)>, 서비스 계정 API 키는 Authorization: Bearer <키> 로 보낸다. 조직 관리자가 API 토큰 인증을 켜 둔 경우에만 된다. OAuth 리디렉션이 없어 허용 도메인 검사가 걸리지 않고 IP 허용 목록만 적용된다'
+  identify:
+    api: atlassian Administration 의 Rovo MCP server 설정(API 토큰 토글), 사용자 API 토큰·서비스 계정 키 목록
+    when: Rovo MCP 서버 설정에서 API 토큰 인증이 켜져 있음
+  points_to:
+  - tier: config_name
+    a: atlassian Rovo MCP 서버 설정의 API 토큰 인증 허용 여부
+    b: 클라이언트 설정 mcp.json 의 Authorization 헤더 방식
+    check: 허용되고 헤더가 있다
+    if_unreadable: 토글 위치는 문서에 정확히 적혀 있지 않다
+  - tier: via_person
+    a: atlassian 에서 API 토큰을 만든 사용자 또는 서비스 계정
+    b: MCP 클라이언트를 쓰는 사람
+    check: 같은 사람 (서비스 계정이면 조직 공용)
+  activity:
+  - atlassian 조직 감사 Rovo MCP User Actions (기존 rovo_mcp_oauth_client 와 같은 이벤트인지는 문서에 없다)
+  sources:
+  - https://support.atlassian.com/atlassian-rovo-mcp-server/docs/configuring-authentication-via-api-token/ (헤더 형식, 토큰 종류, 관리자 설정, 허용 도메인 제약)
+  note: 기존 rovo_mcp_oauth_client·user_api_token·service_account_token 과 겹치는 부분이 있다. OAuth 동의 없이 붙는 경로라 로그 등급을 달리 볼 수 있어 따로 둔다. 토큰 만료 정책은 문서 본문에 없다. 실측 없음

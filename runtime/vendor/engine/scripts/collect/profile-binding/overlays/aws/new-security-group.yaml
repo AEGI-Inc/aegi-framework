@@ -1,0 +1,39 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: aws
+service: ec2
+object_type: SecurityGroup
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: GroupId, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: AWS-SG-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AWS-03
+        request: {kind: security_groups}
+        items: (array_or:SecurityGroups|securityGroupInfo.item)
+    id_expr: GroupId
+    properties:
+      blocking: {const: true}
+      group_id: GroupId
+      group_name: GroupName
+      description: Description
+      vpc_id: VpcId
+      open_to_internet: OpenToInternet
+      ip_permissions: IpPermissions
+      account_id: OwnerId
+    display: "{GroupName}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: VPC, id: VpcId}
+        basis: stated
+        require: [target]

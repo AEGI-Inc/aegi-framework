@@ -1,0 +1,215 @@
+format: im-pilot-profile/1
+scope: catalog_spec5_record_projection
+provider: gws
+service: null
+object_type: Delegate
+interfaces:
+  - Assignment
+model:
+  research_type: null
+  runtime_type_id: model-v1:gws:Delegate
+  decision_refs:
+    - model-v1 runtime record_projection
+    - V2-R1
+vars:
+  owner:
+    ref:
+      type: User
+      lookup:
+        - primaryEmail
+        - aliases
+      value: $req.user
+      ci: true
+    prop: $key
+  oid:
+    ref:
+      type: User
+      lookup:
+        - primaryEmail
+        - aliases
+      value: $req.user
+      ci: true
+    prop: $id
+  email:
+    op: lower
+    of:
+      any:
+        - delegateEmail
+      empty_as: ""
+  grantee:
+    ref:
+      type: User
+      lookup:
+        - primaryEmail
+        - aliases
+      value:
+        op: lower
+        of:
+          any:
+            - delegateEmail
+          empty_as: ""
+      ci: true
+    prop: $key
+identity:
+  primary:
+    - name: u
+      expr: $vars.oid
+      stability: catalog_reviewed
+    - name: e
+      expr: $vars.email
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-DELEGATE-{u}-{e}
+binding:
+  status: on_demand_or_uncollected
+  call: GW-15
+  operation_id: null
+  paths:
+    - shape: sh:gws_gmail:Delegate
+      path: []
+  basis: catalog spec:5 sources
+fields:
+  delegateEmail:
+    expr: $vars.email
+    source: catalog_spec5
+  verificationStatus:
+    expr: verificationStatus
+    source: catalog_spec5
+  mailbox:
+    expr:
+      op: lower
+      of:
+        op: str
+        of:
+          any:
+            - $req.user
+          empty_as: ""
+    source: catalog_spec5
+references: []
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - password
+    - token
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/delegate.yaml
+  engine_commit: d78062d
+  research_agreement: no_research_type
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-15
+        request:
+          kind: delegates
+        items: delegates
+    vars:
+      owner:
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $req.user
+          ci: true
+        prop: $key
+      oid:
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $req.user
+          ci: true
+        prop: $id
+      email:
+        op: lower
+        of:
+          any:
+            - delegateEmail
+          empty_as: ""
+      grantee:
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value:
+            op: lower
+            of:
+              any:
+                - delegateEmail
+              empty_as: ""
+          ci: true
+        prop: $key
+    require:
+      all:
+        - path: $vars.oid
+          present: true
+        - path: $vars.email
+          present: true
+    id_expr:
+      template: "{$vars.oid}:{$vars.email}"
+    parts:
+      u: $vars.oid
+      e: $vars.email
+    parent:
+      ref:
+        key: $vars.owner
+      when: always
+    refs:
+      grantee:
+        when:
+          path: $vars.grantee
+          present: true
+        ref:
+          key: $vars.grantee
+        type: User
+        value: $vars.email
+      delegate:
+        when:
+          path: $vars.grantee
+          present: false
+        type: Email
+        value: $vars.email
+        external: true
+    properties:
+      delegateEmail: $vars.email
+      verificationStatus: verificationStatus
+      mailbox:
+        op: lower
+        of:
+          op: str
+          of:
+            any:
+              - $req.user
+            empty_as: ""
+    display: 메일 위임 {$vars.email} → {$req.user}
+    relations: []
+    identity:
+      primary:
+        - name: u
+          expr: $vars.oid
+          stability: catalog_reviewed
+        - name: e
+          expr: $vars.email
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-DELEGATE-{u}-{e}
+runtime_stub: null
+runtime_key: GWS-DELEGATE-{u}-{e}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable

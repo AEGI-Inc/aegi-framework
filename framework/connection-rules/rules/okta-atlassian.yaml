@@ -1,0 +1,181 @@
+# okta ↔ atlassian 연결 규칙
+# Atlassian 은 Jira Cloud, Confluence Cloud, Bitbucket Cloud 와 그 셋을 관리하는 조직(admin.atlassian.com)이다. 세 제품은 같은 Atlassian 계정·조직을 쓰므로 Okta 와의 연결은 조직 단위로 한 번 생긴다 (Bitbucket 은 워크스페이스를 조직에 연결해야 함)
+# 벤더 문서로만 썼다 (2026-10-14). 시험 테넌트 결과는 ../test-environment/okta-atlassian.yaml 에 채운다. 읽는 법은 legend.yaml, ../README.md
+
+pair:
+- okta
+- atlassian
+written: '2026-10-14'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/okta-atlassian.yaml
+methods:
+- id: saml_sso
+  type: identity
+  what: Okta 가 Atlassian 계정 로그인을 맡음 (SAML, Atlassian Guard Standard 필요). OIDC 로는 할 수 없다
+  identify:
+    api: okta GET /api/v1/apps
+    when: OIN 앱 「Atlassian Cloud」(label), signOnMode == SAML_2_0. name 키 값은 문서에 없어 연결을 만든 뒤 응답에서 읽는다
+  note: Atlassian 쪽은 SAML 설정 뒤 인증 정책에서 Single sign-on 을 켜야 적용된다. 검증한 도메인의 계정만 SSO 대상이다. Atlassian 쪽 설정을 주는 공개 API 는 문서에 없다. Bitbucket Cloud 도 같은 SSO 가 적용되지만 워크스페이스를 조직에 연결(admin.atlassian.com > Apps > Atlassian apps > Link Bitbucket. 개인 워크스페이스는 연결 불가, 연결 뒤 해제 불가)해야 Guard 기능이 붙는다
+  points_to:
+  - tier: config_id
+    a: atlassian 디렉터리 SAML 설정 「Identity provider Entity ID」
+    b: okta SAML 메타데이터 entityID (앱 Sign On 탭 Metadata details 의 Issuer)
+    check: a 와 b 가 같다
+    if_unreadable: 'Atlassian 쪽 API 없음. 사람: admin.atlassian.com > Security > User security > Identity providers > 디렉터리 (조직 관리자). Okta 쪽: GET /api/v1/apps/{appId}/sso/saml/metadata'
+  - tier: config_id
+    a: atlassian 「SP Entity ID」(화면 표시 Unique ID)
+    b: okta 앱 Sign On 탭 Edit 의 「Unique ID」
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: atlassian 「Identity provider SSO URL」
+    b: okta 앱 「Sign on URL」
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: okta 앱 Sign On 탭의 「Jira Base URL」, 「Confluence Base URL」(/wiki)
+    b: atlassian 사이트 주소 (<site>.atlassian.net)
+    check: a 와 b 가 같다
+  - tier: fingerprint
+    a: atlassian 「Public x509 certificate」
+    b: okta 앱 Signing Certificate
+    check: a 의 sha256 과 b 가 같다
+  - tier: via_person
+    a: okta 배정 사용자 login
+    b: atlassian 관리 계정 email (GET /admin/v1/orgs/{orgId}/users, 검증 도메인)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: okta user.authentication.sso 의 target 중 type AppInstance 의 id
+    b: okta:application:id (Atlassian 앱)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta user.authentication.sso 시각과 actor.alternateId
+    b: atlassian 조직 감사 「Logged in to account」 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta user.authentication.sso (target AppInstance). 실패는 application.policy.sign_on.deny_access
+  - atlassian 조직 감사 「Added SAML configuration」, 「Updated SAML configuration」, 「Deleted SAML configuration」, 「Updated authentication policy」, 로그인은 「Logged in to account」. 활동 목록은 표시 이름이라 GET /admin/v1/orgs/{orgId}/events 의 attributes.action 값은 연동을 만들어 읽는다
+  sources:
+  - https://support.atlassian.com/security-and-access-policies/docs/configure-saml-single-sign-on-with-okta/ (필드 이름, Okta 쪽 대응 값, Unique ID, Base URL)
+  - https://support.atlassian.com/security-and-access-policies/docs/configure-saml-single-sign-on-with-an-identity-provider/ (Service provider entity URL, assertion consumer service URL, 검증 도메인)
+  - https://support.atlassian.com/provisioning-users/docs/supported-identity-providers (지원 IdP 목록에 Okta. OIDC 는 SSO 에 쓸 수 없음)
+  - https://support.atlassian.com/security-and-access-policies/docs/understand-authentication-policies/ (Single sign-on 설정, 디렉터리마다 기본 정책)
+  - https://www.okta.com/integrations/atlassian-cloud/ (OIN 앱 Atlassian Cloud)
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/ (GET /admin/v1/orgs/{orgId}/users, read:accounts:admin)
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Added/Updated/Deleted SAML configuration, Updated authentication policy, Logged in to account)
+  - https://support.atlassian.com/bitbucket-cloud/kb/linking-your-bitbucket-cloud-workspace-to-an-atlassian-organization/ (Link Bitbucket, 해제 불가)
+  - https://support.atlassian.com/bitbucket-cloud/kb/what-are-the-features-applicable-to-bitbucket-cloud-with-atlassian-guard-subscription/ (SSO 적용, 그룹 동기화 미지원, 개인 워크스페이스 연결 불가)
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)
+- id: scim_provisioning
+  type: identity
+  what: Okta 가 Atlassian 디렉터리에 사용자·그룹을 만들고 맞춤 (SCIM). SCIM API 키는 Bearer 토큰이고 2025-01 이후 만든 키는 1년 만료. Bitbucket 은 그룹 동기화가 지원되지 않는다
+  identify:
+    api: okta GET /api/v1/apps
+    when: Atlassian Cloud 앱 features 에 PUSH_NEW_USERS, PUSH_PROFILE_UPDATES, GROUP_PUSH (Application.features 열거값)
+  points_to:
+  - tier: config_id
+    a: okta 앱 Provisioning > API integration 의 「SCIM base URL」 끝 디렉터리 ID (https://api.atlassian.com/scim/directory/<id>)
+    b: atlassian 디렉터리 ID (Security > User security > Identity providers > 디렉터리 > Set up user provisioning). 공개 이슈 ACCESS-2734 는 이 값이 설정 때 한 번만 보이고 조직 API directories 가 주는 값(userbase 디렉터리 ID)과 다르다고 보고한다
+    check: a 와 b 가 같다
+    if_unreadable: 'Okta 쪽 SCIM base URL 은 콘솔에서만 보인다. Atlassian 쪽은 Regenerate API key 때 새 값이 생긴다 (기존 키 무효). 둘 다 못 보면 Okta 콘솔 Provisioning 탭의 Test API Credentials 결과로 연결 여부만 본다'
+  - tier: config_id
+    a: okta 배정 externalId
+    b: atlassian SCIM 사용자 id
+    check: a 와 b 가 같다
+    note: Atlassian SCIM 사용자 id 와 조직 API 의 account_id 가 같은 값인지는 문서에 없다. 연동을 만들어 비교한다
+  - tier: via_person
+    a: okta 배정 사용자 email (기본 매핑 Primary email → email)
+    b: atlassian 관리 계정 email
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: okta application.provision.user.push·.sync 의 target 중 type AppInstance 의 id
+    b: okta:application:id (Atlassian 앱)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta application.provision.user.push 시각과 대상 사용자
+    b: atlassian 조직 감사 「Linked Atlassian account to user in identity provider」·「Updated account profile for user」 시각과 대상
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta application.provision.user.push, application.provision.user.sync, application.provision.group_push.pushed
+  - atlassian 조직 감사 「Created user provisioning directory」, 「Regenerated API key for SCIM directory」, 「Linked Atlassian account to user in identity provider」, 「Updated account profile for user」, 「Removed user from identity provider」. 공개 이슈 ACCESS-2475 는 키 재생성 이벤트를 scim_directory_token_rotated 로 보고한다
+  sources:
+  - https://support.atlassian.com/provisioning-users/docs/configure-user-provisioning-with-okta/ (SCIM base URL, API key, Okta 쪽 경로, 메뉴, 1년 만료, Bitbucket 그룹 동기화 미지원, Primary email 매핑)
+  - https://developer.atlassian.com/cloud/admin/user-provisioning/rest/intro/ (base URL 예시, Directory ID 위치, Bearer, 1회 표시)
+  - https://support.okta.com/help/s/article/How-to-get-the-API-Key-and-Directory-ID-needed-to-authorize-the-Atlassian-Admin-Workflows-Connector (Regenerate API key, 기존 키 무효)
+  - https://jira.atlassian.com/browse/ACCESS-2734 (공개 이슈. base URL 1회 표시, directories API 값과 다름)
+  - https://jira.atlassian.com/browse/ACCESS-2475 (공개 이슈. scim_directory_token_rotated)
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (user provisioning directory, SCIM directory API key, identity provider 사용자)
+  - https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (Application.features 열거값)
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)
+- id: workflows_atlassian_connector
+  type: app_grant
+  what: Okta Workflows 「Atlassian Admin」 커넥터가 Atlassian 디렉터리 API 로 사용자·그룹을 관리
+  identify:
+    api: okta System Log
+    when: workflows.user.connection.create 의 target Connection alternateId 가 Atlassian 커넥터. 값은 연결을 만든 뒤 로그에서 읽는다
+  points_to:
+  - tier: config_id
+    a: okta Workflows 연결의 「Directory ID」(콘솔)
+    b: atlassian 디렉터리 ID
+    check: a 와 b 가 같다
+    if_unreadable: 'Okta Workflows 콘솔 > Connections (연결 목록을 주는 공개 API 없음). Atlassian 쪽은 scim_provisioning 과 같은 디렉터리'
+  - tier: log_id
+    a: atlassian 조직 감사 로그 actor.auth (authType, tokenId, tokenLabel)
+    b: okta Workflows 연결에 넣은 API token
+    check: 같은 토큰인지는 tokenLabel 로만 본다
+    note: Atlassian 감사 로그가 디렉터리 API 키 호출을 어떤 actor 로 남기는지는 문서에 없다. 연동을 만들어 읽는다
+  activity:
+  - okta workflows.user.connection.create, .delete, .reauthorize, .revoke
+  - atlassian 조직 감사 로그 사용자 생성·그룹 변경 action
+  sources:
+  - https://help.okta.com/en/prod/Content/Topics/Workflows/connector-reference/atlassianadmin/atlassianadmin.htm (액션 13개. 인증 방식 없음)
+  - https://support.okta.com/help/s/article/How-to-get-the-API-Key-and-Directory-ID-needed-to-authorize-the-Atlassian-Admin-Workflows-Connector (API token 과 Directory ID 필요. 조직 API 키는 Not authorized)
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (actor.auth.tokenId, tokenLabel)
+- id: email_match
+  type: same_person
+  what: 같은 사람의 계정 (Okta login = Atlassian 계정 email)
+  identify:
+    api: okta GET /api/v1/users, atlassian GET /admin/v1/orgs/{orgId}/users
+    when: 항상
+  points_to:
+  - tier: via_person
+    a: okta user.profile.login, email
+    b: atlassian data[].email (account_type atlassian, account_status active)
+    check: a 와 b 가 같다
+  sources:
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/ (account_id, account_type, account_status, email)
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: ema_atlassian_mcp
+  type:
+  - identity
+  - app_grant
+  what: Okta 를 IdP 로 두고 AI 클라이언트(Claude 등)가 Atlassian MCP 서버(Rovo MCP)에 접근하는 권한을 관리자가 정한다 (Enterprise-managed authentication = Cross App Access, ID-JAG). 사용자 동의 화면 없이 Okta 가 ID-JAG 를 내주고 Atlassian 이 이를 검증해 자기 토큰을 낸다. Atlassian 블로그는 private beta 로 적는다
+  identify:
+    api: okta 앱의 Machine Assignments > Callers 에서 Cross App Access 켠 Resource 앱 (화면), okta Directory > AI Agents 의 resource connection (화면); atlassian Atlassian Administration > Connectors > Atlassian MCP server > Authentication (화면)
+    when: atlassian 에서 「Allow enterprise managed authentication」 이 켜져 있고 신뢰 IdP URL 이 Okta 조직 주소
+  points_to:
+  - tier: config_name
+    a: atlassian MCP 서버 Authentication 탭에 넣은 Okta 테넌트 URL (Edit URL)
+    b: okta 조직 주소
+    check: a 와 b 가 같다
+    if_unreadable: '읽는 API 이름이 문서에 없다. 사람: Atlassian Administration > Connectors > Atlassian MCP server > Authentication'
+  - tier: config_id
+    a: okta XAA Resource 앱의 Audience/tenant ID
+    b: atlassian cloudId (https://<사이트>/_edge/tenant_info)
+    check: a 와 b 가 같다
+    if_unreadable: okta 앱 Machine Assignments > Callers 의 Cross App Access 설정은 화면. 읽는 API 이름은 문서에 없다
+  - tier: log_time
+    a: okta System Log app.oauth2.token.grant.id_jag 의 시각과 사용자
+    b: atlassian 조직 감사 mcp_tool_invoked (표시 이름 Invoked tool, Rovo MCP User Actions) 의 시각과 사용자
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta System Log app.cross_app_access.connection.create, .update, .delete, app.oauth2.token.grant.id_jag
+  - atlassian 조직 감사 mcp_tool_invoked
+  sources:
+  - https://support.atlassian.com/security-and-access-policies/docs/configuring-enterprise-managed-authentication/ (Atlassian 쪽 설정, cloudId, Okta 쪽 Issuer·Audience 입력) [Exa]
+  - 'https://developer.okta.com/docs/guides/xaa-agent-to-app/main/ (Okta XAA 설정: 호출자 앱, Issuer URL, Audience, resource connection) [Exa]'
+  - 'https://developer.okta.com/docs/okta-event-types.csv (Okta 이벤트 타입 목록: 이름과 설명)'
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Atlassian 감사 로그 활동 목록. 표시 이름) [Exa]
+  - 'https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (event-actions: 조직이 낼 수 있는 action 값 목록. 값 자체는 조직에서 GET /v1/orgs/{orgId}/event-actions 로 읽는다) [Exa]'
+  - https://www.atlassian.com/blog/development/enterprise-managed-authorization-rovo-mcp-xaa-id-jag (private beta)
+  note: Atlassian 쪽 EMA 설정 변경을 남기는 이벤트는 문서에 없다. 문서에 있는 IdP 는 Okta 뿐이다(다른 IdP 지원 여부는 Atlassian 이 문서화하지 않음, ECO-1717 원문 미열람). Atlassian 문서 예시의 MCP 주소(/v1/mcp/authv2)와 v2 서버 주소(/v2/mcp)가 서로 달라 실환경 주소를 확인해야 한다

@@ -1,0 +1,3817 @@
+{
+ "counts": {
+  "different": 107,
+  "same": 23,
+  "view_or_variant": 28
+ },
+ "groups": [
+  {
+   "canonical": "AIAgent",
+   "forms": {
+    "AIAgent": "global",
+    "AIAgent_2": "model_key",
+    "my-resource-connections.agentId": "promoted_key"
+   },
+   "members": [
+    "AIAgent",
+    "AIAgent_2",
+    "my-resource-connections.agentId"
+   ]
+  },
+  {
+   "canonical": "AuthorizationServer",
+   "forms": {
+    "ApiServerAuthorizationServer.authorizationServerId": "promoted_key",
+    "AuthorizationServer": "global",
+    "MCPServerAuthorizationServer.authorizationServerId": "promoted_key",
+    "VirtualMCPServerAuthorizationServer.authorizationServerId": "promoted_key"
+   },
+   "members": [
+    "AuthorizationServer",
+    "ApiServerAuthorizationServer.authorizationServerId",
+    "MCPServerAuthorizationServer.authorizationServerId",
+    "VirtualMCPServerAuthorizationServer.authorizationServerId"
+   ]
+  },
+  {
+   "canonical": "Group",
+   "forms": {
+    "ApplicationGroupAssignment.groupId": "promoted_key",
+    "Group": "global"
+   },
+   "members": [
+    "Group",
+    "ApplicationGroupAssignment.groupId"
+   ]
+  },
+  {
+   "canonical": "IamRole",
+   "forms": {
+    "IamRole": "global",
+    "ResourceSetBindingResponse.roleIdOrLabel": "promoted_key"
+   },
+   "members": [
+    "IamRole",
+    "ResourceSetBindingResponse.roleIdOrLabel"
+   ]
+  },
+  {
+   "canonical": "User",
+   "forms": {
+    "User": "local",
+    "server_users.user_name": "promoted_key"
+   },
+   "members": [
+    "User",
+    "server_users.user_name"
+   ]
+  },
+  {
+   "canonical": "UserGetSingleton",
+   "forms": {
+    "AppUser.userId": "promoted_key",
+    "UserGetSingleton": "global"
+   },
+   "members": [
+    "UserGetSingleton",
+    "AppUser.userId"
+   ]
+  },
+  {
+   "canonical": "collection-full",
+   "forms": {
+    "collection-full": "global",
+    "collection-full-v2": "global"
+   },
+   "members": [
+    "collection-full",
+    "collection-full-v2"
+   ]
+  },
+  {
+   "canonical": "rcar-entry-get",
+   "forms": {
+    "rcar-entry-get": "global",
+    "rcar-entry-get_2": "global"
+   },
+   "members": [
+    "rcar-entry-get",
+    "rcar-entry-get_2"
+   ]
+  },
+  {
+   "canonical": "requested",
+   "forms": {
+    "requested": "model_key",
+    "requested_2": "model_key"
+   },
+   "members": [
+    "requested",
+    "requested_2"
+   ]
+  },
+  {
+   "canonical": "review-full",
+   "forms": {
+    "review-full": "global",
+    "review-sparse": "model_key"
+   },
+   "members": [
+    "review-full",
+    "review-sparse"
+   ]
+  },
+  {
+   "canonical": "reviewer-entitlement",
+   "forms": {
+    "reviewer-entitlement": "model_key",
+    "reviewer-entitlement_2": "model_key"
+   },
+   "members": [
+    "reviewer-entitlement",
+    "reviewer-entitlement_2"
+   ]
+  },
+  {
+   "canonical": "reviewer-entitlement-bundle",
+   "forms": {
+    "reviewer-entitlement-bundle": "model_key",
+    "reviewer-entitlement-bundle_2": "model_key"
+   },
+   "members": [
+    "reviewer-entitlement-bundle",
+    "reviewer-entitlement-bundle_2"
+   ]
+  },
+  {
+   "canonical": "reviewer-entitlement-value",
+   "forms": {
+    "reviewer-entitlement-value": "model_key",
+    "reviewer-entitlement-value_2": "model_key"
+   },
+   "members": [
+    "reviewer-entitlement-value",
+    "reviewer-entitlement-value_2"
+   ]
+  },
+  {
+   "canonical": "reviewer-group-profile",
+   "forms": {
+    "reviewer-group-profile": "model_key",
+    "reviewer-group-profile_2": "model_key"
+   },
+   "members": [
+    "reviewer-group-profile",
+    "reviewer-group-profile_2"
+   ]
+  },
+  {
+   "canonical": "security-access-review",
+   "forms": {
+    "security-access-review": "global",
+    "security-access-review_2": "global"
+   },
+   "members": [
+    "security-access-review",
+    "security-access-review_2"
+   ]
+  },
+  {
+   "canonical": "security-access-review-access-item",
+   "forms": {
+    "security-access-review-access-item": "model_key",
+    "security-access-review-access-item_2": "model_key"
+   },
+   "members": [
+    "security-access-review-access-item",
+    "security-access-review-access-item_2"
+   ]
+  },
+  {
+   "canonical": "security-access-review-access-item-app-info",
+   "forms": {
+    "security-access-review-access-item-app-info": "model_key",
+    "security-access-review-access-item-app-info_2": "model_key"
+   },
+   "members": [
+    "security-access-review-access-item-app-info",
+    "security-access-review-access-item-app-info_2"
+   ]
+  },
+  {
+   "canonical": "security-access-review-history-item",
+   "forms": {
+    "security-access-review-history-item": "model_key",
+    "security-access-review-history-item_2": "model_key"
+   },
+   "members": [
+    "security-access-review-history-item",
+    "security-access-review-history-item_2"
+   ]
+  },
+  {
+   "canonical": "security-access-review-principal-okta-admin-role",
+   "forms": {
+    "security-access-review-principal-okta-admin-role": "model_key",
+    "security-access-review-principal-okta-admin-role_2": "model_key"
+   },
+   "members": [
+    "security-access-review-principal-okta-admin-role",
+    "security-access-review-principal-okta-admin-role_2"
+   ]
+  },
+  {
+   "canonical": "security-access-review-sub-access-item",
+   "forms": {
+    "security-access-review-sub-access-item": "model_key",
+    "security-access-review-sub-access-item_2": "model_key"
+   },
+   "members": [
+    "security-access-review-sub-access-item",
+    "security-access-review-sub-access-item_2"
+   ]
+  }
+ ],
+ "pairs": [
+  {
+   "basis": "jev_target",
+   "decision": "same",
+   "jev_target": [
+    "AuthorizationServer",
+    0.97
+   ],
+   "pair": [
+    "ApiServerAuthorizationServer.authorizationServerId",
+    "AuthorizationServer"
+   ],
+   "signals": [
+    [
+     "S3",
+     false,
+     "연결 레코드 ApiServerAuthorizationServer 의 키 값으로 대상을 못 정했다 (값 3)"
+    ]
+   ]
+  },
+  {
+   "basis": "jev_target",
+   "decision": "same",
+   "jev_target": [
+    "AuthorizationServer",
+    0.96
+   ],
+   "pair": [
+    "AuthorizationServer",
+    "MCPServerAuthorizationServer.authorizationServerId"
+   ],
+   "signals": [
+    [
+     "S3",
+     false,
+     "연결 레코드 MCPServerAuthorizationServer 의 키 값으로 대상을 못 정했다 (값 7)"
+    ]
+   ]
+  },
+  {
+   "basis": "stated",
+   "decision": "different",
+   "jev_target": [
+    "IamRole",
+    0.76
+   ],
+   "pair": [
+    "IamRole",
+    "Permission.permissionType"
+   ],
+   "signals": [
+    [
+     "S3",
+     false,
+     "연결 레코드 Permission 의 키 값으로 대상을 못 정했다 (값 0)"
+    ]
+   ],
+   "source_evidence": {
+    "locator": "components.parameters.pathPermissionType and /api/v1/iam/roles/{roleIdOrLabel}/permissions/{permissionType}",
+    "reason": "permissionType은 권한, roleIdOrLabel은 그 권한을 부여받는 별도 역할이다.",
+    "source": "okta_management_openapi"
+   }
+  },
+  {
+   "basis": "jev_target",
+   "decision": "same",
+   "jev_target": [
+    "IamRole",
+    0.93
+   ],
+   "pair": [
+    "IamRole",
+    "ResourceSetBindingResponse.roleIdOrLabel"
+   ],
+   "signals": [
+    [
+     "S3",
+     false,
+     "연결 레코드 ResourceSetBindingResponse 의 키 값으로 대상을 못 정했다 (값 0)"
+    ]
+   ]
+  },
+  {
+   "basis": "jev_target",
+   "decision": "same",
+   "jev_target": [
+    "AuthorizationServer",
+    0.95
+   ],
+   "pair": [
+    "AuthorizationServer",
+    "VirtualMCPServerAuthorizationServer.authorizationServerId"
+   ],
+   "signals": [
+    [
+     "S3",
+     false,
+     "연결 레코드 VirtualMCPServerAuthorizationServer 의 키 값으로 대상을 못 정했다 (값 2)"
+    ]
+   ]
+  },
+  {
+   "basis": "jev_target",
+   "decision": "same",
+   "jev_target": [
+    "AIAgent",
+    0.89
+   ],
+   "pair": [
+    "AIAgent",
+    "my-resource-connections.agentId"
+   ],
+   "signals": [
+    [
+     "S3",
+     false,
+     "연결 레코드 my-resource-connections 의 키 값으로 대상을 못 정했다 (값 0)"
+    ]
+   ]
+  },
+  {
+   "basis": "stated",
+   "decision": "same",
+   "jev_target": [
+    "none",
+    0.75
+   ],
+   "key_kind": "name",
+   "pair": [
+    "User",
+    "server_users.user_name"
+   ],
+   "previous_jev_target": [
+    "none",
+    0.75
+   ],
+   "signals": [
+    [
+     "S3",
+     false,
+     "연결 레코드 server_users 의 키 값으로 대상을 못 정했다 (값 2)"
+    ]
+   ],
+   "source_evidence": {
+    "locator": "components.schemas.APIServerUser.properties.user_name; components.schemas.User.properties.name",
+    "reason": "user_name is explicitly The username of the related User. Resolve by username inside the same ASA team.",
+    "source": "okta_asa_openapi"
+   }
+  },
+  {
+   "combined": 0.13572088082974534,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.1,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.69
+   },
+   "pair": [
+    "A2AServer",
+    "AIAgent"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['wlpx9jQ16k9V8IFEL0g3']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1300591446851387,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.09,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.7
+   },
+   "pair": [
+    "A2AServer",
+    "AIAgent_2"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.19309787692112595,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.22,
+    "same_identifier": 0.13,
+    "scoped_view": 0.16,
+    "variant_of_parent": 0.75
+   },
+   "pair": [
+    "A2AServer",
+    "VirtualMCP"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.20246938520054572,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.32,
+    "same_identifier": 0.13,
+    "scoped_view": 0.2,
+    "variant_of_parent": 0.8
+   },
+   "pair": [
+    "A2AServer",
+    "VirtualMCPServerResource"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1392476650083834,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.05,
+    "same_identifier": 0.13,
+    "scoped_view": 0.1,
+    "variant_of_parent": 0.59
+   },
+   "pair": [
+    "A2AServer",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.21757671139171209,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.24,
+    "same_identifier": 0.11,
+    "scoped_view": 0.2,
+    "variant_of_parent": 0.61
+   },
+   "pair": [
+    "A2AServer",
+    "resource-owner-resource"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "combined": 0.5235409222388865,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.92,
+    "same_identifier": 0.2,
+    "scoped_view": 0.48,
+    "variant_of_parent": 0.22
+   },
+   "pair": [
+    "AIAgent",
+    "AIAgent_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "combined": 0.17435134012651285,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.12,
+    "same_identifier": 0.2,
+    "scoped_view": 0.1,
+    "variant_of_parent": 0.78
+   },
+   "pair": [
+    "AIAgent",
+    "VirtualMCP"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16750686836022344,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.09,
+    "same_identifier": 0.18,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.71
+   },
+   "pair": [
+    "AIAgent",
+    "VirtualMCPServerResource"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.13750688670741412,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.16,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.6
+   },
+   "pair": [
+    "AIAgent",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.19309787692112595,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.2,
+    "scoped_view": 0.12,
+    "variant_of_parent": 0.55
+   },
+   "pair": [
+    "AIAgent",
+    "resource-owner-resource"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15874010519681997,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.05,
+    "same_identifier": 0.19,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.58
+   },
+   "pair": [
+    "AIAgentProviderSourcePriority",
+    "APIServiceIntegrationInstance"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15466803737720355,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.21,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.41
+   },
+   "pair": [
+    "AIAgentProviderSourcePriority",
+    "Application"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['0oafxqCAJWWGELFTYASJ']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16261333316791687,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.05,
+    "same_identifier": 0.19,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.55
+   },
+   "pair": [
+    "AIAgentProviderSourcePriority",
+    "IdentityProvider"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15182944859378314,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.19,
+    "scoped_view": 0.06,
+    "variant_of_parent": 0.38
+   },
+   "pair": [
+    "AIAgentProviderSourcePriority",
+    "LogStream"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1613428646024544,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.25,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.58
+   },
+   "pair": [
+    "AIAgentProviderSourcePriority",
+    "ProfileMappingTarget"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['0oa1qmn4LZQQEH0wZ0g4']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.14736125994561547,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.17,
+    "scoped_view": 0.13,
+    "variant_of_parent": 0.53
+   },
+   "pair": [
+    "AIAgentProviderSourcePriority",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['0oafxqCAJWWGELFTYASJ']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.12805791649874942,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.05,
+    "same_identifier": 0.09,
+    "scoped_view": 0.1,
+    "variant_of_parent": 0.53
+   },
+   "pair": [
+    "AIAgentProviderSourcePriority",
+    "target-resource"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['0oafxqCAJWWGELFTYASJ']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16868653306034986,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.1,
+    "same_identifier": 0.15,
+    "scoped_view": 0.11,
+    "variant_of_parent": 0.68
+   },
+   "pair": [
+    "AIAgent_2",
+    "VirtualMCP"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15182944859378314,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.07,
+    "same_identifier": 0.15,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.67
+   },
+   "pair": [
+    "AIAgent_2",
+    "VirtualMCPServerResource"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.17435134012651285,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.19,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.65
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "Application"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.17099759466766973,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.1,
+    "same_identifier": 0.16,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.69
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "Client"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1238562329630171,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.16,
+    "scoped_view": 0.05,
+    "variant_of_parent": 0.7
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "IdentityProvider"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1300591446851387,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.16,
+    "scoped_view": 0.05,
+    "variant_of_parent": 0.55
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "LogStream"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.17967017791430528,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.2,
+    "same_identifier": 0.09,
+    "scoped_view": 0.15,
+    "variant_of_parent": 0.68
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "OAuth2Client"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.13200061217959125,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.18,
+    "scoped_view": 0.04,
+    "variant_of_parent": 0.58
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "PrincipalRateLimitEntity"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.12599210498948732,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.16,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.58
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "ProfileMappingTarget"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1426043147142409,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.18,
+    "scoped_view": 0.05,
+    "variant_of_parent": 0.47
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "VirtualMCPAttachedAgentSummary"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1300591446851387,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.16,
+    "scoped_view": 0.06,
+    "variant_of_parent": 0.65
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.17435134012651285,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.17,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.61
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "security-access-review-access-item-app-info"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.17099759466766973,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.16,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.61
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "security-access-review-access-item-app-info_2"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15740609166314437,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.07,
+    "same_identifier": 0.11,
+    "scoped_view": 0.12,
+    "variant_of_parent": 0.49
+   },
+   "pair": [
+    "APIServiceIntegrationInstance",
+    "target-resource"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.3786749788781272,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.52,
+    "same_identifier": 0.29,
+    "scoped_view": 0.28,
+    "variant_of_parent": 0.64
+   },
+   "pair": [
+    "AppServiceAccount",
+    "ServiceAccountEndUser.account"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['a747a818-a4c4-4446-8a87-704216495a08']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.361903497775121,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.41,
+    "same_identifier": 0.35,
+    "scoped_view": 0.34,
+    "variant_of_parent": 0.67
+   },
+   "pair": [
+    "AppUser",
+    "UserGetSingleton"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "AppUser.userId",
+    "UserGetSingleton"
+   ],
+   "signals": [
+    [
+     "S3",
+     true,
+     "연결 레코드 AppUser 의 키 값이 UserGetSingleton 의 형식에 맞는다 ['00u15s1KDETTQMQYABRL', '00u172clyoh0X5mtL698']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2032792713629707,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.2,
+    "same_identifier": 0.15,
+    "scoped_view": 0.17,
+    "variant_of_parent": 0.72
+   },
+   "pair": [
+    "Application",
+    "Client"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1118688942081397,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.19,
+    "scoped_view": 0.06,
+    "variant_of_parent": 0.76
+   },
+   "pair": [
+    "Application",
+    "IdentityProvider"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1300591446851387,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.22,
+    "scoped_view": 0.05,
+    "variant_of_parent": 0.51
+   },
+   "pair": [
+    "Application",
+    "LogStream"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.14888055529538277,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.11,
+    "scoped_view": 0.1,
+    "variant_of_parent": 0.63
+   },
+   "pair": [
+    "Application",
+    "OAuth2Client"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1338865900164339,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.2,
+    "scoped_view": 0.04,
+    "variant_of_parent": 0.4
+   },
+   "pair": [
+    "Application",
+    "PrincipalRateLimitEntity"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.14094597464129785,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.18,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.48
+   },
+   "pair": [
+    "Application",
+    "ProfileMappingTarget"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.19398774145803332,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.05,
+    "same_identifier": 0.22,
+    "scoped_view": 0.14,
+    "variant_of_parent": 0.34
+   },
+   "pair": [
+    "Application",
+    "VirtualMCPAttachedAgentSummary"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1560490750707885,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.05,
+    "same_identifier": 0.2,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.62
+   },
+   "pair": [
+    "Application",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['0oafxqCAJWWGELFTYASJ']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.35647800116956435,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.24,
+    "same_identifier": 0.37,
+    "scoped_view": 0.37,
+    "variant_of_parent": 0.49
+   },
+   "pair": [
+    "Application",
+    "security-access-review-access-item-app-info"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.314475485547118,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.21,
+    "same_identifier": 0.29,
+    "scoped_view": 0.28,
+    "variant_of_parent": 0.49
+   },
+   "pair": [
+    "Application",
+    "security-access-review-access-item-app-info_2"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.18662555784086243,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.1,
+    "same_identifier": 0.12,
+    "scoped_view": 0.13,
+    "variant_of_parent": 0.46
+   },
+   "pair": [
+    "Application",
+    "target-resource"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['0oafxqCAJWWGELFTYASJ']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16261333316791687,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.06,
+    "same_identifier": 0.21,
+    "scoped_view": 0.19,
+    "variant_of_parent": 0.66
+   },
+   "pair": [
+    "ApplicationGroupAssignment",
+    "Group"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00g 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "ApplicationGroupAssignment.groupId",
+    "Group"
+   ],
+   "signals": [
+    [
+     "S3",
+     true,
+     "연결 레코드 ApplicationGroupAssignment 의 키 값이 Group 의 형식에 맞는다 ['00g15acRUy0SYb9GT0g4', '00g176e7jguzIDxxI698']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15466803737720355,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.2,
+    "scoped_view": 0.1,
+    "variant_of_parent": 0.54
+   },
+   "pair": [
+    "AssignedAppLink",
+    "UserGetSingleton"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['00ub0oNGTSWTBKOLGLNR']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1091392883061106,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.08,
+    "scoped_view": 0.06,
+    "variant_of_parent": 0.46
+   },
+   "pair": [
+    "AssignedAppLink",
+    "delegate-appointment-delegate"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['00ub0oNGTSWTBKOLGLNR']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.4502878816358233,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.67,
+    "same_identifier": 0.29,
+    "scoped_view": 0.42,
+    "variant_of_parent": 0.53
+   },
+   "pair": [
+    "Authenticator",
+    "AuthenticatorBase"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 aut 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 aut 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.181712059283214,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.16,
+    "same_identifier": 0.12,
+    "scoped_view": 0.17,
+    "variant_of_parent": 0.69
+   },
+   "pair": [
+    "Authenticator",
+    "WellKnownAppAuthenticatorConfiguration"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 aut 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1613428646024544,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.14,
+    "same_identifier": 0.1,
+    "scoped_view": 0.12,
+    "variant_of_parent": 0.7
+   },
+   "pair": [
+    "AuthenticatorBase",
+    "WellKnownAppAuthenticatorConfiguration"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 aut 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2314589054525876,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.27,
+    "same_identifier": 0.2,
+    "scoped_view": 0.18,
+    "variant_of_parent": 0.77
+   },
+   "pair": [
+    "AuthenticatorEnrollment",
+    "WebAuthn"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 fwf 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1966095144983117,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.12,
+    "same_identifier": 0.18,
+    "scoped_view": 0.16,
+    "variant_of_parent": 0.65
+   },
+   "pair": [
+    "AuthenticatorEnrollment_2",
+    "Phone"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 sms 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1144714242553332,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.06,
+    "same_identifier": 0.15,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.83
+   },
+   "pair": [
+    "AuthorizationServerPolicyRule",
+    "GroupRule"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0pr 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.4824584516829002,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.65,
+    "same_identifier": 0.27,
+    "scoped_view": 0.46,
+    "variant_of_parent": 0.36
+   },
+   "pair": [
+    "BundleEntitlement",
+    "entitlements-full-with-parent"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['espfxqCAJWWGELFTYASJ']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 esp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2823108086643086,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.41,
+    "same_identifier": 0.25,
+    "scoped_view": 0.14,
+    "variant_of_parent": 0.78
+   },
+   "pair": [
+    "BundleEntitlement",
+    "reviewer-entitlement"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['espfxqCAJWWGELFTYASJ']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2876464282446833,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.45,
+    "same_identifier": 0.22,
+    "scoped_view": 0.15,
+    "variant_of_parent": 0.76
+   },
+   "pair": [
+    "BundleEntitlement",
+    "reviewer-entitlement_2"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['espfxqCAJWWGELFTYASJ']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.10000000000000002,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.11,
+    "scoped_view": 0.06,
+    "variant_of_parent": 0.7
+   },
+   "pair": [
+    "Client",
+    "IdentityProvider"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1144714242553332,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.12,
+    "scoped_view": 0.05,
+    "variant_of_parent": 0.38
+   },
+   "pair": [
+    "Client",
+    "LogStream"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.3131214300864043,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.57,
+    "same_identifier": 0.11,
+    "scoped_view": 0.23,
+    "variant_of_parent": 0.51
+   },
+   "pair": [
+    "CustomRole",
+    "roles"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단건 왕복 GET /oauth2/v1/clients/{clientId}/roles/{roleAssignmentId}', 2)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.31481218332628874,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.48,
+    "same_identifier": 0.21,
+    "scoped_view": 0.18,
+    "variant_of_parent": 0.69
+   },
+   "pair": [
+    "CustomRole",
+    "roles_2"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단건 왕복 GET /users/{userId}/roles/{roleAssignmentId}', 2)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.5673271805855449,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.79,
+    "same_identifier": 0.34,
+    "scoped_view": 0.63,
+    "variant_of_parent": 0.32
+   },
+   "pair": [
+    "DatabaseAccountEndUser.account",
+    "DatabaseAccountEndUserList.account"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['d070d14b-d7f7-4779-bd1a-a37549718d3b']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.13750688670741412,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.2,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.56
+   },
+   "pair": [
+    "DeviceWithProviders",
+    "Realm"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 guo 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 guo 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.3317143718433749,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.54,
+    "same_identifier": 0.13,
+    "scoped_view": 0.23,
+    "variant_of_parent": 0.48
+   },
+   "pair": [
+    "ErrorPage",
+    "error"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단일 자원 GET, DELETE+PUT /brands/{brandId}/pages/error/preview', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.26916063060436424,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.41,
+    "same_identifier": 0.17,
+    "scoped_view": 0.19,
+    "variant_of_parent": 0.72
+   },
+   "pair": [
+    "ErrorPage",
+    "sign-in"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단일 자원 GET, DELETE+PUT /brands/{brandId}/pages/sign-in/customized', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.26684016487219453,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.36,
+    "same_identifier": 0.12,
+    "scoped_view": 0.12,
+    "variant_of_parent": 0.56
+   },
+   "pair": [
+    "ErrorPage",
+    "sign-in_2"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단일 자원 GET, DELETE+PUT /brands/{brandId}/pages/sign-in/preview', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.41330269168155587,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.6,
+    "same_identifier": 0.24,
+    "scoped_view": 0.27,
+    "variant_of_parent": 0.51
+   },
+   "pair": [
+    "Group",
+    "GroupsResponseSchema"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00g 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16261333316791687,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.06,
+    "same_identifier": 0.18,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.6
+   },
+   "pair": [
+    "Group",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00g 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2196689235027742,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.13,
+    "same_identifier": 0.22,
+    "scoped_view": 0.27,
+    "variant_of_parent": 0.63
+   },
+   "pair": [
+    "Group",
+    "owners"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00g 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2793522441247632,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.43,
+    "same_identifier": 0.13,
+    "scoped_view": 0.2,
+    "variant_of_parent": 0.61
+   },
+   "pair": [
+    "Group",
+    "reviewer-group-profile"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00g 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2900435923371512,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.47,
+    "same_identifier": 0.13,
+    "scoped_view": 0.2,
+    "variant_of_parent": 0.6
+   },
+   "pair": [
+    "Group",
+    "reviewer-group-profile_2"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00g 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1338865900164339,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.09,
+    "same_identifier": 0.16,
+    "scoped_view": 0.13,
+    "variant_of_parent": 0.83
+   },
+   "pair": [
+    "GroupRule",
+    "PolicyRule"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0pr 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15326188647871064,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.09,
+    "same_identifier": 0.2,
+    "scoped_view": 0.16,
+    "variant_of_parent": 0.8
+   },
+   "pair": [
+    "IamRole",
+    "ResourceSet"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 6개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.14580997358267117,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.25,
+    "scoped_view": 0.05,
+    "variant_of_parent": 0.59
+   },
+   "pair": [
+    "IdentityProvider",
+    "LogStream"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.09283177667225559,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.1,
+    "scoped_view": 0.06,
+    "variant_of_parent": 0.72
+   },
+   "pair": [
+    "IdentityProvider",
+    "OAuth2Client"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.12164403991146802,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.2,
+    "scoped_view": 0.04,
+    "variant_of_parent": 0.56
+   },
+   "pair": [
+    "IdentityProvider",
+    "PrincipalRateLimitEntity"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1300591446851387,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.18,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.6
+   },
+   "pair": [
+    "IdentityProvider",
+    "ProfileMappingTarget"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.12805791649874942,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.17,
+    "scoped_view": 0.06,
+    "variant_of_parent": 0.37
+   },
+   "pair": [
+    "IdentityProvider",
+    "VirtualMCPAttachedAgentSummary"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1118688942081397,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.17,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.58
+   },
+   "pair": [
+    "IdentityProvider",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.12805791649874942,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.18,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.61
+   },
+   "pair": [
+    "IdentityProvider",
+    "security-access-review-access-item-app-info"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.12164403991146802,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.16,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.62
+   },
+   "pair": [
+    "IdentityProvider",
+    "security-access-review-access-item-app-info_2"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1613428646024544,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.07,
+    "same_identifier": 0.12,
+    "scoped_view": 0.11,
+    "variant_of_parent": 0.5
+   },
+   "pair": [
+    "IdentityProvider",
+    "target-resource"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.3075844173015335,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.43,
+    "same_identifier": 0.26,
+    "scoped_view": 0.22,
+    "variant_of_parent": 0.74
+   },
+   "pair": [
+    "IdentityProviderApplicationUser",
+    "UserGetSingleton"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1392476650083834,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.21,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.68
+   },
+   "pair": [
+    "LogActor",
+    "UserGetSingleton"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.10322801154563672,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.1,
+    "scoped_view": 0.05,
+    "variant_of_parent": 0.45
+   },
+   "pair": [
+    "LogStream",
+    "OAuth2Client"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.13750688670741412,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.22,
+    "scoped_view": 0.05,
+    "variant_of_parent": 0.42
+   },
+   "pair": [
+    "LogStream",
+    "PrincipalRateLimitEntity"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1503694596204975,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.21,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.46
+   },
+   "pair": [
+    "LogStream",
+    "ProfileMappingTarget"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.13750688670741412,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.18,
+    "scoped_view": 0.06,
+    "variant_of_parent": 0.28
+   },
+   "pair": [
+    "LogStream",
+    "VirtualMCPAttachedAgentSummary"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1238562329630171,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.18,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.46
+   },
+   "pair": [
+    "LogStream",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.12164403991146802,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.17,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.46
+   },
+   "pair": [
+    "LogStream",
+    "security-access-review-access-item-app-info"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.13750688670741412,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.16,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.45
+   },
+   "pair": [
+    "LogStream",
+    "security-access-review-access-item-app-info_2"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.17099759466766973,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.07,
+    "same_identifier": 0.12,
+    "scoped_view": 0.11,
+    "variant_of_parent": 0.41
+   },
+   "pair": [
+    "LogStream",
+    "target-resource"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 0oa 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.21326712355058872,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.15,
+    "same_identifier": 0.12,
+    "scoped_view": 0.32,
+    "variant_of_parent": 0.46
+   },
+   "pair": [
+    "MCPServer",
+    "VirtualMCPResourceConnectionSummary.resource"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['ems8nUa7p0g4zrZbs2f4']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 ems 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.46631492769543537,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.78,
+    "same_identifier": 0.25,
+    "scoped_view": 0.52,
+    "variant_of_parent": 0.48
+   },
+   "pair": [
+    "OAuth2ClientJsonEncryptionKeyRequest",
+    "OAuth2ClientJsonWebKeyRequestBody"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 7개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.3720509430368453,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.63,
+    "same_identifier": 0.43,
+    "scoped_view": 0.2,
+    "variant_of_parent": 0.81
+   },
+   "pair": [
+    "OAuth2ClientJsonEncryptionKeyResponse",
+    "OAuth2ClientJsonWebKeyECResponse"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['created', 'id', 'kid', 'lastUpdated']\", 2), ('단건 왕복 GET /apps/{appId}/credentials/jwks/{keyId}', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.3932190289966234,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.56,
+    "same_identifier": 0.31,
+    "scoped_view": 0.42,
+    "variant_of_parent": 0.65
+   },
+   "pair": [
+    "OAuth2ClientJsonEncryptionKeyResponse",
+    "OAuth2ResourceServerJsonWebKey"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 10개)', 1), (\"인스턴스 값 쌍 일치 ['created', 'kid', 'lastUpdated', 'n']\", 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2375207738061588,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.29,
+    "same_identifier": 0.22,
+    "scoped_view": 0.2,
+    "variant_of_parent": 0.79
+   },
+   "pair": [
+    "OAuth2ClientJsonWebKeyECResponse",
+    "OAuth2ResourceServerJsonWebKey"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['created', 'kid', 'lastUpdated']\", 1), (\"인스턴스 값 쌍 일치 ['created', 'kid', 'lastUpdated', 'n']\", 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16631034988407659,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.19,
+    "same_identifier": 0.24,
+    "scoped_view": 0.14,
+    "variant_of_parent": 0.9
+   },
+   "pair": [
+    "OktaUniversalDirectoryAccountDetails",
+    "SaasAppAccountDetails"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 21개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.22239800905693158,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.32,
+    "same_identifier": 0.08,
+    "scoped_view": 0.21,
+    "variant_of_parent": 0.57
+   },
+   "pair": [
+    "PasswordResponse",
+    "password"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단일 자원 GET,  /idp/myaccount/password/complexity-requirements', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.22506171146771323,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.17,
+    "same_identifier": 0.21,
+    "scoped_view": 0.23,
+    "variant_of_parent": 0.68
+   },
+   "pair": [
+    "Phone",
+    "UserFactor"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 sms 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.18757774553669038,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.12,
+    "same_identifier": 0.19,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.71
+   },
+   "pair": [
+    "PolicyRule",
+    "risk-rule-response"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 rul 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.4627622082679382,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.62,
+    "same_identifier": 0.34,
+    "scoped_view": 0.24,
+    "variant_of_parent": 0.53
+   },
+   "pair": [
+    "RoleAssignedUser",
+    "UserGetSingleton"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.32300553687627026,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.44,
+    "same_identifier": 0.17,
+    "scoped_view": 0.21,
+    "variant_of_parent": 0.55
+   },
+   "pair": [
+    "SlackIntegrationSettings",
+    "integrations"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['goi5a4b3c2d1e9f8g7h5']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.4630733090058542,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.47,
+    "same_identifier": 0.66,
+    "scoped_view": 0.12,
+    "variant_of_parent": 0.68
+   },
+   "pair": [
+    "StreamConfiguration",
+    "StreamStatus"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['esc1k235GIIztAuGK0g5']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.22766381149625053,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.31,
+    "same_identifier": 0.2,
+    "scoped_view": 0.1,
+    "variant_of_parent": 0.81
+   },
+   "pair": [
+    "UserFactor",
+    "WebAuthn"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 fwf 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "basis": "human",
+   "combined": 0.5237840339163801,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.84,
+    "same_identifier": 0.29,
+    "scoped_view": 0.28,
+    "variant_of_parent": 0.41
+   },
+   "pair": [
+    "UserGetSingleton",
+    "UserResponseSchema"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ],
+   "v2_decision": "V2-S3"
+  },
+  {
+   "combined": 0.1338865900164339,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.1,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.41
+   },
+   "pair": [
+    "UserGetSingleton",
+    "delegate-appointment-delegate"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['00ub0oNGTSWTBKOLGLNR']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.4464745095584538,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.69,
+    "same_identifier": 0.3,
+    "scoped_view": 0.18,
+    "variant_of_parent": 0.57
+   },
+   "pair": [
+    "UserGetSingleton",
+    "delegate-user"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.13200061217959125,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.16,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.52
+   },
+   "pair": [
+    "UserGetSingleton",
+    "owners"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.5054079636428912,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.77,
+    "same_identifier": 0.39,
+    "scoped_view": 0.24,
+    "variant_of_parent": 0.57
+   },
+   "pair": [
+    "UserGetSingleton",
+    "principal-profile"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1091392883061106,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.07,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.53
+   },
+   "pair": [
+    "UserGetSingleton",
+    "security-access-review-principal-okta-admin-role"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1091392883061106,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.07,
+    "scoped_view": 0.1,
+    "variant_of_parent": 0.53
+   },
+   "pair": [
+    "UserGetSingleton",
+    "security-access-review-principal-okta-admin-role_2"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 00u 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.13200061217959125,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.06,
+    "same_identifier": 0.09,
+    "scoped_view": 0.1,
+    "variant_of_parent": 0.57
+   },
+   "pair": [
+    "UserSchema",
+    "{}"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단일 자원 GET, POST /meta/schemas/apps/{appId}/default', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.4748937897341663,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.71,
+    "same_identifier": 0.29,
+    "scoped_view": 0.39,
+    "variant_of_parent": 0.48
+   },
+   "pair": [
+    "VirtualMCP",
+    "VirtualMCPServerResource"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 3개가 같다 (실측 0) 예 ['wlp1aB2cD3eF4gH5iJ6k', 'wlp7lM8nO9pQ0rS1tU2v']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15740609166314437,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.06,
+    "same_identifier": 0.17,
+    "scoped_view": 0.12,
+    "variant_of_parent": 0.62
+   },
+   "pair": [
+    "VirtualMCP",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2654282857275515,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.17,
+    "same_identifier": 0.25,
+    "scoped_view": 0.24,
+    "variant_of_parent": 0.56
+   },
+   "pair": [
+    "VirtualMCP",
+    "resource-owner-resource"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16868653306034986,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.07,
+    "same_identifier": 0.18,
+    "scoped_view": 0.15,
+    "variant_of_parent": 0.62
+   },
+   "pair": [
+    "VirtualMCPServerResource",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.30509806038005977,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.26,
+    "same_identifier": 0.26,
+    "scoped_view": 0.37,
+    "variant_of_parent": 0.58
+   },
+   "pair": [
+    "VirtualMCPServerResource",
+    "resource-owner-resource"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 wlp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.21687028852501972,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.21,
+    "same_identifier": 0.18,
+    "scoped_view": 0.2,
+    "variant_of_parent": 0.73
+   },
+   "pair": [
+    "WebAuthn",
+    "enrollments"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 fwf 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.302570504705218,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.35,
+    "same_identifier": 0.12,
+    "scoped_view": 0.49,
+    "variant_of_parent": 0.34
+   },
+   "pair": [
+    "WebAuthn",
+    "myaccount"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단일 자원 GET, POST /idp/myaccount/webauthn', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "combined": 0.6617583964540058,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.9,
+    "same_identifier": 0.46,
+    "scoped_view": 0.39,
+    "variant_of_parent": 0.3
+   },
+   "pair": [
+    "collection-full",
+    "collection-full-v2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 3개가 같다 (실측 0) 예 ['cole8sBBMFDxPgcHx0g3', 'col5472336736435']"
+    ],
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 10개)', 1), (\"인스턴스 값 쌍 일치 ['createdBy', 'description', 'id', 'lastUpdatedBy']\", 1)]"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 col 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 col 로 시작한다"
+    ]
+   ],
+   "v2_decision": "V2-S2",
+   "v2_rule": "subset_view"
+  },
+  {
+   "combined": 0.17863159877080567,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.1,
+    "same_identifier": 0.22,
+    "scoped_view": 0.14,
+    "variant_of_parent": 0.74
+   },
+   "pair": [
+    "collection-full",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 col 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.21687028852501972,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.18,
+    "same_identifier": 0.21,
+    "scoped_view": 0.14,
+    "variant_of_parent": 0.73
+   },
+   "pair": [
+    "collection-full-v2",
+    "entitlement-bundle-full-with-entitlements"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 col 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.6223944865062309,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.76,
+    "same_identifier": 0.52,
+    "scoped_view": 0.39,
+    "variant_of_parent": 0.39
+   },
+   "pair": [
+    "delegate-user",
+    "principal-profile"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 8개가 같다 (실측 0) 예 ['00ucpjbi6JMmDvdN40g4', '00ucpjbi6JMmDvdN40g5']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.26869973821191734,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.37,
+    "same_identifier": 0.25,
+    "scoped_view": 0.21,
+    "variant_of_parent": 0.79
+   },
+   "pair": [
+    "enabled-product",
+    "subscribed-product"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 3개가 같다 (실측 0) 예 ['P000052', 'P000131']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.18271601368635207,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.19,
+    "scoped_view": 0.26,
+    "variant_of_parent": 0.6
+   },
+   "pair": [
+    "entitlement-bundle-full-with-entitlements",
+    "resource-owner-resource"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 6개가 같다 (실측 0) 예 ['enbogpaj3XUzcM62u1d6', 'wlp1tgwssMI9jYizU0g5']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1300591446851387,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.05,
+    "same_identifier": 0.1,
+    "scoped_view": 0.37,
+    "variant_of_parent": 0.56
+   },
+   "pair": [
+    "entitlement-bundle-full-with-entitlements",
+    "target-resource"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['0oafxqCAJWWGELFTYASJ']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.34341427276599956,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.43,
+    "same_identifier": 0.23,
+    "scoped_view": 0.26,
+    "variant_of_parent": 0.59
+   },
+   "pair": [
+    "entitlements-full-with-parent",
+    "reviewer-entitlement"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['espfxqCAJWWGELFTYASJ']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 esp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.37156869888905125,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.53,
+    "same_identifier": 0.22,
+    "scoped_view": 0.28,
+    "variant_of_parent": 0.56
+   },
+   "pair": [
+    "entitlements-full-with-parent",
+    "reviewer-entitlement_2"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['espfxqCAJWWGELFTYASJ']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 esp 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "combined": 0.6024896550739526,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.9,
+    "same_identifier": 0.45,
+    "scoped_view": 0.43,
+    "variant_of_parent": 0.46
+   },
+   "pair": [
+    "rcar-entry-get",
+    "rcar-entry-get_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 4개가 같다 (실측 0) 예 ['cen8bfdir26G1QERV345', 'cen33e47frfMB93gQ8g6']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 cen 로 시작한다"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 cen 로 시작한다"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "combined": 0.16261333316791687,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.09,
+    "same_identifier": 0.11,
+    "scoped_view": 0.16,
+    "variant_of_parent": 0.57
+   },
+   "pair": [
+    "rcar-entry-get",
+    "requested"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 cen 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16261333316791687,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.09,
+    "same_identifier": 0.11,
+    "scoped_view": 0.14,
+    "variant_of_parent": 0.57
+   },
+   "pair": [
+    "rcar-entry-get",
+    "requested_2"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 cen 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15326188647871064,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.09,
+    "same_identifier": 0.1,
+    "scoped_view": 0.14,
+    "variant_of_parent": 0.6
+   },
+   "pair": [
+    "rcar-entry-get_2",
+    "requested"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 cen 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.14422495703074084,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.1,
+    "scoped_view": 0.14,
+    "variant_of_parent": 0.62
+   },
+   "pair": [
+    "rcar-entry-get_2",
+    "requested_2"
+   ],
+   "signals": [
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 cen 로 시작한다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.12599210498948732,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.15,
+    "scoped_view": 0.08,
+    "variant_of_parent": 0.56
+   },
+   "pair": [
+    "request-type-full",
+    "team"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['08ab2db568c7c300079fefd0']"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "combined": 0.5774001751457728,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.88,
+    "same_identifier": 0.27,
+    "scoped_view": 0.64,
+    "variant_of_parent": 0.19
+   },
+   "pair": [
+    "requested",
+    "requested_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 2개가 같다 (실측 0) 예 ['cenb0oADRXTBKOLGLNR', 'cen183rywrv6vIXe6346']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.7536122043392361,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.95,
+    "same_identifier": 0.53,
+    "scoped_view": 0.33,
+    "variant_of_parent": 0.15
+   },
+   "pair": [
+    "review-full",
+    "review-sparse"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['icrtg6mwccZTRc6Ub8g5']"
+    ],
+    [
+     "S6",
+     false,
+     "키 값이 같은 접두사 icr 로 시작한다"
+    ]
+   ],
+   "v2_decision": "V2-S2",
+   "v2_rule": "subset_view"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.5262028354094778,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.86,
+    "same_identifier": 0.22,
+    "scoped_view": 0.63,
+    "variant_of_parent": 0.23
+   },
+   "pair": [
+    "reviewer-entitlement",
+    "reviewer-entitlement_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['espfxqCAJWWGELFTYASJ']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.5390105337429159,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.89,
+    "same_identifier": 0.22,
+    "scoped_view": 0.59,
+    "variant_of_parent": 0.2
+   },
+   "pair": [
+    "reviewer-entitlement-bundle",
+    "reviewer-entitlement-bundle_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['ebnb0oNGTSWTBKOLGLNR']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.561572958603589,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.9,
+    "same_identifier": 0.24,
+    "scoped_view": 0.72,
+    "variant_of_parent": 0.18
+   },
+   "pair": [
+    "reviewer-entitlement-value",
+    "reviewer-entitlement-value_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['entb0oNGTSWTBKOLGLNR']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.5294333566599115,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.93,
+    "same_identifier": 0.19,
+    "scoped_view": 0.62,
+    "variant_of_parent": 0.16
+   },
+   "pair": [
+    "reviewer-group-profile",
+    "reviewer-group-profile_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 2개가 같다 (실측 0) 예 ['00gw7zU9vHVj1ldKx0g2', '00gco5q3vQ20oPncs8g5']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.609030080939518,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.86,
+    "same_identifier": 0.37,
+    "scoped_view": 0.5,
+    "variant_of_parent": 0.29
+   },
+   "pair": [
+    "security-access-review",
+    "security-access-review_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 2개가 같다 (실측 0) 예 ['sar1lo5X9wmNTFX7x0g4', 'sar1qebJYYHgbsOGF0g4']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.5686703386395612,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.95,
+    "same_identifier": 0.22,
+    "scoped_view": 0.72,
+    "variant_of_parent": 0.12
+   },
+   "pair": [
+    "security-access-review-access-item",
+    "security-access-review-access-item_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 3개가 같다 (실측 0) 예 ['aim1pmincO6RY9SYC0g4', 'aim1pmjGO1ACFhkxp0g4']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.597769496140411,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.96,
+    "same_identifier": 0.25,
+    "scoped_view": 0.69,
+    "variant_of_parent": 0.11
+   },
+   "pair": [
+    "security-access-review-access-item-app-info",
+    "security-access-review-access-item-app-info_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 3개가 같다 (실측 0) 예 ['0oacmnh7uyRdOpCdg0g4', '0oacmmurqSIOjNwS90g4']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.5664974504353758,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.93,
+    "same_identifier": 0.23,
+    "scoped_view": 0.59,
+    "variant_of_parent": 0.15
+   },
+   "pair": [
+    "security-access-review-history-item",
+    "security-access-review-history-item_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['srh1pmhpjmJ6Oyzzx0g4']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.561572958603589,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.9,
+    "same_identifier": 0.24,
+    "scoped_view": 0.68,
+    "variant_of_parent": 0.18
+   },
+   "pair": [
+    "security-access-review-principal-okta-admin-role",
+    "security-access-review-principal-okta-admin-role_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['00uabc12345XYZ67890']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "basis": "rule",
+   "combined": 0.5619954323071134,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.93,
+    "same_identifier": 0.23,
+    "scoped_view": 0.68,
+    "variant_of_parent": 0.17
+   },
+   "pair": [
+    "security-access-review-sub-access-item",
+    "security-access-review-sub-access-item_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 3개가 같다 (실측 0) 예 ['sai1pml8QCT3vGZco0g4', 'sai1pmmQFzxZreP1L0g4']"
+    ]
+   ],
+   "v2_decision": "V2-S1",
+   "v2_rule": "same_schema_across_specs"
+  },
+  {
+   "combined": 0.5506878446387353,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.74,
+    "same_identifier": 0.37,
+    "scoped_view": 0.41,
+    "variant_of_parent": 0.39
+   },
+   "pair": [
+    "task-full",
+    "task-full_2"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 2개가 같다 (실측 0) 예 ['68b0ed9802df442e8b601807', '68a38c7bc6866ac3cdee5583']"
+    ]
+   ]
+  },
+  {
+   "basis": "stated",
+   "decision": "different",
+   "pair": [
+    "IamRole",
+    "Permission"
+   ],
+   "signals": [
+    [
+     "source_distinct",
+     true,
+     "components.parameters.pathPermissionType and /api/v1/iam/roles/{roleIdOrLabel}/permissions/{permissionType}"
+    ]
+   ],
+   "source_evidence": {
+    "locator": "components.parameters.pathPermissionType and /api/v1/iam/roles/{roleIdOrLabel}/permissions/{permissionType}",
+    "reason": "permissionType은 권한, roleIdOrLabel은 그 권한을 부여받는 별도 역할이다.",
+    "source": "okta_management_openapi"
+   }
+  }
+ ],
+ "provider": "okta",
+ "signal_counts": {
+  "S2": 41,
+  "S3": 9,
+  "S5": 15,
+  "S6": 123,
+  "source_distinct": 1
+ }
+}

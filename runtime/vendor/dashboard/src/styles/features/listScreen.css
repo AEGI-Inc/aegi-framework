@@ -1,0 +1,183 @@
+/* =========================================================================
+   목록 → 상세 공용 (src/ui/ListScreen.tsx) — Exceptions, Credentials.
+   Access Gaps 목록 · 상세와 같은 모양: 위 줄(보기 전환 + 핵심 숫자), 거르기 칩,
+   머리글 + 흰 줄 칸, 상세 흰 판. 글씨는 검정, 빨강은 문제인 값에만.
+   ========================================================================= */
+
+.lst-page {
+  --lst-ink: var(--color-text-primary, #0f172a);
+  --lst-line: var(--color-border, #e2e8f0);
+  --lst-line-strong: var(--color-border-strong, #cbd5e1);
+  --lst-red: #b91c1c;
+  color: var(--lst-ink);
+  font-size: 14px;
+}
+
+/* 위 줄: 보기 전환 바로 옆에 핵심 숫자 (멀리 떨어뜨리지 않는다) */
+.lst-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px; margin-bottom: var(--space-gap); }
+
+/* 제목 아래 흰 칸: 저장 위치, 상태 표시, 파일 단추 (제목 줄에는 제목만) */
+.lst-actionbar { margin-bottom: var(--space-gap); background: #fff; border: 1px solid var(--lst-line); }
+.lst-actionbar-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; padding: 12px 16px; }
+.lst-actionbar-row + .lst-actionbar-row { border-top: 1px solid var(--lst-line); }
+.lst-actionbar-end { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-left: auto; }
+
+.lst-seg { display: inline-flex; }
+.lst-seg button {
+  height: 32px;
+  padding: 0 14px;
+  border: 1px solid var(--lst-line-strong);
+  border-radius: 0;
+  background: #fff;
+  font: inherit;
+  font-size: 13px;
+  color: var(--lst-ink);
+  cursor: pointer;
+  position: relative;
+}
+.lst-seg button + button { margin-left: -1px; }
+.lst-seg button b { margin-left: 4px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.lst-seg button:hover { z-index: 1; border-color: var(--color-select); }
+.lst-seg button.is-on { z-index: 2; border-color: var(--color-select-fill); background: var(--color-select-fill); color: #fff; font-weight: 700; }
+.lst-seg button:focus-visible { z-index: 3; outline: 2px solid var(--color-select); outline-offset: 1px; }
+
+.lst-hero { display: flex; align-items: baseline; gap: 12px; margin: 0; padding: 0; border: 0; background: none; font: inherit; color: var(--lst-ink); }
+.lst-hero span { font-size: 16px; font-weight: 700; }
+.lst-hero strong { font-size: var(--font-size-display); font-weight: var(--font-weight-bold); line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.lst-hero strong small { margin-left: 3px; font-size: 18px; font-weight: 700; }
+.lst-hero.is-alert strong { color: var(--lst-red); }
+button.lst-hero { cursor: pointer; }
+button.lst-hero:hover span { text-decoration: underline; }
+.lst-hero-none { margin: 0; font-size: var(--font-size-md); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
+
+/* 거르기: Threat Analysis 의 칩을 그대로 쓰고 줄 간격만 */
+.lst-filters { margin-bottom: var(--space-gap); }
+.lst-filters .ex-select { height: 34px; font-size: 13px; color: var(--lst-ink); }
+.lst-chip-alert em { color: var(--lst-red) !important; font-weight: 800; }
+
+/* 머리 오른쪽 작은 표시 */
+.lst-badge { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 10px; border: 1px solid var(--lst-line); background: #fff; font-size: 13px; font-weight: 600; color: var(--lst-ink); cursor: help; white-space: nowrap; }
+.lst-badge svg { flex: none; color: #64748b; }
+.lst-badge .lst-icon-btn { margin-right: -4px; }
+.lst-icon-btn { display: inline-flex; align-items: center; justify-content: center; border: 0; background: none; padding: 3px; cursor: pointer; color: #64748b; }
+.lst-icon-btn:hover { color: var(--lst-ink); }
+
+/* 목록: 머리글 + 흰 줄 칸 */
+.lst-head,
+.lst-row { display: grid; align-items: center; column-gap: 16px; padding: 0 16px; }
+.lst-head { padding-bottom: 8px; font-size: 13px; font-weight: 700; color: var(--lst-ink); }
+.lst-list { display: flex; flex-direction: column; gap: 6px; }
+.lst-row {
+  min-height: 64px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background: #fff;
+  border: 1px solid var(--lst-line);
+  font: inherit;
+  text-align: left;
+  color: var(--lst-ink);
+  cursor: pointer;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+.lst-row:hover { border-color: var(--color-select); background: #f8fafc; }
+.lst-row:focus-visible { outline: 2px solid var(--color-select); outline-offset: -2px; }
+.lst-row.is-recent { border-color: var(--color-select); box-shadow: inset 0 0 0 1px var(--color-select); }
+.lst-row-go { color: #64748b; }
+.lst-empty { margin: 0; padding: 28px 16px; background: #fff; border: 1px solid var(--lst-line); font-size: 14px; }
+
+.lst-main { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.lst-main > b { font-size: 15px; font-weight: 700; line-height: 1.35; }
+.lst-main code { font-size: 12px; color: var(--lst-ink); }
+.lst-text { font-size: 13px; line-height: 1.4; color: var(--lst-ink); }
+.lst-clip { display: block; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.lst-num { font-size: 14px; font-variant-numeric: tabular-nums; }
+.lst-logo { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; flex: none; color: #64748b; }
+.lst-logo svg { width: 100%; height: 100%; }
+
+.lst-status { font-size: 14px; font-weight: 600; }
+.lst-status.is-alert { color: var(--lst-red); font-weight: 800; }
+.lst-due { display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+.lst-due b { font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+.lst-due.is-alert b { color: var(--lst-red); }
+
+.lst-section { margin-top: 36px; }
+.lst-h2 { margin: 0 0 12px; font-size: 17px; font-weight: 700; color: var(--lst-ink); }
+
+/* 상세: 흰 판 하나. 머리(이름 · 한 줄 요약 · 오른쪽 큰 값) → 두 칸 → 이력 → 버튼 */
+.lst-panel { padding: 0 28px 28px; background: #fff; border: 1px solid var(--color-card-line); word-break: keep-all; overflow-wrap: anywhere; }
+/* 머리와 구역 제목은 다른 화면의 카드 제목 칸처럼 옅은 회색 바탕과 진한 선으로 내용과 가른다 */
+.lst-dhead { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin: 0 calc(-1 * var(--space-page-x)); padding: 22px var(--space-page-x) 20px; background: var(--color-card-head-bg); border-bottom: 1px solid var(--color-card-line); }
+.lst-dhead-main { min-width: 0; }
+.lst-name { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 10px; font-size: 22px; font-weight: 800; letter-spacing: -0.01em; line-height: 1.3; color: var(--lst-ink); }
+.lst-name code { font-size: 13px; font-weight: 600; }
+.lst-name .lst-logo { width: 24px; height: 24px; }
+.lst-meta { display: flex; flex-wrap: wrap; align-items: baseline; row-gap: 6px; margin: 0; font-size: 14px; color: var(--lst-ink); }
+.lst-meta > div { display: flex; align-items: baseline; gap: 6px; padding: 0 14px; border-left: 1px solid #d0d5dd; }
+.lst-meta > div:first-child { padding-left: 0; border-left: 0; }
+.lst-meta dt { font-weight: 400; }
+.lst-meta dd { margin: 0; font-weight: 700; }
+.lst-meta code { font-size: 13px; }
+.lst-dside { flex: none; text-align: right; }
+.lst-big { margin: 0; font-size: var(--font-size-display); font-weight: var(--font-weight-bold); line-height: 1.1; letter-spacing: -0.02em; color: var(--lst-ink); }
+.lst-big.is-alert { color: var(--lst-red); }
+.lst-big-sub { margin: 6px 0 0; font-size: 14px; }
+.lst-big-sub b { font-weight: 800; }
+
+.lst-alert { display: grid; gap: 4px; margin: 16px 0 0; padding: 10px 14px; list-style: none; border: 1px solid var(--lst-red); background: #fff; font-size: 14px; font-weight: 600; color: var(--lst-red); }
+.lst-alert li { display: flex; gap: 8px; align-items: baseline; }
+
+.lst-dgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 40px; margin-top: 24px; }
+.lst-h3 { margin: 0 0 12px; padding: 8px 12px; background: var(--color-card-head-bg); border-bottom: 1px solid var(--color-card-line); font-size: 15px; font-weight: 700; color: var(--lst-ink); }
+.lst-h3 small { margin-left: 6px; font-size: 13px; font-weight: 400; }
+.lst-dl { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 10px 16px; margin: 0; font-size: 14px; }
+.lst-dl dt { font-weight: 400; }
+.lst-dl dd { margin: 0; min-width: 0; font-weight: 600; line-height: 1.45; }
+.lst-dl code { font-size: 13px; }
+.lst-dl dd.lst-codes { display: flex; flex-wrap: wrap; gap: 4px 10px; }
+.lst-plain { margin: 0 0 20px; padding-left: 18px; font-size: 14px; font-weight: 600; line-height: 1.7; }
+.lst-plain code { font-size: 13px; }
+.lst-plain li.is-bad { color: var(--lst-red); }
+.lst-none { margin: 0 0 20px; font-size: 14px; }
+
+.lst-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.lst-table th,
+.lst-table td { padding: 8px 10px; border-bottom: 1px solid var(--lst-line); text-align: left; vertical-align: top; }
+.lst-table thead th { font-size: 13px; font-weight: 700; border-bottom-color: var(--lst-line-strong); }
+.lst-table tbody th { font-weight: 400; }
+.lst-table code { font-size: 13px; }
+.lst-table tr.is-changed td { color: var(--lst-red); font-weight: 700; }
+
+.lst-link { border: 0; background: none; padding: 0; font: inherit; font-weight: 700; color: var(--color-select); cursor: pointer; text-align: left; }
+.lst-link:hover { text-decoration: underline; }
+
+.lst-hist { margin-top: 28px; }
+.lst-hist ol { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.lst-hist li { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; }
+.lst-hist time { font-variant-numeric: tabular-nums; }
+
+.lst-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; margin-top: 24px; }
+.lst-actions > * { max-width: 100%; }
+
+@media (max-width: 1100px) {
+  .lst-dgrid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+}
+
+@media (max-width: 720px) {
+  .lst-dhead { flex-direction: column; align-items: stretch; }
+  .lst-dside { text-align: left; }
+  .lst-panel { padding: 0 16px 20px; }
+  .lst-dhead { margin: 0 -16px; padding: 16px 16px 18px; }
+  .lst-dl { grid-template-columns: 100px minmax(0, 1fr); }
+}
+
+/* 여러 줄 선택 뒤 한꺼번에 하는 일 */
+.lst-bulkbar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 10px; padding: 10px 14px; border: 1px solid var(--lst-ink); background: #fff; font-size: 14px; }
+
+.lst-note { margin: 0 0 12px; font-size: 14px; color: var(--lst-ink); }
+
+/* 제목 줄(인디고) 위 단추 색은 pageShell.css 규칙을 따른다 */
+.lst-page .fd-back-btn:disabled { cursor: default; }
+.lst-row.is-static { cursor: default; }
+.lst-row.is-static:hover { border-color: var(--lst-line); background: #fff; }
+.lst-page .page-head-actions { flex-wrap: wrap; justify-content: flex-end; }

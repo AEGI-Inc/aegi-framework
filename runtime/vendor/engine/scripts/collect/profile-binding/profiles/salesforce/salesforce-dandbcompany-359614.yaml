@@ -1,0 +1,1560 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: DandBCompany
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:0805857810312a64a9359614
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:0805857810312a64a9359614.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Id
+  Address:
+    path: Address
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: address
+      name: Address
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Address
+  City:
+    path: City
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: City
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|City
+  CompanyCurrencyIsoCode:
+    path: CompanyCurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: CompanyCurrencyIsoCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|CompanyCurrencyIsoCode
+  Country:
+    path: Country
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: Country
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Country
+  CountryAccessCode:
+    path: CountryAccessCode
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: CountryAccessCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|CountryAccessCode
+  CurrencyCode:
+    path: CurrencyCode
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: CurrencyCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|CurrencyCode
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Description
+  DomesticUltimateBusinessName:
+    path: DomesticUltimateBusinessName
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: DomesticUltimateBusinessName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|DomesticUltimateBusinessName
+  DomesticUltimateDunsNumber:
+    path: DomesticUltimateDunsNumber
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: DomesticUltimateDunsNumber
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|DomesticUltimateDunsNumber
+  DunsNumber:
+    path: DunsNumber
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: DunsNumber
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|DunsNumber
+  EmployeeQuantityGrowthRate:
+    path: EmployeeQuantityGrowthRate
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: double
+      name: EmployeeQuantityGrowthRate
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:DandBCompany|EmployeeQuantityGrowthRate
+  EmployeesHere:
+    path: EmployeesHere
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: double
+      name: EmployeesHere
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:DandBCompany|EmployeesHere
+  EmployeesHereReliability:
+    path: EmployeesHereReliability
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: EmployeesHereReliability
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|EmployeesHereReliability
+  EmployeesTotal:
+    path: EmployeesTotal
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: double
+      name: EmployeesTotal
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:DandBCompany|EmployeesTotal
+  EmployeesTotalReliability:
+    path: EmployeesTotalReliability
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: EmployeesTotalReliability
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|EmployeesTotalReliability
+  FamilyMembers:
+    path: FamilyMembers
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: int
+      name: FamilyMembers
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:DandBCompany|FamilyMembers
+  Fax:
+    path: Fax
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: phone
+      name: Fax
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Fax
+  FifthNaics:
+    path: FifthNaics
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FifthNaics
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FifthNaics
+  FifthNaicsDesc:
+    path: FifthNaicsDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FifthNaicsDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FifthNaicsDesc
+  FifthSic:
+    path: FifthSic
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FifthSic
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FifthSic
+  FifthSic8:
+    path: FifthSic8
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FifthSic8
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FifthSic8
+  FifthSic8Desc:
+    path: FifthSic8Desc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FifthSic8Desc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FifthSic8Desc
+  FifthSicDesc:
+    path: FifthSicDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FifthSicDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FifthSicDesc
+  FipsMsaCode:
+    path: FipsMsaCode
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FipsMsaCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FipsMsaCode
+  FipsMsaDesc:
+    path: FipsMsaDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FipsMsaDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FipsMsaDesc
+  FortuneRank:
+    path: FortuneRank
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: int
+      name: FortuneRank
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:DandBCompany|FortuneRank
+  FourthNaics:
+    path: FourthNaics
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FourthNaics
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FourthNaics
+  FourthNaicsDesc:
+    path: FourthNaicsDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FourthNaicsDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FourthNaicsDesc
+  FourthSic:
+    path: FourthSic
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FourthSic
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FourthSic
+  FourthSic8:
+    path: FourthSic8
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FourthSic8
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FourthSic8
+  FourthSic8Desc:
+    path: FourthSic8Desc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FourthSic8Desc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FourthSic8Desc
+  FourthSicDesc:
+    path: FourthSicDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: FourthSicDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|FourthSicDesc
+  GeoCodeAccuracy:
+    path: GeoCodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: GeoCodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|GeoCodeAccuracy
+  GlobalUltimateBusinessName:
+    path: GlobalUltimateBusinessName
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: GlobalUltimateBusinessName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|GlobalUltimateBusinessName
+  GlobalUltimateDunsNumber:
+    path: GlobalUltimateDunsNumber
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: GlobalUltimateDunsNumber
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|GlobalUltimateDunsNumber
+  GlobalUltimateTotalEmployees:
+    path: GlobalUltimateTotalEmployees
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: double
+      name: GlobalUltimateTotalEmployees
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:DandBCompany|GlobalUltimateTotalEmployees
+  ImportExportAgent:
+    path: ImportExportAgent
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: ImportExportAgent
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|ImportExportAgent
+  IncludedInSnP500:
+    path: IncludedInSnP500
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: IncludedInSnP500
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|IncludedInSnP500
+  Latitude:
+    path: Latitude
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: Latitude
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Latitude
+  LegalStatus:
+    path: LegalStatus
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: LegalStatus
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|LegalStatus
+  LocationStatus:
+    path: LocationStatus
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: LocationStatus
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|LocationStatus
+  Longitude:
+    path: Longitude
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: Longitude
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Longitude
+  MailingAddress:
+    path: MailingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: address
+      name: MailingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|MailingAddress
+  MailingCity:
+    path: MailingCity
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: MailingCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|MailingCity
+  MailingCountry:
+    path: MailingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: MailingCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|MailingCountry
+  MailingPostalCode:
+    path: MailingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: MailingPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|MailingPostalCode
+  MailingState:
+    path: MailingState
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: MailingState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|MailingState
+  MailingStreet:
+    path: MailingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: textarea
+      name: MailingStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|MailingStreet
+  MarketingPreScreen:
+    path: MarketingPreScreen
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: MarketingPreScreen
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|MarketingPreScreen
+  MarketingSegmentationCluster:
+    path: MarketingSegmentationCluster
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: MarketingSegmentationCluster
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|MarketingSegmentationCluster
+  MinorityOwned:
+    path: MinorityOwned
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: MinorityOwned
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|MinorityOwned
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: Name
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Name
+  NationalId:
+    path: NationalId
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: NationalId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|NationalId
+  NationalIdType:
+    path: NationalIdType
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: NationalIdType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|NationalIdType
+  OutOfBusiness:
+    path: OutOfBusiness
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: OutOfBusiness
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|OutOfBusiness
+  OwnOrRent:
+    path: OwnOrRent
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: OwnOrRent
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|OwnOrRent
+  ParentOrHqBusinessName:
+    path: ParentOrHqBusinessName
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: ParentOrHqBusinessName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|ParentOrHqBusinessName
+  ParentOrHqDunsNumber:
+    path: ParentOrHqDunsNumber
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: ParentOrHqDunsNumber
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|ParentOrHqDunsNumber
+  Phone:
+    path: Phone
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: phone
+      name: Phone
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Phone
+  PostalCode:
+    path: PostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: PostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|PostalCode
+  PremisesMeasure:
+    path: PremisesMeasure
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: int
+      name: PremisesMeasure
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:DandBCompany|PremisesMeasure
+  PremisesMeasureReliability:
+    path: PremisesMeasureReliability
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: PremisesMeasureReliability
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|PremisesMeasureReliability
+  PremisesMeasureUnit:
+    path: PremisesMeasureUnit
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: PremisesMeasureUnit
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|PremisesMeasureUnit
+  PrimaryNaics:
+    path: PrimaryNaics
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: PrimaryNaics
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|PrimaryNaics
+  PrimaryNaicsDesc:
+    path: PrimaryNaicsDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: PrimaryNaicsDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|PrimaryNaicsDesc
+  PrimarySic:
+    path: PrimarySic
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: PrimarySic
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|PrimarySic
+  PrimarySic8:
+    path: PrimarySic8
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: PrimarySic8
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|PrimarySic8
+  PrimarySic8Desc:
+    path: PrimarySic8Desc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: PrimarySic8Desc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|PrimarySic8Desc
+  PrimarySicDesc:
+    path: PrimarySicDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: PrimarySicDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|PrimarySicDesc
+  PriorYearEmployees:
+    path: PriorYearEmployees
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: int
+      name: PriorYearEmployees
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:DandBCompany|PriorYearEmployees
+  PriorYearRevenue:
+    path: PriorYearRevenue
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: double
+      name: PriorYearRevenue
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:DandBCompany|PriorYearRevenue
+  PublicIndicator:
+    path: PublicIndicator
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: PublicIndicator
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|PublicIndicator
+  SalesTurnoverGrowthRate:
+    path: SalesTurnoverGrowthRate
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: double
+      name: SalesTurnoverGrowthRate
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:DandBCompany|SalesTurnoverGrowthRate
+  SalesVolume:
+    path: SalesVolume
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: double
+      name: SalesVolume
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:DandBCompany|SalesVolume
+  SalesVolumeReliability:
+    path: SalesVolumeReliability
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: SalesVolumeReliability
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SalesVolumeReliability
+  SecondNaics:
+    path: SecondNaics
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SecondNaics
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SecondNaics
+  SecondNaicsDesc:
+    path: SecondNaicsDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SecondNaicsDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SecondNaicsDesc
+  SecondSic:
+    path: SecondSic
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SecondSic
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SecondSic
+  SecondSic8:
+    path: SecondSic8
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SecondSic8
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SecondSic8
+  SecondSic8Desc:
+    path: SecondSic8Desc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SecondSic8Desc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SecondSic8Desc
+  SecondSicDesc:
+    path: SecondSicDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SecondSicDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SecondSicDesc
+  SixthNaics:
+    path: SixthNaics
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SixthNaics
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SixthNaics
+  SixthNaicsDesc:
+    path: SixthNaicsDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SixthNaicsDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SixthNaicsDesc
+  SixthSic:
+    path: SixthSic
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SixthSic
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SixthSic
+  SixthSic8:
+    path: SixthSic8
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SixthSic8
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SixthSic8
+  SixthSic8Desc:
+    path: SixthSic8Desc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SixthSic8Desc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SixthSic8Desc
+  SixthSicDesc:
+    path: SixthSicDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: SixthSicDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SixthSicDesc
+  SmallBusiness:
+    path: SmallBusiness
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: SmallBusiness
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|SmallBusiness
+  State:
+    path: State
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: State
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|State
+  StockExchange:
+    path: StockExchange
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: StockExchange
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|StockExchange
+  StockSymbol:
+    path: StockSymbol
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: StockSymbol
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|StockSymbol
+  Street:
+    path: Street
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: textarea
+      name: Street
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Street
+  Subsidiary:
+    path: Subsidiary
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: Subsidiary
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|Subsidiary
+  ThirdNaics:
+    path: ThirdNaics
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: ThirdNaics
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|ThirdNaics
+  ThirdNaicsDesc:
+    path: ThirdNaicsDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: ThirdNaicsDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|ThirdNaicsDesc
+  ThirdSic:
+    path: ThirdSic
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: ThirdSic
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|ThirdSic
+  ThirdSic8:
+    path: ThirdSic8
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: ThirdSic8
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|ThirdSic8
+  ThirdSic8Desc:
+    path: ThirdSic8Desc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: ThirdSic8Desc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|ThirdSic8Desc
+  ThirdSicDesc:
+    path: ThirdSicDesc
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: ThirdSicDesc
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|ThirdSicDesc
+  TradeStyle1:
+    path: TradeStyle1
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: TradeStyle1
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|TradeStyle1
+  TradeStyle2:
+    path: TradeStyle2
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: TradeStyle2
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|TradeStyle2
+  TradeStyle3:
+    path: TradeStyle3
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: TradeStyle3
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|TradeStyle3
+  TradeStyle4:
+    path: TradeStyle4
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: TradeStyle4
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|TradeStyle4
+  TradeStyle5:
+    path: TradeStyle5
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: TradeStyle5
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|TradeStyle5
+  URL:
+    path: URL
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: url
+      name: URL
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|URL
+  UsTaxId:
+    path: UsTaxId
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: UsTaxId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|UsTaxId
+  WomenOwned:
+    path: WomenOwned
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: picklist
+      name: WomenOwned
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|WomenOwned
+  YearStarted:
+    path: YearStarted
+    source: research_shape
+    shape: sh:sf_object_reference:DandBCompany
+    declaration:
+      format: string
+      name: YearStarted
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DandBCompany|YearStarted
+references: []
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: DandBCompany
+  interfaces: *a1
+  model:
+    research_type: object-type:0805857810312a64a9359614
+  extract:
+    key: PILOT-salesforce-DandBCompany-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-359614
+            endpoint: /
+            items:
+              - records
+        properties:
+          Address: Address
+          City: City
+          CompanyCurrencyIsoCode: CompanyCurrencyIsoCode
+          Country: Country
+          CountryAccessCode: CountryAccessCode
+          CurrencyCode: CurrencyCode
+          Description: Description
+          DomesticUltimateBusinessName: DomesticUltimateBusinessName
+          DomesticUltimateDunsNumber: DomesticUltimateDunsNumber
+          DunsNumber: DunsNumber
+          EmployeeQuantityGrowthRate: EmployeeQuantityGrowthRate
+          EmployeesHere: EmployeesHere
+          EmployeesHereReliability: EmployeesHereReliability
+          EmployeesTotal: EmployeesTotal
+          EmployeesTotalReliability: EmployeesTotalReliability
+          FamilyMembers: FamilyMembers
+          Fax: Fax
+          FifthNaics: FifthNaics
+          FifthNaicsDesc: FifthNaicsDesc
+          FifthSic: FifthSic
+          FifthSic8: FifthSic8
+          FifthSic8Desc: FifthSic8Desc
+          FifthSicDesc: FifthSicDesc
+          FipsMsaCode: FipsMsaCode
+          FipsMsaDesc: FipsMsaDesc
+          FortuneRank: FortuneRank
+          FourthNaics: FourthNaics
+          FourthNaicsDesc: FourthNaicsDesc
+          FourthSic: FourthSic
+          FourthSic8: FourthSic8
+          FourthSic8Desc: FourthSic8Desc
+          FourthSicDesc: FourthSicDesc
+          GeoCodeAccuracy: GeoCodeAccuracy
+          GlobalUltimateBusinessName: GlobalUltimateBusinessName
+          GlobalUltimateDunsNumber: GlobalUltimateDunsNumber
+          GlobalUltimateTotalEmployees: GlobalUltimateTotalEmployees
+          Id: Id
+          ImportExportAgent: ImportExportAgent
+          IncludedInSnP500: IncludedInSnP500
+          Latitude: Latitude
+          LegalStatus: LegalStatus
+          LocationStatus: LocationStatus
+          Longitude: Longitude
+          MailingAddress: MailingAddress
+          MailingCity: MailingCity
+          MailingCountry: MailingCountry
+          MailingPostalCode: MailingPostalCode
+          MailingState: MailingState
+          MailingStreet: MailingStreet
+          MarketingPreScreen: MarketingPreScreen
+          MarketingSegmentationCluster: MarketingSegmentationCluster
+          MinorityOwned: MinorityOwned
+          Name: Name
+          NationalId: NationalId
+          NationalIdType: NationalIdType
+          OutOfBusiness: OutOfBusiness
+          OwnOrRent: OwnOrRent
+          ParentOrHqBusinessName: ParentOrHqBusinessName
+          ParentOrHqDunsNumber: ParentOrHqDunsNumber
+          Phone: Phone
+          PostalCode: PostalCode
+          PremisesMeasure: PremisesMeasure
+          PremisesMeasureReliability: PremisesMeasureReliability
+          PremisesMeasureUnit: PremisesMeasureUnit
+          PrimaryNaics: PrimaryNaics
+          PrimaryNaicsDesc: PrimaryNaicsDesc
+          PrimarySic: PrimarySic
+          PrimarySic8: PrimarySic8
+          PrimarySic8Desc: PrimarySic8Desc
+          PrimarySicDesc: PrimarySicDesc
+          PriorYearEmployees: PriorYearEmployees
+          PriorYearRevenue: PriorYearRevenue
+          PublicIndicator: PublicIndicator
+          SalesTurnoverGrowthRate: SalesTurnoverGrowthRate
+          SalesVolume: SalesVolume
+          SalesVolumeReliability: SalesVolumeReliability
+          SecondNaics: SecondNaics
+          SecondNaicsDesc: SecondNaicsDesc
+          SecondSic: SecondSic
+          SecondSic8: SecondSic8
+          SecondSic8Desc: SecondSic8Desc
+          SecondSicDesc: SecondSicDesc
+          SixthNaics: SixthNaics
+          SixthNaicsDesc: SixthNaicsDesc
+          SixthSic: SixthSic
+          SixthSic8: SixthSic8
+          SixthSic8Desc: SixthSic8Desc
+          SixthSicDesc: SixthSicDesc
+          SmallBusiness: SmallBusiness
+          State: State
+          StockExchange: StockExchange
+          StockSymbol: StockSymbol
+          Street: Street
+          Subsidiary: Subsidiary
+          ThirdNaics: ThirdNaics
+          ThirdNaicsDesc: ThirdNaicsDesc
+          ThirdSic: ThirdSic
+          ThirdSic8: ThirdSic8
+          ThirdSic8Desc: ThirdSic8Desc
+          ThirdSicDesc: ThirdSicDesc
+          TradeStyle1: TradeStyle1
+          TradeStyle2: TradeStyle2
+          TradeStyle3: TradeStyle3
+          TradeStyle4: TradeStyle4
+          TradeStyle5: TradeStyle5
+          URL: URL
+          UsTaxId: UsTaxId
+          WomenOwned: WomenOwned
+          YearStarted: YearStarted
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:DandBCompany.query
+  operation: DandBCompany.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: DandBCompany
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:DandBCompany
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:DandBCompany.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/DandBCompany/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

@@ -1,0 +1,69 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: ServicePrincipal
+# 서비스 주체는 신원이면서(앱 권한 · 위임 동의를 받는다) 우리 테넌트에 설치된 앱 인스턴스다(Graph 문서 「Application and service principal objects」:
+# 「the local representation, or application instance, of a global application object in a single tenant」). 갤러리 앱 · Microsoft 앱은
+# 테넌트에 앱 등록(Application)이 없어 서비스 주체가 그 앱의 유일한 자리다 — 앱 역할 배정 · 위임 동의의 도착(Principal>Integration)
+interfaces: [Principal, Integration]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-SP-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+  appId: {stability: mutable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-06
+        request: {kind: servicePrincipals}
+        items: value
+    id_expr: id
+    mutable_ids:
+      appId: appId
+    properties:
+      principal_kind: {const: service}
+      account_kind: {const: app}
+      account_state:
+        op: map
+        of: accountEnabled
+        table:
+          'true': active
+          'false': suspended
+        default: {const: unknown}
+      operational_state:
+        op: map
+        of: accountEnabled
+        table:
+          'true': active
+          'false': suspended
+        default: {const: unknown}
+      sp_id: id
+      appId: appId
+      displayName: displayName
+      appDisplayName: appDisplayName
+      servicePrincipalType: servicePrincipalType
+      appOwnerOrganizationId: appOwnerOrganizationId
+      appRoleAssignmentRequired: appRoleAssignmentRequired
+      accountEnabled: accountEnabled
+      signInAudience: signInAudience
+      homepage: homepage
+      replyUrls: replyUrls
+      servicePrincipalNames: servicePrincipalNames
+      appRoles: appRoles
+      oauth2PermissionScopes: oauth2PermissionScopes
+      tags: tags
+      createdDateTime: createdDateTime
+    display: "{displayName|appDisplayName|appId|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

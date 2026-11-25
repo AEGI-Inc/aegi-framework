@@ -1,0 +1,4 @@
+emit: reference_only
+emit_basis: 타입 이름이 API 경로 조각(parent:admin/admin/directory/v1/customer/{})이고 선언 필드가 없다. 레코드는
+  GW-20 경로의 customerId 값(my_customer 별칭)과 레코드 해시뿐이다. 같은 고객은 GW-01 의 Customer 객체로 이미 있다
+  (tenant 참조 대상). 식별자가 달라 merge_into 로 합칠 수 없어 객체로 만들지 않는다

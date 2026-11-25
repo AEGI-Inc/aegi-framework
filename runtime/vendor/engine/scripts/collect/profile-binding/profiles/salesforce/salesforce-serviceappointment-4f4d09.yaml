@@ -1,0 +1,775 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: ServiceAppointment
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:1c883cb9a835ab06624f4d09
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:1c883cb9a835ab06624f4d09.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|Id
+  AccountId:
+    path: AccountId
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: reference
+      name: AccountId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|AccountId
+  ActualDuration:
+    path: ActualDuration
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: double
+      name: ActualDuration
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ServiceAppointment|ActualDuration
+  ActualEndTime:
+    path: ActualEndTime
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: dateTime
+      name: ActualEndTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|ActualEndTime
+  ActualStartTime:
+    path: ActualStartTime
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: dateTime
+      name: ActualStartTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|ActualStartTime
+  Address:
+    path: Address
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: address
+      name: Address
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|Address
+  AppointmentNumber:
+    path: AppointmentNumber
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: string
+      name: AppointmentNumber
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|AppointmentNumber
+  ArrivalWindowEndTime:
+    path: ArrivalWindowEndTime
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: dateTime
+      name: ArrivalWindowEndTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|ArrivalWindowEndTime
+  ArrivalWindowStartTime:
+    path: ArrivalWindowStartTime
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: dateTime
+      name: ArrivalWindowStartTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|ArrivalWindowStartTime
+  BundlePolicyId:
+    path: BundlePolicyId
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: reference
+      name: BundlePolicyId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|BundlePolicyId
+  City:
+    path: City
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: string
+      name: City
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|City
+  ContactId:
+    path: ContactId
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: reference
+      name: ContactId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|ContactId
+  Country:
+    path: Country
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: string
+      name: Country
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|Country
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|Description
+  DueDate:
+    path: DueDate
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: dateTime
+      name: DueDate
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|DueDate
+  Duration:
+    path: Duration
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: double
+      name: Duration
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ServiceAppointment|Duration
+  DurationType:
+    path: DurationType
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: picklist
+      name: DurationType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|DurationType
+  EarliestStartTime:
+    path: EarliestStartTime
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: dateTime
+      name: EarliestStartTime
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|EarliestStartTime
+  GeocodeAccuracy:
+    path: GeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: picklist
+      name: GeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|GeocodeAccuracy
+  IsAnonymousBooking:
+    path: IsAnonymousBooking
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: boolean
+      name: IsAnonymousBooking
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ServiceAppointment|IsAnonymousBooking
+  IsBundle:
+    path: IsBundle
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: boolean
+      name: IsBundle
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ServiceAppointment|IsBundle
+  IsBundleMember:
+    path: IsBundleMember
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: boolean
+      name: IsBundleMember
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ServiceAppointment|IsBundleMember
+  IsManuallyBundled:
+    path: IsManuallyBundled
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: boolean
+      name: IsManuallyBundled
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ServiceAppointment|IsManuallyBundled
+  IsOffsiteAppointment:
+    path: IsOffsiteAppointment
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: boolean
+      name: IsOffsiteAppointment
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ServiceAppointment|IsOffsiteAppointment
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|LastViewedDate
+  Latitude:
+    path: Latitude
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: double
+      name: Latitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ServiceAppointment|Latitude
+  Longitude:
+    path: Longitude
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: double
+      name: Longitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ServiceAppointment|Longitude
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|OwnerId
+  ParentRecordId:
+    path: ParentRecordId
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: reference
+      name: ParentRecordId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|ParentRecordId
+  ParentRecordStatusCategory:
+    path: ParentRecordStatusCategory
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: picklist
+      name: ParentRecordStatusCategory
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|ParentRecordStatusCategory
+  ParentRecordType:
+    path: ParentRecordType
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: string
+      name: ParentRecordType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|ParentRecordType
+  PostalCode:
+    path: PostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: string
+      name: PostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|PostalCode
+  RelatedBundleId:
+    path: RelatedBundleId
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: reference
+      name: RelatedBundleId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|RelatedBundleId
+  SchedEndTime:
+    path: SchedEndTime
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: dateTime
+      name: SchedEndTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|SchedEndTime
+  SchedStartTime:
+    path: SchedStartTime
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: dateTime
+      name: SchedStartTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|SchedStartTime
+  ServiceDocumentTemplate:
+    path: ServiceDocumentTemplate
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: string
+      name: ServiceDocumentTemplate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|ServiceDocumentTemplate
+  ServiceTerritoryId:
+    path: ServiceTerritoryId
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: reference
+      name: ServiceTerritoryId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|ServiceTerritoryId
+  State:
+    path: State
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: string
+      name: State
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|State
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: picklist
+      name: Status
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|Status
+  StatusCategory:
+    path: StatusCategory
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: picklist
+      name: StatusCategory
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|StatusCategory
+  Street:
+    path: Street
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: textarea
+      name: Street
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|Street
+  Subject:
+    path: Subject
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: string
+      name: Subject
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|Subject
+  Transaction:
+    path: Transaction
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: string
+      name: Transaction
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|Transaction
+  WorkTypeId:
+    path: WorkTypeId
+    source: research_shape
+    shape: sh:sf_object_reference:ServiceAppointment
+    declaration:
+      format: reference
+      name: WorkTypeId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ServiceAppointment|WorkTypeId
+references:
+  - name: parentrecordid
+    field: ParentRecordId
+    target: WorkOrder
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:163cd4d9a7bd9677c62f6c3e; relation=no_relation
+  - name: serviceterritoryid
+    field: ServiceTerritoryId
+    target: ServiceTerritory
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:22c952e207e3052208606e4c; relation=no_relation
+  - name: ownerid
+    field: OwnerId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:241d0cfa6e74c5751ae81556; relation=no_relation
+  - name: worktypeid
+    field: WorkTypeId
+    target: WorkType
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:882a0eeb4ee8b816795ca31f; relation=no_relation
+  - name: contactid
+    field: ContactId
+    target: Contact
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8ebc561d6e4f2ace82378c66; relation=no_relation
+  - name: accountid
+    field: AccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c8e7458c3e11f390d0f9a310; relation=no_relation
+  - name: bundlepolicyid
+    field: BundlePolicyId
+    target: ApptBundlePolicy
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:fffbf500ff66fc9909afa07d; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: ServiceAppointment
+  interfaces: *a1
+  model:
+    research_type: object-type:1c883cb9a835ab06624f4d09
+  extract:
+    key: PILOT-salesforce-ServiceAppointment-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-4f4d09
+            endpoint: /
+            items:
+              - records
+        properties:
+          AccountId: AccountId
+          ActualDuration: ActualDuration
+          ActualEndTime: ActualEndTime
+          ActualStartTime: ActualStartTime
+          Address: Address
+          AppointmentNumber: AppointmentNumber
+          ArrivalWindowEndTime: ArrivalWindowEndTime
+          ArrivalWindowStartTime: ArrivalWindowStartTime
+          BundlePolicyId: BundlePolicyId
+          City: City
+          ContactId: ContactId
+          Country: Country
+          Description: Description
+          DueDate: DueDate
+          Duration: Duration
+          DurationType: DurationType
+          EarliestStartTime: EarliestStartTime
+          GeocodeAccuracy: GeocodeAccuracy
+          Id: Id
+          IsAnonymousBooking: IsAnonymousBooking
+          IsBundle: IsBundle
+          IsBundleMember: IsBundleMember
+          IsManuallyBundled: IsManuallyBundled
+          IsOffsiteAppointment: IsOffsiteAppointment
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          Latitude: Latitude
+          Longitude: Longitude
+          OwnerId: OwnerId
+          ParentRecordId: ParentRecordId
+          ParentRecordStatusCategory: ParentRecordStatusCategory
+          ParentRecordType: ParentRecordType
+          PostalCode: PostalCode
+          RelatedBundleId: RelatedBundleId
+          SchedEndTime: SchedEndTime
+          SchedStartTime: SchedStartTime
+          ServiceDocumentTemplate: ServiceDocumentTemplate
+          ServiceTerritoryId: ServiceTerritoryId
+          State: State
+          Status: Status
+          StatusCategory: StatusCategory
+          Street: Street
+          Subject: Subject
+          Transaction: Transaction
+          WorkTypeId: WorkTypeId
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:ServiceAppointment.query
+  operation: ServiceAppointment.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: ServiceAppointment
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:ServiceAppointment
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:ServiceAppointment.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/ServiceAppointment/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - ParentRecordId
+    - ServiceTerritoryId
+    - OwnerId
+    - WorkTypeId
+    - ContactId
+    - AccountId
+    - BundlePolicyId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

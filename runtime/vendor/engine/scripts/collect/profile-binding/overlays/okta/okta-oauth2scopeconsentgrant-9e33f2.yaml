@@ -1,0 +1,12 @@
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr:
+        any:
+          - id
+          - template: "{clientId}:{scopeId}"
+      stability: undocumented
+identity_basis: Okta 기본 앱(대시보드, 관리 콘솔 등)이 받은 동의 grant 는 id, created, createdBy.id 가 null 로 온다(2026-11-03 수집 RG-OK-listScopeConsentGrants). 한 앱 안에서 clientId 와 scopeId 짝은 grant 하나라 id 가 없을 때 그 짝을 쓴다

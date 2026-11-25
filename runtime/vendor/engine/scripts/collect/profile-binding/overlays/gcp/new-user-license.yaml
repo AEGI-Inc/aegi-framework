@@ -1,0 +1,49 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: discoveryengine
+object_type: UserLicense
+interfaces: [Assignment]
+# 근거: Discovery Engine v1alpha Discovery 문서의 GoogleCloudDiscoveryengineV1alphaUserLicense 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-03 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# 사람별 라이선스. name 칸이 없어 userStore 이름과 userPrincipal 로 식별한다. userPrincipal 은 검증 없는 문자열이라 디렉터리에 없는 주체도 나온다.
+identity:
+  primary:
+    - {name: id, expr: {template: "{$req.parent}/userLicenses/{userPrincipal}"}, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-GE-USERLICENSE-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-03
+        request: {kind: user_licenses}
+        items: userLicenses
+    tenant: {switch: {if: {path: $req.parent, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: $req.parent, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: $req.parent, pattern: "^projects/([^/]+)"}}}}
+    id_expr: {template: "{$req.parent}/userLicenses/{userPrincipal}"}
+    refs:
+      license_config:
+        ref: {type: LicenseConfig, id: licenseConfig}
+        value: licenseConfig
+        key_if_exists: true
+    properties:
+      lastLoginTime: lastLoginTime
+      licenseConfig: licenseConfig
+      userProfile: userProfile
+      licenseAssignmentState: licenseAssignmentState
+      createTime: createTime
+      updateTime: updateTime
+      userPrincipal: userPrincipal
+    display: "{name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: UserStore, id: $req.parent}
+        basis: stated
+        require: [target]

@@ -1,0 +1,380 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/permission_scheme.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: JI-06
+        request:
+          project: absent
+        items: permissionSchemes
+    id_expr:
+      op: str
+      of: id
+    properties:
+      name: name
+      description: description
+      permissions:
+        op: map_each
+        of: permissions
+        value:
+          object:
+            id:
+              op: str
+              of: $item.id
+            permission:
+              op: str
+              of: $item.permission
+            holder_type:
+              op: str
+              of: $item.holder.type
+            holder_parameter:
+              op: null_if_missing
+              of:
+                any:
+                  - $item.holder.parameter
+                  - $item.holder.value
+    display: "{name|id}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: &a1
+            op: str
+            of: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: JIRA-PS-{id}
+  - id: grants
+    kind: relations
+    sources:
+      - call: JI-06
+        request:
+          project: absent
+        items: permissionSchemes
+    vars:
+      sid:
+        op: str
+        of: id
+      host:
+        ref: $tenant
+        prop: $id
+      lines:
+        op: map_each
+        of:
+          op: index
+          name: scheme_lines
+          key:
+            op: str
+            of: id
+        value:
+          object:
+            permission: $item.permission
+            h:
+              if:
+                path: $item.special
+                truthy: true
+              then:
+                template: special|{$item.special}
+              else:
+                if:
+                  path: $item.user
+                  truthy: true
+                then:
+                  template: user|{$item.user}
+                else:
+                  if:
+                    path: $item.group
+                    truthy: true
+                  then:
+                    template: group|{$item.group}
+      holders:
+        op: uniq
+        of:
+          op: pluck
+          of: $vars.lines
+          field: h
+      projects:
+        op: filter
+        of:
+          op: index
+          name: projects_of_scheme
+          key:
+            op: str
+            of: id
+        where:
+          has:
+            type: Project
+            id: $item
+      pairs:
+        op: flatten
+        of:
+          op: map_each
+          of: $vars.projects
+          as: p
+          value:
+            op: map_each
+            of: $vars.holders
+            as: hh
+            value:
+              object:
+                p: $vars.p
+                kind:
+                  op: regex
+                  of: $vars.hh
+                  pattern: ^([^|]*)\|
+                id:
+                  op: regex
+                  of: $vars.hh
+                  pattern: ^[^|]*\|(.*)$
+                permissions:
+                  op: uniq_sorted
+                  of:
+                    op: pluck
+                    of:
+                      op: filter
+                      of: $vars.lines
+                      where:
+                        path: $item.h
+                        eq_expr: $vars.hh
+                    field: permission
+    relations:
+      - type: has_role_on
+        each: $vars.pairs
+        source:
+          switch: $item.kind
+          cases:
+            special:
+              type: SpecialPrincipal
+              id: $item.id
+              parts:
+                host: $vars.host
+              create:
+                always: true
+                rule: make
+                record:
+                  object:
+                    cls: $item.id
+            user:
+              type: User
+              id: $item.id
+            group:
+              type: FoundGroup
+              id: $item.id
+        target:
+          type: Project
+          id: $item.p
+        role:
+          name:
+            const: permission_scheme
+        basis: stated
+        properties:
+          permissions: $item.permissions
+          via_scheme:
+            ref:
+              type: PermissionScheme
+              id: $vars.sid
+            prop: $key
+    key_template: JIRA-PS-{id}
+  - id: applies
+    kind: relations
+    sources:
+      - call: JI-06
+        request:
+          project: present
+        items: (root)
+        where:
+          path: id
+          present: true
+    relations:
+      - type: applies_to
+        source:
+          type: PermissionScheme
+          id:
+            op: str
+            of: id
+        target:
+          type: Project
+          id:
+            op: str
+            of: $req.project
+        basis: stated
+        require:
+          - source
+          - target
+    key_template: JIRA-PS-{id}
+runtime_stub: null
+runtime_key: JIRA-PS-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: PermissionScheme:grants
+    sources:
+      - call: JI-06
+        request:
+          project: absent
+        items: permissionSchemes
+    vars:
+      sid:
+        op: str
+        of: id
+      host:
+        ref: $tenant
+        prop: $id
+      lines:
+        op: map_each
+        of:
+          op: index
+          name: scheme_lines
+          key:
+            op: str
+            of: id
+        value:
+          object:
+            permission: $item.permission
+            h:
+              if:
+                path: $item.special
+                truthy: true
+              then:
+                template: special|{$item.special}
+              else:
+                if:
+                  path: $item.user
+                  truthy: true
+                then:
+                  template: user|{$item.user}
+                else:
+                  if:
+                    path: $item.group
+                    truthy: true
+                  then:
+                    template: group|{$item.group}
+      holders:
+        op: uniq
+        of:
+          op: pluck
+          of: $vars.lines
+          field: h
+      projects:
+        op: filter
+        of:
+          op: index
+          name: projects_of_scheme
+          key:
+            op: str
+            of: id
+        where:
+          has:
+            type: Project
+            id: $item
+      pairs:
+        op: flatten
+        of:
+          op: map_each
+          of: $vars.projects
+          as: p
+          value:
+            op: map_each
+            of: $vars.holders
+            as: hh
+            value:
+              object:
+                p: $vars.p
+                kind:
+                  op: regex
+                  of: $vars.hh
+                  pattern: ^([^|]*)\|
+                id:
+                  op: regex
+                  of: $vars.hh
+                  pattern: ^[^|]*\|(.*)$
+                permissions:
+                  op: uniq_sorted
+                  of:
+                    op: pluck
+                    of:
+                      op: filter
+                      of: $vars.lines
+                      where:
+                        path: $item.h
+                        eq_expr: $vars.hh
+                    field: permission
+    relations:
+      - type: has_role_on
+        each: $vars.pairs
+        source:
+          switch: $item.kind
+          cases:
+            special:
+              type: SpecialPrincipal
+              id: $item.id
+              parts:
+                host: $vars.host
+              create:
+                always: true
+                rule: make
+                record:
+                  object:
+                    cls: $item.id
+            user:
+              type: User
+              id: $item.id
+            group:
+              type: FoundGroup
+              id: $item.id
+        target:
+          type: Project
+          id: $item.p
+        role:
+          name:
+            const: permission_scheme
+        basis: stated
+        properties:
+          permissions: $item.permissions
+          via_scheme:
+            ref:
+              type: PermissionScheme
+              id: $vars.sid
+            prop: $key
+  - id: PermissionScheme:applies
+    sources:
+      - call: JI-06
+        request:
+          project: present
+        items: (root)
+        where:
+          path: id
+          present: true
+    relations:
+      - type: applies_to
+        source:
+          type: PermissionScheme
+          id:
+            op: str
+            of: id
+        target:
+          type: Project
+          id:
+            op: str
+            of: $req.project
+        basis: stated
+        require:
+          - source
+          - target
+identity:
+  primary:
+    - name: id
+      expr: *a1
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: JIRA-PS-{id}
+    replaced:
+      - id

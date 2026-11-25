@@ -1,0 +1,149 @@
+{
+  "since": "2026-10-25T00:00:00Z",
+  "github": {
+    "org": "aegi-site-r1-org",
+    "enterprise": "aegi-site-r1",
+    "repos": [],
+    "maxCommitDetails": 200
+  },
+  "okta": {
+    "orgHost": "trial-6154385.okta.com",
+    "scopes": [
+      "okta.agentPools.read",
+      "okta.apiTokens.read",
+      "okta.apps.read",
+      "okta.authenticators.read",
+      "okta.authorizationServers.read",
+      "okta.behaviors.read",
+      "okta.captchas.read",
+      "okta.clients.read",
+      "okta.deviceAssurance.read",
+      "okta.devices.read",
+      "okta.domains.read",
+      "okta.emailDomains.read",
+      "okta.emailServers.read",
+      "okta.eventHooks.read",
+      "okta.groups.read",
+      "okta.idps.read",
+      "okta.inlineHooks.read",
+      "okta.logs.read",
+      "okta.logStreams.read",
+      "okta.networkZones.read",
+      "okta.oauthIntegrations.read",
+      "okta.orgs.read",
+      "okta.policies.read",
+      "okta.profileMappings.read",
+      "okta.pushProviders.read",
+      "okta.realms.read",
+      "okta.roles.read",
+      "okta.schemas.read",
+      "okta.securityEventsProviders.read",
+      "okta.threatInsights.read",
+      "okta.trustedOrigins.read",
+      "okta.users.read"
+    ],
+    "policyTypes": [
+      "OKTA_SIGN_ON",
+      "ACCESS_POLICY",
+      "MFA_ENROLL",
+      "PASSWORD",
+      "IDP_DISCOVERY",
+      "PROFILE_ENROLLMENT",
+      "POST_AUTH_SESSION",
+      "ENTITY_RISK"
+    ]
+  },
+  "slack": {
+    "teamId": "T0C60HSQ34H",
+    "enterpriseId": "E0C60HWMGD7",
+    "extraChannels": [
+      "C0C6T7QPPH6",
+      "C0C5WTS9V46",
+      "C0C60QPJFHP",
+      "C0C5WTRUMU6",
+      "C0C5HFHDSGP"
+    ],
+    "appIds": [
+      "A0CC7ACN24U",
+      "A0C5HFF9NTZ",
+      "A0C5YMWRL7L",
+      "A0C60QMC3U1",
+      "A0C5XP50ECW"
+    ],
+    "usergroupIds": [],
+    "integrationLogs": true
+  },
+  "gws": {
+    "adminSubject": "svc.collector@aegi.men",
+    "driveUsers": [
+      "admin@aegi.men",
+      "sec.dohyun@aegi.men",
+      "it.hwamin@aegi.men",
+      "dev.junsik@aegi.men",
+      "dev.jiwon@aegi.men",
+      "hr.yaeji@aegi.men",
+      "sales.taewook@aegi.men",
+      "cs.minji@aegi.men",
+      "svc.collector@aegi.men"
+    ],
+    "forms": [],
+    "scripts": [],
+    "grantedScopes": [
+      "script.deployments.readonly",
+      "gmail.settings.basic"
+    ],
+    "reportApplications": [
+      "drive",
+      "token:authorize",
+      "login",
+      "admin",
+      "groups"
+    ]
+  },
+  "salesforce": {
+    "instanceHost": "aegiinc.my.salesforce.com",
+    "apiVersion": "61.0",
+    "auditDays": 180
+  },
+  "atlassian": {
+    "jira": true,
+    "confluence": true,
+    "audit": true
+  },
+  "worker": {
+    "baseUrl": "https://aegi-scenario-bots.haribozyme.workers.dev",
+    "tables": [
+      "slash-requests",
+      "github-webhooks",
+      "oauth-callbacks"
+    ]
+  },
+  "normalize": {
+    "people": {
+      "admin": "admin@aegi.men",
+      "A": "dev.jiwon@aegi.men",
+      "B": "it.hwamin@aegi.men",
+      "C": "dev.junsik@aegi.men",
+      "D": "hr.yaeji@aegi.men",
+      "E": "sales.taewook@aegi.men",
+      "F": "cs.minji@aegi.men",
+      "target": "sales.sumin@aegi.men"
+    },
+    "accounts": {
+      "A": {
+        "github": "aegi-site-dev-jiwon"
+      },
+      "C": {
+        "github": "aegi-site-dev-junsik"
+      }
+    },
+    "sensitivePaths": [
+      "scenario-lab/logging/**",
+      "scenario-lab/auth/**"
+    ],
+    "measurementPrincipals": {
+      "slack": []
+    }
+  },
+  "$comment": "r2 (2026-10-25~2026-11-08, GWS aegi.men, Okta trial-6154385, GitHub aegi-site-r1-org, Slack AEGI Company E0C60HWMGD7/T0C60HSQ34H). aegi.site 회차 설정은 collector.config.aegi-site.json. 바꾸는 법은 env-automation/docs/AEGI_ROUND_DOMAIN_SWITCH.md. 폼·Apps Script id 는 2회차 세팅 뒤 채운다. Slack 수집 토큰(Vault)은 2회차 AEGI Company 것이다(2026-10-27·28 실측 run 의 팀 ID 로 확인). 수집기는 토큰이 이 teamId·enterpriseId 와 다르면 Slack 을 멈춘다(tenant.ts)."
+}

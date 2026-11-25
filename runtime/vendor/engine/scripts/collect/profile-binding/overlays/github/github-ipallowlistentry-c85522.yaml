@@ -1,0 +1,40 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/ip_allow_list_entry.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-31
+        items: data.organization.ipAllowListEntries.nodes
+        where:
+          path: id
+          truthy: true
+    properties:
+      name:
+        op: null_if_missing
+        of: name
+      allow_list_value: allowListValue
+      is_active: isActive
+      created_at: createdAt
+      updated_at: updatedAt
+    display: IP 허용 {allowListValue}
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-IPALLOW-{id}
+runtime_stub: null
+runtime_key: GH-IPALLOW-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

@@ -1,0 +1,46 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/authenticator_base.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-22
+        request:
+          kind: authenticators
+        where:
+          path: id
+          present: true
+    mutable_ids:
+      key: key
+    properties:
+      name: name
+      key: key
+      type: type
+      status: status
+      created: created
+      lastUpdated: lastUpdated
+    display: 인증기 {name|key}
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-AUTHN-{id}
+runtime_stub: null
+runtime_key: OKTA-AUTHN-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  key:
+    stability: mutable
+fields:
+  settings:
+    path: settings
+    source: collected_response
+fields_basis: 설정 판정이 읽는 응답 최상위 키다. Profile 필드 선언에 없어 quarantined_fields 로 빠지던 것을 선언한다(값은 수집 응답 그대로)

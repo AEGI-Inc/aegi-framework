@@ -1,0 +1,100 @@
+format: automation-source-bindings/1
+# 출처(O2, 2026-11-17 git log 로 찾아 적음). 이 파일은 글로 적은 계약이고 엔진은 읽지 않는다. 실제 규칙은 엔진 overlay(new-automation-rule · new-automation-request-endpoint · new-workflow-request-endpoint 등, source 칸이 이 파일)와 crosswalk.yaml 줄이다
+sources:
+  format: 1a3d30c(aegi-knowledge#78, 2026-10-27) 처음 적음. 파일 양식 이름
+  status: 1a3d30c(#78). 구현 후보 — 엔진 정규화 overlay 로 옮겨 가는 중
+  scope: 1a3d30c(#78). 9 interface · 17 관계는 그대로, 수집 레코드 위에 더하는 투영만
+  objects: 1a3d30c(#78) Atlassian AutomationRule · AutomationRequestEndpoint(Atlassian Automation REST rule 문서, references), e0e941e(#231, 2026-11-04) Salesforce FlowSlackActionEndpoint(Tooling API Flow 메타데이터 actionCalls), ba3482d(#233, 2026-11-04) GitHub WorkflowRequestEndpoint(GH-10 기본 브랜치 워크플로 파일 url_refs), 2026-11-24 Slack WorkflowConnectorEndpoint(SL-17 워크플로 단계 inputs, engine#419 재측정)
+  matching: 1a3d30c(#78). incoming webhook 규칙 UUID 짝, Slack 수신 웹훅 주소 지문 짝. crosswalk.yaml request_target · secret_fingerprint 줄과 같은 뜻
+  worker_script: 1a3d30c(#78). Cloudflare Workers 설정과 배포 스크립트 GET, 리터럴 POST 경로만. crosswalk.yaml request_target Worker 줄(ingress_post_sha256)이 쓴다
+  boundaries: 1a3d30c(#78). 관계를 지어내지 않는 경계(실행 · 성공을 증명하지 않음, 동적 · 가린 · 모호한 대상은 관계 없음)
+  references: 1a3d30c(#78). 벤더 문서 주소
+status: implementation_candidate
+scope: Existing interfaces and relations; additive adapter record projections, not a rewrite of frozen V3.2.
+objects:
+  - provider: atlassian
+    services: [jira, confluence]
+    object_type: AutomationRule
+    interfaces: [Automation]
+    identity: [cloud_id, product, rule_uuid]
+    source: Automation REST GET rule by UUID
+    evidence: stated
+    properties:
+      state: Vendor ENABLED/DISABLED state; unknown states do not participate in matching.
+      incoming_rule_key: Product and UUID for an incoming-webhook trigger only.
+      request_secret_fingerprints: Exact fingerprints of literal Slack bearer URLs in typed sending actions only.
+      request_targets: Explicit action target references; body/comment URL mentions are excluded.
+      components: Rule component rows (type per trigger, condition, action). semantic_mapping.yaml automation_scopes actions.from reads the types.
+      scope_project_ids: Project ids the rule runs in (rule scope). Empty or missing means the scope was not collected. semantic_mapping.yaml automation_scopes scope.property.
+  - provider: atlassian
+    services: [jira, confluence]
+    object_type: AutomationRequestEndpoint
+    interfaces: [Endpoint]
+    identity: [cloud_id, product, rule_uuid, component_id, target_sha256]
+    source: Literal target of a typed HTTP/Slack sending component in an Automation rule
+    evidence: stated
+    owner: Parent AutomationRule via contained_in; request endpoints are not receiving automations.
+  - provider: salesforce
+    object_type: FlowSlackActionEndpoint
+    interfaces: [Endpoint]
+    identity: [flow_active_version_id, action_name]
+    source: Literal Slack target of a slackPostMessage action in an active Flow version (Tooling API Flow metadata actionCalls inputParameters)
+    evidence: stated
+    owner: Parent FlowDefinitionView via contained_in; the Flow sends through the org's Slack app connection (slackAppIdForToken), not as the Flow itself.
+    properties:
+      slack_conversation_id: Literal slackConversationId only; variable or formula inputs stay unresolved and make no relation.
+      slack_workspace_id: Literal slackWorkspaceIdForToken (workspace or Enterprise Grid id).
+      slack_app_id: Literal slackAppIdForToken, the Slack app whose token posts the message.
+  - provider: github
+    object_type: WorkflowRequestEndpoint
+    interfaces: [Endpoint]
+    identity: [workflow_id, url_sha256]
+    source: Literal URL written in a GitHub Actions workflow file at the default branch commit (GH-10 contents summary url_refs; host and fingerprint only)
+    evidence: stated
+    owner: Parent workflow via contained_in; the workflow sends with whatever secret the step reads, not as the workflow itself.
+  - provider: slack
+    object_type: WorkflowConnectorEndpoint
+    interfaces: [Endpoint]
+    identity: [workflow_id, step_id]
+    source: Literal target of a connector step in a Slack workflow (SL-17 admin.workflows.search steps[].inputs) — GitHub create issue repository URL, Jira create issue site and project key, Google Sheets add row spreadsheet id
+    evidence: stated
+    owner: Parent workflow via contained_in; the step calls with the connector token (credential_source END_USER, BUILDER, DEVELOPER), not as the workflow itself. Slack does not say whose account the token belongs to.
+    properties:
+      github_repo: owner/repo cut from a literal https://api.github.com/repos/<owner>/<repo> value only.
+      jira_project_key: Literal project key, only with a literal Jira site (cloud id) input.
+      gws_file_id: Literal spreadsheet id.
+      credential_source: Connector token source (END_USER, BUILDER, DEVELOPER) and user_context_source; the token value is never read.
+matching:
+  incoming_rule:
+    kind: request_target
+    identity: [product, rule_uuid]
+    unique_match: true
+    reason: Rule lookup is cloud-scoped, so duplicate UUIDs across collected sites remain ambiguous.
+    opaque_namespace: The UUID between /a/ and the rule UUID in a webhook URL is retained as an opaque namespace reference; it is not assumed to be the Automation API cloudId.
+  slack_bearer:
+    kind: secret_fingerprint
+    unique_match: true
+    enabled_rules_only: true
+    sends_from_fields:
+      slack.notification: [webhookUrl]
+      jira.issue.outgoing.webhook: [url]
+      outgoing.webhook: [url]
+    credential_url: HTTPS hooks.slack.com/services/{workspace}/{endpoint}/{secret}; no query, userinfo or nondefault port.
+worker_script:
+  provider: worker
+  object_type: WorkerScript
+  interfaces: [Automation]
+  identity: [cloudflare_account_id, script_name]
+  source: Cloudflare Workers settings and deployed script content GET
+  ingress: Only literal POST cases in a switch whose local discriminant is built from request method and pathname.
+  evidence: stated
+  source_content: Parse in memory; retain source fingerprint and recognized routes, never module bodies or secret binding values.
+  dynamic_routes: Not resolved by this projection.
+boundaries:
+  - Existing nine interfaces and seventeen relation names remain unchanged.
+  - Matching does not execute a webhook or prove that a send succeeded.
+  - Dynamic targets, redacted values, missing targets and ambiguous matches do not generate relations.
+  - Frozen V3.2 researched types remain unchanged; this file defines the additive runtime projection and its provenance.
+references:
+  - https://developer.atlassian.com/cloud/automation/rest/api-group-rule-management/
+  - https://support.atlassian.com/jira/kb/how-to-trigger-the-user-created-automation-rule-using-system-webhooks/

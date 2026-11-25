@@ -1,0 +1,71 @@
+{
+  "format": "aegi-model-v2-research-overrides/v1",
+  "rule": "Machine-applied form of user decisions in relation_decisions_v2.json. Applied after the v1 ledger and same_entity_decisions.json. Every entry names its decision code; an entry that no longer matches the research outputs fails the build.",
+  "decided_by": "user",
+  "decided_on": "2026-10-19",
+  "same_entity": {
+    "okta": {
+      "different": [
+        {"pair": ["UserGetSingleton", "UserResponseSchema"], "code": "V2-S3", "why": "UserResponseSchema is the identity-source user (id described as the ID of the user in the identity source); properties overlap 25%"}
+      ],
+      "basis": [
+        {"pairs": [
+          ["rcar-entry-get", "rcar-entry-get_2"], ["requested", "requested_2"],
+          ["reviewer-entitlement", "reviewer-entitlement_2"], ["reviewer-entitlement-bundle", "reviewer-entitlement-bundle_2"],
+          ["reviewer-entitlement-value", "reviewer-entitlement-value_2"], ["reviewer-group-profile", "reviewer-group-profile_2"],
+          ["security-access-review", "security-access-review_2"], ["security-access-review-access-item", "security-access-review-access-item_2"],
+          ["security-access-review-access-item-app-info", "security-access-review-access-item-app-info_2"],
+          ["security-access-review-history-item", "security-access-review-history-item_2"],
+          ["security-access-review-principal-okta-admin-role", "security-access-review-principal-okta-admin-role_2"],
+          ["security-access-review-sub-access-item", "security-access-review-sub-access-item_2"],
+          ["AIAgent", "AIAgent_2"]
+        ], "rule": "same_schema_across_specs", "check": "identical_properties", "code": "V2-S1"},
+        {"pairs": [["collection-full", "collection-full-v2"], ["review-full", "review-sparse"]], "rule": "subset_view", "check": "property_subset", "code": "V2-S2"}
+      ]
+    },
+    "github": {
+      "different": [
+        {"pair": ["User", "simple-user"], "code": "V2-S4", "why": "simple-user also represents organizations (repository owner); conditional on type"},
+        {"pair": ["public-user", "simple-user"], "code": "V2-S4", "why": "same as above"}
+      ],
+      "polymorphic": [
+        {"space": "simple-user", "field": "type", "cases": {"User": "public-user", "Bot": "public-user", "Organization": "organization-full"}, "code": "V2-S4"}
+      ]
+    },
+    "gws": {
+      "different": [
+        {"pair": ["Member.memberKey", "User"], "code": "V2-S5", "why": "a group member key names a user, a group or the whole customer; Member.type decides"}
+      ],
+      "polymorphic": [
+        {"space": "Member.memberKey", "field": "type", "cases": {"USER": "User", "GROUP": "Group", "CUSTOMER": "Customer"}, "code": "V2-S5"}
+      ]
+    },
+    "jira": {
+      "different": [
+        {"pair": ["RemoteIssueLink", "{}_2"], "code": "V2-S6", "why": "{}_2 is an unnamed space without properties; combined score 0.43"}
+      ],
+      "basis": [
+        {"pairs": [["FoundGroup", "GroupDetails"], ["FoundGroup", "GroupName"], ["GroupDetails", "GroupName"]], "rule": "human_q2", "check": "none", "code": "V2-S7"}
+      ]
+    },
+    "slack": {
+      "basis": [
+        {"pairs": [["200.scheduled_messages[*]", "200.scheduled_messages[*]_2"]], "rule": "same_properties", "check": "identical_properties", "code": "V2-S8"}
+      ]
+    }
+  },
+  "cartography": [
+    {"provider": "gws", "class": "GoogleWorkspaceUserToGroupInheritedMemberRel", "effect": "effective_access_derivation", "code": "V2-M1", "why": "nested-group inheritance is computed by Effective Access, not stored"},
+    {"provider": "gws", "class": "GoogleWorkspaceGroupToGroupInheritedMemberRel", "effect": "effective_access_derivation", "code": "V2-M2", "why": "same as above"},
+    {"provider": "slack", "class": "SlackGroupToChannelRel", "effect": "no_relation", "code": "V2-M3", "why": "usergroup prefs.channels is a one-time default-channel invite, not access (aegi-schema Slack_Profiles)"}
+  ],
+  "interfaces": [
+    {"provider": "jira", "space": "ServerInformation", "interfaces": ["Tenant"], "code": "V2-T1", "why": "the Atlassian site is the tenant that Jira global administration targets; matches runtime profile site"},
+    {"provider": "m365", "space": "microsoft.graph.namedLocation", "interfaces": ["Policy"], "code": "M365-I1", "why": "2026-11-20 V3.2 precedent: an IP or country range used as a Conditional Access condition, like Okta NetworkZone (Policy); not a cross-tenant data channel"},
+    {"provider": "m365", "space": "microsoft.graph.device", "interfaces": ["Resource"], "code": "M365-I2", "why": "2026-11-20 V3.2 precedent: directory device record, like GWS MobileDevice and Cloud Identity Device (Resource)"},
+    {"provider": "m365", "space": "microsoft.graph.managedDevice", "interfaces": ["Resource"], "code": "M365-I3", "why": "2026-11-20 V3.2 precedent: Intune managed device, like GWS ChromeOsDevice and MobileDevice (Resource)"},
+    {"provider": "m365", "space": "microsoft.graph.administrativeUnit", "interfaces": ["Resource"], "code": "M365-I4", "why": "2026-11-20 V3.2 precedent: directory container that scopes administration, like GWS OrgUnit (Resource); it cannot hold permissions itself"},
+    {"provider": "m365", "space": "microsoft.graph.domain", "interfaces": ["Tenant"], "code": "M365-I5", "why": "2026-11-20 V3.2 precedent: verified tenant domain, like GWS Domains (Tenant)"},
+    {"provider": "m365", "space": "microsoft.graph.subscription", "interfaces": ["Endpoint"], "code": "M365-I6", "why": "2026-11-20 V3.2 precedent: change notification subscription delivering to an outside notificationUrl, like GitHub hook and Okta EventHook (Endpoint)"}
+  ]
+}

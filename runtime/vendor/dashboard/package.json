@@ -1,0 +1,43 @@
+{
+  "name": "aegi-dashboard-new",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "arch:pr-check": "node scripts/archPrCheck.mjs",
+    "dev": "vite",
+    "build": "npm run lint:styles && npm run lint:rules && npm run check:docs && npm run check:names && tsc -b && vite build",
+    "lint:styles": "node scripts/lintStyles.mjs",
+    "lint:rules": "node scripts/checkRules.mjs",
+    "check:docs": "node scripts/checkDocs.mjs",
+    "check:names": "node scripts/checkNames.mjs",
+    "test:functional": "node scripts/runFunctionalTests.mjs",
+    "dataset:precompress": "node scripts/precompressDataset.mjs",
+    "preview": "vite preview",
+    "data:ci": "node scripts/makeCiDataset.mjs",
+    "test:unit": "tsx --test scripts/assistantCollapse.test.ts scripts/adapterCardState.test.ts scripts/collectionFreshness.test.ts scripts/graphInvestigation.test.ts scripts/objectPhrase.test.ts scripts/blastRadius.test.ts scripts/timeline.test.ts scripts/logRead.test.ts scripts/complianceCatalog.test.ts scripts/iso27001Overview.test.ts scripts/customCriterion.test.ts scripts/demoGuidelines.test.ts scripts/browserChecks.test.ts scripts/mediatedServicePaths.test.ts scripts/eaExplain.test.ts scripts/standardResults.test.ts scripts/projectEdges.test.ts scripts/eventBoard.test.ts scripts/findingPath.test.ts scripts/demoMode.test.ts scripts/publicDemoTutorial.test.ts scripts/eventBoardV3.test.ts scripts/assistant-eval/score.test.ts scripts/accountState.test.ts scripts/propertyRules.test.ts scripts/threatSpread.test.ts scripts/similarThreats.test.ts scripts/threatRecheck.test.ts scripts/scenarioTags.test.ts scripts/threatRows.test.ts scripts/saasLinks.test.ts scripts/accessTable.test.ts scripts/assistantAnswer.test.ts scripts/typeScope.test.ts scripts/frameworkModel.test.ts scripts/scopeExcluded.test.ts scripts/findingCompliance.test.ts scripts/controlStatus.test.ts scripts/complianceVerdicts.test.ts scripts/complianceExceptions.test.ts scripts/complianceRemediations.test.ts scripts/complianceGuidance.test.ts scripts/threatV2.test.ts scripts/outsideDestinations.test.ts scripts/evidenceGroups.test.ts scripts/serviceCircles.test.ts",
+    "assistant:eval": "tsx scripts/assistant-eval/run.ts",
+    "assistant:experiment": "tsx scripts/assistant-eval/experiment.ts",
+    "assistant:eval:compliance": "tsx scripts/assistant-eval/compliance.ts",
+    "test:assistant": "tsx --test server/assistant/answerShape.test.ts server/assistant/assistant.test.ts server/assistant/eventTools.test.ts server/assistant/eventGraph.test.ts server/assistant/supportTools.test.ts server/assistant/provider.test.ts server/assistant/logTools.test.ts server/assistant/stepLoop.test.ts",
+    "test:server": "tsx --test server/d1Timing.test.ts server/standardHistory.test.ts server/logEvents.test.ts server/splunkTransport.test.ts server/splunkRelay.test.ts server/measured.test.ts server/exceptions.test.ts server/credentials.test.ts server/handling.test.ts server/complianceExceptions.test.ts server/investigations.test.ts server/snapshotBundle.test.ts server/migrate.test.ts server/graph.test.ts server/graphTools.test.ts server/siteWorker.test.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.3.0",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "lucide-react": "^1.47.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "thinking-orbs": "0.3.2",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "tsx": "^4.23.15"
+  }
+}

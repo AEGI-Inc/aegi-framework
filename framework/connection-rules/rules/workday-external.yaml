@@ -1,0 +1,168 @@
+# Workday 공통 수단 연결 규칙
+# Workday 가 밖의 서버·서비스(IdP, IGA, 연동 플랫폼, 업체 서버)와 붙는 수단. 다른 SaaS 와의 쌍은 ../rules/<saas>-workday.yaml
+# 벤더 문서로만 썼다 (2026-10-16). 시험 테넌트 값은 ../test-environment/workday-external.yaml. 범례는 legend.yaml. Workday 공통 확인 표면은 okta-workday.yaml 머리말
+# Workday 에 밖의 시스템이 붙는 길은 둘이다: ISU(Integration System User) 사용자 이름·비밀번호, 또는 API 클라이언트(Register API Client / Register API Client for Integrations, Client ID·Secret·Refresh Token). 둘 다 Get_Workday_Account_Signons 에 남는다 (User_Name, API_Client_ID)
+
+anchor: workday
+written: '2026-10-16'
+verified: '2026-10-16'
+kind: rules
+
+methods:
+- id: entra_inbound_provisioning
+  type: identity
+  what: "Microsoft Entra ID 가 Workday 직원을 가져와 AD·Entra 사용자를 만듦. Entra 쪽에 Workday Username(username@tenant), 비밀번호, Workday Web Services API URL(https://<호스트>.workday.com/ccx/service/<tenant>/Human_Resources) 을 넣고 기본 인증으로 부른다"
+  identify: {api: "workday Get_Integration_System_Users (User_Name, Do_Not_Allow_UI_Sessions)", when: "Entra 프로비저닝 앱이 쓰는 ISU 가 있음"}
+  note: "Workday 쪽 준비: Create Integration System User(Do Not Allow UI Sessions), Integration System Security Group(Constrained·Unconstrained), 도메인 Get·Put 권한, Activate Pending Security Policy Changes. 선택으로 Maintain IP Ranges 와 Manage Authentication Policies 로 Entra IP 대역만 허용할 수 있다"
+  points_to:
+  - {tier: config_name, a: "entra 프로비저닝 앱 Admin Credentials 의 Workday Username", b: "workday ISU User_Name 과 테넌트", check: "a 의 @ 앞이 b 이고 @ 뒤가 그 테넌트다", if_unreadable: "Entra 쪽 값은 Entra 관리 센터 프로비저닝 화면 (비밀번호는 보이지 않음)"}
+  - {tier: config_name, a: "entra 앱의 Workday Web Services API URL 호스트·테넌트", b: "workday 테넌트 Web Services 주소", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "entra 프로비저닝 로그 시각", b: "workday Get_Workday_Account_Signons 에서 그 ISU 의 로그인 (Signon_IP_Address)", check: "시각이 가깝다"}
+  activity: ["workday 그 ISU 의 Get_Workday_Account_Signons, User Activity Logging (System Account = ISU)"]
+  sources: ["https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-inbound-tutorial (Create Integration System User, Do Not Allow UI Sessions, 보안 그룹, 도메인 권한, ccx/service 주소 꼴)", "https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-inbound-cloud-only-tutorial (Workday Username username@tenant, Workday Web Services API URL, Notification Email)", "https://learn.microsoft.com/en-us/entra/identity/app-provisioning/workday-integration-reference (basic authentication, Maintain IP Ranges)", "https://community.workday.com/sites/default/files/file-hosting/productionapi/Integrations/v47.0/Get_Integration_System_Users.html"]
+
+- id: entra_writeback
+  type: identity
+  what: "Microsoft Entra ID 가 Workday 에 업무 이메일, Workday 사용자 이름, 전화번호를 되써 넣음. Entra 쪽에 Admin Username(username@tenant), 비밀번호, Tenant URL 을 넣고, Workday 쪽은 Work Contact Change 업무 프로세스 보안 정책의 Change Work Contact Information (Web Service) 에 ISU 그룹을 넣는다"
+  identify: {api: "workday Work Contact Change 업무 프로세스 보안 정책 (화면)", when: "Change Work Contact Information (Web Service) 칸에 Entra ISU 그룹이 있음"}
+  points_to:
+  - {tier: config_name, a: "entra 라이트백 앱의 Admin Username, Tenant URL", b: "workday ISU User_Name, 테넌트 주소", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "entra 프로비저닝 로그", b: "workday Work Contact Change 실행 (실행 계정 = ISU)", check: "시각이 가깝다"}
+  activity: ["workday 업무 프로세스 기록, User Activity Logging"]
+  sources: ["https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-writeback-tutorial (Admin Username, Tenant URL, Work Email·사용자 이름·전화)", "https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-inbound-tutorial (Work Contact Change, Change Work Contact Information (Web Service))"]
+
+- id: entra_saml_sso
+  type: identity
+  what: "Microsoft Entra ID 가 Workday 로그인을 맡음 (SAML, SP 시작). Workday 쪽은 Edit Tenant Setup - Security > Import Identity Provider 로 Entra 메타데이터 XML 을 넣는다"
+  identify: {api: "workday Edit Tenant Setup - Security 의 SAML Identity Providers (화면)", when: "Entra 메타데이터로 만든 IdP 행이 있음"}
+  points_to:
+  - {tier: config_id, a: "workday SAML Identity Providers 행의 Issuer", b: "entra 앱 메타데이터 entityID", check: "a 와 b 가 같다", if_unreadable: "Workday SAML 설정을 주는 API 는 문서에서 찾지 못함"}
+  - {tier: fingerprint, a: "workday 그 행의 x509 Certificate", b: "entra 앱 SAML 서명 인증서", check: "a 의 sha256 과 b 가 같다"}
+  - {tier: config_name, a: "entra 앱 Sign-on URL·Reply URL (https://<호스트>.workday.com/<tenant>/login-saml2.flex 꼴)", b: "workday 테넌트 주소", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "workday Get_Workday_Account_Signons 의 SAML_Identity_Provider_Reference", b: "그 IdP 행", check: "a 가 그 행을 가리킨다"}
+  activity: ["workday Get_Workday_Account_Signons", "entra 로그인 로그"]
+  sources: ["https://learn.microsoft.com/en-us/entra/identity/saas-apps/workday-tutorial (SP initiated, Import Identity Provider, Service Provider ID http://www.workday.com, login-saml2.flex)", "https://community.workday.com/sites/default/files/file-hosting/productionapi/Identity_Management/v47.0/Get_Workday_Account_Signons.html"]
+
+- id: iga_connector
+  type: stored_credential
+  what: "IGA·연동 도구(예 SailPoint, Saviynt)가 Workday 계정을 가져오고 고침. SailPoint 는 Basic(서비스 계정 username@tenant, 비밀번호, Workday URL https://<호스트>/ccx/service/<tenant>/Human_Resources) 또는 OAuth 2.0 Refresh Token(Client ID, Client Secret, 만료 없는 Refresh Token, REST API Endpoint https://<호스트>/ccx/api/v1/<tenant>) 을 쓴다"
+  identify: {api: "workday Get_Integration_System_Users, View API Clients (화면)", when: "도구용 ISU 나 API 클라이언트가 있음"}
+  points_to:
+  - {tier: config_name, a: "도구 연결 설정의 Service Account (username@tenant)", b: "workday ISU User_Name", check: "a 의 @ 앞이 b 다"}
+  - {tier: config_id, a: "도구 연결 설정의 Client ID", b: "workday View API Clients 의 Client ID", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "workday Get_Workday_Account_Signons 의 API_Client_ID 또는 User_Name", b: "그 Client ID 또는 ISU", check: "a 와 b 가 같다"}
+  activity: ["workday Get_Workday_Account_Signons, User Activity Logging"]
+  sources: ["https://documentation.sailpoint.com/connectors/workday/help/integrating_workday/connection_settings.html (Basic·OAuth 2.0 필드, ccx/api/v1, ccx/oauth2/<tenant>/token)", "https://exchange.saviynt.com/products/workday?hsLang=en (web services 로 가져오기·프로비저닝)"]
+
+- id: oauth_api_client
+  type: app_grant
+  what: "밖의 앱이 Workday API 클라이언트로 Workday REST·SOAP API 를 부름. 관리자가 Edit Tenant Setup - Security 에서 OAuth 2.0 Clients Enabled 를 켜고 Register API Client(또는 Register API Client for Integrations) 로 만든다. Client Grant(Authorization Code 등), Redirection URL, Scope(Functional Areas), Non-Expiring Refresh Tokens 를 고른다. Integrations 용은 Manage Refresh Tokens for Integrations 에서 ISU 로 Refresh Token 을 만든다. Client Secret 은 만들 때 한 번만 보인다"
+  identify: {api: "workday View API Clients 리포트 (Client ID, REST API Endpoint, Token Endpoint. 화면. 목록을 주는 WWS 작업은 문서에서 찾지 못함)", when: "API 클라이언트가 있음"}
+  points_to:
+  - {tier: config_id, a: "workday API 클라이언트 Client ID", b: "밖의 앱 연결 설정의 Client ID", check: "a 와 b 가 같다"}
+  - {tier: config_name, a: "workday API 클라이언트 Redirection URL 호스트", b: "밖의 앱 (예 https://www.workato.com/oauth/callback, https://integrations.zluri.com/connect_callback/workdayOauth, https://<회사>.peakon.com/workday/complete)", check: "a 와 b 가 같다"}
+  - {tier: config_name, a: "workday API 클라이언트 Scope (Functional Areas)", b: "밖의 앱이 쓰는 권한", check: "범위 판단"}
+  - {tier: log_id, a: "workday Get_Workday_Account_Signons 의 API_Client_ID", b: "그 Client ID", check: "a 와 b 가 같다"}
+  activity: ["workday Get_Workday_Account_Signons (API_Client_ID), Get_Unidentified_Signons (API_Client_ID)"]
+  sources: ["https://doc.workday.com/peakon/en-us/workday-peakon-employee-voice/integrations/workday-integration/nfa1667304944189.html (OAuth 2.0 Clients Enabled, Register API Client, Authorization Code Grant, Redirection URL, Non-Expiring Refresh Tokens, Scope, Client Secret 은 페이지를 닫으면 다시 못 봄)", "https://doc.workday.com/admin-guide/en-us/workday-data-cloud/data-out/workday-data-lake/register-api-client-for-data-lake--refresh-token-g.html (Register API Client for Integrations, Manage Refresh Tokens for Integrations)", "https://doc.workday.com/admin-guide/en-us/workday-data-cloud/data-out/workday-data-lake/register-api-client-for-data-lake--jwt-bearer-gran.html (Token Endpoint https://<HOST>/ccx/oauth2/<TENANT>/token, Client ID)", "https://doc.workday.com/peakon/en-us/workday-peakon-employee-voice/integrations/workday-integration/gen1667304794785.html (View API Clients)", "https://docs.workato.com/connectors/workday-rest/connection-setup.html (Workato 콜백)", "https://help.zluri.com/docs/connect-workday-to-zluri (Zluri 콜백, View API Clients)", "https://community.workday.com/sites/default/files/file-hosting/productionapi/Identity_Management/v47.0/Get_Workday_Account_Signons.html (API_Client_ID)"]
+
+- id: isu_password_integration
+  type: stored_credential
+  what: "밖의 시스템이 ISU 사용자 이름·비밀번호를 보관해 Workday Web Services 나 맞춤 보고서(RaaS, XML·JSON 을 돌려주는 REST)를 부름 (예 Peakon 의 ISU 방식, Cartography Workday 모듈의 Basic 인증 보고서 호출)"
+  identify: {api: "workday Get_Integration_System_Users (User_Name, Do_Not_Allow_UI_Sessions, Session_Timeout_Minutes)", when: "ISU 가 있음"}
+  note: "ISU 는 연동마다 따로 두라고 Workday Learning 문서가 적는다 (Each integration system must have a unique ISU). 그래서 ISU 이름이 그 연동을 가리키는 경우가 많지만 이름 규칙은 강제가 아니다"
+  points_to:
+  - {tier: config_name, a: "workday ISU User_Name", b: "밖의 시스템 설정의 Workday 사용자 이름", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "workday Get_Workday_Account_Signons 의 그 ISU 로그인 (Signon_IP_Address)", b: "밖의 시스템 서버 주소·실행 시각", check: "IP 와 시각이 맞다"}
+  activity: ["workday Get_Workday_Account_Signons, User Activity Logging (System Account, IP address)"]
+  sources: ["https://doc.workday.com/peakon/en-us/workday-peakon-employee-voice/integrations/workday-integration/gen1667304794785.html (ISU 방식: Tenant, Webservice Host, ISU 사용자 이름·비밀번호)", "https://developer.workday.com/doc/GUID-6b063b57-9d85-474b-99b0-734d714652fd-enHYPHENus.md (RaaS)", "https://docs.cartography.dev/modules/workday (WorkdayHuman, WorkdayOrganization)", "https://github.com/cartography-cncf/cartography/tree/master/cartography/intel/workday (workday_api_url, Basic 인증)", "https://doc.workday.com/admin-guide/en-us/human-capital-management/learning/learning-content/steps--set-up-integration-system-user-security-for.html (ISU 는 연동마다 하나)"]
+
+- id: sftp_file_delivery
+  type: event_delivery
+  what: "Workday 연동(EIB, Studio, 커넥터)이 만든 파일을 밖의 SFTP 서버로 보냄. 실행당 문서 5,000개, 총 3 GB, 파일 1 GB(압축), S/FTP 요청 6시간, 아웃바운드 EIB 문서 보관 180일 한도가 있다"
+  identify: {api: "workday Get_Integration_Systems (연동 설정), Get_Integration_Events (실행)", when: "연동의 전송 대상이 SFTP (전송 설정이 응답의 어느 필드에 담기는지는 문서에 없음. 연동을 만들어 읽는다)"}
+  points_to:
+  - {tier: config_name, a: "workday 연동의 SFTP 전송 대상 호스트 (설정 위치는 문서에 없음)", b: "밖의 SFTP 서버", check: "a 와 b 가 같다", if_unreadable: "Workday 연동 시스템 화면의 전송 설정 (사람)"}
+  - {tier: log_time, a: "workday Get_Integration_Events 의 Completed_DateTime", b: "SFTP 서버 수신 기록", check: "시각이 가깝다"}
+  activity: ["workday Get_Integration_Events (Initiated_By_System_Account_Reference, Integration_Response_Message)"]
+  sources: ["https://doc.workday.com/workday-education/en-us/course-manuals/creating-and-securing-integrations/workday-integrations-overview.html (Using an SFTP server)", "https://doc.workday.com/admin-guide/en-us/manage-workday/tenant-configuration/it-administrator-resources/limitations-and-availability/dan1370797408285.html (S/FTP 6시간, 5,000개, 3 GB, 1 GB, 180일)", "https://community.workday.com/sites/default/files/file-hosting/productionapi/Integrations/v47.0/Get_Integration_Events.html"]
+
+- id: outbound_subscription
+  type: event_delivery
+  what: "Workday 업무 프로세스 이벤트(예 Hire Employee Event)를 구독한 연동 시스템이 밖의 주소로 알림을 밀어 보냄. 엔드포인트는 구독자 종류가 Integration System 일 때만 둘 수 있고, 밀기 구독은 Business Process 와 Event Lite 트랜잭션만 된다. 받는 쪽은 Workday Notification 서비스 WSDL(Receive_Notification)을 구현한다"
+  identify: {api: "workday Get_Subscriptions (External_Endpoint_Data: 엔드포인트, Subscription_User_Name, Disable_Endpoint)", when: "구독에 외부 엔드포인트가 있음"}
+  points_to:
+  - {tier: config_name, a: "workday Get_Subscriptions 의 외부 엔드포인트 주소 호스트", b: "받는 서버", check: "a 와 b 가 같다"}
+  - {tier: config_name, a: "workday 구독의 Subscription_User_Name", b: "받는 서버의 인증 계정", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "workday Get_Integration_Events (그 연동 시스템)", b: "받는 서버 수신 기록", check: "시각이 가깝다"}
+  activity: ["workday Get_Integration_Events"]
+  sources: ["https://community.workday.com/sites/default/files/file-hosting/productionapi/Integrations/v22.0/Get_Subscriptions.html (Endpoints can only be defined for Subscribers of type Integration System, Subscription_User_Name, Disable_Endpoint)", "https://community.workday.com/sites/default/files/file-hosting/productionapi/Notification/v16/Notification.html (Receive_Notification)", "https://doc.workday.com/workday-education/en-us/course-manuals/creating-integrations-using-global-payroll-connect/global-payroll-connect.html (Edit Subscriptions, Hire·Terminate Employee Event, X509 Key Pair, Event Outbound Notifications)"]
+
+- id: orchestrate_send_http
+  type: [event_delivery, stored_credential]
+  what: "Workday Orchestrate·Extend 흐름의 「Send HTTP Request」 단계가 밖의 API 를 부름. 자격은 API Key, Basic Authentication, OAuth, Integration System User 중 하나로 흐름 설정에 둔다. Workday 자기 API 는 이 단계로 부르지 않는다"
+  identify: {api: "workday Orchestrate 흐름 정의 (화면. 목록 API 는 문서에서 찾지 못함)", when: "흐름에 Send HTTP Request 단계가 있음"}
+  points_to:
+  - {tier: config_name, a: "workday 흐름의 Send HTTP Request 대상 주소 호스트", b: "밖의 API 서버", check: "a 와 b 가 같다"}
+  - {tier: config_name, a: "workday 흐름 Settings 의 자격 이름", b: "밖의 서비스 계정 (이름으로만)", check: "이름 일치뿐"}
+  sources: ["https://doc.workday.com/workday-education/en-us/course-manuals/creating-integrations-using-workday-orchestrate/web-services-and-api-integrations.html (Send HTTP Request, API Key·Basic·OAuth·ISU, Workday API 는 이 단계로 부르지 않음)", "https://developer.workday.com/doc/GUID-6b063b57-9d85-474b-99b0-734d714652fd-enHYPHENus.md (Extend·Orchestrate 의 외부 REST 호출)"]
+  note: "로그 등급 없음. Orchestrate 흐름 실행 기록을 읽는 방법을 문서에서 찾지 못했다"
+
+- id: activity_log_reader
+  type: stored_credential
+  what: "밖의 시스템(수집기, SIEM 등)이 Workday 로그인 기록(Get_Workday_Account_Signons)과 사용자 활동(/activityLogging)을 읽음. 사용자 활동은 최대 30일 보관이라 오래 두려면 내보내야 한다고 문서가 적는다"
+  identify: {api: "workday Get_Integration_System_Users, View API Clients (화면)", when: "로그 읽기용 ISU 나 API 클라이언트가 있음"}
+  points_to:
+  - {tier: config_name, a: "workday 로그 읽기용 ISU 이름이나 API 클라이언트 이름", b: "읽는 시스템", check: "이름으로만"}
+  - {tier: log_id, a: "workday Get_Workday_Account_Signons 의 API_Client_ID·User_Name", b: "그 클라이언트·ISU", check: "a 와 b 가 같다"}
+  activity: ["workday Get_Workday_Account_Signons (그 ISU·API 클라이언트의 로그인 기록)"]
+  sources: ["https://doc.workday.com/admin-guide/en-us/manage-workday/tenant-configuration/user-activity-logging/unv1636547598141.html (30일, View User Activity 50,000건, /activityLogging 250,000건, 테넌트 감사 기능 아님)", "https://community.workday.com/sites/default/files/file-hosting/productionapi/Identity_Management/v47.0/Get_Workday_Account_Signons.html"]
+- id: workday_mcp_external_client
+  type: app_grant
+  what: 외부 AI 클라이언트가 Workday MCP 서버(https://us.agent.workday.com/mcp, 클라이언트에 따라 https://{지역 게이트웨이}/{테넌트}/mcp)에 붙는다. 인증은 Agent System User(ASU) OAuth 로 인가 주소 /auth/authorize/<테넌트>, 토큰 주소 /auth/oauth2/<테넌트>/token 을 쓴다. 문서의 예시 클라이언트는 Bruno·Postman 이고 Google Agentspace, Amazon Bedrock AgentCore, Microsoft Copilot Studio 가 다른 플랫폼으로 나온다. 문서는 「Extend Professionals 전용」이라 적고 MSA 고객은 Innovation Services 에서 켜야 한다
+  identify:
+    api: workday Agent System of Record 의 외부 에이전트 등록과 Agent System User, Agent Gateway 엔드포인트
+    when: Workday 에 외부 에이전트가 등록되어 있고 agent.workday.com 게이트웨이로 호출이 있음
+  points_to:
+  - tier: config_name
+    a: workday Agent Gateway 의 MCP 주소(지역, 테넌트)
+    b: MCP 클라이언트 설정의 서버 주소
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: workday 외부 에이전트의 OAuth client ID
+    b: MCP 클라이언트의 OAuth client ID
+    check: a 와 b 가 같다
+    if_unreadable: client secret 은 비밀이라 못 읽는다
+  - tier: via_person
+    a: workday Agent System User 토큰의 사용자
+    b: MCP 클라이언트의 로그인 사용자
+    check: 같은 사람
+  - tier: log_time
+    a: workday 쪽 호출 기록 위치는 문서에 없다
+    b: 대응 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - workday 쪽 감사 로그 이름은 문서에 없다
+  sources:
+  - https://doc.workday.com/admin-guide/en-us/workday-ai/agents/external-agents/connect-an-external-agent-with-workday-mcp.html (주소, 인가·토큰 주소, 예시 클라이언트, Extend Professionals 전용, MSA·UMSA)
+  note: 기존 salesforce-workday:agentforce_registry_workday_mcp 는 Agentforce 가 같은 서버를 부르는 경우다. 출시 단계(GA·베타)는 문서에 없다. 공식 호스트 agent.workday.com 은 조사 때 열리지 않았다(DNS 실패). 실측 없음
+- id: workday_adaptive_planning_mcp_server
+  type: app_grant
+  what: 고객의 AI 에이전트가 Adaptive Planning MCP 서버로 Adaptive Planning 데이터와 모델 맥락을 읽는다. 릴리스 노트상 Limited Availability 이고 미리보기 2026-08-15, 프로덕션 2026-10-23 이다. 특정 Adaptive Planning SKU 에서만 제공하고 MSA 계약이면 UMSA 동의가 필요하다. 프로덕션 테넌트에서 에이전트를 등록해 쓰면 Flex Credits 가 적용된다
+  identify:
+    api: workday 감사 로그 audits API (Admin Access 와 Activity Auditing 권한 필요)
+    when: Adaptive Planning MCP 서버로 도구 호출이 있음
+  points_to:
+  - tier: via_person
+    a: workday 감사 로그의 MCP 도구 호출 사용자
+    b: 고객 AI 에이전트를 쓰는 사람
+    check: 같은 사람
+  - tier: log_time
+    a: workday audits API 의 MCP 도구 호출 시각
+    b: 고객 에이전트 쪽 호출 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - 'workday 감사 로그: MCP 도구 호출마다 기록 (문서)'
+  sources:
+  - https://doc.workday.com/adaptive-planning/en-us/what-s-new/releases/2026r2-release-notes/2026r2-planning-for-hcm-and-financials/adaptive-planning-mcp-server.html (Limited Availability, 일자, SKU, UMSA, 감사 로그, Flex Credits)
+  note: 문서에 특정 클라이언트 이름은 없다. MCP 서버 주소와 인증 방식은 이 페이지에 없다. 실측 없음

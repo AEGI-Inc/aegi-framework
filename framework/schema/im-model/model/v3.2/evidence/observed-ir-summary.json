@@ -1,0 +1,11 @@
+{
+  "revision": "r3",
+  "cohort": "20261023T070520Z-42c1",
+  "operations": 154,
+  "observed_instances": 6611,
+  "new_to_pinned": 134,
+  "adds_to_pinned": 20,
+  "operations_with_undeclared_fields": 38,
+  "shape_conflicts": 3,
+  "note": "instance 값은 private/observed-instances.jsonl 에만 있다. undeclared_fields 는 원문 shape 에 없는 실제 응답 필드 이름이다(값 없음)"
+}

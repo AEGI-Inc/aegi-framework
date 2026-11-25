@@ -1,0 +1,15 @@
+--- map3_cur_base.py	2026-10-18 22:46:39.676310100 +0900
++++ map3_cur.py	2026-10-18 22:46:39.807869600 +0900
+@@ -502,9 +502,9 @@
+                 n += 1
+             names.add(name)
+             par = set()
+-            # 단건 위치뿐 아니라 목록, 생성 왕복으로 붙은 주소 위치의 부모도 적는다 (2026-10-18 리뷰 반영: Okta OAuth2ClientSecret 은
+-            # apps/{} 아래와 api-services/{} 아래 비밀값이 한 공간인데 부모가 apps/{} 만 보였다)
+-            for P in sorted(set(items) | {x[4:] for x in xs if x.startswith("pos:") and x[4:] in self.addressable}):
++            # 부모는 단건 위치에서만 읽는다. 주소 위치까지 넣었더니(2026-10-18) Okta Group 이 역할 할당의 대상 위치
++            # groups/{}/roles/{}/targets/groups/{} 때문에 roles/{} 를 부모로 갖게 됐다. 되돌림. 두 부모 기록은 positions 로 본다
++            for P in items:
+                 ss = segs(P.lstrip("!"))
+                 idx = [i for i, s in enumerate(ss) if s == "{}"]
+                 if P.startswith("!") and idx:

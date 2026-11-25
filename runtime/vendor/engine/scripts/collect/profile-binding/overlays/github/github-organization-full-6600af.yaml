@@ -1,0 +1,187 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/organization.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-01
+        items: (root)
+    tenant: none
+    vars:
+      ent:
+        op: first
+        of:
+          op: pluck
+          of:
+            op: objects
+            type: Enterprise
+          field: key
+    parent:
+      ref:
+        key: $vars.ent
+      when: always
+    mutable_ids:
+      login: login
+      node_id: node_id
+    properties:
+      login: login
+      name: name
+      plan: plan.name
+      two_factor_requirement_enabled: two_factor_requirement_enabled
+      default_repository_permission: default_repository_permission
+      members_can_create_repositories: members_can_create_repositories
+      created_at: created_at
+    display: "{login}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-ORG-{id}
+  - id: ip_allow
+    kind: enrich
+    sources:
+      - call: GH-31
+        items: data.organization
+    target: $tenant
+    set:
+      ip_allow_list_enabled: ipAllowListEnabledSetting
+      ip_allow_list_for_installed_apps: ipAllowListForInstalledAppsEnabledSetting
+    relations: []
+    key_template: GH-ORG-{id}
+  - id: actions_variables
+    kind: enrich
+    sources:
+      - call: GH-34
+        items: (root)
+        where:
+          path: $req.scope
+          eq: org
+    target: tenant
+    append:
+      actions_variables: variables
+    relations: []
+runtime_stub: null
+runtime_key: GH-ORG-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  login:
+    stability: mutable
+  node_id:
+    stability: mutable
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-ORG-{id}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full
+fields:
+  email: null
+  organization_billing_email: null
+  advanced_security_enabled_for_new_repositories:
+    path: advanced_security_enabled_for_new_repositories
+    source: collected_response
+  dependabot_alerts_enabled_for_new_repositories:
+    path: dependabot_alerts_enabled_for_new_repositories
+    source: collected_response
+  dependabot_security_updates_enabled_for_new_repositories:
+    path: dependabot_security_updates_enabled_for_new_repositories
+    source: collected_response
+  dependency_graph_enabled_for_new_repositories:
+    path: dependency_graph_enabled_for_new_repositories
+    source: collected_response
+  deploy_keys_enabled_for_repositories:
+    path: deploy_keys_enabled_for_repositories
+    source: collected_response
+  secret_scanning_enabled_for_new_repositories:
+    path: secret_scanning_enabled_for_new_repositories
+    source: collected_response
+  secret_scanning_push_protection_enabled_for_new_repositories:
+    path: secret_scanning_push_protection_enabled_for_new_repositories
+    source: collected_response
+  is_verified:
+    path: is_verified
+    source: collected_response
+  members_can_change_repo_visibility:
+    path: members_can_change_repo_visibility
+    source: collected_response
+  members_can_create_public_repositories:
+    path: members_can_create_public_repositories
+    source: collected_response
+  members_can_create_teams:
+    path: members_can_create_teams
+    source: collected_response
+  members_can_delete_repositories:
+    path: members_can_delete_repositories
+    source: collected_response
+  members_can_fork_private_repositories:
+    path: members_can_fork_private_repositories
+    source: collected_response
+  members_allowed_repository_creation_type:
+    path: members_allowed_repository_creation_type
+    source: collected_response
+  members_can_create_internal_repositories:
+    path: members_can_create_internal_repositories
+    source: collected_response
+  members_can_create_private_repositories:
+    path: members_can_create_private_repositories
+    source: collected_response
+  members_can_create_pages:
+    path: members_can_create_pages
+    source: collected_response
+  members_can_create_public_pages:
+    path: members_can_create_public_pages
+    source: collected_response
+  members_can_create_private_pages:
+    path: members_can_create_private_pages
+    source: collected_response
+  members_can_invite_outside_collaborators:
+    path: members_can_invite_outside_collaborators
+    source: collected_response
+  members_can_delete_issues:
+    path: members_can_delete_issues
+    source: collected_response
+  members_can_view_dependency_insights:
+    path: members_can_view_dependency_insights
+    source: collected_response
+  secret_scanning_push_protection_custom_link_enabled:
+    path: secret_scanning_push_protection_custom_link_enabled
+    source: collected_response
+  secret_scanning_validity_checks_enabled:
+    path: secret_scanning_validity_checks_enabled
+    source: collected_response
+  web_commit_signoff_required:
+    path: web_commit_signoff_required
+    source: collected_response
+  default_repository_branch:
+    path: default_repository_branch
+    source: collected_response
+  has_organization_projects:
+    path: has_organization_projects
+    source: collected_response
+  has_repository_projects:
+    path: has_repository_projects
+    source: collected_response
+  readers_can_create_discussions:
+    path: readers_can_create_discussions
+    source: collected_response
+  secret_scanning_push_protection_custom_link:
+    path: secret_scanning_push_protection_custom_link
+    source: collected_response
+fields_basis: 설정 판정이 읽는 응답 최상위 키와 조직 설정 필드를 선언하고, marketplace-account 스키마 키(email, organization_billing_email)는 지운다(값은 수집 응답 그대로)

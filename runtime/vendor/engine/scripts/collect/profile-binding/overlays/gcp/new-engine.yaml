@@ -1,0 +1,137 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: discoveryengine
+object_type: Engine
+interfaces: [Resource]
+# Gemini Enterprise 의 앱. 근거: 2026-11-18 engines.list 실제 응답(v1alpha)과 Discovery 문서 Engine 스키마.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: GCP-GE-ENGINE-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-03
+        request: {kind: engines}
+        items: engines
+    vars:
+      project: {op: regex, of: name, pattern: "^(projects/[^/]+)"}
+      collection: {op: regex, of: name, pattern: "^(.+)/engines/[^/]+$"}
+    tenant: {type: Project, id: $vars.project}
+    id_expr: name
+    refs:
+      data_stores:
+        each: dataStoreIds
+        ref:
+          type: DataStore
+          id: {template: "{$vars.collection}/dataStores/{$item}"}
+        value: $item
+        key_if_exists: true
+    properties:
+      displayName: displayName
+      createTime: createTime
+      updateTime: updateTime
+      solutionType: solutionType
+      appType: appType
+      industryVertical: industryVertical
+      dataStoreIds: dataStoreIds
+      search_tier: searchEngineConfig.searchTier
+      search_add_ons: searchEngineConfig.searchAddOns
+      required_subscription_tier: searchEngineConfig.requiredSubscriptionTier
+      company_name: commonConfig.companyName
+      enable_private_knowledge_graph: knowledgeGraphConfig.enablePrivateKnowledgeGraph
+      session_management_policy: sessionConfig.sessionManagementPolicy
+      features: features
+      observability_enabled: observabilityConfig.observabilityEnabled
+      sensitive_logging_enabled: observabilityConfig.sensitiveLoggingEnabled
+      marketplaceAgentVisibility: marketplaceAgentVisibility
+    display: "{displayName|name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Project, id: $vars.project}
+        basis: stated
+        require: [target]
+  # 앱에 연결된 저장소(Engine.dataStoreIds 「The data stores associated with this engine」, Discovery 문서 Engine 스키마).
+  # 관계 어휘에 "앱이 저장소를 쓴다"가 없어 Resource 사이에 허용된 contained_in 으로 넣는다(저장소가 앱 범위 안에 있다).
+  # GCP 에서는 포함이 아니라 연결이고, 저장소 하나가 여러 앱에 연결될 수 있다. 저장소의 Project 소속(contained_in)은 그대로 둔다
+  - id: data_stores
+    kind: relation
+    sources:
+      - call: GCP-03
+        request: {kind: engines}
+        items: engines
+        each: dataStoreIds
+    vars:
+      collection: {op: regex, of: $parent.name, pattern: "^(.+)/engines/[^/]+$"}
+    relations:
+      - type: contained_in
+        source: {type: DataStore, id: {template: "{$vars.collection}/dataStores/{.}"}}
+        target: {type: Engine, id: $parent.name}
+        basis: stated
+        properties:
+          association: {const: engine_data_store}
+        require: [source, target]
+  # 앱 IAM 명단(engines.getIamPolicy). 앱마다 따로 있다
+  - id: engine_iam
+    kind: relation
+    sources:
+      - call: GCP-03
+        request: {kind: engine_iam}
+        items: bindings
+        each: members
+    vars:
+      mtype:
+        any:
+          - {op: regex, of: ".", pattern: "^([A-Za-z]+):"}
+        empty_as: special
+      mvalue:
+        any:
+          - {op: regex, of: ".", pattern: "^[A-Za-z]+:(.+)$"}
+          - "."
+    relations:
+      - type: has_role_on
+        when: {not: {all: [{path: $vars.mtype, eq: serviceAccount}, {has: {type: ServiceAccount, lookup: email, value: $vars.mvalue}}]}}
+        source:
+          type: IamMember
+          id: "."
+          create:
+            rule: make
+            record:
+              object:
+                member: "."
+                member_type: $vars.mtype
+                value: $vars.mvalue
+        target: {type: Engine, id: $req.resource}
+        role:
+          ref: {type: Role, id: $parent.role}
+          name: $parent.role
+        basis: stated
+        membership_enforced: true
+        properties:
+          role: $parent.role
+          condition_title: $parent.condition.title
+          condition_expression: $parent.condition.expression
+        require: [source, target]
+      # 주체가 수집된 서비스 계정이면 그 ServiceAccount 객체가 출발점이다
+      - type: has_role_on
+        when: {all: [{path: $vars.mtype, eq: serviceAccount}, {has: {type: ServiceAccount, lookup: email, value: $vars.mvalue}}]}
+        source: {type: ServiceAccount, lookup: email, value: $vars.mvalue}
+        target: {type: Engine, id: $req.resource}
+        role:
+          ref: {type: Role, id: $parent.role}
+          name: $parent.role
+        basis: stated
+        membership_enforced: true
+        properties:
+          role: $parent.role
+          condition_title: $parent.condition.title
+          condition_expression: $parent.condition.expression
+        require: [source, target]

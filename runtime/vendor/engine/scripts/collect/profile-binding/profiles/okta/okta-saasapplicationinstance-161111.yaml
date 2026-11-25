@@ -1,0 +1,290 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: SaasApplicationInstance
+interfaces: &a1
+  - Integration
+model:
+  research_type: object-type:e3c5f415f28810bf3a161111
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: app_instance_id
+      expr: app_instance_id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:e3c5f415f28810bf3a161111.identity_evidence
+  parent:
+    type: parent:v1/teams/{}
+    expr: $req.parent_id
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  app_instance_id:
+    path: app_instance_id
+    source: research_shape
+    shape: sh:okta_opa_openapi:SaasApplicationInstance
+    declaration:
+      name: app_instance_id
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:SaasApplicationInstance|app_instance_id
+  app_instance_name:
+    path: app_instance_name
+    source: research_shape
+    shape: sh:okta_opa_openapi:SaasApplicationInstance
+    declaration:
+      name: app_instance_name
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:SaasApplicationInstance|app_instance_name
+  app_instance_orn:
+    path: app_instance_orn
+    source: research_shape
+    shape: sh:okta_opa_openapi:SaasApplicationInstance
+    declaration:
+      name: app_instance_orn
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:SaasApplicationInstance|app_instance_orn
+  app_login_url:
+    path: app_login_url
+    source: research_shape
+    shape: sh:okta_opa_openapi:SaasApplicationInstance
+    declaration:
+      name: app_login_url
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SaasApplicationInstance|app_login_url
+  app_logo_url:
+    path: app_logo_url
+    source: research_shape
+    shape: sh:okta_opa_openapi:SaasApplicationInstance
+    declaration:
+      name: app_logo_url
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SaasApplicationInstance|app_logo_url
+  created_at:
+    path: created_at
+    source: research_shape
+    shape: sh:okta_opa_openapi:SaasApplicationInstance
+    declaration:
+      format: date-time
+      name: created_at
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:SaasApplicationInstance|created_at
+  global_app_name:
+    path: global_app_name
+    source: research_shape
+    shape: sh:okta_opa_openapi:SaasApplicationInstance
+    declaration:
+      name: global_app_name
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:SaasApplicationInstance|global_app_name
+  password_rotation_strategy:
+    path: password_rotation_strategy
+    source: research_shape
+    shape: sh:okta_opa_openapi:SaasApplicationInstance
+    declaration:
+      name: password_rotation_strategy
+      required: true
+      shape: sh:okta_opa_openapi:AppPasswordRotationStrategy
+    map_items:
+      - space:SaasApplicationInstance|password_rotation_strategy
+  team_id:
+    path: team_id
+    source: research_shape
+    shape: sh:okta_opa_openapi:SaasApplicationInstance
+    declaration:
+      name: team_id
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:SaasApplicationInstance|team_id
+  updated_at:
+    path: updated_at
+    source: research_shape
+    shape: sh:okta_opa_openapi:SaasApplicationInstance
+    declaration:
+      format: date-time
+      name: updated_at
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:SaasApplicationInstance|updated_at
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: parent:v1/teams/{}
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:f7eaac8db09b90d4715bd47d (v1/teams/{}) -> parent:v1/teams/{}
+constants: {}
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: SaasApplicationInstance
+  interfaces: *a1
+  model:
+    research_type: object-type:e3c5f415f28810bf3a161111
+  extract:
+    key: PILOT-okta-SaasApplicationInstance-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{app_instance_id}"
+        sources:
+          - call: AUTO-OKTA-161111
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          app_instance_id: app_instance_id
+          app_instance_name: app_instance_name
+          app_instance_orn: app_instance_orn
+          app_login_url: app_login_url
+          app_logo_url: app_logo_url
+          created_at: created_at
+          global_app_name: global_app_name
+          password_rotation_strategy: password_rotation_strategy
+          team_id: team_id
+          updated_at: updated_at
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_opa_openapi:ListAppInstancesForTeam
+  operation: ListAppInstancesForTeam
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /v1/teams/[^/]+/connections/saas_apps(?:\?|$)
+  endpoint_template: /v1/teams/{team_name}/connections/saas_apps
+  request: {}
+  required_params:
+    - team_name
+  paths:
+    - shape: sh:okta_opa_openapi:SaasApplicationInstance
+      path:
+        - list
+        - "*"
+  alternatives_total: 3
+  alternatives:
+    - operation_id: op:okta_opa_openapi:ListSaasApplicationsAccessibleByUser
+      method: GET
+      kind: read_many
+      endpoint_template: /v1/teams/{team_name}/saas_apps
+      path:
+        - list
+        - "*"
+    - operation_id: op:okta_opa_openapi:GetAppInstanceForTeam
+      method: GET
+      kind: read_one
+      endpoint_template: /v1/teams/{team_name}/connections/saas_apps/{saas_app_instance_id}
+      path: &a3 []
+    - operation_id: op:okta_opa_openapi:GetSaasApplicationAccessibleByUser
+      method: GET
+      kind: read_one
+      endpoint_template: /v1/teams/{team_name}/saas_apps/{saas_app_instance_id}
+      path: *a3
+  basis: ir_read_response_reachability
+  selection: tie_needs_review
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - app_instance_id
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

@@ -1,0 +1,164 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/slack/profiles/enterprise.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-00
+        items: team
+        where:
+          path: enterprise_id
+          present: true
+    id_expr: enterprise_id
+    tenant: none
+    properties:
+      name: enterprise_name
+      domain: enterprise_domain
+    display: "{enterprise_name|enterprise_id}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: enterprise_id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-ENT-{id}
+  - id: role_assignments
+    kind: relations
+    sources:
+      - call: SL-16
+        items: role_assignments
+    relations:
+      - type: has_role_on
+        source:
+          type: 200.members[*]
+          id: user_id
+        target:
+          switch:
+            op: regex
+            of:
+              op: str
+              of: entity_id
+            pattern: ^([ETCG])
+          cases:
+            E:
+              type: defs_enterprise_id
+              id: entity_id
+            T:
+              type: 200.team
+              id: entity_id
+            C:
+              type: conversation
+              id: entity_id
+            G:
+              type: conversation
+              id: entity_id
+        role:
+          name:
+            op: str
+            of: role_id
+        basis: stated
+        require:
+          - source
+          - target
+        properties:
+          role_id: role_id
+          entity_id: entity_id
+          date_create:
+            if:
+              path: date_create
+              type: number
+            then:
+              op: epoch_iso
+              of: date_create
+    key_template: SLK-ENT-{id}
+runtime_stub: null
+runtime_key: SLK-ENT-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: enterprise:role_assignments
+    sources:
+      - call: SL-16
+        items: role_assignments
+    relations:
+      - type: has_role_on
+        source:
+          type: 200.members[*]
+          id: user_id
+        target:
+          switch:
+            op: regex
+            of:
+              op: str
+              of: entity_id
+            pattern: ^([ETCG])
+          cases:
+            E:
+              type: defs_enterprise_id
+              id: entity_id
+            T:
+              type: 200.team
+              id: entity_id
+            C:
+              type: conversation
+              id: entity_id
+            G:
+              type: conversation
+              id: entity_id
+        role:
+          name:
+            op: str
+            of: role_id
+        basis: stated
+        require:
+          - source
+          - target
+        properties:
+          role_id: role_id
+          entity_id: entity_id
+          date_create:
+            if:
+              path: date_create
+              type: number
+            then:
+              op: epoch_iso
+              of: date_create
+identity:
+  primary:
+    - name: id
+      expr: enterprise_id
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: SLK-ENT-{id}
+    replaced:
+      - $record_hash
+binding:
+  status: catalog_call
+  call: SL-00
+  operation_id: op:slack_openapi_legacy:team.info
+  paths:
+    - shape: null
+      path:
+        - team
+  basis: catalog spec:5 sources
+  previous_status: no_source_shape
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+fields:
+  is_verified:
+    path: is_verified
+    source: collected_response
+  email_domain:
+    path: email_domain
+    source: collected_response
+fields_basis: 설정 판정이 읽는 응답 최상위 키다. Profile 필드 선언에 없어 quarantined_fields 로 빠지던 것을 선언한다(값은 수집 응답 그대로)

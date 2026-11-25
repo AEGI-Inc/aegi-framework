@@ -1,0 +1,134 @@
+# Jira Cloud 사전 v0 (2026-10-12)
+
+sources:
+  openapi:
+    - {id: jira_openapi_v3, path: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__jira__platform__swagger-v3.v3.json, strip_prefixes: [/rest/api/3]}
+  events:
+    - {id: jira_webhooks, path: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__jira__platform__webhooks,
+       exclude: [issue_event_type_name, commend_deleted]}   # 이벤트가 아닌 필드 이름, 문서 오타
+  # 2026-10-14 추가 (normalize_atlassian.py)
+  audit_db:
+    - {id: atlassian_audit_db, path: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__security-and-access-policies__docs__audit-log-activities-database,
+       categories: ["Jira user actions", "Jira service management product actions", "Jira service management project actions"],
+       name_prefixes: ["Jira "]}        # AI, Anti Abuse 범주의 Jira 활동
+  audit_table:
+    - {id: jira_audit_categories, path: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__jira-cloud-administration__docs__audit-activities-in-jira-applications}
+  scope_docs:
+    - {id: jira_scopes, path: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__jira__platform__scopes-for-oauth-2-3LO-and-forge-apps}
+  permission_docs:
+    - {id: jira_builtin_permissions, path: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__jira__platform__rest__v3__api-group-permission-schemes,
+       how: upper_keys, anchor: built-in-permissions, stop: "Permissions required", kind: project_permission}
+    - {id: jira_global_permissions, path: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__jira-cloud-administration__docs__what-are-global-permissions-and-what-do-they-do,
+       how: headings, section: "Types of global permissions", level: h3, kind: global_permission,
+       exclude: ["Atlassian Home for Jira Cloud project connection issue glance"]}   # 권한이 아니라 같은 절의 알림 글
+  webhook_payload:
+    - {id: jira_webhooks_payload, path: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__jira__platform__webhooks,
+       events: ["jira:issue_created", "jira:issue_updated", "jira:issue_deleted"]}
+
+# REST 경로 파라미터 이름에서 떼는 꼬리 (공용 사전에 더한다)
+param_suffixes: [IdOrKey, KeyOrId, IdOrName]
+
+# 경로 파라미터 이름 -> 공간 (꼬리를 떼도 안 맞는 것만)
+param_space:
+  accountId: user          # Jira 는 사용자를 accountId 로 가리킨다
+  groupname: group
+  groupId: group
+
+field_space:
+  accountId: user
+
+scope_spaces: []
+vendor_hosts: [atlassian.net, atlassian.com, atl-paas.net]
+
+collect_tiers:
+  - {scope_prefix: "manage:jira-configuration", tier: admin_token, note: "Jira 관리자"}
+  - {scope_prefix: "read:jira-user", tier: standard_token}
+default_tier: standard_token
+
+# 받는 쪽 객체의 type 값 목록. 명세에 enum 이 없어 문서 값을 옮긴다 (2026-10-13)
+# 근거: developer.atlassian.com Jira REST v3 "Permission schemes" 의 holder type 목록 (PermissionHolder)
+# anyone, assignee, reporter, projectLead 처럼 대상이 정해지지 않은 값은 공간이 없어 버려진다
+recipient_types:
+  holder: [anyone, applicationRole, assignee, group, groupCustomField, projectLead, projectRole, reporter, user, userCustomField]
+recipient_type_space:
+  projectRole: role
+  applicationRole: applicationrole
+  groupCustomField: null
+  userCustomField: null
+
+# 감사 활동은 범주가 대상이 아니다(「Jira user actions」). 이름의 명사로 공간을 정한다 (2026-10-14, info_map.py audit_space_from_name)
+audit_space_from_name: true
+action_stop_extra: [jira, work, service, management, a, the, new, for]
+
+# ID 공간 설명 (2026-10-14). 정보 지도 화면과 인계 문서가 쓴다.
+# 형식: "설명 | 상태". 상태: 대상 = Object 로 볼 만함, 확인 = 묶음이나 범위를 정해야 함, 의심 = 독립 대상이 아닐 수 있음
+space_notes:
+  project: "Jira 프로젝트 (PK: id, key). 권한, 컴포넌트, 버전, 이슈를 담는 핵심 테넌트/컨테이너 | 대상"
+  issue: "Jira 작업 항목/이슈 (PK: id, key). 코어 업무 단위 | 대상"
+  user: "Jira 사용자 계정 (accountId). Atlassian 계정 식별자 | 대상"
+  group: "사용자 그룹 (groupId, groupname). 권한 부여 및 멤버십 대상 | 대상"
+  role: "프로젝트 역할 (projectRole). 프로젝트별 사용자/그룹 역할 배정 | 대상"
+  applicationrole: "애플리케이션 역할 (Jira Software, Jira Service Management 등 제품 접근 권한) | 대상"
+  permission: "권한 부여 레코드 (grant). 권한 체계 내 개별 권한 항목 | 대상"
+  permissionscheme: "권한 체계. 프로젝트에 연결되어 권한 집합을 정의하는 정책 | 대상"
+  issuesecurityscheme: "이슈 보안 체계. 보안 수준별 열람 권한 정의 | 대상"
+  securitylevel: "이슈 보안 체계 내 개별 보안 수준 | 대상"
+  workflow: "이슈 워크플로 정의 (상태 전이 및 규칙) | 대상"
+  workflowscheme: "워크플로 체계. 이슈 유형별 워크플로 매핑 | 대상"
+  notificationscheme: "이벤트별 알림 수신 체계 | 대상"
+  fieldscheme: "필드 구성 체계. 이슈 유형별 필드 레이아웃 설정 | 확인"
+  field: "커스텀 및 시스템 필드 메타데이터 | 대상"
+  jiraissuefield: "이슈 필드 메타데이터 (field와 중복 여부 확인 필요) | 확인"
+  customfieldoption: "커스텀 필드 선택지 옵션 | 확인"
+  context: "커스텀 필드 구성 컨텍스트 (프로젝트/이슈유형별 범위) | 확인"
+  screen: "이슈 화면 정의 (필드 배치 UI 레이아웃) | 대상"
+  tab: "화면 내 탭 레이아웃 | 확인"
+  filter: "저장된 검색 필터 (JQL 질의 및 공유 설정) | 대상"
+  dashboard: "대시보드. 가젯과 필터 뷰 묶음 | 대상"
+  component: "프로젝트 하위 컴포넌트 모듈 | 대상"
+  version: "프로젝트 버전 및 릴리스 마일스톤 | 대상"
+  issuetype: "이슈 유형 (Bug, Story, Task 등) | 대상"
+  status: "이슈 진행 상태 (Open, In Progress, Closed 등) | 대상"
+  statuscategory: "상태 상위 범주 (To Do, In Progress, Done) | 확인"
+  priority: "이슈 우선순위 정의 | 대상"
+  resolution: "이슈 해결 결과 정의 (Done, Won't Do 등) | 대상"
+  worklog: "이슈 작업 소요 시간 기록 | 대상"
+  comment: "이슈 댓글 | 대상"
+  attachment: "이슈 첨부 파일 메타데이터 | 대상"
+  issuelink: "이슈 간 연결 관계 (blocks, relates to 등) | 대상"
+  issuelinktype: "이슈 링크 유형 정의 | 대상"
+  remotelink: "외부 웹 링크 및 원격 이슈 연결 | 대상"
+  task: "비동기 백그라운드 작업 상태 | 확인"
+  job: "스케줄 백그라운드 작업 | 확인"
+  plan: "Advanced Roadmaps 상위 계획 | 대상"
+  planonlyteam: "로드맵 계획 전용 팀 | 확인"
+  atlassianteam: "Atlassian 플랫폼 공유 팀 | 대상"
+  feature: "프로젝트 단위 기능 토글 설정 | 확인"
+  applicationproperty: "Jira 전역 애플리케이션 시스템 속성 | 확인"
+  projectcategory: "프로젝트 분류 카테고리 | 대상"
+  entity: "엔티티 속성 네임스페이스. 독립 대상이 아닌 속성 그릇 | 의심"
+  property: "엔티티/항목의 JSON 속성 저장소 | 의심"
+  option: "시스템 설정 옵션 | 의심"
+
+
+# 스키마 계열 우선 공간 (2026-10-14, extract.py schema_spaces). 결과 out/jira/space_rebuild.json
+space_from_schema: true
+record_key_fields: [id, key]
+# 스키마 이름 접사: 같은 대상의 다른 모양 (IssueBean, UserDetails, JiraWorkflow, UpdatedProjectCategory, AttachmentMetadata)
+schema_affixes: [bean, json, details, dto, response, model, get, create, created, update, updated, delete, readable, rest, jira, identifier, identifiers, metadata]
+schema_cut_words: [with, for, by]
+# 이름으로 안 묶이는 표현 스키마 -> 공간
+schema_space:
+  IssueTypeIssueCreateMetadata: issuetype
+  ProjectIssueCreateMetadata: project
+  LinkedIssue: issue
+  CreatedIssue: issue
+  JiraWorkflowStatus: status
+  JiraWorkflowPreviewStatus: status
+  UserPickerUser: user
+schema_ignore: [IssueError, TaskProgressBeanJsonNode, TaskProgressBeanObject, PropertyKey, UserKey, ProjectTemplateKey]
+
+# 공간 재구성(2026-10-14)으로 permission 이 권한 부여(permissiongrant)와 필터 공유(sharepermission)로 나뉘어 감사 이름 토큰을 잇는다
+action_token_alias:
+  permission: [permissiongrant]
+  permissions: [permissiongrant]

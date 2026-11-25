@@ -1,0 +1,705 @@
+{
+  "format": "aegi-object-model-rulebook/v1",
+  "status": "adopted",
+  "purpose": "지난 판단표 결정(v1 1단계, 4단계, v2 판단표 1~4차)을 다시 쓸 수 있는 규칙으로 옮긴다. 새 SaaS 후보는 단계 순서대로 규칙의 질문에 답하고, 규칙이 정하지 못한 것만 판단표에 올린다.",
+  "how_to_apply": [
+    "단계는 O(Object 여부) → S(수집 범위) → I(interface) → R(관계 모양) → L(같은 대상) → C(계약값) 순서로 본다. M 은 모든 단계에서 먼저 본다. S 단계는 S2, S3, S4, S5, S1, S6, S7, S8 순서로 묻는다.",
+    "한 단계 안에서는 규칙 순서대로 묻고 처음 맞는 규칙의 결과를 쓴다.",
+    "어느 규칙에도 맞지 않거나 두 규칙이 서로 다른 결과를 내면 판단표에 올린다. 사람이 정한 결과는 새 규칙이나 규칙의 예외로 더한다.",
+    "auto 가 true 인 규칙은 코드가 이미 검사한다. 사람이 답할 필요가 없다."
+  ],
+  "stages": {
+    "O": "연구 타입을 Object로 둘지",
+    "S": "Object 타입을 지금 수집할지",
+    "I": "interface를 무엇으로 둘지",
+    "R": "사실을 관계, 참조, 속성, 계산 중 무엇으로 둘지",
+    "L": "두 기록이 같은 대상인지",
+    "C": "계약값과 비밀값을 어떻게 다룰지",
+    "M": "여러 단계에 걸친 일관성"
+  },
+  "rules": [
+    {
+      "id": "O1",
+      "stage": "O",
+      "question": "접근 권한 판단에 쓰지 않는 메타데이터나 목록 값인가",
+      "then": "Object에서 뺀다. 필요하면 부모 속성으로 둔다",
+      "decisions": [
+        "v1 4단계 UD 174건"
+      ],
+      "auto": false
+    },
+    {
+      "id": "O2",
+      "stage": "O",
+      "question": "다른 기록에서 파생된 보기인가(요약, 개수, 다른 모양의 같은 내용)",
+      "then": "Object에서 뺀다. 원본 기록의 Object가 대표한다",
+      "decisions": [
+        "v1 4단계 UD 60건"
+      ],
+      "auto": false
+    },
+    {
+      "id": "O3",
+      "stage": "O",
+      "question": "실행할 때마다 생기는 기록이나 진행 상태인가(실행, 세션, 작업 상태)",
+      "then": "Object에서 뺀다. 필요하면 관측(observation)으로 둔다",
+      "decisions": [
+        "v1 4단계 UD 50건",
+        "V2-R7"
+      ],
+      "auto": false
+    },
+    {
+      "id": "O4",
+      "stage": "O",
+      "question": "다른 대상에 딸린 설정 값인가",
+      "then": "Object에서 뺀다. 그 대상의 속성으로 둔다",
+      "decisions": [
+        "v1 4단계 UD 28건",
+        "v1 1단계 A, D"
+      ],
+      "auto": false
+    },
+    {
+      "id": "O5",
+      "stage": "O",
+      "question": "모든 테넌트에 같은 벤더 전역 정의인가(스키마, 카탈로그, 전역 DB)",
+      "then": "Object에서 뺀다",
+      "decisions": [
+        "v1 4단계 UD 14건"
+      ],
+      "auto": false
+    },
+    {
+      "id": "O6",
+      "stage": "O",
+      "question": "조직에 하나뿐인 값인가",
+      "then": "Object에서 뺀다. 테넌트 속성으로 둔다",
+      "decisions": [
+        "v1 4단계 UD 17건"
+      ],
+      "auto": false
+    },
+    {
+      "id": "O7",
+      "stage": "O",
+      "question": "같은 사람이나 그룹을 SaaS 사이에서 잇는 신원 재료인가(SAML, SCIM 외부 신원)",
+      "then": "Object가 아니라 신원 Link 재료로 쓴다(LINK_ONLY)",
+      "decisions": [
+        "GF1",
+        "V2-P4 D01"
+      ],
+      "auto": true,
+      "enforced_by": "definitions.ts LINK_ONLY, project.ts link_only_objects"
+    },
+    {
+      "id": "O8",
+      "stage": "O",
+      "question": "값이 발급할 때 한 번만 나오고 목록 API가 없는가",
+      "then": "Object로 수집하지 않는다. 감사 로그 관측으로만 본다",
+      "decisions": [
+        "V2-P6 noreread"
+      ],
+      "auto": false
+    },
+    {
+      "id": "S1",
+      "stage": "S",
+      "question": "S2 ~ S5 로 정해지지 않은 타입의 근거 API 가 연구 원문 스펙에 있는가",
+      "then": "없으면 원문 확인 필요(G). 스펙을 받아 연구를 다시 돌린 뒤 다시 분류한다",
+      "decisions": [
+        "V2-P7"
+      ],
+      "auto": true,
+      "enforced_by": "map3way_build.py why 칸",
+      "note": "되짚기에서 원문이 없는 24개 중 19개는 제품 계열(E), 콘텐츠와 설정(F), 이미 다룸(D)으로 먼저 정해졌다. 그래서 S2 ~ S5 다음에 묻는다"
+    },
+    {
+      "id": "S2",
+      "stage": "S",
+      "question": "특정 제품, 라이선스, 상위 판을 쓰는 테넌트에서만 생기는가",
+      "then": "조건부 보류(E). 연구 카탈로그에 두고, 테넌트가 그 제품을 쓰면 수집 추가로 올린다",
+      "decisions": [
+        "V2-P5"
+      ],
+      "auto": "partial",
+      "enforced_by": "product_families 표의 API 경로 패턴"
+    },
+    {
+      "id": "S3",
+      "stage": "S",
+      "question": "다른 호출의 속성, 관측, 신원 Link, 관계로 이미 들어오는가",
+      "then": "이미 다룸(D). Profile을 만들지 않는다",
+      "decisions": [
+        "V2-P4"
+      ],
+      "auto": "partial",
+      "enforced_by": "catalogCoverage.ts ABSORBED, LINK_ONLY"
+    },
+    {
+      "id": "S4",
+      "stage": "S",
+      "question": "콘텐츠, 실행 기록, 표시나 운영 설정, 저장소 부속 기록인가",
+      "then": "수집 안 함(F). O1, O3, O4와 같은 이유다",
+      "decisions": [
+        "V2-P6"
+      ],
+      "auto": false
+    },
+    {
+      "id": "S5",
+      "stage": "S",
+      "question": "별도 대상이 아니라 이미 수집하는 타입의 성질인가",
+      "then": "기존 타입에 붙인다(C). 새 Profile 없이 속성이나 관계로 더한다",
+      "decisions": [
+        "V2-P3"
+      ],
+      "auto": false
+    },
+    {
+      "id": "S6",
+      "stage": "S",
+      "question": "권한을 주거나, 인증하거나, 테넌트 밖으로 나가는 경로에 바로 걸리는가",
+      "then": "조건이 없으면 수집 추가 우선(A), 조건(엔터프라이즈 토큰, 기기 신뢰 탐지 등)이 있으면 다음(B)",
+      "decisions": [
+        "V2-P1",
+        "V2-P2"
+      ],
+      "auto": false
+    },
+    {
+      "id": "S7",
+      "stage": "S",
+      "question": "탐지에 쓰이지만 S6에 해당하지 않는가",
+      "then": "수집 추가 다음(B)",
+      "decisions": [
+        "V2-P2"
+      ],
+      "auto": false
+    },
+    {
+      "id": "S8",
+      "stage": "S",
+      "question": "v1 범위 밖의 별도 수집 과제(파일 파싱, 레지스트리, 의존성)인가",
+      "then": "보류. 별도 수집 과제로 기록한다",
+      "decisions": [
+        "v1 1단계 D3 ~ D6",
+        "v1 4단계 Cartography 보류 30건"
+      ],
+      "auto": false
+    },
+    {
+      "id": "S9",
+      "stage": "S",
+      "question": "최소 권한 수집 자격증명으로 읽을 수 있는가",
+      "then": "읽을 수 없으면 수집 한계로 기록한다(필요한 권한과 이유). Object 여부 결정은 그대로 둔다",
+      "decisions": [
+        "V2-R4",
+        "V2-R5"
+      ],
+      "auto": false
+    },
+    {
+      "id": "I1",
+      "stage": "I",
+      "question": "그 기록을 지우면 권한만 사라지고 양끝(주체, 대상)은 남는가",
+      "then": "Assignment. 지워도 권한이 바뀌지 않으면 부모의 속성이나 기록으로 내린다 단위는 주체, 대상, 역할 묶음마다 한 건이다. API 가 연산마다 행을 주면 permissions 배열로 합치고 관계 역할 칸에도 묶음을 둔다(G4-Q01). 권한 체계의 내용 행(어떤 역할이 어떤 권한을 갖는가)은 주체에게 대상을 준 기록이 아니라 Policy 의 permissions 속성이다(G4-Q02)",
+      "decisions": [
+        "v1 4단계 A1 ~ A18",
+        "V2-R1",
+        "V2-OPEN-11",
+        "판단표 G4 (2026-10-21) Q01",
+        "판단표 G4 (2026-10-21) Q02"
+      ],
+      "auto": false
+    },
+    {
+      "id": "I2",
+      "stage": "I",
+      "question": "그 기록이 사칭에 쓸 수 있는 재료(비밀값, 키, 토큰)를 가리키는가",
+      "then": "Credential. 값 없는 동의 기록, 요청 scope, 설정 정의는 Credential이 아니다(Assignment 또는 Policy)",
+      "decisions": [
+        "v1 1단계 H",
+        "GC",
+        "V2-OPEN-11",
+        "SF OauthToken",
+        "v1 4단계 기준표 AuthenticatorBase"
+      ],
+      "auto": "partial",
+      "enforced_by": "project.ts: Credential 에 material_location none 이면 오류"
+    },
+    {
+      "id": "I3",
+      "stage": "I",
+      "question": "테넌트 경계를 넘는 주소나 통로인가",
+      "then": "Endpoint. 주소 목록을 조건으로만 쓰면 Policy다(NetworkZone)",
+      "decisions": [
+        "v1 4단계 기준표 NetworkZone, Subscription, DomainResponse",
+        "C1"
+      ],
+      "auto": false
+    },
+    {
+      "id": "I4",
+      "stage": "I",
+      "question": "테넌트에 등록, 설치된 연동인가",
+      "then": "Integration. URL 필드는 따로 Endpoint로 옮기고 owned_by로 잇는다",
+      "decisions": [
+        "v1 4단계 기준표 GatewayAgent, SecurityEventsProvider"
+      ],
+      "auto": true,
+      "enforced_by": "project.ts RoutedEndpoint, Integration 권한 목록 오류"
+    },
+    {
+      "id": "I5",
+      "stage": "I",
+      "question": "규칙 정의이면서 실행해 다른 것을 바꾸는가",
+      "then": "Policy와 Automation을 둘 다 붙인다",
+      "decisions": [
+        "v1 4단계 기준표 GroupRule"
+      ],
+      "auto": false
+    },
+    {
+      "id": "I6",
+      "stage": "I",
+      "question": "명시적으로 권한을 받는 대상인가",
+      "then": "Resource이고 grant_target true. 범위를 고르는 선택자(조직 단위 등)는 부여 대상의 반례다",
+      "decisions": [
+        "v1 4단계 기준표 OrgUnit"
+      ],
+      "auto": false
+    },
+    {
+      "id": "I7",
+      "stage": "I",
+      "question": "연구 interface와 다르게 정하는가",
+      "then": "Profile 근거(evidence)에 이유를 적는다. 카탈로그에 reviewed_override로 남는다",
+      "decisions": [
+        "v1 4.2절"
+      ],
+      "auto": true,
+      "enforced_by": "compile.ts research_agreement"
+    },
+    {
+      "id": "I8",
+      "stage": "I",
+      "question": "사라지면 그 안의 식별자가 의미를 잃는 경계인가(조직, 상위 조직, 별도 조직, 관리 도메인)",
+      "then": "Tenant. 사라져도 사용자 id 가 남는 묶음(realm 등)은 Tenant 가 아니라 Resource 다",
+      "decisions": [
+        "v1 4단계 기준표 Enterprise, org-group, Realm",
+        "V2-T1"
+      ],
+      "auto": false
+    },
+    {
+      "id": "I9",
+      "stage": "I",
+      "question": "권한을 직접 드는 계정이나 그룹인가(서비스 계정, 기기 안 계정 포함)",
+      "then": "Principal",
+      "decisions": [
+        "v1 4단계 기준표 OSAccountMacOS, Service, OrganizationDTO"
+      ],
+      "auto": false
+    },
+    {
+      "id": "I10",
+      "stage": "I",
+      "question": "누가 무엇을 할 수 있는지 정하는 독립 CRUD 규칙, 권한 묶음, 분류 기준인가",
+      "then": "Policy. 키를 허용하는 규칙은 키(Credential)가 아니다",
+      "decisions": [
+        "v1 4단계 기준표 DeviceAssurance, CustomAAGUID, entitlement, label, Groups 설정"
+      ],
+      "auto": false
+    },
+    {
+      "id": "I11",
+      "stage": "I",
+      "question": "실행되어 다른 Object 를 바꾸는 로직인가(예약 작업, 흐름, 스크립트)",
+      "then": "Automation",
+      "decisions": [
+        "v1 4단계 기준표 Project, request-sequence, CronJobDetail"
+      ],
+      "auto": false
+    },
+    {
+      "id": "I12",
+      "stage": "I",
+      "question": "지울 수 있고 오래 남는 업무 대상인가(알림, 변수, 사이트)",
+      "then": "Resource",
+      "decisions": [
+        "v1 4단계 Alert, actions-variable, Network"
+      ],
+      "auto": false
+    },
+    {
+      "id": "I13",
+      "stage": "I",
+      "question": "사람이 아니라 앱, 봇이 쓰는 계정인가",
+      "then": "Principal 로 두고 judged.account_kind: app 으로 표시한다. 사람 집계에서 뺀다. 설치된 연동(Integration)이 있으면 owned_by 나 runs_as 로 잇는다. 벤더가 구분값을 주지 않으면 unknown 이다",
+      "decisions": [
+        "판단표 G4 (2026-10-21) Q07"
+      ],
+      "auto": true,
+      "enforced_by": "normalize-v2 atlassian.ts account_kind, judgments.ts accountKindOf"
+    },
+    {
+      "id": "R1",
+      "stage": "R",
+      "question": "역할, 권한 묶음 이름이 붙은 배정인가",
+      "then": "has_role_on 하나로 두고 역할을 역할 칸(Policy 객체)에 넣는다. 주체 → 역할 → 대상 2홉으로 나누지 않는다. 이름만 있으면 NamedRole을 만든다",
+      "decisions": [
+        "B4",
+        "B6",
+        "v1 4단계 역할 슬롯 18건",
+        "V2-P3",
+        "V2-P1 A03"
+      ],
+      "auto": true,
+      "enforced_by": "project.ts templateProblem policy_role_object_required, NamedRole 생성"
+    },
+    {
+      "id": "R2",
+      "stage": "R",
+      "question": "배정 기록(Assignment)이 사실의 근거인가",
+      "then": "배정 객체는 관계 끝점이 아니다. 주체 has_role_on 대상 관계에 via_assignment 속성으로 남긴다. grantee, parent 는 참조다",
+      "decisions": [
+        "판단표 4차 Q08(결정 전)",
+        "V2-OPEN-11"
+      ],
+      "auto": true,
+      "enforced_by": "relation_types 템플릿에 Assignment 끝점이 없다"
+    },
+    {
+      "id": "R3",
+      "stage": "R",
+      "question": "중간 정책(스킴 등)을 건너뛴 직접 간선인가",
+      "then": "정책을 거치는 has_role_on으로 바꾼다. 스킴을 쓰는 대상마다 편다",
+      "decisions": [
+        "B3",
+        "V2-D06"
+      ],
+      "auto": false
+    },
+    {
+      "id": "R4",
+      "stage": "R",
+      "question": "규칙의 대상이 아니라 조건(네트워크 영역, 식)인가",
+      "then": "관계를 만들지 않고 조건 참조로 둔다. 제외 대상을 직접 가리키면 excludes 만 쓴다",
+      "decisions": [
+        "B1",
+        "B2",
+        "V2-D02"
+      ],
+      "auto": false
+    },
+    {
+      "id": "R5",
+      "stage": "R",
+      "question": "원문 필드가 부모를 직접 증명하는가",
+      "then": "증명할 때만 contained_in. 테넌트로 가는 contained_in 은 만들지 않는다(tenant 참조로 충분)",
+      "decisions": [
+        "B7",
+        "v1 4단계 context_team 3건",
+        "normalize-v2 github 머리말"
+      ],
+      "auto": true,
+      "enforced_by": "project.ts templateProblem scope_or_parent_not_proven"
+    },
+    {
+      "id": "R6",
+      "stage": "R",
+      "question": "그 사실로 누가 무엇을 할 수 있게 되는가",
+      "then": "아무것도 할 수 없는 기록(만든 사람, 출처 앱, 작성자)은 관계가 아니다. 속성이나 참조로 둔다",
+      "decisions": [
+        "v1 4단계 no_relation 3건",
+        "Cartography 17건",
+        "판단표 4차 Q09"
+      ],
+      "auto": false
+    },
+    {
+      "id": "R7",
+      "stage": "R",
+      "question": "저장된 사실인가, 회원 자격을 따라 계산한 결과인가",
+      "then": "계산 결과(상속 회원, 상속 소유)는 관계가 아니라 Effective Access에서 계산한다 세션에서 켤 때만 효력이 있는 권한(Salesforce Session 권한 세트)은 Policy judged.activation: session 으로 두고 Effective Access 가 조건부로 계산한다(G4-Q06)",
+      "decisions": [
+        "V2-M1",
+        "V2-M2",
+        "v1 4단계 Cartography 3건",
+        "판단표 G4 (2026-10-21) Q06"
+      ],
+      "auto": false
+    },
+    {
+      "id": "R8",
+      "stage": "R",
+      "question": "닫힌 관계 어휘 17종과 템플릿으로 표현되는가",
+      "then": "되면 그 관계를 쓴다. 템플릿에 역할 칸이 필요하면 has_role_on 을 쓴다(permits 는 역할 칸이 없다). 안 되면 참조로 두고 필요할 때 aegi-schema 에 제안한다",
+      "decisions": [
+        "E11",
+        "V2-D03",
+        "V2-P1 A02",
+        "판단표 4차 Q10"
+      ],
+      "auto": true,
+      "enforced_by": "project.ts templateProblem, 관계 어휘 17종 고정"
+    },
+    {
+      "id": "R9",
+      "stage": "R",
+      "question": "SaaS 사이 연결인가",
+      "then": "같은 신원 판단은 Link 로 둔다. SaaS 간 관계는 stated 근거가 있을 때만 만든다",
+      "decisions": [
+        "Relation, Link, Effective Access 구분",
+        "판단표 4차 처음 보고 정정"
+      ],
+      "auto": true,
+      "enforced_by": "project.ts cross_provider_requires_stated_evidence"
+    },
+    {
+      "id": "R10",
+      "stage": "R",
+      "question": "Cartography 간선의 뜻이 관계 어휘 하나와 같은가",
+      "then": "그 관계로 옮긴다. 앱 배정처럼 역할 이름이 없으면 앱별 기본 접근 Policy 를 역할 칸에 둔다",
+      "decisions": [
+        "v1 4단계 Cartography 42건"
+      ],
+      "auto": false
+    },
+    {
+      "id": "R11",
+      "stage": "R",
+      "question": "필드 값이 다른 Object 를 가리키는가",
+      "then": "그 필드는 Object 가 아니라 참조다. 사실 자체는 그 필드를 가진 Object 가 담는다",
+      "decisions": [
+        "v1 4단계 UDGW2 Delegate.delegateEmail"
+      ],
+      "auto": false
+    },
+    {
+      "id": "R12",
+      "stage": "R",
+      "question": "익명, 모든 사용자처럼 플랫폼이 정의한 가상 주체에게 준 권한인가",
+      "then": "테넌트마다 특수 주체 Principal 객체(judged.origin: platform_builtin)를 하나 두고 그 주체의 관계로 잇는다. 프로젝트 리드, 보고자처럼 대상마다 사람이 바뀌는 동적 보유자는 관계로 만들지 않고 Effective Access 가 푼다",
+      "decisions": [
+        "판단표 G4 (2026-10-21) Q03"
+      ],
+      "auto": false
+    },
+    {
+      "id": "L1",
+      "stage": "L",
+      "question": "두 원문 정의가 이름과 속성이 같거나 한쪽이 다른 쪽의 부분 집합인가",
+      "then": "같은 대상(same_schema_across_specs, subset_view, same_properties 규칙)",
+      "decisions": [
+        "V2-S1",
+        "V2-S2",
+        "V2-S8"
+      ],
+      "auto": true,
+      "enforced_by": "dup_audit.py 규칙 근거"
+    },
+    {
+      "id": "L2",
+      "stage": "L",
+      "question": "한 필드가 판별값(type 등)에 따라 다른 대상을 가리키는가",
+      "then": "조건부 참조로 둔다. 경우마다 대상과 쌍으로 판정한다",
+      "decisions": [
+        "V2-S4",
+        "V2-S5"
+      ],
+      "auto": true,
+      "enforced_by": "rel_audit.py 조건부 공간"
+    },
+    {
+      "id": "L3",
+      "stage": "L",
+      "question": "두 기록이 같은 원문 ID(client_id 등)로 같은 대상을 가리키는가",
+      "then": "하나로 합치고 다른 쪽은 보기(merged_views)로 둔다",
+      "decisions": [
+        "V2-D05",
+        "Q1 ~ Q3"
+      ],
+      "auto": false
+    },
+    {
+      "id": "L4",
+      "stage": "L",
+      "question": "여러 값의 조합으로만 하나가 정해지는가",
+      "then": "복합키로 인정한다(예: 설치 x 자격증명 종류)",
+      "decisions": [
+        "v1 1단계 G1 ~ G20"
+      ],
+      "auto": false
+    },
+    {
+      "id": "L5",
+      "stage": "L",
+      "question": "이름이 같거나 비슷해도 원문 ID 공간이나 가리키는 대상이 다른가",
+      "then": "다른 대상으로 분리한다",
+      "decisions": [
+        "V2-S3",
+        "V2-S6",
+        "Q1 enterprise team"
+      ],
+      "auto": false
+    },
+    {
+      "id": "C1",
+      "stage": "C",
+      "question": "벤더가 그 계약값을 주는가",
+      "then": "주지 않으면 unknown 으로 두고 계약을 partial 로 남긴다. 값을 지어내지 않는다",
+      "decisions": [
+        "v1 고정 원칙",
+        "V2-P1 A01"
+      ],
+      "auto": true,
+      "enforced_by": "project.ts contract_gaps"
+    },
+    {
+      "id": "C2",
+      "stage": "C",
+      "question": "만료가 비어 있는 것이 벤더 선언인가",
+      "then": "벤더가 만료 없음을 선언할 때만 unbounded. 값이 없으면 unknown 이다",
+      "decisions": [
+        "v1 고정 원칙"
+      ],
+      "auto": true,
+      "enforced_by": "project.ts expiry"
+    },
+    {
+      "id": "C3",
+      "stage": "C",
+      "question": "비밀값이나 공개키 원값이 응답에 있는가",
+      "then": "수집 단계에서 지문(sha256)으로 바꾸거나 버린다. 원값은 원본 봉투에도 남기지 않는다",
+      "decisions": [
+        "GH-15 웹훅",
+        "GH-22",
+        "V2-P1 A02"
+      ],
+      "auto": true,
+      "enforced_by": "lib/sanitize LEAK_PATTERNS, 수집기 transform"
+    },
+    {
+      "id": "M1",
+      "stage": "M",
+      "question": "같은 대상이거나 같은 모양인 기록에 앞선 결정이 있는가",
+      "then": "앞선 결정을 따른다. 다르게 정하려면 그 결정을 고치는 새 결정을 남긴다",
+      "decisions": [
+        "v1 4단계 「위와 같다」, 「같은 판정」 결정"
+      ],
+      "auto": false
+    },
+    {
+      "id": "M2",
+      "stage": "M",
+      "question": "판정에 필요한 원문 근거(위치, 문서)가 있는가",
+      "then": "없으면 정하지 않고 보류한다. 원문을 확인한 뒤 판단표에 올린다",
+      "decisions": [
+        "v1 4단계 UH1 SfdcPartnerTenant, GG10 account-full"
+      ],
+      "auto": false
+    },
+    {
+      "id": "M3",
+      "stage": "M",
+      "question": "플랫폼이 테넌트를 만들 때 깔아 둔 기본 객체인가",
+      "then": "모든 SaaS 에 같은 이름의 판정값 judged.origin(platform_builtin, platform_default, tenant_custom)으로 표시한다. 원본 필드로 정할 수 없으면 비운다. 객체는 지우지 않는다. assignment_count 가 0 인 platform_default 객체는 화면 집계와 기본 보기에서만 숨긴다",
+      "decisions": [
+        "판단표 G4 (2026-10-21) Q04",
+        "판단표 G4 (2026-10-21) Q05"
+      ],
+      "auto": true,
+      "enforced_by": "normalize-v2 judgments.ts originOf, assignment_count; 대시보드 src/model/platformDefaults.ts"
+    }
+  ],
+  "product_families": [
+    {
+      "provider": "okta",
+      "family": "Okta Privileged Access",
+      "api_patterns": [
+        "/v1/teams/"
+      ]
+    },
+    {
+      "provider": "okta",
+      "family": "Okta Identity Governance",
+      "api_patterns": [
+        "/governance/"
+      ]
+    },
+    {
+      "provider": "okta",
+      "family": "Okta AI 에이전트, 리소스 서버",
+      "api_patterns": [
+        "/workload-principals",
+        "/resource-servers"
+      ]
+    },
+    {
+      "provider": "okta",
+      "family": "Okta 권한 계정 관리",
+      "api_patterns": [
+        "/privileged-access"
+      ]
+    },
+    {
+      "provider": "okta",
+      "family": "Okta 다중 org 계정",
+      "api_patterns": [
+        "{accountId}"
+      ]
+    },
+    {
+      "provider": "okta",
+      "family": "Okta Realm",
+      "api_patterns": [
+        "/realms"
+      ]
+    },
+    {
+      "provider": "gws",
+      "family": "Google 클라이언트 측 암호화",
+      "api_patterns": [
+        "cse"
+      ]
+    },
+    {
+      "provider": "gws",
+      "family": "Google Vault",
+      "api_patterns": [
+        "vault."
+      ]
+    },
+    {
+      "provider": "gws",
+      "family": "Chrome 관리 연결",
+      "api_patterns": [
+        "chromemanagement"
+      ]
+    },
+    {
+      "provider": "github",
+      "family": "GitHub Codespaces",
+      "api_patterns": [
+        "codespaces"
+      ]
+    },
+    {
+      "provider": "github",
+      "family": "GitHub Enterprise 호스팅 러너, 네트워크",
+      "api_patterns": [
+        "hosted-runners",
+        "network-configurations"
+      ]
+    },
+    {
+      "provider": "slack",
+      "family": "Slack EKM",
+      "api_patterns": [
+        "ekm"
+      ]
+    }
+  ]
+}

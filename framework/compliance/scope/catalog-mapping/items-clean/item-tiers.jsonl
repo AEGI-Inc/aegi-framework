@@ -1,0 +1,167 @@
+{"item_key": "ISO27001:5.11", "tier": "exclude", "reason": "물리 자산 반납이 본뜻이다. SaaS 쪽 권한 회수는 5.18, ISMS-P 2.2.5 에서 본다", "checks": 4, "prev_decision": "conditional"}
+{"item_key": "ISO27001:5.12", "tier": "exclude", "reason": "분류 체계를 정하고 운영하는 것이 본뜻이라 조직 문서로 확인한다. SaaS 에서 읽을 수 있는 것은 라벨 정의 일부(Salesforce 필드 분류, Drive 라벨은 지금 수집 권한으로는 읽지 못함)뿐이라 통제를 판정하지 못한다", "checks": 2, "prev_decision": "conditional"}
+{"item_key": "ISO27001:5.13", "tier": "exclude", "reason": "분류에 맞게 라벨을 붙이는 절차가 본뜻이라 조직 문서로 확인한다. 파일, 필드에 붙은 라벨 일부만 읽을 수 있어 통제를 판정하지 못한다", "checks": 1, "prev_decision": "conditional"}
+{"item_key": "ISO27001:5.14", "tier": "auto", "reason": "DLP, 외부 수신 경고, Chat 외부 공유 설정이 정보 전송 규칙을 직접 판정한다", "checks": 24, "prev_decision": "apply"}
+{"item_key": "ISO27001:5.15", "tier": "auto", "reason": "세션, IP, 인증 정책과 우회 위협이 접근통제 규칙을 판정한다", "checks": 13, "prev_decision": "apply"}
+{"item_key": "ISO27001:5.16", "tier": "auto", "reason": "장기 미로그인 계정, IdP 에서 정지된 사용자의 남은 계정(AEGI 자체 점검)과 프로비저닝 점검이 계정 수명주기를 판정한다", "checks": 11, "prev_decision": "apply"}
+{"item_key": "ISO27001:5.17", "tier": "auto", "reason": "비밀번호 정책 점검이 인증 정보 관리를 직접 판정한다", "checks": 25, "prev_decision": "apply"}
+{"item_key": "ISO27001:5.18", "tier": "auto", "reason": "권한 배정과 우회, 상승, 위임, 속성 위협이 접근 권한 관리를 판정한다", "checks": 18, "prev_decision": "apply"}
+{"item_key": "ISO27001:5.23", "tier": "evidence", "reason": "서드파티 앱과 연동 관리. 앱 권한 범위 점검을 추가해 판정한다", "checks": 13, "prev_decision": "apply"}
+{"item_key": "ISO27001:5.3", "tier": "exclude", "reason": "상충 직무 정의는 회사가 한다", "checks": 4, "prev_decision": "conditional"}
+{"item_key": "ISO27001:5.33", "tier": "exclude", "reason": "API 로 판정할 수 있는 것이 Okta 로그 스트리밍 하나뿐이다", "checks": 7, "prev_decision": "apply"}
+{"item_key": "ISO27001:5.34", "tier": "exclude", "reason": "8.12 와 같은 DLP 점검을 다시 쓴 것이다. 개인정보는 PIPA 안전성 확보조치 기준에서 다룬다", "checks": 8, "prev_decision": "conditional"}
+{"item_key": "ISO27001:5.9", "tier": "exclude", "reason": "자산 목록 작성은 절차이고 위반을 말할 기준이 없다", "checks": 3, "prev_decision": "apply"}
+{"item_key": "ISO27001:6.7", "tier": "exclude", "reason": "5.15, 8.22 와 같은 IP 점검을 다시 쓴 것이고 원격 근무의 본뜻과 거리가 있다", "checks": 12, "prev_decision": "apply"}
+{"item_key": "ISO27001:7.14", "tier": "exclude", "reason": "기기 폐기 전 삭제 검증은 물리 절차다", "checks": 1, "prev_decision": "conditional"}
+{"item_key": "ISO27001:7.9", "tier": "exclude", "reason": "사외 반출 기기의 분실, 도난 대비는 물리 관리다", "checks": 8, "prev_decision": "conditional"}
+{"item_key": "ISO27001:8.1", "tier": "auto", "reason": "기기 암호화, 화면 잠금 비밀번호, 관리 승인(AEGI 자체 점검)과 기기 정책 점검이 단말 보호를 판정한다", "checks": 15, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.10", "tier": "exclude", "reason": "자동 판정 점검 없이 사람 확인 항목만 있어 SaaS 자동 점검 범위에서 제외", "checks": 0, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.11", "tier": "exclude", "reason": "연결 점검이 화면 표시 옵션이라 데이터 마스킹이 아니다", "checks": 2, "prev_decision": "conditional"}
+{"item_key": "ISO27001:8.12", "tier": "auto", "reason": "DLP, 시크릿 스캐닝, Takeout, 다운로드 제한 점검", "checks": 16, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.13", "tier": "exclude", "reason": "백업 생성과 복구 시험은 SaaS API 로 보이지 않는다. 백업 앱 연동은 간접 신호뿐이다", "checks": 1, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.15", "tier": "exclude", "reason": "자동 판정 점검 없이 사람 확인 항목과 미수집 점검만 있어 SaaS 자동 점검 범위에서 제외", "checks": 10, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.16", "tier": "auto", "reason": "GWS 경보 규칙 점검", "checks": 33, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.19", "tier": "exclude", "reason": "SaaS 앱 설치는 5.23 과 겹치고 근거가 1개다", "checks": 14, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.2", "tier": "auto", "reason": "관리자 수, 관리자 MFA, 다중 승인 점검이 특수 권한 관리를 판정한다", "checks": 21, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.22", "tier": "exclude", "reason": "본뜻은 망 구간 분리다. IP 허용 목록은 5.15 접근통제에 속한다", "checks": 12, "prev_decision": "conditional"}
+{"item_key": "ISO27001:8.24", "tier": "auto", "reason": "인증서 만료, 키 크기 점검(키 관리)", "checks": 7, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.25", "tier": "exclude", "reason": "본뜻은 개발 전 과정(요구사항, 설계, 보안 코딩, 시험, 교육)의 보안 규칙이다. 연결 점검은 GitHub 병합 관문(브랜치 보호)뿐이라 좁은 해석이다. 저장소 접근은 8.4 에서 본다", "checks": 19, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.28", "tier": "exclude", "reason": "시크릿 스캐닝은 8.12 에 속한다. 코드 스캐닝(CodeQL)은 수집하지 않는다", "checks": 9, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.29", "tier": "exclude", "reason": "병합 전 상태 검사 1개로는 보안 시험을 판정할 수 없다", "checks": 9, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.3", "tier": "auto", "reason": "공유 드라이브 접근, 외부 공개 개체 점검과 노출 위협", "checks": 9, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.30", "tier": "exclude", "reason": "외주 인력 목록과 감독은 회사 절차다", "checks": 2, "prev_decision": "conditional"}
+{"item_key": "ISO27001:8.31", "tier": "exclude", "reason": "환경 구분 테넌트 목록이 필요하고 SaaS 마다 테넌트 하나만 본다", "checks": 2, "prev_decision": "conditional"}
+{"item_key": "ISO27001:8.32", "tier": "exclude", "reason": "본뜻은 모든 변경의 공식 절차다. GitHub PR 승인은 8.25, 8.4 에 남는다", "checks": 11, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.33", "tier": "exclude", "reason": "시험 데이터 선정과 보호는 개발 절차다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISO27001:8.34", "tier": "exclude", "reason": "감사 시험 계획 합의는 절차다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISO27001:8.4", "tier": "auto", "reason": "저장소 권한, 공개 범위, 포크 점검. 소스 코드 통제라 GitHub 가 본 대상이다", "checks": 9, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.5", "tier": "auto", "reason": "MFA, 피싱 방지 인증 점검", "checks": 34, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.7", "tier": "auto", "reason": "SaaS 테넌트의 악성코드 방어 설정(메일 첨부, 링크 보호). 단말 백신은 범위 밖", "checks": 16, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.8", "tier": "exclude", "reason": "SaaS 취약점은 제공자 몫이고 코드 의존성 경보 일부만 보인다", "checks": 8, "prev_decision": "apply"}
+{"item_key": "ISO27001:8.9", "tier": "exclude", "reason": "구성 정의와 관리 절차가 본뜻이고 판정 점검이 없다", "checks": 9, "prev_decision": "apply"}
+{"item_key": "ISMS-P:1.2.1-01", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 6, "prev_decision": "apply"}
+{"item_key": "ISMS-P:1.2.1-02", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 2, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:1.2.1-03", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 3, "prev_decision": "apply"}
+{"item_key": "ISMS-P:1.2.2-01", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 2, "prev_decision": "apply"}
+{"item_key": "ISMS-P:1.2.2-02", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:1.2.2-03", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.1.3-01", "tier": "exclude", "reason": "보안등급별 취급 절차다. 등급 정보를 수집하지 않는다", "checks": 3, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.1.3-02", "tier": "exclude", "reason": "자산 책임자 지정은 조직 절차다. 연결 점검이 CODEOWNERS 파일 하나라 본뜻과 거리가 멀다", "checks": 1, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.10.1-02", "tier": "auto", "reason": "보안 콘솔(Okta 관리 콘솔, 슈퍼 관리자)의 관리자 수와 인증 점검이 보안시스템 관리자 통제를 판정한다", "checks": 4, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.10.1-04", "tier": "exclude", "reason": "본뜻은 보안 정책 예외 등록 절차다. 연결 점검(스팸 필터 우회, 브랜치 보호 우회)은 개별 설정이라 좁은 해석이다", "checks": 6, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.10.1-05", "tier": "exclude", "reason": "보안 규칙의 주기적 타당성 검토는 절차다. 검토했는지는 API 로 보이지 않는다", "checks": 2, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.10.2-02", "tier": "auto", "reason": "SaaS 보안 구성 기준 점검 전체가 클라우드 보안 설정 항목 그 자체다", "checks": 119, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.10.2-03", "tier": "auto", "reason": "SaaS 관리자 수, 관리자 MFA, 관리 콘솔 세션 점검이 클라우드 관리자 권한 통제를 판정한다", "checks": 26, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.10.2-04", "tier": "exclude", "reason": "설정 정기 검토는 절차다. 연결 점검은 일반 보안 경보라 2.11.3 에서 본다", "checks": 14, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.10.5-02", "tier": "auto", "reason": "메일 TLS, MTA-STS, 웹훅 HTTPS 점검이 외부 전송 구간 암호화를 판정한다", "checks": 4, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.11.3-01", "tier": "auto", "reason": "SaaS 경보 규칙, 로그 SIEM 전송 점검이 이상행위 모니터링을 판정한다", "checks": 38, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.2.1-02", "tier": "exclude", "reason": "주요 직무자 지정은 인사 절차다. 관리자 수 점검은 2.5.5 에서 본다", "checks": 4, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.2.1-03", "tier": "exclude", "reason": "개인정보취급자 지정은 인사 절차다. 접근 권한 최소화는 안전성 확보조치 기준 제5조에서 본다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.2.2-01", "tier": "exclude", "reason": "상충 직무 정의는 회사가 한다(ISO 5.3 과 같은 판단)", "checks": 3, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.2.5-02", "tier": "auto", "reason": "IdP 에서 정지된 사용자의 남은 계정(AEGI 자체 점검)과 퇴사자 계정 점검이 권한 회수를 판정한다", "checks": 4, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.3.1-01", "tier": "evidence", "reason": "SaaS 의 외부 계정, 게스트, 외부 연결 조직을 보여 주고 승인 없는 초대를 점검한다. 위탁 계약 현황은 범위 밖", "checks": 4, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.3.4-01", "tier": "exclude", "reason": "계약 종료 외부자 명단이 필요하다. 계정 회수 점검은 2.2.5 에서 본다", "checks": 2, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.5.1-01", "tier": "auto", "reason": "계정 발급, 기본 계정, 미사용 계정, 퇴사자 계정 점검이 계정 관리를 판정한다", "checks": 11, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.5.1-02", "tier": "auto", "reason": "역할, 저장소, 공유 기본 권한 점검과 우회, 위임, 속성 위협이 최소 권한 부여를 판정한다", "checks": 32, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.5.2-01", "tier": "exclude", "reason": "식별자 고유성은 SaaS 가 보장하고, 연결 점검(초대 이메일 도메인)은 식별자 규칙의 본뜻이 아니다", "checks": 2, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.5.2-02", "tier": "auto", "reason": "공용 자격증명 위협과 비전용 계정 토큰 점검이 공용 계정 사용을 판정한다", "checks": 1, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.5.3-01", "tier": "auto", "reason": "SSO, MFA, 로그인 실패 잠금 점검이 사용자 인증을 판정한다", "checks": 34, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.5.3-02", "tier": "auto", "reason": "외부 접속 MFA, 기기 기반 접근 정책 점검이 강화 인증을 판정한다", "checks": 4, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.5.4-01", "tier": "auto", "reason": "비밀번호 길이, 복잡도, 재사용, 만료 정책 점검", "checks": 35, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.5.4-02", "tier": "exclude", "reason": "고객(정보주체)용 서비스의 비밀번호 규칙이다. 우리가 보는 것은 직원용 SaaS 다", "checks": 6, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.5.4-03", "tier": "auto", "reason": "계정 복구, 백업 코드, MFA 등록 시 본인 확인 점검이 인증수단 관리를 판정한다", "checks": 10, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.5.5-01", "tier": "auto", "reason": "슈퍼 관리자, 조직 소유자 수 점검과 상승, 위임 위협이 특수 권한 최소화를 판정한다", "checks": 9, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.5.5-02", "tier": "evidence", "reason": "슈퍼 관리자 일상 사용, 비전용 계정 토큰 점검이 특수 계정 분리를 판정한다", "checks": 2, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.5.6-01", "tier": "exclude", "reason": "자동 판정 점검 없이 사람 확인 항목과 미수집 점검만 있어 SaaS 자동 점검 범위에서 제외", "checks": 6, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.5.6-02", "tier": "exclude", "reason": "접근권한 정기 검토는 절차다. 남은 불필요 권한 점검은 2.5.1, 2.5.5 에서 본다", "checks": 2, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.6.2-02", "tier": "auto", "reason": "유휴 세션 시간 제한 점검", "checks": 5, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.6.3-01", "tier": "auto", "reason": "보안 그룹 접근 통제 점검과 노출, 우회, 속성 위협이 앱 권한 차등을 판정한다", "checks": 2, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.6.3-02", "tier": "auto", "reason": "앱 세션 유휴 시간 점검. 동시 세션 제한은 점검이 없다", "checks": 3, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.6.3-03", "tier": "auto", "reason": "관리 콘솔 인증 정책(피싱 방지, MFA) 점검", "checks": 2, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.6.3-05", "tier": "exclude", "reason": "화면 마스킹은 응용프로그램 설계 몫이고 필드 보안 설정을 수집하지 않는다(ISO 8.11 과 같은 판단)", "checks": 2, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.6.6-03", "tier": "exclude", "reason": "원격 근무 통제는 기기, 접근 정책 점검을 다시 쓴 것이다(ISO 6.7 과 같은 판단). 기기 점검은 ISO 8.1 에서 본다", "checks": 17, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.7.1-02", "tier": "auto", "reason": "전송 구간 TLS, 클라이언트 측 암호화 설정 점검. SaaS 저장 암호화는 제공자 몫이라 범위 밖", "checks": 8, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.7.2-02", "tier": "auto", "reason": "저장소 밖 비밀, 노출 토큰, 배포 키, 인증서 점검과 공용 자격증명 위협이 키와 자격증명 관리를 판정한다", "checks": 8, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.8.3-01", "tier": "exclude", "reason": "환경 분리 대상 테넌트 목록이 필요하고 SaaS 마다 테넌트 하나만 본다(ISO 8.31 과 같은 판단)", "checks": 2, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.8.3-02", "tier": "exclude", "reason": "개발과 운영 혼용 환경의 보완대책은 절차다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.8.4-01", "tier": "exclude", "reason": "시험 데이터 선정은 개발 절차다(ISO 8.33 과 같은 판단)", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.8.4-02", "tier": "exclude", "reason": "시험 데이터 승인과 삭제는 개발 절차다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:2.8.5-01", "tier": "auto", "reason": "저장소 공개 범위, 관리자 수, 포크, 푸시 대상 제한 점검이 소스 코드 접근통제를 판정한다", "checks": 6, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.8.5-02", "tier": "exclude", "reason": "본뜻은 소스 코드의 비상 대비 분리 보관이다. 연결 점검이 브랜치 보호 규칙이라 좁은 해석이다", "checks": 5, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.8.5-03", "tier": "exclude", "reason": "Git 사용 자체가 변경 이력을 남긴다. 연결 점검이 브랜치 보호 규칙이라 좁은 해석이고 저장소 접근은 2.8.5-01 에서 본다", "checks": 6, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.9.4-01", "tier": "auto", "reason": "SaaS 감사 로그 보관, 외부 전송 점검", "checks": 10, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.9.4-02", "tier": "auto", "reason": "로그를 SaaS 밖으로 전송해 보관하는지와 Vault 관리자 보호 점검이 로그 위변조 방지를 판정한다", "checks": 4, "prev_decision": "apply"}
+{"item_key": "ISMS-P:2.9.4-03", "tier": "evidence", "reason": "로그 보관 기간 점검. 법정 기록 항목을 모두 담았는지는 볼 수 없다", "checks": 2, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:3.1.3-01", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 4, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:3.2.5-04", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:3.2.5-05", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:3.3.1-05", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 4, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:3.3.1-06", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 39, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:3.3.4-04", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:3.4.1-02", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "ISMS-P:3.4.1-03", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "ISMS-P:3.4.2-01", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:3.4.2-02", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:3.4.2-03", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "ISMS-P:3.4.2-04", "tier": "exclude", "reason": "ISMS-P 는 2번 보호대책만 검사한다. 1번 관리체계 수립과 3번 개인정보 처리 단계는 조직 절차라 검사하지 않는다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:admin-73464:article-8:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:admin-73464:article-8:p2", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:admin-73464:article-10:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73464:article-11:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73464:article-15:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 6, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73464:article-15:p2", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 7, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73464:article-15:p3", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 4, "prev_decision": "conditional"}
+{"item_key": "PIPA:admin-73464:article-17:p0", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:admin-73493:article-5:p1", "tier": "auto", "reason": "역할, 공유 기본 권한 점검과 노출, 우회, 상승 위협이 최소 권한 차등을 판정한다", "checks": 18, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-5:p2", "tier": "auto", "reason": "IdP 에서 정지된 사용자의 남은 계정(AEGI 자체 점검)과 퇴사자 계정 점검이 권한 말소를 판정한다", "checks": 4, "prev_decision": "conditional"}
+{"item_key": "PIPA:admin-73493:article-5:p3", "tier": "exclude", "reason": "자동 판정 점검 없이 사람 확인 항목과 미수집 점검만 있어 SaaS 자동 점검 범위에서 제외", "checks": 3, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-5:p4", "tier": "auto", "reason": "공용 자격증명 위협과 비전용 계정 토큰 점검", "checks": 1, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-5:p5", "tier": "auto", "reason": "SSO, MFA 강제 점검", "checks": 17, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-5:p6", "tier": "auto", "reason": "로그인 실패 잠금 점검", "checks": 4, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-6:p1", "tier": "auto", "reason": "IP 허용, 차단 네트워크 영역 점검", "checks": 8, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-6:p2", "tier": "auto", "reason": "외부 접속 MFA, 기기 기반 접근 정책 점검", "checks": 6, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-6:p3", "tier": "auto", "reason": "외부 공유, 공개 링크, 게스트 접근 점검과 노출 위협", "checks": 36, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-6:p4", "tier": "auto", "reason": "유휴 세션 시간 제한 점검", "checks": 5, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-6:p5", "tier": "auto", "reason": "기기 화면 잠금 비밀번호, 관리 승인(AEGI 자체 점검)과 모바일 정책 점검", "checks": 10, "prev_decision": "conditional"}
+{"item_key": "PIPA:admin-73493:article-6-2:p1", "tier": "exclude", "reason": "인터넷망 차단은 망 구성이다(ISO 8.22 와 같은 판단)", "checks": 5, "prev_decision": "conditional"}
+{"item_key": "PIPA:admin-73493:article-7:p2", "tier": "exclude", "reason": "SaaS 저장 데이터 암호화는 제공자 몫이다. 클라이언트 측 암호화 점검 하나로는 고유식별정보 암호화를 판정할 수 없다", "checks": 1, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-7:p3", "tier": "exclude", "reason": "SaaS 저장 데이터 암호화는 제공자 몫이다. 위험도 분석은 회사 절차다", "checks": 1, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-7:p4", "tier": "auto", "reason": "메일 TLS, MTA-STS, 웹훅 HTTPS 점검", "checks": 5, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-7:p5", "tier": "auto", "reason": "기기 암호화 상태(AEGI 자체 점검)와 기기 암호화 정책 점검", "checks": 1, "prev_decision": "conditional"}
+{"item_key": "PIPA:admin-73493:article-7:p6", "tier": "exclude", "reason": "암호 키 생성, 보관, 파기 절차다. 인증서 점검은 이 절차의 본뜻이 아니다", "checks": 3, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-8:p1", "tier": "auto", "reason": "감사 로그 보관 기간 점검", "checks": 3, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-8:p2", "tier": "auto", "reason": "의심 로그인, 계정 이상 경보 규칙 점검이 접속기록 이상 점검을 판정한다", "checks": 14, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-8:p3", "tier": "exclude", "reason": "자동 판정 점검 없이 사람 확인 항목과 미수집 점검만 있어 SaaS 자동 점검 범위에서 제외", "checks": 6, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-11:p0", "tier": "exclude", "reason": "백업과 복구 계획은 SaaS API 로 보이지 않는다(ISO 8.13 과 같은 판단)", "checks": 1, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-12:p1", "tier": "exclude", "reason": "출력 용도 특정과 항목 최소화는 화면 설계 몫이다. 다운로드 제한 점검은 제6조제3항, ISO 8.12 에서 본다", "checks": 4, "prev_decision": "conditional"}
+{"item_key": "PIPA:admin-73493:article-13:p1", "tier": "exclude", "reason": "복원 불가능한 삭제 방식은 SaaS 제공자 내부 구현이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-13:p2", "tier": "exclude", "reason": "부분 파기 뒤 복구 불가 조치는 SaaS 제공자 내부 구현이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:article-13:p3", "tier": "exclude", "reason": "가명처리, 비식별화는 데이터 처리 절차다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "tier": "exclude", "reason": "제6조의2(인터넷망 차단) 예외의 보완조치 예시다. 제6조의2 를 범위 밖으로 둬서 함께 뺀다", "checks": 6, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-17:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011357:article-17:p4", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011357:article-18:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011357:article-18:p5", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011357:article-19:p0", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011357:article-21:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-21:p2", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-21:p3", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-23:p2", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 6, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-24:p3", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 5, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-24-2:p2", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 1, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-26:p5", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011357:article-28:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 7, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-28-2:p2", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011357:article-28-4:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-28-5:p2", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-28-8:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011357:article-28-8:p4", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011357:article-29:p0", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 13, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011357:article-34-2:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 7, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011468:article-14-2:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011468:article-16:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011468:article-21:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 5, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011468:article-21-2:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 1, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011468:article-29-5:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "apply"}
+{"item_key": "PIPA:law-011468:article-29-10:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 0, "prev_decision": "conditional"}
+{"item_key": "PIPA:law-011468:article-30:p1", "tier": "exclude", "reason": "PIPA 는 개인정보의 안전성 확보조치 기준만 검사한다. 법, 시행령, 표준지침 조항은 그 기준의 근거 법령이다", "checks": 16, "prev_decision": "apply"}

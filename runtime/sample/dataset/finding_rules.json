@@ -1,0 +1,34 @@
+[
+  {
+    "rule_id": "AEGI-A-CONTEXT-AUTHORITY-PROPAGATION",
+    "scenarioKey": "A",
+    "title": "비권한 비즈니스 컨텍스트의 AI Agent 경유 보안 민감 코드 변경 전파",
+    "category": "AI / Copilot Authority Propagation",
+    "severity": "high",
+    "description": "타겟 저장소 쓰기 권한이 없는 인원의 비즈니스 컨텍스트가 AI Agent 실행을 통해 권한자의 이름으로 보안상 민감한 코드 변경으로 전파되는 패턴을 탐지합니다."
+  },
+  {
+    "rule_id": "AEGI-B-SHARED-CREDENTIAL-ATTRIBUTION",
+    "scenarioKey": "B",
+    "title": "공유 자동화 봇을 통한 다중 요청자의 개인 자격증명 신원 축약 및 감사 귀속 상실",
+    "category": "Shared Credential Attribution Loss",
+    "severity": "high",
+    "description": "공유 슬랙 봇이 채널 내 여러 인원의 요청을 특정 1인의 개인 GitHub 자격증명(PAT)으로 수행하여 대상 SaaS의 원시 감사로그에서 실제 요청자 추적이 상실되는 결함을 탐지합니다."
+  },
+  {
+    "rule_id": "AEGI-C-AUTOMATION-AUTHORITY-GAP",
+    "scenarioKey": "C",
+    "title": "Slack 헬프데스크 채널 멤버십을 통한 Okta 관리 권한 격차 및 우회 실행",
+    "category": "Automation Authority Set Mismatch",
+    "severity": "high",
+    "description": "Slack 비공개 #helpdesk 채널 멤버십이 부여된 인원이 실제 대응되는 Okta Help Desk 관리 권한을 상실했음에도 슬랙 자동화 엔드포인트를 통해 Okta 관리 작업을 계속 트리거할 수 있는 권한 격차(A - B)를 탐지합니다."
+  },
+  {
+    "rule_id": "AEGI-D-CROSS-SAAS-AUTHORIZATION-DRIFT",
+    "scenarioKey": "D",
+    "title": "Google Workspace 권한 경계의 Slack 채널 복제를 통한 인가 경계 우회 (Authorization Drift)",
+    "category": "Cross-SaaS Audience Drift",
+    "severity": "high",
+    "description": "원본 Google Sheet에 접근 권한이 없는 인원이 자동화(Apps Script)에 의해 데이터가 복제 전송되는 목적지 Slack 채널 멤버십을 통해 비인가 고객 개인정보에 도달하는 데이터 유출 경로(D_actual - S_auth)를 탐지합니다."
+  }
+]

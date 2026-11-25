@@ -1,0 +1,143 @@
+# 공용 사전 v0 (2026-10-12)
+# 사람이 정하는 판단은 이 파일과 provider 사전에만 있다. 추출기는 description 을 읽지 않는다.
+
+# RPC 메서드의 마지막 토큰을 camelCase 로 나눈 첫 단어 -> 동사 분류
+# 동사 앞에 붙는 수식어. 떼고 다음 단어를 동사로 본다 (apps.datastore.bulkGet -> get) (2026-10-14)
+verb_prefixes: [bulk]
+verb_class:
+  list: [list, search]
+  get: [info, get, lookup, export, check, retrieve, fetch]
+  create: [create, add, invite, assign, approve, open, join, share, enable, publish, install, register, upload, post, schedule, start, convert, link, put]   # put: apps.datastore.put
+  update: [set, update, rename, edit, mark, move, reset, change, activate, release]   # activate, release: admin.legalHold.policies
+  delete: [delete, remove, kick, revoke, leave, close, archive, uninstall, disable, restrict, unpublish, cancel, clear, unlink, deny, unarchive]
+
+# 부여와 회수가 짝인 동사. 왼쪽 동작이 있고 오른쪽 동작이 같은 이름공간에 있으면 짝이다.
+# 줄기(stem): 첫 동사를 뗀 나머지. 특수 짝은 줄기를 직접 적는다.
+verb_pairs:
+  - [add, remove]
+  - [invite, kick]
+  - [assign, remove]
+  - [create, delete]
+  - [set, remove]
+  - [set, clear]
+  - [set, delete]           # canvases.access.set / canvases.access.delete
+  - [approve, restrict]
+  - [install, uninstall]
+  - [publish, unpublish]
+  - [link, unlink]
+  - [archive, unarchive]
+special_pairs:
+  # [부여 동작의 마지막 토큰, 회수 동작의 마지막 토큰, 줄기]
+  - [setAdmin, setRegular, admin]
+  - [setOwner, setRegular, owner]
+  - [addAssignments, removeAssignments, assignment]
+  - [assignEntities, removeEntities, entity]
+
+# 감사 로그 action 의 끝 토큰. pair 가 있는 것만 새 후보나 관계 근거를 낸다.
+# 그 밖(changed, updated ...)은 기존 후보의 감사 근거만 된다.
+audit_lifecycle_pairs:
+  - [created, deleted]
+  - [added, removed]
+  - [installed, uninstalled]
+  - [granted, revoked]
+  - [assigned, unassigned]
+  - [join, leave]
+  - [approved, restricted]
+  - [enabled, disabled]
+  - [joined, left]          # Events API: member_joined_channel / member_left_channel
+  - [archive, unarchive]    # Events API: channel_archive / channel_unarchive
+  - [shared, unshared]      # Events API: channel_shared / channel_unshared
+
+# 필드 이름 사전 (class 판정용)
+field_names:
+  secret: [client_secret, signing_secret, verification_token, token, access_token, refresh_token, bot_access_token, app_token, api_token, private_key, secret, password]
+  url_suffix: [_url, _uri, _urls, _uris, url, uri, urls, uris, redirect_urls, request_url]
+  scope: [scopes, scope, permissions, bot_scopes, user_scopes]
+  flag: [is_admin, is_owner, is_primary_owner]
+  time_suffix: [_ts, _at, _time, date_created, created, updated, date_updated, expiration_ts]
+  meta: [ok, response_metadata, warning, error, needed, provided, next_cursor, cache_ts, has_more, pin_count, paging, pagination]
+  ref_suffix: [_id, _ids, _by, Id, Ids]
+
+# REST 경로 파라미터 이름에서 떼는 꼬리 (긴 것부터 대본다)
+param_suffixes: [IdOrKey, KeyOrId, IdOrName, Id, Key, Name, Number, -id, _id, -key, -number]
+
+# 레코드를 감싸는 페이지 래퍼 이름. 후보 이름으로 쓰지 않고 스키마 이름이나 경로 단어를 쓴다
+generic_record_names: [values, results, items, data, entries, elements, records, value, result]
+
+# ID 가 아닌 경로 파라미터 (값을 고르는 자리)
+non_id_params: [type, position, operation, format, size, direction, sourceType, targetType, to, from, expand, version, versionNumber, version-number]
+
+# 받는 쪽(권한을 받는 주체) 참조 필드의 이름 줄기. 꼬리(Id, _id, Ids)를 떼고 밑줄 없이 소문자로 맞춘다 (2026-10-13)
+# 근거: Salesforce PermissionSetAssignment.AssigneeId, GroupMember.UserOrGroupId, *Share.UserOrGroupId, CaseTeamMember.MemberId
+# subject 는 뺀다: Salesforce 에서 subject 는 "무엇에 관한" 레코드다 (CaseTag 의 SubjectId)
+recipient_names: [assignee, grantee, holder, principal, member, userorgroup]
+
+# 받는 쪽 객체: {type, id|parameter|value} 꼴. type 값이 가리키는 공간이 받는 쪽이다 (2026-10-13)
+# 근거: Jira 권한 스킴 grant 의 holder, Confluence 공간 권한의 principal, 권한 추가 요청의 subject
+recipient_objects: [holder, principal, subject, grantee]
+
+# 권한 플래그 묶음의 필드 이름 접두사 (Salesforce PermissionSet, Profile 의 PermissionsApiEnabled ...)
+permission_field_prefixes: [Permissions]
+# 권한 플래그가 이 수 이상인 레코드는 규칙 묶음(Policy)이다
+policy_min_permission_flags: 5
+
+# 실행 단위와 그 아래 동작의 필드 이름. 단위 아래에 동작이 있으면 Automation (2026-10-13)
+# 근거: Slack workflow steps[*].function_id, Jira workflow transitions[*].actions/triggers
+automation_units: [steps, transitions]
+automation_actions: [function_id, actions, triggers, postFunctions, conditions, validators]
+
+# 역할 공간의 줄기. 받는 쪽에 나와도 Principal 이 아니라 Policy 의 역할 자리다 (Interface_Spec_v3)
+role_stems: [role]
+
+# 이벤트 이름에서 무시하는 토큰 (제품 접두사, jira:issue_created)
+event_ignore_tokens: [jira]
+
+# 이 줄기나 동사의 관계는 Assignment 가 아니라 Policy (Interface_Spec_v3: 승인은 Policy)
+policy_stems: [approve, approved, restrict, restricted]
+
+# 플래그 이름 -> 관계 줄기
+flag_stem:
+  is_admin: admin
+  is_owner: owner
+  is_primary_owner: primary_owner
+
+# 감사 action 이름의 동사 -> 효과 (정보 지도 ④ 변경 간선, 2026-10-13)
+# 이름의 첫 동사 토큰으로 효과를 정한다. description 은 읽지 않는다.
+#   lifecycle: 대상이 생기거나 없어지거나 상태가 뒤집힌다
+#   relation:  다른 공간 토큰이 이름에 있으면 두 공간의 관계가 바뀐다. 없으면 모음 속성이 바뀐다
+#   change:    속성 값이 바뀐다
+#   access:    상태를 바꾸지 않는 사용 기록 (로그인, 내려받기, 검색)
+action_effect:
+  lifecycle: [created, deleted, archive, unarchive, deactivated, reactivated, installed, uninstalled, expired, merged,
+              published, deployed, provisioned, enrolled, unenrolled, uploaded, copied, archived, unarchived]
+  relation: [added, removed, join, joined, leave, assigned, unassigned, assignment, unassignment, granted, revoked,
+             transferred, connected, disconnected, reconnected, shared, moved, reassigned,
+             linked, unlinked, invited, associated, claimed, unclaimed, excluded]   # 2026-10-14 Atlassian 감사 활동
+  change: [updated, renamed, changed, change, set, cleared, edited, converted, expanded, downgraded, upgraded, enabled,
+           disabled, restricted, unrestricted, modified, reset, invalidated, preserved, verified, unverified, approved,
+           aliased, flagged, dismissed, moderated, refreshed,
+           synced, activated, enforced, reconfigured, suspended, switched, saved, stopped, regenerated, canceled, made, redacted]   # 2026-10-14
+  access: [login, logout, downloaded, read, searched, invoked, called, clicked, preview, fetched, matched, failed,
+           blocked, detected, requested, started, completed, exported, generated, viewed, executed, execute, submitted,
+           accepted, ignored, declined, denied, bypassed, prepared, sent, enqueued, logged, initiated, succeeded, validated, resent, finished, tracked]
+# 원형 동사 -> 효과. 이름에 위 목록(활용형)의 동사가 없을 때만 본다 (2026-10-14)
+# Slack 은 끝에 과거형(mcp_slack_create_canvas_tool_called 의 called), GitHub 은 앞에 원형(repo.create, org.add_member)을 쓴다
+action_effect_base:
+  lifecycle: [create, destroy, delete, install, uninstall, publish, unpublish, suspend, unsuspend, restore, provision, deprovision]   # provision: SCIM 프로비저닝 (2026-10-14)
+  relation: [add, remove, invite, grant, revoke, transfer, assign, unassign]
+  change: [update, rename, enable, disable, edit, modify, convert, rotate, regenerate, reopen, close]
+# 동사 원형 (동작 이름 동사와 대 볼 때)
+action_verb_lemma: {rename: rename, update: update, add: add, remove: remove, create: create, destroy: delete, delete: delete, edit: edit, archive: archive, renamed: rename, updated: update, changed: set, change: set, set: set, cleared: clear, added: add,
+                    removed: remove, created: create, deleted: delete, archive: archive, unarchive: unarchive,
+                    assigned: assign, revoked: revoke, invalidated: reset, reset: reset, approved: approve,
+                    restricted: restrict, converted: convert, transferred: transfer, edited: edit}
+# 이름에서 명사로 안 보는 토큰
+action_stop_tokens: [to, from, by, for, on, of, in, the, a, an, at, org, level, admin_by]
+
+# 정보 지도 필터 매핑 (2026-10-14). 조회 동작의 인자 중 응답 필드를 거르지 않는 것: 쪽 나누기, 정렬, 시간 창, 자유 검색어
+filter_skip: [cursor, limit, page, per_page, sort, sort_by, sort_dir, direction, order, count, since, before, after,
+              oldest, latest, inclusive, q, query, pretty, include_locale, include_labels]
+# 필터 인자가 객체 그릇(assignee, labels)과 맞을 때 값으로 보는 하위 필드
+filter_value_keys: [name, login, id, slug, key, number]
+# 감사 필드 변경 전후 짝(old_X, new_X)에서 X 로 보지 않는 일반 이름. 무엇의 값인지 말하지 않는다 (2026-10-14)
+change_pair_generic: [value, values, state, data, config, setting, settings]

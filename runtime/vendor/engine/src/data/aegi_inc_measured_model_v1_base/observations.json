@@ -1,0 +1,2832 @@
+[
+  {
+    "id": "OBS-REQ-1",
+    "kind": "slash_request",
+    "title": "/mfa-reset 요청 (U0C2DUV8V45, denied)",
+    "occurredAt": "2026-09-25T06:51:56Z",
+    "objectKeys": [],
+    "attributes": {
+      "command": "/mfa-reset",
+      "api_app_id": "A0C50SW5G56",
+      "request_channel_id": "C0C23B4C7PZ",
+      "request_channel_name": "general",
+      "requester_slack_user_id": "U0C2DUV8V45",
+      "result": "denied",
+      "deny_reason": "channel not allowed",
+      "text": {
+        "$fp": "sha256:21e2a17579709da2bd6c7e87f305bc3d735b583370909d3e7afd5651d27704a4",
+        "len": 21
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#1"
+    }
+  },
+  {
+    "id": "OBS-REQ-2",
+    "kind": "slash_request",
+    "title": "/mfa-reset 요청 (U0C2LMHU5L1, denied)",
+    "occurredAt": "2026-09-25T09:17:49Z",
+    "objectKeys": [],
+    "attributes": {
+      "command": "/mfa-reset",
+      "api_app_id": "A0C50SW5G56",
+      "request_channel_id": "C0C3KF562JD",
+      "request_channel_name": "helpdesk",
+      "requester_slack_user_id": "U0C2LMHU5L1",
+      "result": "denied",
+      "deny_reason": "target not allowed",
+      "text": "",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#2"
+    }
+  },
+  {
+    "id": "OBS-REQ-3",
+    "kind": "slash_request",
+    "title": "/mfa-reset 요청 (U0C2LMHU5L1, denied)",
+    "occurredAt": "2026-09-25T09:17:56Z",
+    "objectKeys": [],
+    "attributes": {
+      "command": "/mfa-reset",
+      "api_app_id": "A0C50SW5G56",
+      "request_channel_id": "C0C3KF562JD",
+      "request_channel_name": "helpdesk",
+      "requester_slack_user_id": "U0C2LMHU5L1",
+      "result": "denied",
+      "deny_reason": "target not allowed",
+      "text": {
+        "$fp": "sha256:d00329628543dbf5814f2c4508a68aa7e7b1c9b12e2062c7e85f27170a29910d",
+        "len": 4
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#3"
+    }
+  },
+  {
+    "id": "OBS-REQ-4",
+    "kind": "slash_request",
+    "title": "/mfa-reset 요청 (U0C2LMHU5L1, success)",
+    "occurredAt": "2026-09-25T10:40:19Z",
+    "objectKeys": [],
+    "attributes": {
+      "command": "/mfa-reset",
+      "api_app_id": "A0C50SW5G56",
+      "action": "POST /api/v1/users/00u17zcxdkv1Y9EXk698/lifecycle/reset_factors",
+      "request_channel_id": "C0C3KF562JD",
+      "request_channel_name": "helpdesk",
+      "requester_slack_user_id": "U0C2LMHU5L1",
+      "result": "success",
+      "text": {
+        "$fp": "sha256:f7d463ce96e83a87ba4307a9b7322d0de5a96bef1d33fb9ce2eec6685a159a03",
+        "len": 65
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#4"
+    }
+  },
+  {
+    "id": "OBS-REQ-5",
+    "kind": "slash_request",
+    "title": "/mfa-reset 요청 (U0C2JLV4F8S, success)",
+    "occurredAt": "2026-09-27T03:42:55Z",
+    "objectKeys": [],
+    "attributes": {
+      "command": "/mfa-reset",
+      "api_app_id": "A0C50SW5G56",
+      "action": "POST /api/v1/users/00u17zcxdkv1Y9EXk698/lifecycle/reset_factors",
+      "request_channel_id": "C0C3KF562JD",
+      "request_channel_name": "helpdesk",
+      "requester_slack_user_id": "U0C2JLV4F8S",
+      "result": "success",
+      "text": {
+        "$fp": "sha256:4d125bb39bf9364c6a2714410ff0803d9147d271a109c9592ca554b0f908c30a",
+        "len": 65
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#5"
+    }
+  },
+  {
+    "id": "OBS-REQ-6",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C2JLV4F8S, success)",
+    "occurredAt": "2026-09-27T03:45:13Z",
+    "objectKeys": [],
+    "attributes": {
+      "command": "/devbot",
+      "api_app_id": "A0C46CUR7FC",
+      "action": "sync-config",
+      "request_channel_id": "C0C44JTDA06",
+      "request_channel_name": "dev-automation",
+      "requester_slack_user_id": "U0C2JLV4F8S",
+      "result": "success",
+      "correlated_commit_sha": "18cd9c4232edcffd65da2c9e8915d3844eaf8914",
+      "text": {
+        "$fp": "sha256:35c116093d27cc56233e20ec8dfc68fdced4d9e835eb6bf3e912621876a4f23d",
+        "len": 55
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#6"
+    }
+  },
+  {
+    "id": "OBS-REQ-7",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C2LMLLXMF, success)",
+    "occurredAt": "2026-09-27T03:46:52Z",
+    "objectKeys": [],
+    "attributes": {
+      "command": "/devbot",
+      "api_app_id": "A0C46CUR7FC",
+      "action": "update-script",
+      "request_channel_id": "C0C44JTDA06",
+      "request_channel_name": "dev-automation",
+      "requester_slack_user_id": "U0C2LMLLXMF",
+      "result": "success",
+      "correlated_commit_sha": "eb0d92719c5690b8a4666727eaa0c7ca3a3eb1fe",
+      "text": {
+        "$fp": "sha256:f80536186f4dd85bf717e12faf57dccdcb1c6957f74816dd7457e1f87db4d68c",
+        "len": 57
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#7"
+    }
+  },
+  {
+    "id": "OBS-REQ-8",
+    "kind": "slash_request",
+    "title": "/mfa-reset 요청 (U0C5SKU6L75, success)",
+    "occurredAt": "2026-10-01T12:26:49Z",
+    "objectKeys": [
+      "SLK-U-U0C5SKU6L75",
+      "SLK-END-A0C5YMWRL7L-mfa-reset",
+      "SLK-CH-C0C60QPJFHP",
+      "OKTA-U-00u187p30bhJHPRMe698",
+      "OKTA-CLIENT-0oa17zcw8x2b9e68j698"
+    ],
+    "attributes": {
+      "command": "/mfa-reset",
+      "api_app_id": "A0C5YMWRL7L",
+      "action": "POST /api/v1/users/00u187p30bhJHPRMe698/lifecycle/reset_factors",
+      "request_channel": "SLK-CH-C0C60QPJFHP",
+      "request_channel_id": "C0C60QPJFHP",
+      "request_channel_name": "helpdesk",
+      "requester_slack_user": "SLK-U-U0C5SKU6L75",
+      "requester_slack_user_id": "U0C5SKU6L75",
+      "result": "success",
+      "target_object": "OKTA-U-00u187p30bhJHPRMe698",
+      "okta_event_uuid": "60fbe88f-bd93-11f1-8814-33a4a9f677e8",
+      "okta_event_type": "user.mfa.factor.reset_all",
+      "okta_actor": "OKTA-CLIENT-0oa17zcw8x2b9e68j698",
+      "text": {
+        "$fp": "sha256:41ff0b7d3035d2b7da545614a970a4460eabd8066f581d84ffdc675b9f81ac4c",
+        "len": 44
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#8+okta:OK-12#60fbe88f-bd93-11f1-8814-33a4a9f677e8"
+    }
+  },
+  {
+    "id": "OBS-REQ-9",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C5SKU6L75, success)",
+    "occurredAt": "2026-10-01T13:17:24Z",
+    "objectKeys": [
+      "SLK-U-U0C5SKU6L75",
+      "SLK-END-A0C5HFF9NTZ-devbot",
+      "SLK-CH-C0C5WTS9V46",
+      "GH-COMMIT-00781b89be09acba6fc2bd4eafac90a413f3ca62"
+    ],
+    "attributes": {
+      "command": "/devbot",
+      "api_app_id": "A0C5HFF9NTZ",
+      "action": "sync-config",
+      "request_channel": "SLK-CH-C0C5WTS9V46",
+      "request_channel_id": "C0C5WTS9V46",
+      "request_channel_name": "dev-automation",
+      "requester_slack_user": "SLK-U-U0C5SKU6L75",
+      "requester_slack_user_id": "U0C5SKU6L75",
+      "result": "success",
+      "correlated_commit": "GH-COMMIT-00781b89be09acba6fc2bd4eafac90a413f3ca62",
+      "correlated_commit_sha": "00781b89be09acba6fc2bd4eafac90a413f3ca62",
+      "text": {
+        "$fp": "sha256:4bc5b4239776deb707e0a230858acb9e30d5ed71af781823b5b7f39e700f9a68",
+        "len": 35
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#9"
+    }
+  },
+  {
+    "id": "OBS-REQ-10",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C5SKU8HMH, denied)",
+    "occurredAt": "2026-10-01T13:20:02Z",
+    "objectKeys": [
+      "SLK-U-U0C5SKU8HMH",
+      "SLK-END-A0C5HFF9NTZ-devbot",
+      "SLK-CH-C0C5HFHDSGP"
+    ],
+    "attributes": {
+      "command": "/devbot",
+      "api_app_id": "A0C5HFF9NTZ",
+      "request_channel": "SLK-CH-C0C5HFHDSGP",
+      "request_channel_id": "C0C5HFHDSGP",
+      "request_channel_name": "sales-customer-intake",
+      "requester_slack_user": "SLK-U-U0C5SKU8HMH",
+      "requester_slack_user_id": "U0C5SKU8HMH",
+      "result": "denied",
+      "deny_reason": "channel not allowed",
+      "text": {
+        "$fp": "sha256:f691c823bfff6af5a69c196ef09a7cec5accfb543c7b3ad0448f69e050d0e9af",
+        "len": 36
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#10"
+    }
+  },
+  {
+    "id": "OBS-REQ-11",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C5SKU6L75, success)",
+    "occurredAt": "2026-10-01T13:20:11Z",
+    "objectKeys": [
+      "SLK-U-U0C5SKU6L75",
+      "SLK-END-A0C5HFF9NTZ-devbot",
+      "SLK-CH-C0C5WTS9V46",
+      "GH-COMMIT-4e805cdb55d60203c18ad743fd25870ccf5af677"
+    ],
+    "attributes": {
+      "command": "/devbot",
+      "api_app_id": "A0C5HFF9NTZ",
+      "action": "sync-config",
+      "request_channel": "SLK-CH-C0C5WTS9V46",
+      "request_channel_id": "C0C5WTS9V46",
+      "request_channel_name": "dev-automation",
+      "requester_slack_user": "SLK-U-U0C5SKU6L75",
+      "requester_slack_user_id": "U0C5SKU6L75",
+      "result": "success",
+      "correlated_commit": "GH-COMMIT-4e805cdb55d60203c18ad743fd25870ccf5af677",
+      "correlated_commit_sha": "4e805cdb55d60203c18ad743fd25870ccf5af677",
+      "text": {
+        "$fp": "sha256:f691c823bfff6af5a69c196ef09a7cec5accfb543c7b3ad0448f69e050d0e9af",
+        "len": 36
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#11"
+    }
+  },
+  {
+    "id": "OBS-REQ-12",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C6T7R2XCG, success)",
+    "occurredAt": "2026-10-02T04:17:08Z",
+    "objectKeys": [
+      "SLK-U-U0C6T7R2XCG",
+      "SLK-END-A0C5HFF9NTZ-devbot",
+      "SLK-CH-C0C5WTS9V46",
+      "GH-COMMIT-ebc65257c96ac4294351db4978e7bc98d3685b25"
+    ],
+    "attributes": {
+      "command": "/devbot",
+      "api_app_id": "A0C5HFF9NTZ",
+      "action": "update-script",
+      "request_channel": "SLK-CH-C0C5WTS9V46",
+      "request_channel_id": "C0C5WTS9V46",
+      "request_channel_name": "dev-automation",
+      "requester_slack_user": "SLK-U-U0C6T7R2XCG",
+      "requester_slack_user_id": "U0C6T7R2XCG",
+      "result": "success",
+      "correlated_commit": "GH-COMMIT-ebc65257c96ac4294351db4978e7bc98d3685b25",
+      "correlated_commit_sha": "ebc65257c96ac4294351db4978e7bc98d3685b25",
+      "text": {
+        "$fp": "sha256:77faa8ae40d37293ae2d5f26e7ea3bb5e6ba338ee325ff66284d07779180f05a",
+        "len": 38
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#12"
+    }
+  },
+  {
+    "id": "OBS-REQ-13",
+    "kind": "slash_request",
+    "title": "/mfa-reset 요청 (U0C60QMMB25, success)",
+    "occurredAt": "2026-10-02T04:29:02Z",
+    "objectKeys": [
+      "SLK-U-U0C60QMMB25",
+      "SLK-END-A0C5YMWRL7L-mfa-reset",
+      "SLK-CH-C0C60QPJFHP",
+      "OKTA-U-00u187p30bhJHPRMe698",
+      "OKTA-CLIENT-0oa17zcw8x2b9e68j698"
+    ],
+    "attributes": {
+      "command": "/mfa-reset",
+      "api_app_id": "A0C5YMWRL7L",
+      "action": "POST /api/v1/users/00u187p30bhJHPRMe698/lifecycle/reset_factors",
+      "request_channel": "SLK-CH-C0C60QPJFHP",
+      "request_channel_id": "C0C60QPJFHP",
+      "request_channel_name": "helpdesk",
+      "requester_slack_user": "SLK-U-U0C60QMMB25",
+      "requester_slack_user_id": "U0C60QMMB25",
+      "result": "success",
+      "target_object": "OKTA-U-00u187p30bhJHPRMe698",
+      "okta_event_uuid": "cc7a9037-be19-11f1-91ec-c1dccf04c656",
+      "okta_event_type": "user.mfa.factor.reset_all",
+      "okta_actor": "OKTA-CLIENT-0oa17zcw8x2b9e68j698",
+      "text": {
+        "$fp": "sha256:8b303283fe0a276aaae787765212217238edb27673b6269bf8440f6d8ac2cc97",
+        "len": 46
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#13+okta:OK-12#cc7a9037-be19-11f1-91ec-c1dccf04c656"
+    }
+  },
+  {
+    "id": "OBS-REQ-14",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C5WTR5494, success)",
+    "occurredAt": "2026-10-07T01:09:49Z",
+    "objectKeys": [
+      "SLK-U-U0C5WTR5494",
+      "SLK-END-A0C5HFF9NTZ-devbot",
+      "SLK-CH-C0C5WTS9V46",
+      "GH-COMMIT-24d50b75362ec194af7c65239d225ae860ac2351"
+    ],
+    "attributes": {
+      "command": "/devbot",
+      "api_app_id": "A0C5HFF9NTZ",
+      "action": "sync-config",
+      "request_channel": "SLK-CH-C0C5WTS9V46",
+      "request_channel_id": "C0C5WTS9V46",
+      "request_channel_name": "dev-automation",
+      "requester_slack_user": "SLK-U-U0C5WTR5494",
+      "requester_slack_user_id": "U0C5WTR5494",
+      "result": "success",
+      "correlated_commit": "GH-COMMIT-24d50b75362ec194af7c65239d225ae860ac2351",
+      "correlated_commit_sha": "24d50b75362ec194af7c65239d225ae860ac2351",
+      "text": "",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#14"
+    }
+  },
+  {
+    "id": "OBS-CRED-2307990",
+    "kind": "credential_use",
+    "title": "개인 PAT 로 한 커밋 (aegi-dev-jiwon)",
+    "occurredAt": "2026-10-07T01:09:50Z",
+    "objectKeys": [
+      "GH-GRANT-2307990",
+      "GH-U-336525768",
+      "GH-REPO-1385438403",
+      "GH-COMMIT-4e805cdb55d60203c18ad743fd25870ccf5af677",
+      "GH-COMMIT-ebc65257c96ac4294351db4978e7bc98d3685b25",
+      "GH-COMMIT-24d50b75362ec194af7c65239d225ae860ac2351"
+    ],
+    "attributes": {
+      "credential_kind": "github_fine_grained_pat",
+      "credential_fingerprint": "token_id:20452871",
+      "credential_owner_object": "GH-U-336525768",
+      "grant_object": "GH-GRANT-2307990",
+      "native_github_actor": "GH-U-336525768",
+      "commits": [
+        "GH-COMMIT-4e805cdb55d60203c18ad743fd25870ccf5af677",
+        "GH-COMMIT-ebc65257c96ac4294351db4978e7bc98d3685b25",
+        "GH-COMMIT-24d50b75362ec194af7c65239d225ae860ac2351"
+      ],
+      "requester_trace_source": "bot_local_log_only",
+      "credential_link_basis": "commit.author = grant.owner ∧ commit.sha ∈ 자동화 요청 결과",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "github:GH-13+GH-11+worker:SL-12"
+    }
+  },
+  {
+    "id": "OBS-CRED-2262294",
+    "kind": "credential_use",
+    "title": "개인 PAT 로 한 커밋 (didwl-aegi)",
+    "occurredAt": "2026-10-01T13:17:25Z",
+    "objectKeys": [
+      "GH-GRANT-2262294",
+      "GH-U-331622196",
+      "GH-REPO-1385438403",
+      "GH-COMMIT-00781b89be09acba6fc2bd4eafac90a413f3ca62"
+    ],
+    "attributes": {
+      "credential_kind": "github_fine_grained_pat",
+      "credential_fingerprint": "token_id:20144799",
+      "credential_owner_object": "GH-U-331622196",
+      "grant_object": "GH-GRANT-2262294",
+      "native_github_actor": "GH-U-331622196",
+      "commits": [
+        "GH-COMMIT-00781b89be09acba6fc2bd4eafac90a413f3ca62"
+      ],
+      "requester_trace_source": "bot_local_log_only",
+      "credential_link_basis": "commit.author = grant.owner ∧ commit.sha ∈ 자동화 요청 결과",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "github:GH-13+GH-11+worker:SL-12"
+    }
+  },
+  {
+    "id": "OBS-DEPLOY-AKfycbzhkK5NtTgB-rYM-G-SFZXDMeKPLnDgPlFAkHirBmFn",
+    "kind": "access_snapshot",
+    "title": "배포 설정 (WEB_APP)",
+    "occurredAt": "1970-01-01T00:00:00Z",
+    "objectKeys": [
+      "GWS-PROJECT-1Gg83Cx_I1cLKYBmcNAemnMx2VnQt4DfSY2-zby16IvK5Lh5ItD3gy3x9",
+      "GWS-U-100024818286955775644"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1Gg83Cx_I1cLKYBmcNAemnMx2VnQt4DfSY2-zby16IvK5Lh5ItD3gy3x9",
+      "author": "GWS-U-100024818286955775644",
+      "deploymentId": "AKfycbzhkK5NtTgB-rYM-G-SFZXDMeKPLnDgPlFAkHirBmFn",
+      "entryPointType": "WEB_APP",
+      "access": "ANYONE_ANONYMOUS",
+      "executeAs": "USER_DEPLOYING"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-11#36032a73fd47e2125bc4b05c7a18567ab4d9dafd7d381bbe141465f666f6ee39"
+    }
+  },
+  {
+    "id": "OBS-DEPLOY-AKfycbzEWdqc-9rdQmcGy54-Tg6MhV9fc7pUf6B1ETh5Q26opAjO9WaAbYfPLxk1Z7b6IuDPcQ",
+    "kind": "access_snapshot",
+    "title": "배포 설정 (WEB_APP)",
+    "occurredAt": "2026-10-05T01:18:44.637Z",
+    "objectKeys": [
+      "GWS-PROJECT-1Gg83Cx_I1cLKYBmcNAemnMx2VnQt4DfSY2-zby16IvK5Lh5ItD3gy3x9",
+      "GWS-U-100024818286955775644"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1Gg83Cx_I1cLKYBmcNAemnMx2VnQt4DfSY2-zby16IvK5Lh5ItD3gy3x9",
+      "author": "GWS-U-100024818286955775644",
+      "deploymentId": "AKfycbzEWdqc-9rdQmcGy54-Tg6MhV9fc7pUf6B1ETh5Q26opAjO9WaAbYfPLxk1Z7b6IuDPcQ",
+      "entryPointType": "WEB_APP",
+      "versionNumber": 1,
+      "access": "ANYONE_ANONYMOUS",
+      "executeAs": "USER_DEPLOYING"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-11#36032a73fd47e2125bc4b05c7a18567ab4d9dafd7d381bbe141465f666f6ee39"
+    }
+  },
+  {
+    "id": "OBS-DEPLOY-AKfycbyne6pXa9kR20Z_z_GUI0W7U2UQxxMi8dzxHmAKnx8",
+    "kind": "access_snapshot",
+    "title": "배포 설정 (WEB_APP)",
+    "occurredAt": "1970-01-01T00:00:00Z",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-100024818286955775644"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "author": "GWS-U-100024818286955775644",
+      "deploymentId": "AKfycbyne6pXa9kR20Z_z_GUI0W7U2UQxxMi8dzxHmAKnx8",
+      "entryPointType": "WEB_APP",
+      "access": "DOMAIN",
+      "executeAs": "USER_ACCESSING"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-11#36f8d6b567d74c2c7418bc94c7f9d9159cbff5ea628388d1d210192f7eade2d6"
+    }
+  },
+  {
+    "id": "OBS-DEPLOY-AKfycbx4S7cefvZxsgCGHvZOBM_UXt2Ylv35WgcvoUMiUnFeDMRCPAkGyc7OmqOyBpvgkic0",
+    "kind": "access_snapshot",
+    "title": "배포 설정 (WEB_APP)",
+    "occurredAt": "2026-10-02T05:08:22.414Z",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-100024818286955775644"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "author": "GWS-U-100024818286955775644",
+      "deploymentId": "AKfycbx4S7cefvZxsgCGHvZOBM_UXt2Ylv35WgcvoUMiUnFeDMRCPAkGyc7OmqOyBpvgkic0",
+      "entryPointType": "WEB_APP",
+      "versionNumber": 3,
+      "access": "DOMAIN",
+      "executeAs": "USER_ACCESSING"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-11#36f8d6b567d74c2c7418bc94c7f9d9159cbff5ea628388d1d210192f7eade2d6"
+    }
+  },
+  {
+    "id": "OBS-TOKEN-4672015686532438286-0",
+    "kind": "credential_use",
+    "title": "실행 시각의 토큰 사용",
+    "occurredAt": "2026-10-02T05:08:38.887Z",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-112743042539036671055"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "candidate_automations": [
+        "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D"
+      ],
+      "caller": "GWS-U-112743042539036671055",
+      "event_name": "activity",
+      "api_name": "admin",
+      "method_name": "directory.users.list",
+      "client_id": "152892097128-n75ptv99dg26d7gjevl9ij6gihopubqu.apps.googleusercontent.com",
+      "num_response_bytes": "3315",
+      "product_bucket": "GSUITE_ADMIN",
+      "app_name": "Team Directory",
+      "client_type": "WEB"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-14#edf366dd81b94263b01eac972770eca361ced165a0000601947869d21ad34b22"
+    }
+  },
+  {
+    "id": "OBS-DELIVERY-C0C5HFHDSGP-1790858510441549",
+    "kind": "delivery",
+    "title": "자동화가 올린 메시지 (1790858510.441549)",
+    "occurredAt": "2026-10-01T12:41:50.441Z",
+    "objectKeys": [
+      "SLK-HOOK-A0C60QMC3U1-C0C5HFHDSGP",
+      "SLK-MSG-C0C5HFHDSGP-1790858510.441549"
+    ],
+    "attributes": {
+      "destination_endpoint": "SLK-HOOK-A0C60QMC3U1-C0C5HFHDSGP",
+      "destination_message": "SLK-MSG-C0C5HFHDSGP-1790858510.441549",
+      "destination_channel": "SLK-CH-C0C5HFHDSGP",
+      "webhook_fingerprint_match": false,
+      "contains_source_data": false,
+      "contains_source_data_basis": "unknown",
+      "matching": "webhook_only",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "slack:SL-05#1790858510.441549"
+    }
+  },
+  {
+    "id": "OBS-DELIVERY-C0C5HFHDSGP-1790857963151959",
+    "kind": "delivery",
+    "title": "자동화가 올린 메시지 (1790857963.151959)",
+    "occurredAt": "2026-10-01T12:32:43.151Z",
+    "objectKeys": [
+      "SLK-HOOK-A0C60QMC3U1-C0C5HFHDSGP",
+      "SLK-MSG-C0C5HFHDSGP-1790857963.151959"
+    ],
+    "attributes": {
+      "destination_endpoint": "SLK-HOOK-A0C60QMC3U1-C0C5HFHDSGP",
+      "destination_message": "SLK-MSG-C0C5HFHDSGP-1790857963.151959",
+      "destination_channel": "SLK-CH-C0C5HFHDSGP",
+      "webhook_fingerprint_match": false,
+      "contains_source_data": false,
+      "contains_source_data_basis": "unknown",
+      "matching": "webhook_only",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "slack:SL-05#1790857963.151959"
+    }
+  },
+  {
+    "id": "OBS-DELIVERY-C0C5WTRUMU6-1790917719360159",
+    "kind": "delivery",
+    "title": "자동화가 올린 메시지 (1790917719.360159)",
+    "occurredAt": "2026-10-02T05:08:39.360Z",
+    "objectKeys": [
+      "SLK-HOOK-A0C5XP50ECW-C0C5WTRUMU6",
+      "SLK-MSG-C0C5WTRUMU6-1790917719.360159"
+    ],
+    "attributes": {
+      "destination_endpoint": "SLK-HOOK-A0C5XP50ECW-C0C5WTRUMU6",
+      "destination_message": "SLK-MSG-C0C5WTRUMU6-1790917719.360159",
+      "destination_channel": "SLK-CH-C0C5WTRUMU6",
+      "webhook_fingerprint_match": false,
+      "contains_source_data": false,
+      "contains_source_data_basis": "unknown",
+      "matching": "webhook_only",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "slack:SL-05#1790917719.360159"
+    }
+  },
+  {
+    "id": "OBS-DELIVERY-C0C5WTRUMU6-1790909406496659",
+    "kind": "delivery",
+    "title": "자동화가 올린 메시지 (1790909406.496659)",
+    "occurredAt": "2026-10-02T02:50:06.496Z",
+    "objectKeys": [
+      "SLK-HOOK-A0C5XP50ECW-C0C5WTRUMU6",
+      "SLK-MSG-C0C5WTRUMU6-1790909406.496659"
+    ],
+    "attributes": {
+      "destination_endpoint": "SLK-HOOK-A0C5XP50ECW-C0C5WTRUMU6",
+      "destination_message": "SLK-MSG-C0C5WTRUMU6-1790909406.496659",
+      "destination_channel": "SLK-CH-C0C5WTRUMU6",
+      "webhook_fingerprint_match": false,
+      "contains_source_data": false,
+      "contains_source_data_basis": "unknown",
+      "matching": "webhook_only",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "slack:SL-05#1790909406.496659"
+    }
+  },
+  {
+    "id": "OBS-DELIVERY-C0C5WTRUMU6-1790862190924159",
+    "kind": "delivery",
+    "title": "자동화가 올린 메시지 (1790862190.924159)",
+    "occurredAt": "2026-10-01T13:43:10.924Z",
+    "objectKeys": [
+      "SLK-HOOK-A0C5XP50ECW-C0C5WTRUMU6",
+      "SLK-MSG-C0C5WTRUMU6-1790862190.924159"
+    ],
+    "attributes": {
+      "destination_endpoint": "SLK-HOOK-A0C5XP50ECW-C0C5WTRUMU6",
+      "destination_message": "SLK-MSG-C0C5WTRUMU6-1790862190.924159",
+      "destination_channel": "SLK-CH-C0C5WTRUMU6",
+      "webhook_fingerprint_match": false,
+      "contains_source_data": false,
+      "contains_source_data_basis": "unknown",
+      "matching": "webhook_only",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "slack:SL-05#1790862190.924159"
+    }
+  },
+  {
+    "id": "OBS-FORWARD-GWS-U-107524066484014897790",
+    "kind": "access_snapshot",
+    "title": "Gmail 자동 전달 설정",
+    "occurredAt": "2026-10-12T04:14:37.841Z",
+    "objectKeys": [
+      "GWS-U-107524066484014897790"
+    ],
+    "attributes": {
+      "enabled": false
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+    }
+  },
+  {
+    "id": "OBS-FORWARD-GWS-U-114985094821433551809",
+    "kind": "access_snapshot",
+    "title": "Gmail 자동 전달 설정",
+    "occurredAt": "2026-10-12T04:14:39.138Z",
+    "objectKeys": [
+      "GWS-U-114985094821433551809"
+    ],
+    "attributes": {
+      "enabled": false
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+    }
+  },
+  {
+    "id": "OBS-FORWARD-GWS-U-102817839174856896829",
+    "kind": "access_snapshot",
+    "title": "Gmail 자동 전달 설정",
+    "occurredAt": "2026-10-12T04:14:40.504Z",
+    "objectKeys": [
+      "GWS-U-102817839174856896829"
+    ],
+    "attributes": {
+      "enabled": false
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+    }
+  },
+  {
+    "id": "OBS-FORWARD-GWS-U-100024818286955775644",
+    "kind": "access_snapshot",
+    "title": "Gmail 자동 전달 설정",
+    "occurredAt": "2026-10-12T04:14:41.634Z",
+    "objectKeys": [
+      "GWS-U-100024818286955775644"
+    ],
+    "attributes": {
+      "enabled": true,
+      "emailAddress": "twyeo0295@gmail.com",
+      "disposition": "leaveInInbox",
+      "verificationStatus": "accepted"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#7c6f2c9240363f923eca84702946c49cfa1a090cab844cf4b5ac8db028f6f676"
+    }
+  },
+  {
+    "id": "OBS-FORWARD-GWS-U-103618993018517958928",
+    "kind": "access_snapshot",
+    "title": "Gmail 자동 전달 설정",
+    "occurredAt": "2026-10-12T04:14:42.655Z",
+    "objectKeys": [
+      "GWS-U-103618993018517958928"
+    ],
+    "attributes": {
+      "enabled": false
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+    }
+  },
+  {
+    "id": "OBS-FORWARD-GWS-U-109866790000583858600",
+    "kind": "access_snapshot",
+    "title": "Gmail 자동 전달 설정",
+    "occurredAt": "2026-10-12T04:14:43.900Z",
+    "objectKeys": [
+      "GWS-U-109866790000583858600"
+    ],
+    "attributes": {
+      "enabled": false
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+    }
+  },
+  {
+    "id": "OBS-FORWARD-GWS-U-106407534911626909122",
+    "kind": "access_snapshot",
+    "title": "Gmail 자동 전달 설정",
+    "occurredAt": "2026-10-12T04:14:45.062Z",
+    "objectKeys": [
+      "GWS-U-106407534911626909122"
+    ],
+    "attributes": {
+      "enabled": false
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+    }
+  },
+  {
+    "id": "OBS-FORWARD-GWS-U-112743042539036671055",
+    "kind": "access_snapshot",
+    "title": "Gmail 자동 전달 설정",
+    "occurredAt": "2026-10-12T04:14:46.125Z",
+    "objectKeys": [
+      "GWS-U-112743042539036671055"
+    ],
+    "attributes": {
+      "enabled": false
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+    }
+  },
+  {
+    "id": "OBS-FORWARD-GWS-U-113652077212916932169",
+    "kind": "access_snapshot",
+    "title": "Gmail 자동 전달 설정",
+    "occurredAt": "2026-10-12T04:14:47.007Z",
+    "objectKeys": [
+      "GWS-U-113652077212916932169"
+    ],
+    "attributes": {
+      "enabled": false
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#5acf3ff77b4420677b5923071f303facaba7a9273a346284a667a275df325146"
+    }
+  },
+  {
+    "id": "OBS-RULE-0pr18567skrKN6YMq698",
+    "kind": "access_snapshot",
+    "title": "프로필 조건에 따른 그룹 배정 설정",
+    "occurredAt": "2026-10-12T04:12:42.743Z",
+    "objectKeys": [
+      "OKTA-GRULE-0pr18567skrKN6YMq698",
+      "OKTA-G-00g184i07t2PrDRQY698"
+    ],
+    "attributes": {
+      "expression": {
+        "value": "user.title==\"Manager\"",
+        "type": "urn:okta:expression:1.0"
+      },
+      "status": "ACTIVE",
+      "assign_groups": [
+        "00g184i07t2PrDRQY698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-11#5faff9ef6685d5f94105d614971c2a3e055356c563155094f07d04714a67649c"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c528322b-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:40.739Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oouqfweEUBpC698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17opyfiqUIxFZc698",
+        "0oa17oouqfweEUBpC698",
+        "00u17opugfj1Ynlhw698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c52d3b3d-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:40.772Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vg4nvy48fM5m698",
+        "0oa17oo7fscmuvKLt698",
+        "00u17opugfj1Ynlhw698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5321d3f-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:40.804Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17sm6gpjtl5Rye698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17sm9lvaYmptls698",
+        "0oa17sm6gpjtl5Rye698",
+        "00u17opugfj1Ynlhw698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5379a81-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:40.840Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oo7fqx4Kbqrv698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vg4nv7YZvO63698",
+        "0oa17oo7fqx4Kbqrv698",
+        "00u17opugfj1Ynlhw698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c53c2e62-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:40.870Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa1831xaxhBtqsBD698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua1832j8ac7nc6tj698",
+        "0oa1831xaxhBtqsBD698",
+        "00u17opugfj1Ynlhw698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5413774-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:40.903Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17smhk7qDEECp2698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vemxfxde6MQ7698",
+        "0oa17smhk7qDEECp2698",
+        "00u17opugfj1Ynlhw698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c560a65d-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.109Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oouqfweEUBpC698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17opyfiubZALA1698",
+        "0oa17oouqfweEUBpC698",
+        "00u17opugfyL07qY5698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c56428ce-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.132Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17oqgdogXaEegc698",
+        "0oa17oo7fscmuvKLt698",
+        "00u17opugfyL07qY5698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c567d250-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.156Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17sm6gpjtl5Rye698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17sm8qztil9qvd698",
+        "0oa17sm6gpjtl5Rye698",
+        "00u17opugfyL07qY5698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c56d0272-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.190Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oo7fqx4Kbqrv698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17oqgdokNn1gIF698",
+        "0oa17oo7fqx4Kbqrv698",
+        "00u17opugfyL07qY5698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c571bd63-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.221Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17smhk7qDEECp2698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua180lj3sjb4YfhQ698",
+        "0oa17smhk7qDEECp2698",
+        "00u17opugfyL07qY5698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c58f096b-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.413Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oouqfweEUBpC698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17opyfixDR2M6T698",
+        "0oa17oouqfweEUBpC698",
+        "00u17opugg7UOxwKv698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c592d9fd-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.438Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17oq86u2nGapDM698",
+        "0oa17oo7fscmuvKLt698",
+        "00u17opugg7UOxwKv698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c596d1a0-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.464Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17sm6gpjtl5Rye698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17sm7faphCwK2U698",
+        "0oa17sm6gpjtl5Rye698",
+        "00u17opugg7UOxwKv698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c59bb3a2-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.496Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oo7fqx4Kbqrv698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17oq86tusMY0Sa698",
+        "0oa17oo7fqx4Kbqrv698",
+        "00u17opugg7UOxwKv698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5a02075-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.525Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17smhk7qDEECp2698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua180lj1g7Rpgr8L698",
+        "0oa17smhk7qDEECp2698",
+        "00u17opugg7UOxwKv698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5b7790c-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.678Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oouqfweEUBpC698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17opyfj0jiaNbm698",
+        "0oa17oouqfweEUBpC698",
+        "00u17opugggUWYQ8d698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5bd456e-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.716Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa184hxqtkd9OGOq698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua185ejub07nplZ0698",
+        "0oa184hxqtkd9OGOq698",
+        "00u17opugggUWYQ8d698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5c13d10-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.742Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vg3yz3p7HRfr698",
+        "0oa17oo7fscmuvKLt698",
+        "00u17opugggUWYQ8d698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5c4bf82-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.765Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17sm6gpjtl5Rye698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17sm6c411HHiyL698",
+        "0oa17sm6gpjtl5Rye698",
+        "00u17opugggUWYQ8d698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5c9efa4-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.799Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oo7fqx4Kbqrv698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vg3yyvp2NQdA698",
+        "0oa17oo7fqx4Kbqrv698",
+        "00u17opugggUWYQ8d698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5cef8b6-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:41.832Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17smhk7qDEECp2698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vekt0kSWseN6698",
+        "0oa17smhk7qDEECp2698",
+        "00u17opugggUWYQ8d698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5ef5201-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.044Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oouqfweEUBpC698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17opyfj3Z9UXKS698",
+        "0oa17oouqfweEUBpC698",
+        "00u17opuggpihIQih698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5f2fb83-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.068Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17oq91hv9wJ3uW698",
+        "0oa17oo7fscmuvKLt698",
+        "00u17opuggpihIQih698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5f67df5-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.091Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17sm6gpjtl5Rye698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17sm8k4hHFn4Py698",
+        "0oa17sm6gpjtl5Rye698",
+        "00u17opuggpihIQih698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5fb38e7-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.122Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oo7fqx4Kbqrv698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17oq91hpI5Q4y7698",
+        "0oa17oo7fqx4Kbqrv698",
+        "00u17opuggpihIQih698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c5ff5798-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.149Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17smhk7qDEECp2698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17tm5t0x1FOzW5698",
+        "0oa17smhk7qDEECp2698",
+        "00u17opuggpihIQih698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c604399a-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.181Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17tgu0fr47BPie698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17thdnsd9Kn7UV698",
+        "0oa17tgu0fr47BPie698",
+        "00u17opuggpihIQih698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c61d66f5-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.346Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17smhk7qDEECp2698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17smixnfSlngKY698",
+        "0oa17smhk7qDEECp2698",
+        "00u17smcy01T1EoMn698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c628639a-bcc9-11f1-a02b-cd84b766f6e3",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.418Z",
+    "objectKeys": [],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vfunckxm1Abo698",
+        "0oa17oo1dv9abOS7o698",
+        "00u17opugfj1Ynlhw698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c62f414c-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.463Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17smhk7qDEECp2698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17te9otunVUKe9698",
+        "0oa17smhk7qDEECp2698",
+        "00u17tcadys5s5epe698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c633d52e-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.493Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17tgu0fr47BPie698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17thd22vyVJqJU698",
+        "0oa17tgu0fr47BPie698",
+        "00u17tcadys5s5epe698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c651e453-bcc9-11f1-aa47-4ddae62e9256",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.690Z",
+    "objectKeys": [],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17oqaximEI6FoM698",
+        "0oa17oo1dqkpRlRZR698",
+        "00u17opugfyL07qY5698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c6540768-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.704Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17oouqfweEUBpC698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua180ryl7zfyzH3F698",
+        "0oa17oouqfweEUBpC698",
+        "00u180rwr17KogxCi698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c658261a-bcc9-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.731Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17smhk7qDEECp2698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua180rwfkwYWZgcy698",
+        "0oa17smhk7qDEECp2698",
+        "00u180rwr17KogxCi698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c667682a-bcc9-11f1-aa47-4ddae62e9256",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.831Z",
+    "objectKeys": [],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17oqaxitihuKeX698",
+        "0oa17oo1dv9abOS7o698",
+        "00u17opugfyL07qY5698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c66ee23d-bcc9-11f1-aa47-4ddae62e9256",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:42.880Z",
+    "objectKeys": [],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17oqaxitihuKeX698",
+        "0oa17oo1dv9abOS7o698",
+        "00u17opugfyL07qY5698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c69f1a18-bcc9-11f1-ad80-bde93b6e26d2",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:43.196Z",
+    "objectKeys": [],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vfsp9sDE5z3d698",
+        "0oa17oo1dqkpRlRZR698",
+        "00u17opugggUWYQ8d698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c6adc01a-bcc9-11f1-ad80-bde93b6e26d2",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:43.292Z",
+    "objectKeys": [],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vfsp9z7Y6TMc698",
+        "0oa17oo1dv9abOS7o698",
+        "00u17opugggUWYQ8d698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c6b0f46b-bcc9-11f1-ad80-bde93b6e26d2",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:43.313Z",
+    "objectKeys": [],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vfsp9z7Y6TMc698",
+        "0oa17oo1dv9abOS7o698",
+        "00u17opugggUWYQ8d698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-c6d433d5-bcc9-11f1-ad47-65e1b7cd4461",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:23:43.544Z",
+    "objectKeys": [],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vfx265nFzqao698",
+        "0oa17oo1dqkpRlRZR698",
+        "00u17opuggpihIQih698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-3c682610-bcca-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "group.user_membership.remove",
+    "occurredAt": "2026-09-30T12:27:00.807Z",
+    "objectKeys": [
+      "OKTA-G-00g17zd0kzpY7qEqa698"
+    ],
+    "attributes": {
+      "event_type": "group.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u17opugfj1Ynlhw698",
+        "00g17zd0kzpY7qEqa698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-3c7bae19-bcca-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "application.user_membership.remove",
+    "occurredAt": "2026-09-30T12:27:00.935Z",
+    "objectKeys": [],
+    "attributes": {
+      "event_type": "application.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua17vfuncc8tncFc698",
+        "0oa17oo1dqkpRlRZR698",
+        "00u17opugfj1Ynlhw698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-3cc5d699-bcca-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "group.user_membership.remove",
+    "occurredAt": "2026-09-30T12:27:01.421Z",
+    "objectKeys": [
+      "OKTA-G-00g17sgu0yqSulrIf698"
+    ],
+    "attributes": {
+      "event_type": "group.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u17opugg7UOxwKv698",
+        "00g17sgu0yqSulrIf698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-3ce370c4-bcca-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "group.user_membership.remove",
+    "occurredAt": "2026-09-30T12:27:01.615Z",
+    "objectKeys": [
+      "OKTA-G-00g184i07t2PrDRQY698"
+    ],
+    "attributes": {
+      "event_type": "group.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u17opugggUWYQ8d698",
+        "00g184i07t2PrDRQY698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-3d49d3da-bcca-11f1-a262-47618d192989",
+    "kind": "audit_event",
+    "title": "group.user_membership.remove",
+    "occurredAt": "2026-09-30T12:27:02.286Z",
+    "objectKeys": [
+      "OKTA-G-00g17zcxst8WlOr53698"
+    ],
+    "attributes": {
+      "event_type": "group.user_membership.remove",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u17zcxdkv1Y9EXk698",
+        "00g17zcxst8WlOr53698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-bfed5cd6-bce6-11f1-a62f-6f128fa19a1c",
+    "kind": "audit_event",
+    "title": "group.user_membership.add",
+    "occurredAt": "2026-09-30T15:51:07.370Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-U-00u187p30bhJHPRMe698",
+      "OKTA-G-00g17zcxst8WlOr53698"
+    ],
+    "attributes": {
+      "event_type": "group.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u187p30bhJHPRMe698",
+        "00g17zcxst8WlOr53698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-e135e1e0-bd64-11f1-b32f-19b8370d49f0",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:53:59.798Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa188p756wojViU5698",
+      "OKTA-U-00u188pdmjfyzK9NF698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pi77sAqoGjo698",
+        "0oa188p756wojViU5698",
+        "00u188pdmjfyzK9NF698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-e1506ec4-bd64-11f1-b32f-19b8370d49f0",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:53:59.972Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa188p756wojViU5698",
+      "OKTA-U-00u188pdmjoYQN0T9698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pi77wa7scIp698",
+        "0oa188p756wojViU5698",
+        "00u188pdmjoYQN0T9698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-e168ffd7-bd64-11f1-b32f-19b8370d49f0",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:54:00.133Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa188p756wojViU5698",
+      "OKTA-U-00u188pdmjxPT3YQ3698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pi77zjz6noM698",
+        "0oa188p756wojViU5698",
+        "00u188pdmjxPT3YQ3698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-e18142cc-bd64-11f1-b32f-19b8370d49f0",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:54:00.292Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa188p756wojViU5698",
+      "OKTA-U-00u188pdmkb6En4vM698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pi7823OyNA5698",
+        "0oa188p756wojViU5698",
+        "00u188pdmkb6En4vM698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-e1a322b5-bd64-11f1-b32f-19b8370d49f0",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:54:00.514Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa188p756wojViU5698",
+      "OKTA-U-00u188pdmklQat4Of698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pi7889wby6g698",
+        "0oa188p756wojViU5698",
+        "00u188pdmklQat4Of698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-e1ba2d2d-bd64-11f1-b32f-19b8370d49f0",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:54:00.665Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa188p756wojViU5698",
+      "OKTA-U-00u188pdmkuJhPnRh698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pi78bZP4tUO698",
+        "0oa188p756wojViU5698",
+        "00u188pdmkuJhPnRh698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-e1d1d3e1-bd64-11f1-b32f-19b8370d49f0",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:54:00.820Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa188p756wojViU5698",
+      "OKTA-U-00u188pdml3ubaTaW698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pi78hVx5Kjw698",
+        "0oa188p756wojViU5698",
+        "00u188pdml3ubaTaW698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-459f4b6e-bd65-11f1-ae82-af17d60f40e5",
+    "kind": "audit_event",
+    "title": "group.user_membership.add",
+    "occurredAt": "2026-10-01T06:56:48.261Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-U-00u188pdmklQat4Of698",
+      "OKTA-G-00g17zd0kzpY7qEqa698"
+    ],
+    "attributes": {
+      "event_type": "group.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmklQat4Of698",
+        "00g17zd0kzpY7qEqa698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-45b25e40-bd65-11f1-ae82-af17d60f40e5",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:56:48.386Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa1831xaxhBtqsBD698",
+      "OKTA-U-00u188pdmklQat4Of698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pgirppsKmMK698",
+        "0oa1831xaxhBtqsBD698",
+        "00u188pdmklQat4Of698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-45bc4951-bd65-11f1-ae82-af17d60f40e5",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:56:48.451Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-U-00u188pdmklQat4Of698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pgirvhu2ad7698",
+        "0oa17oo1dqkpRlRZR698",
+        "00u188pdmklQat4Of698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-706cf079-bd65-11f1-8087-cfc89069b255",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:58:00.073Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa188p756wojViU5698",
+      "OKTA-U-00u188pd8x4vjlYCT698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pqvakpncZGG698",
+        "0oa188p756wojViU5698",
+        "00u188pd8x4vjlYCT698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-95f230ea-bd65-11f1-a61b-174ca25f9bb2",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:59:03.022Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-U-00u188pd8x4vjlYCT698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pe06vwmQevU698",
+        "0oa17oo1dqkpRlRZR698",
+        "00u188pd8x4vjlYCT698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-960df64d-bd65-11f1-a61b-174ca25f9bb2",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:59:03.204Z",
+    "objectKeys": [
+      "OKTA-U-00u188pd8x4vjlYCT698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188pe072MxWNks698",
+        "0oa17oo1dv9abOS7o698",
+        "00u188pd8x4vjlYCT698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-963618a7-bd65-11f1-ba53-5d3fcad71c51",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:59:03.467Z",
+    "objectKeys": [
+      "OKTA-U-00u188pd8x4vjlYCT698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188ptleqd1efGW698",
+        "0oa17oo7fscmuvKLt698",
+        "00u188pd8x4vjlYCT698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-963ca858-bd65-11f1-ba53-5d3fcad71c51",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:59:03.510Z",
+    "objectKeys": [
+      "OKTA-APP-0oa17oo7fqx4Kbqrv698",
+      "OKTA-U-00u188pd8x4vjlYCT698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188ptlerqEtxES698",
+        "0oa17oo7fqx4Kbqrv698",
+        "00u188pd8x4vjlYCT698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-965b7afa-bd65-11f1-ba53-5d3fcad71c51",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T06:59:03.712Z",
+    "objectKeys": [
+      "OKTA-U-00u188pd8x4vjlYCT698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua188ptlex4sO2Hx698",
+        "0oa17oo67b1UYpTQO698",
+        "00u188pd8x4vjlYCT698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-a5445adf-bd66-11f1-85c7-7f333e8a39f6",
+    "kind": "audit_event",
+    "title": "user.account.reset_password",
+    "occurredAt": "2026-10-01T07:06:38.223Z",
+    "objectKeys": [
+      "OKTA-U-00u188pdmklQat4Of698"
+    ],
+    "attributes": {
+      "event_type": "user.account.reset_password",
+      "actor_id": "00u188pdmklQat4Of698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u188pdmklQat4Of698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmklQat4Of698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-a99c6a0a-bd66-11f1-b881-b350ff2943e5",
+    "kind": "audit_event",
+    "title": "user.account.reset_password",
+    "occurredAt": "2026-10-01T07:06:45.511Z",
+    "objectKeys": [
+      "OKTA-U-00u188pd8x4vjlYCT698"
+    ],
+    "attributes": {
+      "event_type": "user.account.reset_password",
+      "actor_id": "00u188pd8x4vjlYCT698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u188pd8x4vjlYCT698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pd8x4vjlYCT698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-ab780828-bd66-11f1-b881-b350ff2943e5",
+    "kind": "audit_event",
+    "title": "user.account.reset_password",
+    "occurredAt": "2026-10-01T07:06:48.628Z",
+    "objectKeys": [
+      "OKTA-U-00u188pdmjfyzK9NF698"
+    ],
+    "attributes": {
+      "event_type": "user.account.reset_password",
+      "actor_id": "00u188pdmjfyzK9NF698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u188pdmjfyzK9NF698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmjfyzK9NF698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-ad23468c-bd66-11f1-88b1-eb5d587487d6",
+    "kind": "audit_event",
+    "title": "user.account.reset_password",
+    "occurredAt": "2026-10-01T07:06:51.428Z",
+    "objectKeys": [
+      "OKTA-U-00u188pdmjoYQN0T9698"
+    ],
+    "attributes": {
+      "event_type": "user.account.reset_password",
+      "actor_id": "00u188pdmjoYQN0T9698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u188pdmjoYQN0T9698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmjoYQN0T9698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-aef23a83-bd66-11f1-b945-f53a89efec4d",
+    "kind": "audit_event",
+    "title": "user.account.reset_password",
+    "occurredAt": "2026-10-01T07:06:54.462Z",
+    "objectKeys": [
+      "OKTA-U-00u188pdmjxPT3YQ3698"
+    ],
+    "attributes": {
+      "event_type": "user.account.reset_password",
+      "actor_id": "00u188pdmjxPT3YQ3698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u188pdmjxPT3YQ3698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmjxPT3YQ3698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-b0c3c5e4-bd66-11f1-87f6-67e3b99f93c8",
+    "kind": "audit_event",
+    "title": "user.account.reset_password",
+    "occurredAt": "2026-10-01T07:06:57.513Z",
+    "objectKeys": [
+      "OKTA-U-00u188pdmkb6En4vM698"
+    ],
+    "attributes": {
+      "event_type": "user.account.reset_password",
+      "actor_id": "00u188pdmkb6En4vM698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u188pdmkb6En4vM698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmkb6En4vM698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-b28e9b17-bd66-11f1-97b7-4790a9f7050f",
+    "kind": "audit_event",
+    "title": "user.account.reset_password",
+    "occurredAt": "2026-10-01T07:07:00.520Z",
+    "objectKeys": [
+      "OKTA-U-00u188pdmkuJhPnRh698"
+    ],
+    "attributes": {
+      "event_type": "user.account.reset_password",
+      "actor_id": "00u188pdmkuJhPnRh698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u188pdmkuJhPnRh698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmkuJhPnRh698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-b430161c-bd66-11f1-9e2e-393d6c683d1f",
+    "kind": "audit_event",
+    "title": "user.account.reset_password",
+    "occurredAt": "2026-10-01T07:07:03.256Z",
+    "objectKeys": [
+      "OKTA-U-00u188pdml3ubaTaW698"
+    ],
+    "attributes": {
+      "event_type": "user.account.reset_password",
+      "actor_id": "00u188pdml3ubaTaW698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u188pdml3ubaTaW698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdml3ubaTaW698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-60fbe88f-bd93-11f1-8814-33a4a9f677e8",
+    "kind": "audit_event",
+    "title": "user.mfa.factor.reset_all",
+    "occurredAt": "2026-10-01T12:26:51.016Z",
+    "objectKeys": [
+      "OKTA-CLIENT-0oa17zcw8x2b9e68j698",
+      "OKTA-U-00u187p30bhJHPRMe698"
+    ],
+    "attributes": {
+      "event_type": "user.mfa.factor.reset_all",
+      "actor_id": "0oa17zcw8x2b9e68j698",
+      "actor_type": "PublicClientAppEntity",
+      "actor_object": "OKTA-CLIENT-0oa17zcw8x2b9e68j698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u187p30bhJHPRMe698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-9b409190-bd96-11f1-bff8-c588d386659d",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T12:49:57.264Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17sm6gpjtl5Rye698",
+      "OKTA-U-00u188pdmjoYQN0T9698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua1891no63N47YbO698",
+        "0oa17sm6gpjtl5Rye698",
+        "00u188pdmjoYQN0T9698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-9bbc9ee4-bd96-11f1-a2e0-8f989c81e1ae",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-01T12:49:58.077Z",
+    "objectKeys": [
+      "OKTA-U-00u17oo1dupojisBy698",
+      "OKTA-APP-0oa17sm6gpjtl5Rye698",
+      "OKTA-U-00u188pdmjfyzK9NF698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "00u17oo1dupojisBy698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u17oo1dupojisBy698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua1891gbgfN0hBao698",
+        "0oa17sm6gpjtl5Rye698",
+        "00u188pdmjfyzK9NF698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-cc7a9037-be19-11f1-91ec-c1dccf04c656",
+    "kind": "audit_event",
+    "title": "user.mfa.factor.reset_all",
+    "occurredAt": "2026-10-02T04:29:03.924Z",
+    "objectKeys": [
+      "OKTA-CLIENT-0oa17zcw8x2b9e68j698",
+      "OKTA-U-00u187p30bhJHPRMe698"
+    ],
+    "attributes": {
+      "event_type": "user.mfa.factor.reset_all",
+      "actor_id": "0oa17zcw8x2b9e68j698",
+      "actor_type": "PublicClientAppEntity",
+      "actor_object": "OKTA-CLIENT-0oa17zcw8x2b9e68j698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u187p30bhJHPRMe698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-ca16b982-be1a-11f1-bf20-b5045a521a3a",
+    "kind": "audit_event",
+    "title": "user.account.update_profile",
+    "occurredAt": "2026-10-02T04:36:09.411Z",
+    "objectKeys": [
+      "OKTA-U-00u188pdmjxPT3YQ3698"
+    ],
+    "attributes": {
+      "event_type": "user.account.update_profile",
+      "actor_id": "00u188pdmjxPT3YQ3698",
+      "actor_type": "User",
+      "actor_object": "OKTA-U-00u188pdmjxPT3YQ3698",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmjxPT3YQ3698"
+      ],
+      "changed_attributes": "mobilePhone,secondEmail,title"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-ca1f1df3-be1a-11f1-bf20-b5045a521a3a",
+    "kind": "audit_event",
+    "title": "group.user_membership.add",
+    "occurredAt": "2026-10-02T04:36:09.466Z",
+    "objectKeys": [
+      "OKTA-U-00u188pdmjxPT3YQ3698",
+      "OKTA-G-00g184i07t2PrDRQY698"
+    ],
+    "attributes": {
+      "event_type": "group.user_membership.add",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmjxPT3YQ3698",
+        "00g184i07t2PrDRQY698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  },
+  {
+    "id": "OBS-EVENT-ca2e6038-be1a-11f1-bf20-b5045a521a3a",
+    "kind": "audit_event",
+    "title": "application.user_membership.add",
+    "occurredAt": "2026-10-02T04:36:09.566Z",
+    "objectKeys": [
+      "OKTA-APP-0oa184hxqtkd9OGOq698",
+      "OKTA-U-00u188pdmjxPT3YQ3698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua18a575y8BltfVC698",
+        "0oa184hxqtkd9OGOq698",
+        "00u188pdmjxPT3YQ3698"
+      ]
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    }
+  }
+]

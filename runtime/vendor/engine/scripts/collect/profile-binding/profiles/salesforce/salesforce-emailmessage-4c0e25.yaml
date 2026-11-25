@@ -1,0 +1,784 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: EmailMessage
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:ae36786afd6ce2a6074c0e25
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:ae36786afd6ce2a6074c0e25.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|Id
+  ActivityId:
+    path: ActivityId
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: reference
+      name: ActivityId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|ActivityId
+  AttachmentIds:
+    path: AttachmentIds
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: string
+      name: AttachmentIds
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|AttachmentIds
+  AutomationType:
+    path: AutomationType
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: picklist
+      name: AutomationType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|AutomationType
+  BccAddress:
+    path: BccAddress
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: string
+      name: BccAddress
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|BccAddress
+  BccIds:
+    path: BccIds
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: JunctionIdList
+      name: BccIds
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|BccIds
+  CcAddress:
+    path: CcAddress
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: string
+      name: CcAddress
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|CcAddress
+  CcIds:
+    path: CcIds
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: JunctionIdList
+      name: CcIds
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|CcIds
+  ClientThreadIdentifier:
+    path: ClientThreadIdentifier
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: string
+      name: ClientThreadIdentifier
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|ClientThreadIdentifier
+  ContentDocumentIds:
+    path: ContentDocumentIds
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: JunctionIdList
+      name: ContentDocumentIds
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|ContentDocumentIds
+  Division:
+    path: Division
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: picklist
+      name: Division
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|Division
+  EmailRoutingAddressId:
+    path: EmailRoutingAddressId
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: reference
+      name: EmailRoutingAddressId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|EmailRoutingAddressId
+  EmailTemplateId:
+    path: EmailTemplateId
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: reference
+      name: EmailTemplateId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|EmailTemplateId
+  FirstLinkClickedDate:
+    path: FirstLinkClickedDate
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: dateTime
+      name: FirstLinkClickedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|FirstLinkClickedDate
+  FirstOpenedDate:
+    path: FirstOpenedDate
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: dateTime
+      name: FirstOpenedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|FirstOpenedDate
+  FromAddress:
+    path: FromAddress
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: email
+      name: FromAddress
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|FromAddress
+  FromId:
+    path: FromId
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: reference
+      name: FromId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|FromId
+  FromName:
+    path: FromName
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: string
+      name: FromName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|FromName
+  HasAttachment:
+    path: HasAttachment
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: HasAttachment
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|HasAttachment
+  HasReply:
+    path: HasReply
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: HasReply
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|HasReply
+  Headers:
+    path: Headers
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: textarea
+      name: Headers
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|Headers
+  HtmlBody:
+    path: HtmlBody
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: textarea
+      name: HtmlBody
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|HtmlBody
+  Incoming:
+    path: Incoming
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: Incoming
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|Incoming
+  IsBounced:
+    path: IsBounced
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: IsBounced
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|IsBounced
+  IsClientManaged:
+    path: IsClientManaged
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: IsClientManaged
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|IsClientManaged
+  IsDeleted:
+    path: IsDeleted
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: IsDeleted
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|IsDeleted
+  IsExternallyVisible:
+    path: IsExternallyVisible
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: IsExternallyVisible
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|IsExternallyVisible
+  IsLinkClicked:
+    path: IsLinkClicked
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: IsLinkClicked
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|IsLinkClicked
+  IsLinkTracked:
+    path: IsLinkTracked
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: IsLinkTracked
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|IsLinkTracked
+  IsOpened:
+    path: IsOpened
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: IsOpened
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|IsOpened
+  IsPrivateDraft:
+    path: IsPrivateDraft
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: IsPrivateDraft
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|IsPrivateDraft
+  IsTracked:
+    path: IsTracked
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: boolean
+      name: IsTracked
+      required: false
+      scalar: boolean
+    map_items:
+      - space:EmailMessage|IsTracked
+  LastLinkClickedDate:
+    path: LastLinkClickedDate
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: dateTime
+      name: LastLinkClickedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|LastLinkClickedDate
+  LastOpenedDate:
+    path: LastOpenedDate
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: dateTime
+      name: LastOpenedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|LastOpenedDate
+  MessageDate:
+    path: MessageDate
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: dateTime
+      name: MessageDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|MessageDate
+  MessageIdentifier:
+    path: MessageIdentifier
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: string
+      name: MessageIdentifier
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|MessageIdentifier
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: string
+      name: Name
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|Name
+  ParentId:
+    path: ParentId
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: reference
+      name: ParentId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|ParentId
+  RelatedToId:
+    path: RelatedToId
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: reference
+      name: RelatedToId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|RelatedToId
+  ReplyToEmailMessageId:
+    path: ReplyToEmailMessageId
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: reference
+      name: ReplyToEmailMessageId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|ReplyToEmailMessageId
+  Source:
+    path: Source
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: picklist
+      name: Source
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|Source
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: picklist
+      name: Status
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|Status
+  Subject:
+    path: Subject
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: string
+      name: Subject
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|Subject
+  TextBody:
+    path: TextBody
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: textarea
+      name: TextBody
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|TextBody
+  ThreadIdentifier:
+    path: ThreadIdentifier
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: string
+      name: ThreadIdentifier
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|ThreadIdentifier
+  ToAddress:
+    path: ToAddress
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: string
+      name: ToAddress
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|ToAddress
+  ToIds:
+    path: ToIds
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: JunctionIdList
+      name: ToIds
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|ToIds
+  ValidatedFromAddress:
+    path: ValidatedFromAddress
+    source: research_shape
+    shape: sh:sf_object_reference:EmailMessage
+    declaration:
+      format: picklist
+      name: ValidatedFromAddress
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailMessage|ValidatedFromAddress
+references:
+  - name: relatedtoid
+    field: RelatedToId
+    target: WorkOrderLineItem
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:005e74ea89495341ba016a68; relation=no_relation
+  - name: parentid
+    field: ParentId
+    target: Case
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3d4c650a1f578b59d5cab4dc; relation=no_relation
+  - name: emailroutingaddressid
+    field: EmailRoutingAddressId
+    target: EmailRoutingAddress
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:529942abf4fbd2966d851d56; relation=no_relation
+  - name: emailtemplateid
+    field: EmailTemplateId
+    target: EmailTemplate
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d448210ba5171ae9e4f954d0; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: EmailMessage
+  interfaces: *a1
+  model:
+    research_type: object-type:ae36786afd6ce2a6074c0e25
+  extract:
+    key: PILOT-salesforce-EmailMessage-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-4c0e25
+            endpoint: /
+            items:
+              - records
+        properties:
+          ActivityId: ActivityId
+          AttachmentIds: AttachmentIds
+          AutomationType: AutomationType
+          BccAddress: BccAddress
+          BccIds: BccIds
+          CcAddress: CcAddress
+          CcIds: CcIds
+          ClientThreadIdentifier: ClientThreadIdentifier
+          ContentDocumentIds: ContentDocumentIds
+          Division: Division
+          EmailRoutingAddressId: EmailRoutingAddressId
+          EmailTemplateId: EmailTemplateId
+          FirstLinkClickedDate: FirstLinkClickedDate
+          FirstOpenedDate: FirstOpenedDate
+          FromAddress: FromAddress
+          FromId: FromId
+          FromName: FromName
+          HasAttachment: HasAttachment
+          HasReply: HasReply
+          Headers: Headers
+          HtmlBody: HtmlBody
+          Id: Id
+          Incoming: Incoming
+          IsBounced: IsBounced
+          IsClientManaged: IsClientManaged
+          IsDeleted: IsDeleted
+          IsExternallyVisible: IsExternallyVisible
+          IsLinkClicked: IsLinkClicked
+          IsLinkTracked: IsLinkTracked
+          IsOpened: IsOpened
+          IsPrivateDraft: IsPrivateDraft
+          IsTracked: IsTracked
+          LastLinkClickedDate: LastLinkClickedDate
+          LastOpenedDate: LastOpenedDate
+          MessageDate: MessageDate
+          MessageIdentifier: MessageIdentifier
+          Name: Name
+          ParentId: ParentId
+          RelatedToId: RelatedToId
+          ReplyToEmailMessageId: ReplyToEmailMessageId
+          Source: Source
+          Status: Status
+          Subject: Subject
+          TextBody: TextBody
+          ThreadIdentifier: ThreadIdentifier
+          ToAddress: ToAddress
+          ToIds: ToIds
+          ValidatedFromAddress: ValidatedFromAddress
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:EmailMessage.query
+  operation: EmailMessage.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: EmailMessage
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:EmailMessage
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:EmailMessage.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/EmailMessage/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - RelatedToId
+    - ParentId
+    - EmailRoutingAddressId
+    - EmailTemplateId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

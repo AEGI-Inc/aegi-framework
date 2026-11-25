@@ -1,0 +1,98 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: aws
+service: iam
+object_type: IAMUser
+interfaces: [Principal]
+identity:
+  primary:
+    - {name: id, expr: UserId, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: AWS-USER-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AWS-02
+        request: {kind: users}
+        items: Users
+    id_expr: UserId
+    properties:
+      principal_kind: {const: human}
+      account_kind: {const: human}
+      operational_state: {const: active}
+      user_id: UserId
+      user_name: UserName
+      arn: Arn
+      path: Path
+      create_date: CreateDate
+      account_id: AccountId
+      attached_policy_names: {const: []}
+      user_policy_names: {const: []}
+      group_names: {const: []}
+    display: "{UserName}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Account, id: AccountId}
+        basis: stated
+        require: [target]
+  - id: user_attached_policies
+    kind: enrich
+    sources:
+      - call: AWS-02
+        request: {kind: user_attached_policies}
+        items: (root)
+    target:
+      type: IAMUser
+      lookup: user_name
+      value: $req.user_name
+    set:
+      attached_policy_names:
+        op: map_each
+        of: AttachedPolicies
+        value: PolicyName
+    relations:
+      - each: AttachedPolicies
+        type: has_role_on
+        source: $self
+        target: $tenant
+        role:
+          name: $item.PolicyName
+        basis: stated
+        membership_enforced: true
+        properties:
+          role: $item.PolicyName
+          policy_arn: $item.PolicyArn
+        require: [target]
+  - id: user_inline_policies
+    kind: enrich
+    sources:
+      - call: AWS-02
+        request: {kind: user_inline_policies}
+        items: (root)
+    target:
+      type: IAMUser
+      lookup: user_name
+      value: $req.user_name
+    set:
+      user_policy_names: PolicyNames
+  - id: user_groups
+    kind: enrich
+    sources:
+      - call: AWS-02
+        request: {kind: user_groups}
+        items: (root)
+    target:
+      type: IAMUser
+      lookup: user_name
+      value: $req.user_name
+    set:
+      group_names:
+        op: map_each
+        of: Groups
+        value: GroupName

@@ -1,0 +1,55 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: aws
+service: iam
+object_type: AccessKey
+interfaces: [Credential]
+identity:
+  primary:
+    - {name: id, expr: AccessKeyId, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: AWS-KEY-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AWS-02
+        request: {kind: access_keys}
+        items: (array_or:AccessKeys|AccessKeyMetadata)
+    id_expr: AccessKeyId
+    properties:
+      # IAM 접근 키는 IAM 사용자의 장기 공유 비밀이다(공개키 짝이 아님). 쥐면 그 사용자로 API 를 부른다 —
+      # 사전 갈래 owned_by.org_bearer_token · authenticates_with.org_bearer_token 이 보는 bearer_token 으로 둔다(2026-11-17)
+      # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html
+      credential_kind: {const: bearer_token}
+      operational_state:
+        op: map
+        of: Status
+        table:
+          Active: active
+          Inactive: suspended
+        default: {const: unknown}
+      access_key_id: AccessKeyId
+      user_name: UserName
+      status: Status
+      create_date: CreateDate
+      account_id: AccountId
+    display: "{AccessKeyId}"
+    relations:
+      # IAM 사용자가 이 키로 인증한다(Principal > Credential). 키가 새면 그 사용자로 동작한다
+      - type: authenticates_with
+        source: {type: IAMUser, lookup: user_name, value: UserName}
+        target: $self
+        basis: stated
+        require: [source]
+      # 키는 그 계정에 딸린다(Credential > Tenant). 전에는 owned_by 키 > IAMUser, authenticates_with 키 > Account 로
+      # 관계 선언 template 밖이라 간선이 0 이었다(knowledge check_im_relations I2, 2026-11-17)
+      - type: owned_by
+        source: $self
+        target: {type: Account, id: AccountId}
+        basis: stated
+        require: [target]

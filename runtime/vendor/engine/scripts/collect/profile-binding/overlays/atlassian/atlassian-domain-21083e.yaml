@@ -1,0 +1,29 @@
+overlay_basis:
+  from: 2026-11-03 수집 run 20261103T061203Z-0db1 의 RG-AT-getDomains 응답(조직 관리 API)
+  note: 생성 Profile 의 필드 data 는 응답 묶음 칸이라 원소(도메인 하나)에서 비어 속성 없는 객체가 됐다. 원소의 실제 칸을 선언한다
+fields:
+  data: null
+  name:
+    path: attributes.name
+    source: collected_response
+  claim_status:
+    path: attributes.claim.status
+    source: collected_response
+  claim_type:
+    path: attributes.claim.type
+    source: collected_response
+fields_basis: 도메인 이름과 조직의 소유 확인 상태(verified 등), 확인 방식(dns 등). 확인된 도메인의 계정은 조직이 관리 계정으로 가져올 수 있다
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: Org
+    relation: contained_in
+    stub: true
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:4a04122520862b958e9c88de (orgs/{}) -> Org
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated

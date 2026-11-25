@@ -1,0 +1,39 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: discoveryengine
+object_type: A2aV1TaskPushNotificationConfig
+interfaces: [Endpoint]
+# 근거: Discovery Engine v1 Discovery 문서의 A2aV1TaskPushNotificationConfig 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-03 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# v1 에만 있다. 작업 결과를 보낼 외부 주소. token 과 인증 정보는 옮기지 않는다. 식별자는 요청의 tenant(에이전트 이름)와 name 을 이은 것이다. 수집기는 이 종류를 받지 않는다(작업을 나열하는 API 가 없다).
+identity:
+  primary:
+    - {name: id, expr: {template: "{$req.tenant}/a2a/v1/{name}"}, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-GE-A2APUSH-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-03
+        request: {kind: a2a_push_notification_configs}
+        items: configs
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: {template: "{$req.tenant}/a2a/v1/{name}"}
+    properties:
+      url: pushNotificationConfig.url
+      config_id: pushNotificationConfig.id
+    display: "{name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Agent, id: $req.tenant}
+        basis: stated
+        require: [target]

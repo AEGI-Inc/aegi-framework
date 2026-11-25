@@ -1,0 +1,83 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/ssf_stream.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-21
+        request:
+          kind: ssf_streams
+        items: (root_or_list)
+        where:
+          path: stream_id
+          present: true
+    id_expr: stream_id
+    properties:
+      aud: aud
+      iss: iss
+      delivery_method:
+        op: null_if_missing
+        of: delivery.method
+      endpoint_url:
+        op: null_if_missing
+        of: delivery.endpoint_url
+      events_requested:
+        any:
+          - events_requested
+        empty_as: []
+      format:
+        op: null_if_missing
+        of: format
+    display: SSF 송신 스트림 {stream_id}
+    relations:
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: stream_id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-SSF-{id}
+runtime_stub: null
+runtime_key: OKTA-SSF-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: SsfStream:list
+    sources:
+      - call: OK-21
+        request:
+          kind: ssf_streams
+        items: (root_or_list)
+        where:
+          path: stream_id
+          present: true
+    relations:
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+binding:
+  status: catalog_call
+  call: OK-21
+  operation_id: op:okta_management_openapi:listEmailServers
+  paths:
+    - shape: null
+      path:
+        - "*"
+  basis: catalog spec:5 sources
+  previous_status: documented_not_collected
+# Profile 상수: knowledge schema/catalog/okta/research.json 의 SsfStream decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml owned_by.outbound_endpoint)이 이 값으로 고른다
+constants:
+  direction:
+    const: out

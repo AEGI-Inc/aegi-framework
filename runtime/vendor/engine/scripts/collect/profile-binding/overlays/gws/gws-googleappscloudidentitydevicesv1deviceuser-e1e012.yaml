@@ -1,0 +1,37 @@
+overlay_basis:
+  from: AEGI_GWS_DEVICE_LINK_HANDOFF_2026-11-03.md
+  note: GWS DeviceUser parent Device link and Device owned_by User relation (via_assignment DeviceUser)
+references:
+  - name: parent_scope
+    expr:
+      op: replace
+      pattern: /deviceUsers/.*$
+      with: ""
+      of: name
+    target: GoogleAppsCloudidentityDevicesV1Device
+    relation: contained_in
+    reviewed_at: 2026-11-03
+    rationale: Extract parent Device name from DeviceUser name
+  - name: user
+    field: userEmail
+    target: User
+    lookup:
+      - primaryEmail
+      - aliases
+    lookup_ci: true
+    relation: owned_by
+    reviewed_at: 2026-11-03
+    rationale: Link parent Device to GWS User via DeviceUser assignment
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+  - type: owned_by
+    source: $refs.parent_scope
+    target: $refs.user
+    produced_by_reference: user
+    basis: stated
+    properties:
+      via_assignment: $self

@@ -1,0 +1,306 @@
+{
+  "stages": [
+    {
+      "stage": "Stage 1 카탈로그·식별자",
+      "errors": [],
+      "warnings": [],
+      "info": [
+        "객체 286개"
+      ]
+    },
+    {
+      "stage": "Stage 2 관계",
+      "errors": [],
+      "warnings": [],
+      "info": [
+        "관계 285개 {\"acts_as\":5,\"applies_to\":4,\"authenticates_with\":40,\"contained_in\":50,\"has_role_on\":54,\"member_of\":71,\"owned_by\":30,\"receives_into\":3,\"registered_in\":19,\"runs_as\":2,\"shared_with\":7}"
+      ]
+    },
+    {
+      "stage": "Stage 3 링크·증거 참조",
+      "errors": [],
+      "warnings": [],
+      "info": [
+        "Identity Link 10개 (disclosed_relation 1 · resolved 1 · possibly_same 8), 관측 28개, Evidence Link 25개"
+      ]
+    },
+    {
+      "stage": "Stage 4 Finding 재현",
+      "errors": [],
+      "warnings": [
+        "A: Finding 없음 — 바인딩 대상 없음 (설정에 바인딩 없음)",
+        "B: unknown b-requester-account — 요청자에게 대응되는 GitHub 계정이 없어 원시 감사로그만으로는 특정할 수 없습니다."
+      ],
+      "info": [
+        "B: FND-B-001 생성 — checks b-requests=confirmed, b-cred-use=confirmed, b-actor-mismatch=inferred, b-requester-account=unknown",
+        "B: 추정 b-actor-mismatch — 대상 SaaS에는 GH-U-336525768 한 사람으로만 기록됩니다. 다만 요청자와 자격증명 주인이 다른 사람이라는 판단이 약한 계정 연결(이메일 일치 등)에 기대 추정입니다.",
+        "C: FND-C-001 생성 — checks c-channel-members=confirmed, c-okta-authorized=confirmed, c-authority-gap=inferred, c-automation-run=confirmed",
+        "C: 추정 c-authority-gap — 권한 없이 채널에만 남아 있는 인원 1명을 확인했습니다. 다만 격차에 넣은 1명과 권한자로 보고 뺀 2명의 판단이 약한 계정 연결(이메일 일치, 로그 상관 등)에 기대 추정입니다.",
+        "D: FND-D-001 생성 — checks d-source-authorized=confirmed, d-dest-members=confirmed, d-audience-gap=inferred, d-delivery=confirmed, d-automation-path=inferred",
+        "D: 추정 d-audience-gap — 원본 권한 없이 수신만 하는 인원 1명을 확인했습니다. 다만 격차에 넣은 1명과 권한자로 보고 뺀 1명의 판단이 약한 계정 연결(이메일 일치, 로그 상관 등)에 기대 추정입니다.",
+        "D: 추정 d-automation-path — 자동화가 원본을 읽습니다(원본에 담긴 스크립트). 자동화와 웹훅을 잇는 관계가 없어 전송 시각 대조로만 이었습니다(웹훅 URL 이 코드 밖에 있으면 API 로 읽을 수 없습니다).",
+        "G: FND-G-001 생성 — checks g-enabled=confirmed, g-external=confirmed, g-address=confirmed",
+        "H: FND-H-001 생성 — checks h-caller=confirmed, h-author=confirmed, h-token=inferred, h-delivery=inferred",
+        "H: 추정 h-token — 조회 권한자의 웹앱 실행 시각에 같은 앱 이름으로 directory.users.list와 응답 바이트가 기록됐습니다. 실행과 API 기록은 시각으로 대조했습니다.",
+        "H: 추정 h-delivery — 실행 시각에 전용 앱의 채널 메시지 1건이 있습니다. 본문은 저장하지 않아 조회 자료와의 일치를 시각으로 추정합니다.",
+        "I: FND-I-001 생성 — checks i-rule=confirmed, i-editable=confirmed, i-app=confirmed, i-activity=inferred",
+        "I: 추정 i-activity — 조건 속성의 본인 수정, 대상 그룹과 앱 배정이 2분 이내에 기록됐습니다. 사건의 인과관계는 시각 대조로 추정합니다.",
+        "범용 권한 차집합: 다리 3개 (delegation/observed 격차 6·추정, delegation/observed 격차 1·추정, exposure/observed 격차 1·추정)"
+      ]
+    },
+    {
+      "stage": "Stage 7 출처",
+      "errors": [],
+      "warnings": [],
+      "info": []
+    },
+    {
+      "stage": "Stage 8 비밀값·상관 ID",
+      "errors": [],
+      "warnings": [],
+      "info": []
+    }
+  ],
+  "dropped_relations": [],
+  "stubs": [
+    {
+      "key": "OKTA-APP-0oa17oo7fqx4Kbqrv698",
+      "via": "owned_by target"
+    },
+    {
+      "key": "GWS-FILE-0AD86MG_vnl87Uk9PVA",
+      "via": "contained_in target"
+    },
+    {
+      "key": "GWS-FILE-0ACmsSZmPwlsDUk9PVA",
+      "via": "contained_in target"
+    },
+    {
+      "key": "SLK-CH-C0C3G3TJLDC",
+      "via": "receives_into target"
+    },
+    {
+      "key": "SLK-APP-A0C44J3RD1C",
+      "via": "owned_by target"
+    }
+  ],
+  "notes": [
+    "GitHub: 앱 설치 slack-enterprise-search-for-github 는 선택 저장소(selected) — 저장소 목록을 수집하지 않아 권한 관계를 못 편다",
+    "GitHub: 앱 설치 slack 는 선택 저장소(selected) — 저장소 목록을 수집하지 않아 권한 관계를 못 편다",
+    "Slack: 측정 도구 계정의 채널 멤버십 5개를 저장하고 measurement_principal 로 표시했다 — 탐지가 뺀다 (U0C5TKX0RJ9∈C0C5HFHDSGP, U0C5TKX0RJ9∈C0C5WTRUMU6, U0C5TKX0RJ9∈C0C5WTS9V46, U0C5TKX0RJ9∈C0C60QPJFHP, U0C5TKX0RJ9∈C0C6T7QPPH6)",
+    "Identity Link: Okta Group Push gPm1832etr0mAclzj698(HelpDesk-Admins) 의 Slack 그룹을 찾지 못했다 (System Log 에 id 없음, 이름 일치 0건)",
+    "Identity Link v2: 자동화 A0C50SW5G56 ↔ Okta 0oa17zcw8x2b9e68j698 를 잇지 못했다 (Slack 봇 사용자 없음)",
+    "교차: Apps Script 2개 중 2개는 코드에 Slack 웹훅 URL 이 없다 — 스크립트 속성에 두었으면 API 로 읽을 수 없어 runs_as 웹훅을 만들지 못한다",
+    "교차: Okta 앱 Slack XST-08 iOS 가 Slack 워크스페이스 \"aegi.enterprise\" 를 가리키지만 수집한 목록에 없다 — 관계를 만들지 않았다 (Link_Schema_v3 「벤더가 준 연결의 상대편이 실제로 있는가」)",
+    "교차: Okta 앱 Slack XST-23 가 Slack 워크스페이스 \"e0c2ll4cxl1-h7n0f2um\" 를 가리키지만 수집한 목록에 없다 — 관계를 만들지 않았다 (Link_Schema_v3 「벤더가 준 연결의 상대편이 실제로 있는가」)",
+    "교차: Okta 앱 Slack 가 Slack 워크스페이스 \"aegi.enterprise\" 를 가리키지만 수집한 목록에 없다 — 관계를 만들지 않았다 (Link_Schema_v3 「벤더가 준 연결의 상대편이 실제로 있는가」)",
+    "B: GitHub 감사 로그에 봇 커밋이 없다 (Contents API 커밋은 git.push 를 남기지 않음, V-08) — 증거는 커밋 작성자·push 웹훅·PAT 승인"
+  ],
+  "binding_gaps": {},
+  "label_scoring": {
+    "actions": [
+      {
+        "correlation_id": "AEGI-B-0854e1a5-751f-4410-af64-f2f3c8463f54",
+        "scenario": "B",
+        "sources": [
+          "GH-18",
+          "SL-12"
+        ],
+        "slash_rows": [
+          6
+        ],
+        "commits": [
+          "18cd9c4232edcffd65da2c9e8915d3844eaf8914"
+        ],
+        "messages": [],
+        "truth_requester": "unlinked:U0C2JLV4F8S",
+        "linkage": {
+          "scorable": true,
+          "hit": false,
+          "reason": "봇 요청 관측이 데이터셋에 없음"
+        },
+        "attribution": {
+          "scorable": true,
+          "native": {
+            "person": null,
+            "correct": false
+          },
+          "aegi": {
+            "person": null,
+            "correct": false,
+            "link_grade": null
+          },
+          "reason": "원래 신호 = 커밋 작성자(GitHub), AEGI = 커밋 ← 봇 요청 → 요청자"
+        }
+      },
+      {
+        "correlation_id": "AEGI-B-18d260eb-b9cf-4e16-9a49-873b9d38f981",
+        "scenario": "B",
+        "sources": [
+          "GH-18",
+          "SL-12"
+        ],
+        "slash_rows": [
+          7
+        ],
+        "commits": [
+          "eb0d92719c5690b8a4666727eaa0c7ca3a3eb1fe"
+        ],
+        "messages": [],
+        "truth_requester": "unlinked:U0C2LMLLXMF",
+        "linkage": {
+          "scorable": true,
+          "hit": false,
+          "reason": "봇 요청 관측이 데이터셋에 없음"
+        },
+        "attribution": {
+          "scorable": true,
+          "native": {
+            "person": null,
+            "correct": false
+          },
+          "aegi": {
+            "person": null,
+            "correct": false,
+            "link_grade": null
+          },
+          "reason": "원래 신호 = 커밋 작성자(GitHub), AEGI = 커밋 ← 봇 요청 → 요청자"
+        }
+      },
+      {
+        "correlation_id": "AEGI-C-2cb894df-7144-402f-8f6f-018ff2f4528e",
+        "scenario": "C",
+        "sources": [
+          "SL-12"
+        ],
+        "slash_rows": [
+          5
+        ],
+        "commits": [],
+        "messages": [],
+        "truth_requester": "unlinked:U0C2JLV4F8S",
+        "linkage": {
+          "scorable": false,
+          "reason": "대상 SaaS 기록에 상관 ID 가 없다 (봇 로그에만 있음)"
+        },
+        "attribution": {
+          "scorable": false,
+          "reason": "대상 SaaS 결과를 데이터셋에서 찾지 못함"
+        }
+      },
+      {
+        "correlation_id": "AEGI-C-817e0d5e-993b-43a4-a739-1b415c9709a1",
+        "scenario": "C",
+        "sources": [
+          "SL-12"
+        ],
+        "slash_rows": [
+          4
+        ],
+        "commits": [],
+        "messages": [],
+        "truth_requester": "unlinked:U0C2LMHU5L1",
+        "linkage": {
+          "scorable": false,
+          "reason": "대상 SaaS 기록에 상관 ID 가 없다 (봇 로그에만 있음)"
+        },
+        "attribution": {
+          "scorable": false,
+          "reason": "대상 SaaS 결과를 데이터셋에서 찾지 못함"
+        }
+      },
+      {
+        "correlation_id": "AEGI-C-9dc2b8a8-0abc-4bb1-892a-eb03201e155d",
+        "scenario": "C",
+        "sources": [
+          "SL-12"
+        ],
+        "slash_rows": [
+          3
+        ],
+        "commits": [],
+        "messages": [],
+        "truth_requester": "unlinked:U0C2LMHU5L1",
+        "linkage": {
+          "scorable": false,
+          "reason": "실행되지 않은 요청 (denied)"
+        },
+        "attribution": {
+          "scorable": false,
+          "reason": "실행되지 않은 요청 (denied)"
+        }
+      },
+      {
+        "correlation_id": "AEGI-C-f88b9150-d08b-417c-8a12-d0dd80d62cf8",
+        "scenario": "C",
+        "sources": [
+          "SL-12"
+        ],
+        "slash_rows": [
+          1
+        ],
+        "commits": [],
+        "messages": [],
+        "truth_requester": "unlinked:U0C2DUV8V45",
+        "linkage": {
+          "scorable": false,
+          "reason": "실행되지 않은 요청 (denied)"
+        },
+        "attribution": {
+          "scorable": false,
+          "reason": "실행되지 않은 요청 (denied)"
+        }
+      },
+      {
+        "correlation_id": "AEGI-C-fae3f2d4-c510-4278-8282-19af8994c6f9",
+        "scenario": "C",
+        "sources": [
+          "SL-12"
+        ],
+        "slash_rows": [
+          2
+        ],
+        "commits": [],
+        "messages": [],
+        "truth_requester": "unlinked:U0C2LMHU5L1",
+        "linkage": {
+          "scorable": false,
+          "reason": "실행되지 않은 요청 (denied)"
+        },
+        "attribution": {
+          "scorable": false,
+          "reason": "실행되지 않은 요청 (denied)"
+        }
+      }
+    ],
+    "summary": {
+      "actions": 7,
+      "linkage": {
+        "scorable": 2,
+        "hit": 0
+      },
+      "attribution": {
+        "scorable": 2,
+        "native_correct": 0,
+        "aegi_correct": 0,
+        "aegi_correct_weak": 0
+      },
+      "by_scenario": {
+        "B": {
+          "actions": 2,
+          "linkage": "0/2",
+          "attribution_native": "0/2",
+          "attribution_aegi": "0/2",
+          "attribution_aegi_weak": 0
+        },
+        "C": {
+          "actions": 5,
+          "linkage": "채점 불가",
+          "attribution_native": "채점 불가",
+          "attribution_aegi": "채점 불가",
+          "attribution_aegi_weak": 0
+        }
+      }
+    }
+  }
+}

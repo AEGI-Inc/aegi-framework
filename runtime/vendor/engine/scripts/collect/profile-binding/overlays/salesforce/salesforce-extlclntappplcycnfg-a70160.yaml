@@ -1,0 +1,42 @@
+fields:
+  ExternalIdentifier: null
+  LastReferencedDate: null
+  LastViewedDate: null
+  Name: null
+  OwnerId: null
+  RecordIdentifier: null
+  RelatedExternalIdentifier: null
+  ExternalClientApplicationId:
+    path: ExternalClientApplicationId
+    source: collected_response
+  DeveloperName:
+    path: DeveloperName
+    source: collected_response
+  MasterLabel:
+    path: MasterLabel
+    source: collected_response
+  IsEnabled:
+    path: IsEnabled
+    source: collected_response
+  OauthPluginStatus:
+    path: OauthPluginStatus
+    source: collected_response
+fields_basis: 응답이 ExternalEventMapping 스키마가 아니라 선언의 다른 스키마 키(ExternalIdentifier 등)는 지우고, 응답 최상위 키를 선언한다(값은 수집 응답 그대로)
+references:
+- name: ownerid
+  field: OwnerId
+  target: Group
+  relation: no_relation
+  reviewed_at: '2026-10-25'
+  rationale: IM v1 typed reference typed-reference:2bf089c4e6981341de84eb2d; relation=no_relation
+- name: extapp
+  field: ExternalClientApplicationId
+  target: ExternalClientApplication
+  relation: applies_to
+  reviewed_at: '2026-11-01'
+  rationale: 외부 클라이언트 앱(External Client App) 설정 행은 ExternalClientApplicationId 로 어느 앱의 설정인지 적는다(2026-11-01 고립 객체 연결)
+relation_plans:
+- type: applies_to
+  source: $self
+  target: $refs.extapp
+  basis: stated

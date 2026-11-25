@@ -1,0 +1,412 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: jira
+service: null
+object_type: FoundGroup
+interfaces: &a1
+  - Principal
+model:
+  research_type: object-type:2a13fee68374d1926827dc18
+identity:
+  primary:
+    - name: groupId
+      expr: groupId
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:2a13fee68374d1926827dc18.identity_evidence
+tenant_binding:
+  type: ServerInformation
+  service: null
+  call: JR-01
+  items: (root)
+  id: baseUrl
+fields:
+  groupId:
+    path: groupId
+    source: research_shape
+    shape: sh:jira_openapi_v3:GroupDetails
+    declaration:
+      name: groupId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:GroupDetails|groupId
+  name:
+    path: name
+    source: research_shape
+    shape: sh:jira_openapi_v3:GroupDetails
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:GroupDetails|name
+references:
+  - name: users_items
+    field: users.items
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:569000589df632445152da84; relation=no_relation
+constants: {}
+row_contracts:
+  principal_kind:
+    const: group
+  account_kind:
+    const: unknown
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: jira
+  object_type: FoundGroup
+  interfaces: *a1
+  model:
+    research_type: object-type:2a13fee68374d1926827dc18
+  extract:
+    key: PILOT-jira-FoundGroup-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: groupId
+        sources:
+          - call: AUTO-JIRA-27dc18
+            endpoint: /
+            items:
+              - values
+        properties:
+          groupId: groupId
+          name: name
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_with_records
+  call: JI-03
+  operation_id: op:jira_openapi_v3:bulkGetGroups
+  operation: bulkGetGroups
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /rest/api/3/group/bulk(?:\?|$)
+  endpoint_template: /rest/api/3/group/bulk
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:jira_openapi_v3:GroupDetails
+      path:
+        - values
+        - "*"
+  alternatives_total: 43
+  alternatives:
+    - operation_id: op:jira_openapi_v3:getUserGroups
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/user/groups
+      path:
+        - "*"
+    - operation_id: op:jira_openapi_v3:findGroups
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/groups/picker
+      path:
+        - groups
+        - "*"
+    - operation_id: op:jira_openapi_v3:getSharePermissions
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/{id}/permission
+      path:
+        - "*"
+        - group
+    - operation_id: op:jira_openapi_v3:getAllApplicationRoles
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/applicationrole
+      path:
+        - "*"
+        - defaultGroupsDetails
+        - "*"
+    - operation_id: op:jira_openapi_v3:getSharePermission
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/filter/{id}/permission/{permissionId}
+      path:
+        - group
+    - operation_id: op:jira_openapi_v3:getApplicationRole
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/applicationrole/{key}
+      path:
+        - defaultGroupsDetails
+        - "*"
+    - operation_id: op:jira_openapi_v3:getAllUsers
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/users/search
+      path: &a4
+        - "*"
+        - groups
+        - items
+        - "*"
+      collected_calls:
+        - JI-02
+    - operation_id: op:jira_openapi_v3:getFiltersPaginated
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/search
+      path: &a5
+        - values
+        - "*"
+        - subscriptions
+        - "*"
+        - group
+      collected_calls:
+        - JI-07
+    - operation_id: op:jira_openapi_v3:searchProjects
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/project/search
+      path: &a6
+        - values
+        - "*"
+        - archivedBy
+        - groups
+        - items
+        - "*"
+      collected_calls:
+        - JI-04
+    - operation_id: op:jira_openapi_v3:findAssignableUsers
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/user/assignable/search
+      path:
+        - "*"
+        - groups
+        - items
+        - "*"
+    - operation_id: op:jira_openapi_v3:findBulkAssignableUsers
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/user/assignable/multiProjectSearch
+      path:
+        - "*"
+        - groups
+        - items
+        - "*"
+    - operation_id: op:jira_openapi_v3:findUsers
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/user/search
+      path:
+        - "*"
+        - groups
+        - items
+        - "*"
+    - operation_id: op:jira_openapi_v3:findUsersWithAllPermissions
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/user/permission/search
+      path:
+        - "*"
+        - groups
+        - items
+        - "*"
+    - operation_id: op:jira_openapi_v3:findUsersWithBrowsePermission
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/user/viewissue/search
+      path:
+        - "*"
+        - groups
+        - items
+        - "*"
+    - operation_id: op:jira_openapi_v3:getAllUsersDefault
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/users
+      path:
+        - "*"
+        - groups
+        - items
+        - "*"
+    - operation_id: op:jira_openapi_v3:getFavouriteFilters
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/favourite
+      path:
+        - "*"
+        - editPermissions
+        - "*"
+        - group
+    - operation_id: op:jira_openapi_v3:getMyFilters
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/my
+      path:
+        - "*"
+        - editPermissions
+        - "*"
+        - group
+    - operation_id: op:jira_openapi_v3:bulkGetUsers
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/user/bulk
+      path: &a3
+        - values
+        - "*"
+        - groups
+        - items
+        - "*"
+    - operation_id: op:jira_openapi_v3:findUsersByQuery
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/user/search/query
+      path: *a3
+    - operation_id: op:jira_openapi_v3:getAllDashboards
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/dashboard
+      path:
+        - dashboards
+        - "*"
+        - editPermissions
+        - "*"
+        - group
+    - operation_id: op:jira_openapi_v3:getDashboardsPaginated
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/dashboard/search
+      path:
+        - values
+        - "*"
+        - editPermissions
+        - "*"
+        - group
+    - operation_id: op:jira_openapi_v3:getRecent
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/project/recent
+      path:
+        - "*"
+        - archivedBy
+        - groups
+        - items
+        - "*"
+    - operation_id: op:jira_openapi_v3:getProjectComponents
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/project/{projectIdOrKey}/components
+      path:
+        - "*"
+        - assignee
+        - groups
+        - items
+        - "*"
+    - operation_id: op:jira_openapi_v3:getVotes
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/issue/{issueIdOrKey}/votes
+      path:
+        - voters
+        - "*"
+        - groups
+        - items
+        - "*"
+    - operation_id: op:jira_openapi_v3:getAllWorkflowSchemes
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/workflowscheme
+      path:
+        - values
+        - "*"
+        - lastModifiedUser
+        - groups
+        - items
+        - "*"
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 29
+  observed_sources:
+    - shape: sh:jira_openapi_v3:GroupName
+      operation_id: op:jira_openapi_v3:getAllUsers
+      call: JI-02
+      path: *a4
+      records: 50
+      partial: true
+    - shape: sh:jira_openapi_v3:GroupName
+      operation_id: op:jira_openapi_v3:getFiltersPaginated
+      call: JI-07
+      path: *a5
+      records: 1
+      partial: true
+    - shape: sh:jira_openapi_v3:GroupName
+      operation_id: op:jira_openapi_v3:searchProjects
+      call: JI-04
+      path: *a6
+      records: 3
+      partial: true
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 50149499a641110c6bf94b3e0ee694a3701d3edc48d8b17420580571d73451f8
+    ir/shape.jsonl: 04cf5db894bbfdfc38d902b2036b3e757a28481b16ff75ae2d2c4b7e06b0160e
+    ir/operation.jsonl: bb433b0144fc822588adb64649c5592094ef6f67746759ec57a2e9677bac5a94
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - groupId
+  reference_paths:
+    - users.items
+  metadata_paths: *a2
+  remaining_declared_fields: properties

@@ -1,0 +1,11 @@
+[Unit]
+Description=Run AEGI Splunk sync every ten minutes
+
+[Timer]
+OnCalendar=*-*-* *:0/10:00
+Persistent=true
+AccuracySec=10s
+Unit=aegi-splunk-sync.service
+
+[Install]
+WantedBy=timers.target

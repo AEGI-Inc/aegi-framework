@@ -1,0 +1,95 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: Application
+interfaces: [Integration]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-APP-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+  appId: {stability: mutable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-05
+        request: {kind: applications}
+        items: value
+    id_expr: id
+    mutable_ids:
+      appId: appId
+    properties:
+      operational_state:
+        if:
+          path: disabledByMicrosoftStatus
+          truthy: true
+        then: {const: inactive}
+        else:
+          if:
+            path: isDisabled
+            eq: true
+          then: {const: inactive}
+          else: {const: active}
+      application_id: id
+      appId: appId
+      displayName: displayName
+      description: description
+      signInAudience: signInAudience
+      publisherDomain: publisherDomain
+      identifierUris: identifierUris
+      requiredResourceAccess: requiredResourceAccess
+      appRoles: appRoles
+      createdDateTime: createdDateTime
+      tags: tags
+    display: "{displayName|appId|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: acts_as
+        source: $self
+        target:
+          type: ServicePrincipal
+          lookup: appId
+          value: appId
+        basis: stated
+        require: [target]
+  - id: owners
+    kind: relation
+    sources:
+      - call: M365-05
+        request: {kind: owners}
+        items: value
+    vars:
+      owner_type:
+        op: map
+        of: "@odata.type"
+        table:
+          '#microsoft.graph.user': user
+          '#microsoft.graph.servicePrincipal': sp
+        default: {const: user}
+    # 앱 등록 소유자는 관리자 역할 없이 그 앱 객체를 고칠 수 있다(Graph application 의 owners, 「Microsoft.Graph/applications」 참조 문서
+    # 「nonadmin users or service principals who are allowed to modify this object」). 고칠 수 있는 칸에 자격증명(비밀 addPassword · 인증서 addKey)이 있다. 자원의 주인(owned_by Resource>Principal)과 같은 힘을 앱에 갖는 자리라
+    # 「소유자 → 앱, 역할 owner」(has_role_on Principal>Integration, 세기 owner 5)로 둔다. owned_by 는 앱이 주인인 쪽만 받는다(Integration>Principal 칸 없음)
+    relations:
+      - type: has_role_on
+        source:
+          switch: $vars.owner_type
+          cases:
+            user: {type: User, id: id}
+            sp: {type: ServicePrincipal, id: id}
+        target:
+          type: Application
+          id: $req.app
+        role:
+          name: {const: owner}
+        basis: stated
+        require: [source, target]

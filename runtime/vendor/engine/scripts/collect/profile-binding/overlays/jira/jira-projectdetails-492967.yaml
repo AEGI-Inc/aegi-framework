@@ -1,0 +1,4 @@
+emit:
+  merge_into: Project
+manual_basis: ProjectDetails 는 권한 스킴, 프로젝트 역할, 필터 응답 안에 박힌 프로젝트 요약(scope.project)이다.
+  ID 가 프로젝트 ID 라 Project 로 합친다. 겹친 값 Project 3

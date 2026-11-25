@@ -1,0 +1,8 @@
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+emit: reference_only
+manual_basis: users.profile.get 은 계정이 아니라 그 계정의 프로필을 읽는 호출이다. 응답에 사용자 ID 가 없어 member 로 합치지 못하고, 같은 칸은
+  users.list members[*].profile 에 있다. 계정으로 두면 사람 수, 테넌트 소속, 동일인 맞추기에 이름 없는 사람이 하나 더 든다
+  (aegi-knowledge crosswalk.yaml decided.slack_profile_not_account, 2026-11-10)

@@ -1,0 +1,48 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: iam
+object_type: OauthClient
+interfaces: [Integration]
+# 근거: IAM v1 Discovery 문서의 OauthClient 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-02 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# Workforce 풀 사용자가 Google Cloud 에 로그인할 때 쓰는 OAuth 클라이언트 등록. Gemini Enterprise 커넥터의 OAuth 와 다르다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-OAUTHCLIENT-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-02
+        request: {kind: oauth_clients}
+        items: oauthClients
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    properties:
+      expireTime: expireTime
+      allowedRedirectUris: allowedRedirectUris
+      disabled: disabled
+      displayName: displayName
+      clientId: clientId
+      clientType: clientType
+      allowedGrantTypes: allowedGrantTypes
+      allowedScopes: allowedScopes
+      state: state
+      description: description
+      operational_state: {op: map, of: state, table: {ACTIVE: active}, default: {const: unknown}}
+    display: "{displayName|title|name}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+        basis: stated
+        require: [target]

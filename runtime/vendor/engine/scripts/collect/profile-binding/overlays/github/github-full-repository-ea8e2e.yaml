@@ -1,0 +1,71 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/repository.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-05
+        items: (root_or_list)
+        where:
+          path: id
+          truthy: true
+    mutable_ids:
+      full_name: full_name
+      node_id: node_id
+    properties:
+      name: name
+      full_name: full_name
+      visibility: visibility
+      private: private
+      default_branch: default_branch
+      archived: archived
+      created_at: created_at
+      pushed_at: pushed_at
+    display: "{full_name|name}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-REPO-{id}
+  - id: actions_variables
+    kind: enrich
+    sources:
+      - call: GH-34
+        items: (root)
+        where:
+          path: $req.repo
+          truthy: true
+    target:
+      type: Repository
+      lookup: name
+      value: $req.repo
+      exists: true
+    append:
+      actions_variables:
+        op: map_each
+        of: variables
+        value:
+          object:
+            scope: $req.scope
+            environment: $req.environment
+            variable: $item
+    relations: []
+runtime_stub: null
+runtime_key: GH-REPO-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  full_name:
+    stability: mutable
+  node_id:
+    stability: mutable
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

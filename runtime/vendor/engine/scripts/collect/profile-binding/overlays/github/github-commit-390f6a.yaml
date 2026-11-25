@@ -1,0 +1,154 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/commit.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-11
+        request:
+          sha: present
+        items: (root)
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    id_expr: sha
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+      files:
+        op: map_each
+        of: files
+        value: $item.filename
+      sensitive:
+        op: glob_any
+        of: $vars.files
+        patterns: $ctx.sensitivePaths
+      short:
+        op: slice
+        of: sha
+        start: 0
+        end: 7
+    parent:
+      ref:
+        key: $vars.repo
+      when: always
+    refs:
+      author:
+        when:
+          path: author.login
+          truthy: true
+        ref:
+          type: simple-user
+          lookup: login
+          value: author.login
+        value: author.login
+    properties:
+      sha: sha
+      author_login:
+        op: null_if_missing
+        of: author.login
+      committer_login:
+        op: null_if_missing
+        of: committer.login
+      authored_at: commit.author.date
+      committed_at: commit.committer.date
+      message: commit.message
+      verified: commit.verification.verified
+      verification_reason: commit.verification.reason
+      changed_paths: $vars.files
+      security_sensitive:
+        if:
+          path:
+            op: count
+            of: $vars.sensitive
+          truthy: true
+        then: true
+        else: false
+      sensitive_paths: $vars.sensitive
+      parents:
+        op: map_each
+        of: parents
+        value: $item.sha
+    display: "{$req.repo}@{$vars.short}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: sha
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-COMMIT-{id}
+runtime_stub: null
+runtime_key: GH-COMMIT-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Commit:list
+    sources:
+      - call: GH-11
+        request:
+          sha: present
+        items: (root)
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+      files:
+        op: map_each
+        of: files
+        value: $item.filename
+      sensitive:
+        op: glob_any
+        of: $vars.files
+        patterns: $ctx.sensitivePaths
+      short:
+        op: slice
+        of: sha
+        start: 0
+        end: 7
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: sha
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-COMMIT-{id}
+    replaced:
+      - $req.parent_id
+      - node_id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

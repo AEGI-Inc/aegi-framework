@@ -1,0 +1,1023 @@
+/* ---- 공용 단추·입력 ---------------------------------------------------- */
+
+.ex-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  padding: 0 12px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 0;
+  background: var(--color-surface, #fff);
+  color: var(--color-text-secondary, #475569);
+  font: inherit;
+  font-size: var(--font-size-sm, 13px);
+  font-weight: var(--font-weight-medium, 600);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ex-btn:hover:not(:disabled) {
+  border-color: var(--color-select);
+  color: var(--color-text-primary, #0f172a);
+}
+
+.ex-btn:disabled {
+  opacity: 1;
+  color: var(--color-text-primary);
+  background: var(--color-bg-app);
+  border-color: var(--color-border-subtle);
+  cursor: default;
+}
+
+.ex-btn.primary {
+  background: var(--color-select);
+  border-color: var(--color-select);
+  color: #fff;
+}
+
+.ex-btn.primary:hover:not(:disabled) {
+  background: #1e40af;
+  color: #fff;
+}
+
+.ex-btn.danger {
+  color: var(--color-danger-text);
+  border-color: #fecaca;
+  background: #fff;
+}
+
+.ex-btn.danger:hover:not(:disabled) {
+  background: #fef2f2;
+  color: var(--color-danger-text);
+}
+
+.ex-btn:focus-visible,
+.ex-icon-btn:focus-visible,
+.ex-link:focus-visible {
+  outline: 2px solid var(--color-select);
+  outline-offset: 2px;
+}
+
+.ex-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--color-text-muted, #5d7287);
+  cursor: pointer;
+}
+
+.ex-icon-btn:hover {
+  background: #f1f5f9;
+  color: var(--color-text-primary, #0f172a);
+}
+
+.ex-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-select);
+  font: inherit;
+  font-size: inherit;
+  font-weight: var(--font-weight-medium, 600);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ex-link:hover {
+  text-decoration: underline;
+}
+
+.ex-input,
+.ex-select {
+  width: 100%;
+  min-height: 30px;
+  padding: 6px 8px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 0;
+  background: var(--color-surface, #fff);
+  color: var(--color-text-primary, #0f172a);
+  font: inherit;
+  font-size: var(--font-size-sm, 13px);
+  box-sizing: border-box;
+}
+
+.ex-select {
+  width: auto;
+}
+
+textarea.ex-input {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.ex-input:focus,
+.ex-select:focus {
+  outline: 0;
+  border-color: var(--color-select);
+  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.14);
+}
+
+.ex-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.ex-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 0;
+  background: #f8fafc;
+  color: var(--color-text-secondary, #475569);
+  font-size: var(--font-size-xs, 11px);
+  font-style: normal;
+  font-weight: var(--font-weight-medium, 600);
+  white-space: nowrap;
+}
+
+.ex-chip.warn {
+  border-color: var(--color-card-line);
+  background: #fff;
+  color: #0f172a;
+}
+
+/* 사유 분류 색 — 목록·상세·통계가 같은 색을 쓴다. */
+.ex-reason-chip {
+  display: inline-flex;
+  width: max-content;
+  padding: 1px 6px;
+  border-radius: 0;
+  font-size: var(--font-size-xs, 11px);
+  font-style: normal;
+  font-weight: var(--font-weight-bold, 700);
+  white-space: nowrap;
+  background: #fff;
+  color: #0f172a;
+  border: 1px solid var(--color-card-line);
+}
+
+.ex-reason-chip.r-business_justified { background: #fff; color: #0f172a; }
+.ex-reason-chip.r-compensating_control { background: #fff; color: #0f172a; }
+.ex-reason-chip.r-false_positive { background: #fff; color: #0f172a; }
+.ex-reason-chip.r-risk_accepted { background: #fff; color: #0f172a; }
+.ex-reason-chip.r-test_environment { background: #fff; color: #0f172a; }
+
+/* 목록·상세에 붙는 예외 상태 표시 */
+.ex-state-badge {
+  display: inline-flex;
+  padding: 1px 6px;
+  border-radius: 0;
+  font-size: var(--font-size-xs, 11px);
+  font-weight: var(--font-weight-bold, 700);
+  white-space: nowrap;
+  border: 1px solid var(--color-card-line);
+}
+
+.ex-state-badge.excepted {
+  background: #fff;
+  color: #0f172a;
+}
+
+/* ---- Threat Analysis 목록 ---------------------------------------------- */
+
+.ti-exception-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-select);
+  font: inherit;
+  font-size: var(--font-size-sm, 13px);
+  font-weight: var(--font-weight-medium, 600);
+  cursor: pointer;
+}
+
+.ti-exception-link:hover {
+  text-decoration: underline;
+}
+
+/* 제목 줄(인디고) 위에서는 파란 글씨가 묻힌다 */
+.page-title-bar .ti-exception-link {
+  color: var(--color-chrome-text);
+  text-decoration: underline;
+}
+
+/* 「예외 포함」 — 그래프의 「탐지 경로」와 같은 밀어 켜는 스위치 */
+.ti-show-excepted {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-surface, #fff);
+  font-size: var(--font-size-sm, 13px);
+  font-weight: var(--font-weight-medium, 600);
+  color: var(--color-text-primary, #0f172a);
+  cursor: pointer;
+}
+
+.ti-show-excepted input { position: absolute; opacity: 0; pointer-events: none; }
+.ti-show-excepted > i { position: relative; width: 30px; height: 17px; border-radius: 999px; background: #cbd5e1; transition: background .15s ease; }
+.ti-show-excepted > i::after { content: ''; position: absolute; top: 2px; left: 2px; width: 13px; height: 13px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px #0f172a3d; transition: transform .15s ease; }
+.ti-show-excepted input:checked + i { background: #dc2626; }
+.ti-show-excepted input:checked + i::after { transform: translateX(13px); }
+.ti-show-excepted:has(input:focus-visible) { outline: 2px solid var(--color-select); outline-offset: 2px; }
+
+.ti-cell-open {
+  gap: 6px;
+  align-items: center;
+}
+
+/* 행 끝의 작은 예외 단추. 평소엔 흐리고, 줄에 마우스를 올리거나 포커스하면 진해진다. */
+.ti-exception-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #0f172a;
+  cursor: pointer;
+  opacity: 0.55;
+}
+
+.ti-row:hover .ti-exception-btn,
+.ti-row:focus-within .ti-exception-btn,
+.ti-exception-btn:focus-visible {
+  opacity: 1;
+  color: var(--color-text-secondary, #475569);
+}
+
+.ti-exception-btn:hover {
+  border-color: var(--color-select);
+  background: #fff;
+  color: #0f172a !important;
+}
+
+.ti-exception-btn:focus-visible {
+  outline: 2px solid var(--color-select);
+  outline-offset: 1px;
+}
+
+.ti-row.is-excepted {
+  background: #f8fafc;
+}
+
+/* ---- Finding 상세 ------------------------------------------------------- */
+
+/* 머리 태그 줄은 분류 태그와 같은 꼴(흰 바탕 · 1.5px 테두리 · 같은 높이)로 맞춘다 */
+.finding-detail-header .fd-tags-row .fn-severity-badge,
+.finding-detail-header .fd-tags-row .fd-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  line-height: 1.2;
+  background: #fff;
+  border: 1.5px solid currentColor;
+}
+
+/* 위 흰 바탕을 심각도마다 되돌린다. HIGH만 되돌려 MEDIUM, CRITICAL, LOW는 흰 바탕에 흰 글씨로 안 보였다 */
+.finding-detail-header .fd-tags-row .fn-severity-badge.critical { color: #fff; background: var(--color-severity-critical); border-color: var(--color-severity-critical); }
+.finding-detail-header .fd-tags-row .fn-severity-badge.danger,
+.finding-detail-header .fd-tags-row .fn-severity-badge.high { color: #fff; background: var(--color-severity-high); border-color: var(--color-severity-high); }
+.finding-detail-header .fd-tags-row .fn-severity-badge.medium { color: #fff; background: var(--color-severity-medium); border-color: var(--color-severity-medium); }
+.finding-detail-header .fd-tags-row .fn-severity-badge.low { color: #fff; background: var(--color-severity-low); border-color: var(--color-severity-low); }
+
+.fd-status-badge.is-excepted { color: #0f172a; }
+
+.fd-exception-banner {
+  margin-top: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  background: #fff;
+  display: grid;
+  gap: 8px;
+}
+
+.fd-exception-banner-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--font-size-sm, 13px);
+  color: var(--color-text-primary, #0f172a);
+}
+
+.fd-exception-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.fd-exception-list li {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto;
+  gap: 4px 12px;
+  align-items: baseline;
+  font-size: var(--font-size-sm, 13px);
+}
+
+.fd-exception-what {
+  display: grid;
+  gap: 2px;
+}
+
+.fd-exception-what small {
+  font-size: var(--font-size-xs, 11px);
+  color: var(--color-text-muted, #5d7287);
+}
+
+.fd-exception-reason {
+  color: var(--color-text-secondary, #475569);
+  overflow-wrap: anywhere;
+}
+
+.fd-exception-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ---- 예외 처리 창 -------------------------------------------------------- */
+
+.ex-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.42);
+}
+
+.ex-dialog {
+  width: min(640px, 100%);
+  max-height: calc(100vh - 48px);
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.28);
+  overflow: hidden;
+}
+
+.ex-dialog-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--color-border-subtle, #f1f5f9);
+}
+
+.ex-dialog-icon {
+  display: inline-flex;
+  padding: 6px;
+  border-radius: 0;
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.ex-dialog-title {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.ex-dialog-title h2 {
+  margin: 0;
+  font-size: var(--font-size-md, 15px);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-primary, #0f172a);
+}
+
+.ex-dialog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.ex-dialog-tags small {
+  font-size: var(--font-size-xs, 11px);
+  color: var(--color-text-muted, #5d7287);
+}
+
+.ex-dialog-title p {
+  margin: 0;
+  font-size: var(--font-size-sm, 13px);
+  color: var(--color-text-secondary, #475569);
+  line-height: 1.45;
+}
+
+.ex-dialog-body {
+  padding: 14px 18px;
+  display: grid;
+  gap: 14px;
+  overflow-y: auto;
+}
+
+.ex-dialog-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 18px;
+  border-top: 1px solid var(--color-border-subtle, #f1f5f9);
+  background: #fbfcfe;
+}
+
+.ex-field {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.ex-field legend,
+.ex-label {
+  padding: 0;
+  margin-bottom: 2px;
+  font-size: var(--font-size-xs, 11px);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-secondary, #475569);
+}
+
+.ex-label em {
+  margin-left: 4px;
+  font-style: normal;
+  font-weight: var(--font-weight-medium, 600);
+  color: var(--color-text-muted, #5d7287);
+}
+
+.ex-field-hint {
+  font-size: var(--font-size-xs, 11px);
+  color: var(--color-text-muted, #5d7287);
+  line-height: 1.45;
+}
+
+.ex-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.ex-radio-list {
+  display: grid;
+  gap: 6px;
+}
+
+.ex-radio {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.ex-radio.on {
+  border-color: var(--color-select);
+  background: #fff;
+}
+
+.ex-radio.strong.on {
+  border-color: var(--color-select);
+  background: #fff;
+}
+
+.ex-radio input {
+  margin-top: 2px;
+}
+
+.ex-radio span {
+  display: grid;
+  gap: 2px;
+}
+
+.ex-radio b {
+  font-size: var(--font-size-sm, 13px);
+  color: var(--color-text-primary, #0f172a);
+}
+
+.ex-radio small {
+  font-size: var(--font-size-xs, 11px);
+  color: var(--color-text-muted, #5d7287);
+}
+
+.ex-default {
+  margin-left: 6px;
+  padding: 0 5px;
+  border-radius: 0;
+  background: #fff;
+  color: #0f172a;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  border: 1px solid var(--color-card-line);
+}
+
+.ex-warn {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 0;
+  background: #fff;
+  color: #0f172a;
+  font-size: var(--font-size-xs, 11px);
+  line-height: 1.5;
+  border: 1px solid var(--color-card-line);
+}
+
+.ex-subject-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.ex-subject {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.ex-subject.done {
+  background: #f8fafc;
+  cursor: default;
+  opacity: 0.7;
+}
+
+.ex-subject-main {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.ex-subject-main b {
+  font-size: var(--font-size-sm, 13px);
+  color: var(--color-text-primary, #0f172a);
+}
+
+.ex-subject-main small {
+  font-size: var(--font-size-xs, 11px);
+  color: var(--color-text-muted, #5d7287);
+}
+
+.ex-subject-meta {
+  display: flex;
+  gap: 4px;
+}
+
+.ex-reason-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ex-reason {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 0;
+  font-size: var(--font-size-sm, 13px);
+  color: var(--color-text-secondary, #475569);
+  cursor: pointer;
+}
+
+.ex-reason.on {
+  border-color: var(--color-select);
+  background: #fff;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.ex-reason input {
+  margin: 0;
+}
+
+.ex-expiry {
+  display: grid;
+  gap: 6px;
+}
+
+.ex-segment {
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: max-content;
+  max-width: 100%;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.ex-segment button {
+  padding: 5px 12px;
+  border: 0;
+  border-right: 1px solid var(--color-border, #e2e8f0);
+  background: #fff;
+  color: var(--color-text-secondary, #475569);
+  font: inherit;
+  font-size: var(--font-size-sm, 13px);
+  cursor: pointer;
+}
+
+.ex-segment button:last-child {
+  border-right: 0;
+}
+
+.ex-segment button.on {
+  background: var(--color-select);
+  color: #fff;
+}
+
+.ex-segment button:disabled {
+  color: #cbd5e1;
+  cursor: not-allowed;
+}
+
+.ex-date {
+  width: 180px;
+}
+
+.ex-preview {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 0;
+  font-size: var(--font-size-sm, 13px);
+  line-height: 1.5;
+}
+
+.ex-preview.hide {
+  background: #fff;
+  color: #0f172a;
+  border: 1px solid var(--color-card-line);
+}
+
+.ex-preview.partial {
+  background: #fff;
+  color: #0f172a;
+  border: 1px solid var(--color-card-line);
+}
+
+.ex-errors {
+  margin: 0;
+  padding: 8px 12px 8px 28px;
+  border-radius: 0;
+  background: #fff;
+  color: var(--color-danger-text);
+  font-size: var(--font-size-xs, 11px);
+  line-height: 1.6;
+  border: 1px solid #b42318;
+}
+
+.ex-errors-inline {
+  margin: 0;
+  color: var(--color-danger-text);
+  font-size: var(--font-size-xs, 11px);
+}
+
+/* ---- 알림 --------------------------------------------------------------- */
+
+.ex-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 1100;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(640px, calc(100vw - 32px));
+  padding: 10px 12px 10px 16px;
+  border-radius: 0;
+  background: #0f172a;
+  color: #f8fafc;
+  font-size: var(--font-size-sm, 13px);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.3);
+}
+
+.ex-toast-action {
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #93c5fd;
+  font: inherit;
+  font-weight: var(--font-weight-bold, 700);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ex-toast-action:hover {
+  background: rgba(147, 197, 253, 0.15);
+}
+
+.ex-toast-close {
+  display: inline-flex;
+  padding: 2px;
+  border: 0;
+  background: none;
+  color: #0f172a;
+  cursor: pointer;
+}
+
+/* ---- 사이드바 · 개요 · 그래프 ------------------------------------------- */
+
+.sidebar-menu .nav-icon {
+  position: relative;
+}
+
+.nav-alert-dot {
+  position: absolute;
+  top: -2px;
+  right: -3px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #d97706;
+  box-shadow: 0 0 0 2px var(--color-chrome-bg);
+}
+
+.nav-count {
+  margin-left: auto;
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 0;
+  background: #fff;
+  color: #0f172a;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 18px;
+  text-align: center;
+}
+
+.fn-excepted-note {
+  margin: 0;
+  padding: 6px 12px;
+  border-top: 1px solid var(--color-border-subtle, #f1f5f9);
+  font-size: var(--font-size-xs, 11px);
+  color: var(--color-text-muted, #5d7287);
+}
+
+/* ---- 예외 관리 화면 ------------------------------------------------------ */
+
+.ex-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  padding: 8px 12px;
+  border-radius: 0;
+  font-size: var(--font-size-sm, 13px);
+}
+
+.ex-banner.warn {
+  background: #fff;
+  color: #0f172a;
+  border: 1px solid var(--color-card-line);
+}
+
+.ex-import {
+  margin-bottom: 16px;
+}
+
+.ex-import-body {
+  padding: 12px 16px;
+  display: grid;
+  gap: 8px;
+  font-size: var(--font-size-sm, 13px);
+}
+
+.ex-import-body p {
+  margin: 0;
+}
+
+.ex-import-skipped {
+  margin: 0;
+  padding-left: 18px;
+  font-size: var(--font-size-xs, 11px);
+  color: var(--color-text-muted, #5d7287);
+}
+
+.ex-inline-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.ex-inline-form .ex-input {
+  width: auto;
+  flex: 1 1 220px;
+}
+
+.ex-inline-form .ex-input.ex-actor {
+  flex: 0 1 140px;
+}
+
+.ex-inline-block {
+  display: grid;
+  gap: 8px;
+}
+
+@media (max-width: 640px) {
+  .ex-two {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 한국어는 낱말 중간에서 줄을 바꾸지 않는다 (좁은 칸에서 "남/음"처럼 끊기지 않게). */
+.ex-dialog,
+.fd-exception-banner {
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.ex-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #166534;
+}
+
+/* 저장 위치 안내 · 서버로 올리기 */
+
+.ex-banner.info {
+  background: #fff;
+  color: #0f172a;
+  border: 1px solid var(--color-card-line);
+}
+
+.ex-banner.info span {
+  flex: 1;
+}
+
+/* 예외 목록 칸 (공용 목록 부품 위에) */
+.ex-grid { grid-template-columns: 18px minmax(0, 0.75fr) minmax(0, 1.5fr) 96px minmax(0, 1.2fr) 88px 100px 112px 16px; }
+.ex-grid .ex-title { font-size: 14px; }
+/* 한 번에 등록한 예외 묶음(결정) 줄과 펼친 안쪽 줄 */
+.ex-decision-chevron { transition: transform 0.15s; }
+.ex-decision-chevron.is-open { transform: rotate(180deg); }
+.lst-row.is-member > .lst-main:nth-child(2) { padding-left: 18px; }
+.ex-grid .ex-reason-cat { font-size: 14px; }
+.ex-cell-check { display: inline-flex; align-items: center; }
+.ex-fp-grid { grid-template-columns: minmax(0, 1fr) 90px 90px 140px; }
+.ex-fp-grid > span:nth-child(n + 2) { text-align: right; }
+.ex-fp-rule { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 8px; min-width: 0; }
+.ex-fp-rule code { font-size: 13px; }
+.ex-cell-check input { width: 16px; height: 16px; margin: 0; cursor: pointer; }
+
+@media (max-width: 1200px) {
+  .lst-head.ex-grid { display: none; }
+  /* 두 칸으로 접는다: 대상 | 위협, 범위 | 사유, 처리자 | 만료, 상태 */
+  .lst-row.ex-grid { grid-template-columns: 18px minmax(0, 1fr) minmax(0, 1.4fr) 16px; row-gap: 10px; }
+  .lst-row.ex-grid > :nth-child(4), .lst-row.ex-grid > :nth-child(6), .lst-row.ex-grid > :nth-child(8) { grid-column: 2; }
+  .lst-row.ex-grid > :nth-child(5), .lst-row.ex-grid > :nth-child(7) { grid-column: 3; }
+  .lst-row.ex-grid > :last-child { grid-column: 4; grid-row: 1; }
+}
+
+/* 메뉴 묶음 사이 선과 위협 메뉴의 HIGH 수 (App.tsx 주 메뉴) */
+.sidebar-menu .nav-sep {
+  display: block;
+  height: 1px;
+  margin: 6px 4px;
+  background: var(--color-chrome-line);
+}
+
+.sidebar-nav.collapsed .sidebar-menu .nav-sep {
+  width: 32px;
+  margin: 2px auto;
+}
+
+.nav-count.is-high {
+  background: var(--color-severity-high);
+  color: #fff;
+}
+
+.nav-alert-dot.is-high {
+  background: var(--color-severity-high);
+}
+
+/* 펼친 메뉴에는 수 배지가 있어 아이콘 점이 같은 말을 두 번 했다. 점은 접힌 메뉴에서만 보인다 */
+.sidebar-nav.expanded .nav-alert-dot {
+  display: none;
+}
+
+/* ---------- 예외 상세 (#threat?view=exceptions&id=) ----------
+   머리 카드(이름, 상태 배지, 단추, 사실 칸, 위협 줄, 펼친 입력)와 본문 카드(내용, 등록 시점과 현재, 이력).
+   단추와 기간 칩의 남색은 이 상세 안에만 건다. 다른 화면의 .ex-btn.primary, .ex-segment 는 그대로다 */
+.exd { display: grid; gap: var(--space-gap); color: var(--color-text-primary); font-size: var(--font-size-sm); word-break: keep-all; overflow-wrap: anywhere; }
+.exd .exd-card { min-width: 0; background: var(--color-surface); border: 1px solid var(--color-card-line); }
+.exd code { font-family: var(--font-family-mono); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); }
+.exd .exd-icon { flex: none; color: var(--color-icon); }
+.exd .is-alert { color: var(--color-danger-text); }
+.exd .exd-nowrap { white-space: nowrap; }
+
+.exd .ex-btn { color: var(--color-text-primary); border-color: var(--color-card-line); }
+.exd .ex-btn.danger { color: var(--color-danger-text); border-color: var(--color-danger-border); }
+.exd .ex-btn.primary:not(:disabled) { background: var(--color-select-fill); border-color: var(--color-select-fill); color: var(--color-chrome-text); }
+.exd .ex-btn.primary:hover:not(:disabled) { border-color: var(--color-select); }
+.exd .ex-btn.primary:disabled { background: var(--color-bg-app); border-color: var(--color-border-subtle); color: var(--color-text-primary); }
+.exd .ex-segment button { color: var(--color-text-primary); }
+.exd .ex-segment button.on { background: var(--color-select-fill); color: var(--color-chrome-text); }
+.exd .ex-label { font-size: var(--font-size-sm); color: var(--color-text-primary); }
+
+/* 머리 카드 */
+.exd .exd-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 24px; padding: 18px 20px 16px; }
+.exd .exd-head .exd-buttons { margin-left: auto; }
+.exd .exd-name { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; margin: 0; font-size: var(--font-size-xl); font-weight: var(--font-weight-bold); line-height: 1.3; letter-spacing: -0.01em; }
+
+/* 상태 배지: 흰 바탕, 검정 테두리. 재검토 필요, 재탐지만 빨강 */
+.exd .exd-badge { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; background: var(--color-surface); border: 1px solid var(--color-text-primary); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-primary); white-space: nowrap; letter-spacing: 0; }
+.exd .exd-badge.is-alert { border-color: var(--color-danger-text); color: var(--color-danger-text); }
+.exd td .exd-badge { height: auto; min-height: 22px; padding: 2px 6px; font-size: var(--font-size-xs); white-space: normal; }
+
+.exd .exd-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); margin: 0; border-top: 1px solid var(--color-card-line); }
+.exd .exd-facts > div { min-width: 0; padding: 12px 20px; border-right: 1px solid var(--color-border); }
+.exd .exd-facts > div:last-child { border-right: 0; }
+.exd .exd-facts dt { font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+.exd .exd-facts dd { margin: 4px 0 0; font-size: var(--font-size-md); font-weight: var(--font-weight-medium); }
+.exd .exd-facts dd b { font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); font-variant-numeric: tabular-nums; }
+
+/* 위협 연결: 테두리 없는 한 줄 */
+.exd .exd-threat { display: flex; align-items: center; gap: 8px; width: 100%; min-width: 0; padding: 12px 20px; border: 0; border-top: 1px solid var(--color-card-line); background: var(--color-surface); font: inherit; font-size: var(--font-size-md); color: var(--color-text-primary); text-align: left; cursor: pointer; }
+.exd .exd-threat > * { flex: none; }
+.exd .exd-threat .exd-threat-title { flex: 0 1 auto; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.exd .exd-threat:hover .exd-threat-title { text-decoration: underline; }
+.exd .exd-threat-label { font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+
+.exd .exd-form { padding: 14px 20px 16px; border-top: 1px solid var(--color-card-line); }
+/* 좁은 화면에서 기간 칩이 카드 밖으로 나가지 않고 줄을 바꾼다 */
+.exd .exd-form .ex-inline-block,
+.exd .exd-form .ex-expiry { grid-template-columns: minmax(0, 1fr); }
+.exd .exd-pad { padding: 0 20px 16px; }
+.exd .exd-alert { margin: 0; }
+
+/* 본문 카드 */
+.exd .exd-body { padding: 18px 20px 20px; }
+.exd .exd-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 32px; }
+.exd .exd-h3 { margin: 0 0 10px; font-size: var(--font-size-md); font-weight: var(--font-weight-bold); }
+.exd .exd-dl { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: baseline; gap: 10px 16px; margin: 0; }
+.exd .exd-dl dt { font-size: var(--font-size-sm); font-weight: var(--font-weight-regular); }
+.exd .exd-dl dd { margin: 0; min-width: 0; font-size: var(--font-size-md); font-weight: var(--font-weight-medium); line-height: 1.5; }
+
+.exd .exd-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
+.exd .exd-table th,
+.exd .exd-table td { padding: 8px 10px; border-bottom: 1px solid var(--color-border); text-align: left; vertical-align: middle; }
+.exd .exd-table thead th { font-weight: var(--font-weight-bold); border-bottom-color: var(--color-card-line); }
+.exd .exd-table tbody th { width: 30%; font-weight: var(--font-weight-regular); white-space: nowrap; }
+.exd .exd-table td { font-weight: var(--font-weight-medium); }
+.exd .exd-table td.is-changed { color: var(--color-danger-text); font-weight: var(--font-weight-bold); }
+.exd .exd-sev { display: inline-flex; align-items: center; gap: 6px; }
+
+/* 이력: 원과 세로선 */
+.exd .exd-hist { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--color-border); }
+.exd .exd-timeline { display: grid; margin: 0; padding: 0; list-style: none; }
+.exd .exd-timeline li { position: relative; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 14px; padding: 0 0 10px 22px; font-size: var(--font-size-sm); }
+.exd .exd-timeline li > i { position: absolute; left: 3px; top: 5px; width: 9px; height: 9px; border-radius: var(--radius-full); background: var(--color-select-fill); }
+.exd .exd-timeline li + li::before { content: ''; position: absolute; left: 7px; top: -10px; height: 15px; border-left: 1px solid var(--color-card-line); }
+.exd .exd-timeline li:last-child { padding-bottom: 0; }
+.exd .exd-timeline time { font-variant-numeric: tabular-nums; }
+
+@media (max-width: 1100px) {
+  .exd .exd-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+}
+
+@media (max-width: 720px) {
+  .exd .exd-name { font-size: var(--font-size-lg); }
+  .exd .exd-head { padding: 14px 16px; }
+  .exd .exd-head .exd-buttons { margin-left: 0; justify-content: flex-start; }
+  .exd .exd-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .exd .exd-facts > div { padding: 10px 16px; border-bottom: 1px solid var(--color-border); }
+  .exd .exd-facts > div:nth-child(2n) { border-right: 0; }
+  .exd .exd-threat { flex-wrap: wrap; row-gap: 4px; padding: 12px 16px; }
+  .exd .exd-threat .exd-threat-title { flex: 1 1 100%; order: 5; white-space: normal; }
+  .exd .exd-threat .exd-icon { margin-left: auto; }
+  .exd .exd-form,
+  .exd .exd-body { padding-left: 16px; padding-right: 16px; }
+  .exd .exd-pad { padding-left: 16px; padding-right: 16px; }
+  .exd .exd-dl { grid-template-columns: 76px minmax(0, 1fr); }
+}

@@ -1,0 +1,113 @@
+# Google Workspace 사전 v0 (2026-10-14)
+# 자료: gws_api_list/snapshot_2026-10-13 (Discovery 문서 11종, Reports API 활동 부록 55쪽, OAuth scope 목록, Workspace Events 안내)
+
+sources:
+  discovery:
+    - {id: gws_directory, api: directory, strip: admin/directory/v1/, path: gws_api_list/snapshot_2026-10-13/raw/admin.googleapis.com__discovery__rest__version__directory_v1}
+    - {id: gws_reports, api: reports, strip: admin/reports/v1/, path: gws_api_list/snapshot_2026-10-13/raw/admin.googleapis.com__discovery__rest__version__reports_v1}
+    - {id: gws_datatransfer, api: datatransfer, strip: admin/datatransfer/v1/, path: gws_api_list/snapshot_2026-10-13/raw/admin.googleapis.com__discovery__rest__version__datatransfer_v1}
+    - {id: gws_alertcenter, api: alertcenter, path: gws_api_list/snapshot_2026-10-13/raw/alertcenter.googleapis.com__discovery__rest__version__v1beta1}
+    - {id: gws_cloudidentity, api: cloudidentity, path: gws_api_list/snapshot_2026-10-13/raw/cloudidentity.googleapis.com__discovery__rest__version__v1}
+    - {id: gws_gmail, api: gmail, strip: gmail/v1/, path: gws_api_list/snapshot_2026-10-13/raw/gmail.googleapis.com__discovery__rest__version__v1}
+    - {id: gws_groupssettings, api: groupssettings, path: gws_api_list/snapshot_2026-10-13/raw/groupssettings.googleapis.com__discovery__rest__version__v1}
+    - {id: gws_licensing, api: licensing, strip: apps/licensing/v1/, path: gws_api_list/snapshot_2026-10-13/raw/licensing.googleapis.com__discovery__rest__version__v1}
+    - {id: gws_workspaceevents, api: workspaceevents, path: gws_api_list/snapshot_2026-10-13/raw/workspaceevents.googleapis.com__discovery__rest__version__v1}
+    - {id: gws_calendar, api: calendar, path: gws_api_list/snapshot_2026-10-13/raw/www.googleapis.com__discovery__v1__apis__calendar__v3__rest}
+    - {id: gws_drive, api: drive, path: gws_api_list/snapshot_2026-10-13/raw/www.googleapis.com__discovery__v1__apis__drive__v3__rest}
+    - {id: gws_drivelabels, api: drivelabels, path: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/drivelabels.googleapis.com__discovery__rest__version__v2}  # 2026-10-18 수집 범위 보완
+    - {id: gws_gmailpostmastertools, api: gmailpostmastertools, path: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/gmailpostmastertools.googleapis.com__discovery__rest__version__v1}  # 2026-10-18 수집 범위 보완
+    - {id: gws_vault, api: vault, path: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/www.googleapis.com__discovery__v1__apis__vault__v1__rest}  # 2026-10-18 수집 범위 보완
+    - {id: gws_forms, api: forms, path: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/forms.googleapis.com__discovery__rest__version__v1}  # 2026-10-18 수집 범위 보완
+    - {id: gws_people, api: people, path: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/www.googleapis.com__discovery__v1__apis__people__v1__rest}  # 2026-10-18 수집 범위 보완
+    - {id: gws_chromemanagement, api: chromemanagement, path: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/chromemanagement.googleapis.com__discovery__rest__version__v1}  # 2026-10-18 수집 범위 보완
+    - {id: gws_meet, api: meet, path: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/meet.googleapis.com__discovery__rest__version__v2}  # 2026-10-18 수집 범위 보완
+    - {id: gws_script, api: script, path: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/www.googleapis.com__discovery__v1__apis__script__v1__rest}  # 2026-10-18 수집 범위 보완
+    - {id: gws_gmailpostmastertools_v2, api: gmailpostmastertools, path: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/gmailpostmastertools.googleapis.com__discovery__rest__version__v2}  # 2026-10-18
+  reports_activity:
+    - {id: gws_reports_activity, dir: gws_api_list/snapshot_2026-10-13/raw,
+       prefix: developers.google.com__workspace__admin__reports__v1__appendix__activity__}
+  scope_docs:
+    - {id: gws_oauth_scopes, path: gws_api_list/snapshot_2026-10-13/raw/developers.google.com__identity__protocols__oauth2__scopes}
+  event_docs:
+    - {id: gws_events_chat, path: gws_api_list/snapshot_2026-10-13/raw/developers.google.com__workspace__events__guides__events-chat}
+    - {id: gws_events_drive, path: gws_api_list/snapshot_2026-10-13/raw/developers.google.com__workspace__events__guides__events-drive}
+    - {id: gws_events_meet, path: gws_api_list/snapshot_2026-10-13/raw/developers.google.com__workspace__events__guides__events-meet}
+
+param_suffixes: [Key, Id, sId]
+
+# 경로 파라미터 이름 -> 공간 (꼬리를 떼도 안 맞는 것만)
+param_space:
+  userKey: user
+  userId: user               # Gmail users/{userId}: 사용자 (me 도 받는다)
+  groupKey: group
+  groupUniqueId: group
+  memberKey: "@resolve"      # 그룹 구성원: 사용자 또는 그룹
+  customer: customer
+  customerId: customer
+  orgUnitPath: orgunit
+  roleId: role
+  roleAssignmentId: roleassignment
+  fileId: file
+  driveId: drive
+  calendarId: calendar
+  eventId: event
+  alertId: alert
+  resourceId: "@resolve"
+  alias: alias
+  domainAliasName: domainalias
+  policiesId: policy
+  groupsId: group            # Cloud Identity groups/{groupsId}
+  membershipsId: membership
+  devicesId: device
+  deviceUsersId: deviceuser
+  productId: product
+  skuId: sku
+  applicationName: null
+non_id_params: [applicationName, userKey_or_all, date, parameters, event]
+
+field_space:
+  userId: user
+  groupId: group
+  customerId: customer
+  fileId: file
+  # 감사 활동 파라미터 (Reports API). 이름이 소문자 밑줄이다
+  user_email: user
+  group_email: group
+  doc_id: file
+
+scope_spaces: [customer]
+vendor_hosts: [google.com, googleapis.com, googleusercontent.com]
+collect_tiers:
+  - {scope_prefix: "https://www.googleapis.com/auth/admin.", tier: admin_token, note: "관리 콘솔 API"}
+default_tier: standard_token
+
+# 감사 활동: category 는 애플리케이션 이름(쪽 이름). 대상을 말하는 애플리케이션만 잇고, 나머지(admin_* 설정 등)는 이름의 명사로 정한다
+audit_alias:
+  drive: file
+  groups: group
+  groups_enterprise: group
+  login: user
+  user_accounts: user
+  token: token
+  calendar: event
+  mobile: device
+  saml: user
+audit_space_from_name: true
+action_stop_extra: [a, the, for, google, workspace]
+action_token_alias:
+  member: [user]
+  members: [user]
+
+# 스키마 계열 우선 공간 (2026-10-14, extract.py schema_spaces). 결과 out/gws/space_rebuild.json
+space_from_schema: true
+record_key_named_id: true
+record_key_fields: [id, name, alertId]   # Cloud Identity 는 자원 이름(groups/123)이, Alert Center 는 alertId 가 키다
+schema_affixes: [list, response, request]
+schema_cut_words: [with, for]
+schema_space:
+  Alias: alias
+  Aliases: alias
+
+record_key_alias: {}
+setting_action_prefixes: []
+space_notes: {}

@@ -1,0 +1,20 @@
+fields:
+  ApiName:
+    path: ApiName
+    source: collected_response
+  FlowLabel:
+    path: FlowLabel
+    source: collected_response
+  InstalledPackageName:
+    path: InstalledPackageName
+    source: collected_response
+  IsCitizenEnabled:
+    path: IsCitizenEnabled
+    source: collected_response
+  ManageableState:
+    path: ManageableState
+    source: collected_response
+  StartSource:
+    path: StartSource
+    source: collected_response
+fields_basis: Flow 의 API 이름, 표시 이름, 설치 패키지, 시작 출처, 패키지 관리 상태가 선언에 없어 버려지던 것을 선언한다(값은 수집 응답 그대로)

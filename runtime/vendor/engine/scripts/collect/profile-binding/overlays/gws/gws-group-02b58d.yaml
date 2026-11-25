@@ -1,0 +1,89 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/group.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-04
+        request:
+          group: absent
+        items: groups
+    vars:
+      aliases:
+        op: uniq_sorted
+        of:
+          op: map_each
+          of:
+            op: concat
+            of:
+              - aliases
+              - nonEditableAliases
+          value:
+            op: lower
+            of:
+              op: str
+              of: $item
+    mutable_ids:
+      email: email
+    properties:
+      email: email
+      name: name
+      directMembersCount: directMembersCount
+      adminCreated: adminCreated
+      aliases:
+        if:
+          path:
+            op: count
+            of: $vars.aliases
+          truthy: true
+        then: $vars.aliases
+    display: "{email|name}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-G-{id}
+  - id: settings
+    kind: enrich
+    sources:
+      - call: GW-21
+        items: (root)
+    target:
+      type: Group
+      lookup: email
+      value:
+        op: str
+        of: $req.group
+      ci: true
+    require:
+      path: .
+      type: object
+    observe: true
+    set_if_missing:
+      settings:
+        op: omit_keys
+        of: .
+        keys:
+          - kind
+          - email
+          - name
+          - description
+          - customFooterText
+          - defaultMessageDenyNotificationText
+          - customReplyTo
+    relations: []
+    key_template: GWS-G-{id}
+runtime_stub: null
+runtime_key: GWS-G-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  email:
+    stability: mutable

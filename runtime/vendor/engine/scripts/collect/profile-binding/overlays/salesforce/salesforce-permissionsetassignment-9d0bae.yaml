@@ -1,0 +1,98 @@
+overlay_basis:
+  from: aegi-adapter-engine
+    catalog/salesforce/profiles/permission_set_assignment.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SF-04
+        items: records
+        where:
+          path: attributes.type
+          eq: PermissionSetAssignment
+    id_expr: Id
+    refs:
+      grantee:
+        ref:
+          type: User
+          id: AssigneeId
+      permission_set:
+        ref:
+          type: PermissionSet
+          id: PermissionSetId
+    properties:
+      ...:
+        if:
+          path: ExpirationDate
+          eq: null
+        then:
+          object:
+            expires_at:
+              const: null
+        else:
+          object: {}
+      expiration_date:
+        op: null_if_missing
+        of: ExpirationDate
+      permission_set_group:
+        op: null_if_missing
+        of: PermissionSetGroupId
+    display: "{@permission_set.label|PermissionSetId} ← {@grantee.username|AssigneeId}"
+    relations:
+      - type: has_role_on
+        source:
+          type: User
+          id: AssigneeId
+        target: $tenant
+        role:
+          ref:
+            type: PermissionSet
+            id: PermissionSetId
+        basis: stated
+        require:
+          - role
+        properties:
+          via_assignment: $self
+    identity:
+      primary:
+        - name: id
+          expr: Id
+          stability: catalog_reviewed
+          normalization: &a1
+            - to_18_char
+      scope: tenant
+    key_template: SF-PSA-{id}
+runtime_stub: null
+runtime_key: SF-PSA-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+    normalization: *a1
+relation_rules:
+  - id: PermissionSetAssignment:list
+    sources:
+      - call: SF-04
+        items: records
+        where:
+          path: attributes.type
+          eq: PermissionSetAssignment
+    relations:
+      - type: has_role_on
+        source:
+          type: User
+          id: AssigneeId
+        target: $tenant
+        role:
+          ref:
+            type: PermissionSet
+            id: PermissionSetId
+        basis: stated
+        require:
+          - role
+        properties:
+          via_assignment: $self
+    self_identity: object_rule

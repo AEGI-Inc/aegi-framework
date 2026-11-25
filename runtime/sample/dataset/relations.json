@@ -1,0 +1,5354 @@
+[
+  {
+    "fixture_key": "R-A-MSG-CHANNEL",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Message",
+          "identifier_type": "primary",
+          "value": "SLK-MSG-A-CONTEXT",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-ENG-SUPPORT",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-A-MSG-CHANNEL",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "A"
+    }
+  },
+  {
+    "fixture_key": "R-A-UA-DEVTEAM",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "User Account",
+          "identifier_type": "primary",
+          "value": "GH-U-UA",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-DEV",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-A-UA-DEVTEAM",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "A"
+    }
+  },
+  {
+    "fixture_key": "R-A-DEVTEAM-WRITE-REPO",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "has_role_on",
+      "template": "role_grant",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-DEV",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-CUSTOMER-API",
+          "kind": "target"
+        },
+        "role": {
+          "provider": "github",
+          "object_type": "Organization Custom Repository Role",
+          "identifier_type": "primary",
+          "value": "GH-ROLE-WRITE",
+          "kind": "role"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-A-DEVTEAM-WRITE-REPO",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "A"
+    }
+  },
+  {
+    "fixture_key": "R-A-REPO-ORG",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-CUSTOMER-API",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-A-REPO-ORG",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "A"
+    }
+  },
+  {
+    "fixture_key": "R-A-PR-REPO",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Pull Request",
+          "identifier_type": "primary",
+          "value": "GH-PR-A-LOGGING",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-CUSTOMER-API",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-A-PR-REPO",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "A"
+    }
+  },
+  {
+    "fixture_key": "R-A-COMMIT-REPO",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Commit",
+          "identifier_type": "primary",
+          "value": "GH-COMMIT-A-LOGGING",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-CUSTOMER-API",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-A-COMMIT-REPO",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "A"
+    }
+  },
+  {
+    "fixture_key": "R-A-CH-WS",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-ENG-SUPPORT",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-A-CH-WS",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "A"
+    }
+  },
+  {
+    "fixture_key": "R-A-DEVTEAM-ORG",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-DEV",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-A-DEVTEAM-ORG",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "A"
+    }
+  },
+  {
+    "fixture_key": "R-A-ROLE-ORG",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Organization Custom Repository Role",
+          "identifier_type": "primary",
+          "value": "GH-ROLE-WRITE",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-A-ROLE-ORG",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "A"
+    }
+  },
+  {
+    "fixture_key": "R-B-APP-WS",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "registered_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Slack App Installation Registration",
+          "identifier_type": "primary",
+          "value": "SLK-APP-DEVBOT",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-APP-WS",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-B-ENDPOINT-APP",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "owned_by",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Slash Command Request Endpoint",
+          "identifier_type": "primary",
+          "value": "SLK-END-DEVBOT",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "Slack App Installation Registration",
+          "identifier_type": "primary",
+          "value": "SLK-APP-DEVBOT",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-ENDPOINT-APP",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-B-BOT-APP",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "owned_by",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "bot",
+          "identifier_type": "primary",
+          "value": "SLK-BOT-DEVBOT",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "Slack App Installation Registration",
+          "identifier_type": "primary",
+          "value": "SLK-APP-DEVBOT",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-BOT-APP",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-B-CRED-APP",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "owned_by",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "bot-token",
+          "identifier_type": "primary",
+          "value": "SLK-CRED-DEVBOT",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "Slack App Installation Registration",
+          "identifier_type": "primary",
+          "value": "SLK-APP-DEVBOT",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-CRED-APP",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-B-UC-CHANNEL",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-UC",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-DEVBOT",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-UC-CHANNEL",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-B-UD-CHANNEL",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-UD",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-DEVBOT",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-UD-CHANNEL",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-B-REPO-ORG",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-INTERNAL-TOOLS",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-REPO-ORG",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-B-COMMIT1-REPO",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Commit",
+          "identifier_type": "primary",
+          "value": "GH-COMMIT-B-UC",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-INTERNAL-TOOLS",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-COMMIT1-REPO",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-B-COMMIT2-REPO",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Commit",
+          "identifier_type": "primary",
+          "value": "GH-COMMIT-B-UD",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-INTERNAL-TOOLS",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-COMMIT2-REPO",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-B-GRANT-ORG",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Organization Programmatic Access Grant",
+          "identifier_type": "primary",
+          "value": "GH-GRANT-UC-PAT",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-GRANT-ORG",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-B-CH-WS",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-DEVBOT",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-B-CH-WS",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "B"
+    }
+  },
+  {
+    "fixture_key": "R-C-SLK-UA-HELPDESK",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-UA",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-HELPDESK",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-SLK-UA-HELPDESK",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-SLK-UB-HELPDESK",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-UB",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-HELPDESK",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-SLK-UB-HELPDESK",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-APP-WS",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "registered_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Slack App Installation Registration",
+          "identifier_type": "primary",
+          "value": "SLK-APP-MFARESET",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-APP-WS",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-ENDPOINT-APP",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "owned_by",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Slash Command Request Endpoint",
+          "identifier_type": "primary",
+          "value": "SLK-END-MFARESET",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "Slack App Installation Registration",
+          "identifier_type": "primary",
+          "value": "SLK-APP-MFARESET",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-ENDPOINT-APP",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-OKTA-UB-GROUP",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-UB",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-HELPDESK",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-OKTA-UB-GROUP",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-GROUP-ROLE-ORG",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "has_role_on",
+      "template": "role_grant",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-HELPDESK",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        },
+        "role": {
+          "provider": "okta",
+          "object_type": "IamRole",
+          "identifier_type": "primary",
+          "value": "OKTA-ROLE-HELPDESK",
+          "kind": "role"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-GROUP-ROLE-ORG",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-CLIENT-CRED",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "authenticates_with",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "OAuth2Client",
+          "identifier_type": "primary",
+          "value": "OKTA-CLIENT-MFARESET",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "OAuth2RefreshToken",
+          "identifier_type": "primary",
+          "value": "OKTA-CRED-MFARESET",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-CLIENT-CRED",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-FACTOR-USER",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "UserFactor",
+          "identifier_type": "primary",
+          "value": "OKTA-UF-TESTTARGET",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-TESTTARGET",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-FACTOR-USER",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-CH-WS",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-HELPDESK",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-CH-WS",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-GROUP-ORG",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-HELPDESK",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-GROUP-ORG",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-ROLE-ORG",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "IamRole",
+          "identifier_type": "primary",
+          "value": "OKTA-ROLE-HELPDESK",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-ROLE-ORG",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-CLIENT-ORG",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "OAuth2Client",
+          "identifier_type": "primary",
+          "value": "OKTA-CLIENT-MFARESET",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-CLIENT-ORG",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-C-CRED-ORG",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "OAuth2RefreshToken",
+          "identifier_type": "primary",
+          "value": "OKTA-CRED-MFARESET",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-C-CRED-ORG",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "C"
+    }
+  },
+  {
+    "fixture_key": "R-D-PROJECT-FILE",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Project",
+          "identifier_type": "primary",
+          "value": "GWS-PROJECT-CUSTOMER-SYNC",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "File",
+          "identifier_type": "primary",
+          "value": "GWS-FILE-CUSTOMER-RESPONSES",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-PROJECT-FILE",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-D-PERM-UE-FILE",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Permission",
+          "identifier_type": "primary",
+          "value": "GWS-PERM-UE-RESPONSES",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "File",
+          "identifier_type": "primary",
+          "value": "GWS-FILE-CUSTOMER-RESPONSES",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-PERM-UE-FILE",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-D-APP-WS",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "registered_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Slack App Installation Registration",
+          "identifier_type": "primary",
+          "value": "SLK-APP-CUSTOMER-SYNC",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-APP-WS",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-D-WEBHOOK-APP",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "owned_by",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "incoming-webhook",
+          "identifier_type": "primary",
+          "value": "SLK-END-CUSTOMER-WEBHOOK",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "Slack App Installation Registration",
+          "identifier_type": "primary",
+          "value": "SLK-APP-CUSTOMER-SYNC",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-WEBHOOK-APP",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-D-WEBHOOK-CHANNEL",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "receives_into",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "incoming-webhook",
+          "identifier_type": "primary",
+          "value": "SLK-END-CUSTOMER-WEBHOOK",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-CUSTOMER-INTAKE",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-WEBHOOK-CHANNEL",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-D-UE-CHANNEL",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-UE",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-CUSTOMER-INTAKE",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-UE-CHANNEL",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-D-UF-CHANNEL",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-UF",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-CUSTOMER-INTAKE",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-UF-CHANNEL",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-D-MSG-CHANNEL",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Message",
+          "identifier_type": "primary",
+          "value": "SLK-MSG-D-CUSTOMER-DATA",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-CUSTOMER-INTAKE",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-MSG-CHANNEL",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-D-CH-WS",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-CUSTOMER-INTAKE",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-CH-WS",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-D-FILE-CUST",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "File",
+          "identifier_type": "primary",
+          "value": "GWS-FILE-CUSTOMER-RESPONSES",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-FILE-CUST",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-D-FORM-CUST",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Form",
+          "identifier_type": "primary",
+          "value": "GWS-FORM-CUSTOMER-INTAKE",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-D-FORM-CUST",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {
+      "scenario": "D"
+    }
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-1",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-2",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N002",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-3",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N003",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-4",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N004",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-5",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N005",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N005",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-5",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-6",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N006",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N006",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-6",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-7",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N007",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N007",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-7",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-8",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N008",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N008",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-8",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-9",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N009",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-9",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-10",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N010",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N002",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-10",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-11",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N011",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N003",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-11",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-U-CH-12",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "user",
+          "identifier_type": "primary",
+          "value": "SLK-U-N012",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N004",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-U-CH-12",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-CH-WS-1",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-CH-WS-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-CH-WS-2",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-CH-WS-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-CH-WS-3",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-CH-WS-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-CH-WS-4",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-CH-WS-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-CH-WS-5",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N005",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-CH-WS-5",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-CH-WS-6",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N006",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-CH-WS-6",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-CH-WS-7",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N007",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-CH-WS-7",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-CH-WS-8",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N008",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "workspace",
+          "identifier_type": "primary",
+          "value": "SLK-WS-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-CH-WS-8",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-MSG-CH-1",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Message",
+          "identifier_type": "primary",
+          "value": "SLK-MSG-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-MSG-CH-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-MSG-CH-2",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Message",
+          "identifier_type": "primary",
+          "value": "SLK-MSG-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-MSG-CH-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-MSG-CH-3",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Message",
+          "identifier_type": "primary",
+          "value": "SLK-MSG-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-MSG-CH-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-MSG-CH-4",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Message",
+          "identifier_type": "primary",
+          "value": "SLK-MSG-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-MSG-CH-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-MSG-CH-5",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Message",
+          "identifier_type": "primary",
+          "value": "SLK-MSG-N005",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-MSG-CH-5",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-SLK-NORM-MSG-CH-6",
+    "canonical": {
+      "provider": "slack",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "slack",
+          "object_type": "Message",
+          "identifier_type": "primary",
+          "value": "SLK-MSG-N006",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "slack",
+          "object_type": "conversation",
+          "identifier_type": "primary",
+          "value": "SLK-CH-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-SLK-NORM-MSG-CH-6",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-U-TEAM-1",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "User Account",
+          "identifier_type": "primary",
+          "value": "GH-U-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-U-TEAM-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-U-TEAM-2",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "User Account",
+          "identifier_type": "primary",
+          "value": "GH-U-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N002",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-U-TEAM-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-U-TEAM-3",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "User Account",
+          "identifier_type": "primary",
+          "value": "GH-U-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N003",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-U-TEAM-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-U-TEAM-4",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "User Account",
+          "identifier_type": "primary",
+          "value": "GH-U-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-U-TEAM-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-U-TEAM-5",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "User Account",
+          "identifier_type": "primary",
+          "value": "GH-U-N005",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N002",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-U-TEAM-5",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-U-TEAM-6",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "User Account",
+          "identifier_type": "primary",
+          "value": "GH-U-N006",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N003",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-U-TEAM-6",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-U-TEAM-7",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "User Account",
+          "identifier_type": "primary",
+          "value": "GH-U-N007",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-U-TEAM-7",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-U-TEAM-8",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "User Account",
+          "identifier_type": "primary",
+          "value": "GH-U-N008",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N002",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-U-TEAM-8",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-REPO-ORG-1",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-REPO-ORG-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-REPO-ORG-2",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-REPO-ORG-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-REPO-ORG-3",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-REPO-ORG-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-REPO-ORG-4",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-REPO-ORG-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-REPO-ORG-5",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N005",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-REPO-ORG-5",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-REPO-ORG-6",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N006",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-REPO-ORG-6",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-REPO-ORG-7",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N007",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-REPO-ORG-7",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-TEAM-ORG-1",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-TEAM-ORG-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-WF-REPO-1",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Workflow",
+          "identifier_type": "primary",
+          "value": "GH-WF-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-WF-REPO-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-RULE-REPO-1",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "applies_to",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository ruleset",
+          "identifier_type": "primary",
+          "value": "GH-RULE-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-RULE-REPO-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-TEAM-ORG-2",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-TEAM-ORG-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-WF-REPO-2",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Workflow",
+          "identifier_type": "primary",
+          "value": "GH-WF-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-WF-REPO-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-RULE-REPO-2",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "applies_to",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository ruleset",
+          "identifier_type": "primary",
+          "value": "GH-RULE-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-RULE-REPO-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-TEAM-ORG-3",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Team",
+          "identifier_type": "primary",
+          "value": "GH-TEAM-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Organization",
+          "identifier_type": "primary",
+          "value": "GH-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-TEAM-ORG-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-WF-REPO-3",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Workflow",
+          "identifier_type": "primary",
+          "value": "GH-WF-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-WF-REPO-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-RULE-REPO-3",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "applies_to",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Repository ruleset",
+          "identifier_type": "primary",
+          "value": "GH-RULE-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-RULE-REPO-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-COMMIT-REPO-1",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Commit",
+          "identifier_type": "primary",
+          "value": "GH-COMMIT-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-COMMIT-REPO-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-COMMIT-REPO-2",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Commit",
+          "identifier_type": "primary",
+          "value": "GH-COMMIT-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-COMMIT-REPO-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-COMMIT-REPO-3",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Commit",
+          "identifier_type": "primary",
+          "value": "GH-COMMIT-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-COMMIT-REPO-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-COMMIT-REPO-4",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Commit",
+          "identifier_type": "primary",
+          "value": "GH-COMMIT-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-COMMIT-REPO-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-PR-REPO-1",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Pull Request",
+          "identifier_type": "primary",
+          "value": "GH-PR-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-PR-REPO-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-PR-REPO-2",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Pull Request",
+          "identifier_type": "primary",
+          "value": "GH-PR-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-PR-REPO-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GH-NORM-PR-REPO-3",
+    "canonical": {
+      "provider": "github",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "github",
+          "object_type": "Pull Request",
+          "identifier_type": "primary",
+          "value": "GH-PR-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "github",
+          "object_type": "Repository",
+          "identifier_type": "primary",
+          "value": "GH-REPO-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GH-NORM-PR-REPO-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-U-GRP-1",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-U-GRP-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-U-GRP-2",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N002",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-U-GRP-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-U-GRP-3",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N003",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-U-GRP-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-U-GRP-4",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N004",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-U-GRP-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-U-GRP-5",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N005",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-U-GRP-5",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-U-GRP-6",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N006",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N002",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-U-GRP-6",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-U-GRP-7",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N007",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N003",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-U-GRP-7",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-U-GRP-8",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N008",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N004",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-U-GRP-8",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-U-GRP-9",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N009",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-U-GRP-9",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-GRP-ORG-1",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-GRP-ORG-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-UF-U-1",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "UserFactor",
+          "identifier_type": "primary",
+          "value": "OKTA-UF-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-UF-U-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-GRP-ORG-2",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-GRP-ORG-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-UF-U-2",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "UserFactor",
+          "identifier_type": "primary",
+          "value": "OKTA-UF-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N002",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-UF-U-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-GRP-ORG-3",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-GRP-ORG-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-UF-U-3",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "UserFactor",
+          "identifier_type": "primary",
+          "value": "OKTA-UF-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N003",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-UF-U-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-GRP-ORG-4",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "OKTA-G-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-GRP-ORG-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-UF-U-4",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "UserFactor",
+          "identifier_type": "primary",
+          "value": "OKTA-UF-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "OKTA-U-N004",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-UF-U-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-APP-ORG-1",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "registered_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "Application",
+          "identifier_type": "primary",
+          "value": "OKTA-APP-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-APP-ORG-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-ROLE-ORG-1",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "IamRole",
+          "identifier_type": "primary",
+          "value": "OKTA-ROLE-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-ROLE-ORG-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-CRED-ORG-1",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "OAuth2RefreshToken",
+          "identifier_type": "primary",
+          "value": "OKTA-CRED-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-CRED-ORG-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-APP-ORG-2",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "registered_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "Application",
+          "identifier_type": "primary",
+          "value": "OKTA-APP-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-APP-ORG-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-ROLE-ORG-2",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "IamRole",
+          "identifier_type": "primary",
+          "value": "OKTA-ROLE-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-ROLE-ORG-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-CRED-ORG-2",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "OAuth2RefreshToken",
+          "identifier_type": "primary",
+          "value": "OKTA-CRED-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-CRED-ORG-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-APP-ORG-3",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "registered_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "Application",
+          "identifier_type": "primary",
+          "value": "OKTA-APP-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-APP-ORG-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-ROLE-ORG-3",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "IamRole",
+          "identifier_type": "primary",
+          "value": "OKTA-ROLE-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-ROLE-ORG-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-CRED-ORG-3",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "OAuth2RefreshToken",
+          "identifier_type": "primary",
+          "value": "OKTA-CRED-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-CRED-ORG-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-CLIENT-ORG-1",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "OAuth2Client",
+          "identifier_type": "primary",
+          "value": "OKTA-CLIENT-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-CLIENT-ORG-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-OKTA-NORM-CLIENT-ORG-2",
+    "canonical": {
+      "provider": "okta",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "okta",
+          "object_type": "OAuth2Client",
+          "identifier_type": "primary",
+          "value": "OKTA-CLIENT-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "okta",
+          "object_type": "org",
+          "identifier_type": "primary",
+          "value": "OKTA-ORG-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-OKTA-NORM-CLIENT-ORG-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-U-GRP-1",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "GWS-U-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-U-GRP-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-U-GRP-2",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "GWS-U-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N002",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-U-GRP-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-U-GRP-3",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "GWS-U-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N003",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-U-GRP-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-U-GRP-4",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "GWS-U-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-U-GRP-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-U-GRP-5",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "GWS-U-N005",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N002",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-U-GRP-5",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-U-GRP-6",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "GWS-U-N006",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N003",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-U-GRP-6",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-U-GRP-7",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "member_of",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "User",
+          "identifier_type": "primary",
+          "value": "GWS-U-N007",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-U-GRP-7",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-GRP-CUST-1",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-GRP-CUST-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-FILE-CUST-1",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "File",
+          "identifier_type": "primary",
+          "value": "GWS-FILE-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-FILE-CUST-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-GRP-CUST-2",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-GRP-CUST-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-FILE-CUST-2",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "File",
+          "identifier_type": "primary",
+          "value": "GWS-FILE-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-FILE-CUST-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-GRP-CUST-3",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-GRP-CUST-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-FILE-CUST-3",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "File",
+          "identifier_type": "primary",
+          "value": "GWS-FILE-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-FILE-CUST-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-MEM-GRP-1",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Member",
+          "identifier_type": "primary",
+          "value": "GWS-MEM-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-MEM-GRP-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-MEM-GRP-2",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Member",
+          "identifier_type": "primary",
+          "value": "GWS-MEM-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-MEM-GRP-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-MEM-GRP-3",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Member",
+          "identifier_type": "primary",
+          "value": "GWS-MEM-N003",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-MEM-GRP-3",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-MEM-GRP-4",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Member",
+          "identifier_type": "primary",
+          "value": "GWS-MEM-N004",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Group",
+          "identifier_type": "primary",
+          "value": "GWS-G-N001",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-MEM-GRP-4",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-FORM-CUST-1",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Form",
+          "identifier_type": "primary",
+          "value": "GWS-FORM-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-FORM-CUST-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-PROJ-CUST-1",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Project",
+          "identifier_type": "primary",
+          "value": "GWS-PROJECT-N001",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-PROJ-CUST-1",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-FORM-CUST-2",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Form",
+          "identifier_type": "primary",
+          "value": "GWS-FORM-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-FORM-CUST-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  },
+  {
+    "fixture_key": "R-GWS-NORM-PROJ-CUST-2",
+    "canonical": {
+      "provider": "gws",
+      "relation_type": "contained_in",
+      "template": "direct",
+      "references": {
+        "source": {
+          "provider": "gws",
+          "object_type": "Project",
+          "identifier_type": "primary",
+          "value": "GWS-PROJECT-N002",
+          "kind": "source"
+        },
+        "target": {
+          "provider": "gws",
+          "object_type": "Customer",
+          "identifier_type": "primary",
+          "value": "GWS-CUST-AEGI",
+          "kind": "target"
+        }
+      },
+      "properties": {
+        "basis": "stated"
+      },
+      "source": {
+        "api": "fixture://aegi-inc/rel/R-GWS-NORM-PROJ-CUST-2",
+        "params": {},
+        "record": "synthetic",
+        "schema_version": 3,
+        "collected_at": "2026-09-22T08:00:00Z"
+      }
+    },
+    "fixture_meta": {}
+  }
+]

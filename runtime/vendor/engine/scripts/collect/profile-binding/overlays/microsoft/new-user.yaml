@@ -1,0 +1,110 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: User
+interfaces: [Principal]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-U-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+  userPrincipalName: {stability: mutable}
+  mail: {stability: mutable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-02
+        items: value
+    id_expr: id
+    mutable_ids:
+      userPrincipalName: userPrincipalName
+      mail: mail
+    properties:
+      principal_kind: {const: human}
+      account_kind: {const: human}
+      account_state:
+        op: map
+        of: accountEnabled
+        table:
+          'true': active
+          'false': suspended
+        default: {const: unknown}
+      operational_state:
+        op: map
+        of: accountEnabled
+        table:
+          'true': active
+          'false': inactive
+        default: {const: unknown}
+      user_id: id
+      userPrincipalName: userPrincipalName
+      displayName: displayName
+      givenName: givenName
+      surname: surname
+      mail: mail
+      otherMails: otherMails
+      proxyAddresses: proxyAddresses
+      accountEnabled: accountEnabled
+      userType: userType
+      department: department
+      jobTitle: jobTitle
+      officeLocation: officeLocation
+      usageLocation: usageLocation
+      createdDateTime: createdDateTime
+      onPremisesSyncEnabled: onPremisesSyncEnabled
+      externalUserState: externalUserState
+      creationType: creationType
+      assignedLicenses: assignedLicenses
+      assignedPlans: assignedPlans
+      signInActivity: signInActivity
+    display: "{displayName|userPrincipalName|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+  - id: manager
+    kind: enrich
+    sources:
+      - call: M365-03
+        request: {kind: manager}
+        items: (root)
+    require:
+      path: id
+      present: true
+    target:
+      type: User
+      id: $req.user
+    set:
+      manager_id: id
+  - id: license_details
+    kind: relation
+    sources:
+      - call: M365-03
+        request: {kind: licenseDetails}
+        items: value
+    relations:
+      - type: has_role_on
+        source:
+          type: User
+          id: $req.user
+        target:
+          type: SubscribedSku
+          id: skuId
+        role:
+          name:
+            any:
+              - skuPartNumber
+              - skuId
+        basis: stated
+        properties:
+          sku_id: skuId
+          sku_part_number: skuPartNumber
+        require: [source, target]

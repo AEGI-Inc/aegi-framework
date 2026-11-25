@@ -1,0 +1,57 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/salesforce/profiles/connected_application.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SF-07
+        items: records
+        where:
+          path: attributes.type
+          eq: ConnectedApplication
+    id_expr: Id
+    properties:
+      name: Name
+      admin_approved_users_only: OptionsAllowAdminApprovedUsersOnly
+      created: CreatedDate
+      operational_state:
+        const: unknown
+    display: "{Name|Id}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: Id
+          stability: catalog_reviewed
+          normalization: &a1
+            - to_18_char
+      scope: tenant
+    key_template: SF-APP-{id}
+runtime_stub: null
+runtime_key: SF-APP-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+    normalization: *a1
+relation_rules:
+  - id: ConnectedApplication:list
+    sources:
+      - call: SF-07
+        items: records
+        where:
+          path: attributes.type
+          eq: ConnectedApplication
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule

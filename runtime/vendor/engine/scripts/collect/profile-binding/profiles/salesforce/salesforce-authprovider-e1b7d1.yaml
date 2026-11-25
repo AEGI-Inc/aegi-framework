@@ -1,0 +1,545 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: AuthProvider
+interfaces: &a1
+  - Credential
+model:
+  research_type: object-type:d4797f764d2ffcec17e1b7d1
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+      normalization:
+        - to_18_char
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:d4797f764d2ffcec17e1b7d1.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|Id
+  AppleTeam:
+    path: AppleTeam
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: string
+      name: AppleTeam
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|AppleTeam
+  AuthorizeUrl:
+    path: AuthorizeUrl
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: url
+      name: AuthorizeUrl
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|AuthorizeUrl
+  ConsumerKey:
+    path: ConsumerKey
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: string
+      name: ConsumerKey
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|ConsumerKey
+  ConsumerSecret:
+    path: ConsumerSecret
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: string
+      name: ConsumerSecret
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|ConsumerSecret
+  CustomMetadataTypeRecord:
+    path: CustomMetadataTypeRecord
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: string
+      name: CustomMetadataTypeRecord
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|CustomMetadataTypeRecord
+  DefaultScopes:
+    path: DefaultScopes
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: string
+      name: DefaultScopes
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|DefaultScopes
+  DeveloperName:
+    path: DeveloperName
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: string
+      name: DeveloperName
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|DeveloperName
+  EcKey:
+    path: EcKey
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: string
+      name: EcKey
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|EcKey
+  ErrorUrl:
+    path: ErrorUrl
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: string
+      name: ErrorUrl
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|ErrorUrl
+  ExecutionUserId:
+    path: ExecutionUserId
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: reference
+      name: ExecutionUserId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|ExecutionUserId
+  FlowDefaultAccountId:
+    path: FlowDefaultAccountId
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: reference
+      name: FlowDefaultAccountId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|FlowDefaultAccountId
+  FlowDefaultProfileId:
+    path: FlowDefaultProfileId
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: reference
+      name: FlowDefaultProfileId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|FlowDefaultProfileId
+  FriendlyName:
+    path: FriendlyName
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: string
+      name: FriendlyName
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|FriendlyName
+  IconUrl:
+    path: IconUrl
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: url
+      name: IconUrl
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|IconUrl
+  IdTokenIssuer:
+    path: IdTokenIssuer
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: string
+      name: IdTokenIssuer
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|IdTokenIssuer
+  LinkKickoffUrl:
+    path: LinkKickoffUrl
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: url
+      name: LinkKickoffUrl
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|LinkKickoffUrl
+  LogoutUrl:
+    path: LogoutUrl
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: url
+      name: LogoutUrl
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|LogoutUrl
+  OauthKickoffUrl:
+    path: OauthKickoffUrl
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: url
+      name: OauthKickoffUrl
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|OauthKickoffUrl
+  OptionsIncludeOrgIdInId:
+    path: OptionsIncludeOrgIdInId
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: boolean
+      name: OptionsIncludeOrgIdInId
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AuthProvider|OptionsIncludeOrgIdInId
+  OptionsIsPkceEnabled:
+    path: OptionsIsPkceEnabled
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: boolean
+      name: OptionsIsPkceEnabled
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AuthProvider|OptionsIsPkceEnabled
+  OptionsRequireMfa:
+    path: OptionsRequireMfa
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: boolean
+      name: OptionsRequireMfa
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AuthProvider|OptionsRequireMfa
+  OptionsSendAccessTokenInHeader:
+    path: OptionsSendAccessTokenInHeader
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: boolean
+      name: OptionsSendAccessTokenInHeader
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AuthProvider|OptionsSendAccessTokenInHeader
+  OptionsSendClientCredentialsInHeader:
+    path: OptionsSendClientCredentialsInHeader
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: boolean
+      name: OptionsSendClientCredentialsInHeader
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AuthProvider|OptionsSendClientCredentialsInHeader
+  OptionsSendSecretInApis:
+    path: OptionsSendSecretInApis
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: boolean
+      name: OptionsSendSecretInApis
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AuthProvider|OptionsSendSecretInApis
+  PluginId:
+    path: PluginId
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: reference
+      name: PluginId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|PluginId
+  ProviderType:
+    path: ProviderType
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: picklist
+      name: ProviderType
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|ProviderType
+  RegistrationHandlerId:
+    path: RegistrationHandlerId
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: reference
+      name: RegistrationHandlerId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|RegistrationHandlerId
+  SsoKickoffUrl:
+    path: SsoKickoffUrl
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: url
+      name: SsoKickoffUrl
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|SsoKickoffUrl
+  TokenUrl:
+    path: TokenUrl
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: url
+      name: TokenUrl
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|TokenUrl
+  UserInfoUrl:
+    path: UserInfoUrl
+    source: research_shape
+    shape: sh:sf_object_reference:AuthProvider
+    declaration:
+      format: url
+      name: UserInfoUrl
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthProvider|UserInfoUrl
+references: []
+constants:
+  credential_kind:
+    const: unknown
+row_contracts:
+  expires_at:
+    const: null
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: AuthProvider
+  interfaces: *a1
+  model:
+    research_type: object-type:d4797f764d2ffcec17e1b7d1
+  extract:
+    key: PILOT-salesforce-AuthProvider-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-e1b7d1
+            endpoint: /
+            items:
+              - records
+        properties:
+          AppleTeam: AppleTeam
+          AuthorizeUrl: AuthorizeUrl
+          ConsumerKey: ConsumerKey
+          ConsumerSecret: ConsumerSecret
+          CustomMetadataTypeRecord: CustomMetadataTypeRecord
+          DefaultScopes: DefaultScopes
+          DeveloperName: DeveloperName
+          EcKey: EcKey
+          ErrorUrl: ErrorUrl
+          ExecutionUserId: ExecutionUserId
+          FlowDefaultAccountId: FlowDefaultAccountId
+          FlowDefaultProfileId: FlowDefaultProfileId
+          FriendlyName: FriendlyName
+          IconUrl: IconUrl
+          Id: Id
+          IdTokenIssuer: IdTokenIssuer
+          LinkKickoffUrl: LinkKickoffUrl
+          LogoutUrl: LogoutUrl
+          OauthKickoffUrl: OauthKickoffUrl
+          OptionsIncludeOrgIdInId: OptionsIncludeOrgIdInId
+          OptionsIsPkceEnabled: OptionsIsPkceEnabled
+          OptionsRequireMfa: OptionsRequireMfa
+          OptionsSendAccessTokenInHeader: OptionsSendAccessTokenInHeader
+          OptionsSendClientCredentialsInHeader: OptionsSendClientCredentialsInHeader
+          OptionsSendSecretInApis: OptionsSendSecretInApis
+          PluginId: PluginId
+          ProviderType: ProviderType
+          RegistrationHandlerId: RegistrationHandlerId
+          SsoKickoffUrl: SsoKickoffUrl
+          TokenUrl: TokenUrl
+          UserInfoUrl: UserInfoUrl
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:AuthProvider.query
+  operation: AuthProvider.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: AuthProvider
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:AuthProvider
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:AuthProvider.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/AuthProvider/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

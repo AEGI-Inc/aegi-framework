@@ -1,0 +1,954 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: ActionCadenceStep
+interfaces: &a1
+  - Automation
+model:
+  research_type: object-type:c87eec175b1e850447a0b8f5
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:c87eec175b1e850447a0b8f5.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|Id
+  ActionCadenceId:
+    path: ActionCadenceId
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: reference
+      name: ActionCadenceId
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|ActionCadenceId
+  AllCallsCallBackLater:
+    path: AllCallsCallBackLater
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllCallsCallBackLater
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllCallsCallBackLater
+  AllCallsLeftVoicemail:
+    path: AllCallsLeftVoicemail
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllCallsLeftVoicemail
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllCallsLeftVoicemail
+  AllCallsMeaningfulConnect:
+    path: AllCallsMeaningfulConnect
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllCallsMeaningfulConnect
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllCallsMeaningfulConnect
+  AllCallsNotInterested:
+    path: AllCallsNotInterested
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllCallsNotInterested
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllCallsNotInterested
+  AllCallsUncategorized:
+    path: AllCallsUncategorized
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllCallsUncategorized
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllCallsUncategorized
+  AllCallsUnqualified:
+    path: AllCallsUnqualified
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllCallsUnqualified
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllCallsUnqualified
+  AllEmailsBouncedCount:
+    path: AllEmailsBouncedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsBouncedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsBouncedCount
+  AllEmailsDeliveredCount:
+    path: AllEmailsDeliveredCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsDeliveredCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsDeliveredCount
+  AllEmailsHardBouncedCount:
+    path: AllEmailsHardBouncedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsHardBouncedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsHardBouncedCount
+  AllEmailsLinkClickedCount:
+    path: AllEmailsLinkClickedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsLinkClickedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsLinkClickedCount
+  AllEmailsOpenedCount:
+    path: AllEmailsOpenedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsOpenedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsOpenedCount
+  AllEmailsOutOfOfficeCount:
+    path: AllEmailsOutOfOfficeCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsOutOfOfficeCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsOutOfOfficeCount
+  AllEmailsRepliedCount:
+    path: AllEmailsRepliedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsRepliedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsRepliedCount
+  AllEmailsSentCount:
+    path: AllEmailsSentCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsSentCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsSentCount
+  AllEmailsSoftBouncedCount:
+    path: AllEmailsSoftBouncedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsSoftBouncedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsSoftBouncedCount
+  AllEmailsTrackedSentCount:
+    path: AllEmailsTrackedSentCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsTrackedSentCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsTrackedSentCount
+  AllEmailsUntrackedSentCount:
+    path: AllEmailsUntrackedSentCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllEmailsUntrackedSentCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllEmailsUntrackedSentCount
+  AllManuallyCompletedCount:
+    path: AllManuallyCompletedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllManuallyCompletedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllManuallyCompletedCount
+  AllOnTimeCompletedCount:
+    path: AllOnTimeCompletedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllOnTimeCompletedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllOnTimeCompletedCount
+  AllOverdueCompletedCount:
+    path: AllOverdueCompletedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllOverdueCompletedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllOverdueCompletedCount
+  AllSkippedCount:
+    path: AllSkippedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllSkippedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllSkippedCount
+  AllTotalCallsCount:
+    path: AllTotalCallsCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: AllTotalCallsCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|AllTotalCallsCount
+  BranchDefaultStepName:
+    path: BranchDefaultStepName
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: string
+      name: BranchDefaultStepName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|BranchDefaultStepName
+  ChainedCadenceId:
+    path: ChainedCadenceId
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: reference
+      name: ChainedCadenceId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|ChainedCadenceId
+  DayGroup:
+    path: DayGroup
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: DayGroup
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|DayGroup
+  GoToStepIntervalInMinutes:
+    path: GoToStepIntervalInMinutes
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: GoToStepIntervalInMinutes
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|GoToStepIntervalInMinutes
+  GoToStepIterationLimit:
+    path: GoToStepIterationLimit
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: GoToStepIterationLimit
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|GoToStepIterationLimit
+  GoToStepName:
+    path: GoToStepName
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: string
+      name: GoToStepName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|GoToStepName
+  GraphState:
+    path: GraphState
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: picklist
+      name: GraphState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|GraphState
+  HasVariant:
+    path: HasVariant
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: boolean
+      name: HasVariant
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ActionCadenceStep|HasVariant
+  IsImmediateWakeUp:
+    path: IsImmediateWakeUp
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: boolean
+      name: IsImmediateWakeUp
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ActionCadenceStep|IsImmediateWakeUp
+  IsOrphan:
+    path: IsOrphan
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: boolean
+      name: IsOrphan
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ActionCadenceStep|IsOrphan
+  IsScheduledDueDateLocked:
+    path: IsScheduledDueDateLocked
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: boolean
+      name: IsScheduledDueDateLocked
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ActionCadenceStep|IsScheduledDueDateLocked
+  IsScreenFlowActive:
+    path: IsScreenFlowActive
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: boolean
+      name: IsScreenFlowActive
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ActionCadenceStep|IsScreenFlowActive
+  IsStepAutomationActive:
+    path: IsStepAutomationActive
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: boolean
+      name: IsStepAutomationActive
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ActionCadenceStep|IsStepAutomationActive
+  IsThreaded:
+    path: IsThreaded
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: boolean
+      name: IsThreaded
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ActionCadenceStep|IsThreaded
+  MessageType:
+    path: MessageType
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: picklist
+      name: MessageType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|MessageType
+  MinuteGroup:
+    path: MinuteGroup
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: MinuteGroup
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|MinuteGroup
+  ParentStepName:
+    path: ParentStepName
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: string
+      name: ParentStepName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|ParentStepName
+  RootStepId:
+    path: RootStepId
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: reference
+      name: RootStepId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|RootStepId
+  ScheduledDaysUntilDue:
+    path: ScheduledDaysUntilDue
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: ScheduledDaysUntilDue
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|ScheduledDaysUntilDue
+  ScheduledDaysUntilStart:
+    path: ScheduledDaysUntilStart
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: ScheduledDaysUntilStart
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|ScheduledDaysUntilStart
+  ScheduledStartDelayInMinutes:
+    path: ScheduledStartDelayInMinutes
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: ScheduledStartDelayInMinutes
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|ScheduledStartDelayInMinutes
+  ScheduledStartTimeInMinutes:
+    path: ScheduledStartTimeInMinutes
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: ScheduledStartTimeInMinutes
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|ScheduledStartTimeInMinutes
+  ScreenFlowReference:
+    path: ScreenFlowReference
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: string
+      name: ScreenFlowReference
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|ScreenFlowReference
+  StepAutomationReference:
+    path: StepAutomationReference
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: string
+      name: StepAutomationReference
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|StepAutomationReference
+  StepComments:
+    path: StepComments
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: textarea
+      name: StepComments
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|StepComments
+  StepName:
+    path: StepName
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: string
+      name: StepName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|StepName
+  StepTitle:
+    path: StepTitle
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: string
+      name: StepTitle
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|StepTitle
+  SubCadenceName:
+    path: SubCadenceName
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: string
+      name: SubCadenceName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|SubCadenceName
+  TemplateId:
+    path: TemplateId
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: reference
+      name: TemplateId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|TemplateId
+  Type:
+    path: Type
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: picklist
+      name: Type
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|Type
+  TypeDetail:
+    path: TypeDetail
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: string
+      name: TypeDetail
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|TypeDetail
+  UniqueEmailsLinkClickedCount:
+    path: UniqueEmailsLinkClickedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: reference
+      name: UniqueEmailsLinkClickedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|UniqueEmailsLinkClickedCount
+  UniqueEmailsOpenedCount:
+    path: UniqueEmailsOpenedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: reference
+      name: UniqueEmailsOpenedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|UniqueEmailsOpenedCount
+  UniqueEmailsRepliedCount:
+    path: UniqueEmailsRepliedCount
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: reference
+      name: UniqueEmailsRepliedCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ActionCadenceStep|UniqueEmailsRepliedCount
+  WaitTimeInSeconds:
+    path: WaitTimeInSeconds
+    source: research_shape
+    shape: sh:sf_object_reference:ActionCadenceStep
+    declaration:
+      format: int
+      name: WaitTimeInSeconds
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActionCadenceStep|WaitTimeInSeconds
+references:
+  - name: templateid
+    field: TemplateId
+    target: CallTemplate
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:26b4aae66d5817d56ae6304a; relation=no_relation
+  - name: chainedcadenceid
+    field: ChainedCadenceId
+    target: ActionCadence
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3d8fbd34aec26ad2784bcf73; relation=no_relation
+  - name: actioncadenceid
+    field: ActionCadenceId
+    target: ActionCadence
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:878bcbbc2be17dff061fba90; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: ActionCadenceStep
+  interfaces: *a1
+  model:
+    research_type: object-type:c87eec175b1e850447a0b8f5
+  extract:
+    key: PILOT-salesforce-ActionCadenceStep-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-a0b8f5
+            endpoint: /
+            items:
+              - records
+        properties:
+          ActionCadenceId: ActionCadenceId
+          AllCallsCallBackLater: AllCallsCallBackLater
+          AllCallsLeftVoicemail: AllCallsLeftVoicemail
+          AllCallsMeaningfulConnect: AllCallsMeaningfulConnect
+          AllCallsNotInterested: AllCallsNotInterested
+          AllCallsUncategorized: AllCallsUncategorized
+          AllCallsUnqualified: AllCallsUnqualified
+          AllEmailsBouncedCount: AllEmailsBouncedCount
+          AllEmailsDeliveredCount: AllEmailsDeliveredCount
+          AllEmailsHardBouncedCount: AllEmailsHardBouncedCount
+          AllEmailsLinkClickedCount: AllEmailsLinkClickedCount
+          AllEmailsOpenedCount: AllEmailsOpenedCount
+          AllEmailsOutOfOfficeCount: AllEmailsOutOfOfficeCount
+          AllEmailsRepliedCount: AllEmailsRepliedCount
+          AllEmailsSentCount: AllEmailsSentCount
+          AllEmailsSoftBouncedCount: AllEmailsSoftBouncedCount
+          AllEmailsTrackedSentCount: AllEmailsTrackedSentCount
+          AllEmailsUntrackedSentCount: AllEmailsUntrackedSentCount
+          AllManuallyCompletedCount: AllManuallyCompletedCount
+          AllOnTimeCompletedCount: AllOnTimeCompletedCount
+          AllOverdueCompletedCount: AllOverdueCompletedCount
+          AllSkippedCount: AllSkippedCount
+          AllTotalCallsCount: AllTotalCallsCount
+          BranchDefaultStepName: BranchDefaultStepName
+          ChainedCadenceId: ChainedCadenceId
+          DayGroup: DayGroup
+          GoToStepIntervalInMinutes: GoToStepIntervalInMinutes
+          GoToStepIterationLimit: GoToStepIterationLimit
+          GoToStepName: GoToStepName
+          GraphState: GraphState
+          HasVariant: HasVariant
+          Id: Id
+          IsImmediateWakeUp: IsImmediateWakeUp
+          IsOrphan: IsOrphan
+          IsScheduledDueDateLocked: IsScheduledDueDateLocked
+          IsScreenFlowActive: IsScreenFlowActive
+          IsStepAutomationActive: IsStepAutomationActive
+          IsThreaded: IsThreaded
+          MessageType: MessageType
+          MinuteGroup: MinuteGroup
+          ParentStepName: ParentStepName
+          RootStepId: RootStepId
+          ScheduledDaysUntilDue: ScheduledDaysUntilDue
+          ScheduledDaysUntilStart: ScheduledDaysUntilStart
+          ScheduledStartDelayInMinutes: ScheduledStartDelayInMinutes
+          ScheduledStartTimeInMinutes: ScheduledStartTimeInMinutes
+          ScreenFlowReference: ScreenFlowReference
+          StepAutomationReference: StepAutomationReference
+          StepComments: StepComments
+          StepName: StepName
+          StepTitle: StepTitle
+          SubCadenceName: SubCadenceName
+          TemplateId: TemplateId
+          Type: Type
+          TypeDetail: TypeDetail
+          UniqueEmailsLinkClickedCount: UniqueEmailsLinkClickedCount
+          UniqueEmailsOpenedCount: UniqueEmailsOpenedCount
+          UniqueEmailsRepliedCount: UniqueEmailsRepliedCount
+          WaitTimeInSeconds: WaitTimeInSeconds
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:ActionCadenceStep.query
+  operation: ActionCadenceStep.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: ActionCadenceStep
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:ActionCadenceStep
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:ActionCadenceStep.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/ActionCadenceStep/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - TemplateId
+    - ChainedCadenceId
+    - ActionCadenceId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

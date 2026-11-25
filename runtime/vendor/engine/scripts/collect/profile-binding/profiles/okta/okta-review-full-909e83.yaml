@@ -1,0 +1,506 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: review-full
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:fbabb50b885c8b81a8909e83
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:fbabb50b885c8b81a8909e83.identity_evidence
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: id
+      required: true
+      scalar: string
+    map_items:
+      - space:review-sparse|id
+  createdBy:
+    path: createdBy
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: createdBy
+      required: true
+      shape: sh:okta_iga_enduser_openapi:created-by
+    map_items:
+      - space:review-sparse|createdBy
+  created:
+    path: created
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: created
+      required: true
+      shape: sh:okta_iga_enduser_openapi:created
+    map_items:
+      - space:review-sparse|created
+  lastUpdated:
+    path: lastUpdated
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: lastUpdated
+      required: true
+      shape: sh:okta_iga_enduser_openapi:last-updated
+    map_items:
+      - space:review-sparse|lastUpdated
+  lastUpdatedBy:
+    path: lastUpdatedBy
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: lastUpdatedBy
+      required: true
+      shape: sh:okta_iga_enduser_openapi:last-updated-by
+    map_items:
+      - space:review-sparse|lastUpdatedBy
+  _links:
+    path: _links
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: _links
+      required: true
+      shape: sh:okta_iga_enduser_openapi:review-sparse._links
+    map_items: []
+  campaignId:
+    path: campaignId
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: campaignId
+      required: true
+      scalar: string
+    map_items:
+      - space:review-sparse|campaignId
+  resourceId:
+    path: resourceId
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: resourceId
+      required: true
+      scalar: string
+    map_items:
+      - space:review-sparse|resourceId
+  entitlementValue:
+    path: entitlementValue
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: entitlementValue
+      required: false
+      shape: sh:okta_iga_enduser_openapi:reviewer-entitlement-value
+    map_items:
+      - space:review-sparse|entitlementValue
+  entitlementBundle:
+    path: entitlementBundle
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: entitlementBundle
+      required: false
+      shape: sh:okta_iga_enduser_openapi:reviewer-entitlement-bundle
+    map_items:
+      - space:review-sparse|entitlementBundle
+  decision:
+    path: decision
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: decision
+      required: true
+      shape: sh:okta_iga_enduser_openapi:decision
+    map_items:
+      - space:review-sparse|decision
+  decided:
+    path: decided
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      format: date-time
+      name: decided
+      required: false
+      scalar: string
+    map_items:
+      - space:review-sparse|decided
+  remediationStatus:
+    path: remediationStatus
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: remediationStatus
+      required: true
+      shape: sh:okta_iga_enduser_openapi:remediation-status
+    map_items:
+      - space:review-sparse|remediationStatus
+  principalProfile:
+    path: principalProfile
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: principalProfile
+      required: true
+      shape: sh:okta_iga_enduser_openapi:principal-profile-enriched
+    map_items:
+      - space:review-sparse|principalProfile
+  reviewerProfile:
+    path: reviewerProfile
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: reviewerProfile
+      required: false
+      shape: sh:okta_iga_enduser_openapi:principal-profile-enriched
+    map_items:
+      - space:review-sparse|reviewerProfile
+  reviewerType:
+    path: reviewerType
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: reviewerType
+      required: true
+      shape: sh:okta_iga_enduser_openapi:reviewers-reviewer-type
+    map_items:
+      - space:review-sparse|reviewerType
+  reviewerGroupProfile:
+    path: reviewerGroupProfile
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: reviewerGroupProfile
+      required: false
+      shape: sh:okta_iga_enduser_openapi:reviewer-group-profile
+    map_items:
+      - space:review-sparse|reviewerGroupProfile
+  currentReviewerLevel:
+    path: currentReviewerLevel
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: currentReviewerLevel
+      required: false
+      shape: sh:okta_iga_enduser_openapi:reviewer-level-type
+    map_items:
+      - space:review-sparse|currentReviewerLevel
+  riskRuleConflicts:
+    path: riskRuleConflicts
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: riskRuleConflicts
+      nullable: true
+      required: false
+      shape: sh:okta_iga_enduser_openapi:review-sparse.riskRuleConflicts
+    map_items: []
+  delegatorProfile:
+    path: delegatorProfile
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: delegatorProfile
+      required: false
+      shape: sh:okta_iga_enduser_openapi:principal-profile-enriched
+    map_items:
+      - space:review-sparse|delegatorProfile
+  delegated:
+    path: delegated
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: delegated
+      required: false
+      scalar: boolean
+    map_items:
+      - space:review-sparse|delegated
+  appServiceAccount:
+    path: appServiceAccount
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: appServiceAccount
+      required: false
+      shape: sh:okta_iga_enduser_openapi:reviewer-service-account
+    map_items: []
+  oktaServiceAccount:
+    path: oktaServiceAccount
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: oktaServiceAccount
+      required: false
+      shape: sh:okta_iga_enduser_openapi:reviewer-service-account
+    map_items: []
+  aiAgentConnection:
+    path: aiAgentConnection
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:review-sparse
+    declaration:
+      name: aiAgentConnection
+      required: false
+      shape: sh:okta_iga_enduser_openapi:reviewer-ai-agent-connection
+    map_items: []
+references:
+  - name: delegatorprofile
+    field: delegatorProfile
+    target: principal-profile
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0efefa8f3b960f093112d989; relation=no_relation
+  - name: resourceid
+    field: resourceId
+    target: Group
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1eaa372c7a3656e435a7a664; relation=no_relation
+  - name: campaignid
+    field: campaignId
+    target: campaign-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:25e3c59603618162ae942ec8; relation=no_relation
+  - name: links_self_href
+    field: _links.self.href
+    target: request-full-api-compatible
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:350fed6ea5c01c6473ab6fe4; relation=no_relation
+  - name: reviewerprofile
+    field: reviewerProfile
+    target: delegate-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3fac92cf153a2d7b4db46f88; relation=no_relation
+  - name: links_reassignreview_href
+    field: _links.reassignReview.href
+    target: collection-resource-full-v2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:415e2c3b32f8b1926100650c; relation=no_relation
+  - name: reviewergroupprofile
+    field: reviewerGroupProfile
+    target: reviewer-group-profile
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:4259ec7076e9e3db81aae898; relation=no_relation
+  - name: note
+    field: note
+    target: note
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:435d3bb6824c7c93dc91b48c; relation=no_relation
+  - name: allreviewerlevels
+    field: allReviewerLevels
+    target: reviewer-level-info-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:48d8292b58b69fc57b117a5f; relation=no_relation
+  - name: entitlementvalue
+    field: entitlementValue
+    target: reviewer-entitlement-value_2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5a9e69892effa304b01973b5; relation=no_relation
+  - name: entitlementbundle
+    field: entitlementBundle
+    target: reviewer-entitlement-bundle
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5ae305830c8c01e03bba0294; relation=no_relation
+  - name: createdby
+    field: createdBy
+    target: UserGetSingleton
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:75282c8cce3926a35a5d0c75; relation=no_relation
+  - name: lastupdatedby
+    field: lastUpdatedBy
+    target: UserGetSingleton
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:7ba05baa6cff08a4e094c2ec; relation=no_relation
+  - name: principalprofile
+    field: principalProfile
+    target: principal-profile
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9062a7058c8f7521a595b94b; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: review-full
+  interfaces: *a1
+  model:
+    research_type: object-type:fbabb50b885c8b81a8909e83
+  extract:
+    key: PILOT-okta-review-full-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-OKTA-909e83
+            endpoint: /
+            items:
+              - data
+        properties:
+          _links: _links
+          aiAgentConnection: aiAgentConnection
+          appServiceAccount: appServiceAccount
+          campaignId: campaignId
+          created: created
+          createdBy: createdBy
+          currentReviewerLevel: currentReviewerLevel
+          decided: decided
+          decision: decision
+          delegated: delegated
+          delegatorProfile: delegatorProfile
+          entitlementBundle: entitlementBundle
+          entitlementValue: entitlementValue
+          id: id
+          lastUpdated: lastUpdated
+          lastUpdatedBy: lastUpdatedBy
+          oktaServiceAccount: oktaServiceAccount
+          principalProfile: principalProfile
+          remediationStatus: remediationStatus
+          resourceId: resourceId
+          reviewerGroupProfile: reviewerGroupProfile
+          reviewerProfile: reviewerProfile
+          reviewerType: reviewerType
+          riskRuleConflicts: riskRuleConflicts
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_iga_openapi:listReviews
+  operation: listReviews
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /governance/api/v1/reviews(?:\?|$)
+  endpoint_template: /governance/api/v1/reviews
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:okta_iga_openapi:review-sparse
+      path:
+        - data
+        - "*"
+  alternatives_total: 2
+  alternatives:
+    - operation_id: op:okta_iga_enduser_openapi:listCampaignReviews
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v1/my/campaigns/{campaignId}/reviews
+      path:
+        - data
+        - "*"
+    - operation_id: op:okta_iga_openapi:getReview
+      method: GET
+      kind: read_one
+      endpoint_template: /governance/api/v1/reviews/{reviewId}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - delegatorProfile
+    - resourceId
+    - campaignId
+    - _links.self.href
+    - reviewerProfile
+    - _links.reassignReview.href
+    - reviewerGroupProfile
+    - note
+    - allReviewerLevels
+    - entitlementValue
+    - entitlementBundle
+    - createdBy
+    - lastUpdatedBy
+    - principalProfile
+  metadata_paths: *a2
+  remaining_declared_fields: properties

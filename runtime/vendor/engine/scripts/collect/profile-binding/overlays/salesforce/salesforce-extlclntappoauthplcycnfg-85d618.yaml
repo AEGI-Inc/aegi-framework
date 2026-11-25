@@ -1,0 +1,99 @@
+fields:
+  ExternalIdentifier: null
+  LastReferencedDate: null
+  LastViewedDate: null
+  Name: null
+  OwnerId: null
+  RecordIdentifier: null
+  RelatedExternalIdentifier: null
+  ExternalClientApplicationId:
+    path: ExternalClientApplicationId
+    source: collected_response
+  ExtlClntAppOauthSettingsId:
+    path: ExtlClntAppOauthSettingsId
+    source: collected_response
+  DeveloperName:
+    path: DeveloperName
+    source: collected_response
+  MasterLabel:
+    path: MasterLabel
+    source: collected_response
+  PolicyAction:
+    path: PolicyAction
+    source: collected_response
+  IsClientCredentialsFlowEnabled:
+    path: IsClientCredentialsFlowEnabled
+    source: collected_response
+  ClientCredentialsFlowUser:
+    path: ClientCredentialsFlowUser
+    source: collected_response
+  ExecuteHandlerAsId:
+    path: ExecuteHandlerAsId
+    source: collected_response
+  IpRelaxationPolicyType:
+    path: IpRelaxationPolicyType
+    source: collected_response
+  PermittedUsersPolicyType:
+    path: PermittedUsersPolicyType
+    source: collected_response
+  RefreshTokenPolicyType:
+    path: RefreshTokenPolicyType
+    source: collected_response
+  RefreshTokenValidityPeriod:
+    path: RefreshTokenValidityPeriod
+    source: collected_response
+  RefreshTokenValidityUnit:
+    path: RefreshTokenValidityUnit
+    source: collected_response
+  RequiredSessionLevel:
+    path: RequiredSessionLevel
+    source: collected_response
+  SessionTimeoutInMinutes:
+    path: SessionTimeoutInMinutes
+    source: collected_response
+  IsTokenExchangeFlowEnabled:
+    path: IsTokenExchangeFlowEnabled
+    source: collected_response
+  IsNamedUserJwtEnabled:
+    path: IsNamedUserJwtEnabled
+    source: collected_response
+  IsGuestCodeCredFlowEnabled:
+    path: IsGuestCodeCredFlowEnabled
+    source: collected_response
+  StartUrl:
+    path: StartUrl
+    source: collected_response
+fields_basis: 응답이 ExternalEventMapping 스키마가 아니라 선언의 다른 스키마 키(ExternalIdentifier 등)는 지우고, 응답 최상위 키를 선언한다(값은 수집 응답 그대로)
+references:
+- name: ownerid
+  field: OwnerId
+  target: Group
+  relation: no_relation
+  reviewed_at: '2026-10-25'
+  rationale: IM v1 typed reference typed-reference:767d0562d2feb97ed9138ba3; relation=no_relation
+- name: extapp
+  field: ExternalClientApplicationId
+  target: ExternalClientApplication
+  relation: applies_to
+  reviewed_at: '2026-11-01'
+  rationale: 외부 클라이언트 앱(External Client App) 설정 행은 ExternalClientApplicationId 로 어느 앱의 설정인지 적는다(2026-11-01 고립 객체 연결)
+- name: cc_user
+  field: ClientCredentialsFlowUser
+  when:
+    path: IsClientCredentialsFlowEnabled
+    eq: true
+  target: User
+  relation: acts_as
+  reviewed_at: '2026-11-16'
+  rationale: 클라이언트 자격증명 흐름을 켠 외부 클라이언트 앱은 ClientCredentialsFlowUser 에 적힌 사용자로 실행된다(OAuth 정책의 Run As). 값은 15자 User id
+relation_plans:
+- type: applies_to
+  source: $self
+  target: $refs.extapp
+  basis: stated
+- type: acts_as
+  source: $refs.extapp
+  target: $refs.cc_user
+  basis: stated
+  properties:
+    via_policy: $self

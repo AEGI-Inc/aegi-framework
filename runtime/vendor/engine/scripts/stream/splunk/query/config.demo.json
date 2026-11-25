@@ -1,0 +1,78 @@
+{
+  "workspaces": [
+    {
+      "id": "demo",
+      "policyVersion": "v1",
+      "limits": {
+        "maxRangeDays": 45
+      },
+      "sources": [
+        {
+          "ref": "okta-demo",
+          "provider": "okta",
+          "index": "aegi_demo",
+          "sourcetype": "okta:im2:log",
+          "isolation": {
+            "dedicated": true
+          },
+          "fields": {
+            "event_type": "eventType",
+            "actor_id": "actor.id",
+            "actor_login": "actor.alternateId",
+            "outcome": "outcome.result",
+            "client_ip": "client.ipAddress",
+            "occurred_at": "published"
+          }
+        },
+        {
+          "ref": "slack-demo",
+          "provider": "slack",
+          "index": "aegi_demo",
+          "sourcetype": "slack:audit",
+          "isolation": {
+            "dedicated": true
+          },
+          "fields": {
+            "event_type": "action",
+            "actor_id": "actor.user.id",
+            "actor_login": "actor.user.email",
+            "client_ip": "context.ip_address",
+            "event_id": "id"
+          }
+        },
+        {
+          "ref": "gws-demo",
+          "provider": "gws",
+          "index": "aegi_demo",
+          "sourcetype": "gws:reports:activity",
+          "isolation": {
+            "dedicated": true
+          },
+          "fields": {
+            "application": "id.applicationName",
+            "actor_login": "actor.email",
+            "actor_id": "actor.profileId",
+            "client_ip": "ipAddress",
+            "occurred_at": "id.time"
+          }
+        },
+        {
+          "ref": "salesforce-demo",
+          "provider": "salesforce",
+          "index": "aegi_demo",
+          "sourcetype": "sfdc:setupaudittrail",
+          "isolation": {
+            "dedicated": true
+          },
+          "fields": {
+            "event_type": "Action",
+            "actor_id": "CreatedById",
+            "event_id": "Id",
+            "occurred_at": "CreatedDate",
+            "section": "Section"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/group_rule.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-11
+    properties:
+      name: name
+      status: status
+      assign_groups:
+        any:
+          - actions.assignUserToGroups.groupIds
+        empty_as: []
+    display: "{name}"
+    # Knowledge Q01: 대상은 규칙이 배정하는 그룹이며, 조건에 맞는 사용자 집합이 아니다.
+    relations:
+      - type: applies_to
+        each: actions.assignUserToGroups.groupIds
+        source: $self
+        target:
+          type: Group
+          id: $item
+        stub: false
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-GRULE-{id}
+runtime_stub: null
+runtime_key: OKTA-GRULE-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable

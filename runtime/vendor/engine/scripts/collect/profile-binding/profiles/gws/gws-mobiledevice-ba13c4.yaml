@@ -1,0 +1,610 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: gws
+service: null
+object_type: MobileDevice
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:75e7793bc8234b2940ba13c4
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: name
+      expr: name
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:75e7793bc8234b2940ba13c4.identity_evidence
+  aliases:
+    - name: email
+      expr: email
+      stability: mutable
+      classification: self_address
+      evidence:
+        source: gws_directory
+        locator: MobileDevice.email
+  parent:
+    type: parent:admin/admin/directory/v1/customer/{}
+    expr: $req.parent_id
+tenant_binding:
+  type: Customer
+  service: admin
+  call: GW-01
+  items: (root)
+  id: id
+fields:
+  networkOperator:
+    path: networkOperator
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: networkOperator
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|networkOperator
+  model:
+    path: model
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: model
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|model
+  adbStatus:
+    path: adbStatus
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: adbStatus
+      required: false
+      scalar: boolean
+    map_items:
+      - space:MobileDevice|adbStatus
+  devicePasswordStatus:
+    path: devicePasswordStatus
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: devicePasswordStatus
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|devicePasswordStatus
+  hardware:
+    path: hardware
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: hardware
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|hardware
+  os:
+    path: os
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: os
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|os
+  resourceId:
+    path: resourceId
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: resourceId
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|resourceId
+  otherAccountsInfo:
+    path: otherAccountsInfo
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: otherAccountsInfo
+      required: false
+      shape: sh:gws_directory:MobileDevice.otherAccountsInfo
+    map_items:
+      - space:MobileDevice|otherAccountsInfo
+  brand:
+    path: brand
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: brand
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|brand
+  name:
+    path: name
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: name
+      required: false
+      shape: sh:gws_directory:MobileDevice.name
+    map_items:
+      - space:MobileDevice|name
+  buildNumber:
+    path: buildNumber
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: buildNumber
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|buildNumber
+  wifiMacAddress:
+    path: wifiMacAddress
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: wifiMacAddress
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|wifiMacAddress
+  defaultLanguage:
+    path: defaultLanguage
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: defaultLanguage
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|defaultLanguage
+  type:
+    path: type
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: type
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|type
+  status:
+    path: status
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: status
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|status
+  basebandVersion:
+    path: basebandVersion
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: basebandVersion
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|basebandVersion
+  managedAccountIsOnOwnerProfile:
+    path: managedAccountIsOnOwnerProfile
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: managedAccountIsOnOwnerProfile
+      required: false
+      scalar: boolean
+    map_items:
+      - space:MobileDevice|managedAccountIsOnOwnerProfile
+  firstSync:
+    path: firstSync
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      format: date-time
+      name: firstSync
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|firstSync
+  encryptionStatus:
+    path: encryptionStatus
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: encryptionStatus
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|encryptionStatus
+  email:
+    path: email
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: email
+      required: false
+      shape: sh:gws_directory:MobileDevice.email
+    map_items:
+      - space:MobileDevice|email
+  serialNumber:
+    path: serialNumber
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: serialNumber
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|serialNumber
+  securityPatchLevel:
+    path: securityPatchLevel
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      format: int64
+      name: securityPatchLevel
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|securityPatchLevel
+  manufacturer:
+    path: manufacturer
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: manufacturer
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|manufacturer
+  kernelVersion:
+    path: kernelVersion
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: kernelVersion
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|kernelVersion
+  applications:
+    path: applications
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: applications
+      required: false
+      shape: sh:gws_directory:MobileDevice.applications
+    map_items: []
+  privilege:
+    path: privilege
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: privilege
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|privilege
+  hardwareId:
+    path: hardwareId
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: hardwareId
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|hardwareId
+  developerOptionsStatus:
+    path: developerOptionsStatus
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: developerOptionsStatus
+      required: false
+      scalar: boolean
+    map_items:
+      - space:MobileDevice|developerOptionsStatus
+  unknownSourcesStatus:
+    path: unknownSourcesStatus
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: unknownSourcesStatus
+      required: false
+      scalar: boolean
+    map_items:
+      - space:MobileDevice|unknownSourcesStatus
+  bootloaderVersion:
+    path: bootloaderVersion
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: bootloaderVersion
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|bootloaderVersion
+  imei:
+    path: imei
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: imei
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|imei
+  etag:
+    path: etag
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: etag
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|etag
+  meid:
+    path: meid
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: meid
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|meid
+  userAgent:
+    path: userAgent
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: userAgent
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|userAgent
+  releaseVersion:
+    path: releaseVersion
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: releaseVersion
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|releaseVersion
+  deviceCompromisedStatus:
+    path: deviceCompromisedStatus
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: deviceCompromisedStatus
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|deviceCompromisedStatus
+  kind:
+    path: kind
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: kind
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|kind
+  supportsWorkProfile:
+    path: supportsWorkProfile
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: supportsWorkProfile
+      required: false
+      scalar: boolean
+    map_items:
+      - space:MobileDevice|supportsWorkProfile
+  lastSync:
+    path: lastSync
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      format: date-time
+      name: lastSync
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|lastSync
+  deviceId:
+    path: deviceId
+    source: research_shape
+    shape: sh:gws_directory:MobileDevice
+    declaration:
+      name: deviceId
+      required: false
+      scalar: string
+    map_items:
+      - space:MobileDevice|deviceId
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: parent:admin/admin/directory/v1/customer/{}
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:8c053ddd4d3b342fb6f4170f (admin/admin/directory/v1/customer/{}) -> parent:admin/admin/directory/v1/customer/{}
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: gws
+  object_type: MobileDevice
+  interfaces: *a1
+  model:
+    research_type: object-type:75e7793bc8234b2940ba13c4
+  extract:
+    key: PILOT-gws-MobileDevice-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{name}"
+        sources:
+          - call: AUTO-GWS-ba13c4
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          adbStatus: adbStatus
+          applications: applications
+          basebandVersion: basebandVersion
+          bootloaderVersion: bootloaderVersion
+          brand: brand
+          buildNumber: buildNumber
+          defaultLanguage: defaultLanguage
+          developerOptionsStatus: developerOptionsStatus
+          deviceCompromisedStatus: deviceCompromisedStatus
+          deviceId: deviceId
+          devicePasswordStatus: devicePasswordStatus
+          email: email
+          encryptionStatus: encryptionStatus
+          etag: etag
+          firstSync: firstSync
+          hardware: hardware
+          hardwareId: hardwareId
+          imei: imei
+          kernelVersion: kernelVersion
+          kind: kind
+          lastSync: lastSync
+          managedAccountIsOnOwnerProfile: managedAccountIsOnOwnerProfile
+          manufacturer: manufacturer
+          meid: meid
+          model: model
+          name: name
+          networkOperator: networkOperator
+          os: os
+          otherAccountsInfo: otherAccountsInfo
+          privilege: privilege
+          releaseVersion: releaseVersion
+          resourceId: resourceId
+          securityPatchLevel: securityPatchLevel
+          serialNumber: serialNumber
+          status: status
+          supportsWorkProfile: supportsWorkProfile
+          type: type
+          unknownSourcesStatus: unknownSourcesStatus
+          userAgent: userAgent
+          wifiMacAddress: wifiMacAddress
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:gws_directory:directory.mobiledevices.list
+  operation: directory.mobiledevices.list
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /admin/directory/v1/customer/[^/]+/devices/mobile(?:\?|$)
+  endpoint_template: /admin/directory/v1/customer/{customerId}/devices/mobile
+  request: {}
+  required_params:
+    - customerId
+  paths:
+    - shape: sh:gws_directory:MobileDevice
+      path:
+        - mobiledevices
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:gws_directory:directory.mobiledevices.get
+      method: GET
+      kind: read_one
+      endpoint_template: /admin/directory/v1/customer/{customerId}/devices/mobile/{resourceId}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 8d48095984113f27a11dc420a752b717df59eae51bc3bbd4797896c8ad4af30d
+    ir/shape.jsonl: 998cf62cfd25e0d4d9d9e705e0e34b0b8c31494250a970686a7d8867e0503fbc
+    ir/operation.jsonl: 14fd7a38425bfeae03709952cd2c90c62f41d51658abd12c249f48def14db67f
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - name
+    - email
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

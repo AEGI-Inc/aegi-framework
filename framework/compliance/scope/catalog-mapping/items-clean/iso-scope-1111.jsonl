@@ -1,0 +1,41 @@
+{"item_key": "ISO27001:5.11", "decision": "exclude", "reason": "물리 자산 반납이 본뜻이다. SaaS 쪽 권한 회수는 5.18, ISMS-P 2.2.5 에서 본다", "decided_by": "user", "date": "2026-11-11"}
+{"item_key": "ISO27001:5.12", "decision": "exclude", "reason": "분류 체계를 정하고 운영하는 것이 본뜻이라 조직 문서로 확인한다. SaaS 에서 읽을 수 있는 것은 라벨 정의 일부(Salesforce 필드 분류, Drive 라벨은 지금 수집 권한으로는 읽지 못함)뿐이라 통제를 판정하지 못한다", "decided_by": "user+claude", "date": "2026-11-16"}
+{"item_key": "ISO27001:5.13", "decision": "exclude", "reason": "분류에 맞게 라벨을 붙이는 절차가 본뜻이라 조직 문서로 확인한다. 파일, 필드에 붙은 라벨 일부만 읽을 수 있어 통제를 판정하지 못한다", "decided_by": "user+claude", "date": "2026-11-16"}
+{"item_key": "ISO27001:5.14", "decision": "include", "reason": "DLP, 외부 수신 경고, Chat 외부 공유 설정이 정보 전송 규칙을 직접 판정한다", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:5.15", "decision": "include", "reason": "세션, IP, 인증 정책과 우회 위협이 접근통제 규칙을 판정한다", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:5.16", "decision": "include", "reason": "장기 미로그인 계정, IdP 에서 정지된 사용자의 남은 계정(AEGI 자체 점검)과 프로비저닝 점검이 계정 수명주기를 판정한다", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:5.17", "decision": "include", "reason": "비밀번호 정책 점검이 인증 정보 관리를 직접 판정한다", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:5.18", "decision": "include", "reason": "권한 배정과 우회, 상승, 위임, 속성 위협이 접근 권한 관리를 판정한다", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:5.23", "decision": "include", "reason": "서드파티 앱과 연동 관리. 앱 권한 범위 점검을 추가해 판정한다", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:5.3", "decision": "exclude", "reason": "상충 직무 정의는 회사가 한다", "decided_by": "user", "date": "2026-11-11"}
+{"item_key": "ISO27001:5.33", "decision": "exclude", "reason": "API 로 판정할 수 있는 것이 Okta 로그 스트리밍 하나뿐이다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:5.34", "decision": "exclude", "reason": "8.12 와 같은 DLP 점검을 다시 쓴 것이다. 개인정보는 PIPA 안전성 확보조치 기준에서 다룬다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:5.9", "decision": "exclude", "reason": "자산 목록 작성은 절차이고 위반을 말할 기준이 없다", "decided_by": "user", "date": "2026-11-11"}
+{"item_key": "ISO27001:6.7", "decision": "exclude", "reason": "5.15, 8.22 와 같은 IP 점검을 다시 쓴 것이고 원격 근무의 본뜻과 거리가 있다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:7.14", "decision": "exclude", "reason": "기기 폐기 전 삭제 검증은 물리 절차다", "decided_by": "user", "date": "2026-11-11"}
+{"item_key": "ISO27001:7.9", "decision": "exclude", "reason": "사외 반출 기기의 분실, 도난 대비는 물리 관리다", "decided_by": "user", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.1", "decision": "include", "reason": "기기 암호화, 화면 잠금 비밀번호, 관리 승인(AEGI 자체 점검)과 기기 정책 점검이 단말 보호를 판정한다", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.10", "decision": "exclude", "reason": "자동 판정 점검 없이 사람 확인 항목만 있어 SaaS 자동 점검 범위에서 제외", "decided_by": "user", "date": "2026-11-17"}
+{"item_key": "ISO27001:8.11", "decision": "exclude", "reason": "연결 점검이 화면 표시 옵션이라 데이터 마스킹이 아니다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.12", "decision": "include", "reason": "DLP, 시크릿 스캐닝, Takeout, 다운로드 제한 점검", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.13", "decision": "exclude", "reason": "백업 생성과 복구 시험은 SaaS API 로 보이지 않는다. 백업 앱 연동은 간접 신호뿐이다", "decided_by": "user", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.15", "decision": "exclude", "reason": "자동 판정 점검 없이 사람 확인 항목과 미수집 점검만 있어 SaaS 자동 점검 범위에서 제외", "decided_by": "user", "date": "2026-11-17"}
+{"item_key": "ISO27001:8.16", "decision": "include", "reason": "GWS 경보 규칙 점검", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.19", "decision": "exclude", "reason": "SaaS 앱 설치는 5.23 과 겹치고 근거가 1개다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.2", "decision": "include", "reason": "관리자 수, 관리자 MFA, 다중 승인 점검이 특수 권한 관리를 판정한다", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.22", "decision": "exclude", "reason": "본뜻은 망 구간 분리다. IP 허용 목록은 5.15 접근통제에 속한다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.24", "decision": "include", "reason": "인증서 만료, 키 크기 점검(키 관리)", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.25", "decision": "exclude", "reason": "본뜻은 개발 전 과정(요구사항, 설계, 보안 코딩, 시험, 교육)의 보안 규칙이다. 연결 점검은 GitHub 병합 관문(브랜치 보호)뿐이라 좁은 해석이다. 저장소 접근은 8.4 에서 본다", "decided_by": "claude, user 확정(11-11 오후)", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.28", "decision": "exclude", "reason": "시크릿 스캐닝은 8.12 에 속한다. 코드 스캐닝(CodeQL)은 수집하지 않는다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.29", "decision": "exclude", "reason": "병합 전 상태 검사 1개로는 보안 시험을 판정할 수 없다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.3", "decision": "include", "reason": "공유 드라이브 접근, 외부 공개 개체 점검과 노출 위협", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.30", "decision": "exclude", "reason": "외주 인력 목록과 감독은 회사 절차다", "decided_by": "user", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.31", "decision": "exclude", "reason": "환경 구분 테넌트 목록이 필요하고 SaaS 마다 테넌트 하나만 본다", "decided_by": "user", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.32", "decision": "exclude", "reason": "본뜻은 모든 변경의 공식 절차다. GitHub PR 승인은 8.25, 8.4 에 남는다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.33", "decision": "exclude", "reason": "시험 데이터 선정과 보호는 개발 절차다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.34", "decision": "exclude", "reason": "감사 시험 계획 합의는 절차다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.4", "decision": "include", "reason": "저장소 권한, 공개 범위, 포크 점검. 소스 코드 통제라 GitHub 가 본 대상이다", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.5", "decision": "include", "reason": "MFA, 피싱 방지 인증 점검", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.7", "decision": "include", "reason": "SaaS 테넌트의 악성코드 방어 설정(메일 첨부, 링크 보호). 단말 백신은 범위 밖", "decided_by": "user+claude", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.8", "decision": "exclude", "reason": "SaaS 취약점은 제공자 몫이고 코드 의존성 경보 일부만 보인다", "decided_by": "claude, user 확정", "date": "2026-11-11"}
+{"item_key": "ISO27001:8.9", "decision": "exclude", "reason": "구성 정의와 관리 절차가 본뜻이고 판정 점검이 없다", "decided_by": "claude, user 확정", "date": "2026-11-11"}

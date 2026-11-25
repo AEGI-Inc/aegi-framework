@@ -1,0 +1,7 @@
+# 산출물, 캐시, 내려받은 원문은 다시 만들 수 있다. out2에는 테넌트 실측 값이 섞여 있어 git에 넣지 않는다
+out/
+ir2/out2/
+ir2/cache/
+ir2/collect/snapshots/*/raw/
+__pycache__/
+desktop.ini

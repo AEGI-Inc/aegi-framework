@@ -1,0 +1,293 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: jira
+service: null
+object_type: NotificationScheme
+interfaces: &a1
+  - Policy
+model:
+  research_type: object-type:9b74cb45cb96783d86c0d660
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:9b74cb45cb96783d86c0d660.identity_evidence
+tenant_binding:
+  type: ServerInformation
+  service: null
+  call: JR-01
+  items: (root)
+  id: baseUrl
+fields:
+  description:
+    path: description
+    source: research_shape
+    shape: sh:jira_openapi_v3:NotificationScheme
+    declaration:
+      name: description
+      required: false
+      scalar: string
+    map_items:
+      - space:NotificationScheme|description
+  expand:
+    path: expand
+    source: research_shape
+    shape: sh:jira_openapi_v3:NotificationScheme
+    declaration:
+      name: expand
+      required: false
+      scalar: string
+    map_items:
+      - space:NotificationScheme|expand
+  id:
+    path: id
+    source: research_shape
+    shape: sh:jira_openapi_v3:NotificationScheme
+    declaration:
+      format: int64
+      name: id
+      required: false
+      scalar: integer
+    map_items:
+      - space:NotificationScheme|id
+  name:
+    path: name
+    source: research_shape
+    shape: sh:jira_openapi_v3:NotificationScheme
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:NotificationScheme|name
+  notificationSchemeEvents:
+    path: notificationSchemeEvents
+    source: research_shape
+    shape: sh:jira_openapi_v3:NotificationScheme
+    declaration:
+      name: notificationSchemeEvents
+      required: false
+      shape: sh:jira_openapi_v3:NotificationScheme.notificationSchemeEvents
+    map_items: []
+  projects:
+    path: projects
+    source: research_shape
+    shape: sh:jira_openapi_v3:NotificationScheme
+    declaration:
+      name: projects
+      required: false
+      shape: sh:jira_openapi_v3:NotificationScheme.projects
+    map_items:
+      - space:NotificationScheme|projects
+  scope:
+    path: scope
+    source: research_shape
+    shape: sh:jira_openapi_v3:NotificationScheme
+    declaration:
+      name: scope
+      required: false
+      shape: sh:jira_openapi_v3:Scope
+    map_items: []
+  self:
+    path: self
+    source: research_shape
+    shape: sh:jira_openapi_v3:NotificationScheme
+    declaration:
+      name: self
+      required: false
+      scalar: string
+    map_items:
+      - space:NotificationScheme|self
+references:
+  - name: description
+    field: description
+    target: field
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:09ddd09fa5d906c4a881ae1a; relation=no_relation
+  - name: scope_project
+    field: scope.project
+    target: ProjectDetails
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:14eaddad43c090f2919be491; relation=no_relation
+  - name: notificationschemeevents_notifications_field
+    field: notificationSchemeEvents.notifications.field
+    target: field
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:392781d8c833b709313ac976; relation=no_relation
+  - name: projects
+    field: projects
+    target: Project
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:42e6613d17a717fa69c289d6; relation=no_relation
+  - name: notificationschemeevents_notifications_recipient
+    field: notificationSchemeEvents.notifications.recipient
+    target: field
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5cff831cc484ce427341c404; relation=no_relation
+  - name: notificationschemeevents_notifications_user
+    field: notificationSchemeEvents.notifications.user
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:60fe3db3e34a33a21b59182e; relation=no_relation
+  - name: notificationschemeevents_notifications_parameter
+    field: notificationSchemeEvents.notifications.parameter
+    target: field
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:b37a6ff3f5d21d3e7f1e0cba; relation=no_relation
+  - name: notificationschemeevents_notifications_group
+    field: notificationSchemeEvents.notifications.group
+    target: GroupName
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f2c4054f4757cba1b51d8348; relation=no_relation
+  - name: notificationschemeevents_notifications_projectrole
+    field: notificationSchemeEvents.notifications.projectRole
+    target: ProjectRole
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f8981304f54184eef2c3b44f; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: jira
+  object_type: NotificationScheme
+  interfaces: *a1
+  model:
+    research_type: object-type:9b74cb45cb96783d86c0d660
+  extract:
+    key: PILOT-jira-NotificationScheme-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-JIRA-c0d660
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          description: description
+          expand: expand
+          id: id
+          name: name
+          notificationSchemeEvents: notificationSchemeEvents
+          projects: projects
+          scope: scope
+          self: self
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:jira_openapi_v3:getNotificationSchemes
+  operation: getNotificationSchemes
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /rest/api/3/notificationscheme(?:\?|$)
+  endpoint_template: /rest/api/3/notificationscheme
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:jira_openapi_v3:NotificationScheme
+      path:
+        - values
+        - "*"
+  alternatives_total: 2
+  alternatives:
+    - operation_id: op:jira_openapi_v3:getNotificationScheme
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/notificationscheme/{id}
+      path: &a3 []
+    - operation_id: op:jira_openapi_v3:getNotificationSchemeForProject
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/project/{projectKeyOrId}/notificationscheme
+      path: *a3
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 50149499a641110c6bf94b3e0ee694a3701d3edc48d8b17420580571d73451f8
+    ir/shape.jsonl: 04cf5db894bbfdfc38d902b2036b3e757a28481b16ff75ae2d2c4b7e06b0160e
+    ir/operation.jsonl: bb433b0144fc822588adb64649c5592094ef6f67746759ec57a2e9677bac5a94
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - description
+    - scope.project
+    - notificationSchemeEvents.notifications.field
+    - projects
+    - notificationSchemeEvents.notifications.recipient
+    - notificationSchemeEvents.notifications.user
+    - notificationSchemeEvents.notifications.parameter
+    - notificationSchemeEvents.notifications.group
+    - notificationSchemeEvents.notifications.projectRole
+  metadata_paths: *a2
+  remaining_declared_fields: properties

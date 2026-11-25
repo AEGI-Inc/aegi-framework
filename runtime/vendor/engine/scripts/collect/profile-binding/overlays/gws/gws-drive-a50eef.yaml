@@ -1,0 +1,63 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/drive.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-19
+        request:
+          drive: absent
+        items: drives
+    parent:
+      ref:
+        type: OrgUnit
+        id: orgUnitId
+    properties:
+      name: name
+      orgUnitId: orgUnitId
+      createdTime: createdTime
+      hidden: hidden
+      restrictions: restrictions
+    display: 공유 드라이브 {name|id}
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: OrgUnit
+          id: orgUnitId
+        basis: stated
+        require:
+          - target
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-DRIVE-{id}
+runtime_stub: null
+runtime_key: GWS-DRIVE-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Drive:list
+    sources:
+      - call: GW-19
+        request:
+          drive: absent
+        items: drives
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: OrgUnit
+          id: orgUnitId
+        basis: stated
+        require:
+          - target
+    self_identity: object_rule

@@ -1,0 +1,410 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: grant-full
+interfaces: &a1
+  - Assignment
+model:
+  research_type: object-type:4e1ff18799233354add57a06
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:4e1ff18799233354add57a06.identity_evidence
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: id
+      required: true
+      scalar: string
+    map_items:
+      - space:grant-full|id
+  createdBy:
+    path: createdBy
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: createdBy
+      required: true
+      shape: sh:okta_iga_openapi:created-by
+    map_items:
+      - space:grant-full|createdBy
+  created:
+    path: created
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: created
+      required: true
+      shape: sh:okta_iga_openapi:created
+    map_items:
+      - space:grant-full|created
+  lastUpdated:
+    path: lastUpdated
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: lastUpdated
+      required: true
+      shape: sh:okta_iga_openapi:last-updated
+    map_items:
+      - space:grant-full|lastUpdated
+  lastUpdatedBy:
+    path: lastUpdatedBy
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: lastUpdatedBy
+      required: true
+      shape: sh:okta_iga_openapi:last-updated-by
+    map_items:
+      - space:grant-full|lastUpdatedBy
+  _links:
+    path: _links
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: _links
+      required: true
+      shape: sh:okta_iga_openapi:resource-grant-links
+    map_items: []
+  grantType:
+    path: grantType
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: grantType
+      required: true
+      shape: sh:okta_iga_openapi:grant-type
+    map_items:
+      - space:grant-full|grantType
+  entitlementBundleId:
+    path: entitlementBundleId
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: entitlementBundleId
+      required: false
+      shape: sh:okta_iga_openapi:entitlement-bundle-id
+    map_items:
+      - space:grant-full|entitlementBundleId
+  targetPrincipalOrn:
+    path: targetPrincipalOrn
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: targetPrincipalOrn
+      required: true
+      shape: sh:okta_iga_openapi:user-orn
+    map_items:
+      - space:grant-full|targetPrincipalOrn
+  targetPrincipal:
+    path: targetPrincipal
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: targetPrincipal
+      required: true
+      shape: sh:okta_iga_openapi:target-principal-full
+    map_items: []
+  action:
+    path: action
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: action
+      required: true
+      shape: sh:okta_iga_openapi:grant-action
+    map_items:
+      - space:grant-full|action
+  actor:
+    path: actor
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: actor
+      required: true
+      shape: sh:okta_iga_openapi:grant-actor-full
+    map_items:
+      - space:grant-full|actor
+  targetResourceOrn:
+    path: targetResourceOrn
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: targetResourceOrn
+      required: true
+      shape: sh:okta_iga_openapi:resource-orn
+    map_items:
+      - space:grant-full|targetResourceOrn
+  target:
+    path: target
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: target
+      required: true
+      shape: sh:okta_iga_openapi:target-resource
+    map_items:
+      - space:grant-full|target
+  entitlements:
+    path: entitlements
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: entitlements
+      required: false
+      shape: sh:okta_iga_openapi:entitlements-creatable
+    map_items: []
+  scheduleSettings:
+    path: scheduleSettings
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: scheduleSettings
+      required: false
+      shape: sh:okta_iga_openapi:schedule-settings-writeable
+    map_items: []
+  status:
+    path: status
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: status
+      required: true
+      shape: sh:okta_iga_openapi:grant-status
+    map_items:
+      - space:grant-full|status
+  metadata:
+    path: metadata
+    source: research_shape
+    shape: sh:okta_iga_openapi:grant-full
+    declaration:
+      name: metadata
+      required: false
+      shape: sh:okta_iga_openapi:grant-metadata
+    map_items: []
+references:
+  - name: entitlements
+    field: entitlements
+    target: entitlements-full-with-parent
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:06e9fcebe01d9407d4bd00be; relation=no_relation
+  - name: lastupdatedby
+    field: lastUpdatedBy
+    target: UserGetSingleton
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:08f56001b789a5640b21c5a5; relation=no_relation
+  - name: links_self_href
+    field: _links.self.href
+    target: collection-resource-full-v2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:19627235ab643292b984b54d; relation=no_relation
+  - name: links_entitlementbundle_href
+    field: _links.entitlementBundle.href
+    target: entitlement-bundle-full-with-entitlements
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:52021392343abdc43d2785d9; relation=no_relation
+  - name: entitlements_values_id
+    field: entitlements.values.id
+    target: entitlement-value-2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:61753d11a7b537965f865678; relation=no_relation
+  - name: createdby
+    field: createdBy
+    target: UserGetSingleton
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6f5bc0a9ae01c0e5c60ba936; relation=no_relation
+  - name: targetprincipal_externalid
+    field: targetPrincipal.externalId
+    target: UserGetSingleton
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:79f9fd814c7911e1d9e97172; relation=no_relation
+  - name: target
+    field: target
+    target: target-resource
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:7e68d2f65c906cf412ee4190; relation=no_relation
+  - name: entitlements_id
+    field: entitlements.id
+    target: entitlements-full-with-parent
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c201b3e79c2596d10ab40a99; relation=no_relation
+constants: {}
+row_contracts:
+  expires_at:
+    const: null
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: grant-full
+  interfaces: *a1
+  model:
+    research_type: object-type:4e1ff18799233354add57a06
+  extract:
+    key: PILOT-okta-grant-full-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-OKTA-d57a06
+            endpoint: /
+            items:
+              - (root)
+              - (root)
+        properties:
+          _links: _links
+          action: action
+          actor: actor
+          created: created
+          createdBy: createdBy
+          entitlementBundleId: entitlementBundleId
+          entitlements: entitlements
+          grantType: grantType
+          id: id
+          lastUpdated: lastUpdated
+          lastUpdatedBy: lastUpdatedBy
+          metadata: metadata
+          scheduleSettings: scheduleSettings
+          status: status
+          target: target
+          targetPrincipal: targetPrincipal
+          targetPrincipalOrn: targetPrincipalOrn
+          targetResourceOrn: targetResourceOrn
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_iga_openapi:getGrant
+  operation: getGrant
+  surface: rest
+  method: GET
+  kind: read_one
+  endpoint: /governance/api/v1/grants/[^/]+(?:\?|$)
+  endpoint_template: /governance/api/v1/grants/{grantId}
+  request: {}
+  required_params:
+    - grantId
+  paths:
+    - shape: sh:okta_iga_openapi:grant-full
+      path: []
+  alternatives_total: 3
+  alternatives:
+    - operation_id: op:okta_iga_openapi:getGrant
+      method: GET
+      kind: read_one
+      endpoint_template: /governance/api/v1/grants/{grantId}
+      path: []
+    - operation_id: op:okta_iga_openapi:listGrants
+      method: GET
+      kind: read_one
+      endpoint_template: /governance/api/v1/grants
+      path:
+        - data
+        - "*"
+    - operation_id: op:okta_iga_openapi:listGrants
+      method: GET
+      kind: read_one
+      endpoint_template: /governance/api/v1/grants
+      path:
+        - data
+        - "*"
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - entitlements
+    - lastUpdatedBy
+    - _links.self.href
+    - _links.entitlementBundle.href
+    - entitlements.values.id
+    - createdBy
+    - targetPrincipal.externalId
+    - target
+    - entitlements.id
+  metadata_paths: *a2
+  remaining_declared_fields: properties

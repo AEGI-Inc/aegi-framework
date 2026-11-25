@@ -1,0 +1,233 @@
+/* 시맨틱 줌 인라인 스텝 슬라이더 (Semantic Zoom Inline Slider in Toolbar) */
+
+.gx-control-menu.gx-slider-menu {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  width: 196px;
+  min-width: 196px;
+  max-width: 196px;
+  height: 34px;
+  padding: 0 8px 0 10px;
+  border: 1px solid #d7e0e9;
+  border-radius: 0;
+  background: #ffffff;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.gx-slider-menu > .gx-slider-kicker {
+  display: inline-flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 8px 0 0;
+  border-right: 1px solid #e2e8f0;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs, 11px);
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text-primary, #0f172a);
+  white-space: nowrap;
+  flex: none;
+}
+
+.sz-inline-slider {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  gap: 1px;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* 슬라이더 트랙 영역 (드래그 및 클릭 상호작용)
+   양끝 라벨(SaaS, 개별)의 절반 폭만큼 좌우 여백(14px)을 두어
+   4개 점과 4개 라벨이 모두 동일한 중심축(translateX(-50%))에서 정렬되게 한다 */
+.sz-slider-track-wrap {
+  position: relative;
+  margin: 0 14px;
+  width: calc(100% - 28px);
+  height: 14px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+  outline: none;
+}
+
+.sz-slider-track-wrap.is-dragging {
+  cursor: grabbing;
+}
+
+.sz-slider-track-wrap:focus-visible {
+  outline: 2px solid var(--color-select, #1d4ed8);
+  outline-offset: 2px;
+}
+
+/* 기본 레일 */
+.sz-slider-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--color-border-subtle, #e2e8f0);
+  border-radius: 0;
+}
+
+/* 채움 트랙 */
+.sz-slider-fill {
+  position: absolute;
+  left: 0;
+  height: 3px;
+  background: var(--color-select, #1d4ed8);
+  border-radius: 0;
+  transition: width 120ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sz-slider-track-wrap.is-dragging .sz-slider-fill {
+  transition: none;
+}
+
+/* 고정 스텝 눈금 점 컨테이너 */
+.sz-slider-ticks {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 100%;
+  pointer-events: none;
+}
+
+.sz-slider-tick {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-card-line, #cbd5e1);
+  box-sizing: border-box;
+  transition: background-color 120ms ease;
+}
+
+.sz-slider-tick.is-passed,
+.sz-slider-tick.is-hovered {
+  background: var(--color-select, #1d4ed8);
+}
+
+.sz-slider-tick.is-hovered {
+  transform: translate(-50%, -50%) scale(1.3);
+}
+
+/* 포인터를 따라 움직이는 원형 핸들 (Thumb) */
+.sz-slider-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2.5px solid var(--color-select, #1d4ed8);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.22);
+  box-sizing: border-box;
+  pointer-events: none;
+  transition: left 120ms cubic-bezier(0.22, 1, 0.36, 1), transform 120ms ease;
+}
+
+.sz-slider-thumb.is-dragging {
+  transition: none;
+  transform: translate(-50%, -50%) scale(1.12);
+}
+
+.sz-slider-track-wrap:hover .sz-slider-thumb:not(.is-dragging) {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+/* 하단 단계 라벨: 트랙과 동일한 좌우 여백(14px)을 사용하여 각 점 바로 아래 중앙 정렬 */
+.sz-slider-labels {
+  position: relative;
+  margin: 0 14px;
+  width: calc(100% - 28px);
+  height: 12px;
+}
+
+.sz-slider-label-btn {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  padding: 0 2px;
+  margin: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  line-height: 1.15;
+  color: var(--color-text-primary, #0f172a);
+  white-space: nowrap;
+  outline: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sz-slider-label-btn span {
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-text-primary, #0f172a);
+  transition: color 120ms ease;
+}
+
+.sz-slider-label-btn:hover span,
+.sz-slider-label-btn.is-hovered span {
+  color: var(--color-select, #1d4ed8);
+}
+
+.sz-slider-label-btn.is-selected span {
+  color: var(--color-select, #1d4ed8);
+  font-weight: var(--font-weight-bold, 700);
+}
+
+.sz-slider-label-btn:focus-visible {
+  outline: 2px solid var(--color-select, #1d4ed8);
+  outline-offset: 1px;
+}
+
+/* 호버 시 하단에 표시되는 단계 설명 툴팁 */
+.sz-slider-tooltip {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: -1px;
+  z-index: 31;
+  display: grid;
+  gap: 3px;
+  box-sizing: border-box;
+  width: 248px;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 0;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+  color: var(--color-text-primary, #0f172a);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs, 11px);
+  line-height: 1.45;
+  pointer-events: none;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.sz-slider-tooltip-title {
+  font-size: var(--font-size-sm, 12px);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-primary, #0f172a);
+}
+
+.sz-slider-tooltip-desc {
+  margin: 0;
+  color: var(--color-text-primary, #0f172a);
+}

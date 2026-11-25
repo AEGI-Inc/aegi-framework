@@ -1,0 +1,8 @@
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+emit:
+  merge_into: 200.team
+manual_basis: team.info(SL-00) 는 legacy view(objs_team)가 대표로 뽑힌다(R3-D01 과 같은 RPC
+  view 문제). 현행 카탈로그 workspace Profile 의 연구 타입은 200.team 이다. 같은 팀 ID(T…)

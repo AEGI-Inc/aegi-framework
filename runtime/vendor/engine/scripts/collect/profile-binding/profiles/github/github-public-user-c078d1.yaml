@@ -1,0 +1,697 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: public-user
+interfaces: &a1
+  - Principal
+model:
+  research_type: object-type:44facbc554fc104c84c078d1
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:44facbc554fc104c84c078d1.identity_evidence
+  aliases:
+    - name: login
+      expr: login
+      stability: mutable
+      classification: self_address
+      evidence:
+        source: gh_rest_ghec_next_2026_03_10_latest
+        locator: public-user.login
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  login:
+    path: login
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: login
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|login
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: int64
+      name: id
+      required: true
+      scalar: integer
+    map_items:
+      - space:public-user|id
+  user_view_type:
+    path: user_view_type
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: user_view_type
+      required: false
+      scalar: string
+    map_items:
+      - space:public-user|user_view_type
+  node_id:
+    path: node_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: node_id
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|node_id
+  avatar_url:
+    path: avatar_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: uri
+      name: avatar_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|avatar_url
+  gravatar_id:
+    path: gravatar_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: gravatar_id
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|gravatar_id
+  url:
+    path: url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: uri
+      name: url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|url
+  html_url:
+    path: html_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: uri
+      name: html_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|html_url
+  followers_url:
+    path: followers_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: uri
+      name: followers_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|followers_url
+  following_url:
+    path: following_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: following_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|following_url
+  gists_url:
+    path: gists_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: gists_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|gists_url
+  starred_url:
+    path: starred_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: starred_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|starred_url
+  subscriptions_url:
+    path: subscriptions_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: uri
+      name: subscriptions_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|subscriptions_url
+  organizations_url:
+    path: organizations_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: uri
+      name: organizations_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|organizations_url
+  repos_url:
+    path: repos_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: uri
+      name: repos_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|repos_url
+  events_url:
+    path: events_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: events_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|events_url
+  received_events_url:
+    path: received_events_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: uri
+      name: received_events_url
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|received_events_url
+  type:
+    path: type
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: type
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|type
+  site_admin:
+    path: site_admin
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: site_admin
+      required: true
+      scalar: boolean
+    map_items:
+      - space:public-user|site_admin
+  name:
+    path: name
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: name
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|name
+  company:
+    path: company
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: company
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|company
+  blog:
+    path: blog
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: blog
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|blog
+  location:
+    path: location
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: location
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|location
+  email:
+    path: email
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: email
+      name: email
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|email
+  notification_email:
+    path: notification_email
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: email
+      name: notification_email
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:public-user|notification_email
+  hireable:
+    path: hireable
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: hireable
+      nullable: true
+      required: true
+      scalar: boolean
+    map_items:
+      - space:public-user|hireable
+  bio:
+    path: bio
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: bio
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|bio
+  twitter_username:
+    path: twitter_username
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: twitter_username
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:public-user|twitter_username
+  public_repos:
+    path: public_repos
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: public_repos
+      required: true
+      scalar: integer
+    map_items:
+      - space:public-user|public_repos
+  public_gists:
+    path: public_gists
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: public_gists
+      required: true
+      scalar: integer
+    map_items:
+      - space:public-user|public_gists
+  followers:
+    path: followers
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: followers
+      required: true
+      scalar: integer
+    map_items:
+      - space:public-user|followers
+  following:
+    path: following
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: following
+      required: true
+      scalar: integer
+    map_items:
+      - space:public-user|following
+  created_at:
+    path: created_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: date-time
+      name: created_at
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|created_at
+  updated_at:
+    path: updated_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      format: date-time
+      name: updated_at
+      required: true
+      scalar: string
+    map_items:
+      - space:public-user|updated_at
+  private_gists:
+    path: private_gists
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: private_gists
+      required: true
+      scalar: integer
+    map_items:
+      - space:public-user|private_gists
+  total_private_repos:
+    path: total_private_repos
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: total_private_repos
+      required: true
+      scalar: integer
+    map_items:
+      - space:public-user|total_private_repos
+  owned_private_repos:
+    path: owned_private_repos
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: owned_private_repos
+      required: true
+      scalar: integer
+    map_items:
+      - space:public-user|owned_private_repos
+  disk_usage:
+    path: disk_usage
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: disk_usage
+      required: true
+      scalar: integer
+    map_items:
+      - space:public-user|disk_usage
+  collaborators:
+    path: collaborators
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: collaborators
+      required: true
+      scalar: integer
+    map_items:
+      - space:public-user|collaborators
+  two_factor_authentication:
+    path: two_factor_authentication
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: two_factor_authentication
+      required: true
+      scalar: boolean
+    map_items:
+      - space:public-user|two_factor_authentication
+  plan:
+    path: plan
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: plan
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user.plan
+    map_items: []
+  business_plus:
+    path: business_plus
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: business_plus
+      required: false
+      scalar: boolean
+    map_items:
+      - space:public-user|business_plus
+  ldap_dn:
+    path: ldap_dn
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+    declaration:
+      name: ldap_dn
+      required: false
+      scalar: string
+    map_items:
+      - space:public-user|ldap_dn
+references: []
+constants: {}
+row_contracts:
+  principal_kind:
+    if:
+      equals:
+        - type
+        - User
+    then: human
+    else:
+      if:
+        equals:
+          - type
+          - Bot
+      then: service
+      else:
+        if:
+          equals:
+            - type
+            - Organization
+        then: group
+        else: unknown
+  account_kind:
+    if:
+      equals:
+        - type
+        - User
+    then: human
+    else:
+      if:
+        equals:
+          - type
+          - Bot
+      then: app
+      else: unknown
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: public-user
+  interfaces: *a1
+  model:
+    research_type: object-type:44facbc554fc104c84c078d1
+  extract:
+    key: PILOT-github-public-user-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-GITHUB-c078d1
+            endpoint: /
+            items:
+              - (root)
+              - (root)
+        properties:
+          avatar_url: avatar_url
+          bio: bio
+          blog: blog
+          business_plus: business_plus
+          collaborators: collaborators
+          company: company
+          created_at: created_at
+          disk_usage: disk_usage
+          email: email
+          events_url: events_url
+          followers: followers
+          followers_url: followers_url
+          following: following
+          following_url: following_url
+          gists_url: gists_url
+          gravatar_id: gravatar_id
+          hireable: hireable
+          html_url: html_url
+          id: id
+          ldap_dn: ldap_dn
+          location: location
+          login: login
+          name: name
+          node_id: node_id
+          notification_email: notification_email
+          organizations_url: organizations_url
+          owned_private_repos: owned_private_repos
+          plan: plan
+          private_gists: private_gists
+          public_gists: public_gists
+          public_repos: public_repos
+          received_events_url: received_events_url
+          repos_url: repos_url
+          site_admin: site_admin
+          starred_url: starred_url
+          subscriptions_url: subscriptions_url
+          total_private_repos: total_private_repos
+          twitter_username: twitter_username
+          two_factor_authentication: two_factor_authentication
+          type: type
+          updated_at: updated_at
+          url: url
+          user_view_type: user_view_type
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_with_records
+  call: GH-03
+  operation_id: op:gh_rest_ghec_next_2026_03_10_latest:users/get-by-username
+  operation: users/get-by-username
+  surface: rest
+  method: GET
+  kind: read_one
+  endpoint: /users/[^/]+(?:\?|$)
+  endpoint_template: /users/{username}
+  request: {}
+  required_params:
+    - username
+  paths:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:private-user
+      path: []
+  alternatives_total: 5
+  alternatives:
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:users/get-by-username
+      method: GET
+      kind: read_one
+      endpoint_template: /users/{username}
+      path: []
+      collected_calls:
+        - GH-03
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:users/get-authenticated
+      method: GET
+      kind: read_one
+      endpoint_template: /user
+      path: []
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:users/get-authenticated
+      method: GET
+      kind: read_one
+      endpoint_template: /user
+      path: []
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:users/get-by-id
+      method: GET
+      kind: read_one
+      endpoint_template: /user/{account_id}
+      path: []
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:users/get-by-id
+      method: GET
+      kind: read_one
+      endpoint_template: /user/{account_id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 3
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+    - login
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

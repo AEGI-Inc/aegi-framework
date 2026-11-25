@@ -1,0 +1,67 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: salesforce
+object_type: FlowSlackActionEndpoint
+interfaces: [Endpoint]
+model:
+  runtime_type_id: automation-source-bindings/1:salesforce:FlowSlackActionEndpoint
+  source: aegi-knowledge/schema/ontology/automation-sources.yaml
+identity:
+  primary:
+    - {name: version, expr: $parent.Id, stability: stable}
+    - {name: action, expr: name, stability: stable}
+  scope: parent
+fields: {}
+runtime_key: SF-FLOW-SLACK-{version}-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+# 활성 Flow 버전의 Slack 동작(slackPostMessage)마다 통로 하나. Flow 는 조직에 연결된 Slack 앱의 토큰으로 글을 올린다.
+# 채널 id 를 글자로 넣은 동작만 만든다. 변수나 수식으로 넣은 값(resolution 이 literal 이 아님)은 어디로 가는지 모르니 만들지 않는다
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SF-09
+        request: {kind: flow_metadata}
+        items: (root)
+        each: flow_definition.actions
+        where:
+          all:
+            - {path: action_type, eq: slackPostMessage}
+            - path: {op: some, of: identifiers, where: {all: [{path: $item.name, eq: slackConversationId}, {path: $item.resolution, eq: literal}]}}
+              truthy: true
+    vars:
+      conversation:
+        op: find
+        of: identifiers
+        where: {path: $item.name, eq: slackConversationId}
+      workspace:
+        op: find
+        of: identifiers
+        where: {all: [{path: $item.name, eq: slackWorkspaceIdForToken}, {path: $item.resolution, eq: literal}]}
+      app:
+        op: find
+        of: identifiers
+        where: {all: [{path: $item.name, eq: slackAppIdForToken}, {path: $item.resolution, eq: literal}]}
+    id_expr: name
+    parts:
+      version: $parent.Id
+    properties:
+      action_name: name
+      action_type: action_type
+      flow_active_version_id: $parent.Id
+      slack_conversation_id: $vars.conversation.value
+      slack_workspace_id: $vars.workspace.value
+      slack_app_id: $vars.app.value
+      direction: {const: out}
+    display: "Flow Slack 동작 {name} → {$vars.conversation.value}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: FlowDefinitionView
+          lookup: ActiveVersionId
+          value: $parent.Id
+        basis: stated
+        require: [target]

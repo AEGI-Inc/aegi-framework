@@ -1,0 +1,68 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/agent_pool.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-23
+        where:
+          path: id
+          present: true
+    properties:
+      name: name
+      type: type
+      operationalStatus: operationalStatus
+      disruptedAgents: disruptedAgents
+      inactiveAgents: inactiveAgents
+      agents:
+        op: map_each
+        of: agents
+        value:
+          object:
+            id: $item.id
+            name: $item.name
+            version: $item.version
+            operationalStatus: $item.operationalStatus
+            lastConnection: $item.lastConnection
+      operational_state:
+        op: map
+        of: operationalStatus
+        table:
+          OPERATIONAL: active
+        default:
+          const: unknown
+    display: 에이전트 풀 {name|id}
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-AGENTPOOL-{id}
+runtime_stub: null
+runtime_key: OKTA-AGENTPOOL-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: AgentPool:list
+    sources:
+      - call: OK-23
+        where:
+          path: id
+          present: true
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule

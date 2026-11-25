@@ -1,0 +1,1149 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: CartItem
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:1a10fdd5f8fe7eacbbba3aa1
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:1a10fdd5f8fe7eacbbba3aa1.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|Id
+  AdjustmentAmount:
+    path: AdjustmentAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: AdjustmentAmount
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|AdjustmentAmount
+  AdjustmentTaxAmount:
+    path: AdjustmentTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: AdjustmentTaxAmount
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|AdjustmentTaxAmount
+  AssociatedItemPricing:
+    path: AssociatedItemPricing
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: AssociatedItemPricing
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|AssociatedItemPricing
+  BillingFrequency:
+    path: BillingFrequency
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: BillingFrequency
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|BillingFrequency
+  CartDeliveryGroupId:
+    path: CartDeliveryGroupId
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: CartDeliveryGroupId
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|CartDeliveryGroupId
+  CartId:
+    path: CartId
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: CartId
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|CartId
+  ChildProductCount:
+    path: ChildProductCount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: int
+      name: ChildProductCount
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:CartItem|ChildProductCount
+  ConfigureDuringSale:
+    path: ConfigureDuringSale
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: ConfigureDuringSale
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|ConfigureDuringSale
+  CurrencyIsoCode:
+    path: CurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: CurrencyIsoCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|CurrencyIsoCode
+  DistributedAdjustment:
+    path: DistributedAdjustment
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: DistributedAdjustment
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|DistributedAdjustment
+  EndQuantity:
+    path: EndQuantity
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: double
+      name: EndQuantity
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|EndQuantity
+  FirstPymtPriceAferAdjustments:
+    path: FirstPymtPriceAferAdjustments
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: FirstPymtPriceAferAdjustments
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|FirstPymtPriceAferAdjustments
+  FirstPymtTax:
+    path: FirstPymtTax
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: FirstPymtTax
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|FirstPymtTax
+  GrossAdjustmentAmount:
+    path: GrossAdjustmentAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: GrossAdjustmentAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|GrossAdjustmentAmount
+  GrossUnitPrice:
+    path: GrossUnitPrice
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: GrossUnitPrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|GrossUnitPrice
+  IsShippingChargeNot:
+    path: IsShippingChargeNot
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: boolean
+      name: IsShippingChargeNot
+      required: false
+      scalar: boolean
+    map_items:
+      - space:CartItem|IsShippingChargeNot
+  ItemizedAdjustment:
+    path: ItemizedAdjustment
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: ItemizedAdjustment
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|ItemizedAdjustment
+  ListPrice:
+    path: ListPrice
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: ListPrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|ListPrice
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: string
+      name: Name
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|Name
+  NetAdjustmentAmount:
+    path: NetAdjustmentAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: NetAdjustmentAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|NetAdjustmentAmount
+  NetUnitPrice:
+    path: NetUnitPrice
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: NetUnitPrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|NetUnitPrice
+  NetUnitPriceAfterAdjustments:
+    path: NetUnitPriceAfterAdjustments
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: NetUnitPriceAfterAdjustments
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|NetUnitPriceAfterAdjustments
+  ParentCartItemId:
+    path: ParentCartItemId
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: ParentCartItemId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|ParentCartItemId
+  PerUnitWeight:
+    path: PerUnitWeight
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: double
+      name: PerUnitWeight
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|PerUnitWeight
+  PeriodBoundary:
+    path: PeriodBoundary
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: PeriodBoundary
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|PeriodBoundary
+  PeriodBoundaryDay:
+    path: PeriodBoundaryDay
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: int
+      name: PeriodBoundaryDay
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:CartItem|PeriodBoundaryDay
+  PeriodBoundaryStartMonth:
+    path: PeriodBoundaryStartMonth
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: PeriodBoundaryStartMonth
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|PeriodBoundaryStartMonth
+  PriceBookEntryId:
+    path: PriceBookEntryId
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: PriceBookEntryId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|PriceBookEntryId
+  PricingTermCount:
+    path: PricingTermCount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: double
+      name: PricingTermCount
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|PricingTermCount
+  Product2Id:
+    path: Product2Id
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: Product2Id
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|Product2Id
+  ProductClass:
+    path: ProductClass
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: ProductClass
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|ProductClass
+  ProductRelated:
+    path: ProductRelated
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: ProductRelated
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|ProductRelated
+  ProductSellingModelId:
+    path: ProductSellingModelId
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: ProductSellingModelId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|ProductSellingModelId
+  ProductValidationKey:
+    path: ProductValidationKey
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: string
+      name: ProductValidationKey
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|ProductValidationKey
+  ProductRelationshipTypeId:
+    path: ProductRelationshipTypeId
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: ProductRelationshipTypeId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|ProductRelationshipTypeId
+  ProrationPolicyId:
+    path: ProrationPolicyId
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: ProrationPolicyId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|ProrationPolicyId
+  StartQuantity:
+    path: StartQuantity
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: double
+      name: StartQuantity
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|StartQuantity
+  Quantity:
+    path: Quantity
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: double
+      name: Quantity
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|Quantity
+  QuoteLineItemId:
+    path: QuoteLineItemId
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: QuoteLineItemId
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|QuoteLineItemId
+  QuantityScaleMethod:
+    path: QuantityScaleMethod
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: QuantityScaleMethod
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|QuantityScaleMethod
+  SalesPrice:
+    path: SalesPrice
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: SalesPrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|SalesPrice
+  SellingModelType:
+    path: SellingModelType
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: SellingModelType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|SellingModelType
+  Sku:
+    path: Sku
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: string
+      name: Sku
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|Sku
+  StockCheckMethod:
+    path: StockCheckMethod
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: StockCheckMethod
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|StockCheckMethod
+  SubType:
+    path: SubType
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: SubType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|SubType
+  SubscriptionTerm:
+    path: SubscriptionTerm
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: int
+      name: SubscriptionTerm
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:CartItem|SubscriptionTerm
+  TaxTreatmentId:
+    path: TaxTreatmentId
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: reference
+      name: TaxTreatmentId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|TaxTreatmentId
+  TotalAdjustmentAmount:
+    path: TotalAdjustmentAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalAdjustmentAmount
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalAdjustmentAmount
+  TotalAmount:
+    path: TotalAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalAmount
+  TotalFirstPymtAdjAmount:
+    path: TotalFirstPymtAdjAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalFirstPymtAdjAmount
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalFirstPymtAdjAmount
+  TotalFirstPymtListPrice:
+    path: TotalFirstPymtListPrice
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalFirstPymtListPrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalFirstPymtListPrice
+  TotalFirstPymtPrice:
+    path: TotalFirstPymtPrice
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalFirstPymtPrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalFirstPymtPrice
+  TotalLineAmount:
+    path: TotalLineAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalLineAmount
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalLineAmount
+  TotalLineFirstPymtAmount:
+    path: TotalLineFirstPymtAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalLineFirstPymtAmount
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalLineFirstPymtAmount
+  TotalLineFirstPymtTaxAmount:
+    path: TotalLineFirstPymtTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalLineFirstPymtTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalLineFirstPymtTaxAmount
+  TotalLineGrossAmount:
+    path: TotalLineGrossAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalLineGrossAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalLineGrossAmount
+  TotalLineNetAmount:
+    path: TotalLineNetAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalLineNetAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalLineNetAmount
+  TotalLineTaxAmount:
+    path: TotalLineTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalLineTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalLineTaxAmount
+  TotalListPrice:
+    path: TotalListPrice
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalListPrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalListPrice
+  TotalPrice:
+    path: TotalPrice
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalPrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalPrice
+  TotalPriceAfterAll:
+    path: TotalPriceAfterAll
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalPriceAfterAll
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalPriceAfterAll
+  TotalPriceTaxAmount:
+    path: TotalPriceTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalPriceTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalPriceTaxAmount
+  TotalPromo:
+    path: TotalPromo
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalPromo
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalPromo
+  TotalPromoAdjustment:
+    path: TotalPromoAdjustment
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalPromoAdjustment
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalPromoAdjustment
+  TotalTaxAmount:
+    path: TotalTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: TotalTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalTaxAmount
+  TotalWeight:
+    path: TotalWeight
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: double
+      name: TotalWeight
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|TotalWeight
+  Type:
+    path: Type
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: Type
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|Type
+  UnitAdjustedPrice:
+    path: UnitAdjustedPrice
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: UnitAdjustedPrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|UnitAdjustedPrice
+  UnitAdjustmentAmount:
+    path: UnitAdjustmentAmount
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: UnitAdjustmentAmount
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|UnitAdjustmentAmount
+  UnitItemAdjustment:
+    path: UnitItemAdjustment
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: UnitItemAdjustment
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|UnitItemAdjustment
+  UnitPriceAfterAdjustments:
+    path: UnitPriceAfterAdjustments
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: currency
+      name: UnitPriceAfterAdjustments
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:CartItem|UnitPriceAfterAdjustments
+  WeightUnit:
+    path: WeightUnit
+    source: research_shape
+    shape: sh:sf_object_reference:CartItem
+    declaration:
+      format: picklist
+      name: WeightUnit
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:CartItem|WeightUnit
+references:
+  - name: taxtreatmentid
+    field: TaxTreatmentId
+    target: TaxTreatment
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0d35401ef6f1bc86b82df028; relation=no_relation
+  - name: pricebookentryid
+    field: PriceBookEntryId
+    target: PricebookEntry
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2e5577d412e99af3ba3be463; relation=no_relation
+  - name: cartid
+    field: CartId
+    target: WebCart
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:4e6dcc5c2cf94d0135d75670; relation=no_relation
+  - name: productrelated
+    field: ProductRelated
+    target: ProductRelatedComponent
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:736bff8fc45ea6f420d07953; relation=no_relation
+  - name: product2id
+    field: Product2Id
+    target: Product2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9a4a524b0eb96a4e535d46d1; relation=no_relation
+  - name: cartdeliverygroupid
+    field: CartDeliveryGroupId
+    target: CartDeliveryGroup
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c3bb7cc215d704b064776bc8; relation=no_relation
+  - name: productsellingmodelid
+    field: ProductSellingModelId
+    target: ProductSellingModel
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:ee6e67c62b0520f295c4dfe5; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: CartItem
+  interfaces: *a1
+  model:
+    research_type: object-type:1a10fdd5f8fe7eacbbba3aa1
+  extract:
+    key: PILOT-salesforce-CartItem-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-ba3aa1
+            endpoint: /
+            items:
+              - records
+        properties:
+          AdjustmentAmount: AdjustmentAmount
+          AdjustmentTaxAmount: AdjustmentTaxAmount
+          AssociatedItemPricing: AssociatedItemPricing
+          BillingFrequency: BillingFrequency
+          CartDeliveryGroupId: CartDeliveryGroupId
+          CartId: CartId
+          ChildProductCount: ChildProductCount
+          ConfigureDuringSale: ConfigureDuringSale
+          CurrencyIsoCode: CurrencyIsoCode
+          DistributedAdjustment: DistributedAdjustment
+          EndQuantity: EndQuantity
+          FirstPymtPriceAferAdjustments: FirstPymtPriceAferAdjustments
+          FirstPymtTax: FirstPymtTax
+          GrossAdjustmentAmount: GrossAdjustmentAmount
+          GrossUnitPrice: GrossUnitPrice
+          Id: Id
+          IsShippingChargeNot: IsShippingChargeNot
+          ItemizedAdjustment: ItemizedAdjustment
+          ListPrice: ListPrice
+          Name: Name
+          NetAdjustmentAmount: NetAdjustmentAmount
+          NetUnitPrice: NetUnitPrice
+          NetUnitPriceAfterAdjustments: NetUnitPriceAfterAdjustments
+          ParentCartItemId: ParentCartItemId
+          PerUnitWeight: PerUnitWeight
+          PeriodBoundary: PeriodBoundary
+          PeriodBoundaryDay: PeriodBoundaryDay
+          PeriodBoundaryStartMonth: PeriodBoundaryStartMonth
+          PriceBookEntryId: PriceBookEntryId
+          PricingTermCount: PricingTermCount
+          Product2Id: Product2Id
+          ProductClass: ProductClass
+          ProductRelated: ProductRelated
+          ProductRelationshipTypeId: ProductRelationshipTypeId
+          ProductSellingModelId: ProductSellingModelId
+          ProductValidationKey: ProductValidationKey
+          ProrationPolicyId: ProrationPolicyId
+          Quantity: Quantity
+          QuantityScaleMethod: QuantityScaleMethod
+          QuoteLineItemId: QuoteLineItemId
+          SalesPrice: SalesPrice
+          SellingModelType: SellingModelType
+          Sku: Sku
+          StartQuantity: StartQuantity
+          StockCheckMethod: StockCheckMethod
+          SubType: SubType
+          SubscriptionTerm: SubscriptionTerm
+          TaxTreatmentId: TaxTreatmentId
+          TotalAdjustmentAmount: TotalAdjustmentAmount
+          TotalAmount: TotalAmount
+          TotalFirstPymtAdjAmount: TotalFirstPymtAdjAmount
+          TotalFirstPymtListPrice: TotalFirstPymtListPrice
+          TotalFirstPymtPrice: TotalFirstPymtPrice
+          TotalLineAmount: TotalLineAmount
+          TotalLineFirstPymtAmount: TotalLineFirstPymtAmount
+          TotalLineFirstPymtTaxAmount: TotalLineFirstPymtTaxAmount
+          TotalLineGrossAmount: TotalLineGrossAmount
+          TotalLineNetAmount: TotalLineNetAmount
+          TotalLineTaxAmount: TotalLineTaxAmount
+          TotalListPrice: TotalListPrice
+          TotalPrice: TotalPrice
+          TotalPriceAfterAll: TotalPriceAfterAll
+          TotalPriceTaxAmount: TotalPriceTaxAmount
+          TotalPromo: TotalPromo
+          TotalPromoAdjustment: TotalPromoAdjustment
+          TotalTaxAmount: TotalTaxAmount
+          TotalWeight: TotalWeight
+          Type: Type
+          UnitAdjustedPrice: UnitAdjustedPrice
+          UnitAdjustmentAmount: UnitAdjustmentAmount
+          UnitItemAdjustment: UnitItemAdjustment
+          UnitPriceAfterAdjustments: UnitPriceAfterAdjustments
+          WeightUnit: WeightUnit
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:CartItem.query
+  operation: CartItem.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: CartItem
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:CartItem
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:CartItem.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/CartItem/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - TaxTreatmentId
+    - PriceBookEntryId
+    - CartId
+    - ProductRelated
+    - Product2Id
+    - CartDeliveryGroupId
+    - ProductSellingModelId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

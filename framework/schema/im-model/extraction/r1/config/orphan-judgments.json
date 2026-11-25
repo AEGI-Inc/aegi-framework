@@ -1,0 +1,205 @@
+{
+  "_basis": "r1-pilot 고아 판정 표. 이번 run 에서 값이 관측된 고아 그룹의 record 내용만 다룬다. rule 은 adopted rulebook(aegi-knowledge/schema/im-model/extraction/ir2/v2/rulebook/rules.json) ID 다. status: rule_applied_needs_review 는 기존 규칙을 이 세션이 적용한 것이며 사용자 결정이 아니다. R1-D03, R1-D04 는 2026-10-25 사용자 결정(config/decisions.json)이다",
+  "judgments": {
+    "orphan:sh:gws_reports:Activities": {
+      "record_prefix": "items",
+      "disposition": "observation_only",
+      "rule": "O3",
+      "reason": "Reports API activity 는 사건마다 생기는 감사 기록이다",
+      "runtime_refs": [
+        "aegi-adapter-engine-v3-readiness/scripts/collect/normalize-v2/observations.ts:211 (GW-14 토큰 사용 관측)"
+      ],
+      "status": "decided",
+      "decision_refs": [
+        "R1-D06"
+      ]
+    },
+    "orphan:sh:gws_script:ListUserProcessesResponse": {
+      "record_prefix": "processes",
+      "disposition": "observation_only",
+      "rule": "O3",
+      "reason": "Apps Script 실행 이력이다",
+      "runtime_refs": [
+        "aegi-adapter-engine-v3-readiness/scripts/collect/normalize-v2/gws.ts:288-334 (runs_as 근거로 사용)"
+      ],
+      "status": "decided",
+      "decision_refs": [
+        "R1-D06"
+      ]
+    },
+    "orphan:sh:confluence_openapi_v1:AuditRecordArray": {
+      "record_prefix": "results",
+      "disposition": "observation_only",
+      "rule": "O3",
+      "reason": "Confluence 감사 기록 목록이다",
+      "runtime_refs": [],
+      "status": "decided",
+      "decision_refs": [
+        "R1-D06"
+      ]
+    },
+    "orphan:sh:confluence_openapi_v1:AuditRecord": {
+      "record_prefix": "",
+      "disposition": "observation_only",
+      "rule": "O3",
+      "reason": "Confluence 감사 기록 한 건이다",
+      "runtime_refs": [],
+      "status": "decided",
+      "decision_refs": [
+        "R1-D06"
+      ]
+    },
+    "orphan:sh:slack_tenant_raw:op:audit.actions.get:resp:200": {
+      "record_prefix": "",
+      "disposition": "vendor_catalog",
+      "rule": "O5",
+      "reason": "감사 로그 action 이름 목록이다. 모든 테넌트에 같은 벤더 정의다",
+      "runtime_refs": [],
+      "status": "decided",
+      "decision_refs": [
+        "R1-D06"
+      ]
+    },
+    "orphan:sh:slack_docs_methods:op:apps.manifest.export:resp:200": {
+      "record_prefix": "",
+      "disposition": "parent_property",
+      "rule": "O4",
+      "destination": {
+        "space_candidates": [
+          "slack:200.approved_apps[*].app",
+          "slack:200.restricted_apps[*].app"
+        ],
+        "identity_from": "request_params.app_id",
+        "relative_path": "manifest"
+      },
+      "reason": "앱 매니페스트는 앱에 딸린 설정이다. 응답에는 앱 ID 가 없고 요청 app_id 로만 부모가 정해진다",
+      "exceptions": [
+        {
+          "rel_prefix": "manifest.features.slash_commands",
+          "disposition": "bound_to_space",
+          "decision_ref": "R1-D03",
+          "destination": {
+            "space": "slack:SlashCommandRequestEndpoint",
+            "identity_from": [
+              "request_params.app_id",
+              "manifest.features.slash_commands[].command"
+            ]
+          },
+          "detail": "R1-D03: 슬래시 명령마다 composite 공간 slack:SlashCommandRequestEndpoint 의 record 다 (normalize-v2/slack.ts:212-222 와 같은 key)"
+        },
+        {
+          "rel_prefix": "manifest.oauth_config.scopes",
+          "disposition": "parent_property",
+          "decision_ref": "R1-D07",
+          "destination": {
+            "space_candidates": [
+              "slack:200.approved_apps[*].app",
+              "slack:200.restricted_apps[*].app"
+            ],
+            "identity_from": "request_params.app_id",
+            "relative_path": "requested_scopes"
+          },
+          "detail": "R1-D07: 앱이 요청하도록 설정한 scope 다. 발급 토큰 scope 가 아니다"
+        }
+      ],
+      "runtime_refs": [
+        "aegi-adapter-engine-v3-readiness/scripts/collect/normalize-v2/slack.ts:212-222"
+      ],
+      "status": "decided",
+      "decision_refs": [
+        "R1-D06"
+      ]
+    },
+    "orphan:sh:gh_rest_ghec_next_2026_03_10_latest:diff-entry": {
+      "record_prefix": "",
+      "disposition": "parent_property",
+      "rule": "O4",
+      "destination": {
+        "space_candidates": [
+          "github:commit"
+        ],
+        "identity_from": "request_params.sha (repos/get-commit)",
+        "relative_path": "files[]"
+      },
+      "reason": "커밋 상세의 변경 파일 목록이다. 커밋에 딸린 내용이다",
+      "runtime_refs": [
+        "aegi-adapter-engine-v3-readiness/scripts/collect/normalize-v2/github.ts:180-193 (Commit Object, files 는 쓰지 않음)"
+      ],
+      "status": "decided",
+      "decision_refs": [
+        "R1-D06"
+      ]
+    },
+    "orphan:sh:confluence_openapi_v2:op:getSpacePermissionsAssignments:resp:200": {
+      "record_prefix": "results",
+      "disposition": "bound_to_space",
+      "rule": null,
+      "reason": "R1-D03: G4-Q01 묶음 공간 confluence:SpacePermission 의 원본 행이다. principal.* 은 identity, operation.* 은 permissions 목록, id 는 원본 행 provenance",
+      "decision_refs": [
+        "G4-Q01",
+        "R1-D03"
+      ],
+      "runtime_refs": [
+        "aegi-adapter-engine-v3-readiness/scripts/collect/normalize-v2/atlassian.ts:184-204"
+      ],
+      "status": "decided",
+      "destination": {
+        "space": "confluence:SpacePermission",
+        "identity_from": [
+          "request_params.space",
+          "record.principal.type",
+          "record.principal.id"
+        ],
+        "relative_path": "source_rows[]"
+      }
+    },
+    "orphan:sh:slack_docs_methods:op:admin.apps.approved.list:resp:200": {
+      "record_prefix": "",
+      "disposition": "parent_property",
+      "rule": "O4",
+      "decision_refs": [
+        "R1-D04"
+      ],
+      "destination": {
+        "space_candidates": [
+          "slack:200.approved_apps[*].app",
+          "slack:200.restricted_apps[*].app"
+        ],
+        "identity_from": [
+          "request_params.team_id | request_params.enterprise_id",
+          "record.app.id"
+        ],
+        "relative_path": "approval"
+      },
+      "reason": "R1-D04: 조직 범위 앱 승인 상태는 앱의 속성이다(approval, date_updated, last_resolved_by, scopes[])",
+      "runtime_refs": [
+        "aegi-adapter-engine-v3-readiness/scripts/collect/normalize-v2/slack.ts:186-196"
+      ],
+      "status": "decided"
+    },
+    "orphan:sh:slack_docs_methods:op:admin.apps.restricted.list:resp:200": {
+      "record_prefix": "",
+      "disposition": "parent_property",
+      "rule": "O4",
+      "decision_refs": [
+        "R1-D04"
+      ],
+      "destination": {
+        "space_candidates": [
+          "slack:200.approved_apps[*].app",
+          "slack:200.restricted_apps[*].app"
+        ],
+        "identity_from": [
+          "request_params.team_id | request_params.enterprise_id",
+          "record.app.id"
+        ],
+        "relative_path": "approval"
+      },
+      "reason": "R1-D04: 조직 범위 앱 승인 상태는 앱의 속성이다(approval, date_updated, last_resolved_by, scopes[])",
+      "runtime_refs": [
+        "aegi-adapter-engine-v3-readiness/scripts/collect/normalize-v2/slack.ts:186-196"
+      ],
+      "status": "decided"
+    }
+  }
+}

@@ -1,0 +1,151 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: Group
+interfaces: [Principal]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-G-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-04
+        request: {kind: groups}
+        items: value
+    id_expr: id
+    properties:
+      principal_kind: {const: group}
+      account_kind: {const: unknown}
+      account_state: {const: active}
+      group_id: id
+      displayName: displayName
+      description: description
+      mail: mail
+      mailEnabled: mailEnabled
+      mailNickname: mailNickname
+      securityEnabled: securityEnabled
+      groupTypes: groupTypes
+      isAssignableToRole: isAssignableToRole
+      membershipRule: membershipRule
+      membershipRuleProcessingState: membershipRuleProcessingState
+      visibility: visibility
+      classification: classification
+      resourceProvisioningOptions: resourceProvisioningOptions
+      createdDateTime: createdDateTime
+      onPremisesSyncEnabled: onPremisesSyncEnabled
+      is_team: {const: false}
+    display: "{displayName|mail|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+  - id: team_enrich
+    kind: enrich
+    sources:
+      - call: M365-14
+        request: {kind: team}
+        items: (root)
+    require:
+      path: id
+      present: true
+    target:
+      type: Group
+      id: $req.team
+    set:
+      is_team: {const: true}
+      team_visibility: visibility
+      team_specialization: specialization
+      team_is_archived: isArchived
+      team_member_settings: memberSettings
+      team_guest_settings: guestSettings
+      team_messaging_settings: messagingSettings
+      team_fun_settings: funSettings
+      team_discovery_settings: discoverySettings
+      team_summary: summary
+  - id: members
+    kind: relation
+    sources:
+      - call: M365-04
+        request: {kind: members}
+        items: value
+    vars:
+      member_type:
+        op: map
+        of: "@odata.type"
+        table:
+          '#microsoft.graph.user': user
+          '#microsoft.graph.group': group
+          '#microsoft.graph.servicePrincipal': sp
+        default: {const: user}
+    relations:
+      - type: member_of
+        source:
+          switch: $vars.member_type
+          cases:
+            user: {type: User, id: id}
+            group: {type: Group, id: id}
+            sp: {type: ServicePrincipal, id: id}
+        target:
+          type: Group
+          id: $req.group
+        basis: stated
+        require: [source, target]
+  - id: team_members
+    kind: relation
+    sources:
+      - call: M365-14
+        request: {kind: members}
+        items: value
+    relations:
+      - type: member_of
+        source:
+          type: User
+          id: userId
+        target:
+          type: Group
+          id: $req.team
+        basis: stated
+        properties:
+          roles: roles
+        require: [source, target]
+  - id: owners
+    kind: relation
+    sources:
+      - call: M365-04
+        request: {kind: owners}
+        items: value
+    vars:
+      owner_type:
+        op: map
+        of: "@odata.type"
+        table:
+          '#microsoft.graph.user': user
+          '#microsoft.graph.servicePrincipal': sp
+        default: {const: user}
+    # 그룹 소유자는 그룹 설정을 바꾸고 멤버 · 다른 소유자를 더하고 뺀다. 동적 그룹은 멤버를 손으로 못 바꾼다(learn.microsoft.com Entra 「How to manage groups」).
+    # GWS 그룹 OWNER(overlays/gws/new-member.yaml)와 같이 「소유자 → 그룹, 역할 owner」로 둔다. 그룹에 대한 역할을 권한으로 볼지는
+    # knowledge relation_semantics open has_role_on.group_manager 이 정한다(정하기 전에는 template 밖이라 간선이 없다)
+    relations:
+      - type: has_role_on
+        source:
+          switch: $vars.owner_type
+          cases:
+            user: {type: User, id: id}
+            sp: {type: ServicePrincipal, id: id}
+        target:
+          type: Group
+          id: $req.group
+        role:
+          name: {const: owner}
+        basis: stated
+        require: [source, target]

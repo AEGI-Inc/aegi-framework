@@ -1,0 +1,335 @@
+format: im-pilot-profile/1
+scope: catalog_spec5_record_projection
+provider: confluence
+service: null
+object_type: SpacePermission
+interfaces:
+  - Assignment
+model:
+  research_type: null
+  runtime_type_id: model-v1:atlassian:SpacePermission
+  decision_refs:
+    - R1-D03
+    - G4-Q01
+    - model-v1 runtime record_projection
+vars:
+  sid:
+    op: str
+    of: $req.space
+  ptype:
+    op: str
+    of:
+      any:
+        - principal.type
+      empty_as: unknown
+  pid:
+    op: str
+    of:
+      any:
+        - principal.id
+      empty_as: ""
+  host:
+    ref: $tenant
+    prop: $id
+  permissions:
+    op: uniq_sorted
+    of:
+      op: map_each
+      of: $group
+      value:
+        template: "{$item.r.operation.key|'unknown'}:{$item.r.operation.targetType|'spa\
+          ce'}"
+  space_name:
+    ref:
+      type: spaces
+      id: $vars.sid
+    prop: name
+  n:
+    op: count
+    of: $vars.permissions
+identity:
+  primary:
+    - name: s
+      expr: $vars.sid
+      stability: catalog_reviewed
+    - name: t
+      expr: $vars.ptype
+      stability: catalog_reviewed
+    - name: i
+      expr: $vars.pid
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: CF-SPA-{s}-{t}-{i}
+binding:
+  status: catalog_call
+  call: CF-02
+  operation_id: op:confluence_openapi_v2:getSpacePermissionsAssignments
+  paths:
+    - shape: null
+      path:
+        - results
+        - "*"
+  basis: catalog spec:5 sources
+fields:
+  principal_type:
+    expr: $vars.ptype
+    source: catalog_spec5
+  permissions:
+    expr: $vars.permissions
+    source: catalog_spec5
+references: []
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - password
+    - token
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/space_permission.yaml
+  engine_commit: d78062d
+  research_agreement: no_research_type
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: CF-02
+        items: (array_or:values|results)
+    group_by:
+      template: "{$req.space}|{principal.type|'unknown'}|{principal.id}"
+    vars:
+      sid:
+        op: str
+        of: $req.space
+      ptype:
+        op: str
+        of:
+          any:
+            - principal.type
+          empty_as: unknown
+      pid:
+        op: str
+        of:
+          any:
+            - principal.id
+          empty_as: ""
+      host:
+        ref: $tenant
+        prop: $id
+      permissions:
+        op: uniq_sorted
+        of:
+          op: map_each
+          of: $group
+          value:
+            template: "{$item.r.operation.key|'unknown'}:{$item.r.operation.targetType|'spa\
+              ce'}"
+      space_name:
+        ref:
+          type: spaces
+          id: $vars.sid
+        prop: name
+      n:
+        op: count
+        of: $vars.permissions
+    id_expr:
+      template: "{$vars.sid}:{$vars.ptype}:{$vars.pid}"
+    parts:
+      s: $vars.sid
+      t: $vars.ptype
+      i: $vars.pid
+    parent:
+      ref:
+        type: spaces
+        id: $vars.sid
+    refs:
+      grantee:
+        ref:
+          switch:
+            if:
+              all:
+                - path: $vars.ptype
+                  eq: access-class
+                - path: $vars.pid
+                  truthy: true
+            then:
+              const: special
+            else: $vars.ptype
+          cases:
+            user:
+              type: User
+              id: $vars.pid
+            group:
+              type: FoundGroup
+              id: $vars.pid
+            special:
+              type: SpecialPrincipal
+              id: $vars.pid
+              parts:
+                host: $vars.host
+              create:
+                always: true
+                rule: make
+                record:
+                  object:
+                    cls: $vars.pid
+        value: $vars.pid
+    properties:
+      principal_type: $vars.ptype
+      permissions: $vars.permissions
+    display: "{$vars.space_name|$vars.sid}, {$vars.ptype} {$vars.pid} ({$vars.n})"
+    relations:
+      - type: has_role_on
+        source:
+          switch:
+            if:
+              all:
+                - path: $vars.ptype
+                  eq: access-class
+                - path: $vars.pid
+                  truthy: true
+            then:
+              const: special
+            else: $vars.ptype
+          cases:
+            user:
+              type: User
+              id: $vars.pid
+            group:
+              type: FoundGroup
+              id: $vars.pid
+            special:
+              type: SpecialPrincipal
+              id: $vars.pid
+              parts:
+                host: $vars.host
+              create:
+                always: true
+                rule: make
+                record:
+                  object:
+                    cls: $vars.pid
+        target:
+          type: spaces
+          id: $vars.sid
+        role:
+          name:
+            const: space_permissions
+        basis: stated
+        require:
+          - target
+        properties:
+          via_assignment: $self
+          permissions: $vars.permissions
+    identity:
+      primary:
+        - name: s
+          expr: $vars.sid
+          stability: catalog_reviewed
+        - name: t
+          expr: $vars.ptype
+          stability: catalog_reviewed
+        - name: i
+          expr: $vars.pid
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: CF-SPA-{s}-{t}-{i}
+runtime_stub: null
+runtime_key: CF-SPA-{s}-{t}-{i}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: SpacePermission:list
+    sources:
+      - call: CF-02
+        items: (array_or:values|results)
+    vars:
+      sid:
+        op: str
+        of: $req.space
+      ptype:
+        op: str
+        of:
+          any:
+            - principal.type
+          empty_as: unknown
+      pid:
+        op: str
+        of:
+          any:
+            - principal.id
+          empty_as: ""
+      host:
+        ref: $tenant
+        prop: $id
+      permissions:
+        op: uniq_sorted
+        of:
+          op: map_each
+          of: $group
+          value:
+            template: "{$item.r.operation.key|'unknown'}:{$item.r.operation.targetType|'spa\
+              ce'}"
+      space_name:
+        ref:
+          type: spaces
+          id: $vars.sid
+        prop: name
+      n:
+        op: count
+        of: $vars.permissions
+    relations:
+      - type: has_role_on
+        source:
+          switch:
+            if:
+              all:
+                - path: $vars.ptype
+                  eq: access-class
+                - path: $vars.pid
+                  truthy: true
+            then:
+              const: special
+            else: $vars.ptype
+          cases:
+            user:
+              type: User
+              id: $vars.pid
+            group:
+              type: FoundGroup
+              id: $vars.pid
+            special:
+              type: SpecialPrincipal
+              id: $vars.pid
+              parts:
+                host: $vars.host
+              create:
+                always: true
+                rule: make
+                record:
+                  object:
+                    cls: $vars.pid
+        target:
+          type: spaces
+          id: $vars.sid
+        role:
+          name:
+            const: space_permissions
+        basis: stated
+        require:
+          - target
+        properties:
+          via_assignment: $self
+          permissions: $vars.permissions
+    self_identity: object_rule

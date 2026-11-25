@@ -1,0 +1,11 @@
+overlay_basis:
+  from: 2026-11-03 수집 run 20261103T061203Z-0db1
+  note: RG-AT-getOrgs 응답이 비어 있어(data:[]) Policy와 Domain의 parent_scope($req.parent_id)에서 스텁으로 생성된다
+runtime_stub:
+  display: "{id} (수집 목록에 없음)"
+runtime_key: AT-ORG-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable

@@ -1,0 +1,56 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: aws
+service: s3
+object_type: S3Bucket
+interfaces: [Resource]
+identity:
+  primary:
+    - {name: id, expr: Name, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: AWS-S3-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AWS-05
+        request: {kind: buckets}
+        items: (array_or:Buckets|Buckets.Bucket)
+    id_expr: Name
+    properties:
+      bucket_name: Name
+      creation_date: CreationDate
+      account_id: AccountId
+      public_access_block_configured: {const: unknown}
+      public_access_block: {const: null}
+    display: "{Name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Account, id: AccountId}
+        basis: stated
+        require: [target]
+  - id: public_access_block
+    kind: enrich
+    sources:
+      - call: AWS-05
+        request: {kind: bucket_public_access_block}
+        items: (root)
+    target:
+      type: S3Bucket
+      id: $req.bucket
+    set:
+      public_access_block_configured: configured
+      public_access_block:
+        if: {path: configured, eq: true}
+        then:
+          object:
+            BlockPublicAcls: BlockPublicAcls
+            IgnorePublicAcls: IgnorePublicAcls
+            BlockPublicPolicy: BlockPublicPolicy
+            RestrictPublicBuckets: RestrictPublicBuckets
+        else: null

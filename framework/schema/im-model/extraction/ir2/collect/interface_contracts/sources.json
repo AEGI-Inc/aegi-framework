@@ -1,0 +1,29 @@
+{
+ "source_kind": "local_schema_snapshot",
+ "sources": [
+  {
+   "file": "collect/interface_contracts/Interface_Spec_v3.md.source",
+   "name": "Interface_Spec_v3.md",
+   "origin": "aegi-schema/docs/Interface_Spec_v3.md",
+   "sha256": "48e4b8310a40e4a03084d30ed7f4a9c1e7429353d4ad48f491090f55cdad0d0a",
+   "commit": "c067b0228c3cc7a3504b575a276326f6015e7ab6"
+  },
+  {
+   "file": "collect/interface_contracts/Object_Schema_v4.1.md.source",
+   "name": "Object_Schema_v4.1.md",
+   "origin": "aegi-schema/docs/Object_Schema_v4.1.md",
+   "sha256": "c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7",
+   "commit": "c067b0228c3cc7a3504b575a276326f6015e7ab6"
+  },
+  {
+   "file": "collect/interface_contracts/Relation_Schema_v3.md.source",
+   "name": "Relation_Schema_v3.md",
+   "origin": "aegi-schema/docs/Relation_Schema_v3.md",
+   "sha256": "e6f1e273d9628c3caa7f99b307db31cf69de59bc2e87bf1d72d7e8cab09431c0",
+   "commit": "c067b0228c3cc7a3504b575a276326f6015e7ab6"
+  }
+ ],
+ "pinned_commit": "c067b0228c3cc7a3504b575a276326f6015e7ab6",
+ "pinned_on": "2026-10-19",
+ "previous_commit": "5e160f0"
+}

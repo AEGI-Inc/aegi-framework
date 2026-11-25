@@ -1,0 +1,842 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: AgentWork
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:f5c4a2f54cb5e447766ee74e
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:f5c4a2f54cb5e447766ee74e.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|Id
+  ActiveTime:
+    path: ActiveTime
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: int
+      name: ActiveTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:AgentWork|ActiveTime
+  AcwExtensionCount:
+    path: AcwExtensionCount
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: int
+      name: AcwExtensionCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:AgentWork|AcwExtensionCount
+  AcwExtensionDuration:
+    path: AcwExtensionDuration
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: int
+      name: AcwExtensionDuration
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:AgentWork|AcwExtensionDuration
+  AfterConversationActualTime:
+    path: AfterConversationActualTime
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: int
+      name: AfterConversationActualTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:AgentWork|AfterConversationActualTime
+  AgentCapacityWhenDeclined:
+    path: AgentCapacityWhenDeclined
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: double
+      name: AgentCapacityWhenDeclined
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:AgentWork|AgentCapacityWhenDeclined
+  AssignedDateTime:
+    path: AssignedDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: dateTime
+      name: AssignedDateTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|AssignedDateTime
+  BotId:
+    path: BotId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: BotId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|BotId
+  BotType:
+    path: BotType
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: picklist
+      name: BotType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|BotType
+  CancelDateTime:
+    path: CancelDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: dateTime
+      name: CancelDateTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|CancelDateTime
+  CapacityModel:
+    path: CapacityModel
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: picklist
+      name: CapacityModel
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|CapacityModel
+  CapacityPercentage:
+    path: CapacityPercentage
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: percent
+      name: CapacityPercentage
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:AgentWork|CapacityPercentage
+  CapacityWeight:
+    path: CapacityWeight
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: double
+      name: CapacityWeight
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:AgentWork|CapacityWeight
+  CloseDateTime:
+    path: CloseDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: dateTime
+      name: CloseDateTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|CloseDateTime
+  DeclineDateTime:
+    path: DeclineDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: dateTime
+      name: DeclineDateTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|DeclineDateTime
+  DeclineReason:
+    path: DeclineReason
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: string
+      name: DeclineReason
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|DeclineReason
+  ExternalBotId:
+    path: ExternalBotId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: ExternalBotId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|ExternalBotId
+  HandleTime:
+    path: HandleTime
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: int
+      name: HandleTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:AgentWork|HandleTime
+  IsConference:
+    path: IsConference
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: boolean
+      name: IsConference
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AgentWork|IsConference
+  IsInterruptible:
+    path: IsInterruptible
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: boolean
+      name: IsInterruptible
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AgentWork|IsInterruptible
+  IsOwnerChangeInitiated:
+    path: IsOwnerChangeInitiated
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: boolean
+      name: IsOwnerChangeInitiated
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AgentWork|IsOwnerChangeInitiated
+  IsPreferredUserRequired:
+    path: IsPreferredUserRequired
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: boolean
+      name: IsPreferredUserRequired
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AgentWork|IsPreferredUserRequired
+  IsStatusChangeInitiated:
+    path: IsStatusChangeInitiated
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: boolean
+      name: IsStatusChangeInitiated
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AgentWork|IsStatusChangeInitiated
+  IsTransfer:
+    path: IsTransfer
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: boolean
+      name: IsTransfer
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AgentWork|IsTransfer
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: string
+      name: Name
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|Name
+  OriginalGroupId:
+    path: OriginalGroupId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: OriginalGroupId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|OriginalGroupId
+  OriginalQueueId:
+    path: OriginalQueueId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: OriginalQueueId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|OriginalQueueId
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|OwnerId
+  PausedCapacityPercentage:
+    path: PausedCapacityPercentage
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: percent
+      name: PausedCapacityPercentage
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:AgentWork|PausedCapacityPercentage
+  PausedCapacityWeight:
+    path: PausedCapacityWeight
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: double
+      name: PausedCapacityWeight
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:AgentWork|PausedCapacityWeight
+  PendingServiceRoutingId:
+    path: PendingServiceRoutingId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: PendingServiceRoutingId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|PendingServiceRoutingId
+  PreferredUserId:
+    path: PreferredUserId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: PreferredUserId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|PreferredUserId
+  PushTimeout:
+    path: PushTimeout
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: int
+      name: PushTimeout
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:AgentWork|PushTimeout
+  PushTimeoutDateTime:
+    path: PushTimeoutDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: dateTime
+      name: PushTimeoutDateTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|PushTimeoutDateTime
+  RequestDateTime:
+    path: RequestDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: dateTime
+      name: RequestDateTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|RequestDateTime
+  RoutingModel:
+    path: RoutingModel
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: picklist
+      name: RoutingModel
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|RoutingModel
+  RoutingPriority:
+    path: RoutingPriority
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: int
+      name: RoutingPriority
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:AgentWork|RoutingPriority
+  RoutingType:
+    path: RoutingType
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: picklist
+      name: RoutingType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|RoutingType
+  SecondaryRoutingPriority:
+    path: SecondaryRoutingPriority
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: int
+      name: SecondaryRoutingPriority
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:AgentWork|SecondaryRoutingPriority
+  ServiceChannelId:
+    path: ServiceChannelId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: ServiceChannelId
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|ServiceChannelId
+  ShouldSkipCapacityCheck:
+    path: ShouldSkipCapacityCheck
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: boolean
+      name: ShouldSkipCapacityCheck
+      required: false
+      scalar: boolean
+    map_items:
+      - space:AgentWork|ShouldSkipCapacityCheck
+  SpeedToAnswer:
+    path: SpeedToAnswer
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: int
+      name: SpeedToAnswer
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:AgentWork|SpeedToAnswer
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: picklist
+      name: Status
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|Status
+  TargetAcceptDateTime:
+    path: TargetAcceptDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: dateTime
+      name: TargetAcceptDateTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|TargetAcceptDateTime
+  TransferRequesterId:
+    path: TransferRequesterId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: TransferRequesterId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|TransferRequesterId
+  UserId:
+    path: UserId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: UserId
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|UserId
+  WorkItemId:
+    path: WorkItemId
+    source: research_shape
+    shape: sh:sf_object_reference:AgentWork
+    declaration:
+      format: reference
+      name: WorkItemId
+      required: false
+      scalar: string
+    map_items:
+      - space:AgentWork|WorkItemId
+references:
+  - name: workitemid
+    field: WorkItemId
+    target: Lead
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:057c6d1aff5bbfbe7654906b; relation=no_relation
+  - name: ownerid
+    field: OwnerId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:320b8acf7d439bc1919ed591; relation=no_relation
+  - name: botid
+    field: BotId
+    target: BotDefinition
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:68eedb0d7a3b3681fe47ee15; relation=no_relation
+  - name: originalgroupid
+    field: OriginalGroupId
+    target: Group
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:87736a002abc020b280d44b0; relation=no_relation
+  - name: preferreduserid
+    field: PreferredUserId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:89c4ddc15b6a9c40f6ab81c9; relation=no_relation
+  - name: transferrequesterid
+    field: TransferRequesterId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a2ba46b2ef39cb1e7c45ac44; relation=no_relation
+  - name: servicechannelid
+    field: ServiceChannelId
+    target: ServiceChannel
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a7908feb4d9738db4e6b5175; relation=no_relation
+  - name: userid
+    field: UserId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:ea622e92f964afd7328f01ce; relation=no_relation
+  - name: externalbotid
+    field: ExternalBotId
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f808094bb937481251c762f6; relation=no_relation
+  - name: pendingserviceroutingid
+    field: PendingServiceRoutingId
+    target: PendingServiceRouting
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:fa3eeacb958b485745aa8a82; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: AgentWork
+  interfaces: *a1
+  model:
+    research_type: object-type:f5c4a2f54cb5e447766ee74e
+  extract:
+    key: PILOT-salesforce-AgentWork-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-6ee74e
+            endpoint: /
+            items:
+              - records
+        properties:
+          ActiveTime: ActiveTime
+          AcwExtensionCount: AcwExtensionCount
+          AcwExtensionDuration: AcwExtensionDuration
+          AfterConversationActualTime: AfterConversationActualTime
+          AgentCapacityWhenDeclined: AgentCapacityWhenDeclined
+          AssignedDateTime: AssignedDateTime
+          BotId: BotId
+          BotType: BotType
+          CancelDateTime: CancelDateTime
+          CapacityModel: CapacityModel
+          CapacityPercentage: CapacityPercentage
+          CapacityWeight: CapacityWeight
+          CloseDateTime: CloseDateTime
+          DeclineDateTime: DeclineDateTime
+          DeclineReason: DeclineReason
+          ExternalBotId: ExternalBotId
+          HandleTime: HandleTime
+          Id: Id
+          IsConference: IsConference
+          IsInterruptible: IsInterruptible
+          IsOwnerChangeInitiated: IsOwnerChangeInitiated
+          IsPreferredUserRequired: IsPreferredUserRequired
+          IsStatusChangeInitiated: IsStatusChangeInitiated
+          IsTransfer: IsTransfer
+          Name: Name
+          OriginalGroupId: OriginalGroupId
+          OriginalQueueId: OriginalQueueId
+          OwnerId: OwnerId
+          PausedCapacityPercentage: PausedCapacityPercentage
+          PausedCapacityWeight: PausedCapacityWeight
+          PendingServiceRoutingId: PendingServiceRoutingId
+          PreferredUserId: PreferredUserId
+          PushTimeout: PushTimeout
+          PushTimeoutDateTime: PushTimeoutDateTime
+          RequestDateTime: RequestDateTime
+          RoutingModel: RoutingModel
+          RoutingPriority: RoutingPriority
+          RoutingType: RoutingType
+          SecondaryRoutingPriority: SecondaryRoutingPriority
+          ServiceChannelId: ServiceChannelId
+          ShouldSkipCapacityCheck: ShouldSkipCapacityCheck
+          SpeedToAnswer: SpeedToAnswer
+          Status: Status
+          TargetAcceptDateTime: TargetAcceptDateTime
+          TransferRequesterId: TransferRequesterId
+          UserId: UserId
+          WorkItemId: WorkItemId
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:AgentWork.query
+  operation: AgentWork.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: AgentWork
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:AgentWork
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:AgentWork.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/AgentWork/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - WorkItemId
+    - OwnerId
+    - BotId
+    - OriginalGroupId
+    - PreferredUserId
+    - TransferRequesterId
+    - ServiceChannelId
+    - UserId
+    - ExternalBotId
+    - PendingServiceRoutingId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

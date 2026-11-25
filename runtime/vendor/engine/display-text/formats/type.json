@@ -1,0 +1,8 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["meaning"],
+  "properties": {
+    "meaning": { "type": "string", "description": "명사형 한 줄, 40자 이하" }
+  }
+}

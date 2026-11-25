@@ -1,0 +1,282 @@
+# 권한이 생기는 방식 — 공통 양식의 뼈대 (초안)
+#
+# Relation 재설계 3단계 초안(2026-10-15). SaaS 마다 데이터 모양은 달라도 "누가 무엇에 닿게 되는 방식"은
+# 몇 가지뿐이다. 그 방식을 한 번만 정의하고, SaaS 는 빈칸(blanks)만 채우게 하려는 목록이다.
+#
+#   관계(relation_types · relation_semantics) = 단어
+#   권한 방식(이 파일)                          = 문법 — 관계를 조합해 권한 · 대행 · 흐름이 생기는 규칙
+#   SaaS 빈칸                                   = 사투리 사전 — "Slack 은 is_private=false 가 '회사 누구나'"
+#
+# 값은 아직 바꾸지 않았다. 지금 엔진이 하는 일(relation_semantics.yaml 의 effects · conditions)을 방식별로
+# 나눠 담았고, 빈칸의 지금 값이 어디에 있는지(where)를 적었다. validation/check_semantics.py S5 가
+# 엔진 효과가 빠짐없이 어느 방식에 들어갔는지, SaaS 표가 빠짐없이 어느 빈칸에 들어갔는지 본다.
+#
+# where 의 종류
+#   dictionary  개념 사전 표(providers.yaml · capabilities.yaml)에 값이 있다 — 이미 빈칸 방식
+#   condition   relation_semantics.yaml 의 조건 갈래에 SaaS 이름이나 속성으로 박혀 있다
+#   code        대시보드 코드에 SaaS 이름으로 박혀 있다 — 빈칸으로 꺼내야 할 곳
+#   common      SaaS 와 상관없는 공통 속성(deleted, run_as_resolution 등)이라 빈칸이 아니다
+#   measured    우리가 실측으로 확인한 사실. 아직 사전 · 코드 어디에도 없다
+#   none        아직 아무 데도 없다
+#
+# status (없으면 엔진에 있는 방식)
+#   missing     관계 · 사전 표 어디에도 없다. 실측 근거만 있다 (엔진이 일부를 다른 길로 처리하면 blanks 의 now 에 code 로 적는다)
+#   via_link    관계 효과가 아니라 신원 연결(Link)과 IdP 쪽에서 생긴다
+
+sources:
+  patterns: 이 파일이 정본(초안). covers 는 ontology/relation_semantics.yaml 의 effects · conditions · filters 를, blanks 의 now 는 ontology/providers.yaml · ontology/capabilities.yaml · aegi-dashboard @ f278107 코드 · reports/EA_Validation_Report_v2.md 를 읽고 적었다
+  not_patterns: 권한 방식이 아닌 사전 표 — 어느 빈칸에도 안 들어가는 이유
+
+# 권한 방식이 아닌 사전 표. S5 는 providers.yaml · capabilities.yaml 의 표가 빈칸이나 여기 중 한 곳에 있는지 본다
+not_patterns:
+  providers.yaml model_version: 표의 판 번호다
+  providers.yaml coverage_calls: 어느 수집 호출이 어느 사실을 주는지 — 수집(Object · Profile) 쪽이다
+  capabilities.yaml rank: 능력 순위 자체(read 1 · write 3 · admin 5). 모든 방식이 같이 쓰는 단위다
+
+patterns:
+
+- id: direct_grant
+  name: 직접 받음
+  sentence: 주체가 자원이나 테넌트에 역할을 직접 받는다. 역할의 세기가 곧 능력이다
+  relations: [has_role_on]
+  covers:
+    effects: ['has_role_on:*:G']
+    conditions: [has_role_on.inactive_account, has_role_on.deleted_assignment, has_role_on.okta_resource_set_partial, has_role_on.okta_resource_set_org, has_role_on.okta_resource_set, has_role_on.session_active, has_role_on.session_activation,
+                 has_role_on.gcp_public_principal, has_role_on.gcp_project_member, has_role_on.special_principal.public, has_role_on.special_principal.tenant_members, has_role_on.special_principal.role_bundle]
+  blanks:
+  - name: 역할 이름 → 세기
+    now:
+    - {where: dictionary, ref: capabilities.yaml role_name_from, value: '역할 이름을 읽는 곳 — 역할 자리의 이름(name_key), 아니면 역할 객체의 properties.role_name'}
+    - {where: dictionary, ref: capabilities.yaml role_rank, value: '역할 이름 15개 (owner · admin · write · read …). SaaS 이름 없이 이름으로만 찾는다'}
+    - {where: dictionary, ref: capabilities.yaml okta_standard_roles, value: 'Okta 표준 관리자 역할 10개와 IAM 기반 기본 역할 Workflows Administrator(2026-11-04)'}
+    - {where: dictionary, ref: capabilities.yaml okta_permission_types, value: Okta 사용자 정의 역할의 권한 종류}
+    - {where: dictionary, ref: capabilities.yaml role_rank_order, value: '세기를 정하는 방법의 순서 — 이름, scope, 권한 이름, 권한 칸, 객체 종류, 권한 줄. 앞 방법이 못 정하면 다음'}
+    - {where: dictionary, ref: capabilities.yaml role_name_rank, value: 'provider 별 이름 → 세기 (2026-10-20). Atlassian — Jira 프로젝트 권한 키, 필터 공유 view · edit, Confluence 스페이스 동작:대상. Salesforce — OAuth 승인 authorized'}
+    - {where: dictionary, ref: capabilities.yaml role_flag_rank, value: 'Salesforce 프로필 · 권한 집합의 권한 칸 — Modify All Data · Manage Users · Author Apex 5, View All Data 1, 참이 없으면 0'}
+    - {where: dictionary, ref: capabilities.yaml role_type_rank, value: 'Salesforce 역할 계층 자리(UserRole) 0 — 아래 사람 레코드는 Effective Access. 권한 세트 라이선스(PermissionSetLicense) 0 — 권한의 상한일 뿐, 권한은 권한 세트 배정이 준다(2026-11-04)'}
+    - {where: dictionary, ref: capabilities.yaml privilege_rank, value: 'Google Workspace 관리자 역할의 권한 이름 — 최고 관리자 5, 읽기(RETRIEVE · READ · VIEW · 보고서) 1, 고치기(CREATE · UPDATE · DELETE · ALL · MANAGE) 3. 맞는 이름이 없으면 모름(2026-11-04)'}
+    - {where: dictionary, ref: capabilities.yaml role_privileges_from, value: '역할 객체의 권한 이름 목록 properties.privileges(serviceId:privilegeName, Google Workspace 관리자 역할)'}
+    - {where: dictionary, ref: capabilities.yaml role_rank_from_grants, value: 'Jira 프로젝트 역할 — 그 프로젝트에서 그 역할이 받은 권한 키 중 가장 센 것'}
+    - {where: dictionary, ref: capabilities.yaml capability_vocabulary, value: '의미 층 능력 10종(2026-11-11). 위 세기 표를 능력 목록으로 읽는다 — 명세 Relation_Semantic_Layer_v1'}
+    - {where: dictionary, ref: capabilities.yaml capability_bundles, value: '능력 묶음 use · edit · manage'}
+    - {where: dictionary, ref: capabilities.yaml rank_capabilities, value: '세기 → 묶음. 2 · 4 는 1 · 3 으로 접힌다(판정 문턱 같음)'}
+    - {where: dictionary, ref: capabilities.yaml capability_order, value: 'role_rank_order 에 사용자 정의 역할 권한 이름 단계를 base_role 앞에 끼운 차례(엔진 roleCapability 차례)'}
+    - {where: dictionary, ref: capabilities.yaml capability_name_steps, value: '이름 단계가 볼 표의 차례 — Okta 표준 역할 → 세기로 못 가르는 이름 → provider 이름 표 → 이름 순위표 → 권한 요약'}
+    - {where: dictionary, ref: capabilities.yaml capability_names, value: 'Okta 앱 배정 assigned = 인증 · 읽기'}
+    - {where: dictionary, ref: capabilities.yaml capability_levels, value: '능력 → 수준 read · write · admin(2026-11-16, 직접 권한). 권한 하나의 수준은 그 능력 가운데 가장 높은 것. 로그인 · 권한 주기는 수준 없음. 엔진 directAccess.ts · semantic/ceiling.ts 가 읽는다'}
+    - {where: dictionary, ref: capabilities.yaml permission_summary, value: 'GitHub 세분화 PAT 권한 요약 「키:수준」 → 가장 센 수준'}
+    - {where: dictionary, ref: capabilities.yaml permission_prefixes, value: 'Okta 사용자 정의 역할 권한 이름 — .read 끝이면 보기, 아니면 고치기. 객체 종류는 okta_permission_types'}
+    - {where: code, ref: aegi-dashboard engine/accessModel.ts roleCapability(), value: "위 Okta 표를 provider === 'okta' 분기로 고른다. 새 SaaS 표(2026-10-20)는 아직 안 읽는다 — Atlassian · Salesforce 역할은 엔진에서 다 모름"}
+  - name: 모으지 않는 권한
+    now:
+    - {where: none, ref: aegi-dashboard scripts/collect/providers/salesforce.ts profiles · permissionSets SOQL, value: 'Salesforce 권한 칸은 5개만 모은다. 관리자급인 Customize Application, 프로필 · 권한 집합 관리, 권한 집합 배정과 객체별 View All · Modify All Records 는 안 모아서 role_flag_rank 의 0 이 낮게 잡힐 수 있다'}
+    - {where: none, ref: aegi-dashboard scripts/collect/normalize-v2/atlassian.ts, value: 'Jira 전역 권한(사이트 관리 등)과 Atlassian 조직 관리자는 관계가 없다. anyone · projectLead 같은 동적 보유자도 관계가 아니라 Effective Access 몫이다'}
+    - {where: none, ref: aegi-dashboard scripts/collect/normalize-v2/atlassian.ts CF-02, value: 'Confluence 스페이스 권한의 보유자는 user · group · role 셋인데(REST v2 SpacePermissionAssignment.principal.type) 정규화가 user · group 만 관계로 만든다 — 스페이스 역할(role)로 받은 권한이 빠진다'}
+  - name: 역할이 닿는 범위를 줄이는 장치
+    now:
+    - {where: code, ref: aegi-dashboard engine/edges.ts has_role_on, value: "Okta resource_set — provider === 'okta' 분기. 확인한 목록에 없으면 불확실"}
+    - {where: dictionary, ref: providers.yaml resource_set_coverage, value: 'Okta 리소스 세트가 덮는 대상 — orn 모양 → 그룹 구성원, 객체 하나, 종류 전체, 서비스 전체(2026-11-09). 일부만 덮는 세트의 역할은 덮는 대상에 간선을 낸다'}
+  - name: 지운 배정
+    now:
+    - {where: common, ref: properties.deleted, value: 배정이 지워졌으면 권한 없음}
+
+- id: group_membership
+  name: 그룹 통해 받음 (소속)
+  sentence: 주체가 그룹 · 테넌트에 속하면 그 그룹 · 테넌트가 받은 권한을 같이 받는다
+  relations: [member_of, contained_in]
+  covers:
+    effects: ['member_of:*:M', 'contained_in:Principal>Tenant:M']
+    conditions: [member_of.inactive_account, member_of.measurement_membership, member_of.measurement_principal, member_of.gws_org_unit, member_of.scope_only_target]
+  blanks:
+  - name: 무엇이 그룹인가
+    now:
+    - {where: common, ref: 엔진 isGroupLike, value: '테넌트, 그룹 타입, principal_kind group, 들어오는 member_of 가 있는 주체'}
+  - name: 그룹 경유가 실제로 집행되나
+    now:
+    - {where: code, ref: aegi-dashboard effectiveAccess/common.ts membershipEnforced(), value: "GitHub team → repository, Okta group → application 두 경우만 '집행' (provider === 분기 2곳)"}
+    - {where: measured, ref: reports/EA_Validation_Report_v2.md §7.1, value: Okta 그룹에서 빼자 앱 배정(AppUser)이 404 — 집행 확인}
+  - name: 측정 도구 계정은 빼기
+    now:
+    - {where: common, ref: properties.measurement_principal · fixture_meta.demo_role, value: 우리 측정용 계정은 사람 비교에서 뺀다}
+
+- id: resource_membership
+  name: 자원의 멤버라서
+  sentence: 주체가 자원(채널 등) 자체의 멤버이면 그 자원에 능력이 생긴다
+  relations: [member_of]
+  covers:
+    effects: ['member_of:*:G']
+    conditions: [member_of.slack_conversation]
+  blanks:
+  - name: 멤버가 받는 능력
+    now:
+    - {where: dictionary, ref: capabilities.yaml membership_capabilities, value: '의미 층 소속 능력 — Slack 대화 = 읽기 · 쓰기 · 보내기, 나머지 = 보기(2026-11-11)'}
+    - {where: code, ref: aegi-dashboard engine/accessModel.ts membershipRank(), value: "provider === 'slack' && conversation → write 를 코드에 박아 쓴다. 사전 표를 안 읽는다"}
+    - {where: code, ref: aegi-dashboard blastRadius.ts 소속 처리, value: "Slack 대화 멤버십을 provider === 'slack' 분기로 따로 센다"}
+
+- id: inherit_from_parent
+  name: 위에서 내려옴
+  sentence: 상위(테넌트 · 조직 · 폴더 · 채널)에 대한 권한이 하위로 내려간다. 내려갈 때 상한이 있을 수 있다
+  relations: [contained_in, registered_in]
+  covers:
+    effects: ['contained_in:*:U', 'contained_in:Tenant>Tenant:M', 'registered_in:*:U']
+    conditions: [contained_in.group_tenant, contained_in.gcp_app_store_caller, contained_in.gcp_connector_store]
+  blanks:
+  - name: 테넌트 권한이 하위로 내려가나
+    now:
+    - {where: dictionary, ref: providers.yaml tenant_grants_inherit, value: 'Okta · GitHub 내려감, Slack 안 내려감, Google Workspace · Salesforce 는 계정에만 내려감(members)'}
+    - {where: dictionary, ref: providers.yaml tenant_scope, value: '테넌트 권한이 내려가는 범위를 객체 종류(내용 · 설정 · 계정)와 권한 출처 종류(소속 · 콘솔 역할 · 제품 사용 · 기본 권한)마다 정한다(2026-11-16, aegi-knowledge#308). SaaS 예외는 공식 문서 줄. 엔진 directAccess.ts 가 읽는다. tenant_grants_inherit 를 대신할 표'}
+    - {where: dictionary, ref: capabilities.yaml role_flag_reach, value: 'Salesforce 프로필 · 권한 집합 권한 칸마다 테넌트 아래 닿는 종류와 수준 — Modify All Data 내용 쓰기 · 설정 관리, View All Data 내용 읽기, Manage Users 설정 · 계정 관리, Author Apex 설정 쓰기(tenant_scope salesforce 예외가 읽는다)'}
+  - name: 내려갈 때 상한
+    now:
+    - {where: dictionary, ref: providers.yaml inherit_caps, value: Slack 대화 → 메시지는 read 까지}
+
+- id: scope_visibility
+  name: 범위 공개
+  sentence: 범위 안 사람 모두(회사 전체 · 도메인 · 누구나)가 자원을 볼 수 있다
+  relations: [shared_with, contained_in]
+  covers:
+    effects: ['shared_with:*:G']
+    conditions: [shared_with.anyone, shared_with.set, shared_with.role, shared_with.slack_conversation.is_private_false,
+                 shared_with.slack_conversation.is_private_true, shared_with.slack_conversation.is_private_unknown,
+                 contained_in.slack_conversation.is_private_false]
+  blanks:
+  - name: 어느 칸이 "공개"를 뜻하나
+    now:
+    - {where: dictionary, ref: providers.yaml visibility_scoped, value: 'Slack 대화의 is_private (false = 테넌트 공개, 없으면 모름)'}
+    - {where: condition, ref: shared_with.anyone · shared_with.set, value: 'Drive 공유 permission_type: anyone → 누구나, target_kind: set → 집합 전원'}
+  - name: 공개로 받는 능력
+    now:
+    - {where: condition, ref: shared_with.role, value: '공유 역할 writer → write, 그 밖 read'}
+  - name: 누가 넣는지 모르는 자원
+    now:
+    - {where: dictionary, ref: providers.yaml open_respondent_resources, value: Google 설문(form) — 응답자를 모른다}
+
+- id: ownership
+  name: 주인이라서
+  sentence: 자원의 주인은 그 자원에 관리자 능력을 가진다
+  relations: [owned_by]
+  covers:
+    effects: ['owned_by:Resource>Principal:G']
+    conditions: [owned_by.inactive_account, owned_by.registered_device]
+  blanks:
+  - name: 주인의 능력
+    now:
+    - {where: common, ref: relation_semantics owned_by, value: '모든 SaaS 공통 admin(5). 지금까지 SaaS 별로 다른 사례가 없다'}
+  - name: 주인 칸이 권한이 아닌 것
+    now:
+    - {where: condition, ref: relation_semantics owned_by.registered_device, value: 'GWS Cloud Identity 기기의 주인은 기기에 등록된 사용자일 뿐 기기 기록을 바꿀 권한이 아니다(devices API 는 관리자 역할). 관계는 남기고 닿음만 안 낸다(2026-11-03)'}
+
+- id: gate
+  name: 문 (둘 다 만족해야)
+  sentence: 멤버이면서 그리고 다른 조건(IdP 그룹 등)도 만족해야 들어간다. 권한을 주지 않고 줄이기만 한다
+  status: missing
+  relations: [restricted_to]
+  proposed_relations: [restricted_to]
+  covers: {}
+  blanks:
+  - name: 어떤 제한이 실제로 집행되나
+    now:
+    - {where: measured, ref: 'reports/EA_Validation_Report_v2.md §7.5 · docs/Slack_Profiles_v3.md restrictAccess', value: 'Slack 채널을 IdP 그룹으로 제한 — 그룹에서 빼면 채널 접근이 끊긴다. Profile 은 relation_type: null 로 둔 상태'}
+    - {where: none, ref: '', value: 담을 관계 타입이 없다 (restricted_to 신설 후보)}
+    - {where: code, ref: 'aegi-dashboard edges.ts buildEntryPoints @ 1b5481c · relation_semantics.yaml rules.entry_points', value: '엔진은 슬래시 명령 입구에 한해 채널 멤버 제한을 알 수 있다 — overrides.entry_point_gates(사람이 확인한 값), 코드(입구를 받는 Worker 배포 코드의 채널 거름을 정규화가 입구의 invoker_gate 에 적은 값, 2026-11-09) 또는 관측(다른 채널 요청이 「채널」 사유로 거부된 기록). 관계 · 사전 표에는 없고, 명세만으로는 테넌트 전원 + invoker_gate_not_stored 다. g2 의 /mfa-reset 은 거부 기록이 없어 엔진도 워크스페이스 전원으로 둔다 — 정답 위협 C 에서 4명을 더 잡는 것이 이것이다'}
+
+- id: exclusion
+  name: 제외
+  sentence: 정책이 특정 주체를 빼서 원래 받을 권한을 없앤다
+  relations: [excludes]
+  covers:
+    conditions: [has_role_on.excluded]
+    filters: [has_role_on.excluded]
+  blanks:
+  - name: 무엇이 제외인가
+    now:
+    - {where: common, ref: relation_semantics excludes, value: 'excludes 관계 그대로. 명세 근거 Okta conditions.people.*.exclude · GitHub ruleset bypass_actors (실데이터 0건)'}
+
+- id: run_as
+  name: 대리 실행
+  sentence: 자동화가 다른 신원의 권한으로 돈다. 그 신원이 닿는 곳에 자동화도 닿는다 (EA 규칙 runs_as_inherits)
+  relations: [runs_as]
+  covers:
+    effects: ['runs_as:*:A', 'runs_as:Automation>Credential:F']
+    conditions: [runs_as.inactive_account, runs_as.computed, runs_as.computed_caller, owned_by.caller]
+  blanks:
+  - name: 부른 사람 권한으로 도나
+    now:
+    - {where: common, ref: properties.run_as_resolution, value: 'caller 면 고정 신원으로 돌지 않는다'}
+  - name: 실행 신원을 계산했나
+    now:
+    - {where: common, ref: properties.basis, value: 'computed 면 불확실(runs_as_computed)'}
+
+- id: who_can_trigger
+  name: 시작 권한
+  sentence: 누가 · 무엇이 자동화를 시작시킬 수 있나. 시작시킬 수 있으면 자동화를 움직인다
+  relations: [triggered_by, contained_in]
+  covers:
+    effects: ['triggered_by:*:T']
+    conditions: [triggered_by.inactive_account, contained_in.gws_project]
+  blanks:
+  - name: 누가 부를 수 있나 (진입점)
+    now:
+    - {where: dictionary, ref: providers.yaml entry_points, value: 'Slack 슬래시 명령 → 워크스페이스 멤버 전원 (거르는 건 앱 코드라 모름). 간선의 뜻은 relation_semantics.yaml rules.entry_points. 엔진이 아는 채널 제한은 gate 방식에 적었다'}
+  - name: 컨테이너 편집자가 코드를 고치나
+    now:
+    - {where: dictionary, ref: providers.yaml container_bound_automations, value: 'Google Apps Script 컨테이너 바인딩(project), GitHub Actions 워크플로(workflow, 저장소 쓰기 권한자가 파일을 고침)'}
+
+- id: acts_for_app
+  name: 앱 · 자격증명으로 동작 (대행)
+  sentence: 엔드포인트 · 자동화 · 자격증명 · 봇이 앱이나 주체로서 동작한다. 그것을 쥐면 그 앱 · 주체가 된다
+  relations: [owned_by, acts_as, contained_in, authenticates_with]
+  covers:
+    effects: ['owned_by:Endpoint>Integration:A', 'owned_by:Endpoint>Tenant:A', 'owned_by:Automation>Integration:A',
+              'owned_by:Automation>Tenant:A', 'owned_by:Credential>Integration:A', 'owned_by:Credential>Tenant:A',
+              'owned_by:Principal>Integration:A', 'acts_as:*:A', 'contained_in:Endpoint>Integration:A']
+    conditions: [acts_as.inactive_account, has_role_on.via_grant, owned_by.delivery_endpoint, owned_by.outbound_endpoint, owned_by.app_refresh_token,
+                 owned_by.org_bearer_token, owned_by.public_certificate, owned_by.unknown_runner_tenant,
+                 authenticates_with.inactive_account, authenticates_with.org_bearer_token, authenticates_with.app_refresh_token]
+    filters: [owned_by.delivery_endpoint]
+  blanks:
+  - name: 토큰 범위(scope) → 세기
+    now:
+    - {where: dictionary, ref: capabilities.yaml scope_rank, value: 'Slack — admin 5, chat:write 3, 채널 history · read 1, 나머지 0. 역할 객체의 scope 목록은 capabilities.yaml role_scopes_from'}
+    - {where: dictionary, ref: capabilities.yaml role_scopes_from, value: '역할 객체에 이름이 없으면 properties.scopes 를 읽는다 (Slack bot-token)'}
+    - {where: dictionary, ref: capabilities.yaml token_scopes, value: '토큰 scope → 자원 마디(무엇에) · 능력 마디(무엇을) 두 표. SaaS 공통 틀, Okta 부터(2026-11-10). 접근 규칙 x_token_scoped 의 scopes_of 홉이 읽는다'}
+    - {where: dictionary, ref: capabilities.yaml token_scope_from, value: '토큰 객체의 scope 목록 칸(properties.scopes, properties.scope)'}
+    - {where: code, ref: aegi-dashboard blastRadius.ts tokenCapability(), value: "Okta · Google · Slack scope 해석을 provider === 분기 3개로. Slack 수신 웹훅 · Okta 인증 요소는 '아무것도 못 함' 분기 2개"}
+  - name: 받는 곳이 정해진 통로는 앱으로 동작하지 않는다
+    now:
+    - {where: condition, ref: relation_semantics owned_by.delivery_endpoint, value: 'receives_into 가 있는 Endpoint(Slack 수신 웹훅)는 owned_by 의 대행(A)을 만들지 않는다'}
+  - name: 앱의 봇 계정인가
+    now:
+    - {where: code, ref: aegi-dashboard identity.ts, value: "Slack user 에 app_id 가 있으면 서비스 계정 (provider === 'slack') — Object 판정 쪽이다"}
+
+- id: data_flow
+  name: 데이터 흐름
+  sentence: 통로 · 자동화를 거쳐 데이터가 어디로 흘러가고 어디에 쓰이나
+  relations: [receives_into, contained_in, runs_as, triggered_by]
+  covers:
+    effects: ['receives_into:*:F', 'receives_into:*:G', 'contained_in:*:F']
+    conditions: [contained_in.gws_project, contained_in.automation_resource, triggered_by.input_carried]
+  blanks:
+  - name: 흐름을 관측했나
+    now:
+    - {where: common, ref: uncertain flow_not_observed, value: 구조로만 아는 흐름은 불확실로 둔다}
+  - name: 시작시킨 자원의 내용이 자동화를 거쳐 나가나
+    now:
+    - {where: condition, ref: relation_semantics triggered_by.input_carried, value: '자격(웹훅 · 토큰)으로 내보내는 자동화면 시작시킨 자원 → 자동화 사본 이동(F, 구조상)을 만든다'}
+
+- id: idp_federation
+  name: IdP 연동
+  sentence: IdP(Okta)의 앱 배정 · 그룹이 다른 SaaS 의 계정 · 접근을 만든다
+  status: via_link
+  relations: []
+  covers: {}
+  blanks:
+  - name: IdP 앱 → 어느 SaaS 인가
+    now:
+    - {where: code, ref: aegi-dashboard blastRadius.ts oktaAppProvider(), value: "Okta 앱 이름이 google · slack · github 로 시작하는지로 찾는다"}
+  - name: 로그인을 대신해 주는 방식
+    now:
+    - {where: code, ref: aegi-dashboard blastRadius.ts SSO_SIGN_ON, value: 'SAML · WS-Fed · 비밀번호 저장 등은 넘어가고 OIDC · 북마크는 안 넘어간다'}
+  - name: IdP 그룹 → SaaS 그룹 · 채널
+    now:
+    - {where: measured, ref: 'reports/EA_Validation_Report_v2.md §7.5 · docs/Link_Schema_v3.md', value: 'Okta 그룹 push → Slack IdP 그룹 → 채널 제한. 양쪽 API 에 이어 붙일 키가 없어 Link 단계 미결'}

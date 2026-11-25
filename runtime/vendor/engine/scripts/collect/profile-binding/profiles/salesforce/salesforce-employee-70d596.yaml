@@ -1,0 +1,820 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Employee
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:c67496ac0cd68660f370d596
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:c67496ac0cd68660f370d596.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|Id
+  AboutMe:
+    path: AboutMe
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: textarea
+      name: AboutMe
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|AboutMe
+  AlternateEmail:
+    path: AlternateEmail
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: email
+      name: AlternateEmail
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|AlternateEmail
+  Availability:
+    path: Availability
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: Availability
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|Availability
+  AvailabilityEndDate:
+    path: AvailabilityEndDate
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: dateTime
+      name: AvailabilityEndDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|AvailabilityEndDate
+  AvailabilityStartDate:
+    path: AvailabilityStartDate
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: dateTime
+      name: AvailabilityStartDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|AvailabilityStartDate
+  BannerPhotoUrl:
+    path: BannerPhotoUrl
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: url
+      name: BannerPhotoUrl
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|BannerPhotoUrl
+  CurrentWellnessStatus:
+    path: CurrentWellnessStatus
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: CurrentWellnessStatus
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|CurrentWellnessStatus
+  DateOfBirth:
+    path: DateOfBirth
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: date
+      name: DateOfBirth
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|DateOfBirth
+  Email:
+    path: Email
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: email
+      name: Email
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|Email
+  EmployeeNumber:
+    path: EmployeeNumber
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: EmployeeNumber
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|EmployeeNumber
+  EmployeeStatus:
+    path: EmployeeStatus
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: EmployeeStatus
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|EmployeeStatus
+  EmploymentType:
+    path: EmploymentType
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: EmploymentType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|EmploymentType
+  FirstName:
+    path: FirstName
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: FirstName
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|FirstName
+  FullPhotoUrl:
+    path: FullPhotoUrl
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: url
+      name: FullPhotoUrl
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|FullPhotoUrl
+  Gender:
+    path: Gender
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: Gender
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|Gender
+  HomeAddress:
+    path: HomeAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: address
+      name: HomeAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|HomeAddress
+  HomeCity:
+    path: HomeCity
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: HomeCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|HomeCity
+  HomeCountry:
+    path: HomeCountry
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: HomeCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|HomeCountry
+  HomeGeocodeAccuracy:
+    path: HomeGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: HomeGeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|HomeGeocodeAccuracy
+  HomeLatitude:
+    path: HomeLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: double
+      name: HomeLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Employee|HomeLatitude
+  HomeLongitude:
+    path: HomeLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: double
+      name: HomeLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Employee|HomeLongitude
+  HomePhone:
+    path: HomePhone
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: phone
+      name: HomePhone
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|HomePhone
+  HomePostalCode:
+    path: HomePostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: HomePostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|HomePostalCode
+  HomeState:
+    path: HomeState
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: HomeState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|HomeState
+  HomeStreet:
+    path: HomeStreet
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: textarea
+      name: HomeStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|HomeStreet
+  IndividualId:
+    path: IndividualId
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: reference
+      name: IndividualId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|IndividualId
+  InternalOrganizationUnitId:
+    path: InternalOrganizationUnitId
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: reference
+      name: InternalOrganizationUnitId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|InternalOrganizationUnitId
+  JobProfile:
+    path: JobProfile
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: JobProfile
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|JobProfile
+  LastName:
+    path: LastName
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: LastName
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|LastName
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|LastViewedDate
+  LocationId:
+    path: LocationId
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: reference
+      name: LocationId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|LocationId
+  ManagerId:
+    path: ManagerId
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: reference
+      name: ManagerId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|ManagerId
+  MediumPhotoUrl:
+    path: MediumPhotoUrl
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: url
+      name: MediumPhotoUrl
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|MediumPhotoUrl
+  MiddleName:
+    path: MiddleName
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: MiddleName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|MiddleName
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: Name
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|Name
+  NameSuffix:
+    path: NameSuffix
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: NameSuffix
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|NameSuffix
+  OutOfOfficeMessage:
+    path: OutOfOfficeMessage
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: OutOfOfficeMessage
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|OutOfOfficeMessage
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|OwnerId
+  PreferredFirstName:
+    path: PreferredFirstName
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: string
+      name: PreferredFirstName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|PreferredFirstName
+  PreferredPronoun:
+    path: PreferredPronoun
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: PreferredPronoun
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|PreferredPronoun
+  RelatedPersonId:
+    path: RelatedPersonId
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: reference
+      name: RelatedPersonId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|RelatedPersonId
+  SmallPhotoUrl:
+    path: SmallPhotoUrl
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: url
+      name: SmallPhotoUrl
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|SmallPhotoUrl
+  StatusAsOf:
+    path: StatusAsOf
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: dateTime
+      name: StatusAsOf
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|StatusAsOf
+  StatusEndDate:
+    path: StatusEndDate
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: dateTime
+      name: StatusEndDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|StatusEndDate
+  TimeZone:
+    path: TimeZone
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: TimeZone
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|TimeZone
+  UserId:
+    path: UserId
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: reference
+      name: UserId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|UserId
+  WorkPhone:
+    path: WorkPhone
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: phone
+      name: WorkPhone
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|WorkPhone
+  WorkerType:
+    path: WorkerType
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: WorkerType
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|WorkerType
+  WorkingHoursEnd:
+    path: WorkingHoursEnd
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: WorkingHoursEnd
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|WorkingHoursEnd
+  WorkingHoursStart:
+    path: WorkingHoursStart
+    source: research_shape
+    shape: sh:sf_object_reference:Employee
+    declaration:
+      format: picklist
+      name: WorkingHoursStart
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Employee|WorkingHoursStart
+references: []
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Employee
+  interfaces: *a1
+  model:
+    research_type: object-type:c67496ac0cd68660f370d596
+  extract:
+    key: PILOT-salesforce-Employee-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-70d596
+            endpoint: /
+            items:
+              - records
+        properties:
+          AboutMe: AboutMe
+          AlternateEmail: AlternateEmail
+          Availability: Availability
+          AvailabilityEndDate: AvailabilityEndDate
+          AvailabilityStartDate: AvailabilityStartDate
+          BannerPhotoUrl: BannerPhotoUrl
+          CurrentWellnessStatus: CurrentWellnessStatus
+          DateOfBirth: DateOfBirth
+          Email: Email
+          EmployeeNumber: EmployeeNumber
+          EmployeeStatus: EmployeeStatus
+          EmploymentType: EmploymentType
+          FirstName: FirstName
+          FullPhotoUrl: FullPhotoUrl
+          Gender: Gender
+          HomeAddress: HomeAddress
+          HomeCity: HomeCity
+          HomeCountry: HomeCountry
+          HomeGeocodeAccuracy: HomeGeocodeAccuracy
+          HomeLatitude: HomeLatitude
+          HomeLongitude: HomeLongitude
+          HomePhone: HomePhone
+          HomePostalCode: HomePostalCode
+          HomeState: HomeState
+          HomeStreet: HomeStreet
+          Id: Id
+          IndividualId: IndividualId
+          InternalOrganizationUnitId: InternalOrganizationUnitId
+          JobProfile: JobProfile
+          LastName: LastName
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          LocationId: LocationId
+          ManagerId: ManagerId
+          MediumPhotoUrl: MediumPhotoUrl
+          MiddleName: MiddleName
+          Name: Name
+          NameSuffix: NameSuffix
+          OutOfOfficeMessage: OutOfOfficeMessage
+          OwnerId: OwnerId
+          PreferredFirstName: PreferredFirstName
+          PreferredPronoun: PreferredPronoun
+          RelatedPersonId: RelatedPersonId
+          SmallPhotoUrl: SmallPhotoUrl
+          StatusAsOf: StatusAsOf
+          StatusEndDate: StatusEndDate
+          TimeZone: TimeZone
+          UserId: UserId
+          WorkPhone: WorkPhone
+          WorkerType: WorkerType
+          WorkingHoursEnd: WorkingHoursEnd
+          WorkingHoursStart: WorkingHoursStart
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:Employee.query
+  operation: Employee.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Employee
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Employee
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Employee.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Employee/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

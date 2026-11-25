@@ -1,0 +1,873 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Event
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:f10f2c8097e82dce959f8706
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:f10f2c8097e82dce959f8706.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|Id
+  AcceptedEventInviteeIds:
+    path: AcceptedEventInviteeIds
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: JunctionIdList
+      name: AcceptedEventInviteeIds
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|AcceptedEventInviteeIds
+  AccountId:
+    path: AccountId
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: reference
+      name: AccountId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|AccountId
+  ActivityDate:
+    path: ActivityDate
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: date
+      name: ActivityDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|ActivityDate
+  ActivityDateTime:
+    path: ActivityDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: dateTime
+      name: ActivityDateTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|ActivityDateTime
+  ClientGuid:
+    path: ClientGuid
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: string
+      name: ClientGuid
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|ClientGuid
+  CurrencyIsoCode:
+    path: CurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: CurrencyIsoCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|CurrencyIsoCode
+  DeclinedEventInviteeIds:
+    path: DeclinedEventInviteeIds
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: JunctionIdLIst
+      name: DeclinedEventInviteeIds
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|DeclinedEventInviteeIds
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|Description
+  Division:
+    path: Division
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: Division
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|Division
+  DurationInMinutes:
+    path: DurationInMinutes
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: int
+      name: DurationInMinutes
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Event|DurationInMinutes
+  EndDate:
+    path: EndDate
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: date
+      name: EndDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|EndDate
+  EndDateTime:
+    path: EndDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: dateTime
+      name: EndDateTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|EndDateTime
+  EventSubtype:
+    path: EventSubtype
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: EventSubtype
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|EventSubtype
+  EventWhoIds:
+    path: EventWhoIds
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: JunctionIdList
+      name: EventWhoIds
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|EventWhoIds
+  GroupEventType:
+    path: GroupEventType
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: GroupEventType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|GroupEventType
+  IsAllDayEvent:
+    path: IsAllDayEvent
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsAllDayEvent
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsAllDayEvent
+  IsArchived:
+    path: IsArchived
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsArchived
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsArchived
+  IsChild:
+    path: IsChild
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsChild
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsChild
+  IsClientManaged:
+    path: IsClientManaged
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsClientManaged
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsClientManaged
+  IsGroupEvent:
+    path: IsGroupEvent
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsGroupEvent
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsGroupEvent
+  IsPrivate:
+    path: IsPrivate
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsPrivate
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsPrivate
+  IsRecurrence:
+    path: IsRecurrence
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsRecurrence
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsRecurrence
+  IsRecurrence2:
+    path: IsRecurrence2
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsRecurrence2
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsRecurrence2
+  IsRecurrence2Exception:
+    path: IsRecurrence2Exception
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsRecurrence2Exception
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsRecurrence2Exception
+  IsRecurrence2Exclusion:
+    path: IsRecurrence2Exclusion
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsRecurrence2Exclusion
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsRecurrence2Exclusion
+  IsReminderSet:
+    path: IsReminderSet
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsReminderSet
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsReminderSet
+  IsVisibleInSelfService:
+    path: IsVisibleInSelfService
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: boolean
+      name: IsVisibleInSelfService
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Event|IsVisibleInSelfService
+  Location:
+    path: Location
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: string
+      name: Location
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|Location
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|OwnerId
+  Recurrence2PatternStartDate:
+    path: Recurrence2PatternStartDate
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: dateTime
+      name: Recurrence2PatternStartDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|Recurrence2PatternStartDate
+  Recurrence2PatternText:
+    path: Recurrence2PatternText
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: textarea
+      name: Recurrence2PatternText
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|Recurrence2PatternText
+  Recurrence2PatternTimeZone:
+    path: Recurrence2PatternTimeZone
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: string
+      name: Recurrence2PatternTimeZone
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|Recurrence2PatternTimeZone
+  Recurrence2PatternVersion:
+    path: Recurrence2PatternVersion
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: Recurrence2PatternVersion
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|Recurrence2PatternVersion
+  RecurrenceActivityId:
+    path: RecurrenceActivityId
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: reference
+      name: RecurrenceActivityId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|RecurrenceActivityId
+  RecurrenceDayOfMonth:
+    path: RecurrenceDayOfMonth
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: int
+      name: RecurrenceDayOfMonth
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Event|RecurrenceDayOfMonth
+  RecurrenceDayOfWeekMask:
+    path: RecurrenceDayOfWeekMask
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: int
+      name: RecurrenceDayOfWeekMask
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Event|RecurrenceDayOfWeekMask
+  RecurrenceEndDateOnly:
+    path: RecurrenceEndDateOnly
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: date
+      name: RecurrenceEndDateOnly
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|RecurrenceEndDateOnly
+  RecurrenceInstance:
+    path: RecurrenceInstance
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: RecurrenceInstance
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|RecurrenceInstance
+  RecurrenceInterval:
+    path: RecurrenceInterval
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: int
+      name: RecurrenceInterval
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Event|RecurrenceInterval
+  RecurrenceMonthOfYear:
+    path: RecurrenceMonthOfYear
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: RecurrenceMonthOfYear
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|RecurrenceMonthOfYear
+  RecurrenceStartDateTime:
+    path: RecurrenceStartDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: dateTime
+      name: RecurrenceStartDateTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|RecurrenceStartDateTime
+  RecurrenceTimeZoneSidKey:
+    path: RecurrenceTimeZoneSidKey
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: RecurrenceTimeZoneSidKey
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|RecurrenceTimeZoneSidKey
+  RecurrenceType:
+    path: RecurrenceType
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: RecurrenceType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|RecurrenceType
+  ReminderDateTime:
+    path: ReminderDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: dateTime
+      name: ReminderDateTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|ReminderDateTime
+  ShowAs:
+    path: ShowAs
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: ShowAs
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|ShowAs
+  StartDateTime:
+    path: StartDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: dateTime
+      name: StartDateTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|StartDateTime
+  Subject:
+    path: Subject
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: combobox
+      name: Subject
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|Subject
+  Type:
+    path: Type
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: picklist
+      name: Type
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|Type
+  UndecidedEventInviteeIds:
+    path: UndecidedEventInviteeIds
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: JunctionIdList
+      name: UndecidedEventInviteeIds
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|UndecidedEventInviteeIds
+  WhatCount:
+    path: WhatCount
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: int
+      name: WhatCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Event|WhatCount
+  WhatId:
+    path: WhatId
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: reference
+      name: WhatId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|WhatId
+  WhoCount:
+    path: WhoCount
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: int
+      name: WhoCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Event|WhoCount
+  WhoId:
+    path: WhoId
+    source: research_shape
+    shape: sh:sf_object_reference:Event
+    declaration:
+      format: reference
+      name: WhoId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Event|WhoId
+references:
+  - name: ownerid
+    field: OwnerId
+    target: Calendar
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0881cc3f706ab5c4ab448cd0; relation=no_relation
+  - name: whatid
+    field: WhatId
+    target: AssetRelationship
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1135c2ed9f8780508fe700f5; relation=no_relation
+  - name: accountid
+    field: AccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:19223bd39494dc29b3f43c9f; relation=no_relation
+  - name: whoid
+    field: WhoId
+    target: Lead
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a0707a198dc3602406cfa97d; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Event
+  interfaces: *a1
+  model:
+    research_type: object-type:f10f2c8097e82dce959f8706
+  extract:
+    key: PILOT-salesforce-Event-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-9f8706
+            endpoint: /
+            items:
+              - records
+        properties:
+          AcceptedEventInviteeIds: AcceptedEventInviteeIds
+          AccountId: AccountId
+          ActivityDate: ActivityDate
+          ActivityDateTime: ActivityDateTime
+          ClientGuid: ClientGuid
+          CurrencyIsoCode: CurrencyIsoCode
+          DeclinedEventInviteeIds: DeclinedEventInviteeIds
+          Description: Description
+          Division: Division
+          DurationInMinutes: DurationInMinutes
+          EndDate: EndDate
+          EndDateTime: EndDateTime
+          EventSubtype: EventSubtype
+          EventWhoIds: EventWhoIds
+          GroupEventType: GroupEventType
+          Id: Id
+          IsAllDayEvent: IsAllDayEvent
+          IsArchived: IsArchived
+          IsChild: IsChild
+          IsClientManaged: IsClientManaged
+          IsGroupEvent: IsGroupEvent
+          IsPrivate: IsPrivate
+          IsRecurrence: IsRecurrence
+          IsRecurrence2: IsRecurrence2
+          IsRecurrence2Exception: IsRecurrence2Exception
+          IsRecurrence2Exclusion: IsRecurrence2Exclusion
+          IsReminderSet: IsReminderSet
+          IsVisibleInSelfService: IsVisibleInSelfService
+          Location: Location
+          OwnerId: OwnerId
+          Recurrence2PatternStartDate: Recurrence2PatternStartDate
+          Recurrence2PatternText: Recurrence2PatternText
+          Recurrence2PatternTimeZone: Recurrence2PatternTimeZone
+          Recurrence2PatternVersion: Recurrence2PatternVersion
+          RecurrenceActivityId: RecurrenceActivityId
+          RecurrenceDayOfMonth: RecurrenceDayOfMonth
+          RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask
+          RecurrenceEndDateOnly: RecurrenceEndDateOnly
+          RecurrenceInstance: RecurrenceInstance
+          RecurrenceInterval: RecurrenceInterval
+          RecurrenceMonthOfYear: RecurrenceMonthOfYear
+          RecurrenceStartDateTime: RecurrenceStartDateTime
+          RecurrenceTimeZoneSidKey: RecurrenceTimeZoneSidKey
+          RecurrenceType: RecurrenceType
+          ReminderDateTime: ReminderDateTime
+          ShowAs: ShowAs
+          StartDateTime: StartDateTime
+          Subject: Subject
+          Type: Type
+          UndecidedEventInviteeIds: UndecidedEventInviteeIds
+          WhatCount: WhatCount
+          WhatId: WhatId
+          WhoCount: WhoCount
+          WhoId: WhoId
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:Event.query
+  operation: Event.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Event
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Event
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Event.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Event/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - OwnerId
+    - WhatId
+    - AccountId
+    - WhoId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

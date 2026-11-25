@@ -1,0 +1,1786 @@
+{
+ "counts": {
+  "different": 17,
+  "same": 38,
+  "view_or_variant": 19
+ },
+ "groups": [
+  {
+   "canonical": "Status",
+   "forms": {
+    "Status": "key_only",
+    "simple-commit-status": "value_identity"
+   },
+   "members": [
+    "Status",
+    "simple-commit-status"
+   ]
+  },
+  {
+   "canonical": "automations",
+   "forms": {
+    "automations": "global",
+    "automations_2": "local"
+   },
+   "members": [
+    "automations",
+    "automations_2"
+   ]
+  },
+  {
+   "canonical": "check-run",
+   "forms": {
+    "CheckRun": "key_only",
+    "check-run": "local"
+   },
+   "members": [
+    "check-run",
+    "CheckRun"
+   ]
+  },
+  {
+   "canonical": "check-suite",
+   "forms": {
+    "CheckSuite": "key_only",
+    "check-suite": "local"
+   },
+   "members": [
+    "check-suite",
+    "CheckSuite"
+   ]
+  },
+  {
+   "canonical": "commit",
+   "forms": {
+    "Commit": "key_only",
+    "commit": "local",
+    "git-commit": "local"
+   },
+   "members": [
+    "commit",
+    "git-commit",
+    "Commit"
+   ]
+  },
+  {
+   "canonical": "commit-comment",
+   "forms": {
+    "CommitComment": "key_only",
+    "commit-comment": "local"
+   },
+   "members": [
+    "commit-comment",
+    "CommitComment"
+   ]
+  },
+  {
+   "canonical": "deployment",
+   "forms": {
+    "Deployment": "key_only",
+    "deployment": "local"
+   },
+   "members": [
+    "deployment",
+    "Deployment"
+   ]
+  },
+  {
+   "canonical": "deployment-status",
+   "forms": {
+    "DeploymentStatus": "key_only",
+    "deployment-status": "local"
+   },
+   "members": [
+    "deployment-status",
+    "DeploymentStatus"
+   ]
+  },
+  {
+   "canonical": "environment",
+   "forms": {
+    "Environment": "key_only",
+    "environment": "local"
+   },
+   "members": [
+    "environment",
+    "Environment"
+   ]
+  },
+  {
+   "canonical": "full-repository",
+   "forms": {
+    "Repository": "key_only",
+    "full-repository": "local",
+    "team-repository": "local",
+    "team-repository.repo": "promoted_key"
+   },
+   "members": [
+    "full-repository",
+    "team-repository",
+    "Repository",
+    "team-repository.repo"
+   ]
+  },
+  {
+   "canonical": "gist-comment",
+   "forms": {
+    "GistComment": "key_only",
+    "gist-comment": "local"
+   },
+   "members": [
+    "gist-comment",
+    "GistComment"
+   ]
+  },
+  {
+   "canonical": "gist-simple",
+   "forms": {
+    "Gist": "key_only",
+    "gist-simple": "global"
+   },
+   "members": [
+    "gist-simple",
+    "Gist"
+   ]
+  },
+  {
+   "canonical": "git-ref",
+   "forms": {
+    "Ref": "key_only",
+    "git-ref": "local"
+   },
+   "members": [
+    "git-ref",
+    "Ref"
+   ]
+  },
+  {
+   "canonical": "git-tag",
+   "forms": {
+    "Tag": "key_only",
+    "git-tag": "local"
+   },
+   "members": [
+    "git-tag",
+    "Tag"
+   ]
+  },
+  {
+   "canonical": "issue",
+   "forms": {
+    "Issue": "key_only",
+    "issue": "local"
+   },
+   "members": [
+    "issue",
+    "Issue"
+   ]
+  },
+  {
+   "canonical": "issue-comment",
+   "forms": {
+    "IssueComment": "key_only",
+    "issue-comment": "local"
+   },
+   "members": [
+    "issue-comment",
+    "IssueComment"
+   ]
+  },
+  {
+   "canonical": "label",
+   "forms": {
+    "Label": "key_only",
+    "label": "local"
+   },
+   "members": [
+    "label",
+    "Label"
+   ]
+  },
+  {
+   "canonical": "license",
+   "forms": {
+    "License": "key_only",
+    "license": "global"
+   },
+   "members": [
+    "license",
+    "License"
+   ]
+  },
+  {
+   "canonical": "milestone",
+   "forms": {
+    "Milestone": "key_only",
+    "milestone": "local"
+   },
+   "members": [
+    "milestone",
+    "Milestone"
+   ]
+  },
+  {
+   "canonical": "organization-full",
+   "forms": {
+    "Organization": "key_only",
+    "organization-full": "global",
+    "organization-simple": "local"
+   },
+   "members": [
+    "organization-full",
+    "organization-simple",
+    "Organization"
+   ]
+  },
+  {
+   "canonical": "projects-v2",
+   "forms": {
+    "Project": "key_only",
+    "projects-v2": "local"
+   },
+   "members": [
+    "projects-v2",
+    "Project"
+   ]
+  },
+  {
+   "canonical": "public-user",
+   "forms": {
+    "User": "key_only",
+    "public-user": "global"
+   },
+   "members": [
+    "public-user",
+    "User"
+   ]
+  },
+  {
+   "canonical": "pull-request",
+   "forms": {
+    "PullRequest": "key_only",
+    "pull-request": "local"
+   },
+   "members": [
+    "pull-request",
+    "PullRequest"
+   ]
+  },
+  {
+   "canonical": "pull-request-review",
+   "forms": {
+    "PullRequestReview": "key_only",
+    "pull-request-review": "local"
+   },
+   "members": [
+    "pull-request-review",
+    "PullRequestReview"
+   ]
+  },
+  {
+   "canonical": "pull-request-review-comment",
+   "forms": {
+    "PullRequestReviewComment": "key_only",
+    "pull-request-review-comment": "local"
+   },
+   "members": [
+    "pull-request-review-comment",
+    "PullRequestReviewComment"
+   ]
+  },
+  {
+   "canonical": "reactions",
+   "forms": {
+    "Reaction": "key_only",
+    "reactions": "write_addressed"
+   },
+   "members": [
+    "reactions",
+    "Reaction"
+   ]
+  },
+  {
+   "canonical": "release",
+   "forms": {
+    "Release": "key_only",
+    "release": "local"
+   },
+   "members": [
+    "release",
+    "Release"
+   ]
+  },
+  {
+   "canonical": "release-asset",
+   "forms": {
+    "ReleaseAsset": "key_only",
+    "release-asset": "local"
+   },
+   "members": [
+    "release-asset",
+    "ReleaseAsset"
+   ]
+  },
+  {
+   "canonical": "simple-user",
+   "forms": {
+    "simple-user": "global",
+    "team-membership.username": "promoted_key"
+   },
+   "members": [
+    "simple-user",
+    "team-membership.username"
+   ]
+  },
+  {
+   "canonical": "tasks_2",
+   "forms": {
+    "tasks": "local",
+    "tasks_2": "global"
+   },
+   "members": [
+    "tasks_2",
+    "tasks"
+   ]
+  },
+  {
+   "canonical": "team-full",
+   "forms": {
+    "Team": "key_only",
+    "team-full": "local"
+   },
+   "members": [
+    "team-full",
+    "Team"
+   ]
+  },
+  {
+   "canonical": "workflow",
+   "forms": {
+    "Workflow": "key_only",
+    "workflow": "local"
+   },
+   "members": [
+    "workflow",
+    "Workflow"
+   ]
+  }
+ ],
+ "pairs": [
+  {
+   "basis": "stated",
+   "decision": "same",
+   "jev_target": [
+    "org-membership",
+    0.58
+   ],
+   "key_kind": "name",
+   "pair": [
+    "simple-user",
+    "team-membership.username"
+   ],
+   "previous_jev_target": [
+    "org-membership",
+    0.58
+   ],
+   "signals": [
+    [
+     "S3",
+     false,
+     "연결 레코드 team-membership 의 키 값으로 대상을 못 정했다 (값 1)"
+    ]
+   ],
+   "source_evidence": {
+    "locator": "paths./orgs/{org}/teams/{team_slug}/memberships/{username}; components.parameters.username",
+    "reason": "The username path parameter identifies a GitHub user by login; the membership record is not that identity.",
+    "source": "gh_rest_ghec_next_2026_03_10_latest"
+   }
+  },
+  {
+   "basis": "stated",
+   "decision": "same",
+   "jev_target": [
+    "none",
+    0.84
+   ],
+   "key_kind": "name",
+   "pair": [
+    "full-repository",
+    "team-repository.repo"
+   ],
+   "previous_jev_target": [
+    "none",
+    0.84
+   ],
+   "signals": [
+    [
+     "S3",
+     false,
+     "연결 레코드 team-repository 의 키 값으로 대상을 못 정했다 (값 1)"
+    ]
+   ],
+   "source_evidence": {
+    "locator": "paths./orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}; components.parameters.repo",
+    "reason": "Repository name resolves only together with owner; the target is Repository, not a team-repository assignment.",
+    "source": "gh_rest_ghec_next_2026_03_10_latest"
+   }
+  },
+  {
+   "combined": 0.16005206638831554,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.24,
+    "same_identifier": 0.17,
+    "scoped_view": 0.21,
+    "variant_of_parent": 0.9
+   },
+   "pair": [
+    "AddedToStackEvent",
+    "RemovedFromStackEvent"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 6개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.14580997358267117,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.29,
+    "same_identifier": 0.12,
+    "scoped_view": 0.19,
+    "variant_of_parent": 0.91
+   },
+   "pair": [
+    "AutomaticBaseChangeFailedEvent",
+    "AutomaticBaseChangeSucceededEvent"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 6개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.13750688670741412,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.22,
+    "same_identifier": 0.13,
+    "scoped_view": 0.28,
+    "variant_of_parent": 0.91
+   },
+   "pair": [
+    "BaseRefForcePushedEvent",
+    "HeadRefForcePushedEvent"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 7개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "CheckRun",
+    "check-run"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST check-run 의 node_id 가 GraphQL 타입 ['CheckRun'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "CheckSuite",
+    "check-suite"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST check-suite 의 node_id 가 GraphQL 타입 ['CheckSuite'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Commit",
+    "commit"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST commit 의 node_id 가 GraphQL 타입 ['Commit'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Commit",
+    "git-commit"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST git-commit 의 node_id 가 GraphQL 타입 ['Commit'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "CommitComment",
+    "commit-comment"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST commit-comment 의 node_id 가 GraphQL 타입 ['CommitComment'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15466803737720355,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.2,
+    "same_identifier": 0.17,
+    "scoped_view": 0.17,
+    "variant_of_parent": 0.89
+   },
+   "pair": [
+    "ConnectedEvent",
+    "DisconnectedEvent"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 6개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.20567101162059634,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.42,
+    "same_identifier": 0.16,
+    "scoped_view": 0.28,
+    "variant_of_parent": 0.87
+   },
+   "pair": [
+    "ConvertToDraftEvent",
+    "ReadyForReviewEvent"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 6개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Deployment",
+    "deployment"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST deployment 의 node_id 가 GraphQL 타입 ['Deployment'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "DeploymentStatus",
+    "deployment-status"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST deployment-status 의 node_id 가 GraphQL 타입 ['DeploymentStatus'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Environment",
+    "environment"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST environment 의 node_id 가 GraphQL 타입 ['Environment'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Gist",
+    "gist-simple"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST gist-simple 의 node_id 가 GraphQL 타입 ['Gist'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "GistComment",
+    "gist-comment"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST gist-comment 의 node_id 가 GraphQL 타입 ['GistComment'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Issue",
+    "issue"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST issue 의 node_id 가 GraphQL 타입 ['Issue'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "IssueComment",
+    "issue-comment"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST issue-comment 의 node_id 가 GraphQL 타입 ['IssueComment'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.19219973427746714,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.47,
+    "same_identifier": 0.19,
+    "scoped_view": 0.31,
+    "variant_of_parent": 0.92
+   },
+   "pair": [
+    "IssueFieldDate",
+    "IssueFieldNumber"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 7개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15326188647871064,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.3,
+    "same_identifier": 0.17,
+    "scoped_view": 0.28,
+    "variant_of_parent": 0.93
+   },
+   "pair": [
+    "IssueFieldMultiSelect",
+    "IssueFieldSingleSelect"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 8개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.181712059283214,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.42,
+    "same_identifier": 0.18,
+    "scoped_view": 0.26,
+    "variant_of_parent": 0.92
+   },
+   "pair": [
+    "IssueFieldNumber",
+    "IssueFieldText"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 7개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Label",
+    "label"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST label 의 node_id 가 GraphQL 타입 ['Label'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.23452900988768358,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.4,
+    "same_identifier": 0.19,
+    "scoped_view": 0.34,
+    "variant_of_parent": 0.83
+   },
+   "pair": [
+    "LabeledEvent",
+    "UnlabeledEvent"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 6개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "License",
+    "license"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST license 의 node_id 가 GraphQL 타입 ['License'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16984992522418108,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.26,
+    "same_identifier": 0.19,
+    "scoped_view": 0.23,
+    "variant_of_parent": 0.9
+   },
+   "pair": [
+    "MarkedAsDuplicateEvent",
+    "UnmarkedAsDuplicateEvent"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 6개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Milestone",
+    "milestone"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST milestone 의 node_id 가 GraphQL 타입 ['Milestone'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.13750688670741412,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.2,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.57
+   },
+   "pair": [
+    "Organization",
+    "migration"
+   ],
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST migration 의 node_id 가 GraphQL 타입 ['Organization', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Organization",
+    "organization-full"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST organization-full 의 node_id 가 GraphQL 타입 ['Organization'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "jev",
+   "combined": 0.6402082655532622,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.9,
+    "same_identifier": 0.36,
+    "scoped_view": 0.35,
+    "variant_of_parent": 0.19
+   },
+   "pair": [
+    "Organization",
+    "organization-simple"
+   ],
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST organization-simple 의 node_id 가 GraphQL 타입 ['Organization', 'Repository', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ]
+  },
+  {
+   "combined": 0.18852036310209863,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.07,
+    "same_identifier": 0.26,
+    "scoped_view": 0.11,
+    "variant_of_parent": 0.63
+   },
+   "pair": [
+    "Organization",
+    "simple-user"
+   ],
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST simple-user 의 node_id 가 GraphQL 타입 ['Organization', 'Repository', 'Team', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16984992522418108,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.29,
+    "same_identifier": 0.17,
+    "scoped_view": 0.23,
+    "variant_of_parent": 0.9
+   },
+   "pair": [
+    "PrivateRepositoryForkingDisableAuditEntry",
+    "PrivateRepositoryForkingEnableAuditEntry"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 8개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Project",
+    "projects-v2"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST projects-v2 의 node_id 가 GraphQL 타입 ['Project'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "PullRequest",
+    "pull-request"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST pull-request 의 node_id 가 GraphQL 타입 ['PullRequest'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "PullRequestReview",
+    "pull-request-review"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST pull-request-review 의 node_id 가 GraphQL 타입 ['PullRequestReview'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "PullRequestReviewComment",
+    "pull-request-review-comment"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST pull-request-review-comment 의 node_id 가 GraphQL 타입 ['PullRequestReviewComment'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Reaction",
+    "reactions"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST reactions 의 node_id 가 GraphQL 타입 ['Reaction'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Ref",
+    "git-ref"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST git-ref 의 node_id 가 GraphQL 타입 ['Ref'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Release",
+    "release"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST release 의 node_id 가 GraphQL 타입 ['Release'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "ReleaseAsset",
+    "release-asset"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST release-asset 의 node_id 가 GraphQL 타입 ['ReleaseAsset'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.18852036310209863,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.32,
+    "same_identifier": 0.21,
+    "scoped_view": 0.21,
+    "variant_of_parent": 0.9
+   },
+   "pair": [
+    "RepoAddTopicAuditEntry",
+    "RepoRemoveTopicAuditEntry"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 7개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Repository",
+    "full-repository"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST full-repository 의 node_id 가 GraphQL 타입 ['Repository'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1338865900164339,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.04,
+    "same_identifier": 0.12,
+    "scoped_view": 0.13,
+    "variant_of_parent": 0.51
+   },
+   "pair": [
+    "Repository",
+    "organization-simple"
+   ],
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST organization-simple 의 node_id 가 GraphQL 타입 ['Organization', 'Repository', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1238562329630171,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.16,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.61
+   },
+   "pair": [
+    "Repository",
+    "simple-user"
+   ],
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST simple-user 의 node_id 가 GraphQL 타입 ['Organization', 'Repository', 'Team', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Repository",
+    "team-repository"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST team-repository 의 node_id 가 GraphQL 타입 ['Repository'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Status",
+    "simple-commit-status"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST simple-commit-status 의 node_id 가 GraphQL 타입 ['Status'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Tag",
+    "git-tag"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST git-tag 의 node_id 가 GraphQL 타입 ['Tag'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "human",
+   "decision": "different",
+   "pair": [
+    "Team",
+    "enterprise-team-with-member-count"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST enterprise-team-with-member-count 의 node_id 가 GraphQL 타입 ['Team'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.16386425412012917,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.06,
+    "same_identifier": 0.21,
+    "scoped_view": 0.13,
+    "variant_of_parent": 0.65
+   },
+   "pair": [
+    "Team",
+    "simple-user"
+   ],
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST simple-user 의 node_id 가 GraphQL 타입 ['Organization', 'Repository', 'Team', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ]
+  },
+  {
+   "basis": "human",
+   "combined": null,
+   "decision": "same",
+   "jev": {},
+   "pair": [
+    "Team",
+    "team-full"
+   ],
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST team-full 의 node_id 가 GraphQL 타입 ['Team', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15326188647871064,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.2,
+    "same_identifier": 0.18,
+    "scoped_view": 0.19,
+    "variant_of_parent": 0.9
+   },
+   "pair": [
+    "TeamAddRepositoryAuditEntry",
+    "TeamRemoveRepositoryAuditEntry"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 9개)', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "stated",
+   "decision": "different",
+   "pair": [
+    "User",
+    "invitations"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST invitations 의 node_id 가 GraphQL 타입 ['User'] 로 풀린다"
+    ]
+   ],
+   "source_evidence": {
+    "locator": "components.schemas.organization-invitation.properties.id, inviter, node_id",
+    "reason": "Invitation has its own id and inviter is a separate simple-user reference. The schema node_id example identifies OrganizationInvitation; reused operation examples identifying User must not merge invitation with the invited/inviting user.",
+    "source": "gh_rest_ghec_next_2026_03_10_latest"
+   }
+  },
+  {
+   "combined": 0.1238562329630171,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.19,
+    "scoped_view": 0.07,
+    "variant_of_parent": 0.5
+   },
+   "pair": [
+    "User",
+    "migration"
+   ],
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST migration 의 node_id 가 GraphQL 타입 ['Organization', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ]
+  },
+  {
+   "combined": 0.12599210498948732,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.03,
+    "same_identifier": 0.17,
+    "scoped_view": 0.09,
+    "variant_of_parent": 0.61
+   },
+   "pair": [
+    "User",
+    "organization-simple"
+   ],
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST organization-simple 의 node_id 가 GraphQL 타입 ['Organization', 'Repository', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "User",
+    "public-user"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST public-user 의 node_id 가 GraphQL 타입 ['User'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "basis": "human",
+   "combined": 0.6149926189432964,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.85,
+    "same_identifier": 0.38,
+    "scoped_view": 0.25,
+    "variant_of_parent": 0.28
+   },
+   "pair": [
+    "User",
+    "simple-user"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST simple-user 의 node_id 가 GraphQL 타입 ['Organization', 'Repository', 'Team', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ],
+   "v2_decision": "V2-S4"
+  },
+  {
+   "combined": 0.10626585691826111,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.02,
+    "same_identifier": 0.15,
+    "scoped_view": 0.11,
+    "variant_of_parent": 0.59
+   },
+   "pair": [
+    "User",
+    "team-full"
+   ],
+   "signals": [
+    [
+     "S1",
+     false,
+     "REST team-full 의 node_id 가 GraphQL 타입 ['Team', 'User'] 로 풀린다 (여러 타입: 다형)"
+    ]
+   ]
+  },
+  {
+   "basis": "rule",
+   "decision": "same",
+   "pair": [
+    "Workflow",
+    "workflow"
+   ],
+   "signals": [
+    [
+     "S1",
+     true,
+     "REST workflow 의 node_id 가 GraphQL 타입 ['Workflow'] 로 풀린다"
+    ]
+   ]
+  },
+  {
+   "combined": 0.3194521877280065,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.64,
+    "same_identifier": 0.17,
+    "scoped_view": 0.32,
+    "variant_of_parent": 0.7
+   },
+   "pair": [
+    "announcement-banner",
+    "{}"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단일 자원 GET, DELETE+PATCH /orgs/{org}/announcement', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "jev",
+   "combined": 0.6062313559292821,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.84,
+    "same_identifier": 0.51,
+    "scoped_view": 0.79,
+    "variant_of_parent": 0.48
+   },
+   "pair": [
+    "automations",
+    "automations_2"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['id', 'model', 'name']\", 5), (\"인스턴스 값 쌍 일치 ['id', 'model', 'name', 'tools']\", 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.1560490750707885,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.25,
+    "scoped_view": 0.13,
+    "variant_of_parent": 0.81
+   },
+   "pair": [
+    "automations",
+    "tasks_2"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['a1b2c3d4-e5f6-7890-abcd-ef1234567890']"
+    ]
+   ]
+  },
+  {
+   "combined": 0.3361975406798963,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.4,
+    "same_identifier": 0.19,
+    "scoped_view": 0.31,
+    "variant_of_parent": 0.5
+   },
+   "pair": [
+    "content-file",
+    "contents"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단건 왕복 GET /repos/{owner}/{repo}/contents/{path}', 4)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.33080306403236254,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.58,
+    "same_identifier": 0.26,
+    "scoped_view": 0.54,
+    "variant_of_parent": 0.76
+   },
+   "pair": [
+    "custom-property",
+    "organization-custom-property"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['allowed_values', 'allowed_values', 'description', 'property_name']\", 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.4707186831990101,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.63,
+    "same_identifier": 0.36,
+    "scoped_view": 0.61,
+    "variant_of_parent": 0.54
+   },
+   "pair": [
+    "enterprise-team-with-member-count",
+    "team-full"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['description', 'html_url', 'members_url', 'name']\", 6)]"
+    ]
+   ]
+  },
+  {
+   "basis": "jev",
+   "combined": 0.5601955099659441,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.85,
+    "same_identifier": 0.47,
+    "scoped_view": 0.67,
+    "variant_of_parent": 0.56
+   },
+   "pair": [
+    "full-repository",
+    "team-repository"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['archive_url', 'assignees_url', 'blobs_url', 'branches_url']\", 6), (\"인스턴스 값 쌍 일치 ['full_name', 'id', 'name']\", 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.31977849253885177,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.29,
+    "same_identifier": 0.49,
+    "scoped_view": 0.44,
+    "variant_of_parent": 0.77
+   },
+   "pair": [
+    "issue",
+    "pull-request"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['body', 'node_id', 'title']\", 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.45661024279050544,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.62,
+    "same_identifier": 0.32,
+    "scoped_view": 0.37,
+    "variant_of_parent": 0.52
+   },
+   "pair": [
+    "marketplace-purchase",
+    "organization-full"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['login', 'type', 'url']\", 2), (\"인스턴스 값 쌍 일치 ['login', 'organization_billing_email', 'type', 'url']\", 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.4198336453808408,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.47,
+    "same_identifier": 0.35,
+    "scoped_view": 0.19,
+    "variant_of_parent": 0.55
+   },
+   "pair": [
+    "marketplace-purchase",
+    "simple-user"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['login', 'type', 'url']\", 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "jev",
+   "combined": 0.6432839024068305,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.91,
+    "same_identifier": 0.39,
+    "scoped_view": 0.56,
+    "variant_of_parent": 0.25
+   },
+   "pair": [
+    "organization-full",
+    "organization-simple"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['avatar_url', 'description', 'events_url', 'hooks_url']\", 3), (\"인스턴스 값 쌍 일치 ['login', 'node_id', 'url']\", 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2072351098059261,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.06,
+    "same_identifier": 0.33,
+    "scoped_view": 0.19,
+    "variant_of_parent": 0.55
+   },
+   "pair": [
+    "organization-full",
+    "simple-user"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['login', 'node_id', 'type', 'url']\", 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.2566229943873143,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.55,
+    "same_identifier": 0.14,
+    "scoped_view": 0.16,
+    "variant_of_parent": 0.78
+   },
+   "pair": [
+    "protected-branch-admin-enforced",
+    "protection"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단일 자원 GET, DELETE+POST /repos/{owner}/{repo}/branches/{branch}/protection/requir', 1)]"
+    ]
+   ]
+  },
+  {
+   "basis": "human",
+   "combined": 0.6449710541263611,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.86,
+    "same_identifier": 0.52,
+    "scoped_view": 0.35,
+    "variant_of_parent": 0.4
+   },
+   "pair": [
+    "public-user",
+    "simple-user"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['avatar_url', 'events_url', 'followers_url', 'following_url']\", 10), (\"인스턴스 값 쌍 일치 ['avatar_url', 'email', 'events_url', 'followers_url']\", 6)]"
+    ]
+   ],
+   "v2_decision": "V2-S4"
+  },
+  {
+   "basis": "jev",
+   "combined": 0.6904135307312296,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.9,
+    "same_identifier": 0.53,
+    "scoped_view": 0.63,
+    "variant_of_parent": 0.31
+   },
+   "pair": [
+    "tasks",
+    "tasks_2"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['html_url', 'id', 'name', 'url']\", 3)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15326188647871064,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.1,
+    "same_identifier": 0.21,
+    "scoped_view": 0.19,
+    "variant_of_parent": 0.83
+   },
+   "pair": [
+    "user-stats",
+    "{}_5"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [(\"인스턴스 값 쌍 일치 ['last_rate_limited_timestamp', 'last_request_timestamp', 'total_req\", 1)]"
+    ]
+   ]
+  }
+ ],
+ "polymorphic": [
+  {
+   "cases": {
+    "Bot": "public-user",
+    "Organization": "organization-full",
+    "User": "public-user"
+   },
+   "field": "type",
+   "space": "simple-user",
+   "v2_decision": "V2-S4"
+  }
+ ],
+ "provider": "github",
+ "signal_counts": {
+  "S1": 43,
+  "S2": 1,
+  "S3": 2,
+  "S5": 28
+ }
+}

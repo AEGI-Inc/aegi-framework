@@ -1,0 +1,53 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/device_assurances.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-22
+        request:
+          kind: device_assurances
+        where:
+          path: id
+          present: true
+    properties:
+      name: name
+      platform: platform
+      osVersion:
+        op: null_if_missing
+        of: osVersion
+      diskEncryptionType:
+        op: null_if_missing
+        of: diskEncryptionType
+      screenLockType:
+        op: null_if_missing
+        of: screenLockType
+      jailbreak:
+        op: null_if_missing
+        of: jailbreak
+      secureHardwarePresent:
+        op: null_if_missing
+        of: secureHardwarePresent
+      gracePeriod:
+        op: null_if_missing
+        of: gracePeriod
+      createdDate: createdDate
+      lastUpdate: lastUpdate
+    display: 기기 보증 정책 {name}
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-DEVASSUR-{id}
+runtime_stub: null
+runtime_key: OKTA-DEVASSUR-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable

@@ -1,0 +1,229 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/user.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-03
+        items: users
+    vars:
+      email:
+        op: lower
+        of:
+          any:
+            - primaryEmail
+          empty_as: ""
+      aliases:
+        op: uniq_sorted
+        of:
+          op: map_each
+          of:
+            op: concat
+            of:
+              - aliases
+              - nonEditableAliases
+          value:
+            op: lower
+            of:
+              op: str
+              of: $item
+    mutable_ids:
+      primaryEmail: $vars.email
+    properties:
+      primaryEmail: $vars.email
+      aliases:
+        if:
+          path:
+            op: count
+            of: $vars.aliases
+          truthy: true
+        then: $vars.aliases
+      name: name.fullName
+      isAdmin: isAdmin
+      isDelegatedAdmin: isDelegatedAdmin
+      isEnrolledIn2Sv: isEnrolledIn2Sv
+      isEnforcedIn2Sv: isEnforcedIn2Sv
+      suspended: suspended
+      account_state:
+        op: map
+        of: suspended
+        table:
+          'true': suspended
+          'false': active
+        default:
+          const: unknown
+      orgUnitPath: orgUnitPath
+      creationTime: creationTime
+      lastLoginTime: lastLoginTime
+      principal_kind:
+        const: human
+    display: "{$vars.email}"
+    relations:
+      - type: member_of
+        when:
+          path: orgUnitPath
+          truthy: true
+        source: $self
+        target:
+          type: OrgUnit
+          lookup: orgUnitPath
+          value: orgUnitPath
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-U-{id}
+  - id: admin_fallback
+    kind: relations
+    sources:
+      - call: GW-03
+        items: users
+    require:
+      all:
+        - path:
+            op: page_count
+            source:
+              call: GW-06
+              request:
+                kind: roleassignments
+          truthy: false
+        - has:
+            type: User
+            id: id
+    relations:
+      - type: has_role_on
+        when:
+          path: isAdmin
+          truthy: true
+        source:
+          type: User
+          id: id
+        target: $tenant
+        role:
+          name:
+            const: _SEED_ADMIN_ROLE
+        basis: stated
+        properties:
+          via:
+            const: users.isAdmin (역할 목록 없이)
+      - type: has_role_on
+        when:
+          all:
+            - path: isAdmin
+              truthy: false
+            - path: isDelegatedAdmin
+              truthy: true
+        source:
+          type: User
+          id: id
+        target: $tenant
+        role:
+          name:
+            const: DELEGATED_ADMIN
+        basis: stated
+        properties:
+          via:
+            const: users.isDelegatedAdmin (어떤 역할인지 모름)
+    key_template: GWS-U-{id}
+runtime_stub: null
+runtime_key: GWS-U-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  primaryEmail:
+    stability: mutable
+relation_rules:
+  - id: User:list
+    sources:
+      - call: GW-03
+        items: users
+    vars:
+      email:
+        op: lower
+        of:
+          any:
+            - primaryEmail
+          empty_as: ""
+      aliases:
+        op: uniq_sorted
+        of:
+          op: map_each
+          of:
+            op: concat
+            of:
+              - aliases
+              - nonEditableAliases
+          value:
+            op: lower
+            of:
+              op: str
+              of: $item
+    relations:
+      - type: member_of
+        when:
+          path: orgUnitPath
+          truthy: true
+        source: $self
+        target:
+          type: OrgUnit
+          lookup: orgUnitPath
+          value: orgUnitPath
+        basis: stated
+    self_identity: object_rule
+  - id: User:admin_fallback
+    sources:
+      - call: GW-03
+        items: users
+    require:
+      all:
+        - path:
+            op: page_count
+            source:
+              call: GW-06
+              request:
+                kind: roleassignments
+          truthy: false
+        - has:
+            type: User
+            id: id
+    relations:
+      - type: has_role_on
+        when:
+          path: isAdmin
+          truthy: true
+        source:
+          type: User
+          id: id
+        target: $tenant
+        role:
+          name:
+            const: _SEED_ADMIN_ROLE
+        basis: stated
+        properties:
+          via:
+            const: users.isAdmin (역할 목록 없이)
+      - type: has_role_on
+        when:
+          all:
+            - path: isAdmin
+              truthy: false
+            - path: isDelegatedAdmin
+              truthy: true
+        source:
+          type: User
+          id: id
+        target: $tenant
+        role:
+          name:
+            const: DELEGATED_ADMIN
+        basis: stated
+        properties:
+          via:
+            const: users.isDelegatedAdmin (어떤 역할인지 모름)

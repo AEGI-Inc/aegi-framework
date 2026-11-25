@@ -1,0 +1,9 @@
+# 필수 인자를 넣어 부르는 손코드 호출이 읽는다 (2026-11-19 실측)
+binding:
+  call: SF-12
+# 이 뷰 객체는 Id 가 모든 행에서 000000000000000AAA 다. 행을 가르는 값은 DurableId 다 (2026-11-19 실측)
+identity:
+  primary:
+    - name: id
+      expr: DurableId
+      stability: undocumented

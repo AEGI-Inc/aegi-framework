@@ -1,0 +1,43 @@
+saas,object_category,target_object,aegi_object,collection_status,collection_path,threat_count
+gws,Identity / Access,User,User,수집 중,GW-03,9
+gws,Identity / Access,"User / Guest (외부 사용자, Chat·Drive 게스트)",User; Permission,수집 중,GW-03; GW-07,2
+gws,Identity / Access,Group / Member,Group; Member,수집 중,GW-04; GW-21,5
+gws,,동적 그룹(Dynamic Group) / 조직 단위 규칙,Group,필드 없음,GW-04 (동적 그룹 조건 필드 없음),0
+gws,Identity / Access,RoleAssignment / Role,RoleAssignment; Role,수집 중,GW-06,5
+gws,,Role (관리자 역할),Role,수집 중,GW-06,0
+gws,Identity / Access,GCP ServiceAccount / Apps Script 실행 계정,,미수집(API 있음),IAM API projects.serviceAccounts,4
+gws,Identity / Access,Token (OAuth 앱 권한) / App Password (ASP),Token; Asp,수집 중,GW-05; GW-18,2
+gws,,ServiceAccountKey / 도메인 전체 위임 클라이언트,,미수집(API 있음),IAM API serviceAccounts.keys (도메인 전체 위임 목록은 관리 콘솔),0
+gws,Identity / Access,2SV 인증 요소 / 백업 코드 / 복구 정보,User,수집 중,"GW-03 (isEnrolledIn2Sv, isEnforcedIn2Sv. 요소 종류와 복구 정보는 없음)",5
+gws,Identity / Access,로그인 세션 / 쿠키,,로그만,GW-10 Reports login,2
+gws,Policy / Configuration,"Cloud Identity Policy (2SV, 비밀번호, 세션)",Policy,수집 중,GW-24,7
+gws,,Context-Aware Access 수준 / 네트워크 정책,,미수집(API 있음),Access Context Manager API,0
+gws,Identity / Access,"Inbound SSO (SAML/OIDC 프로필, IdpCredential)",InboundSamlSsoProfile; InboundSsoAssignment; IdpCredential,수집 중,GW-17 [11-17 출력 0건],1
+gws,Identity / Access,Domains,Domains,수집 중,GW-02,1
+gws,Identity / Access,Gmail 위임(Delegate) / Calendar ACL,Delegate; AclRule; SendAs,수집 중,GW-15; GW-22; RG-GW-gmail.users.settings.sendAs.list,2
+gws,,최고 관리자의 사용자 로그인(Impersonation) / 도메인 전체 위임,,로그만,GW-10 Reports admin,0
+gws,Identity / Access,Token (사용자 OAuth 부여),Token,수집 중,GW-05,8
+gws,Integration / Automation,OAuth 앱 / Marketplace 앱,Token,수집 중,GW-05,3
+gws,Integration / Automation,Marketplace 앱 설치,,미수집(API 있음),"Marketplace 설치 목록 (Reports token, 관리 콘솔)",2
+gws,Integration / Automation,Gemini / AppSheet / Apps Script 에이전트,Project; Deployment,수집 중,GW-09; GW-11 (Apps Script 만. Gemini 와 AppSheet 는 없음),3
+gws,,Apps Script 트리거 / AppSheet 자동화,Project; Deployment,수집 중,GW-09; GW-11,0
+gws,Integration / Automation,Apps Script 웹앱 / Chat 웹훅,Deployment,수집 중,GW-11,2
+gws,Integration / Automation,AppSheet·BigQuery 커넥터 / 연결된 시트,Project,필드 없음,GW-09 (연결 대상 필드 없음),1
+gws,Integration / Automation,Apps Script 함수,Project,수집 중,GW-09,2
+gws,Identity / Access,Customer / OrgUnit,Customer; OrgUnit,수집 중,GW-01; GW-20,5
+gws,Identity / Access,외부 도메인 신뢰 / 허용 도메인,Domains; AllowlistedDomain,수집 중,GW-02; GW-23,1
+gws,,Google Cloud Directory Sync / 사용자 프로비저닝,,API 밖,Google Cloud Directory Sync (온프레미스 도구),0
+gws,Identity / Access,자동 프로비저닝 (앱 사용자 프로비저닝),,API 밖,관리 콘솔 자동 프로비저닝,1
+gws,Policy / Configuration,보안 설정(Policy),Policy,수집 중,GW-24,1
+gws,Policy / Configuration,Gemini 앱 접근·데이터 보존 정책,Policy,수집 중,GW-24 (Gemini 설정 포함 여부 미확인),1
+gws,Policy / Configuration,API 제어: 앱 접근 제어(신뢰·제한·차단),Policy,수집 중,GW-24 (API 제어 설정 포함 여부 미확인),2
+gws,Policy / Configuration,감사 로그·로그 내보내기 설정,,API 밖,"관리 콘솔, Cloud Logging 공유 설정",1
+gws,Policy / Configuration,Vault 보존 규칙 / Gmail·Chat 보존,Matter; Hold,필드 없음,RG-GW-vault.matters.list (보존 규칙은 API 밖),2
+gws,Policy / Configuration,DLP 규칙 (Data protection rule),Policy,필드 없음,GW-24 (DLP 규칙 포함 여부 미확인),1
+gws,Policy / Configuration,Drive 공유 설정(Policy) / Permission,Policy; Permission; Drive,수집 중,GW-24; GW-07; GW-19,2
+gws,Policy / Configuration,CSE 설정 / 외부 키 서비스,CseIdentity; CseKeyPair,수집 중,RG-GW-gmail.users.settings.cse.identities.list [11-17 출력 0건],2
+gws,Policy / Configuration,Vault 내보내기 / Google Takeout / 데이터 내보내기,,로그만,GW-10 Reports,2
+gws,Policy / Configuration,Gmail 필터·전달·라우팅,Filter,수집 중,RG-GW-gmail.users.settings.filters.list; GW-15 (관리자 라우팅 규칙은 API 밖) [11-17 출력 0건],1
+gws,Resource,Drive / 공유 드라이브 / File,Drive; File; Permission,수집 중,GW-07; GW-19,12
+gws,Resource,File·문서 안 평문 자격증명,File,필드 없음,GW-07 (파일 내용은 수집하지 않음),1
+gws,Resource,Chat 메시지 / 스페이스,,미수집(API 있음),"Chat API spaces.list, messages.list",2

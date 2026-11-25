@@ -1,0 +1,4725 @@
+{
+ "format": "aegi-inventory-scopes/v1",
+ "source": "AEGI total-collector v0.6 inventory (공식 문서 기반, 테넌트 허용 근거 아님)",
+ "inventory_operations": 10582,
+ "profile_operations_matched": 1503,
+ "profile_operations_unmatched": 289,
+ "scopes": {
+  "op:confluence_openapi_v1:findSourcesForTarget": [
+   "read:confluence-content.summary",
+   "read:content-details:confluence",
+   "read:relation:confluence"
+  ],
+  "op:confluence_openapi_v1:findTargetFromSource": [
+   "read:confluence-content.summary",
+   "read:content-details:confluence",
+   "read:relation:confluence"
+  ],
+  "op:confluence_openapi_v1:getAllLabelContent": [
+   "read:confluence-content.summary",
+   "read:content:confluence",
+   "read:label:confluence"
+  ],
+  "op:confluence_openapi_v1:getAndConvertMacroBodyByMacroId": [
+   "read:confluence-content.all",
+   "read:content.metadata:confluence"
+  ],
+  "op:confluence_openapi_v1:getBlueprintTemplates": [
+   "read:confluence-content.summary",
+   "read:content-details:confluence",
+   "read:template:confluence"
+  ],
+  "op:confluence_openapi_v1:getContentDescendants": [
+   "read:confluence-content.summary",
+   "read:content-details:confluence"
+  ],
+  "op:confluence_openapi_v1:getContentState": [
+   "read:confluence-content.summary",
+   "read:content-details:confluence"
+  ],
+  "op:confluence_openapi_v1:getContentWatchStatus": [
+   "read:confluence-content.summary",
+   "read:watcher:confluence"
+  ],
+  "op:confluence_openapi_v1:getCurrentUser": [
+   "read:confluence-user",
+   "read:content-details:confluence"
+  ],
+  "op:confluence_openapi_v1:getGroupMembershipsForUser": [
+   "read:confluence-user",
+   "read:group:confluence",
+   "read:user:confluence"
+  ],
+  "op:confluence_openapi_v1:getLabelsForSpace": [
+   "read:confluence-space.summary",
+   "read:label:confluence"
+  ],
+  "op:confluence_openapi_v1:getMacroBodyByMacroId": [
+   "read:confluence-content.all",
+   "read:content.metadata:confluence"
+  ],
+  "op:confluence_openapi_v1:getPrivacyUnsafeUserEmailBulk": [
+   "read:email-address:confluence"
+  ],
+  "op:confluence_openapi_v1:getSystemInfo": [
+   "manage:confluence-configuration",
+   "read:configuration:confluence"
+  ],
+  "op:confluence_openapi_v1:getUserProperties": [
+   "read:user.property:confluence"
+  ],
+  "op:confluence_openapi_v1:searchContentByCQL": [
+   "read:content-details:confluence",
+   "search:confluence"
+  ],
+  "op:confluence_openapi_v2:getAttachmentContentProperties": [
+   "read:attachment:confluence"
+  ],
+  "op:confluence_openapi_v2:getAttachments": [
+   "read:attachment:confluence"
+  ],
+  "op:confluence_openapi_v2:getAttachmentVersions": [
+   "read:attachment:confluence"
+  ],
+  "op:confluence_openapi_v2:getAvailableSpaceRoles": [
+   "read:space.permission:confluence"
+  ],
+  "op:confluence_openapi_v2:getBlogPosts": [
+   "read:page:confluence"
+  ],
+  "op:confluence_openapi_v2:getClassificationLevels": [
+   "read:configuration:confluence"
+  ],
+  "op:confluence_openapi_v2:getCommentContentProperties": [
+   "read:comment:confluence"
+  ],
+  "op:confluence_openapi_v2:getCustomContentByType": [
+   "read:custom-content:confluence"
+  ],
+  "op:confluence_openapi_v2:getDatabaseById": [
+   "read:database:confluence"
+  ],
+  "op:confluence_openapi_v2:getFolderById": [
+   "read:folder:confluence"
+  ],
+  "op:confluence_openapi_v2:getFooterComments": [
+   "read:comment:confluence"
+  ],
+  "op:confluence_openapi_v2:getForgeAppProperties": [
+   "read:app-data:confluence"
+  ],
+  "op:confluence_openapi_v2:getInlineComments": [
+   "read:comment:confluence"
+  ],
+  "op:confluence_openapi_v2:getLabelAttachments": [
+   "read:attachment:confluence"
+  ],
+  "op:confluence_openapi_v2:getPages": [
+   "read:page:confluence"
+  ],
+  "op:confluence_openapi_v2:getSmartLinkById": [
+   "read:embed:confluence"
+  ],
+  "op:confluence_openapi_v2:getSpaces": [
+   "read:space:confluence"
+  ],
+  "op:confluence_openapi_v2:getWhiteboardById": [
+   "read:whiteboard:confluence"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/get-actions-cache-list": [
+   "repository:Actions:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/get-runner-version-deprecation-for-org": [
+   "organization:Self-hosted runners:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/get-runner-version-deprecation-for-repo": [
+   "repository:Administration:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/list-artifacts-for-repo": [
+   "repository:Actions:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/list-labels-for-self-hosted-runner-for-org": [
+   "organization:Self-hosted runners:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/list-org-secrets": [
+   "organization:Secrets:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/list-org-variables": [
+   "organization:Variables:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/list-repo-organization-variables": [
+   "repository:Variables:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/list-repo-secrets": [
+   "repository:Secrets:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/list-repo-workflows": [
+   "repository:Actions:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/list-self-hosted-runner-groups-for-org": [
+   "organization:Self-hosted runners:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:actions/list-self-hosted-runners-in-group-for-org": [
+   "organization:Self-hosted runners:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:campaigns/list-org-campaigns": [
+   "organization:Campaigns:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:code-quality/list-findings-for-repo": [
+   "repository:Code quality:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:code-scanning/list-codeql-databases": [
+   "repository:Contents:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:codespaces/get-public-key-for-authenticated-user": [
+   "repository:Workflows:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:codespaces/list-for-authenticated-user": [
+   "repository:Codespaces:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:codespaces/list-org-secrets": [
+   "organization:Organization codespaces secrets:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:codespaces/list-repo-secrets": [
+   "repository:Codespaces secrets:write"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:codespaces/list-secrets-for-authenticated-user": [
+   "repository:Workflows:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:copilot-spaces/list-collaborators-for-org": [
+   "organization:GitHub Copilot Business:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:copilot-spaces/list-for-org": [
+   "organization:Copilot Spaces:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:copilot-spaces/list-resources-for-org": [
+   "organization:Copilot Spaces:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:dependabot/list-alerts-for-repo": [
+   "repository:Dependabot alerts:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:dependabot/list-org-secrets": [
+   "organization:Organization dependabot secrets:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:dependabot/list-repo-secrets": [
+   "repository:Dependabot secrets:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:git/get-blob": [
+   "repository:Contents:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:git/get-ref": [
+   "repository:Contents:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:git/get-tag": [
+   "repository:Contents:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:git/get-tree": [
+   "repository:Contents:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:issues/list-comments-for-repo": [
+   "repository:Issues:read",
+   "repository:Pull requests:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:issues/list-issue-field-values-for-issue": [
+   "repository:Issues:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-app-installations": [
+   "organization:Administration:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-artifact-storage-records": [
+   "repository:Artifact metadata:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-issue-fields": [
+   "organization:Issue Fields:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-issue-types": [
+   "organization:Issue Types:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-org-role-teams": [
+   "organization:Members:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-org-roles": [
+   "organization:Custom organization roles:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-pat-grants": [
+   "organization:Personal access tokens:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-pending-invitations": [
+   "organization:Members:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-webhooks": [
+   "organization:Webhooks:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:private-registries/list-org-private-registries": [
+   "organization:Organization private registries:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:projects/list-fields-for-org": [
+   "organization:Projects:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:projects/list-for-org": [
+   "organization:Projects:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:projects/list-items-for-org": [
+   "organization:Projects:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:pull-request-stacks/get": [
+   "repository:Pull requests:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:pull-request-stacks/list": [
+   "repository:Pull requests:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:pulls/list": [
+   "repository:Pull requests:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:pulls/list-requested-reviewers": [
+   "repository:Pull requests:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:pulls/list-review-comments-for-repo": [
+   "repository:Pull requests:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:pulls/list-reviews": [
+   "repository:Pull requests:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:reactions/list-for-commit-comment": [
+   "repository:Metadata:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/check-immutable-releases": [
+   "repository:Administration:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/get-all-deployment-protection-rules": [
+   "repository:Actions:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/get-all-environments": [
+   "repository:Actions:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/get-org-rule-suites": [
+   "organization:Administration:write"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/get-pages": [
+   "repository:Pages:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/get-readme": [
+   "repository:Contents:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/get-repo-rulesets": [
+   "repository:Metadata:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/get-status-checks-protection": [
+   "repository:Administration:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-attestations": [
+   "repository:Attestations:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-autolinks": [
+   "repository:Administration:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-branches": [
+   "repository:Contents:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-commit-comments-for-repo": [
+   "repository:Metadata:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-commits": [
+   "repository:Contents:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-deploy-keys": [
+   "repository:Administration:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-deployment-branch-policies": [
+   "repository:Actions:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-deployments": [
+   "repository:Deployments:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-for-org": [
+   "repository:Metadata:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-releases": [
+   "repository:Contents:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:repos/list-webhooks": [
+   "repository:Webhooks:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:security-advisories/list-org-repository-advisories": [
+   "repository:Repository security advisories:write"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:teams/list": [
+   "organization:Members:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:users/list-gpg-keys-for-authenticated-user": [
+   "repository:Workflows:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:users/list-public-ssh-keys-for-authenticated-user": [
+   "repository:Workflows:read"
+  ],
+  "op:gh_rest_ghec_next_2026_03_10_latest:users/list-ssh-signing-keys-for-authenticated-user": [
+   "repository:Workflows:read"
+  ],
+  "op:gws_alertcenter:alertcenter.alerts.list": [
+   "https://www.googleapis.com/auth/apps.alerts"
+  ],
+  "op:gws_calendar:calendar.acl.list": [
+   "https://www.googleapis.com/auth/calendar",
+   "https://www.googleapis.com/auth/calendar.acls",
+   "https://www.googleapis.com/auth/calendar.acls.readonly"
+  ],
+  "op:gws_calendar:calendar.calendarList.list": [
+   "https://www.googleapis.com/auth/calendar",
+   "https://www.googleapis.com/auth/calendar.calendarlist",
+   "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+   "https://www.googleapis.com/auth/calendar.readonly"
+  ],
+  "op:gws_calendar:calendar.calendars.get": [
+   "https://www.googleapis.com/auth/calendar",
+   "https://www.googleapis.com/auth/calendar.app.created",
+   "https://www.googleapis.com/auth/calendar.calendars",
+   "https://www.googleapis.com/auth/calendar.calendars.readonly",
+   "https://www.googleapis.com/auth/calendar.readonly"
+  ],
+  "op:gws_calendar:calendar.colors.get": [
+   "https://www.googleapis.com/auth/calendar",
+   "https://www.googleapis.com/auth/calendar.app.created",
+   "https://www.googleapis.com/auth/calendar.calendarlist",
+   "https://www.googleapis.com/auth/calendar.calendarlist.readonly",
+   "https://www.googleapis.com/auth/calendar.events.freebusy",
+   "https://www.googleapis.com/auth/calendar.events.owned",
+   "https://www.googleapis.com/auth/calendar.events.owned.readonly",
+   "https://www.googleapis.com/auth/calendar.events.public.readonly",
+   "https://www.googleapis.com/auth/calendar.readonly"
+  ],
+  "op:gws_calendar:calendar.events.list": [
+   "https://www.googleapis.com/auth/calendar",
+   "https://www.googleapis.com/auth/calendar.app.created",
+   "https://www.googleapis.com/auth/calendar.events",
+   "https://www.googleapis.com/auth/calendar.events.freebusy",
+   "https://www.googleapis.com/auth/calendar.events.owned",
+   "https://www.googleapis.com/auth/calendar.events.owned.readonly",
+   "https://www.googleapis.com/auth/calendar.events.public.readonly",
+   "https://www.googleapis.com/auth/calendar.events.readonly",
+   "https://www.googleapis.com/auth/calendar.readonly"
+  ],
+  "op:gws_cloudidentity:cloudidentity.allowlistedDomains.list": [
+   "https://www.googleapis.com/auth/cloud-identity.allowlisteddomains",
+   "https://www.googleapis.com/auth/cloud-identity.allowlisteddomains.readonly"
+  ],
+  "op:gws_cloudidentity:cloudidentity.devices.deviceUsers.list": [
+   "https://www.googleapis.com/auth/cloud-identity.devices",
+   "https://www.googleapis.com/auth/cloud-identity.devices.readonly"
+  ],
+  "op:gws_cloudidentity:cloudidentity.devices.list": [
+   "https://www.googleapis.com/auth/cloud-identity.devices",
+   "https://www.googleapis.com/auth/cloud-identity.devices.readonly"
+  ],
+  "op:gws_cloudidentity:cloudidentity.groups.memberships.list": [
+   "https://www.googleapis.com/auth/cloud-identity.groups",
+   "https://www.googleapis.com/auth/cloud-identity.groups.readonly",
+   "https://www.googleapis.com/auth/cloud-platform"
+  ],
+  "op:gws_cloudidentity:cloudidentity.inboundOidcSsoProfiles.list": [
+   "https://www.googleapis.com/auth/cloud-identity.inboundsso",
+   "https://www.googleapis.com/auth/cloud-identity.inboundsso.readonly",
+   "https://www.googleapis.com/auth/cloud-platform"
+  ],
+  "op:gws_cloudidentity:cloudidentity.inboundSamlSsoProfiles.idpCredentials.list": [
+   "https://www.googleapis.com/auth/cloud-identity.inboundsso",
+   "https://www.googleapis.com/auth/cloud-identity.inboundsso.readonly",
+   "https://www.googleapis.com/auth/cloud-platform"
+  ],
+  "op:gws_cloudidentity:cloudidentity.inboundSamlSsoProfiles.list": [
+   "https://www.googleapis.com/auth/cloud-identity.inboundsso",
+   "https://www.googleapis.com/auth/cloud-identity.inboundsso.readonly",
+   "https://www.googleapis.com/auth/cloud-platform"
+  ],
+  "op:gws_cloudidentity:cloudidentity.inboundSsoAssignments.list": [
+   "https://www.googleapis.com/auth/cloud-identity.inboundsso",
+   "https://www.googleapis.com/auth/cloud-identity.inboundsso.readonly",
+   "https://www.googleapis.com/auth/cloud-platform"
+  ],
+  "op:gws_cloudidentity:cloudidentity.policies.list": [
+   "https://www.googleapis.com/auth/cloud-identity.policies",
+   "https://www.googleapis.com/auth/cloud-identity.policies.readonly"
+  ],
+  "op:gws_datatransfer:datatransfer.applications.list": [
+   "https://www.googleapis.com/auth/admin.datatransfer",
+   "https://www.googleapis.com/auth/admin.datatransfer.readonly"
+  ],
+  "op:gws_directory:admin.customers.chrome.printers.list": [
+   "https://www.googleapis.com/auth/admin.chrome.printers",
+   "https://www.googleapis.com/auth/admin.chrome.printers.readonly"
+  ],
+  "op:gws_directory:admin.customers.chrome.printServers.list": [
+   "https://www.googleapis.com/auth/admin.chrome.printers",
+   "https://www.googleapis.com/auth/admin.chrome.printers.readonly"
+  ],
+  "op:gws_directory:directory.asps.list": [
+   "https://www.googleapis.com/auth/admin.directory.user.security"
+  ],
+  "op:gws_directory:directory.chromeosdevices.list": [
+   "https://www.googleapis.com/auth/admin.directory.device.chromeos",
+   "https://www.googleapis.com/auth/admin.directory.device.chromeos.readonly"
+  ],
+  "op:gws_directory:directory.customers.get": [
+   "https://www.googleapis.com/auth/admin.directory.customer",
+   "https://www.googleapis.com/auth/admin.directory.customer.readonly"
+  ],
+  "op:gws_directory:directory.domains.list": [
+   "https://www.googleapis.com/auth/admin.directory.domain",
+   "https://www.googleapis.com/auth/admin.directory.domain.readonly"
+  ],
+  "op:gws_directory:directory.groups.list": [
+   "https://www.googleapis.com/auth/admin.directory.group",
+   "https://www.googleapis.com/auth/admin.directory.group.readonly"
+  ],
+  "op:gws_directory:directory.mobiledevices.list": [
+   "https://www.googleapis.com/auth/admin.directory.device.mobile",
+   "https://www.googleapis.com/auth/admin.directory.device.mobile.action",
+   "https://www.googleapis.com/auth/admin.directory.device.mobile.readonly"
+  ],
+  "op:gws_directory:directory.orgunits.list": [
+   "https://www.googleapis.com/auth/admin.directory.orgunit",
+   "https://www.googleapis.com/auth/admin.directory.orgunit.readonly"
+  ],
+  "op:gws_directory:directory.resources.buildings.list": [
+   "https://www.googleapis.com/auth/admin.directory.resource.calendar",
+   "https://www.googleapis.com/auth/admin.directory.resource.calendar.readonly"
+  ],
+  "op:gws_directory:directory.resources.calendars.list": [
+   "https://www.googleapis.com/auth/admin.directory.resource.calendar",
+   "https://www.googleapis.com/auth/admin.directory.resource.calendar.readonly"
+  ],
+  "op:gws_directory:directory.roleAssignments.list": [
+   "https://www.googleapis.com/auth/admin.directory.rolemanagement",
+   "https://www.googleapis.com/auth/admin.directory.rolemanagement.readonly"
+  ],
+  "op:gws_directory:directory.roles.list": [
+   "https://www.googleapis.com/auth/admin.directory.rolemanagement",
+   "https://www.googleapis.com/auth/admin.directory.rolemanagement.readonly"
+  ],
+  "op:gws_directory:directory.users.list": [
+   "https://www.googleapis.com/auth/admin.directory.user",
+   "https://www.googleapis.com/auth/admin.directory.user.readonly",
+   "https://www.googleapis.com/auth/cloud-platform"
+  ],
+  "op:gws_directory:directory.users.photos.get": [
+   "https://www.googleapis.com/auth/admin.directory.user",
+   "https://www.googleapis.com/auth/admin.directory.user.readonly"
+  ],
+  "op:gws_drive:drive.accessproposals.list": [
+   "https://www.googleapis.com/auth/drive",
+   "https://www.googleapis.com/auth/drive.file",
+   "https://www.googleapis.com/auth/drive.metadata",
+   "https://www.googleapis.com/auth/drive.metadata.readonly",
+   "https://www.googleapis.com/auth/drive.readonly"
+  ],
+  "op:gws_drive:drive.apps.list": [
+   "https://www.googleapis.com/auth/drive.apps.readonly"
+  ],
+  "op:gws_drive:drive.comments.list": [
+   "https://www.googleapis.com/auth/drive",
+   "https://www.googleapis.com/auth/drive.file",
+   "https://www.googleapis.com/auth/drive.meet.readonly",
+   "https://www.googleapis.com/auth/drive.readonly"
+  ],
+  "op:gws_drive:drive.drives.list": [
+   "https://www.googleapis.com/auth/drive",
+   "https://www.googleapis.com/auth/drive.readonly"
+  ],
+  "op:gws_drive:drive.files.list": [
+   "https://www.googleapis.com/auth/drive",
+   "https://www.googleapis.com/auth/drive.appdata",
+   "https://www.googleapis.com/auth/drive.file",
+   "https://www.googleapis.com/auth/drive.meet.readonly",
+   "https://www.googleapis.com/auth/drive.metadata",
+   "https://www.googleapis.com/auth/drive.metadata.readonly",
+   "https://www.googleapis.com/auth/drive.photos.readonly",
+   "https://www.googleapis.com/auth/drive.readonly"
+  ],
+  "op:gws_drive:drive.permissions.list": [
+   "https://www.googleapis.com/auth/drive",
+   "https://www.googleapis.com/auth/drive.file",
+   "https://www.googleapis.com/auth/drive.meet.readonly",
+   "https://www.googleapis.com/auth/drive.metadata",
+   "https://www.googleapis.com/auth/drive.metadata.readonly",
+   "https://www.googleapis.com/auth/drive.photos.readonly",
+   "https://www.googleapis.com/auth/drive.readonly"
+  ],
+  "op:gws_drive:drive.replies.list": [
+   "https://www.googleapis.com/auth/drive",
+   "https://www.googleapis.com/auth/drive.file",
+   "https://www.googleapis.com/auth/drive.meet.readonly",
+   "https://www.googleapis.com/auth/drive.readonly"
+  ],
+  "op:gws_drive:drive.revisions.list": [
+   "https://www.googleapis.com/auth/drive",
+   "https://www.googleapis.com/auth/drive.appdata",
+   "https://www.googleapis.com/auth/drive.file",
+   "https://www.googleapis.com/auth/drive.meet.readonly",
+   "https://www.googleapis.com/auth/drive.metadata",
+   "https://www.googleapis.com/auth/drive.metadata.readonly",
+   "https://www.googleapis.com/auth/drive.photos.readonly",
+   "https://www.googleapis.com/auth/drive.readonly"
+  ],
+  "op:gws_drive:drive.teamdrives.list": [
+   "https://www.googleapis.com/auth/drive",
+   "https://www.googleapis.com/auth/drive.readonly"
+  ],
+  "op:gws_gmail:gmail.users.drafts.list": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.compose",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly"
+  ],
+  "op:gws_gmail:gmail.users.labels.list": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.labels",
+   "https://www.googleapis.com/auth/gmail.metadata",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly"
+  ],
+  "op:gws_gmail:gmail.users.messages.attachments.get": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.addons.current.message.action",
+   "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly"
+  ],
+  "op:gws_gmail:gmail.users.messages.list": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.metadata",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly"
+  ],
+  "op:gws_gmail:gmail.users.settings.cse.identities.list": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly",
+   "https://www.googleapis.com/auth/gmail.settings.basic",
+   "https://www.googleapis.com/auth/gmail.settings.sharing"
+  ],
+  "op:gws_gmail:gmail.users.settings.cse.keypairs.list": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly",
+   "https://www.googleapis.com/auth/gmail.settings.basic",
+   "https://www.googleapis.com/auth/gmail.settings.sharing"
+  ],
+  "op:gws_gmail:gmail.users.settings.filters.list": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly",
+   "https://www.googleapis.com/auth/gmail.settings.basic"
+  ],
+  "op:gws_gmail:gmail.users.settings.forwardingAddresses.list": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly",
+   "https://www.googleapis.com/auth/gmail.settings.basic"
+  ],
+  "op:gws_gmail:gmail.users.settings.sendAs.list": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly",
+   "https://www.googleapis.com/auth/gmail.settings.basic"
+  ],
+  "op:gws_gmail:gmail.users.settings.sendAs.smimeInfo.list": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly",
+   "https://www.googleapis.com/auth/gmail.settings.basic",
+   "https://www.googleapis.com/auth/gmail.settings.sharing"
+  ],
+  "op:gws_gmail:gmail.users.threads.list": [
+   "https://mail.google.com/",
+   "https://www.googleapis.com/auth/gmail.metadata",
+   "https://www.googleapis.com/auth/gmail.modify",
+   "https://www.googleapis.com/auth/gmail.readonly"
+  ],
+  "op:gws_groupssettings:groupsSettings.groups.get": [
+   "https://www.googleapis.com/auth/apps.groups.settings"
+  ],
+  "op:gws_workspaceevents:workspaceevents.subscriptions.list": [
+   "https://www.googleapis.com/auth/chat.bot",
+   "https://www.googleapis.com/auth/chat.memberships",
+   "https://www.googleapis.com/auth/chat.memberships.readonly",
+   "https://www.googleapis.com/auth/chat.messages",
+   "https://www.googleapis.com/auth/chat.messages.reactions",
+   "https://www.googleapis.com/auth/chat.messages.reactions.readonly",
+   "https://www.googleapis.com/auth/chat.messages.readonly",
+   "https://www.googleapis.com/auth/chat.spaces",
+   "https://www.googleapis.com/auth/chat.spaces.readonly",
+   "https://www.googleapis.com/auth/chat.users.availability",
+   "https://www.googleapis.com/auth/chat.users.availability.readonly",
+   "https://www.googleapis.com/auth/chat.users.readstate",
+   "https://www.googleapis.com/auth/chat.users.readstate.readonly",
+   "https://www.googleapis.com/auth/drive",
+   "https://www.googleapis.com/auth/drive.file",
+   "https://www.googleapis.com/auth/drive.metadata",
+   "https://www.googleapis.com/auth/drive.metadata.readonly",
+   "https://www.googleapis.com/auth/drive.readonly",
+   "https://www.googleapis.com/auth/meetings.space.created",
+   "https://www.googleapis.com/auth/meetings.space.readonly"
+  ],
+  "op:jira_openapi_v3:bulkGetGroups": [
+   "read:group:jira",
+   "read:jira-user"
+  ],
+  "op:jira_openapi_v3:findUsersAndGroups": [
+   "read:group:jira",
+   "read:jira-work",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getAllApplicationRoles": [
+   "manage:jira-configuration",
+   "read:application-role:jira"
+  ],
+  "op:jira_openapi_v3:getAllDashboards": [
+   "read:application-role:jira",
+   "read:avatar:jira",
+   "read:dashboard:jira",
+   "read:group:jira",
+   "read:issue-type-hierarchy:jira",
+   "read:issue-type:jira",
+   "read:jira-work",
+   "read:project-category:jira",
+   "read:project-role:jira",
+   "read:project-version:jira",
+   "read:project.component:jira",
+   "read:project:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getAllFieldConfigurationSchemes": [
+   "manage:jira-configuration",
+   "read:field-configuration-scheme:jira"
+  ],
+  "op:jira_openapi_v3:getAllPermissions": [
+   "manage:jira-configuration",
+   "read:permission:jira"
+  ],
+  "op:jira_openapi_v3:getAllPermissionSchemes": [
+   "read:application-role:jira",
+   "read:avatar:jira",
+   "read:field:jira",
+   "read:group:jira",
+   "read:jira-work",
+   "read:permission-scheme:jira",
+   "read:permission:jira",
+   "read:project-category:jira",
+   "read:project-role:jira",
+   "read:project:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getAllProjectCategories": [
+   "read:jira-work",
+   "read:project-category:jira"
+  ],
+  "op:jira_openapi_v3:getAllScreenTabs": [
+   "manage:jira-project",
+   "read:screen-tab:jira"
+  ],
+  "op:jira_openapi_v3:getAllStatuses": [
+   "read:issue-status:jira",
+   "read:issue-type:jira",
+   "read:jira-work",
+   "read:status:jira"
+  ],
+  "op:jira_openapi_v3:getAllUserDataClassificationLevels": [
+   "read:jira-work",
+   "read:project:jira"
+  ],
+  "op:jira_openapi_v3:getAllUsers": [
+   "read:application-role:jira",
+   "read:avatar:jira",
+   "read:group:jira",
+   "read:jira-user",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getAllWorkflowSchemes": [
+   "manage:jira-configuration",
+   "read:application-role:jira",
+   "read:avatar:jira",
+   "read:group:jira",
+   "read:issue-type:jira",
+   "read:project-category:jira",
+   "read:project:jira",
+   "read:user:jira",
+   "read:workflow-scheme:jira"
+  ],
+  "op:jira_openapi_v3:getAtlassianTeam": [
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getAttachment": [
+   "read:application-role:jira",
+   "read:attachment:jira",
+   "read:avatar:jira",
+   "read:group:jira",
+   "read:jira-work",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getAvailableTimeTrackingImplementations": [
+   "manage:jira-configuration",
+   "read:issue.time-tracking:jira"
+  ],
+  "op:jira_openapi_v3:getAvatarImageByType": [
+   "read:avatar:jira",
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getCommentPropertyKeys": [
+   "read:comment.property:jira",
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getComments": [
+   "read:avatar:jira",
+   "read:comment.property:jira",
+   "read:comment:jira",
+   "read:group:jira",
+   "read:jira-work",
+   "read:project-role:jira",
+   "read:project:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getContextsForField": [
+   "manage:jira-configuration",
+   "read:custom-field-contextual-configuration:jira",
+   "read:field:jira"
+  ],
+  "op:jira_openapi_v3:getContextsForFieldDeprecated": [
+   "manage:jira-project",
+   "read:avatar:jira",
+   "read:field:jira",
+   "read:project-category:jira",
+   "read:project:jira"
+  ],
+  "op:jira_openapi_v3:getCustomFieldConfiguration": [
+   "manage:jira-configuration",
+   "read:custom-field-contextual-configuration:jira"
+  ],
+  "op:jira_openapi_v3:getCustomFieldsConfigurations": [
+   "manage:jira-configuration",
+   "read:custom-field-contextual-configuration:jira"
+  ],
+  "op:jira_openapi_v3:getDashboardItemPropertyKeys": [
+   "read:dashboard.property:jira",
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getDefaultEditor": [
+   "manage:jira-configuration",
+   "read:workflow:jira"
+  ],
+  "op:jira_openapi_v3:getDefaultWorkflow": [
+   "manage:jira-configuration",
+   "read:workflow-scheme:jira",
+   "read:workflow:jira"
+  ],
+  "op:jira_openapi_v3:getDraftWorkflow": [
+   "manage:jira-configuration",
+   "read:issue-type:jira",
+   "read:workflow-scheme:jira",
+   "read:workflow:jira"
+  ],
+  "op:jira_openapi_v3:getDynamicWebhooksForApp": [
+   "manage:jira-webhook",
+   "read:jira-work",
+   "read:jql:jira",
+   "read:webhook:jira"
+  ],
+  "op:jira_openapi_v3:getFeaturesForProject": [
+   "read:jira-work",
+   "read:project.feature:jira"
+  ],
+  "op:jira_openapi_v3:getFiltersPaginated": [
+   "read:application-role:jira",
+   "read:avatar:jira",
+   "read:filter:jira",
+   "read:group:jira",
+   "read:issue-type-hierarchy:jira",
+   "read:jira-work",
+   "read:jql:jira",
+   "read:project-role:jira",
+   "read:project:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getIssue": [
+   "read:avatar:jira",
+   "read:field-configuration:jira",
+   "read:issue-meta:jira",
+   "read:issue-security-level:jira",
+   "read:issue.changelog:jira",
+   "read:issue.vote:jira",
+   "read:issue:jira",
+   "read:jira-work",
+   "read:status:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getIssueLink": [
+   "read:avatar:jira",
+   "read:field:jira",
+   "read:issue-link-type:jira",
+   "read:issue-type:jira",
+   "read:issue.time-tracking:jira",
+   "read:issue:jira",
+   "read:jira-work",
+   "read:priority:jira",
+   "read:project-category:jira",
+   "read:project:jira",
+   "read:status:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getIssueSecurityLevelMembers": [
+   "manage:jira-configuration",
+   "read:field:jira",
+   "read:issue-security-level:jira",
+   "read:project-role:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getIssueTypeScreenSchemes": [
+   "manage:jira-configuration",
+   "read:issue-type-screen-scheme:jira"
+  ],
+  "op:jira_openapi_v3:getNotificationSchemes": [
+   "manage:jira-configuration",
+   "read:avatar:jira",
+   "read:field-configuration:jira",
+   "read:field:jira",
+   "read:group:jira",
+   "read:notification-scheme:jira",
+   "read:project-category:jira",
+   "read:project-role:jira",
+   "read:project:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getPlanOnlyTeam": [
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getPlans": [
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getPolicy": [
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getPrioritySchemes": [
+   "manage:jira-configuration",
+   "read:priority-scheme:jira"
+  ],
+  "op:jira_openapi_v3:getProjectComponents": [
+   "read:application-role:jira",
+   "read:avatar:jira",
+   "read:group:jira",
+   "read:jira-work",
+   "read:project.component:jira",
+   "read:project:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getProjectIssueSecurityScheme": [
+   "read:issue-security-level:jira",
+   "read:issue-security-scheme:jira",
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getProjectRole": [
+   "read:avatar:jira",
+   "read:group:jira",
+   "read:jira-work",
+   "read:project-category:jira",
+   "read:project-role:jira",
+   "read:project:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getProjectsForIssueTypeScreenScheme": [
+   "manage:jira-configuration",
+   "read:avatar:jira",
+   "read:project-category:jira",
+   "read:project:jira"
+  ],
+  "op:jira_openapi_v3:getProjectUsagesForWorkflow": [
+   "manage:jira-configuration",
+   "read:project:jira",
+   "read:workflow:jira"
+  ],
+  "op:jira_openapi_v3:getProjectVersions": [
+   "read:jira-work",
+   "read:project-version:jira"
+  ],
+  "op:jira_openapi_v3:getRelatedWork": [
+   "read:jira-work",
+   "read:project-version:jira"
+  ],
+  "op:jira_openapi_v3:getRemoteIssueLinks": [
+   "read:issue.remote-link:jira",
+   "read:jira-work",
+   "read:status:jira"
+  ],
+  "op:jira_openapi_v3:getScreens": [
+   "manage:jira-project",
+   "read:avatar:jira",
+   "read:project-category:jira",
+   "read:project:jira",
+   "read:screen:jira"
+  ],
+  "op:jira_openapi_v3:getScreensForField": [
+   "manage:jira-project",
+   "read:avatar:jira",
+   "read:project-category:jira",
+   "read:project:jira",
+   "read:screen-tab:jira",
+   "read:screen:jira"
+  ],
+  "op:jira_openapi_v3:getSecurityLevelMembers": [
+   "manage:jira-configuration",
+   "read:issue-security-level:jira",
+   "read:issue-security-scheme:jira"
+  ],
+  "op:jira_openapi_v3:getSecurityLevels": [
+   "manage:jira-configuration",
+   "read:issue-security-level:jira",
+   "read:issue-security-scheme:jira"
+  ],
+  "op:jira_openapi_v3:getSharePermissions": [
+   "read:application-role:jira",
+   "read:avatar:jira",
+   "read:filter:jira",
+   "read:group:jira",
+   "read:issue-type-hierarchy:jira",
+   "read:issue-type:jira",
+   "read:jira-work",
+   "read:project-category:jira",
+   "read:project-role:jira",
+   "read:project-version:jira",
+   "read:project.component:jira",
+   "read:project:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:getTask": [
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getTeams": [
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getUiModifications": [
+   "read:app-data:jira",
+   "read:jira-work"
+  ],
+  "op:jira_openapi_v3:getUserPropertyKeys": [
+   "read:jira-user",
+   "read:user.property:jira"
+  ],
+  "op:jira_openapi_v3:getWorkflowsPaginated": [
+   "manage:jira-project",
+   "read:avatar:jira",
+   "read:group:jira",
+   "read:issue-security-level:jira",
+   "read:project-category:jira",
+   "read:project-role:jira",
+   "read:project:jira",
+   "read:screen:jira",
+   "read:status:jira",
+   "read:user:jira",
+   "read:webhook:jira",
+   "read:workflow:jira"
+  ],
+  "op:jira_openapi_v3:readWorkflowFromHistory": [
+   "manage:jira-configuration",
+   "read:workflow:jira"
+  ],
+  "op:jira_openapi_v3:readWorkflowSchemes": [
+   "manage:jira-configuration",
+   "read:workflow-scheme:jira"
+  ],
+  "op:jira_openapi_v3:searchProjects": [
+   "read:application-role:jira",
+   "read:avatar:jira",
+   "read:group:jira",
+   "read:issue-type-hierarchy:jira",
+   "read:issue-type:jira",
+   "read:jira-work",
+   "read:project-category:jira",
+   "read:project-version:jira",
+   "read:project.component:jira",
+   "read:project.property:jira",
+   "read:project:jira",
+   "read:user:jira"
+  ],
+  "op:jira_openapi_v3:searchWorkflows": [
+   "manage:jira-configuration",
+   "read:workflow:jira"
+  ],
+  "op:jira_openapi_v3:workflowCapabilities": [
+   "manage:jira-configuration",
+   "read:workflow:jira"
+  ],
+  "op:okta_management_openapi:getAllCrossAppAccessConnections": [
+   "okta.apps.read"
+  ],
+  "op:okta_management_openapi:getClientPrivilegesSetting": [
+   "okta.orgs.read"
+  ],
+  "op:okta_management_openapi:getCurrentConfiguration": [
+   "okta.threatInsights.read"
+  ],
+  "op:okta_management_openapi:getCustomizedErrorPage": [
+   "okta.brands.read"
+  ],
+  "op:okta_management_openapi:getDefaultProvisioningConnectionForApplication": [
+   "okta.apps.read"
+  ],
+  "op:okta_management_openapi:getGroupAttributeQueryResult": [
+   "okta.directories.groups.read"
+  ],
+  "op:okta_management_openapi:getGroupSchema": [
+   "okta.schemas.read"
+  ],
+  "op:okta_management_openapi:getIdentitySourceGroup": [
+   "okta.identitySources.read"
+  ],
+  "op:okta_management_openapi:getOrgSettings": [
+   "okta.orgs.read"
+  ],
+  "op:okta_management_openapi:getPublicKey": [
+   "okta.inlineHooks.read"
+  ],
+  "op:okta_management_openapi:getRateLimitSettingsPerClient": [
+   "okta.rateLimits.read"
+  ],
+  "op:okta_management_openapi:getUserLockoutSettings": [
+   "okta.orgs.read"
+  ],
+  "op:okta_management_openapi:listAgentPools": [
+   "okta.agentPools.read"
+  ],
+  "op:okta_management_openapi:listAllCustomAAGUIDs": [
+   "okta.authenticators.read"
+  ],
+  "op:okta_management_openapi:listAllCustomTelephonyProviderCredentials": [
+   "okta.customTelephonyProvider.read"
+  ],
+  "op:okta_management_openapi:listApiServiceIntegrationInstances": [
+   "okta.oauthIntegrations.read"
+  ],
+  "op:okta_management_openapi:listApiServiceIntegrationInstanceSecrets": [
+   "okta.oauthIntegrations.read"
+  ],
+  "op:okta_management_openapi:listApiTokens": [
+   "okta.apiTokens.read"
+  ],
+  "op:okta_management_openapi:listApplicationKeys": [
+   "okta.apps.read"
+  ],
+  "op:okta_management_openapi:listApplications": [
+   "okta.apps.read"
+  ],
+  "op:okta_management_openapi:listApplicationTargetsForApplicationAdministratorRoleForGroup": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listAppLinks": [
+   "okta.users.read"
+  ],
+  "op:okta_management_openapi:listAppServiceAccounts": [
+   "okta.serviceAccounts.read"
+  ],
+  "op:okta_management_openapi:listAssignedRolesForUser": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listAuthenticatorEnrollments": [
+   "okta.users.read"
+  ],
+  "op:okta_management_openapi:listAuthenticatorMethods": [
+   "okta.authenticators.read"
+  ],
+  "op:okta_management_openapi:listAuthenticators": [
+   "okta.authenticators.read"
+  ],
+  "op:okta_management_openapi:listAuthorizationServerKeys": [
+   "okta.authorizationServers.read"
+  ],
+  "op:okta_management_openapi:listAuthorizationServerPolicies": [
+   "okta.authorizationServers.read"
+  ],
+  "op:okta_management_openapi:listAuthorizationServerPolicyRules": [
+   "okta.authorizationServers.read"
+  ],
+  "op:okta_management_openapi:listAuthorizationServers": [
+   "okta.authorizationServers.read"
+  ],
+  "op:okta_management_openapi:listBehaviorDetectionRules": [
+   "okta.behaviors.read"
+  ],
+  "op:okta_management_openapi:listBrands": [
+   "okta.brands.read"
+  ],
+  "op:okta_management_openapi:listBrandThemes": [
+   "okta.brands.read"
+  ],
+  "op:okta_management_openapi:listBundleEntitlements": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listBundleEntitlementValues": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listCaptchaInstances": [
+   "okta.captchas.read"
+  ],
+  "op:okta_management_openapi:listCsrsForApplication": [
+   "okta.apps.read"
+  ],
+  "op:okta_management_openapi:listCsrsForIdentityProvider": [
+   "okta.idps.read"
+  ],
+  "op:okta_management_openapi:listCustomDomains": [
+   "okta.domains.read"
+  ],
+  "op:okta_management_openapi:listDefaultDevicePostureChecks": [
+   "okta.devicePostureChecks.read"
+  ],
+  "op:okta_management_openapi:listDeviceAssurancePolicies": [
+   "okta.deviceAssurance.read"
+  ],
+  "op:okta_management_openapi:listDeviceIntegrations": [
+   "okta.deviceIntegrations.read"
+  ],
+  "op:okta_management_openapi:listDeviceOSAccounts": [
+   "okta.devices.read"
+  ],
+  "op:okta_management_openapi:listDevices": [
+   "okta.devices.read"
+  ],
+  "op:okta_management_openapi:listEmailCustomizations": [
+   "okta.templates.read"
+  ],
+  "op:okta_management_openapi:listEmailDomains": [
+   "okta.emailDomains.read"
+  ],
+  "op:okta_management_openapi:listEmailServers": [
+   "okta.emailServers.read"
+  ],
+  "op:okta_management_openapi:listEmailTemplates": [
+   "okta.templates.read"
+  ],
+  "op:okta_management_openapi:listEventHooks": [
+   "okta.eventHooks.read"
+  ],
+  "op:okta_management_openapi:listFactors": [
+   "okta.users.read"
+  ],
+  "op:okta_management_openapi:listFederatedClaims": [
+   "okta.apps.read"
+  ],
+  "op:okta_management_openapi:listGovernanceBundles": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listGroupOwners": [
+   "okta.groups.read"
+  ],
+  "op:okta_management_openapi:listGroupPushMappings": [
+   "okta.apps.read",
+   "okta.groups.read"
+  ],
+  "op:okta_management_openapi:listGroupRules": [
+   "okta.groups.read"
+  ],
+  "op:okta_management_openapi:listGroups": [
+   "okta.groups.read"
+  ],
+  "op:okta_management_openapi:listHookKeys": [
+   "okta.inlineHooks.read"
+  ],
+  "op:okta_management_openapi:listIdentityProviderKeys": [
+   "okta.idps.read"
+  ],
+  "op:okta_management_openapi:listIdentityProviders": [
+   "okta.idps.read"
+  ],
+  "op:okta_management_openapi:listIdentitySourceSessions": [
+   "okta.identitySources.read"
+  ],
+  "op:okta_management_openapi:listInlineHooks": [
+   "okta.inlineHooks.read"
+  ],
+  "op:okta_management_openapi:listJwk": [
+   "okta.apps.read"
+  ],
+  "op:okta_management_openapi:listLinkedObjectDefinitions": [
+   "okta.linkedObjects.read"
+  ],
+  "op:okta_management_openapi:listLinkedObjectsForUser": [
+   "okta.users.read"
+  ],
+  "op:okta_management_openapi:listLogEvents": [
+   "okta.logs.read"
+  ],
+  "op:okta_management_openapi:listMembersOfBinding": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listNetworkZones": [
+   "okta.networkZones.read"
+  ],
+  "op:okta_management_openapi:listOAuth2Claims": [
+   "okta.authorizationServers.read"
+  ],
+  "op:okta_management_openapi:listOAuth2ResourceServerJsonWebKeys": [
+   "okta.authorizationServers.read"
+  ],
+  "op:okta_management_openapi:listOAuth2Scopes": [
+   "okta.authorizationServers.read"
+  ],
+  "op:okta_management_openapi:listOktaManagedUserAccounts": [
+   "okta.serviceAccounts.okta.read"
+  ],
+  "op:okta_management_openapi:listOktaSupportCases": [
+   "okta.orgs.read"
+  ],
+  "op:okta_management_openapi:listPolicies": [
+   "okta.policies.read"
+  ],
+  "op:okta_management_openapi:listPolicyMappings": [
+   "okta.policies.read"
+  ],
+  "op:okta_management_openapi:listPolicyRules": [
+   "okta.policies.read"
+  ],
+  "op:okta_management_openapi:listPrincipalRateLimitEntities": [
+   "okta.principalRateLimits.read"
+  ],
+  "op:okta_management_openapi:listProfileMappings": [
+   "okta.profileMappings.read"
+  ],
+  "op:okta_management_openapi:listPushProviders": [
+   "okta.pushProviders.read"
+  ],
+  "op:okta_management_openapi:listRealmAssignments": [
+   "okta.realmAssignments.read"
+  ],
+  "op:okta_management_openapi:listRealms": [
+   "okta.realms.read"
+  ],
+  "op:okta_management_openapi:listRefreshTokensForUserAndClient": [
+   "okta.users.read"
+  ],
+  "op:okta_management_openapi:listResourceSetResources": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listResourceSets": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listRoles": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listScopeConsentGrants": [
+   "okta.appGrants.read"
+  ],
+  "op:okta_management_openapi:listSmsTemplates": [
+   "okta.templates.read"
+  ],
+  "op:okta_management_openapi:listSocialAuthTokens": [
+   "okta.idps.read"
+  ],
+  "op:okta_management_openapi:listSubscriptionsRole": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listTrustedOrigins": [
+   "okta.trustedOrigins.read"
+  ],
+  "op:okta_management_openapi:listUISchemas": [
+   "okta.uischemas.read"
+  ],
+  "op:okta_management_openapi:listUserClients": [
+   "okta.users.read"
+  ],
+  "op:okta_management_openapi:listUsers": [
+   "okta.users.read"
+  ],
+  "op:okta_management_openapi:listUsersWithRoleAssignments": [
+   "okta.roles.read"
+  ],
+  "op:okta_management_openapi:listUserTypes": [
+   "okta.userTypes.read"
+  ],
+  "op:okta_management_openapi:listWebAuthnPreregistrationFactors": [
+   "okta.users.read"
+  ],
+  "op:okta_management_openapi:listYubikeyOtpTokens": [
+   "okta.users.read"
+  ],
+  "op:sf_object_reference:AbnExperiment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AbnExperimentCohort.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Account.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountBrand.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountContactRelation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountContactRole.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountInsight.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountPartner.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountPlan.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountPlanObjective.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountPlanObjectiveMeasure.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountPlanObjMeasCalcDef.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountPlanObjMeasRela.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountProspectingAgentResearch.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountRelationship.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountRelationshipShareRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountTeamMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountTerritoryAssignmentRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountTerritoryAssignmentRuleItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountTerritorySharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AccountUserTerritory2View.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionCadence.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionCadenceRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionCadenceRuleCondition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionCadenceStep.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionCadenceStepVariant.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionCadenceTracker.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionLinkGroupTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionPlan.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionPlanItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionPlanTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionPlanTemplateItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionPlanTemplateItemValue.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActionPlanTemplateVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ActiveScratchOrg.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AdditionalNumber.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Address.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AgentQltyEvalFormCondition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AgentQltyEvalFormCriteria.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AgentWork.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AgentWorkSkill.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AIApplication.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AIApplicationConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AiGenActionItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AiGenActionItemInfo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AIInsightFeedback.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AllowedEmailDomain.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AlternativePaymentMethod.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AnalyticsContainerWidgetDef.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AnalyticsDashboard.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AnalyticsLicensedAsset.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AnalyticsVisualization.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AnalyticsVizField.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AnalyticsVizViewDef.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AnalyticsWorkspace.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AnalyticsWorkspaceAsset.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Announcement.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApexClass.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApexComponent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApexPage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApexPageInfo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApexTestSuite.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApexTrigger.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AppDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AppExtension.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AppMenuItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AppointmentAssignmentPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AppointmentSchedulingPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AppointmentTopicTimeSlot.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Approval.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApprovalAlertContentDef.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApprovalDelegation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApprovalSubmission.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApprovalWorkItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApprovalWorkItemCondition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApprovalWorkItemCriteria.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AppTabMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApptBundleAggrDurDnscale.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApptBundleAggrPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApptBundleConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApptBundlePolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApptBundlePolicySvcTerr.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApptBundlePropagatePolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApptBundleRestrictPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ApptBundleSortPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AppUsageAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ArchivePolicyDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Asset.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetAttribute.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetContractRelationship.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetRateAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetRateCardEntry.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetRelationship.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetStatePeriod.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetTokenEvent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssetWarranty.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssignedResource.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssignmentRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AssociatedLocation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Attachment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AttribModel.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AttribModelStage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Audience.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AuraDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AuraDefinitionBundle.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AuthConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AuthConfigProviders.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AuthorizationForm.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AuthorizationFormDataUse.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AuthorizationFormText.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AuthProvParamFwdAllowlist.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AutomatedAction.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AutomatedActionCondition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AutomatedActionOverride.query": [
+   "api"
+  ],
+  "op:sf_object_reference:AutomatedActionParameter.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BillingBatchScheduler.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BillingPeriodItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BillingPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BillingSchedule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BillingScheduleGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BillingTreatment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BillingTreatmentItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Bookmark.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BotDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BotVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BrandingSet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BrandTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Brief.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BriefcaseAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BriefcaseRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BriefcaseRuleFilter.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BroadcastCommAudience.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BroadcastCommunication.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BroadcastTopic.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BroadcastTopicGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BrowserPolicyViolation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BusinessAlert.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BusinessAlertStatus.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BusinessBrand.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BusinessHours.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BusinessProcessDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BuyerAccount.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BuyerCriteria.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BuyerGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BuyerGroupBuyerCriteria.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BuyerGroupMember.retrieve": [
+   "api"
+  ],
+  "op:sf_object_reference:BuyerGroupPricebook.query": [
+   "api"
+  ],
+  "op:sf_object_reference:BuyerGroupRelatedObject.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CalcProcStepRelationship.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CalculatedInsightRangeBound.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CalculationProcedure.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CalculationProcedureStep.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CalculationProcedureVariable.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CalculationProcedureVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Calendar.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CalendarView.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CallCenter.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CallCenterRoutingMap.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CallCoachingMediaProvider.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CallCtrAgentFavTrfrDest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CallCtrAgentFavTrfrDestShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CallTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Campaign.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CampaignExt.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CampaignInfluence.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CampaignMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CampaignOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CampaignShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CampaignTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CardPaymentMethod.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CartCheckoutSession.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CartDeliveryGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CartDeliveryGroupMethod.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CartDeliveryGroupMethodAdj.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CartItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CartItemAttribute.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CartItemPriceAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CartTax.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Case.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseArticle.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseComment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseContactRole.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseMilestone.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseParticipant.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseRelatedIssue.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseSolution.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseTeamMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseTeamRole.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseTeamTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseTeamTemplateMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CaseTeamTemplateRecord.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CategoryData.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChangeRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChangeRequestRelatedIssue.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChangeRequestRelatedItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChannelObjectLinkingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChannelProgram.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChannelProgramLevel.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChannelProgramMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChatterConversation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChatterConversationMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChatterExtension.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ChatterExtensionConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CollaborationGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CollaborationGroupMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CollaborationGroupMemberRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CollaborationGroupRecord.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CollaborationInvitation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CollaborationRoom.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CommerceEntitlementBuyerGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CommerceEntitlementPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CommerceEntitlementPolicyShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CommerceEntitlementProduct.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CommissionSchedule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CommissionScheduleAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CommSubscription.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CommSubscriptionConsent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ComplaintCase.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ComplaintParticipant.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ComplianceControlScope.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ConferenceNumber.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ConnectedApplication.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Contact.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactCenterChannel.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactPointAddress.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactPointConsent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactPointEmail.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactPointPhone.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactPointTypeConsent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactProspectingAgentResearch.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactRequestShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContactTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentAsset.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentDistribution.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentDocument.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentDocumentLink.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentDocumentSubscription.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentFolder.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentFolderItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentFolderLink.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentFolderMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentHubItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentHubRepository.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentNote.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentTagSubscription.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentTaxonomy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentUserSubscription.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentVersionComment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentWorkspace.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentWorkspaceDoc.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentWorkspaceMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentWorkspacePermission.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContentWorkspaceSubscription.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContextParamMap.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Contract.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContractContactRole.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContractLineItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContractLineOutcome.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ContractLineOutcomeData.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ConversationChannelDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ConversationVendorInfo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ConvIntelligenceSignalRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ConvIntelligenceSignalSubRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CorsWhitelistEntry.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Coupon.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CreditMemo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CreditMemoAddressGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CreditMemoInvApplication.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CreditMemoLine.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Crisis.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CronJobDetail.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CronTrigger.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CryptoProdCatgWalletGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CustExpIntlTransfSetup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CustomBrandAsset.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Customer.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CustomHelpMenuSection.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CustomPermission.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CustomPermissionDependency.query": [
+   "api"
+  ],
+  "op:sf_object_reference:CustomReportType.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DandBCompany.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DashboardComponent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DatacloudCompany.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DatacloudContact.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DatacloudOwnedEntity.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataDetectPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataDetectPolicyObject.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataDetectPolicyObjField.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataDetectPolicySnapshot.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataDetPlcyDataSrchExps.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataDetPlcyMdatScanCrit.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataDetPlcySstvDataCatg.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataEncryptionKey.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataIntegrationRecordPurchasePermission.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataLakeObjectInstance.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataMaskCustomValueLibrary.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DatasetExport.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataUseLegalBasis.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataUsePurpose.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DataWeaveResource.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DealIndirectPartner.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DelegatedAccount.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DeliveryEstimationSetup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsEnvDeploymentMbr.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsEnvironment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsPipeline.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsPipelineEnvironment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsPipelineStage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsPipelineStageTrigger.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsPipelineTestProvider.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsPipelnStgProm.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsPipelnStgPromWkItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsProject.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsProjectPipeline.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsQualityGate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsQualityGateRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsQualityGateRuleResult.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsTest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsTestProvider.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsTestSuite.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsTestSuiteStage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DevopsTestSuiteTest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DigitalSignature.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DigitalWallet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DirectMessage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DocProcReview.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Document.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DocumentAttachmentMap.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DocumentRecipient.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DocumentTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Domain.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DomainSite.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DsarPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DuplicateJobDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DuplicateJobMatchingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DuplicateJobMatchingRuleDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DuplicateRecordItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DuplicateRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:DynamicDataCapture.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ElectronicMediaGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ElectronicMediaUse.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmailContent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmailDomainFilter.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmailDomainKey.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmailInsightAction.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmailMessage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmailRelay.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmailRoutingAddress.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmailServicesAddress.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmailServicesFunction.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmailTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Employee.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Employee2.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EmployeeCrisisAssessment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnablementMeasureDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnablementProgram.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnablementProgramDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnblPgmTaskMeasureProgress.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnblProgramSection.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnblProgramTaskDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnblProgramTaskMeasure.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnblProgramTaskProgress.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnblProgramTaskSubCategory.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnhancedLetterhead.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Entitlement.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EntitlementContact.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EntitlementTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EntitySubscription.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EnvironmentHubMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Event.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EventBusSubscriber.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EventRelation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EventRelayConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:EventStagedInviteeEmail.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Expense.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExpenseReport.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExpenseReportEntry.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExpressionFilter.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExpressionSetConstraintObj.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtConvParticipantIntegDef.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtDataShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExternalAccountHierarchy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExternalDataSource.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExternalDataUserAuth.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExternalEncryptionRootKey.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExternalEvent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExternalEventMapping.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExternalSocialAccount.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtKnowledgeConnector.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlClntAppOauthPlcyCnfg.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlClntAppOauthSettings.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlClntAppPlcyCnfg.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlIntrIdMapping.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlRecShrCnct.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlRecShrCnctAccnt.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlRecShrField.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlRecShrLead.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlRecShrObject.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlRecShrOpportunity.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlRecShrPcklstOptn.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ExtlRecShrPicklistMap.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FeedAttachment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FeedComment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FieldPermissions.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FieldSecurityClassification.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowDefinitionView.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowInterview.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowInterviewLogOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowInterviewOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowInterviewShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowOrchestration.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowOrchestrationInstance.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowOrchestrationStageInstance.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowOrchestrationStepInstance.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowOrchestrationVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowOrchestrationWorkItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowRecord.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowRecordElement.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowRecordRelation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowRecordVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowStageRelation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowVariableView.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FlowVersionView.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Folder.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingCustomCategory.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingCustomData.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingFilter.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingGroupItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingOwnerAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingQuota.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingSrcRecJudgment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingSubmission.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ForecastingSubmissionItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FrcstCustmCatgRampRateSrc.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FrcstCustmzAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FrcstCustmzOwnerAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FulfillmentOrder.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FulfillmentOrderItemAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FulfillmentOrderLineItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FulfmtRoutgCriteria.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FulfmtRoutgCriteriaActnVar.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FulfmtRoutgCriteriaCond.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FulfmtRoutgCriteriaGrp.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FulfmtRoutgCriteriaGrpVer.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FunctionConnection.query": [
+   "api"
+  ],
+  "op:sf_object_reference:FunctionReference.query": [
+   "api"
+  ],
+  "op:sf_object_reference:GenAiFunctionDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:GenAiPlannerDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:GenAiPlannerFunctionDef.query": [
+   "api"
+  ],
+  "op:sf_object_reference:GenAiPluginDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:GenOpPlanReferenceRecord.query": [
+   "api"
+  ],
+  "op:sf_object_reference:GeolocationBasedAction.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Goal.query": [
+   "api"
+  ],
+  "op:sf_object_reference:GoalLink.query": [
+   "api"
+  ],
+  "op:sf_object_reference:GoogleDoc.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Group.query": [
+   "api"
+  ],
+  "op:sf_object_reference:GroupMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:HealthCareDiagnosis.query": [
+   "api"
+  ],
+  "op:sf_object_reference:HealthCareProcedure.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Holiday.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Idea.query": [
+   "api"
+  ],
+  "op:sf_object_reference:IdeaComment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:IdeaReputationLevel.query": [
+   "api"
+  ],
+  "op:sf_object_reference:IdeaTheme.query": [
+   "api"
+  ],
+  "op:sf_object_reference:IframeWhiteListUrl.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Image.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Incident.query": [
+   "api"
+  ],
+  "op:sf_object_reference:IncidentRelatedItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Individual.query": [
+   "api"
+  ],
+  "op:sf_object_reference:IndividualApplicationItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:IndividualShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:InventoryItemReservation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:InventoryReservation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Invoice.query": [
+   "api"
+  ],
+  "op:sf_object_reference:InvoiceAddressGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:InvoiceBatchRunCriteria.query": [
+   "api"
+  ],
+  "op:sf_object_reference:InvoiceDocument.query": [
+   "api"
+  ],
+  "op:sf_object_reference:InvoiceLine.query": [
+   "api"
+  ],
+  "op:sf_object_reference:JobProfile.query": [
+   "api"
+  ],
+  "op:sf_object_reference:JobProfileQueueGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Knowledge__DataCategorySelection.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Knowledge__Feed.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Knowledge__ka.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Knowledge__kav.query": [
+   "api"
+  ],
+  "op:sf_object_reference:KnowledgeableUser.query": [
+   "api"
+  ],
+  "op:sf_object_reference:KnowledgeArticle.query": [
+   "api"
+  ],
+  "op:sf_object_reference:KnowledgeArticleFeedback.query": [
+   "api"
+  ],
+  "op:sf_object_reference:KnowledgeArticleVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LandingPage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Lead.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LeadCleanInfo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LeadOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LeadProspectingAgentResearch.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LeadShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LeadTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LearningContent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LearningItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LearningItemAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LearningItemProgress.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LearningItemSubmission.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LearningPractice.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LicenseDefinitionCustomPermission.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LightningExperienceTheme.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LinkedArticle.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LinkedArticleFeed.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ListEmail.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ListEmailIndividualRecipient.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ListEmailRecipientSource.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveAgentSessionShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatBlockingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatButton.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatButtonDeployment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatButtonSkill.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatDeployment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatObjectAccessConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatObjectAccessDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatSensitiveDataRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatTranscriptShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatTranscriptSkill.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatUserConfigProfile.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LiveChatUserConfigUser.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Location.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LocationGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LocationGroupAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LocationShippingCarrierMethod.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LocationTrustMeasure.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LocationWaitlist.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LocationWaitlistedParty.query": [
+   "api"
+  ],
+  "op:sf_object_reference:LocWaitlistMsgTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Macro.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MacroInstruction.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MailmergeTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MaintenanceAsset.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MaintenancePlan.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MaintenanceWorkRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ManagedContent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ManagedContentChannel.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ManagedContentSpace.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ManagedContentVariant.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MarketingForm.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MarketingGoal.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MarketingLink.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MarketingProgram.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MarketingTactic.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MarketingTacticTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MatchingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MatchingRuleItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MerchantAccount.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MessagingChannel.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MessagingChannelSkill.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MessagingConfiguration.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MessagingEndUser.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MessagingTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MetadataPackage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MetadataPackageVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Metric.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MktJourneyDcsnSetup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MlIntentUtteranceSuggestion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MLModel.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MLPredictionDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MLRecommendationDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MobileDeviceAppRegistration.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MobileSecurityAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MobileSecurityPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MobileSettingsAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MobSecurityCertPinConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MsgChannelLanguageKeyword.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MsgChannelUsageExternalOrg.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MutingPermissionSet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:MyDomainDiscoverableLogin.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Network.query": [
+   "api"
+  ],
+  "op:sf_object_reference:NetworkAffinity.query": [
+   "api"
+  ],
+  "op:sf_object_reference:NetworkAuthApiSettings.query": [
+   "api"
+  ],
+  "op:sf_object_reference:NetworkDiscoverableLogin.query": [
+   "api"
+  ],
+  "op:sf_object_reference:NetworkEmailTmplAllowlist.query": [
+   "api"
+  ],
+  "op:sf_object_reference:NetworkMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:NetworkMemberGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:NetworkModeration.query": [
+   "api"
+  ],
+  "op:sf_object_reference:NetworkPageOverride.query": [
+   "api"
+  ],
+  "op:sf_object_reference:NetworkSelfRegistration.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Note.query": [
+   "api"
+  ],
+  "op:sf_object_reference:NoteTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OauthCustomScopeApp.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OauthToken.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OauthTokenExchangeHandler.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OauthTokenExchHandlerApp.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ObjectPermissions.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ObjectTerritory2AssignmentRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ObjectTerritory2AssignmentRuleItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ObjectTerritory2Association.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ObjectUserTerritory2View.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OmniSupervisorConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OmniSupervisorConfigGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OmniSupervisorConfigProfile.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OmniSupervisorConfigQueue.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OmniSupervisorConfigSkill.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OmniSupervisorConfigUser.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OperatingHours.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OperatingHoursHoliday.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Opportunity.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityCompetitor.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityContactRole.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityInsight.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityLineItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityLineItemSchedule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityLineItemSplit.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityPartner.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunitySplit.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OpportunityTeamMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OppSalesMethodology.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OppSalesMethodologyItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Order.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderAction.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderAdjustmentGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderAdjustmentGroupSummary.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderChgReasonCategMap.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderDeliveryGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderDeliveryGroupSummary.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderDeliveryMethod.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderItemAdjustmentLineItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderItemAdjustmentLineSummary.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderItemGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderItemRecipient.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderItemRelationship.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderItemSummary.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderItemSummaryRelationship.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderItemTaxLineItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderPaymentSummary.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderSummary.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderSummaryAdditionalInfo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderSummaryRelationship.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrderSummaryRoutingSchedule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Organization.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrgDeleteRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrgEmailAddressSecurity.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrgSnapshot.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OrgWideEmailAddress.query": [
+   "api"
+  ],
+  "op:sf_object_reference:OutOfOffice.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PackageInstallEventLog.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PackageLicense.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PackageSubscriber.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Participant.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Partner.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PartnerFundAllocation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PartnerFundClaim.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PartnerFundRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PartnerMarketingBudget.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PartnerNetworkConnection.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PartnerNetworkRecordConnection.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PartnerRole.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PartyConsent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Payment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentAuthAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentAuthorization.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentCredit.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentCreditLinePayment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentGateway.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentGatewayProvider.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentInitiationSource.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentIntent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentLineInvoice.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentLink.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentMethod.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentSchedule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentScheduleItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentSchedulePolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentScheduleTreatment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentScheduleTreatmentDtl.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentTerm.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PaymentTermItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PendingOrderSummary.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PermissionSet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PermissionSetAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PermissionSetGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PermissionSetGroupComponent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PermissionSetLicense.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PermissionSetLicenseAssign.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PermissionSetLicenseDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PermissionSetTabSetting.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PersnlBatchDecision.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PersonAccountOwnerPowerUser.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PersonalizationDecision.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PersonalizationObjective.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PersonalizationPoint.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PersonalizationTargetInfo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PersonTraining.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PickTicket.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PickTicketAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PickTicketProduct.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PipelineInspMetricConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PortalDelegablePermissionSet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PresenceConfigDeclineReason.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PresenceUserConfigProfile.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PresenceUserConfigUser.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PriceAdjustmentGroupShape.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PriceAdjustmentItemShape.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PriceAdjustmentSchedule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Pricebook2.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PricebookEntry.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PricebookEntryAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PriceProtectExecLineItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PriceProtectionTerm.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PrivacyHold.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PrivacyHoldReason.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PrivacyRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PrivacyRTBFRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Problem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProblemIncident.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProblemRelatedItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProcessDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProcessFlowMigration.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProcessInstanceWorkitem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProcessNode.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProducerCommission.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Product2.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Product2DataTranslation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductAttribute.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductAttributeSet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductCatalog.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductCategory.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductCategoryDataTranslation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductCategoryProduct.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductComponentGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductConsumed.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductConsumedState.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductEntitlementTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductMedia.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductQuantityRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductRelatedComponent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductRequestLineItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductRequired.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductSellingModel.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductServiceCampaign.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductServiceCampaignItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductTransfer.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProductWarrantyTerm.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Profile.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProfileSkill.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProfileSkillEndorsement.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProfileSkillShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProfileSkillUser.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProgramProduct.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProgramRebateType.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Promotion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromotionLineItemRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromotionMarketSegment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromotionQualifier.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromotionSegment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromotionSegmentBuyerGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromotionSegmentSalesStore.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromotionTarget.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromotionTier.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Prompt.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromptActionOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromptActionShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromptLocalization.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromptVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PromptVersionLocalization.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProrationPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Prospect.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProspectingAgentDataSource.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProspectingAgentExternalCompanyResearch.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProspectingAgentExternalPersonResearch.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProspectingAgentRcmdTarget.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProspectingAgentSpec.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ProspectingAgentUserSpec.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PublicComplaint.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PurchaseQuantityRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PushTopic.query": [
+   "api"
+  ],
+  "op:sf_object_reference:PushUpgradeCustomization.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Question.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuestionDataCategorySelection.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuestionReportAbuse.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuestionSubscription.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QueueRoutingConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QueueSobject.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuickText.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Quote.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteAction.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteAdjustmentGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteDocument.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteItemTaxItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteLineGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteLineItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteLineItemRecipient.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteLinePriceAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteLineRelationship.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteLineWorkSource.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteRecipientGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:QuoteRecipientGroupMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Recommendation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RecordAction.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RecordsetFilterCriteria.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RecordsetFilterCriteriaRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RedirectWhitelistUrl.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Refund.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RefundLinePayment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RegisteredExternalService.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Reply.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ReplyEmailSettings.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ReplyReportAbuse.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ReplyText.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ReportTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ReputationPointsRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ResourceAbsence.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ResourcePreference.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ReturnOrder.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ReturnOrderItemAdjustment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ReturnOrderItemTax.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ReturnOrderLineItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ReturnOrderOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Review.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RpaRobotPool.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RpaRobotPoolAsgnRobot.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RpaRobotPoolDefinition.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RpaRobotPoolFlowAsgn.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RpaRobotSessionInfoDef.query": [
+   "api"
+  ],
+  "op:sf_object_reference:RuleTerritory2Association.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesAIScoreCycle.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesChannel.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesforceContract.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesforceInvoice.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesforcePayment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesforceQuote.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesMethodologyDef.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesStoreCatalog.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesTransactionItemShape.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesTransactionShape.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesTrxnItemRelationShape.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SalesWorkQueueSettings.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SamlSsoConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SavedPaymentMethod.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SchedulingAdherenceDetail.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SchedulingConstraint.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SchedulingObjective.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SchedulingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Scontrol.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ScontrolLocalization.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Scorecard.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ScorecardAssociation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ScorecardMetric.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SearchPromotionRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SecurityCustomBaseline.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SelfServiceUser.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Seller.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SenderEmailAddress.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceAppointment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceContract.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceContractOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceCrew.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceCrewMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceCrewOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceReport.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceReportLayout.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceResource.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceResourceCapacity.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceResourceDataTranslation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceResourceOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceResourcePreference.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceResourceSkill.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceSetupProvisioning.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceTerritory.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceTerritoryDataTranslation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceTerritoryLocation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceTerritoryMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ServiceTerritoryWorkType.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SessionPermSetActivation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SetupEntityAccess.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcCustomerForPartner.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerOffer.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerOfferItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerOrder.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerOrderBillingTrxn.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerOrderItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerPackage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerPackageVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerPermSetLicense.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerProductLicense.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerProvisionProduct.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerSbscrOffer.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerSbscrOfferItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerTenantPackage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerTermSet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerTermSetProduct.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerTntPermSetLic.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SfdcPartnerTntPkgLicense.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SharingRecordCollection.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SharingRecordCollectionItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SharingRecordCollectionMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Shift.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShiftOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShiftPattern.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShiftPatternEntry.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShiftSegment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShiftShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShiftTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Shipment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShipmentItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShippingCarrier.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShippingCarrierMethod.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShippingConfigSetProduct.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShippingConfigurationSet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShippingRateArea.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ShippingRateGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SignupRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Site.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SiteDomain.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SiteIframeWhitelistUrl.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SiteRedirectMapping.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Skill.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SkillLevelProgress.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SkillProfile.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SkillRequirement.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SkillUser.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SlackChannelRelatedRecord.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SlaProcess.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Snippet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SocialPersona.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SocialPost.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Solution.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SOSDeployment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SourceCodeRepoProvider.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SourceCodeRepository.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SourceCodeRepositoryBranch.query": [
+   "api"
+  ],
+  "op:sf_object_reference:StagedEmail.query": [
+   "api"
+  ],
+  "op:sf_object_reference:StagedInviteeEmail.query": [
+   "api"
+  ],
+  "op:sf_object_reference:StampAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:StandardShippingRate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:StaticResource.query": [
+   "api"
+  ],
+  "op:sf_object_reference:StoreIntegratedService.query": [
+   "api"
+  ],
+  "op:sf_object_reference:StreamingChannel.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Survey.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SurveyEmailBranding.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SurveyEngagementContext.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SurveyInvitation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SurveyPage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SurveyQuestion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SurveyQuestionChoice.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SurveySubject.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SurveyVersion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SurveyVersionAddlInfo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SvcCatalogCategory.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SvcCatalogCategoryItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SvcCatalogItemDef.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SvcCatalogReqRelatedItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SvcCatalogRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Swarm.query": [
+   "api"
+  ],
+  "op:sf_object_reference:SwarmMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Task.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TaskRelation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TaskTag.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TaskWhoRelation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TaxEngine.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TaxEngineProvider.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TaxGeoConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TaxPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TaxRate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TaxTreatment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecret.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityAlertRuleSelectedTenant.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityCertificate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityConfigAgent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityConnectedApp.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityCustomMetricSetup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityEncryptionPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityFeature.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityNotificationRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityPackage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityPolicySelectedTenant.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TenantSecurityUserPerm.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Territory.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Territory2.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Territory2Model.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Territory2ObjectExclusion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Territory2ObjSharingConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TerritoryAdminAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TerritoryMgmtObjectConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TestSuiteMembership.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ThirdPartyAccountLink.query": [
+   "api"
+  ],
+  "op:sf_object_reference:ThreatDetectionFeedback.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TimeSheet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TimeSheetEntry.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TimeSlot.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TodayGoal.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TopicAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TopInsight.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Translation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TwoFactorInfo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:TwoFactorTempCode.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UiFormulaCriterion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UiFormulaRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UndecidedEventRelation.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UnifiedTask.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UnifiedTaskParticipant.query": [
+   "api"
+  ],
+  "op:sf_object_reference:User.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserAccessChange.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserAccessPolicy.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserAccountTeamMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserAppInfo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserAppMenuCustomization.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserAuthCertificate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserConfigTransferButton.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserConfigTransferSkill.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserDailyMetricOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserDefinedLabelAssignment.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserDevice.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserDeviceApplication.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserEmailCalendarSync.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserEmailPreferredPerson.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserEmailPreferredPersonShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserLicense.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserListView.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserMembershipSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserMonthlyMetricOwnerSharingRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserPackageLicense.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserPermissionAccess.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserPrioritizedRecord.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserProfile.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserProvAccount.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserProvAccountStaging.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserProvisioningConfig.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserProvisioningRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserProvMockTarget.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserRecordAccess.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserRelatedRecordContent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserRole.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserSetupEntityAccess.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserSharedFeature.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserTeamMember.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserTerritory.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserTerritory2Association.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserTerritory2AssocLog.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserWorkList.query": [
+   "api"
+  ],
+  "op:sf_object_reference:UserWorkListItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VideoCallParticipant.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceCallList.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceCallListItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceCallQualityFeedback.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceCoaching.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceLocalPresenceNumber.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceMailContent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceMailGreeting.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceMailGreeting2.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceMailGreeting2Rep.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceMailMessage.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceUserLine.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceVendorInfo.query": [
+   "api"
+  ],
+  "op:sf_object_reference:VoiceVendorLine.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Vote.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WarrantyTerm.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WaveAutoInstallRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebCart.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebCartAdjustmentBasis.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebCartAdjustmentGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebLink.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebStore.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebstoreBuyerGroup.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebStoreCatalog.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebStoreInventorySource.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebStoreMessageContent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebStoreNetwork.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebStorePricebook.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WebStoreShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Wishlist.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WishlistItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkAccess.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkAccessShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkBadge.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkCapacityAvailability.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkCapacityLimit.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkCoaching.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkDemographic.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkFeedback.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkFeedbackQuestion.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkFeedbackQuestionSet.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkFeedbackRequest.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkforceCapacity.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkGoal.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkGoalCollaborator.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkGoalLink.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkGoalShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkItemComponent.query": [
+   "api"
+  ],
+  "op:sf_object_reference:Workload.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkloadUnit.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkOrder.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkOrderLineItem.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkOrderShare.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkPerformanceCycle.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkPlan.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkPlanSelectionRule.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkPlanTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkPlanTemplateEntry.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkReward.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkRewardFund.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkRewardFundType.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkStepTemplate.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkThanks.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkType.query": [
+   "api"
+  ],
+  "op:sf_object_reference:WorkTypeGroupMember.query": [
+   "api"
+  ]
+ }
+}

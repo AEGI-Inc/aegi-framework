@@ -1,0 +1,331 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: principal-profile
+interfaces: &a1
+  - Principal
+model:
+  research_type: object-type:f00b5e97e7a3842dd0988e58
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:f00b5e97e7a3842dd0988e58.identity_evidence
+  aliases:
+    - name: login
+      expr: login
+      stability: mutable
+      classification: self_address
+      evidence:
+        source: okta_management_openapi
+        locator: principal-profile.login
+    - name: email
+      expr: email
+      stability: mutable
+      classification: self_address
+      evidence:
+        source: okta_management_openapi
+        locator: principal-profile.email
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_iga_openapi:principal-profile-enriched
+    declaration:
+      name: id
+      required: true
+      scalar: string
+    map_items:
+      - space:principal-profile|id
+  email:
+    path: email
+    source: research_shape
+    shape: sh:okta_iga_openapi:principal-profile-enriched
+    declaration:
+      name: email
+      required: false
+      scalar: string
+    map_items:
+      - space:principal-profile|email
+  firstName:
+    path: firstName
+    source: research_shape
+    shape: sh:okta_iga_openapi:principal-profile-enriched
+    declaration:
+      name: firstName
+      required: false
+      scalar: string
+    map_items:
+      - space:principal-profile|firstName
+  lastName:
+    path: lastName
+    source: research_shape
+    shape: sh:okta_iga_openapi:principal-profile-enriched
+    declaration:
+      name: lastName
+      required: false
+      scalar: string
+    map_items:
+      - space:principal-profile|lastName
+  login:
+    path: login
+    source: research_shape
+    shape: sh:okta_iga_openapi:principal-profile-enriched
+    declaration:
+      name: login
+      required: false
+      scalar: string
+    map_items:
+      - space:principal-profile|login
+  name:
+    path: name
+    source: research_shape
+    shape: sh:okta_iga_openapi:principal-profile-enriched
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:principal-profile|name
+  status:
+    path: status
+    source: research_shape
+    shape: sh:okta_iga_openapi:principal-profile-enriched
+    declaration:
+      name: status
+      required: true
+      shape: sh:okta_iga_openapi:principal-profile-status
+    map_items:
+      - space:principal-profile|status
+  type:
+    path: type
+    source: research_shape
+    shape: sh:okta_iga_openapi:principal-profile-enriched
+    declaration:
+      name: type
+      required: true
+      shape: sh:okta_iga_openapi:principal-profile-type
+    map_items:
+      - space:principal-profile|type
+references:
+  - name: oktaadminroles
+    field: oktaAdminRoles
+    target: security-access-review-principal-okta-admin-role_2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:e349a8650b460f3fe76b3352; relation=no_relation
+constants: {}
+row_contracts:
+  principal_kind:
+    const: unknown
+  account_kind:
+    const: unknown
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: principal-profile
+  interfaces: *a1
+  model:
+    research_type: object-type:f00b5e97e7a3842dd0988e58
+  extract:
+    key: PILOT-okta-principal-profile-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-OKTA-988e58
+            endpoint: /
+            items:
+              - principalProfile
+              - reviewerProfile
+              - delegatorProfile
+              - allReviewerLevels.reviewerProfile
+        properties:
+          email: email
+          firstName: firstName
+          id: id
+          lastName: lastName
+          login: login
+          name: name
+          status: status
+          type: type
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_iga_openapi:getSecurityAccessReviewPrincipalDetails
+  operation: getSecurityAccessReviewPrincipalDetails
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /governance/api/v2/security-access-reviews/[^/]+/principal(?:\?|$)
+  endpoint_template: /governance/api/v2/security-access-reviews/{securityAccessReviewId}/principal
+  request: {}
+  required_params:
+    - securityAccessReviewId
+  paths:
+    - shape: sh:okta_iga_openapi:security-access-review-principal
+      path: []
+  alternatives_total: 11
+  alternatives:
+    - operation_id: op:okta_iga_openapi:getUnassignedUsersV2
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v2/collections/{collectionId}/catalog/users
+      path: &a4
+        - data
+        - "*"
+    - operation_id: op:okta_iga_openapi:getReview
+      method: GET
+      kind: read_one
+      endpoint_template: /governance/api/v1/reviews/{reviewId}
+      path:
+        - principalProfile
+    - operation_id: op:okta_iga_openapi:listCollectionsAssignmentsV2
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v2/collections/assignments
+      path: &a3
+        - data
+        - "*"
+        - principalProfile
+    - operation_id: op:okta_iga_openapi:listReviews
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v1/reviews
+      path:
+        - data
+        - "*"
+        - principalProfile
+    - operation_id: op:okta_iga_openapi:listCollectionAssignmentsV2
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v2/collections/{collectionId}/assignments
+      path: *a3
+    - operation_id: op:okta_iga_openapi:listSecurityAccessReviewHistory
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v2/security-access-reviews/{securityAccessReviewId}/history
+      path:
+        - data
+        - "*"
+        - principalProfile
+    - operation_id: op:okta_iga_openapi:listSecurityAccessReviews
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v2/security-access-reviews
+      path:
+        - data
+        - "*"
+        - reviewerSettings
+        - userSettings
+        - includedUserProfiles
+        - "*"
+    - operation_id: op:okta_iga_openapi:getSecurityAccessReview
+      method: GET
+      kind: read_one
+      endpoint_template: /governance/api/v2/security-access-reviews/{securityAccessReviewId}
+      path:
+        - reviewerSettings
+        - userSettings
+        - includedUserProfiles
+        - "*"
+    - operation_id: op:okta_iga_openapi:getUnassignedUsers
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v1/collections/{collectionId}/catalog/users
+      path: *a4
+      deprecated: deprecated
+    - operation_id: op:okta_iga_openapi:listCollectionsAssignments
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v1/collections/assignments
+      path: *a3
+      deprecated: deprecated
+    - operation_id: op:okta_iga_openapi:listCollectionAssignments
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v1/collections/{collectionId}/assignments
+      path: *a3
+      deprecated: deprecated
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+    - login
+    - email
+  reference_paths:
+    - oktaAdminRoles
+  metadata_paths: *a2
+  remaining_declared_fields: properties

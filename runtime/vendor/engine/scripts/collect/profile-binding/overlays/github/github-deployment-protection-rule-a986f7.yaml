@@ -1,0 +1,160 @@
+overlay_basis:
+  from: aegi-adapter-engine
+    catalog/github/profiles/deployment_protection_rule_custom_app.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-30
+        items: custom_deployment_protection_rules
+        where:
+          all:
+            - path: id
+              defined: true
+            - path: $req.kind
+              ne: branch_policies
+    vars:
+      env:
+        op: index
+        name: env_by_name
+        key:
+          template: "{$req.repo}|{$req.environment}"
+      env_id:
+        op: strip_prefix
+        of: $vars.env
+        prefix: GH-ENV-
+    require:
+      path: $vars.env
+      present: true
+    id_expr:
+      template: "{$vars.env_id}:{id}"
+    parts:
+      e: $vars.env_id
+      p: id
+    parent:
+      ref:
+        key: $vars.env
+      when: always
+    mutable_ids:
+      node_id: node_id
+    refs:
+      app:
+        when:
+          path: app.slug
+          truthy: true
+        type: GitHub App
+        value:
+          op: str
+          of: app.slug
+        external: true
+    properties:
+      enabled: enabled
+      app_id:
+        op: null_if_missing
+        of: app.id
+      app_slug:
+        op: null_if_missing
+        of: app.slug
+    display: 배포 보호 규칙 {app.slug|id} ({$req.repo} 환경 {$req.environment})
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.env
+        basis: stated
+      - type: applies_to
+        source: $self
+        target:
+          key: $vars.env
+        basis: stated
+        properties:
+          binding:
+            const: explicit
+    identity:
+      primary:
+        - name: e
+          expr: $vars.env_id
+          stability: catalog_reviewed
+        - name: p
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-DPRULE-{e}-{p}
+runtime_stub: null
+runtime_key: GH-DPRULE-{e}-{p}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  node_id:
+    stability: mutable
+relation_rules:
+  - id: Deployment protection rule (custom/app):list
+    sources:
+      - call: GH-30
+        items: custom_deployment_protection_rules
+        where:
+          all:
+            - path: id
+              defined: true
+            - path: $req.kind
+              ne: branch_policies
+    vars:
+      env:
+        op: index
+        name: env_by_name
+        key:
+          template: "{$req.repo}|{$req.environment}"
+      env_id:
+        op: strip_prefix
+        of: $vars.env
+        prefix: GH-ENV-
+    require:
+      path: $vars.env
+      present: true
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.env
+        basis: stated
+      - type: applies_to
+        source: $self
+        target:
+          key: $vars.env
+        basis: stated
+        properties:
+          binding:
+            const: explicit
+    self_identity: object_rule
+vars:
+  env:
+    op: index
+    name: env_by_name
+    key:
+      template: "{$req.repo}|{$req.environment}"
+  env_id:
+    op: strip_prefix
+    of: $vars.env
+    prefix: GH-ENV-
+identity:
+  primary:
+    - name: e
+      expr: $vars.env_id
+      stability: catalog_reviewed
+    - name: p
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-DPRULE-{e}-{p}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

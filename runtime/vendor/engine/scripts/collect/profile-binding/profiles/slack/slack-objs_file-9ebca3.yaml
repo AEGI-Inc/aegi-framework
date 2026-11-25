@@ -1,0 +1,809 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: slack
+service: null
+object_type: objs_file
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:f697632080f34410d19ebca3
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:f697632080f34410d19ebca3.identity_evidence
+tenant_binding:
+  type: workspace
+  service: null
+  field: context_team_id
+  prefix: T
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: id
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|id
+  created:
+    path: created
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: created
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.file|created
+  timestamp:
+    path: timestamp
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: timestamp
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.file|timestamp
+  name:
+    path: name
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|name
+  title:
+    path: title
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: title
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|title
+  mimetype:
+    path: mimetype
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: mimetype
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|mimetype
+  filetype:
+    path: filetype
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: filetype
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|filetype
+  pretty_type:
+    path: pretty_type
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: pretty_type
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|pretty_type
+  user:
+    path: user
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: user
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|user
+  editable:
+    path: editable
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: editable
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.file|editable
+  size:
+    path: size
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: size
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.file|size
+  mode:
+    path: mode
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: mode
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|mode
+  is_external:
+    path: is_external
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: is_external
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.file|is_external
+  external_type:
+    path: external_type
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: external_type
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|external_type
+  is_public:
+    path: is_public
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: is_public
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.file|is_public
+  public_url_shared:
+    path: public_url_shared
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: public_url_shared
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.file|public_url_shared
+  display_as_bot:
+    path: display_as_bot
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: display_as_bot
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.file|display_as_bot
+  username:
+    path: username
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: username
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|username
+  url_private:
+    path: url_private
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: url_private
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|url_private
+  url_private_download:
+    path: url_private_download
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: url_private_download
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|url_private_download
+  thumb_64:
+    path: thumb_64
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: thumb_64
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|thumb_64
+  thumb_80:
+    path: thumb_80
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: thumb_80
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|thumb_80
+  thumb_360:
+    path: thumb_360
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: thumb_360
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|thumb_360
+  thumb_360_w:
+    path: thumb_360_w
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: thumb_360_w
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.file|thumb_360_w
+  thumb_360_h:
+    path: thumb_360_h
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: thumb_360_h
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.file|thumb_360_h
+  thumb_160:
+    path: thumb_160
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: thumb_160
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|thumb_160
+  thumb_360_gif:
+    path: thumb_360_gif
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: thumb_360_gif
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|thumb_360_gif
+  image_exif_rotation:
+    path: image_exif_rotation
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: image_exif_rotation
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.file|image_exif_rotation
+  original_w:
+    path: original_w
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: original_w
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.file|original_w
+  original_h:
+    path: original_h
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: original_h
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.file|original_h
+  deanimate_gif:
+    path: deanimate_gif
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: deanimate_gif
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|deanimate_gif
+  pjpeg:
+    path: pjpeg
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: pjpeg
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|pjpeg
+  permalink:
+    path: permalink
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: permalink
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|permalink
+  permalink_public:
+    path: permalink_public
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: permalink_public
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|permalink_public
+  comments_count:
+    path: comments_count
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: comments_count
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.file|comments_count
+  is_starred:
+    path: is_starred
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: is_starred
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.file|is_starred
+  shares:
+    path: shares
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: shares
+      required: false
+      shape: sh:slack_docs_methods:op:files.info:resp:200.file.shares
+    map_items: []
+  channels:
+    path: channels
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: channels
+      required: false
+      shape: sh:slack_docs_methods:op:files.info:resp:200.file.channels
+    map_items:
+      - space:200.file|channels
+  groups:
+    path: groups
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: groups
+      required: false
+      shape: sh:slack_docs_methods:op:files.info:resp:200.file.groups
+    map_items:
+      - space:200.file|groups
+  ims:
+    path: ims
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: ims
+      required: false
+      shape: sh:slack_docs_methods:op:files.info:resp:200.file.ims
+    map_items:
+      - space:200.file|ims
+  has_rich_preview:
+    path: has_rich_preview
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: has_rich_preview
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.file|has_rich_preview
+  alt_txt:
+    path: alt_txt
+    source: research_shape
+    shape: sh:slack_docs_methods:op:files.info:resp:200.file
+    declaration:
+      name: alt_txt
+      required: false
+      scalar: string
+    map_items:
+      - space:200.file|alt_txt
+references:
+  - name: channels
+    field: channels
+    target: objs_channel
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:124b88e84b670cbd3e703c1c; relation=no_relation
+  - name: source_team
+    field: source_team
+    target: 200.team
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:27780e69e6323e5915ede41b; relation=no_relation
+  - name: ims
+    field: ims
+    target: 200.channel|1
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2c9372f72ee0e95341a3890b; relation=no_relation
+  - name: shares_public_c061eg9sl_team_id
+    field: shares.public.C061EG9SL.team_id
+    target: 200.team
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:482107348f40272fa7695ae5; relation=no_relation
+  - name: last_editor
+    field: last_editor
+    target: 200.self
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:532b2c4d4fd8158734182217; relation=no_relation
+  - name: items
+    field: items
+    target: 200.item_4
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:7c9222856018d9855f5ecf8e; relation=no_relation
+  - name: user_team
+    field: user_team
+    target: 200.team
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:add0a17feccba088d7f8f792; relation=no_relation
+  - name: editor
+    field: editor
+    target: 200.self
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:b33a52a8b5ad6ee9819382d5; relation=no_relation
+  - name: shares_public_c0t8se4au_team_id
+    field: shares.public.C0T8SE4AU.team_id
+    target: 200.team
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:fe96af1be1cdf62f22b302ba; relation=no_relation
+  - name: file
+    field: file
+    target: 200.file
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:feeb8347bd0a4b3a633468e3; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: slack
+  object_type: objs_file
+  interfaces: *a1
+  model:
+    research_type: object-type:f697632080f34410d19ebca3
+  extract:
+    key: PILOT-slack-objs_file-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-SLACK-9ebca3
+            endpoint: /
+            items:
+              - file
+        properties:
+          alt_txt: alt_txt
+          channels: channels
+          comments_count: comments_count
+          created: created
+          deanimate_gif: deanimate_gif
+          display_as_bot: display_as_bot
+          editable: editable
+          external_type: external_type
+          filetype: filetype
+          groups: groups
+          has_rich_preview: has_rich_preview
+          id: id
+          image_exif_rotation: image_exif_rotation
+          ims: ims
+          is_external: is_external
+          is_public: is_public
+          is_starred: is_starred
+          mimetype: mimetype
+          mode: mode
+          name: name
+          original_h: original_h
+          original_w: original_w
+          permalink: permalink
+          permalink_public: permalink_public
+          pjpeg: pjpeg
+          pretty_type: pretty_type
+          public_url_shared: public_url_shared
+          shares: shares
+          size: size
+          thumb_160: thumb_160
+          thumb_360: thumb_360
+          thumb_360_gif: thumb_360_gif
+          thumb_360_h: thumb_360_h
+          thumb_360_w: thumb_360_w
+          thumb_64: thumb_64
+          thumb_80: thumb_80
+          timestamp: timestamp
+          title: title
+          url_private: url_private
+          url_private_download: url_private_download
+          user: user
+          username: username
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: embedded_only_collected
+  call: null
+  operation_id: op:slack_openapi_legacy:files.info
+  operation: files.info
+  surface: rpc
+  method: GET
+  kind: unknown
+  endpoint: /files\.info(?:\?|$)
+  endpoint_template: files.info
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:slack_openapi_legacy:objs_file
+      path:
+        - file
+  alternatives_total: 16
+  alternatives:
+    - operation_id: op:slack_openapi_legacy:files.sharedPublicURL
+      method: POST
+      kind: unknown
+      endpoint_template: files.sharedPublicURL
+      path:
+        - file
+    - operation_id: op:slack_openapi_legacy:reactions.get
+      method: GET
+      kind: unknown
+      endpoint_template: reactions.get
+      path:
+        - file
+    - operation_id: op:slack_docs_methods:files.info
+      method: null
+      kind: unknown
+      endpoint_template: files.info
+      path:
+        - file
+    - operation_id: op:slack_openapi_legacy:files.list
+      method: GET
+      kind: unknown
+      endpoint_template: files.list
+      path:
+        - files
+        - "*"
+    - operation_id: op:slack_docs_methods:files.list
+      method: null
+      kind: unknown
+      endpoint_template: files.list
+      path:
+        - files
+        - "*"
+    - operation_id: op:slack_openapi_legacy:conversations.history
+      method: GET
+      kind: unknown
+      endpoint_template: conversations.history
+      path: &a3
+        - messages
+        - "*"
+        - file
+      collected_calls:
+        - SL-05
+    - operation_id: op:slack_openapi_legacy:admin.conversations.search
+      method: GET
+      kind: unknown
+      endpoint_template: admin.conversations.search
+      path: &a4
+        - channels
+        - "*"
+        - latest
+        - file
+      collected_calls:
+        - SL-03
+    - operation_id: op:slack_openapi_legacy:conversations.list
+      method: GET
+      kind: unknown
+      endpoint_template: conversations.list
+      path: &a5
+        - channels
+        - "*"
+        - latest
+        - file
+      collected_calls:
+        - SL-03
+    - operation_id: op:slack_openapi_legacy:chat.postMessage
+      method: POST
+      kind: unknown
+      endpoint_template: chat.postMessage
+      path:
+        - message
+        - file
+    - operation_id: op:slack_openapi_legacy:conversations.info
+      method: GET
+      kind: unknown
+      endpoint_template: conversations.info
+      path:
+        - channel
+        - latest
+        - file
+    - operation_id: op:slack_openapi_legacy:pins.list
+      method: GET
+      kind: unknown
+      endpoint_template: pins.list
+      path:
+        - items
+        - "*"
+        - file
+    - operation_id: op:slack_openapi_legacy:reactions.list
+      method: GET
+      kind: unknown
+      endpoint_template: reactions.list
+      path:
+        - items
+        - "*"
+        - file
+    - operation_id: op:slack_openapi_legacy:stars.list
+      method: GET
+      kind: unknown
+      endpoint_template: stars.list
+      path:
+        - items
+        - "*"
+        - file
+    - operation_id: op:slack_openapi_legacy:users.conversations
+      method: GET
+      kind: unknown
+      endpoint_template: users.conversations
+      path:
+        - channels
+        - "*"
+        - latest
+        - file
+    - operation_id: op:slack_openapi_legacy:files.revokePublicURL
+      method: POST
+      kind: unknown
+      endpoint_template: files.revokePublicURL
+      path:
+        - file
+      deprecated: deprecated
+    - operation_id: op:slack_openapi_legacy:files.upload
+      method: POST
+      kind: unknown
+      endpoint_template: files.upload
+      path:
+        - file
+      deprecated: deprecated
+  basis: ir_read_response_reachability
+  selection: tie_needs_review
+  observed_sources:
+    - shape: sh:slack_openapi_legacy:objs_file
+      operation_id: op:slack_openapi_legacy:conversations.history
+      call: SL-05
+      path: *a3
+      records: 54
+      partial: true
+    - shape: sh:slack_openapi_legacy:objs_file
+      operation_id: op:slack_openapi_legacy:admin.conversations.search
+      call: SL-03
+      path: *a4
+      records: 18
+      partial: true
+    - shape: sh:slack_openapi_legacy:objs_file
+      operation_id: op:slack_openapi_legacy:conversations.list
+      call: SL-03
+      path: *a5
+      records: 14
+      partial: true
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: fe9343e56ffad6f2b0e007b7d616aa5a36dc671b5d93ef108740be1799dc2887
+    ir/shape.jsonl: e0251d3f1d8d7f441387bb9666f63eff7398545254d0b92ccab02c9503bbfbf3
+    ir/operation.jsonl: 5f61d17fe234449c5cd1c291def84c2453e244f73063e1ce5d43b65caf9348cf
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - channels
+    - source_team
+    - ims
+    - shares.public.C061EG9SL.team_id
+    - last_editor
+    - items
+    - user_team
+    - editor
+    - shares.public.C0T8SE4AU.team_id
+    - file
+  metadata_paths: *a2
+  remaining_declared_fields: properties

@@ -1,0 +1,791 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: SfdcPartnerSbscrOffer
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:0c830f0093707cf97da7908c
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:0c830f0093707cf97da7908c.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|Id
+  BillingFrequency:
+    path: BillingFrequency
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: picklist
+      name: BillingFrequency
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|BillingFrequency
+  ContractTerm:
+    path: ContractTerm
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: int
+      name: ContractTerm
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SfdcPartnerSbscrOffer|ContractTerm
+  CustBillingAddress:
+    path: CustBillingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: address
+      name: CustBillingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustBillingAddress
+  CustBillingCity:
+    path: CustBillingCity
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: CustBillingCity
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustBillingCity
+  CustBillingCountry:
+    path: CustBillingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: CustBillingCountry
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustBillingCountry
+  CustBillingGeocodeAccuracy:
+    path: CustBillingGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: picklist
+      name: CustBillingGeocodeAccuracy
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustBillingGeocodeAccuracy
+  CustBillingLatitude:
+    path: CustBillingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: double
+      name: CustBillingLatitude
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustBillingLatitude
+  CustBillingLongitude:
+    path: CustBillingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: double
+      name: CustBillingLongitude
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustBillingLongitude
+  CustBillingPostalCode:
+    path: CustBillingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: CustBillingPostalCode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustBillingPostalCode
+  CustBillingState:
+    path: CustBillingState
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: CustBillingState
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustBillingState
+  CustBillingStreet:
+    path: CustBillingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: textarea
+      name: CustBillingStreet
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustBillingStreet
+  CustShippingAddress:
+    path: CustShippingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: address
+      name: CustShippingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustShippingAddress
+  CustShippingCity:
+    path: CustShippingCity
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: CustShippingCity
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustShippingCity
+  CustShippingCountry:
+    path: CustShippingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: CustShippingCountry
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustShippingCountry
+  CustShippingGeocodeAccuracy:
+    path: CustShippingGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: picklist
+      name: CustShippingGeocodeAccuracy
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustShippingGeocodeAccuracy
+  CustShippingLatitude:
+    path: CustShippingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: double
+      name: CustShippingLatitude
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustShippingLatitude
+  CustShippingLongitude:
+    path: CustShippingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: double
+      name: CustShippingLongitude
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustShippingLongitude
+  CustShippingPostalCode:
+    path: CustShippingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: CustShippingPostalCode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustShippingPostalCode
+  CustShippingState:
+    path: CustShippingState
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: CustShippingState
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustShippingState
+  CustShippingStreet:
+    path: CustShippingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: textarea
+      name: CustShippingStreet
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustShippingStreet
+  CustomerBillingEmailAddress:
+    path: CustomerBillingEmailAddress
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: email
+      name: CustomerBillingEmailAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustomerBillingEmailAddress
+  CustomerEmailAddress:
+    path: CustomerEmailAddress
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: email
+      name: CustomerEmailAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustomerEmailAddress
+  CustomerName:
+    path: CustomerName
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: CustomerName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustomerName
+  CustomerPaymentTerms:
+    path: CustomerPaymentTerms
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: picklist
+      name: CustomerPaymentTerms
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustomerPaymentTerms
+  CustomerPurchaseOrderNumber:
+    path: CustomerPurchaseOrderNumber
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: CustomerPurchaseOrderNumber
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|CustomerPurchaseOrderNumber
+  ExpirationDate:
+    path: ExpirationDate
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: date
+      name: ExpirationDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|ExpirationDate
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|LastViewedDate
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: Name
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|Name
+  OfferType:
+    path: OfferType
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: picklist
+      name: OfferType
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|OfferType
+  OrderPrebillDays:
+    path: OrderPrebillDays
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: int
+      name: OrderPrebillDays
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SfdcPartnerSbscrOffer|OrderPrebillDays
+  PartnerCompanyName:
+    path: PartnerCompanyName
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: PartnerCompanyName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|PartnerCompanyName
+  PartnerOffer:
+    path: PartnerOffer
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: PartnerOffer
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|PartnerOffer
+  PartnerOrg:
+    path: PartnerOrg
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: PartnerOrg
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|PartnerOrg
+  PaymentMethod:
+    path: PaymentMethod
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: picklist
+      name: PaymentMethod
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|PaymentMethod
+  RespondingUserId:
+    path: RespondingUserId
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: reference
+      name: RespondingUserId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|RespondingUserId
+  ServiceEndDate:
+    path: ServiceEndDate
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: date
+      name: ServiceEndDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|ServiceEndDate
+  ServiceStartDate:
+    path: ServiceStartDate
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: date
+      name: ServiceStartDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|ServiceStartDate
+  ServiceTerm:
+    path: ServiceTerm
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: double
+      name: ServiceTerm
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SfdcPartnerSbscrOffer|ServiceTerm
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: picklist
+      name: Status
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|Status
+  SubTotal:
+    path: SubTotal
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: currency
+      name: SubTotal
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SfdcPartnerSbscrOffer|SubTotal
+  SyncToPboError:
+    path: SyncToPboError
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: string
+      name: SyncToPboError
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|SyncToPboError
+  SyncToPboLastUpdate:
+    path: SyncToPboLastUpdate
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: dateTime
+      name: SyncToPboLastUpdate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|SyncToPboLastUpdate
+  SyncToPboStatus:
+    path: SyncToPboStatus
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: picklist
+      name: SyncToPboStatus
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|SyncToPboStatus
+  TermsAndConditions:
+    path: TermsAndConditions
+    source: research_shape
+    shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+    declaration:
+      format: textarea
+      name: TermsAndConditions
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SfdcPartnerSbscrOffer|TermsAndConditions
+references:
+  - name: respondinguserid
+    field: RespondingUserId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:eab6ab99bc17039e4379a663; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: SfdcPartnerSbscrOffer
+  interfaces: *a1
+  model:
+    research_type: object-type:0c830f0093707cf97da7908c
+  extract:
+    key: PILOT-salesforce-SfdcPartnerSbscrOffer-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-a7908c
+            endpoint: /
+            items:
+              - records
+        properties:
+          BillingFrequency: BillingFrequency
+          ContractTerm: ContractTerm
+          CustBillingAddress: CustBillingAddress
+          CustBillingCity: CustBillingCity
+          CustBillingCountry: CustBillingCountry
+          CustBillingGeocodeAccuracy: CustBillingGeocodeAccuracy
+          CustBillingLatitude: CustBillingLatitude
+          CustBillingLongitude: CustBillingLongitude
+          CustBillingPostalCode: CustBillingPostalCode
+          CustBillingState: CustBillingState
+          CustBillingStreet: CustBillingStreet
+          CustShippingAddress: CustShippingAddress
+          CustShippingCity: CustShippingCity
+          CustShippingCountry: CustShippingCountry
+          CustShippingGeocodeAccuracy: CustShippingGeocodeAccuracy
+          CustShippingLatitude: CustShippingLatitude
+          CustShippingLongitude: CustShippingLongitude
+          CustShippingPostalCode: CustShippingPostalCode
+          CustShippingState: CustShippingState
+          CustShippingStreet: CustShippingStreet
+          CustomerBillingEmailAddress: CustomerBillingEmailAddress
+          CustomerEmailAddress: CustomerEmailAddress
+          CustomerName: CustomerName
+          CustomerPaymentTerms: CustomerPaymentTerms
+          CustomerPurchaseOrderNumber: CustomerPurchaseOrderNumber
+          ExpirationDate: ExpirationDate
+          Id: Id
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          Name: Name
+          OfferType: OfferType
+          OrderPrebillDays: OrderPrebillDays
+          PartnerCompanyName: PartnerCompanyName
+          PartnerOffer: PartnerOffer
+          PartnerOrg: PartnerOrg
+          PaymentMethod: PaymentMethod
+          RespondingUserId: RespondingUserId
+          ServiceEndDate: ServiceEndDate
+          ServiceStartDate: ServiceStartDate
+          ServiceTerm: ServiceTerm
+          Status: Status
+          SubTotal: SubTotal
+          SyncToPboError: SyncToPboError
+          SyncToPboLastUpdate: SyncToPboLastUpdate
+          SyncToPboStatus: SyncToPboStatus
+          TermsAndConditions: TermsAndConditions
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:SfdcPartnerSbscrOffer.query
+  operation: SfdcPartnerSbscrOffer.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: SfdcPartnerSbscrOffer
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:SfdcPartnerSbscrOffer
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:SfdcPartnerSbscrOffer.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/SfdcPartnerSbscrOffer/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - RespondingUserId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

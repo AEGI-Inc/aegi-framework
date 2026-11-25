@@ -1,0 +1,29 @@
+{
+ "overrides": [
+  {
+   "evidence": {
+    "locator": "components.schemas.git-commit; paths./repos/{owner}/{repo}/git/commits; components.schemas.commit",
+    "reason": "Persistent Git database commit object addressed by SHA, tree and parent commits; not one execution/log record. The low-level Git commit has a separate create/read API.",
+    "source": "gh_rest_ghec_next_2026_03_10_latest"
+   },
+   "interface": "Resource",
+   "provider": "github",
+   "shape": "sh:gh_rest_ghec_next_2026_03_10_latest:commit"
+  },
+  {
+   "evidence": {
+    "locator": "components.schemas.git-commit; paths./repos/{owner}/{repo}/git/commits; components.schemas.commit",
+    "reason": "Persistent Git database commit object addressed by SHA, tree and parent commits; not one execution/log record. The low-level Git commit has a separate create/read API.",
+    "source": "gh_rest_ghec_next_2026_03_10_latest"
+   },
+   "interface": "Resource",
+   "provider": "github",
+   "shape": "sh:gh_rest_ghec_next_2026_03_10_latest:git-commit"
+  }
+ ],
+ "sources": {
+  "gh_rest_ghec_next_2026_03_10_latest": {
+   "sha256": "ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3"
+  }
+ }
+}

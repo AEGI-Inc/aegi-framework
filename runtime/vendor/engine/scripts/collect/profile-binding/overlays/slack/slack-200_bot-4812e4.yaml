@@ -1,0 +1,73 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/slack/profiles/bot.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-07
+        items: bot
+        where:
+          path: id
+          present: true
+    mutable_ids:
+      user_id: user_id
+    properties:
+      name: name
+      app_id: app_id
+      bot_user_id: user_id
+      deleted: deleted
+      # bots.info 의 bot 은 언제나 앱의 봇이다(사람 계정이 아니다). 멤버 Profile 은 is_bot 으로 가른다(slack-200_members-9ac1fd.yaml).
+      # 이 칸이 없으면 판정이 unknown 이라 격차와 탐지 청중이 봇을 사람으로 센다(2026-11-08 실측, 격차 사람 18명이 봇)
+      principal_kind:
+        const: service
+    display: "{name|id}"
+    relations:
+      - type: owned_by
+        source: $self
+        target:
+          type: defs_app_id
+          id: app_id
+          create:
+            rule: from_bot
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-BOT-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: SLK-BOT-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  user_id:
+    stability: mutable
+relation_rules:
+  - id: bot:list
+    sources:
+      - call: SL-07
+        items: bot
+        where:
+          path: id
+          present: true
+    relations:
+      - type: owned_by
+        source: $self
+        target:
+          type: defs_app_id
+          id: app_id
+          create:
+            rule: from_bot
+        basis: stated
+    self_identity: object_rule
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다

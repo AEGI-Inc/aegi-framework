@@ -1,0 +1,11 @@
+identity:
+  primary:
+    - name: id
+      expr:
+        any:
+          - id
+          - variableName
+      stability: undocumented
+identity_basis: 기본 점검 목록의 Okta 내장 점검은 id 가 없고 variableName(예 ANDROID.Okta:DeviceAssurance.OsVersion)이 점검마다 다르다
+emit: reference_only
+emit_basis: 이 Profile 은 기본 점검 목록(listDefaultDevicePostureChecks)에만 묶인다. 응답 82개(2026-11-03 수집)는 모든 조직에 같은 Okta 내장 점검(type BUILTIN)이다. 테넌트 설정이 아닌 플랫폼 정의라 객체로 만들지 않는다. 조직이 만든 점검(listDevicePostureChecks)이 수집되면 그때 따로 정한다

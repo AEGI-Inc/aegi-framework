@@ -1,0 +1,535 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: jira
+service: null
+object_type: CustomerRequestDTO
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:ec36dd37de7736e2fc820f21
+identity:
+  primary:
+    - name: issueId
+      expr: issueId
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:ec36dd37de7736e2fc820f21.identity_evidence
+tenant_binding:
+  type: ServerInformation
+  service: null
+  call: JR-01
+  items: (root)
+  id: baseUrl
+fields:
+  _expands:
+    path: _expands
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: _expands
+      required: false
+      shape: sh:jsm_openapi:CustomerRequestDTO._expands
+    map_items:
+      - space:CustomerRequestDTO|_expands
+  _links:
+    path: _links
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: _links
+      required: false
+      shape: sh:jsm_openapi:CustomerRequestLinkDTO
+    map_items: []
+  actions:
+    path: actions
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: actions
+      required: false
+      shape: sh:jsm_openapi:CustomerRequestActionsDTO
+    map_items: []
+  attachments:
+    path: attachments
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: attachments
+      required: false
+      shape: sh:jsm_openapi:PagedDTOAttachmentDTO
+    map_items: []
+  comments:
+    path: comments
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: comments
+      required: false
+      shape: sh:jsm_openapi:PagedDTOCommentDTO
+    map_items: []
+  createdDate:
+    path: createdDate
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: createdDate
+      required: false
+      shape: sh:jsm_openapi:DateDTO
+    map_items: []
+  currentStatus:
+    path: currentStatus
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: currentStatus
+      required: false
+      shape: sh:jsm_openapi:CustomerRequestStatusDTO
+    map_items: []
+  issueId:
+    path: issueId
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: issueId
+      required: false
+      scalar: string
+    map_items:
+      - space:CustomerRequestDTO|issueId
+  issueKey:
+    path: issueKey
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: issueKey
+      required: false
+      scalar: string
+    map_items:
+      - space:CustomerRequestDTO|issueKey
+  participants:
+    path: participants
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: participants
+      required: false
+      shape: sh:jsm_openapi:PagedDTOUserDTO
+    map_items: []
+  reporter:
+    path: reporter
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: reporter
+      required: false
+      shape: sh:jsm_openapi:UserDTO
+    map_items: []
+  requestFieldValues:
+    path: requestFieldValues
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: requestFieldValues
+      required: false
+      shape: sh:jsm_openapi:CustomerRequestDTO.requestFieldValues
+    map_items: []
+  requestType:
+    path: requestType
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: requestType
+      required: false
+      shape: sh:jsm_openapi:RequestTypeDTO
+    map_items:
+      - space:CustomerRequestDTO|requestType
+  requestTypeId:
+    path: requestTypeId
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: requestTypeId
+      required: false
+      scalar: string
+    map_items:
+      - space:CustomerRequestDTO|requestTypeId
+  serviceDesk:
+    path: serviceDesk
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: serviceDesk
+      required: false
+      shape: sh:jsm_openapi:ServiceDeskDTO
+    map_items:
+      - space:CustomerRequestDTO|serviceDesk
+  serviceDeskId:
+    path: serviceDeskId
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: serviceDeskId
+      required: false
+      scalar: string
+    map_items:
+      - space:CustomerRequestDTO|serviceDeskId
+  sla:
+    path: sla
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: sla
+      required: false
+      shape: sh:jsm_openapi:PagedDTOSlaInformationDTO
+    map_items: []
+  status:
+    path: status
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: status
+      required: false
+      shape: sh:jsm_openapi:PagedDTOCustomerRequestStatusDTO
+    map_items: []
+  summary:
+    path: summary
+    source: research_shape
+    shape: sh:jsm_openapi:CustomerRequestDTO
+    declaration:
+      name: summary
+      required: false
+      scalar: string
+    map_items:
+      - space:CustomerRequestDTO|summary
+references:
+  - name: reporter_key
+    field: reporter.key
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:02243f32f74ca9315aa343cc; relation=no_relation
+  - name: requesttypeid
+    field: requestTypeId
+    target: RequestTypeDTO
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:07d7a46e2da685d4a647526c; relation=no_relation
+  - name: attachments_values_author_accountid
+    field: attachments.values.author.accountId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:08e3bb93c9f2ba65c977d537; relation=no_relation
+  - name: values
+    field: values
+    target: CommentDTO
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1526f334d05128e15fea3a0d; relation=no_relation
+  - name: values_key
+    field: values.key
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:191d1e112452f1eb872b442b; relation=no_relation
+  - name: comments_values
+    field: comments.values
+    target: CommentDTO
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:229b75e83672b32bd323ac9a; relation=no_relation
+  - name: sla_values
+    field: sla.values
+    target: SlaInformationDTO
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2d5d5006885ba84feba851bd; relation=no_relation
+  - name: values__links_jirarest
+    field: values._links.jiraRest
+    target: AttachmentMetadata
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:342e234c170370e763e0b15d; relation=no_relation
+  - name: values_author_accountid
+    field: values.author.accountId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3f5a52f76ac08c1bc1019958; relation=no_relation
+  - name: values_author_name
+    field: values.author.name
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3f9be006c4595a6e12e685fa; relation=no_relation
+  - name: links_jirarest
+    field: _links.jiraRest
+    target: IssueBean
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:45dc1d3444aba0d472ef7aec; relation=no_relation
+  - name: attachments_values_author_name
+    field: attachments.values.author.name
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:4d4a8c7757133560d2c0af00; relation=no_relation
+  - name: attachments_values__links_jirarest
+    field: attachments.values._links.jiraRest
+    target: AttachmentMetadata
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:4ff5af703fe1020d6fec61ce; relation=no_relation
+  - name: servicedeskid
+    field: serviceDeskId
+    target: ServiceDeskDTO
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:509bb4ffc7c419aee9d4a00d; relation=no_relation
+  - name: issuekey
+    field: issueKey
+    target: IssueBean
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5ba591db5f69cc8b0151e488; relation=no_relation
+  - name: participants_values_accountid
+    field: participants.values.accountId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:68070108dc95cb0152a5bc55; relation=no_relation
+  - name: participants_values_key
+    field: participants.values.key
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:7fcf387a8adaa1a09505816c; relation=no_relation
+  - name: values_accountid
+    field: values.accountId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8097816c118109e47f438b20; relation=no_relation
+  - name: requestfieldvalues_fieldid
+    field: requestFieldValues.fieldId
+    target: field
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9b86e8578c242ae5f265db19; relation=no_relation
+  - name: requesttype
+    field: requestType
+    target: RequestTypeDTO
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c193d3f04893faddc06cd86e; relation=no_relation
+  - name: attachments_values_author_key
+    field: attachments.values.author.key
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:cc2c4a381c404fad793295a1; relation=no_relation
+  - name: participants_values_name
+    field: participants.values.name
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:cdabf554e0beea9a5dd0bae5; relation=no_relation
+  - name: reporter_name
+    field: reporter.name
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d672755d13fc32e976e6ece5; relation=no_relation
+  - name: values_author_key
+    field: values.author.key
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:da963b8394dc4e183b68a63a; relation=no_relation
+  - name: values_name
+    field: values.name
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f1a17374e290bd5535c322a9; relation=no_relation
+  - name: servicedesk
+    field: serviceDesk
+    target: ServiceDeskDTO
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f6763b2bb5a75c411d4846df; relation=no_relation
+  - name: reporter_accountid
+    field: reporter.accountId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f7a01c37e296ff06a2e6308a; relation=no_relation
+  - name: links_self
+    field: _links.self
+    target: CustomerRequestDTO
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:ff8b93f76e9fa5ab25ea1ef0; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: jira
+  object_type: CustomerRequestDTO
+  interfaces: *a1
+  model:
+    research_type: object-type:ec36dd37de7736e2fc820f21
+  extract:
+    key: PILOT-jira-CustomerRequestDTO-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: issueId
+        sources:
+          - call: AUTO-JIRA-820f21
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          _expands: _expands
+          _links: _links
+          actions: actions
+          attachments: attachments
+          comments: comments
+          createdDate: createdDate
+          currentStatus: currentStatus
+          issueId: issueId
+          issueKey: issueKey
+          participants: participants
+          reporter: reporter
+          requestFieldValues: requestFieldValues
+          requestType: requestType
+          requestTypeId: requestTypeId
+          serviceDesk: serviceDesk
+          serviceDeskId: serviceDeskId
+          sla: sla
+          status: status
+          summary: summary
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:jsm_openapi:getCustomerRequestByIdOrKey
+  operation: getCustomerRequestByIdOrKey
+  surface: rest
+  method: GET
+  kind: read_one
+  endpoint: /rest/servicedeskapi/request/[^/]+(?:\?|$)
+  endpoint_template: /rest/servicedeskapi/request/{issueIdOrKey}
+  request: {}
+  required_params:
+    - issueIdOrKey
+  paths:
+    - shape: sh:jsm_openapi:CustomerRequestDTO
+      path: []
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:jsm_openapi:getCustomerRequests
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/servicedeskapi/request
+      path:
+        - values
+        - "*"
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 50149499a641110c6bf94b3e0ee694a3701d3edc48d8b17420580571d73451f8
+    ir/shape.jsonl: 04cf5db894bbfdfc38d902b2036b3e757a28481b16ff75ae2d2c4b7e06b0160e
+    ir/operation.jsonl: bb433b0144fc822588adb64649c5592094ef6f67746759ec57a2e9677bac5a94
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - issueId
+  reference_paths:
+    - reporter.key
+    - requestTypeId
+    - attachments.values.author.accountId
+    - values
+    - values.key
+    - comments.values
+    - sla.values
+    - values._links.jiraRest
+    - values.author.accountId
+    - values.author.name
+    - _links.jiraRest
+    - attachments.values.author.name
+    - attachments.values._links.jiraRest
+    - serviceDeskId
+    - issueKey
+    - participants.values.accountId
+    - participants.values.key
+    - values.accountId
+    - requestFieldValues.fieldId
+    - requestType
+    - attachments.values.author.key
+    - participants.values.name
+    - reporter.name
+    - values.author.key
+    - values.name
+    - serviceDesk
+    - reporter.accountId
+    - _links.self
+  metadata_paths: *a2
+  remaining_declared_fields: properties

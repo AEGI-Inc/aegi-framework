@@ -1,0 +1,311 @@
+{
+ "counts": {
+  "different": 4,
+  "same": 7
+ },
+ "groups": [
+  {
+   "canonical": "FoundGroup",
+   "forms": {
+    "FoundGroup": "model_key",
+    "Group": "model_key",
+    "GroupDetails": "model_key",
+    "GroupName": "model_key"
+   },
+   "members": [
+    "FoundGroup",
+    "Group",
+    "GroupDetails",
+    "GroupName"
+   ]
+  },
+  {
+   "canonical": "IssueTypeDetails",
+   "forms": {
+    "IssueTypeDetails": "global",
+    "IssueTypeWorkflowMapping.issueType": "promoted_key"
+   },
+   "members": [
+    "IssueTypeDetails",
+    "IssueTypeWorkflowMapping.issueType"
+   ]
+  }
+ ],
+ "pairs": [
+  {
+   "basis": "stated",
+   "decision": "same",
+   "jev_target": [
+    "IssueTypeDetails",
+    0.43
+   ],
+   "key_kind": "id",
+   "pair": [
+    "IssueTypeDetails",
+    "IssueTypeWorkflowMapping.issueType"
+   ],
+   "previous_jev_target": [
+    "IssueTypeDetails",
+    0.43
+   ],
+   "signals": [
+    [
+     "S3",
+     false,
+     "연결 레코드 IssueTypeWorkflowMapping 의 키 값으로 대상을 못 정했다 (값 0)"
+    ]
+   ],
+   "source_evidence": {
+    "locator": "components.schemas.IssueTypeWorkflowMapping.properties.issueType",
+    "reason": "The field is explicitly the ID of the issue type, not the mapping record ID.",
+    "source": "jira_openapi_v3"
+   }
+  },
+  {
+   "basis": "human",
+   "combined": 0.5291954090518347,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.76,
+    "same_identifier": 0.39,
+    "scoped_view": 0.38,
+    "variant_of_parent": 0.5
+   },
+   "pair": [
+    "FoundGroup",
+    "Group"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['276f955c-63d7-42c8-9520-92d01dca0625']"
+    ]
+   ]
+  },
+  {
+   "basis": "human",
+   "combined": 0.7107853506470305,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.88,
+    "same_identifier": 0.53,
+    "scoped_view": 0.37,
+    "variant_of_parent": 0.23
+   },
+   "pair": [
+    "FoundGroup",
+    "GroupDetails"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 2개가 같다 (실측 0) 예 ['276f955c-63d7-42c8-9520-92d01dca0625', '6e87dc72-4f1f-421f-9382-2fee8b652487']"
+    ]
+   ],
+   "v2_decision": "V2-S7",
+   "v2_rule": "human_q2"
+  },
+  {
+   "basis": "human",
+   "combined": 0.5896368539970367,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.8,
+    "same_identifier": 0.42,
+    "scoped_view": 0.38,
+    "variant_of_parent": 0.39
+   },
+   "pair": [
+    "FoundGroup",
+    "GroupName"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['276f955c-63d7-42c8-9520-92d01dca0625']"
+    ]
+   ],
+   "v2_decision": "V2-S7",
+   "v2_rule": "human_q2"
+  },
+  {
+   "basis": "human",
+   "combined": 0.764602724221362,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.89,
+    "same_identifier": 0.62,
+    "scoped_view": 0.44,
+    "variant_of_parent": 0.19
+   },
+   "pair": [
+    "Group",
+    "GroupDetails"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['276f955c-63d7-42c8-9520-92d01dca0625']"
+    ]
+   ]
+  },
+  {
+   "basis": "human",
+   "combined": 0.6621387611753315,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.86,
+    "same_identifier": 0.45,
+    "scoped_view": 0.47,
+    "variant_of_parent": 0.25
+   },
+   "pair": [
+    "Group",
+    "GroupName"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['276f955c-63d7-42c8-9520-92d01dca0625']"
+    ]
+   ]
+  },
+  {
+   "basis": "human",
+   "combined": 0.7213810939668821,
+   "decision": "same",
+   "jev": {
+    "same_entity": 0.88,
+    "same_identifier": 0.54,
+    "scoped_view": 0.49,
+    "variant_of_parent": 0.21
+   },
+   "pair": [
+    "GroupDetails",
+    "GroupName"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['276f955c-63d7-42c8-9520-92d01dca0625']"
+    ]
+   ],
+   "v2_decision": "V2-S7",
+   "v2_rule": "human_q2"
+  },
+  {
+   "combined": 0.4954249318520684,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.62,
+    "same_identifier": 0.37,
+    "scoped_view": 0.33,
+    "variant_of_parent": 0.47
+   },
+   "pair": [
+    "JiraWorkflow",
+    "WorkflowPreview"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['b9ff2384-d3b6-4d4e-9509-3ee19f607168']"
+    ]
+   ]
+  },
+  {
+   "basis": "human",
+   "combined": 0.4252478369923492,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.82,
+    "same_identifier": 0.14,
+    "scoped_view": 0.42,
+    "variant_of_parent": 0.33
+   },
+   "pair": [
+    "RemoteIssueLink",
+    "{}_2"
+   ],
+   "previous": {
+    "basis": "jev",
+    "decision": "same"
+   },
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('질의 왕복 GET, DELETE /issue/{issueIdOrKey}/remotelink?globalId', 2)]"
+    ]
+   ],
+   "v2_decision": "V2-S6"
+  },
+  {
+   "combined": 0.4263509491640799,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.57,
+    "same_identifier": 0.2,
+    "scoped_view": 0.29,
+    "variant_of_parent": 0.32
+   },
+   "pair": [
+    "WorkflowScheme",
+    "{}"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단일 자원 GET, DELETE+PUT /workflowscheme/{id}/draft', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.5717459546385658,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.72,
+    "same_identifier": 0.44,
+    "scoped_view": 0.29,
+    "variant_of_parent": 0.41
+   },
+   "pair": [
+    "field",
+    "fields"
+   ],
+   "signals": [
+    [
+     "S2",
+     false,
+     "키 값 1개가 같다 (실측 0) 예 ['summary']"
+    ]
+   ]
+  }
+ ],
+ "provider": "jira",
+ "signal_counts": {
+  "S2": 8,
+  "S3": 1,
+  "S5": 2
+ }
+}

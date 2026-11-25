@@ -1,0 +1,4 @@
+emit:
+  merge_into: Filter
+manual_basis: 보드 설정(board/{boardId}/configuration)의 filter 는 보드가 쓰는 필터의 id, self 다. ID 가
+  필터 ID 라 Filter 로 합친다. 겹친 값 Filter 1

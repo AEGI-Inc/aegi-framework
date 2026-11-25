@@ -1,0 +1,37 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: aws
+service: ec2
+object_type: Subnet
+interfaces: [Resource]
+identity:
+  primary:
+    - {name: id, expr: SubnetId, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: AWS-SUBNET-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AWS-03
+        request: {kind: subnets}
+        items: (array_or:Subnets|subnetSet.item)
+    id_expr: SubnetId
+    properties:
+      subnet_id: SubnetId
+      vpc_id: VpcId
+      cidr_block: CidrBlock
+      availability_zone: AvailabilityZone
+      map_public_ip_on_launch: MapPublicIpOnLaunch
+      account_id: OwnerId
+    display: "{SubnetId}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: VPC, id: VpcId}
+        basis: stated
+        require: [target]

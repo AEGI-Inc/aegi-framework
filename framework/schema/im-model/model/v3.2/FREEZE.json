@@ -1,0 +1,545 @@
+{
+  "model": "AEGI IM Object Model",
+  "version": "V3.2",
+  "frozen_on": "2026-10-25",
+  "frozen_by": "user request (\"너가 나머지해\") — Profile 정규화 작업 중 찾은 V3.1 누락 반영",
+  "built_from": {
+    "revision": "r3",
+    "workspace": "workspace/im-model-revision",
+    "cohort": {
+      "root": "workspace/aegi-adapter-engine-v3-readiness/collected/v3-refresh-20261023",
+      "run": "20261023T070520Z-42c1"
+    },
+    "pinned_ir": "workspace/im-research-originals/materials/aegi-dashboard/candidate-extraction/ir2/out2",
+    "predecessor": "IM Object Model V3.1 (2026-10-25, r2). V3.2 는 R3-D01(RPC view 관측), R3-D02(model-v1 실행 판정 반영)를 더한 판",
+    "model_baseline": {
+      "path": "workspace/aegi-adapter-engine/docs/spec/model-v1/research-v1.bundle.json",
+      "sha256": "3e3693d2042b94179536916ae5369d3fb20fd5be0b857d814a09d4a48ea38eca"
+    }
+  },
+  "inputs": {
+    "config": [
+      {
+        "path": "config/bridge-config.json",
+        "sha256": "57b1d751f1ff5e3dff22137692dacd870ee195805266f3d91acdc8237f5a111e"
+      },
+      {
+        "path": "config/orphan-judgments.json",
+        "sha256": "14896414e45bb56982ba4d06dad8bb78766551d457fb77bc1cb30db5cd80aab5"
+      },
+      {
+        "path": "config/decisions.json",
+        "sha256": "2ee4be2a9c5b649ece88f0bd697e8457262380bb228ce0aa65c79804486be6eb"
+      }
+    ],
+    "knowledge": [
+      {
+        "path": "workspace/aegi-knowledge/schema/im-model/extraction/ir2/v2/research_overrides_v2.json",
+        "sha256": "9025daf165de799a2e15ebbf8c83e23c9528746491cdfdc1a2104e836769020c"
+      },
+      {
+        "path": "workspace/aegi-knowledge/schema/im-model/extraction/ir2/v2/relation_decisions_v2.json",
+        "sha256": "9ab580f85ceeef0759545f0110353ddd2192c07ef63ccb31d4e1ae129036ef8b"
+      },
+      {
+        "path": "workspace/aegi-knowledge/schema/im-model/extraction/ir2/v2/rulebook/rules.json",
+        "sha256": "32217d89b2a1f7a910e7824eaf797e0a50f09b77dd4d68719aecc11458e5c368"
+      }
+    ],
+    "pinned_ir": [
+      {
+        "path": "github/ir/operation.jsonl",
+        "sha256": "27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b"
+      },
+      {
+        "path": "github/ir/shape.jsonl",
+        "sha256": "bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5"
+      },
+      {
+        "path": "github/ir/instance.jsonl",
+        "sha256": "27bccb82bfa6cfeaabf8f3d7383c7f1ae3ce6f9b5d60c6e7176b5ede7ba9a3d5"
+      },
+      {
+        "path": "github/map/info_map.json",
+        "sha256": "7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db"
+      },
+      {
+        "path": "github/map/same_entity.json",
+        "sha256": "e775036b20834b791216fda2310448534f3f314f721c645d86897d3df6455d45"
+      },
+      {
+        "path": "okta/ir/operation.jsonl",
+        "sha256": "29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46"
+      },
+      {
+        "path": "okta/ir/shape.jsonl",
+        "sha256": "46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77"
+      },
+      {
+        "path": "okta/ir/instance.jsonl",
+        "sha256": "e99901f7a14ca04ebf5972191560227ef1e99121cb8a1243c11a002425fa0775"
+      },
+      {
+        "path": "okta/map/info_map.json",
+        "sha256": "d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18"
+      },
+      {
+        "path": "okta/map/same_entity.json",
+        "sha256": "b0291067cb8637c42c7a42a5bb53c1afe47aaf02fc05ba5132d0cbcf85aac666"
+      },
+      {
+        "path": "slack/ir/operation.jsonl",
+        "sha256": "5f61d17fe234449c5cd1c291def84c2453e244f73063e1ce5d43b65caf9348cf"
+      },
+      {
+        "path": "slack/ir/shape.jsonl",
+        "sha256": "e0251d3f1d8d7f441387bb9666f63eff7398545254d0b92ccab02c9503bbfbf3"
+      },
+      {
+        "path": "slack/ir/instance.jsonl",
+        "sha256": "6ee3ccedd57761c5e7812b7484595b3d052edcff57f111b69d6538b901be3295"
+      },
+      {
+        "path": "slack/map/info_map.json",
+        "sha256": "fe9343e56ffad6f2b0e007b7d616aa5a36dc671b5d93ef108740be1799dc2887"
+      },
+      {
+        "path": "slack/map/same_entity.json",
+        "sha256": "adb7b03bea79dea71397b2f0df32ddc5914284bf492ef5568917e4ca825840aa"
+      },
+      {
+        "path": "gws/ir/operation.jsonl",
+        "sha256": "14fd7a38425bfeae03709952cd2c90c62f41d51658abd12c249f48def14db67f"
+      },
+      {
+        "path": "gws/ir/shape.jsonl",
+        "sha256": "998cf62cfd25e0d4d9d9e705e0e34b0b8c31494250a970686a7d8867e0503fbc"
+      },
+      {
+        "path": "gws/ir/instance.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "gws/map/info_map.json",
+        "sha256": "8d48095984113f27a11dc420a752b717df59eae51bc3bbd4797896c8ad4af30d"
+      },
+      {
+        "path": "gws/map/same_entity.json",
+        "sha256": "b3e603686813655fa82430fd8bf779b171f684f40ab7c6d7395897f50a61236d"
+      },
+      {
+        "path": "jira/ir/operation.jsonl",
+        "sha256": "bb433b0144fc822588adb64649c5592094ef6f67746759ec57a2e9677bac5a94"
+      },
+      {
+        "path": "jira/ir/shape.jsonl",
+        "sha256": "04cf5db894bbfdfc38d902b2036b3e757a28481b16ff75ae2d2c4b7e06b0160e"
+      },
+      {
+        "path": "jira/ir/instance.jsonl",
+        "sha256": "9eb94e204df864d76aa1146f3e466fdddb8b76893cec4c8d74676de3d106278d"
+      },
+      {
+        "path": "jira/map/info_map.json",
+        "sha256": "50149499a641110c6bf94b3e0ee694a3701d3edc48d8b17420580571d73451f8"
+      },
+      {
+        "path": "jira/map/same_entity.json",
+        "sha256": "2b30a0050cebc987f398ed12a3f5daf49a1df458d5a40012efdbc25965c64062"
+      },
+      {
+        "path": "confluence/ir/operation.jsonl",
+        "sha256": "50e8e81bd51c7189f98371308a059657fe71e759e3bca74b0a954307084f4570"
+      },
+      {
+        "path": "confluence/ir/shape.jsonl",
+        "sha256": "07219a625b7ba774972cb75ea00cadf20dcf4ada7b9bc586f8e97d822695c0e7"
+      },
+      {
+        "path": "confluence/ir/instance.jsonl",
+        "sha256": "e291dab011f4432c03c187ff408b8ed1218e6536e9e69cc68960fe7a8fdf8251"
+      },
+      {
+        "path": "confluence/map/info_map.json",
+        "sha256": "fcade0e0d3a98180585704e08d614b03f045dbbee0bb4e95b19e5f19625b3a47"
+      },
+      {
+        "path": "confluence/map/same_entity.json",
+        "sha256": "32d25a7af0649822f043a03ca89d6b7cad41e1ecf9155a7a9ade9b01b6dee478"
+      },
+      {
+        "path": "atlassian/ir/operation.jsonl",
+        "sha256": "791b21142f4885470a66beb7f80d550db969c448a1efe8283e57122059abf044"
+      },
+      {
+        "path": "atlassian/ir/shape.jsonl",
+        "sha256": "4efdbeff3f2f2da90b51ff0408016f32d6fbaa235d2e448defe4e407dbf432b8"
+      },
+      {
+        "path": "atlassian/ir/instance.jsonl",
+        "sha256": "84d5605e993a9fb0b57aa330acb359cb3fffb461efc64939363c0d8702960ec5"
+      },
+      {
+        "path": "atlassian/map/info_map.json",
+        "sha256": "a2820d78ff69e70a12c11245c6e8eaa6735191962bc9453e2398b3661dec8dff"
+      },
+      {
+        "path": "atlassian/map/same_entity.json",
+        "sha256": "5dab8fed5e5a90de16f6a173c4c04361049f7d43c588d4edc96dda9304fd7022"
+      },
+      {
+        "path": "salesforce/ir/operation.jsonl",
+        "sha256": "e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9"
+      },
+      {
+        "path": "salesforce/ir/shape.jsonl",
+        "sha256": "9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e"
+      },
+      {
+        "path": "salesforce/ir/instance.jsonl",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "salesforce/map/info_map.json",
+        "sha256": "6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750"
+      },
+      {
+        "path": "salesforce/map/same_entity.json",
+        "sha256": "a6bf0c53740904a7ed2f161f2a7ad5829932e2d46705ff238c2a425583b89c12"
+      }
+    ],
+    "run_record": {
+      "path": "runs/20261023T070520Z-42c1.json",
+      "sha256": "3542057ae99eb37a8d66ef06f0ee0d9cb9069e1dd00db2fbeb14ce1940ec7173"
+    },
+    "raw_pages": 510
+  },
+  "verification": {
+    "status": "passed",
+    "checks": 30,
+    "file": "verification.json"
+  },
+  "counts": {
+    "object_types": 1991,
+    "relation_types": 17,
+    "relation_bindings": 13,
+    "typed_references": 5293,
+    "information_items_orphan": 4669,
+    "duplicate_pairs": 323,
+    "graph_orphans": 1081,
+    "observation_pages": 510
+  },
+  "decisions": [
+    {
+      "code": "R1-D01",
+      "decided_by": "user"
+    },
+    {
+      "code": "R1-D02",
+      "decided_by": "user"
+    },
+    {
+      "code": "R1-D03",
+      "decided_by": "user"
+    },
+    {
+      "code": "R1-D04",
+      "decided_by": "user"
+    },
+    {
+      "code": "R1-D05",
+      "decided_by": "user"
+    },
+    {
+      "code": "R1-D06",
+      "decided_by": "agent_under_user_blanket_approval"
+    },
+    {
+      "code": "R1-D07",
+      "decided_by": "agent_under_user_blanket_approval"
+    },
+    {
+      "code": "R1-D08",
+      "decided_by": "agent_under_user_blanket_approval"
+    },
+    {
+      "code": "R1-D09",
+      "decided_by": "agent_under_user_blanket_approval"
+    },
+    {
+      "code": "R1-D10",
+      "decided_by": "agent_under_user_blanket_approval"
+    },
+    {
+      "code": "R1-D11",
+      "decided_by": "agent_under_user_blanket_approval"
+    },
+    {
+      "code": "R1-D12",
+      "decided_by": "agent_under_user_blanket_approval"
+    },
+    {
+      "code": "R1-D13",
+      "decided_by": "agent_under_user_blanket_approval"
+    },
+    {
+      "code": "R1-D14",
+      "decided_by": "agent_under_user_blanket_approval"
+    },
+    {
+      "code": "R2-D01",
+      "decided_by": "agent_under_user_request"
+    },
+    {
+      "code": "R3-D01",
+      "decided_by": "agent_under_user_request"
+    },
+    {
+      "code": "R3-D02",
+      "decided_by": "agent_under_user_request"
+    }
+  ],
+  "files": [
+    {
+      "path": "decisions/decisions.json",
+      "from": "im-model-revision/config/decisions.json",
+      "sha256": "2ee4be2a9c5b649ece88f0bd697e8457262380bb228ce0aa65c79804486be6eb",
+      "bytes": 11677
+    },
+    {
+      "path": "decisions/source-rules.json",
+      "from": "im-model-revision/config/source-rules.json",
+      "sha256": "5670f86802f896a21d02152c8326768abb8a3517025604c4e01d5f37afaf803a",
+      "bytes": 3265
+    },
+    {
+      "path": "decisions/orphan-judgments.json",
+      "from": "im-model-revision/config/orphan-judgments.json",
+      "sha256": "14896414e45bb56982ba4d06dad8bb78766551d457fb77bc1cb30db5cd80aab5",
+      "bytes": 7456
+    },
+    {
+      "path": "decisions/graph-orphan-rules.json",
+      "from": "im-model-revision/config/graph-orphan-rules.json",
+      "sha256": "db7bf8d17b6e5d0b9172ba42bb059e37ab04b1b6707b702094520a9b3d8fe332",
+      "bytes": 4346
+    },
+    {
+      "path": "decisions/bridge-config.json",
+      "from": "im-model-revision/config/bridge-config.json",
+      "sha256": "31019124b5efd5d8ba6fbb101351f6e0a02e253184c0800b3e895bc76ca3e1c2",
+      "bytes": 3378
+    },
+    {
+      "path": "objects/object-types.jsonl",
+      "from": "im-model-revision/r3/object-decisions-full.jsonl",
+      "sha256": "7838c2b32e4606335243a65743ca2d2fb38c86fec0964186cd1ad3e78d4c5fa3",
+      "bytes": 867184
+    },
+    {
+      "path": "objects/object-coverage.json",
+      "from": "im-model-revision/r3/object-rule-coverage.json",
+      "sha256": "f91e0cec3a5518c12c6b9074baaa277391fa27419e83360cc884bc78b92acdc0",
+      "bytes": 1748
+    },
+    {
+      "path": "objects/decision-conflicts.jsonl",
+      "from": "im-model-revision/r3/decision-conflicts.jsonl",
+      "sha256": "15aa5a4749b7ce2706327d8311cc5876532cb35b29e14de06f6fa7d1699513e7",
+      "bytes": 3224
+    },
+    {
+      "path": "identity/space-aliases.jsonl",
+      "from": "im-model-revision/r3/space-aliases.jsonl",
+      "sha256": "a900b5002c3402d57cf2a685ff1e6a312ba2c2b96793555ed7f0307a56960fe8",
+      "bytes": 805
+    },
+    {
+      "path": "identity/space-splits.jsonl",
+      "from": "im-model-revision/r3/space-splits.jsonl",
+      "sha256": "29aca2dced6ed60d042b72a57043d9397cac96f909755dd7428fbb767709cb80",
+      "bytes": 2155
+    },
+    {
+      "path": "identity/space-additions.jsonl",
+      "from": "im-model-revision/r3/space-additions.jsonl",
+      "sha256": "237ec7e496fab761567c94731133bc49227ef5951d2a676ed0bd0c1e3986ddcd",
+      "bytes": 3186
+    },
+    {
+      "path": "identity/identity-evidence.jsonl",
+      "from": "im-model-revision/r3/identity-evidence.jsonl",
+      "sha256": "fefaf76489de9776697cd2559a976790bddb9ce56cc19700c93a46bbb93f3787",
+      "bytes": 7787
+    },
+    {
+      "path": "identity/identity-conflicts.jsonl",
+      "from": "im-model-revision/r3/identity-conflicts.jsonl",
+      "sha256": "e249c8c7664b08d12145e1fd6d962f2ef3dfa5431b0e86953d9aafd2856adaf6",
+      "bytes": 4832
+    },
+    {
+      "path": "identity/duplicate-dispositions.jsonl",
+      "from": "im-model-revision/r3/duplicate-dispositions.jsonl",
+      "sha256": "d4c83480b75b18f8936d536ac76e98dc73afff66cb0bb932de80463b93dbd3a3",
+      "bytes": 90844
+    },
+    {
+      "path": "identity/same-entity-diff-vs-pinned.json",
+      "from": "im-model-revision/r3/regenerated-same-entity/diff-vs-pinned.json",
+      "sha256": "cabb2b9b7e91c53f4e240a6fb4f6557a8e28766f2f032b89d1920180804d17f1",
+      "bytes": 7105
+    },
+    {
+      "path": "relations/relation-bindings.jsonl",
+      "from": "im-model-revision/r3/relation-bindings-full.jsonl",
+      "sha256": "b0fa6f8a2511659b2d3eda131da50e1535230f6c1115b59357e93fa92ced703e",
+      "bytes": 11440
+    },
+    {
+      "path": "relations/reference-dispositions.jsonl",
+      "from": "im-model-revision/r3/reference-dispositions.jsonl",
+      "sha256": "604fe17bed1758c97464b6a9bccc4c7c5037def02703203f115c28f7273cb9f6",
+      "bytes": 3289908
+    },
+    {
+      "path": "relations/relation-coverage.json",
+      "from": "im-model-revision/r3/relation-coverage.json",
+      "sha256": "af1c854c72f2f4a1cda3fe494667a86954d09cabd55706d21ac2ce7a8907bca2",
+      "bytes": 942
+    },
+    {
+      "path": "relations/version-conflicts.jsonl",
+      "from": "im-model-revision/r3/version-conflicts.jsonl",
+      "sha256": "95fd222b32cd8833f5de689505fe5587e1618c4cdd4e16d65bd1b0d349b3313e",
+      "bytes": 350
+    },
+    {
+      "path": "information/information-disposition.jsonl",
+      "from": "im-model-revision/r3/information-disposition.jsonl",
+      "sha256": "33785422b637f5ef2bbaa367cec4627c5d7336b53e10e7484656d6ebe8f0b355",
+      "bytes": 3408126
+    },
+    {
+      "path": "information/information-disposition-summary.json",
+      "from": "im-model-revision/r3/information-disposition-summary.json",
+      "sha256": "6722e046ab06e0ad2ac7c118dadcdeef989c12a1d116aaf726535d7b0b90c785",
+      "bytes": 630
+    },
+    {
+      "path": "information/orphan-observation.jsonl",
+      "from": "im-model-revision/r3/orphan-observation.jsonl",
+      "sha256": "36508021ba7361de424fae6c8a66072ac2efdae83a08f7ef62021b1e5f0b46be",
+      "bytes": 256542
+    },
+    {
+      "path": "evidence/observation-operation-links.jsonl",
+      "from": "im-model-revision/r3/observation-operation-links.jsonl",
+      "sha256": "d888e176135f81d264df561da812bba9f33d4cd4d89479bdf0064bdd40fd12b5",
+      "bytes": 679319
+    },
+    {
+      "path": "evidence/bridge-coverage.json",
+      "from": "im-model-revision/r3/bridge-coverage.json",
+      "sha256": "0ed2c48562a912def7f27be00fb07a547ba890db9c5ec04dabca43575976fce4",
+      "bytes": 28132
+    },
+    {
+      "path": "evidence/observed-ir-comparison.jsonl",
+      "from": "im-model-revision/r3/observed-ir-comparison.jsonl",
+      "sha256": "ccc845079acafd72131b4e1b22e36faca911f60184214a256b2fb83edeba2713",
+      "bytes": 59236
+    },
+    {
+      "path": "evidence/observed-ir-summary.json",
+      "from": "im-model-revision/r3/observed-ir-summary.json",
+      "sha256": "f63c36cdee8a1e95621f65c00fc6ed4fc5568cf1382e7d132123d9133f6401f0",
+      "bytes": 395
+    },
+    {
+      "path": "evidence/shape-conflicts.jsonl",
+      "from": "im-model-revision/r3/shape-conflicts.jsonl",
+      "sha256": "f994f8740fc9017df174d335a26f784d2a3bc53ec5173e890e6cd50f62f06fa1",
+      "bytes": 1350
+    },
+    {
+      "path": "evidence/pilot-replay.json",
+      "from": "im-model-revision/r3/pilot-replay.json",
+      "sha256": "1ee3d107ea2072e6ecb14fc46bc9506e70563c36a2ea6f864a493ccd949ea118",
+      "bytes": 2076
+    },
+    {
+      "path": "graph/graph-orphans.jsonl",
+      "from": "im-model-revision/r3/graph-orphans.jsonl",
+      "sha256": "7c4854b60eb75b58da27a7bb39f59443860f947a1eb23fc4f3a6aaa6f6ced93a",
+      "bytes": 447563
+    },
+    {
+      "path": "graph/graph-orphans-summary.json",
+      "from": "im-model-revision/r3/graph-orphans-summary.json",
+      "sha256": "dedcedcec176ef898839504f893f6992c7ce41a89a9fec547ff401af3ded217d",
+      "bytes": 2135
+    },
+    {
+      "path": "verification.json",
+      "from": "im-model-revision/verification.json",
+      "sha256": "8822b42fb5a3cd2b69bd6a9b1db26a00fa030e668365bba413b8e88345427e55",
+      "bytes": 15711
+    },
+    {
+      "path": "identity/same-entity/atlassian.json",
+      "from": "im-model-revision/r3/regenerated-same-entity/atlassian.json",
+      "sha256": "5dab8fed5e5a90de16f6a173c4c04361049f7d43c588d4edc96dda9304fd7022",
+      "bytes": 94
+    },
+    {
+      "path": "identity/same-entity/confluence.json",
+      "from": "im-model-revision/r3/regenerated-same-entity/confluence.json",
+      "sha256": "32d25a7af0649822f043a03ca89d6b7cad41e1ecf9155a7a9ade9b01b6dee478",
+      "bytes": 1695
+    },
+    {
+      "path": "identity/same-entity/github.json",
+      "from": "im-model-revision/r3/regenerated-same-entity/github.json",
+      "sha256": "2ed3acad49f38688da11275c18d1455a67bf90640f3d3205b3c7544edf2661b9",
+      "bytes": 33545
+    },
+    {
+      "path": "identity/same-entity/gws.json",
+      "from": "im-model-revision/r3/regenerated-same-entity/gws.json",
+      "sha256": "c67a71eb0dffde2bb487376d0b9f659c103370695010820b3e74248c47610b48",
+      "bytes": 4162
+    },
+    {
+      "path": "identity/same-entity/jira.json",
+      "from": "im-model-revision/r3/regenerated-same-entity/jira.json",
+      "sha256": "18d4bc31a748da44c9f6560924fc8ff2ee76cad9cd05c6d32ea04322ffe442a3",
+      "bytes": 5873
+    },
+    {
+      "path": "identity/same-entity/okta.json",
+      "from": "im-model-revision/r3/regenerated-same-entity/okta.json",
+      "sha256": "6abba9fcd8e7df52ec4555ad9b53e18243ed5669850be15da8cdb7ab2b87327c",
+      "bytes": 73806
+    },
+    {
+      "path": "identity/same-entity/salesforce.json",
+      "from": "im-model-revision/r3/regenerated-same-entity/salesforce.json",
+      "sha256": "a6bf0c53740904a7ed2f161f2a7ad5829932e2d46705ff238c2a425583b89c12",
+      "bytes": 21863
+    },
+    {
+      "path": "identity/same-entity/slack.json",
+      "from": "im-model-revision/r3/regenerated-same-entity/slack.json",
+      "sha256": "300a1818f2a4bc120625efad76b955c22bce5251a42c6f5d765bd0971a3cd4cd",
+      "bytes": 8436,
+      "transform": "observed_example_values_redacted"
+    },
+    {
+      "path": "relations/vocabulary.json",
+      "from": "aegi-knowledge/schema/specs/Relation_Schema_v3.md",
+      "sha256": "5e77bfed88f4f965ccfe490a19f7104bb8c608960694e971eac4fdd5fa09ea3e",
+      "bytes": 3822
+    }
+  ]
+}

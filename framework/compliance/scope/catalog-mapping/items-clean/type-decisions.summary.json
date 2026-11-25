@@ -1,0 +1,46 @@
+{
+ "groups": 24727,
+ "by_decision": {
+  "in": 3611,
+  "out": 20246,
+  "review": 130,
+  "split": 740
+ },
+ "by_basis": {
+  "human_bundle": 232,
+  "single_instance": 1474,
+  "rule_type": 19458,
+  "uniform": 2823,
+  "mixed": 740
+ },
+ "mixed_by_kind": {
+  "data_resource": 132,
+  "config_bundle": 167,
+  "relation": 233,
+  "other": 42,
+  "role_permission": 77,
+  "principal": 89
+ },
+ "by_framework": {
+  "ISMS-P": {
+   "in": 1387,
+   "out": 6202,
+   "review": 60,
+   "split": 288
+  },
+  "PIPA": {
+   "in": 1059,
+   "out": 7415,
+   "review": 52,
+   "split": 319
+  },
+  "ISO27001": {
+   "in": 1165,
+   "out": 6629,
+   "review": 18,
+   "split": 133
+  }
+ },
+ "mixed_majority_ge_90": 200,
+ "mixed_types": 119
+}

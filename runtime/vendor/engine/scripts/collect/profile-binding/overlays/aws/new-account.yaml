@@ -1,0 +1,29 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: aws
+service: sts
+object_type: Account
+interfaces: [Tenant]
+identity:
+  primary:
+    - {name: id, expr: Account, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: AWS-ACCT-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AWS-01
+        items: (root)
+    id_expr: Account
+    properties:
+      account_id: Account
+      arn: Arn
+      caller_user_id: UserId
+      region: Region
+    display: "{Account}"
+    relations: []

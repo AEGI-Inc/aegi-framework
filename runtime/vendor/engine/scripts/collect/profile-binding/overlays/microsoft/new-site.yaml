@@ -1,0 +1,40 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: sharepoint
+object_type: Site
+interfaces: [Resource]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-SITE-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-13
+        request: {kind: sites}
+        items: value
+    id_expr: id
+    properties:
+      grant_target: {const: true}
+      site_id: id
+      name: name
+      displayName: displayName
+      webUrl: webUrl
+      isPersonalSite: isPersonalSite
+      siteCollection: siteCollection
+      createdDateTime: createdDateTime
+      lastModifiedDateTime: lastModifiedDateTime
+    display: "{displayName|name|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

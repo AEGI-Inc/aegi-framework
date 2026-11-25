@@ -1,0 +1,42 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: Device
+interfaces: [Resource]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-DEV-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-12
+        items: value
+    id_expr: id
+    properties:
+      grant_target: {const: false}
+      device_object_id: id
+      deviceId: deviceId
+      displayName: displayName
+      operatingSystem: operatingSystem
+      operatingSystemVersion: operatingSystemVersion
+      trustType: trustType
+      isCompliant: isCompliant
+      isManaged: isManaged
+      accountEnabled: accountEnabled
+      approximateLastSignInDateTime: approximateLastSignInDateTime
+      createdDateTime: createdDateTime
+    display: "{displayName|deviceId|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

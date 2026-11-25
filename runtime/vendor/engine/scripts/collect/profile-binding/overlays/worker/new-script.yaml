@@ -1,0 +1,55 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: worker
+object_type: WorkerScript
+interfaces: [Automation]
+model:
+  runtime_type_id: automation-source-bindings/1:worker:WorkerScript
+  source: aegi-knowledge/schema/ontology/automation-sources.yaml
+identity:
+  primary:
+    - {name: account, expr: $req.account, stability: stable}
+    - {name: script, expr: $req.script, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: CF-WORKER-{account}-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: WK-01
+        request: {kind: worker_source, ingress_host_verified: true}
+        items: (root)
+    id_expr: $req.script
+    parts:
+      account: $req.account
+    properties:
+      name: $req.script
+      account_id: $req.account
+      base_url: $req.base_url
+      source_sha256: source_sha256
+      routes: routes
+      ingress_post_sha256: ingress_post_sha256
+      dynamic_routes: dynamic_routes
+      relay_routes: relay_routes
+      invoker_gates: invoker_gates
+    display: "{$req.script}"
+    relations: []
+  - id: settings
+    kind: enrich
+    sources:
+      - call: WK-01
+        request: {kind: worker_settings, ingress_host_verified: true}
+        items: (root)
+    target:
+      type: WorkerScript
+      id: $req.script
+      parts: {account: $req.account}
+      exists: true
+    set:
+      relay_bindings: settings.relay_bindings
+    observe: true
+    relations: []

@@ -1,0 +1,1107 @@
+# Slack Profiles v3
+
+버전 안내: 아래 Profile_Schema_v3.md는 이 예시를 작성한 과거 형식 이름이다. 현재 형식 정본은 [Profile Schema v4.2](Profile_Schema_v4.2.md)이며, 이 예시 전체를 현재 운영 Profile이나 v4.2 준수 검증 결과로 해석하지 않는다.
+
+`Profile_Schema_v3.md` 형식을 Slack 에 적용한 것이다. object_type 하나당 블록 하나다.
+
+전부 **run2 실측 응답**에서 나왔다. 호출 기록은 `Slack_Schema_Check_run2.xlsx`, 원문은 `evidence/RUN2/` 에 있다.
+
+- 대상: BoB AEGI Sandbox, enterprise `E0BTXUPK6CS`
+- 워크스페이스: `T0BUSB742RE`, `T0C0S4W1Z1U`
+- 수집 시각: 2026-09-17
+
+## v2.1에서 바뀐 것 — 한 줄도 안 고쳤다
+
+`Profile_Schema_v3.md`가 다섯 provider 문서 감사에서 나온 구멍 12개를 반영했다. 그중 **기존 선언을 건드리는 것은 2개**였는데, 둘 다 피하도록 설계했다.
+
+| 구멍 | 원래 바뀌었을 줄 | v3 에서 | 바뀐 줄 |
+| --- | --- | --- | --- |
+| `listable` → `enumerable` | 8 | `listable: true` 를 `enumerable: full` 의 **별칭으로 영구 허용** | **0** |
+| `basis` 를 관측 속성으로 | 13 | `basis` 는 그대로 두고 `basis_when` 을 **새 선택 키로 추가** | **0** |
+| 나머지 10개 | 0 | 전부 새 선택 키거나 Slack 에 해당 사실이 없다 | **0** |
+
+**이 파일에서 v3 때문에 바뀐 것은 `spec: 3` 한 줄씩, 8종에 8줄이 전부다.**
+
+수집기가 여러 판을 읽으므로, 이 Profile 을 고칠 이유는 **Slack 이 API 를 바꿀 때만** 생긴다.
+
+기준선은 그대로다.
+
+```
+Object    127 노드
+Relation  191 행        # 2026-09-27 에 189 -> 190(collaborators 정정), 2026-10-22 에 190 -> 191(workflow app owned_by)
+lint      오류 0,  경고 2 (slack.trigger, slack.app Profile 없음)
+```
+
+---
+
+## 이 파일 전체에 적용되는 두 가지
+
+### 테넌트는 enterprise 다
+
+Slack 응답의 `team_id` 는 **우리가 어느 워크스페이스에 물어봤는지**를 되돌려주는 값이다. 객체의 성질이 아니다.
+
+`users.list` 를 두 워크스페이스에 각각 부르면 같은 사람이 `team_id` 만 다른 두 행으로 나온다.
+
+```
+U0BTRNDU62F  team_id=T0BUSB742RE
+U0BTRNDU62F  team_id=T0C0S4W1Z1U
+```
+
+`team_id` 를 테넌트로 잡으면 한 사람이 워크스페이스 수만큼 늘어난다. 그래서 모든 Profile 에서 `references.tenant` 는 enterprise 로 고정하고, 워크스페이스 소속은 `member_of` relation 으로 뺀다.
+
+### Web API 만 쓰면 못 보는 게 있다
+
+`usergroups.list` 는 두 워크스페이스 모두 `ok=true` + 0건을 반환한다. 그런데 SCIM `Groups` 에는 멤버 3명짜리 `test-group` 이 있다.
+
+**에러가 아니라 빈 목록이라서 더 위험하다.** 그래서 `slack.usergroup` 의 수집 경로는 SCIM 하나뿐이고, `usergroups.list` 는 엔드포인트 목록에 넣지 않는다.
+
+#### 왜 0건이었는지 풀렸다 (2026-09-27)
+
+`slack.usergroup` 의 `open_issues` 에 "확정 못 함" 으로 남아 있던 것이다. 새 샌드박스에서 원인이 나왔다(§7.2).
+
+> **조직 설치 토큰에서 `usergroups.list` · `conversations.list` · `users.list` 는 `team_id` 가 필요하다.** 그리고 앱을 그 워크스페이스에 **추가하지 않으면** `team_access_not_granted` 다.
+
+엔터프라이즈 레벨이라서가 아니라 **앱이 그 워크스페이스에 없어서**였다. 세 메서드가 같은 조건이라 한 번 걸리면 셋 다 빈다.
+
+`usergroups.list` 를 엔드포인트 목록에 안 넣는 판단은 **그대로 둔다.** 워크스페이스마다 따로 불러야 해서 조직 전체 명부가 안 된다.
+
+**IdP 그룹은 SCIM 으로 만들어진다.** Okta 가 push 하는 경로가 SCIM 이다. 우리가 조직 단위 IdP 그룹 목록을 못 본 것은 그게 SCIM 에 없어서가 아니라 **SCIM 권한(쓰기 포함 `admin`)을 안 받아서**다. 권한을 받으면 SCIM `Groups` 에서 보일 것으로 보이지만 확인은 안 했다.
+
+#### 수집기가 알아야 할 것
+
+실측에서 걸린 것들이다(§6.3, §6.4, §7.2).
+
+| | 무엇 |
+| --- | --- |
+| **`admin.usergroups.list` 는 없는 메서드다** | run2 의 `unknown_method` 가 이것이었다. 맞는 이름은 `admin.usergroups.listChannels` 이고 **IdP 그룹 전용**이다. 일반 그룹에 부르면 `usergroup_not_found` |
+| `admin.conversations.search` 의 `limit` | **20 미만**이어야 한다 |
+| 비공개 채널 | **조직 관리자도 자기가 멤버가 아닌 비공개 채널의 멤버 목록은 못 읽는다.** `channel_not_found` 로 온다 |
+
+#### 메타에 파라미터 **값**을 남겨야 한다
+
+run2 수집기가 파라미터 **이름만** 남겨서, `conversations.members` 응답 2건이 **어느 채널 것인지 모른다.**
+
+그 결과가 기준선에 그대로 남아 있다 — **189행 중 일반 채널 멤버십이 0행**이고 `member_of channel` 10행은 전부 DM 이다. 채널 멤버십은 Slack 권한의 중심인데 기준선에 없다.
+
+> `Relation_Schema_v3` 이 *"대조 기준은 「그 API」가 아니라 「기록된 그 요청」"* 이라고 적은 이유가 이것이다. 이름만 남기면 요청이 기록된 게 아니다.
+
+새 수집(`data/slack_v2/before_0927`)은 값과 sha256 을 같이 남긴다.
+
+---
+
+## slack.user
+
+```yaml
+provider: slack
+spec: 3
+object_type: user
+interfaces: [Principal]
+
+collect:
+  endpoints:
+    - role: primary
+      method: GET
+      path: /scim/v2/Users
+      params: { count: "50" }
+    - role: enrichment
+      method: POST
+      path: /api/users.list
+      params: { team_id: "<workspace>", limit: "200" }
+    - role: enrichment
+      method: POST
+      path: /api/admin.users.list
+      params: { team_id: "<workspace>", limit: "100" }
+    - role: detail
+      method: POST
+      path: /api/users.info
+      params: { user: "<id>" }
+  record: Resources[] | members[] | users[]
+  envelope: none
+  paging: cursor            # Web 은 response_metadata.next_cursor, SCIM 은 startIndex
+  listable: true
+  completeness: full
+
+identifiers:
+  primary: [id]
+  id:
+    path: id
+    stability: stable        # SCIM 과 Web 이 같은 값을 준다. 32/32 일치
+  username:
+    path: userName           # Web 에서는 name / username
+    stability: mutable
+    normalization: [lowercase, trim]
+
+references:
+  tenant:
+    from: $request.enterprise
+    object_type: enterprise
+    kind: direct_id
+    status: confirmed
+  teams:
+    path: enterprise_user.teams
+    object_type: team
+    kind: direct_id
+    status: confirmed
+    relation_type: member_of
+    basis: stated
+  queried_team:
+    from: $request.team_id   # 이 워크스페이스 목록에 나왔다는 사실 자체가 소속이다
+    object_type: team
+    kind: direct_id
+    status: confirmed
+    relation_type: member_of
+    basis: computed   # 부여 기록이 아니라 목록에 나왔다는 사실에서 유도했다
+  usergroups:
+    path: groups[].value     # SCIM 만 준다
+    object_type: usergroup
+    kind: direct_id
+    status: confirmed
+    relation_type: member_of
+    basis: stated
+
+properties:
+  keep:
+    - deleted, is_active, active
+    - is_bot, is_app_user, is_workflow_bot
+    - is_admin, is_owner, is_primary_owner
+    - is_restricted, is_ultra_restricted
+    - has_2fa, two_factor_type, is_email_confirmed
+    - tz, tz_offset
+    - date_created, meta.created, updated
+    - enterprise_user.is_admin, enterprise_user.is_owner, enterprise_user.is_primary_owner
+  drop:
+    - profile.image_24, profile.image_32, profile.image_48
+    - profile.image_72, profile.image_192, profile.image_512
+    - profile.image_1024, profile.image_original, profile.avatar_hash
+    - profile.status_emoji_display_info, color
+    - schemas, meta.location, photos
+  per_source: [date_created]     # admin.users.list 를 워크스페이스마다 부르면 값이 갈린다
+  tenant_defined: [profile.fields.*]
+
+  as_relation:
+    is_owner:
+      relation_type: has_role_on
+      when: true
+      policy: { const: owner, kind: name_key }
+      target: { ref: queried_team }
+    is_admin:
+      relation_type: has_role_on
+      when: true
+      policy: { const: admin, kind: name_key }
+      target: { ref: queried_team }
+    is_primary_owner:
+      relation_type: has_role_on
+      when: true
+      policy: { const: primary_owner, kind: name_key }
+      target: { ref: queried_team }
+    enterprise_user.is_owner:
+      relation_type: has_role_on
+      when: true
+      policy: { const: owner, kind: name_key }
+      target: { ref: tenant }
+    enterprise_user.is_admin:
+      relation_type: has_role_on
+      when: true
+      policy: { const: admin, kind: name_key }
+      target: { ref: tenant }
+
+judged:
+  principal_kind: per_row
+
+confidence: confirmed
+open_issues:
+  - "date_created 가 소스마다 다르다. 아래 참조"
+  - "enterprise_user.teams[] 가 삭제된 사용자에서 비어 있다. 아래 참조"
+  - "profile.fields 는 34행 중 2행에만 있었다. 키 이름은 관리자가 정하는 자리로 보이지만 샘플이 비어 확정 못 함"
+```
+
+### context_team_id 는 이름이 거짓말한다
+
+`conversations.list` 의 `context_team_id` 는 이름과 달리 워크스페이스만 주지 않는다.
+
+| 접두사 | 건수 |
+| --- | --- |
+| `T…` 워크스페이스 | 30 |
+| `E…` 엔터프라이즈 | 10 |
+
+DM 인 행에서 엔터프라이즈가 온다. `object_type: team` 으로 고정하면 **엔터프라이즈 id 를 가진 워크스페이스 노드가 10개** 생긴다.
+
+그래서 `object_type: "@resolve"` 로 바꿨다. `contained_in` 은 어느 짝이든 허용하는 구조 층 어휘라 template 은 그대로 통과한다.
+
+관계 행 수는 안 바뀌고 **대상의 종류만 바뀐다.**
+
+```
+contained_in  channel -> team        30
+contained_in  channel -> enterprise  10
+```
+
+### date_created 를 하나로 합치면 안 된다
+
+같은 사람인데 관측마다 값이 다르다.
+
+| user | 값 | 차이 |
+| --- | --- | --- |
+| U0BTRNDU62F | 1788199948 / 1789021383 | 약 9일 |
+| U0BUVKSFMR6 | 1788232409 / 1789021385 | 약 9일 |
+| U0C0RPPRZ0W | 1789031020 / 1789031022 | 2초 |
+
+이름이 같다고 같은 사실이 아니다. 계정이 만들어진 시점과 어딘가에 편입된 시점이 섞여 있다.
+
+**두 값 다 `POST /api/admin.users.list` 에서 왔다.** API 가 같고 `team_id` 만 다르다. 그래서 `properties.per_source: [date_created]` 를 적고, 두 값을 관측 인덱스와 함께 남긴다.
+
+```yaml
+date_created:
+  - { value: 1788199948, obs: 1 }
+  - { value: 1789021383, obs: 2 }
+```
+
+**125노드를 전부 훑어 갈린 키는 이것 하나였다.** `session` 과 `role_assignment` 는 관측이 하나씩이라 충돌이 없고, 나머지는 값이 같았다.
+
+### 소속은 두 군데서 와야 한다
+
+`enterprise_user.teams[]` 는 **현재 소속**이다. 삭제된 사용자는 빈 배열이 된다.
+
+| user | deleted | teams[] |
+| --- | --- | --- |
+| U0BTRNDU62F | false | `[T0BUSB742RE, T0C0S4W1Z1U]` |
+| U0BTGJXFUFR | true | `[]` |
+| USLACKBOT | false | `[]` |
+
+`deleted: true` 인 5명 전부 빈 배열이고, 예외는 Slackbot 하나다. 그런데 이들도 `users.list(team_id=T0BUSB742RE)` 응답에는 들어 있다.
+
+그래서 `member_of` relation 은 `enterprise_user.teams[]` 와 **어느 워크스페이스 목록에서 나왔는지**를 둘 다 근거로 만든다. 전자만 쓰면 삭제된 계정의 과거 소속이 통째로 사라진다.
+
+Profile 에서는 참조 두 개로 적는다. `teams` 는 응답 본문에서, `queried_team` 은 `$request.team_id` 에서 온다. 둘 다 `relation_type: member_of` 라 같은 사실을 만들고, 같으면 동일성 튜플이 한 행으로 합친다.
+
+### 불리언이 가리키는 대상이 둘로 갈린다
+
+`is_owner` 와 `enterprise_user.is_owner` 는 **이름만 비슷하고 대상이 다르다.**
+
+| 필드 | 소유자인 대상 |
+| --- | --- |
+| `is_owner` | 그 호출에 쓴 워크스페이스 |
+| `enterprise_user.is_owner` | 엔터프라이즈 |
+
+`as_relation` 의 `target.ref` 가 전자는 `queried_team`, 후자는 `tenant` 를 가리킨다. 둘을 같은 대상으로 접으면 워크스페이스 소유자가 조직 소유자로 승격된다.
+
+`queried_team` 참조가 없으면 전자를 적을 자리가 없다. 이 참조는 관계 때문이 아니라 **불리언의 대상을 가리키기 위해** 필요하다.
+
+---
+
+## slack.channel
+
+```yaml
+provider: slack
+spec: 3
+object_type: channel
+interfaces: [Resource]
+
+collect:
+  endpoints:
+    - role: primary
+      method: POST
+      path: /api/admin.conversations.search
+      params: { limit: "20" }
+    - role: enrichment
+      method: POST
+      path: /api/conversations.list
+      params:
+        team_id: "<workspace>"
+        limit: "200"
+        types: "public_channel,private_channel,mpim,im"
+    - role: detail
+      method: POST
+      path: /api/conversations.info
+      params: { channel: "<id>", include_num_members: "true" }
+    - role: enrichment
+      method: POST
+      path: /api/admin.conversations.restrictAccess.listGroups
+      params: { channel_id: "<id>" }     # 범위와 1:1 인 설정. 별도 Profile 을 안 만든다
+  record: conversations[] | channels[]
+  envelope: none
+  paging: cursor
+  listable: true
+  completeness: full
+
+identifiers:
+  primary: [id]
+  id:
+    path: id
+    stability: stable
+  name:
+    path: name
+    stability: mutable       # previous_names[] 가 실제로 채워져 있다
+    normalization: [lowercase]
+
+references:
+  tenant:
+    from: $request.enterprise
+    object_type: enterprise
+    kind: direct_id
+    status: confirmed
+  parent:                            # 2026-10-22. 옛 이름 context_team. 엔진이 references.parent 로 내야 v1 투영이 contained_in 을 증명된 것으로 받는다(대시보드 #122)
+    path: context_team_id
+    object_type: "@resolve"          # 이름과 달리 T 도 오고 E 도 온다. 40건 중 E 가 10건
+    resolve: { by: id_prefix }
+    kind: direct_id
+    status: confirmed
+    relation_type: contained_in
+    basis: stated
+  creator:
+    path: creator            # admin 쪽은 creator_id
+    object_type: user
+    kind: direct_id
+    status: confirmed
+    relation_type: no_relation   # 2026-09-20. 만든 기록일 뿐 권한이 아니다. 아래 참조
+  shared_with_teams:
+    path: internal_team_ids
+    object_type: team
+    kind: direct_id
+    status: confirmed
+    relation_type: shared_with
+    basis: stated
+  dm_peer:
+    path: user               # is_im 인 행에만 있다
+    object_type: user
+    kind: direct_id
+    status: confirmed
+    relation_type: member_of
+    basis: stated
+    reverse: true
+  restricted_to_groups:
+    path: group_ids          # restrictAccess.listGroups 응답에만 있다
+    object_type: usergroup
+    kind: direct_id
+    status: confirmed
+    relation_type: null      # 어휘에 자리가 없다. 아래 참조
+    reverse: true
+
+properties:
+  keep:
+    - is_private, is_archived, is_general, is_frozen
+    - is_shared, is_org_shared, is_ext_shared, is_global_shared
+    - is_im, is_mpim, is_channel, is_group
+    - is_org_default, is_org_mandatory
+    - created, updated, last_activity_ts
+    - num_members, member_count, external_user_count, channel_manager_count
+    - purpose.value, topic.value, previous_names
+  drop: [priority, is_member, canvas.ownership_details, lists.ownership_details]
+  tenant_defined: []
+
+judged:
+  resource_scope: per_row
+
+confidence: confirmed
+open_issues:
+  - "properties.tabz[] 가 응답에 실재한다. tabs 의 오타로 보이는데 Slack 이 내보내는 값이라 임의로 고치지 않았다"
+  - "properties.agent_session.* 과 properties.record_channel.* 은 48행 중 1행에만 있다. Agentforce 계열 기능으로 보이나 문서 근거 미확인"
+  - "conversations.list 와 admin.conversations.search 가 같은 채널에 다른 필드 집합을 준다. 어느 쪽을 primary 로 둘지는 스코프에 달렸다"
+```
+
+`priority` 를 버리는 이유가 있다. 값이 `0.071307341667943` 같은 실수다. 정수로 가정하면 깨지고, 애초에 개인화 점수라 조직 상태가 아니다.
+
+### creator 를 관계로 만들지 않는다
+
+`Relation_Schema_v3.md` 의 `owned_by` 판정 기준이 **그 사람이 그 자원에 대해 무언가 할 수 있는가**다. Slack 채널 생성자에게는 따로 붙는 권한이 없다. 채널 관리 권한은 `role_assignment` 의 Channel Manager 로 따로 온다.
+
+그래서 값은 남기고 관계는 안 만든다. `relation_type: no_relation` 이다. `null` 과 다른 값을 쓰는 이유는 **이 판정이 안 바뀌기 때문**이다. 어휘가 늘어나도 생성자에게 권한이 생기지는 않는다.
+
+### 접근 제한 — Slack 에서 살아 있는 유일한 그룹 → 채널 경로
+
+`admin.conversations.restrictAccess.listGroups(channel_id)` 가 `group_ids` 를 준다. **이게 지금도 집행되는 관계다** — `usergroup` 의 `prefs.channels` 와 정반대다.
+
+끊어 보고 확인했다(§7.5, `data/cross/okta_slack_idp_0927`). Okta 그룹에서 사람을 빼자 **91초 뒤** 채널이 보관 상태(`member_count: -1`)로 관측됐고, 다시 넣자 복귀했다.
+
+```
+Okta  HelpDesk-Admins  ──Push Groups──▶  Slack IdP 그룹 S0C4QG8QSSJ
+                                              │ restrictAccess
+                                              ▼
+                                         #aegi-idp-helpdesk (비공개)
+```
+
+**어휘에 자리가 없어서 `relation_type: null` 이다.** 후보를 대 봤는데 전부 안 맞는다.
+
+| 후보 | 왜 안 되나 |
+| --- | --- |
+| `member_of` | 그룹 자신이 채널의 멤버가 아니다. 그룹 **멤버들**이 멤버가 된다 |
+| `applies_to` · `excludes` | 출발점이 `Policy` 여야 하는데 제한은 채널 설정이고 자기 id 가 없다 |
+| `permits` | 같은 이유로 출발점이 안 맞는다 |
+| `has_role_on` | 역할이 없다. 제한은 부여가 아니라 **문**이다 |
+
+`Relation_Schema_v3` 의 「닫힌 어휘를 늘리는 절차」대로 **A단계**에 둔다 — `null` + 대기열이고 공용 파일은 안 고친다. 승격 기준이 `provider 둘 이상`인데 지금은 Slack 하나다.
+
+> **승격 회의에서 볼 것:** Okta 의 앱 그룹 배정(`/apps/{id}/groups`)이 **같은 모양인지**. 둘 다 "그룹 멤버십이 자원 접근을 집행한다" 인데, Okta 는 **주는** 쪽이고 Slack 은 **막는** 쪽이라 같은 항으로 묶일지 판단이 필요하다.
+
+#### 제한을 걸면 관측이 무너진다
+
+수집기가 알아야 할 부작용이 셋이다.
+
+- **그룹 밖 멤버가 즉시 빠진다.** 채널을 만든 admin 도 포함이다
+- 그 뒤 admin 토큰으로 `conversations.members` 를 부르면 **`channel_not_found`** 다. 인원은 `admin.conversations.search` 의 `member_count` 로만 보인다
+- **마지막 멤버가 빠지면 비공개 채널이 자동 보관되고 `member_count: -1` 이 된다.** 실측에서 `is_archived: true` 로 바뀌었다가 사람을 다시 넣자 풀렸다
+
+셋째가 특히 위험하다. **채널이 사라진 것처럼 보이는데 지워진 게 아니다.** `-1` 을 인원 0 으로 읽으면 안 된다.
+
+### 게시 권한은 그룹을 받지 않는다
+
+`admin.conversations.setConversationPrefs` 의 `who_can_post` 에 그룹을 넣어 봤다(§7.2).
+
+```
+{"who_can_post":"type:admin,subteam:S0C4RRZPCG2"}   ->  invalid_value
+{"who_can_post":"type:admin,user:U0C2DUV8V45"}      ->  ok
+```
+
+조회 결과의 모양도 **`type` 과 `user` 둘뿐**이다.
+
+```json
+"who_can_post": { "type": ["admin"], "user": ["U0C2DUV8V45"] }
+```
+
+**Slack 에는 "그룹이라서 쓸 수 있다" 는 경로 자체가 없다.** 그래서 이 자리는 참조를 안 만든다 — 어휘가 늘어도 안 풀리는 종류다.
+
+---
+
+## slack.team
+
+Slack 이 UI 에서는 "워크스페이스" 라고 부르는데 API 필드 이름은 전부 `team` 이다. 여기서는 응답 필드를 따라 `team` 으로 쓴다.
+
+```yaml
+provider: slack
+spec: 3
+object_type: team
+provider_term: workspace      # UI 와 감사 로그가 부르는 이름. 응답 필드는 전부 team 이다
+interfaces: [Tenant]
+
+collect:
+  endpoints:
+    - role: primary
+      method: POST
+      path: /api/admin.teams.list
+      params: { limit: "100" }
+    - role: detail
+      method: POST
+      path: /api/team.info
+      params: { team: "<id>" }
+  record: teams[] | team
+  envelope: none
+  paging: cursor
+  listable: true
+  completeness: full
+
+identifiers:
+  primary: [id]
+  id:
+    path: id
+    stability: stable
+  domain:
+    path: domain
+    stability: mutable
+
+references:
+  tenant:
+    path: enterprise_id      # team.info 에는 있고 admin.teams.list 에는 없다
+    object_type: enterprise
+    kind: direct_id
+    status: confirmed
+    relation_type: contained_in   # 여기서는 조직 구조 자체라 관계로도 쓴다
+    basis: stated
+  primary_owner:
+    path: primary_owner.user_id
+    object_type: user
+    kind: direct_id
+    status: confirmed
+    relation_type: has_role_on
+    basis: stated
+    reverse: true
+    policy: { const: primary_owner, kind: name_key }
+
+properties:
+  keep: [name, discoverability, discoverable, is_verified, email_domain, enterprise_domain]
+  drop: [icon.*, avatar_base_url, team_url, url, lob_sales_home_enabled, is_sfdc_auto_slack]
+  tenant_defined: []
+
+judged: {}
+
+confidence: confirmed
+open_issues:
+  - "admin.teams.list 는 discoverability, team.info 는 discoverable 로 이름이 다르다. 값은 둘 다 closed 였다. 같은 사실인지 미확인"
+  - "admin.teams.list 응답에 enterprise_id 가 없다. 이 경로로만 수집하면 tenant 를 $request 에서 채워야 한다"
+  - "references 에 policy 를 적는 표기는 Profile_Schema_v3.md 에 아직 없다. 아래 「스키마에 자리가 없는 것」 참조"
+```
+
+`tenant` 에 `relation_type` 을 적은 건 여기뿐이다. `Profile_Schema_v3.md` 의 기본은 "tenant 는 관계 아님" 인데, **워크스페이스가 엔터프라이즈에 속한다는 건 조직 구조 그 자체**라 관계로도 쓸 값이 있다. 다른 Profile 의 `tenant` 는 전부 관계를 안 만든다.
+
+`primary_owner` 는 3항 관계다. 사람이 워크스페이스에 대해 primary owner 역할을 갖는다. 그런데 역할 자리에 넣을 값이 응답에 없고 필드 이름에만 있어서, 상수로 적었다.
+
+---
+
+## slack.enterprise
+
+모든 Profile 의 `tenant` 가 이걸 가리키는데 정작 Profile 이 없었다. lint 의 「대상 Object 가 없는 관계」 검사가 잡았다.
+
+**목록 API 가 없다.** 토큰이 붙어 있는 엔터프라이즈 하나만 알 수 있다.
+
+```yaml
+provider: slack
+spec: 3
+object_type: enterprise
+interfaces: [Tenant]
+root_tenant: true            # 이 위에 아무것도 없다
+
+collect:
+  endpoints:
+    - role: primary
+      method: POST
+      path: /api/auth.test
+      params: {}
+  record: (root)
+  envelope: none
+  paging: none
+  listable: false
+  completeness: full
+
+identifiers:
+  primary: [id]
+  id:
+    path: enterprise_id
+    stability: stable        # E 접두사. team_id 필드에도 같은 값이 온다
+  name:
+    path: team               # auth.test 는 엔터프라이즈 이름을 team 이라고 부른다
+    stability: mutable
+
+references: {}               # 최상위 테넌트라 tenant 가 비어 있다
+
+properties:
+  keep: [url, is_enterprise_install]
+  drop: [user, user_id, team_id]
+  tenant_defined: []
+
+judged: {}
+
+confidence: confirmed
+open_issues:
+  - "team.externalTeams.list 가 not_allowed_token_type 으로 막혔다. trusts 관계를 못 채운다"
+  - "auth.test 가 team_id 에 엔터프라이즈 id 를 넣는다. 워크스페이스 id 와 같은 필드 이름이라 위험하다"
+  - "엔터프라이즈 이름을 주는 필드 이름이 team 이다. 임의로 안 고쳤다"
+```
+
+### listable: false 가 여기서 뜻하는 것
+
+0건이 나와도 "엔터프라이즈가 없다" 로 결론 내면 안 된다. **애초에 물어볼 수가 없다.** `auth.test` 는 지금 토큰이 어디에 붙어 있는지를 되돌려줄 뿐이고, 다른 엔터프라이즈는 이 토큰으로 영원히 안 보인다.
+
+`references` 가 빈 것도 규칙대로다. `Object_Schema_v3.md` 는 `tenant` 가 필수인데 **최상위 테넌트 자신만 비어 있다** 고 적었다. 그 예외가 실제로 쓰이는 자리가 여기 하나뿐이다.
+
+그래서 `root_tenant: true` 를 적는다. **예외를 참조가 비어 있는 것으로 추론하면 안 된다.** 아직 참조를 안 쓴 Profile 과 구분되지 않는다.
+
+### trusts 를 못 채운다
+
+`trusts` 는 어휘 17개 중 하나고 Slack 근거로 `team.externalTeams.list` 를 적어 뒀는데, run2 에서 `not_allowed_token_type` 으로 막혔다. 어휘가 틀린 게 아니라 **토큰 종류가 모자라다.** 다음 수집에서 다시 시도한다.
+
+---
+
+## slack.usergroup
+
+**Web API 로는 보이지 않는다.** 수집 경로는 SCIM 하나뿐이다.
+
+```yaml
+provider: slack
+spec: 3
+object_type: usergroup
+provider_term: Group      # SCIM 이 부르는 이름. Web 응답 필드는 usergroups[] 다
+interfaces: [Principal]
+
+collect:
+  endpoints:
+    - role: primary
+      method: GET
+      path: /scim/v2/Groups
+      params: { count: "50" }
+    - role: detail
+      method: GET
+      path: /scim/v2/Groups/{id}
+      params: {}
+  record: Resources[]
+  envelope: none
+  paging: startIndex
+  listable: true
+  completeness: full
+
+identifiers:
+  primary: [id]
+  id:
+    path: id
+    stability: stable        # S 접두사. Web API 의 usergroup id 와 같은 공간
+  displayName:
+    path: displayName
+    stability: mutable
+
+references:
+  tenant:
+    from: $request.enterprise
+    object_type: enterprise
+    kind: direct_id
+    status: confirmed
+  members:
+    path: members[].value
+    object_type: user
+    kind: direct_id
+    status: confirmed
+    relation_type: member_of
+    basis: stated
+    reverse: true
+
+properties:
+  keep: [displayName, meta.created]
+  drop: [schemas, meta.location]
+  tenant_defined: []
+
+judged:
+  principal_kind: group
+
+confidence: confirmed
+open_issues:
+  - "Web API 와 SCIM 이 같은 id 를 쓴다는 것은 S0C0Y7M6WPP 가 감사 로그 entity.usergroup.id 에도 같은 값으로 나오는 것으로 확인했다. 표본 1건"
+  - "IdP 그룹은 SCIM 으로 만들어진다(Okta push). 조직 단위 IdP 그룹 목록을 못 본 것은 SCIM 권한(쓰기 포함 admin)을 안 받아서다. 실측에서는 사람이 관리 화면에서 id 를 읽었다"
+  - "is_idp_group 과 prefs.channels 는 Web usergroups.list 에만 있다. 이 Profile 의 수집 경로(SCIM)로는 안 채워져서 keep 과 참조에 넣지 않았다. 아래 prefs.channels 판정은 Web 경로를 더할 때 쓴다"
+```
+
+### `prefs.channels` 는 접근 관계가 아니다 — 한 번 초대하고 끝난다
+
+`usergroups.list` 의 `prefs.channels` 는 "이 그룹의 기본 채널" 이다. **관계로 만들면 안 된다.** 끊어 보고 확인했다(`reports/EA_Validation_Report_v2.md` §7.2 · §7.7, `data/slack_v2/changes_0927`, `retest_default_channel_0928` — 처음부터 그룹에 있던 사람을 빼고 5분 17초 봐도 채널에 남았다).
+
+| 단계 | 그룹 멤버 | 채널 멤버 |
+| --- | --- | --- |
+| taewook, hwamin 을 그룹에 추가 | taewook, hwamin | taewook, admin |
+| 그룹을 taewook 만 남김 | taewook | taewook, **hwamin**, admin |
+| yaeji 추가 → 제거 | taewook | taewook, hwamin, **yaeji**, admin |
+
+**그룹에서 빼도 채널에 남는다.** 기본 채널은 가입할 때 한 번 초대하는 **동작**이고, 권한은 그 뒤 채널 직접 멤버십으로 남는다. Slack 채널 접근의 끊을 지점은 그룹이 아니라 **멤버십 그 자체**다.
+
+`channels[].creator` 와 같은 처리를 한다 — **행위 기록은 관계가 아니라 `properties` 에 남긴다.** 관계로 만든다면 `relation_type: no_relation` 이다.
+
+**다만 지금 Profile 에는 안 넣었다.** `prefs.channels` 는 Web `usergroups.list` 에만 있고 이 Profile 의 수집 경로는 SCIM 하나라 **절대 안 채워진다.** 처음 판에서 `keep` 과 참조에 넣었는데 채워질 수 없는 칸이었다. 이 판정은 Web 경로를 수집에 더할 때 그대로 쓴다.
+
+> 이건 EA 쪽에 직접 걸린다. 이 참조를 관계로 만들어 `via` 에 넣고 `cut` 으로 내면 **끊어도 아무것도 안 막힌다.** `Effective_Access_Schema_v1` 의 「집행되는 경로와 권한이 생긴 이력은 다르다」가 이 실측에서 나왔다.
+
+**그리고 그룹에서 빠진 사람이 채널에 남는 것 자체가 잔존 권한이다.** 위 표에서 hwamin·yaeji 가 지금 그룹에 없는데 비공개 채널에 있다. "그룹에서 뺐으니 접근도 없겠지" 가 그대로 틀린다.
+
+**반영은 비동기다.** 첫 추가 5초 뒤엔 hwamin 이 아직 채널에 없었고 다음 조회에 나타났다.
+
+### 살아 있는 그룹 → 채널 경로는 IdP 그룹 하나뿐이다
+
+일반 사용자 그룹으로는 채널 접근을 만들 수 없다는 것이 두 방향에서 확인됐다.
+
+| 시도 | 결과 |
+| --- | --- |
+| 기본 채널(`prefs.channels`) | 위 — 한 번 초대하고 끝 |
+| 게시 권한을 그룹으로 | **불가능.** 아래 「게시 권한은 그룹을 받지 않는다」 |
+| **IdP 그룹으로 비공개 채널 접근 제한** | **살아 있다.** `slack.channel` 의 「접근 제한」 참조 |
+
+`usergroups.list` 의 `is_idp_group` 이 둘을 가른다. **IdP 그룹이 `usergroups.list` 에 나오는 조건은 확인 안 됐다.** IdP 그룹 id(`S0C4QG8QSSJ`)를 받은 뒤에 불렀는데도 목록에는 `AEGI Test UG` 하나뿐이었다(`data/cross/okta_slack_idp_0927/09_2a_slack_usergroups.list.json`).
+
+---
+
+## slack.role_assignment
+
+```yaml
+provider: slack
+spec: 3
+object_type: role_assignment
+interfaces: [Assignment]
+
+collect:
+  endpoints:
+    - role: primary
+      method: POST
+      path: /api/admin.roles.listAssignments
+      params: { limit: "100" }
+  record: role_assignments[]
+  envelope: none
+  paging: cursor
+  listable: true
+  completeness: full
+
+identifiers:
+  primary: [role_id, entity_id, user_id]    # 루트 id 가 없다
+  role_id:   { path: role_id,   stability: stable }
+  entity_id: { path: entity_id, stability: stable }
+  user_id:   { path: user_id,   stability: stable }
+
+assignment:
+  relation_type: has_role_on
+  basis: stated
+
+references:
+  tenant:
+    from: $request.enterprise
+    object_type: enterprise
+    kind: direct_id
+    status: confirmed
+  principal:
+    path: user_id
+    object_type: user
+    kind: direct_id
+    status: confirmed
+    slot: source
+  role:
+    path: role_id
+    object_type: role
+    kind: direct_id
+    status: confirmed
+    slot: role
+  scope:
+    path: entity_id
+    object_type: "@resolve"
+    resolve: { by: id_prefix }
+    kind: direct_id
+    status: confirmed
+    slot: target
+
+properties:
+  keep: [date_create]
+  drop: []
+  tenant_defined: []
+
+judged: {}
+
+confidence: confirmed
+open_issues:
+  - "role_id 가 Rl0A / Rl0C 같은 짧은 코드인데 이름을 주는 목록 API 를 못 찾았다. 감사 로그의 entity.role 에서 Rl0A = Channel Manager 를 얻었을 뿐이다. slack.role Profile 은 아직 못 쓴다"
+  - "slack.role Profile 이 없어서 「대상 Object 가 없는 관계」 경고가 이 종류에서 뜬다. 설계 구멍이 아니라 수집 경로가 없는 것이다"
+```
+
+**이 종류는 Object 하나가 관계 하나다.** `assignment.relation_type` 에 어휘를 한 번 적고 참조는 `slot` 만 말한다. `tenant` 는 `slot` 이 없어서 이 관계에 안 들어간다. 배정이 어느 조직 것인지는 참조로만 남는다.
+
+`entity_id` 접두사로 대상이 갈린다. 28행 실측이다.
+
+| 접두사 | object_type | 건수 |
+| --- | --- | --- |
+| C | channel | 24 |
+| E | enterprise | 4 |
+
+루트 `id` 가 없어서 primary 가 세 키다. `Object_Schema_v3.md` 의 복합 키 규칙이 실제로 필요한 자리다.
+
+---
+
+## slack.session
+
+```yaml
+provider: slack
+spec: 3
+object_type: session
+provider_term: active_session
+interfaces: [Credential]
+
+collect:
+  endpoints:
+    - role: primary
+      method: POST
+      path: /api/admin.users.session.list
+      params: { limit: "100" }
+  record: active_sessions[]
+  envelope: none
+  paging: cursor
+  listable: true
+  completeness: full
+
+identifiers:
+  primary: [session_id]
+  session_id:
+    path: session_id
+    stability: stable        # 정수다. 문자열로 바꾸지 않는다
+
+references:
+  tenant:
+    path: team_id            # 실측값이 E0BTXUPK6CS 였다
+    object_type: enterprise
+    kind: direct_id
+    status: confirmed
+  principal:
+    path: user_id
+    object_type: user
+    kind: direct_id
+    status: confirmed
+    relation_type: authenticates_with
+    basis: stated
+    reverse: true            # 사람이 세션으로 인증한다. 이 Object 가 세션이라 뒤집는다
+
+properties:
+  keep:
+    - created.device_hardware, created.os, created.os_version, created.slack_client_version
+    - recent.device_hardware, recent.os, recent.os_version, recent.slack_client_version
+  drop: []
+  tenant_defined: []
+
+judged:
+  credential_kind: session
+  rotation: none
+
+confidence: confirmed
+open_issues:
+  - "object_type 을 active_sessions[] 가 아니라 session 으로 줄였다. 2026-09-20. 응답 필드 우선 규칙을 따르면 active_session 이지만, Slack 문서와 UI 가 이 대상을 일관되게 session 으로 부르고 active_ 는 목록의 필터 조건을 뜻한다. 고치면 Object 행과 Relation 6행과 문서 참조가 전부 바뀌는데 얻는 것이 규칙 정합성뿐이라 유지한다"
+  - "created.ip 와 recent.ip 를 남길지 결정 필요. 위치 추적이 되는 값이라 항상 감추기 목록 후보다. 지금은 keep 도 drop 도 아닌 상태로 두었다"
+  - "recent.* 가 19행 중 16행에만 있다. 한 번도 재접속 안 한 세션으로 보이나 확인 못 함"
+  - "세션이 언제 끝나는지를 주는 필드가 없다. 만료 질의는 이 종류로 답할 수 없다"
+```
+
+`reverse: true` 가 여기서 왜 필요한지가 분명하다. `authenticates_with` 는 `Principal --> Credential` 인데 이 Object 는 Credential 쪽이다. 뒤집지 않으면 "세션이 사람으로 인증한다" 가 된다.
+
+---
+
+## slack.workflow
+
+```yaml
+provider: slack
+spec: 3
+object_type: workflow
+interfaces: [Automation]
+
+collect:
+  endpoints:
+    - role: primary
+      method: POST
+      path: /api/admin.workflows.search
+      params: { limit: "20" }
+  record: workflows[]
+  envelope: none
+  paging: cursor
+  listable: true
+  completeness: full
+
+identifiers:
+  primary: [id]
+  id:
+    path: id
+    stability: stable        # Wf 접두사
+  callback_id:
+    path: callback_id
+    stability: mutable
+
+references:
+  tenant:
+    path: team_id            # 실측값이 E0BTXUPK6CS 였다
+    object_type: enterprise
+    kind: direct_id
+    status: confirmed
+  app:
+    path: app_id
+    object_type: app
+    kind: direct_id
+    status: confirmed
+    relation_type: owned_by  # 2026-10-19 D2(aegi-schema 이슈 #20). 앱을 지우면 워크플로도 사라진다. 트리거 정의 필드는 triggered_by 로 가른다(Relation_Schema_v3 판별 표)
+    basis: stated
+  run_as:
+    path: bot_user_id
+    object_type: user
+    kind: direct_id
+    status: confirmed
+    relation_type: runs_as
+    basis: stated
+  collaborators:
+    path: collaborators
+    object_type: user
+    kind: direct_id
+    status: confirmed
+    relation_type: has_role_on      # 2026-09-27 정정. 아래 참조
+    policy: { const: collaborator, kind: name_key }
+    basis: stated
+    reverse: true
+  last_updated_by:
+    path: last_updated_by
+    object_type: user
+    kind: direct_id
+    status: confirmed
+    relation_type: no_relation   # 2026-09-20. 마지막으로 고친 사람. 권한 사실이 아니다
+  triggers:
+    path: trigger_ids
+    object_type: trigger
+    kind: direct_id
+    status: inferred         # 기존 회귀용 초안 참조. 아래 open_issues 의 현재 판정을 따른다
+    relation_type: triggered_by
+    basis: stated
+  function:
+    path: workflow_function_id
+    object_type: function
+    kind: direct_id
+    status: confirmed
+    relation_type: null      # Automation --> Automation 자리가 어휘에 없다
+  step_channels:
+    path: steps[].inputs.channel_id.value   # 값이 {value, hidden, locked} 로 싸여 있다
+    object_type: channel                    # channel_id 가 없는 스텝이 있다(open_form)
+    kind: direct_id
+    status: confirmed
+    relation_type: null      # Automation --> Resource 자리가 어휘에 없다
+
+properties:
+  keep:
+    - title, description, source
+    - is_published, is_empty, is_home_team_only, is_billable
+    - unpublished_change_count, date_updated, last_published_date
+    - last_published_version_id
+  drop: [icons.*, is_sales_home_workflow, is_sales_elevate]
+  tenant_defined: [input_parameters.*]
+
+judged:
+  automation_kind: workflow
+
+confidence: confirmed
+open_issues:
+  - "표본이 1건이다. 다른 source 값(workflow_builder 아닌 것)에서 필드가 어떻게 달라지는지 모른다"
+  - "steps[] 안에 function_id 가 들어 있다. 스텝을 별도 object_type 으로 볼지 workflow 의 속성으로 볼지 미정. inputs.channel_id 는 2026-09-27 에 참조로 만들었다"
+  - "trigger_types[].subtype 이 'A050QFW22F5#/trigger_types/issue_created' 꼴이다. 이 이벤트 트리거 자체는 Endpoint Object가 아니며, 현재 어휘로는 workflow --triggered_by--> GitHub 앱(Integration)이다. '#' 앞이 app_id 인데 Profile_Schema_v4.2 에 응답 필드를 파싱하는 표기가 없다(parse: 는 from: $link.* 에만 붙는다). 표기가 생기기 전에는 trigger_app 참조로 못 만든다"
+  - "creation_source_type 이 정수 3 이다. 의미를 주는 문서를 못 찾았다"
+  - "기존 triggers 참조(object_type: trigger)는 과거 회귀 기준선의 초안 매핑이며 현재 Endpoint 판정으로 확정한 참조가 아니다. 이벤트·예약·Slack 링크를 일괄 Endpoint로 보지 않는다(Interface_Spec_v3 Endpoint 절). trigger_ids 만으로 경계를 넘는 통로인지 알 수 없다. 응답 필드 파싱 표기와 트리거 종류별 수집 근거가 갖춰지면 이 초안 참조를 교체하고 회귀 기준선도 함께 갱신해야 한다"
+```
+
+**참조 7개 중 3개가 관계가 못 된다.** 둘은 같은 원인이다 — **자동화가 다른 자동화나 자원을 가리키는 관계가 어휘에 없다.**
+
+| 참조 | 모양 | 왜 못 담나 |
+| --- | --- | --- |
+| `function` | Automation --> Automation | 자리 없음 |
+| `step_channels` | Automation --> Resource | 자리 없음 |
+| `last_updated_by` | Principal --> Automation | 권한 사실이 아니라서 뺀 것. 위와 원인이 다르다 |
+
+앞의 둘은 `relation_type: null` 이고 `last_updated_by` 만 `no_relation` 이다. 앞은 어휘가 늘면 풀리고 뒤는 안 풀린다.
+
+#### `app` 은 담을 수 있었다 — 주석이 낡았었다 (2026-10-19, D2)
+
+앞 판이 `app` 을 *"Automation --> Integration 자리가 어휘에 없다"* 며 `null` 로 두었는데 **틀렸다.** `owned_by` template 에 `Automation --> Integration` 이 이미 있고, `Relation_Schema_v3` 판별 표가 바로 이 경우를 가른다 — 자동화가 속한 앱 필드(Slack workflow `app_id`)는 `owned_by`, 트리거 정의 필드는 `triggered_by` 다. 앱을 지우면 그 앱의 워크플로도 사라지므로 소유다. 오브젝트 모델 쪽 제안(D2)을 aegi-schema 이슈 #20 에서 받았다. 어휘는 안 바뀌었다.
+
+#### `collaborators` 는 담을 수 있었다 — 표가 낡았었다
+
+앞 판이 *"`has_role_on` 의 대상에 Automation 이 없다"* 고 적었는데 **틀렸다.** `Relation_Schema_v3` 이 v1.4 에서 끝점을 넓히며 정확히 이 경우를 들었다.
+
+> `has_role_on` 에 `Automation` 대상 — **워크플로 편집 권한처럼** 자동화를 대상으로 하는 역할이 있다
+
+`collaborators` 가 바로 그 워크플로 편집 권한이다. 역할 이름이 응답에 없으므로 `slack.user` 의 `is_owner`·`is_admin` 과 같은 방식으로 `policy: { const: collaborator, kind: name_key }` 를 쓴다. `reverse: true` 로 `Principal --[collaborator]--> Automation` 이 된다.
+
+**어휘가 아니라 이 문서가 낡아 있었다.** 못 담는 참조가 다섯이 아니라 넷이다.
+
+**이 정정으로 회귀 기준선이 189 → 190 이 됐다.** 기준선을 처음 움직인 변경이다. 규칙 1 위반이 아니다 — 판을 올린 게 아니라 Profile 내용을 고친 것이고, 기준선이 그 변화를 드러내라고 있는 것이다. 이력은 `fixtures/slack/README.md` 「기준선 이력」에 있다.
+
+4개 SaaS object list 실행 검증에서 `Automation --> Automation` 이 12건으로 가장 큰 구멍이었는데, **Profile 을 실제로 써 보니 같은 자리에서 또 걸렸다.** 종이와 실물이 같은 곳을 가리킨다.
+
+`run_as` 는 제대로 담겼다. `triggered_by` 와 합치지 않는다는 규칙이 여기서 실제로 쓰인다. 워크플로가 무엇으로 시작되는지(`triggers`)와 누구 권한으로 도는지(`run_as`)가 서로 다른 필드다.
+
+### 여기에 교차 SaaS 경로가 통째로 들어 있었다
+
+run2 원 응답 한 건에 이 프로젝트가 찾는 모양이 그대로 있었다(§6.2).
+
+```
+GitHub 이슈 생성 ──trigger──▶ Slack 워크플로 ──runs_as──▶ wf_bot ──send_message──▶ #github-channel
+ A050QFW22F5#/trigger_types/issue_created      who_can_run: everyone
+```
+
+**GitHub 에서 이슈를 만들 수 있는 사람이 Slack 채널에 봇 이름으로 글을 올린다.** 그런데 두 칸이 비어 계산이 안 됐다.
+
+| 칸 | 2026-09-27 |
+| --- | --- |
+| 스텝 → 채널 | **채웠다.** `step_channels` 가 `C0BTXL9284D`(`#github-channel`)를 잡는다. 경로가 `inputs.channel_id.value` 로 한 겹 싸여 있어서 처음엔 틀렸다 |
+| 트리거 → 앱 | **못 채웠다.** `#` 앞을 잘라야 app_id 인데 **응답 필드를 파싱하는 표기가 규격에 없다.** `extraction` 을 썼다가 그게 이미 지운 표기라 뺐다 |
+
+남은 구멍은 셋이다.
+
+| | 무엇 |
+| --- | --- |
+| **어휘** | `step_channels` 가 `relation_type: null` 이다. `Automation --> Resource` 자리가 없다 |
+| **파싱 표기** | `Profile_Schema_v4.2` 의 `parse:` 는 `from: $link.*` 에만 붙는다. 응답 필드 안의 값을 자르는 자리가 없다 |
+| **트리거의 수집 근거** | 이벤트 트리거를 위해 `slack.trigger` Endpoint Profile을 만드는 것은 현재 판정과 다르다. 기존 `triggers`는 회귀용 초안 참조다. 트리거가 **어느 GitHub 저장소**를 보는지는 워크플로 응답에 없다 — 둘째 스텝(`open_form`)에 `"Select a repository"` 입력칸이 있을 뿐 값이 정해져 있지 않다 |
+
+> **EA 로 적으면 `level: indeterminate` 에 `undecomposed[]` 두 칸(`from: relation`)인 행이다.** `Effective_Access_Schema_v1` 이 `indeterminate` 를 만들어 놓고 시험을 못 했는데, **이게 그 첫 실사례다.**
+
+그리고 트리거의 app_id 를 잘라내도 그건 **Slack 앱의 id 이지 GitHub 저장소가 아니다.** 저장소까지 가려면 그 앱이 어느 GitHub 조직에 붙었는지를 알아야 하고, 그건 Link 쪽 일이다.
+
+---
+
+## 이 작업이 스키마에 남긴 것
+
+7종을 실제로 써 보니 `Profile_Schema_v3.md` 로 못 적는 게 셋 나왔다. 둘은 고쳤고 하나는 남았다.
+
+어휘 쪽 변경은 `Relation_Schema_v3.md` 에서 왔다. 이 파일에 그대로 반영했다.
+
+### 고침 1. `relation_type: no_relation`
+
+`channel.creator` 와 `workflow.last_updated_by` 는 보고 나서 관계가 아니라고 판정한 것이다. 예전에는 `null` 밖에 쓸 값이 없어서 "어휘가 생기면 풀릴 것" 과 섞였다. 이제 셋이 갈린다.
+
+| 표기 | 뜻 |
+| --- | --- |
+| `relation_type` 이 아예 없음 | 아직 안 봤다 |
+| `relation_type: null` | 봤는데 어휘에 자리가 없다 |
+| `relation_type: no_relation` | 봤고 관계가 아니라고 판정했다 |
+
+### 고침 2. `references` 에 `policy`
+
+`team.primary_owner` 가 `has_role_on` 인데 역할 이름이 응답에 없고 필드 이름에만 있다. `properties.as_relation` 이 쓰던 `policy: { const: … }` 표기를 `references` 에도 허용했다. 새 개념이 아니라 같은 표기를 한 자리 더 쓰는 것이다.
+
+### 고침 3. 참조마다 `basis` 를 적는다
+
+`Relation_Schema_v3.md` 가 `basis` 의 기본값을 없앴다. 안 적으면 lint 오류다. 관계를 만드는 참조 13개에 전부 적었다.
+
+12개가 `stated` 다. Slack 이 소속과 역할을 기록 그대로 준다.
+
+**하나만 `computed` 다.** `slack.user.queried_team` 이다. 이건 응답 본문의 값이 아니라 **어느 워크스페이스 목록을 물었더니 이 사람이 나왔다**는 사실에서 유도한 것이라, 지울 부여 기록이 없다.
+
+합칠 때 `stated > computed` 라 이 구분이 실제로 일한다. 살아 있는 계정은 `enterprise_user.teams[]` 가 같은 행을 `stated` 로 만들어 덮는다. **그 배열이 빈 계정만 `computed` 로 남는다.** 실측 189행 중 7행이고, `deleted: true` 인 5명과 두 워크스페이스에 각각 걸린 Slackbot 2행이다. 과거 소속은 보이되 회수할 대상은 없다고 정확히 말한다.
+
+`properties.as_relation` 에서 나온 관계는 `flag` 로 고정이라 따로 안 적는다. `slack.user` 의 불리언 5개가 그것이다.
+
+### 남음. 자동화를 양끝으로 하는 관계가 없다
+
+`workflow` 절에 적었다. provider 하나뿐이라 어휘 추가는 보류 상태다. GitHub Actions 의 reusable workflow, Okta Workflows 의 sub-flow 가 두 번째 근거 후보다.
+
+### 덤. slack.enterprise Profile 이 없다
+
+lint 가 잡았다. **모든 Profile 의 `tenant` 가 enterprise 를 가리키는데 그 Object 를 만드는 Profile 이 없다.** 지금까지 `tenant` 를 관계로 안 만들어서 안 드러났고, `team.tenant` 에 `contained_in` 을 붙이자마자 경고가 떴다.
+
+---
+
+## 감사 로그는 Object 가 아니다
+
+`logs:entries[]` 가 201행으로 가장 크지만 Profile 을 쓰지 않았다.
+
+감사 엔트리는 **일어난 일의 기록**이지 현재 상태가 아니다. `Relation_Schema_v3.md` 의 추출원으로 쓴다. 특히 목록 API 가 없는 관계를 여기서만 얻을 수 있다.
+
+단일 스키마로 못 잡는 이유도 실측으로 확인됐다.
+
+| 필드 | 관측된 타입 |
+| --- | --- |
+| `details.new_value` | bool 과 str |
+| `details.previous_value` | None 과 str |
+| `context.session_id` | None 과 int |
+
+`details` 는 `action` 마다 모양이 다르다. 자유 맵으로 두고, `action` 별 추출 규칙을 Relation 쪽에 쓴다.
+
+---
+
+## 아직 못 쓴 것
+
+### 이름이 둘인 것
+
+Slack 은 같은 대상을 두 이름으로 부른다. `Object_Schema_v3.md` 의 우선순위 규칙 — 응답 필드 > 감사 entity > 메서드 경로 — 으로 정했다.
+
+| 대상 | 골랐다 | 밀린 후보 | 근거 |
+| --- | --- | --- | --- |
+| 채널 | `channel` | `conversation` | 응답 필드가 `channels[]`. 메서드만 `conversations.*` |
+| 워크스페이스 | `team` | `workspace` | 응답 필드가 전부 `team`. 감사 entity 만 `workspace` |
+| 사용자 그룹 | `usergroup` | `Group` | Web 응답과 감사 entity 가 `usergroup`. SCIM 만 `Group` |
+
+셋 다 1순위에서 갈렸다.
+
+### 데이터가 없어서 못 쓴 것
+
+| object_type | 왜 |
+| --- | --- |
+| `role` | 역할 목록 API 를 못 찾았다. 할당에서 id 만 나온다 |
+| `app` | `admin.apps.approved.list` 는 run1 에서 받았지만 run2 계획에 안 들어갔다 |
+| `function` | `admin.functions.list` 가 0건 |
+| `trigger` | 목록 API 없음. workflow 의 `trigger_ids[]` 로만 존재를 안다 |
+| `barrier` | `feature_not_enabled` |
+| `app-request` / `invite-request` | 0건 |
+| `bot` | `bots.info` 가 단건 조회뿐. 열거 경로 없음 |
+| `scheduled-message` | 0건 |
+
+`role` 과 `trigger` 는 특히 문제다. **참조 대상으로는 이미 등장하는데 그 객체를 수집할 경로가 없다.** `Object_Schema_v3.md` 로 치면 `status: unresolved` 로 남는 참조가 계속 생긴다는 뜻이다.
+
+### 애매해서 안 만든 것
+
+`admin.apps.config.lookup` 과 `admin.apps.permissions.list` 는 앱 하나의 설정값을 돌려준다. 별도 object_type 인지 `app` 의 속성인지 애매하다. 지금은 `app` Profile 을 쓸 때 같이 정하는 게 맞다고 본다.

@@ -1,0 +1,53 @@
+overlay_basis:
+  from: aegi-knowledge docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md
+  note: 레지스트리 신규 객체의 관계 후보 채택(aegi-knowledge#93)
+references:
+  - name: filter
+    field: filter
+    target: 200.filter
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:03052b1edb5a57794713663b;
+      relation=no_relation
+  - name: issues
+    field: issues
+    target: IssueBean_2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:35af222ef2f26d89cb240b04;
+      relation=no_relation
+  - name: location_projectkey
+    field: location.projectKey
+    target: Project
+    relation: contained_in
+    reviewed_at: 2026-10-29
+    rationale: aegi-knowledge
+      docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md (IM v1
+      no_relation 을 바꿈)
+  - name: self
+    field: self
+    target: board
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5a234a78ebab5fb265fe6813;
+      relation=no_relation
+  - name: location_useraccountid
+    field: location.userAccountId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9674c995a2d5e9d99945e77a;
+      relation=no_relation
+  - name: columnconfig_columns_statuses_self
+    field: columnConfig.columns.statuses.self
+    target: StatusDetails
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:fe54515c3b6f2d7633d53f3e;
+      relation=no_relation
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.location_projectkey
+    basis: stated
+    decision: aegi-knowledge#93

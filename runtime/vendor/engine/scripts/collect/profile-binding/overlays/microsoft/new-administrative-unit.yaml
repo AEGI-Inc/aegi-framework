@@ -1,0 +1,83 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: AdministrativeUnit
+interfaces: [Resource]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-AU-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-09
+        request: {kind: administrativeUnits}
+        items: value
+    id_expr: id
+    properties:
+      grant_target: {const: false}
+      au_id: id
+      displayName: displayName
+      description: description
+      visibility: visibility
+      membershipType: membershipType
+      membershipRule: membershipRule
+      membershipRuleProcessingState: membershipRuleProcessingState
+      isMemberManagementRestricted: isMemberManagementRestricted
+    display: "{displayName|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+  - id: members
+    kind: relation
+    sources:
+      - call: M365-09
+        request: {kind: members}
+        items: value
+    vars:
+      member_type:
+        op: map
+        of: "@odata.type"
+        table:
+          '#microsoft.graph.user': user
+          '#microsoft.graph.group': group
+          '#microsoft.graph.device': device
+        default: {const: user}
+    # 관리 단위는 관리 역할의 범위다(Microsoft Learn 「Administrative units in Microsoft Entra ID」). 멤버라서 관리 단위에 능력이 생기지 않고,
+    # 그 단위에 범위를 건 관리 역할이 멤버에게 닿는다. 사용자 · 그룹은 member_of(소속, knowledge member_of.scope_only_target 이 M 만 낸다),
+    # 기기는 신원이 아니라(Device Resource) 구조 관계 contained_in 으로 둔다
+    relations:
+      - type: member_of
+        when:
+          path: $vars.member_type
+          in: [user, group]
+        source:
+          switch: $vars.member_type
+          cases:
+            user: {type: User, id: id}
+            group: {type: Group, id: id}
+        target:
+          type: AdministrativeUnit
+          id: $req.administrativeUnit
+        basis: stated
+        require: [source, target]
+      - type: contained_in
+        when:
+          path: $vars.member_type
+          eq: device
+        source: {type: Device, id: id}
+        target:
+          type: AdministrativeUnit
+          id: $req.administrativeUnit
+        basis: stated
+        require: [source, target]

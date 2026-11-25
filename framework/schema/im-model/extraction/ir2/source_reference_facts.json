@@ -1,0 +1,487 @@
+{
+ "derived_relations": [
+  {
+   "evidence": {
+    "file": "collect/carto/connectedapps.py.source",
+    "locator": "get_oauth_tokens and transform",
+    "sha256": "6ab85161a2a0c0bed8fe3363bc98512b11e824510dddf4cb47aec72b35370824",
+    "url": "https://github.com/cartography-cncf/cartography/blob/d9944394187c405182145f982b3d26433e8cfd76/cartography/intel/salesforce/connectedapps.py"
+   },
+   "gap_class": "D",
+   "label": "AUTHORIZED",
+   "provider": "salesforce",
+   "reason": "Cartography joins ConnectedApplication.Name to OauthToken.AppName; this is not an ID reference.",
+   "source": "SalesforceConnectedApp",
+   "target": "SalesforceUser"
+  }
+ ],
+ "distinct_entities": [
+  {
+   "evidence": {
+    "locator": "components.parameters.pathPermissionType and /api/v1/iam/roles/{roleIdOrLabel}/permissions/{permissionType}",
+    "reason": "permissionType은 권한, roleIdOrLabel은 그 권한을 부여받는 별도 역할이다.",
+    "source": "okta_management_openapi"
+   },
+   "provider": "okta",
+   "shape": "sh:okta_management_openapi:Permission",
+   "target_shape": "sh:okta_management_openapi:IamRole"
+  },
+  {
+   "evidence": {
+    "locator": "components.schemas.organization-invitation.properties.id, inviter, node_id",
+    "reason": "Invitation has its own id and inviter is a separate simple-user reference. The schema node_id example identifies OrganizationInvitation; reused operation examples identifying User must not merge invitation with the invited/inviting user.",
+    "source": "gh_rest_ghec_next_2026_03_10_latest"
+   },
+   "provider": "github",
+   "shape": "sh:gh_rest_ghec_next_2026_03_10_latest:organization-invitation",
+   "target_shape": "sh:gh_graphql_ghec_2026_10_13:User"
+  }
+ ],
+ "method": "source_transcription",
+ "note": "원문이 명시한 참조만 출처와 위치로 옮긴다. 이름 유사도 규칙이나 사람의 중복 결정이 아니다. 설명 전체를 자동 해석하지 않는다.",
+ "promotion_rules": [
+  {
+   "action": "self_key",
+   "evidence": {
+    "locator": "components.schemas.ResourceSetBindingMember.properties.id; paths./api/v1/iam/resource-sets/{resourceSetIdOrLabel}/bindings/{roleIdOrLabel}/members/{memberId}",
+    "reason": "memberId addresses the binding-member record whose id is explicitly Role resource set binding member ID. It is not a separately identified principal.",
+    "source": "okta_management_openapi"
+   },
+   "param": "memberId",
+   "provider": "okta",
+   "space": "ResourceSetBindingMember"
+  },
+  {
+   "action": "enum",
+   "evidence": {
+    "locator": "components.schemas.Subscription.properties.notificationType -> NotificationType.enum",
+    "reason": "NotificationType is a closed notification-kind enumeration, not an entity identifier.",
+    "source": "okta_management_openapi"
+   },
+   "param": "notificationType",
+   "provider": "okta",
+   "space": "Subscription"
+  },
+  {
+   "action": "self_key",
+   "evidence": {
+    "locator": "components.schemas.User.properties.name; /v1/teams/{team_name}/users/{user_name}",
+    "reason": "The path addresses the User by its username; User has its own id and name, not a separate user_name target.",
+    "source": "okta_asa_openapi"
+   },
+   "param": "user_name",
+   "provider": "okta",
+   "space": "User"
+  },
+  {
+   "action": "same_entity",
+   "evidence": {
+    "locator": "components.schemas.APIServerUser.properties.user_name; components.schemas.User.properties.name",
+    "reason": "user_name is explicitly The username of the related User. Resolve by username inside the same ASA team.",
+    "source": "okta_asa_openapi"
+   },
+   "key_kind": "name",
+   "param": "user_name",
+   "provider": "okta",
+   "space": "server_users",
+   "target_shape": "sh:okta_asa_openapi:User"
+  },
+  {
+   "action": "same_entity",
+   "evidence": {
+    "locator": "paths./orgs/{org}/teams/{team_slug}/memberships/{username}; components.parameters.username",
+    "reason": "The username path parameter identifies a GitHub user by login; the membership record is not that identity.",
+    "source": "gh_rest_ghec_next_2026_03_10_latest"
+   },
+   "key_kind": "name",
+   "param": "username",
+   "provider": "github",
+   "space": "team-membership",
+   "target_shape": "sh:gh_rest_ghec_next_2026_03_10_latest:simple-user"
+  },
+  {
+   "action": "same_entity",
+   "evidence": {
+    "locator": "paths./orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}; components.parameters.repo",
+    "reason": "Repository name resolves only together with owner; the target is Repository, not a team-repository assignment.",
+    "source": "gh_rest_ghec_next_2026_03_10_latest"
+   },
+   "key_kind": "name",
+   "param": "repo",
+   "provider": "github",
+   "space": "team-repository",
+   "target_shape": "sh:gh_rest_ghec_next_2026_03_10_latest:full-repository"
+  },
+  {
+   "action": "same_entity",
+   "evidence": {
+    "locator": "resources.users.resources.settings.resources.delegates.methods.create.description",
+    "reason": "Delegate must be a user in the same Workspace organization and is addressed by primary email, not an alias.",
+    "source": "gws_gmail"
+   },
+   "key_kind": "name",
+   "param": "delegateEmail",
+   "provider": "gws",
+   "space": "Delegate",
+   "target_shape": "sh:gws_directory:User"
+  },
+  {
+   "action": "self_key",
+   "evidence": {
+    "locator": "schemas.GoogleAppsCloudidentityDevicesV1DeviceUser.properties.name",
+    "reason": "device_user uniquely identifies a user's use of a device, not the User account.",
+    "source": "gws_cloudidentity"
+   },
+   "param": "deviceUsersId",
+   "provider": "gws",
+   "space": "GoogleAppsCloudidentityDevicesV1DeviceUser"
+  },
+  {
+   "action": "self_key",
+   "evidence": {
+    "locator": "schemas.Member.properties.name, email",
+    "reason": "spaces/{space}/members/{member} is the Member resource name. A distinct email field identifies the user.",
+    "source": "gws_meet"
+   },
+   "param": "membersId",
+   "provider": "gws",
+   "space": "Member_2"
+  },
+  {
+   "action": "external_locator",
+   "evidence": {
+    "locator": "schemas.ForwardingAddress.properties.forwardingEmail",
+    "reason": "The email address to which mail is forwarded is not guaranteed to identify an existing Workspace User.",
+    "source": "gws_gmail"
+   },
+   "locator_kind": "email_address",
+   "param": "forwardingEmail",
+   "provider": "gws",
+   "space": "ForwardingAddress"
+  },
+  {
+   "action": "external_locator",
+   "evidence": {
+    "locator": "schemas.Token.properties.clientId, anonymous",
+    "reason": "The client ID identifies the OAuth application; this API has no standalone application entity response and anonymous client IDs are allowed.",
+    "source": "gws_directory"
+   },
+   "locator_kind": "oauth_client_id",
+   "param": "clientId",
+   "provider": "gws",
+   "space": "Token"
+  },
+  {
+   "action": "same_entity",
+   "evidence": {
+    "locator": "components.schemas.IssueTypeWorkflowMapping.properties.issueType",
+    "reason": "The field is explicitly the ID of the issue type, not the mapping record ID.",
+    "source": "jira_openapi_v3"
+   },
+   "key_kind": "id",
+   "param": "issueType",
+   "provider": "jira",
+   "space": "IssueTypeWorkflowMapping",
+   "target_shape": "sh:jira_openapi_v3:IssueTypeDetails"
+  },
+  {
+   "action": "self_key",
+   "evidence": {
+    "locator": "paths./v2/orgs/{orgId}/directories/{directoryId}/users/{userId}; components.schemas.MultiDirectoryUser.properties.accountId",
+    "reason": "The path addresses the account described by MultiDirectoryUser; accountId is the unique ID of that user, not a different promoted target.",
+    "source": "atlassian_admin_organization"
+   },
+   "param": "userId",
+   "provider": "atlassian",
+   "space": "MultiDirectoryUserDetails"
+  }
+ ],
+ "references": [
+  {
+   "evidence": {
+    "excerpt": "List of included IP network zones",
+    "locator": "components.schemas.ApiToken.properties.network.properties.include",
+    "source": "okta_management_openapi"
+   },
+   "include_allof": false,
+   "path": "network.include",
+   "project": false,
+   "provider": "okta",
+   "shape": "sh:okta_management_openapi:ApiToken",
+   "target_shape": "sh:okta_management_openapi:NetworkZone"
+  },
+  {
+   "evidence": {
+    "excerpt": "List of excluded IP network zones",
+    "locator": "components.schemas.ApiToken.properties.network.properties.exclude",
+    "source": "okta_management_openapi"
+   },
+   "include_allof": false,
+   "path": "network.exclude",
+   "project": false,
+   "provider": "okta",
+   "shape": "sh:okta_management_openapi:ApiToken",
+   "target_shape": "sh:okta_management_openapi:NetworkZone"
+  },
+  {
+   "evidence": {
+    "excerpt": "The ID of the user type",
+    "locator": "components.schemas.User.properties.type",
+    "source": "okta_management_openapi"
+   },
+   "include_allof": true,
+   "path": "type.id",
+   "project": false,
+   "provider": "okta",
+   "shape": "sh:okta_management_openapi:User",
+   "target_shape": "sh:okta_management_openapi:UserType"
+  },
+  {
+   "evidence": {
+    "excerpt": "The ID of the parent role.",
+    "locator": "UserRole p.6065, ParentRoleId Description",
+    "source": "sf_object_reference"
+   },
+   "include_allof": false,
+   "path": "ParentRoleId",
+   "project": false,
+   "provider": "salesforce",
+   "shape": "sh:sf_object_reference:UserRole",
+   "target_shape": "sh:sf_object_reference:UserRole"
+  },
+  {
+   "evidence": {
+    "locator": "paths./rest/api/3/permissionscheme.get.description, Holder object",
+    "source": "jira_openapi_v3"
+   },
+   "include_allof": false,
+   "key_kind": "id",
+   "path": "value",
+   "project": false,
+   "provider": "jira",
+   "shape": "sh:jira_openapi_v3:PermissionHolder",
+   "target_shape": "sh:jira_openapi_v3:Group",
+   "when": {
+    "equals": "group",
+    "path": "type"
+   }
+  },
+  {
+   "evidence": {
+    "locator": "paths./rest/api/3/permissionscheme.get.description, Holder object",
+    "source": "jira_openapi_v3"
+   },
+   "include_allof": false,
+   "key_kind": "id",
+   "path": "value",
+   "project": false,
+   "provider": "jira",
+   "shape": "sh:jira_openapi_v3:PermissionHolder",
+   "target_shape": "sh:jira_openapi_v3:User",
+   "when": {
+    "equals": "user",
+    "path": "type"
+   }
+  },
+  {
+   "evidence": {
+    "locator": "paths./rest/api/3/permissionscheme.get.description, Holder object",
+    "source": "jira_openapi_v3"
+   },
+   "include_allof": false,
+   "key_kind": "id",
+   "path": "value",
+   "project": false,
+   "provider": "jira",
+   "shape": "sh:jira_openapi_v3:PermissionHolder",
+   "target_shape": "sh:jira_openapi_v3:ProjectRole",
+   "when": {
+    "equals": "projectRole",
+    "path": "type"
+   }
+  },
+  {
+   "evidence": {
+    "locator": "paths./rest/api/3/permissionscheme.get.description, Holder object",
+    "source": "jira_openapi_v3"
+   },
+   "include_allof": false,
+   "key_kind": "name",
+   "path": "parameter",
+   "project": false,
+   "provider": "jira",
+   "shape": "sh:jira_openapi_v3:PermissionHolder",
+   "target_shape": "sh:jira_openapi_v3:Group",
+   "when": {
+    "equals": "group",
+    "path": "type"
+   }
+  },
+  {
+   "evidence": {
+    "locator": "paths./rest/api/3/permissionscheme.get.description, Holder object",
+    "source": "jira_openapi_v3"
+   },
+   "include_allof": false,
+   "key_kind": "id",
+   "path": "parameter",
+   "project": false,
+   "provider": "jira",
+   "shape": "sh:jira_openapi_v3:PermissionHolder",
+   "target_shape": "sh:jira_openapi_v3:User",
+   "when": {
+    "equals": "user",
+    "path": "type"
+   }
+  },
+  {
+   "evidence": {
+    "locator": "paths./rest/api/3/permissionscheme.get.description, Holder object",
+    "source": "jira_openapi_v3"
+   },
+   "include_allof": false,
+   "key_kind": "id",
+   "path": "parameter",
+   "project": false,
+   "provider": "jira",
+   "shape": "sh:jira_openapi_v3:PermissionHolder",
+   "target_shape": "sh:jira_openapi_v3:ProjectRole",
+   "when": {
+    "equals": "projectRole",
+    "path": "type"
+   }
+  },
+  {
+   "evidence": {
+    "locator": "components.schemas.RoleActor.properties, ProjectRoleGroup, ProjectRoleUser",
+    "source": "jira_openapi_v3"
+   },
+   "include_allof": false,
+   "path": "actorGroup.groupId",
+   "project": true,
+   "provider": "jira",
+   "shape": "sh:jira_openapi_v3:RoleActor",
+   "target_shape": "sh:jira_openapi_v3:Group",
+   "when": {
+    "equals": "atlassian-group-role-actor",
+    "path": "type"
+   }
+  },
+  {
+   "evidence": {
+    "locator": "components.schemas.ProjectRole.properties.actors, RoleActor.type enum",
+    "source": "jira_openapi_v3"
+   },
+   "include_allof": false,
+   "path": "actors[*].actorGroup.groupId",
+   "project": true,
+   "provider": "jira",
+   "shape": "sh:jira_openapi_v3:ProjectRole",
+   "target_shape": "sh:jira_openapi_v3:Group",
+   "when": {
+    "equals": "atlassian-group-role-actor",
+    "path": "actors[*].type"
+   }
+  },
+  {
+   "evidence": {
+    "locator": "components.schemas.RoleActor.properties, ProjectRoleGroup, ProjectRoleUser",
+    "source": "jira_openapi_v3"
+   },
+   "include_allof": false,
+   "path": "actorUser.accountId",
+   "project": true,
+   "provider": "jira",
+   "shape": "sh:jira_openapi_v3:RoleActor",
+   "target_shape": "sh:jira_openapi_v3:User",
+   "when": {
+    "equals": "atlassian-user-role-actor",
+    "path": "type"
+   }
+  },
+  {
+   "evidence": {
+    "locator": "components.schemas.ProjectRole.properties.actors, RoleActor.type enum",
+    "source": "jira_openapi_v3"
+   },
+   "include_allof": false,
+   "path": "actors[*].actorUser.accountId",
+   "project": true,
+   "provider": "jira",
+   "shape": "sh:jira_openapi_v3:ProjectRole",
+   "target_shape": "sh:jira_openapi_v3:User",
+   "when": {
+    "equals": "atlassian-user-role-actor",
+    "path": "actors[*].type"
+   }
+  }
+ ],
+ "same_entities": [
+  {
+   "evidence": {
+    "corroborating_sources": [
+     "slack_docs_methods"
+    ],
+    "locator": "paths./usergroups.list.get.responses.200.properties.usergroups.items; reference/methods/usergroups.list response usergroups[]",
+    "reason": "Both versions of the same usergroups.list method return the same user-group entity in usergroups[], keyed by id. The legacy schema calls that response record objs_subteam. Different schema names are not distinct subtypes.",
+    "source": "slack_openapi_legacy"
+   },
+   "provider": "slack",
+   "shape": "sh:slack_openapi_legacy:objs_subteam",
+   "target_shape": "sh:slack_docs_methods:op:usergroups.list:resp:200.usergroups[*]"
+  }
+ ],
+ "sources": {
+  "atlassian_admin_organization": {
+   "sha256": "84d325e0640afed8890c7e9e1d258d7ed553eeda24314dc5d20ff75532455485",
+   "url": "https://developer.atlassian.com/cloud/admin/organization/swagger.v3.json"
+  },
+  "gh_rest_ghec_next_2026_03_10_latest": {
+   "sha256": "ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3",
+   "url": "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions-next/ghec/ghec.2026-03-10.json"
+  },
+  "gws_cloudidentity": {
+   "sha256": "69a6e55943234d654cd83b8a4b9358afd23c3cd8cd37463bb198abf783a113c7",
+   "url": "https://cloudidentity.googleapis.com/$discovery/rest?version=v1"
+  },
+  "gws_directory": {
+   "sha256": "1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5",
+   "url": "https://admin.googleapis.com/$discovery/rest?version=directory_v1"
+  },
+  "gws_gmail": {
+   "sha256": "453b3727161d79db6d95c74376b236e87451ecaad4c34844884efa0634ac18b4",
+   "url": "https://gmail.googleapis.com/$discovery/rest?version=v1"
+  },
+  "gws_meet": {
+   "sha256": "9ce66887c56baa45d03e8fb618c2be0eff1dcb34da816c3366eacb3620bf65af",
+   "url": "https://www.googleapis.com/discovery/v1/apis/meet/v2/rest"
+  },
+  "jira_openapi_v3": {
+   "sha256": "204ee0854f0c81ef01439b6e30688c374794d09719adf9aec3d64e19d888e2cf",
+   "url": "https://developer.atlassian.com/cloud/jira/platform/swagger-v3.v3.json"
+  },
+  "okta_asa_openapi": {
+   "sha256": "b81b1502b27ef7b1c22ffb0904114ca774105f215cf7db4093ee764e1ef4e9a2",
+   "url": "https://developer.okta.com/docs/api/openapi/asa/"
+  },
+  "okta_management_openapi": {
+   "sha256": "369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25",
+   "snapshot": "2026-10-13",
+   "url": "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml"
+  },
+  "sf_object_reference": {
+   "sha256": "6b9d37316f0985d8047c32507e6e6fc20693b6e2c6865d067228c966fd8dbef5",
+   "snapshot": "2026-10-12",
+   "url": "https://resources.docs.salesforce.com/latest/latest/en-us/sfdc/pdf/object_reference.pdf"
+  },
+  "slack_docs_methods": {
+   "sha256": "49cfd228379661a25a2928bf76b6b9ed80e482847843dcc503120bf9d4891587",
+   "url": "https://docs.slack.dev/reference/methods"
+  },
+  "slack_openapi_legacy": {
+   "sha256": "742a5c977180a829df8767cf57bc417d99b3713583aee83741efb9c08ca731e7",
+   "url": "https://github.com/slackapi/slack-api-specs"
+  }
+ },
+ "version": 1
+}

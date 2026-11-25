@@ -1,0 +1,691 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Task
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:d32b515be37020dbf2d16b3b
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:d32b515be37020dbf2d16b3b.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|Id
+  AccountId:
+    path: AccountId
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: reference
+      name: AccountId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|AccountId
+  ActivityDate:
+    path: ActivityDate
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: date
+      name: ActivityDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|ActivityDate
+  CallDisposition:
+    path: CallDisposition
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: string
+      name: CallDisposition
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|CallDisposition
+  CallDurationInSeconds:
+    path: CallDurationInSeconds
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: int
+      name: CallDurationInSeconds
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Task|CallDurationInSeconds
+  CallObject:
+    path: CallObject
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: string
+      name: CallObject
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|CallObject
+  CallType:
+    path: CallType
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: picklist
+      name: CallType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|CallType
+  CompletedDateTime:
+    path: CompletedDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: dateTime
+      name: CompletedDateTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|CompletedDateTime
+  ConnectionReceivedId:
+    path: ConnectionReceivedId
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: reference
+      name: ConnectionReceivedId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|ConnectionReceivedId
+  ConnectionSentId:
+    path: ConnectionSentId
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: reference
+      name: ConnectionSentId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|ConnectionSentId
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|Description
+  IsArchived:
+    path: IsArchived
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: boolean
+      name: IsArchived
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Task|IsArchived
+  IsClosed:
+    path: IsClosed
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: boolean
+      name: IsClosed
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Task|IsClosed
+  IsHighPriority:
+    path: IsHighPriority
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: boolean
+      name: IsHighPriority
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Task|IsHighPriority
+  IsRecurrence:
+    path: IsRecurrence
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: boolean
+      name: IsRecurrence
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Task|IsRecurrence
+  IsReminderSet:
+    path: IsReminderSet
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: boolean
+      name: IsReminderSet
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Task|IsReminderSet
+  IsVisibleInSelfService:
+    path: IsVisibleInSelfService
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: boolean
+      name: IsVisibleInSelfService
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Task|IsVisibleInSelfService
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|OwnerId
+  Priority:
+    path: Priority
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: picklist
+      name: Priority
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|Priority
+  RecurrenceActivityId:
+    path: RecurrenceActivityId
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: reference
+      name: RecurrenceActivityId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|RecurrenceActivityId
+  RecurrenceDayOfMonth:
+    path: RecurrenceDayOfMonth
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: int
+      name: RecurrenceDayOfMonth
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Task|RecurrenceDayOfMonth
+  RecurrenceDayOfWeekMask:
+    path: RecurrenceDayOfWeekMask
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: int
+      name: RecurrenceDayOfWeekMask
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Task|RecurrenceDayOfWeekMask
+  RecurrenceEndDateOnly:
+    path: RecurrenceEndDateOnly
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: date
+      name: RecurrenceEndDateOnly
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|RecurrenceEndDateOnly
+  RecurrenceInstance:
+    path: RecurrenceInstance
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: picklist
+      name: RecurrenceInstance
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|RecurrenceInstance
+  RecurrenceInterval:
+    path: RecurrenceInterval
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: int
+      name: RecurrenceInterval
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Task|RecurrenceInterval
+  RecurrenceMonthOfYear:
+    path: RecurrenceMonthOfYear
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: picklist
+      name: RecurrenceMonthOfYear
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|RecurrenceMonthOfYear
+  RecurrenceRegeneratedType:
+    path: RecurrenceRegeneratedType
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: picklist
+      name: RecurrenceRegeneratedType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|RecurrenceRegeneratedType
+  RecurrenceStartDateOnly:
+    path: RecurrenceStartDateOnly
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: date
+      name: RecurrenceStartDateOnly
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|RecurrenceStartDateOnly
+  RecurrenceTimeZoneSidKey:
+    path: RecurrenceTimeZoneSidKey
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: picklist
+      name: RecurrenceTimeZoneSidKey
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|RecurrenceTimeZoneSidKey
+  RecurrenceType:
+    path: RecurrenceType
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: picklist
+      name: RecurrenceType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|RecurrenceType
+  ReminderDateTime:
+    path: ReminderDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: dateTime
+      name: ReminderDateTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|ReminderDateTime
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: picklist
+      name: Status
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|Status
+  Subject:
+    path: Subject
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: combobox
+      name: Subject
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|Subject
+  TaskSubtype:
+    path: TaskSubtype
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: picklist
+      name: TaskSubtype
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|TaskSubtype
+  TaskWhoIds:
+    path: TaskWhoIds
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: JunctionIdList
+      name: TaskWhoIds
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|TaskWhoIds
+  Type:
+    path: Type
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: picklist
+      name: Type
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|Type
+  WhatCount:
+    path: WhatCount
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: int
+      name: WhatCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Task|WhatCount
+  WhatId:
+    path: WhatId
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: reference
+      name: WhatId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|WhatId
+  WhoCount:
+    path: WhoCount
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: int
+      name: WhoCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Task|WhoCount
+  WhoId:
+    path: WhoId
+    source: research_shape
+    shape: sh:sf_object_reference:Task
+    declaration:
+      format: reference
+      name: WhoId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Task|WhoId
+references:
+  - name: whatid
+    field: WhatId
+    target: AssetRelationship
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:02753fd04d12c059df40ccb8; relation=no_relation
+  - name: ownerid
+    field: OwnerId
+    target: Group
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:345f5a9a38e87969f5ed92c6; relation=no_relation
+  - name: whoid
+    field: WhoId
+    target: Contact
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3f9b3698286753e87623be31; relation=no_relation
+  - name: accountid
+    field: AccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6bca7ab562b2578bc51167d3; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Task
+  interfaces: *a1
+  model:
+    research_type: object-type:d32b515be37020dbf2d16b3b
+  extract:
+    key: PILOT-salesforce-Task-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-d16b3b
+            endpoint: /
+            items:
+              - records
+        properties:
+          AccountId: AccountId
+          ActivityDate: ActivityDate
+          CallDisposition: CallDisposition
+          CallDurationInSeconds: CallDurationInSeconds
+          CallObject: CallObject
+          CallType: CallType
+          CompletedDateTime: CompletedDateTime
+          ConnectionReceivedId: ConnectionReceivedId
+          ConnectionSentId: ConnectionSentId
+          Description: Description
+          Id: Id
+          IsArchived: IsArchived
+          IsClosed: IsClosed
+          IsHighPriority: IsHighPriority
+          IsRecurrence: IsRecurrence
+          IsReminderSet: IsReminderSet
+          IsVisibleInSelfService: IsVisibleInSelfService
+          OwnerId: OwnerId
+          Priority: Priority
+          RecurrenceActivityId: RecurrenceActivityId
+          RecurrenceDayOfMonth: RecurrenceDayOfMonth
+          RecurrenceDayOfWeekMask: RecurrenceDayOfWeekMask
+          RecurrenceEndDateOnly: RecurrenceEndDateOnly
+          RecurrenceInstance: RecurrenceInstance
+          RecurrenceInterval: RecurrenceInterval
+          RecurrenceMonthOfYear: RecurrenceMonthOfYear
+          RecurrenceRegeneratedType: RecurrenceRegeneratedType
+          RecurrenceStartDateOnly: RecurrenceStartDateOnly
+          RecurrenceTimeZoneSidKey: RecurrenceTimeZoneSidKey
+          RecurrenceType: RecurrenceType
+          ReminderDateTime: ReminderDateTime
+          Status: Status
+          Subject: Subject
+          TaskSubtype: TaskSubtype
+          TaskWhoIds: TaskWhoIds
+          Type: Type
+          WhatCount: WhatCount
+          WhatId: WhatId
+          WhoCount: WhoCount
+          WhoId: WhoId
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:Task.query
+  operation: Task.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Task
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Task
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Task.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Task/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - WhatId
+    - OwnerId
+    - WhoId
+    - AccountId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

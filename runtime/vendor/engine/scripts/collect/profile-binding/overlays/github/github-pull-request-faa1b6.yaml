@@ -1,0 +1,184 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/pull_request.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-12
+        request:
+          number: present
+          kind: absent
+        items: (root)
+        where:
+          all:
+            - path: .
+              is_array: false
+            - has:
+                type: Repository
+                lookup: name
+                value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+    parent:
+      ref:
+        key: $vars.repo
+      when: always
+    mutable_ids:
+      number: number
+    properties:
+      number: number
+      title: title
+      state: state
+      draft: draft
+      author_login: user.login
+      merged: merged
+      merged_by_login:
+        op: null_if_missing
+        of: merged_by.login
+      merged_at: merged_at
+      merge_commit_sha: merge_commit_sha
+      head_ref: head.ref
+      base_ref: base.ref
+      body: body
+      created_at: created_at
+    display: "{$req.repo}#{number}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-PR-{id}
+  - id: timeline
+    kind: enrich
+    sources:
+      - call: GH-12
+        request:
+          number: present
+          kind: timeline
+        items: (root)
+        where:
+          path: .
+          is_array: true
+    target:
+      key:
+        op: index
+        name: pr_by_ref
+        key:
+          template: "{$req.repo}#{$req.number}"
+      exists: true
+    append:
+      agent_events:
+        op: map_each
+        of:
+          op: filter
+          of: .
+          where:
+            path: $item.event
+            matches: ^copilot_
+        value:
+          object:
+            event: $item.event
+            actor_login: $item.actor.login
+            created_at: $item.created_at
+    relations: []
+    key_template: GH-PR-{id}
+  - id: reviews
+    kind: enrich
+    sources:
+      - call: GH-12
+        request:
+          number: present
+        items: (root)
+        where:
+          all:
+            - path: .
+              is_array: true
+            - path: $req.kind
+              ne: timeline
+    target:
+      key:
+        op: index
+        name: pr_by_ref
+        key:
+          template: "{$req.repo}#{$req.number}"
+      exists: true
+    append:
+      reviews:
+        op: map_each
+        of: .
+        value:
+          object:
+            user_login: $item.user.login
+            state: $item.state
+            submitted_at: $item.submitted_at
+            body: $item.body
+    relations: []
+    key_template: GH-PR-{id}
+runtime_stub: null
+runtime_key: GH-PR-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  number:
+    stability: mutable
+relation_rules:
+  - id: Pull Request:list
+    sources:
+      - call: GH-12
+        request:
+          number: present
+          kind: absent
+        items: (root)
+        where:
+          all:
+            - path: .
+              is_array: false
+            - has:
+                type: Repository
+                lookup: name
+                value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-PR-{id}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

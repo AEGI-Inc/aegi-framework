@@ -1,0 +1,742 @@
+# SaaS 를 넘는 연결 규칙 — 키 종류마다 한 줄 (2026-10-18)
+#
+# Link_Schema_v3 「규칙은 provider 쌍이 아니라 방법 단위로 쓴다」. 그래서 여기에는 SaaS 이름이 없다.
+# 한 줄 = "a 객체가 가진 이 종류의 값과 b 객체가 가진 같은 종류의 값이 같으면, 이것을 만든다".
+# 어느 SaaS 의 어느 칸이 어느 종류인지(칸 표시)는 아래 fields 에 따로 적는다 — 새 SaaS 가 들어와도 kinds 는 그대로 두고
+# fields 에 줄만 늘린다. 둘을 읽어 실제로 잇는 것은 ontology/join.py 다.
+#
+# 무엇을 관계로, 무엇을 Link 로 만드나는 이미 정해져 있다 — Relation_Schema_v3 「교차 provider 관계는 stated 만」 ·
+# Profile_Schema_v4.2 external_refs. 출발이 Integration · Automation · Credential · Endpoint 이고 벤더가 적어 준 값이면 관계,
+# 출발이 Principal 이면 "같은 사람" 추정이라 Link 다. validation/check_semantics.py S9 가 이 경계를 본다.
+#
+# 칸
+#   meaning         사람이 읽는 한 줄. 기계는 안 읽는다 — 정답은 아래 칸들이다
+#   method          Link_Schema_v3 「맞추는 방법」의 번호 (Link 만)
+#   a · b           양쪽 객체의 interface. Link 는 a 가 허브(IdP) 쪽이다 (Link_Schema_v3 「허브 구조」)
+#   same            맞추는 법 — exact 그대로 · casefold 대소문자와 앞뒤 공백 무시 · co_occurs 한 기록 행에 두 값이 함께 나온다
+#   evidence        stated 벤더 설정 · API 가 적어 준 값 / observed 실행 · 요청 기록
+#   tier            근거 세기 — groundtruth/connection-rules/legend.yaml tier 이름 그대로(config_id · config_name · fingerprint · via_person ·
+#                   log_id · log_time). 범례 layer 가 truth 면 evidence stated, observed 면 evidence observed 다. 만든 관계 · Link 간선에 그대로 남긴다
+#   makes           관계면 {relation, from, to}. Link 면 {link: [{level, when}]} — 위에서부터 먼저 맞는 단계 하나, 마지막은 when 없이.
+#                   link_kind 는 Link 의 meta.kind (relation_semantics.yaml rules.automation_links 가 automation 을 읽는다)
+#   places          식에서 쓰는 자리 중 끝 찾기로 구하는 것 — {자리: {from: a 또는 b, ...}}. from 객체에서 출발해
+#                   relation_semantics.yaml resolvers 와 같은 칸(refs · relations · depth · want · take)으로 찾는다.
+#                   resolvers 의 한 줄을 그대로 쓰려면 {from, resolver: <이름>}
+#   where           이것도 맞아야 잇는다 (ontology/match.py 식. 자리는 a · b 와 places)
+#   target_missing  값이 가리키는 상대가 수집한 목록에 없을 때 — report 잇지 않고 「못 이은 이유」에 적는다 / ignore 가리키는 값이 아니라 적을 것이 없다
+#   fields.unique_match  true이면 같은 holder·값이 서로 다른 상대 끝점 여러 개에 맞을 때 연결하지 않고 ambiguous로 보고한다. 기본 false, 다대다 규칙에는 적용하지 않는다.
+#   records         만든 연결에 같이 남기는 칸
+#   now_in          같은 일을 하던 옛 대시보드 규칙 — <파일>:<규칙 이름 또는 관계 이름>. 그 코드는 지워졌고(aegi-adapter-engine #112)
+#                   엔진은 이 파일을 바로 읽는다. S9 엔진 대조는 이 칸을 보지 않는다 (#61). 옛 실측 묶음(AEGI_MEASURED)의 연결을
+#                   읽을 때만 쓴다. 새 종류에는 적지 않는다
+#   note · differs  사람이 읽는 덧붙임 · 대시보드와 다르게 적은 것
+
+sources:
+  skip_if: aegi-dashboard scripts/collect/normalize-v2/cross.ts ofType(stub 제외) · identity.ts M1(stub 이면 안 잇는다) @ 1b5481c
+  link_one_per_provider: aegi-dashboard scripts/collect/normalize-v2/identity.ts — 앱 배정 username 은 gws 가, email 은 slack 이 아직 집합에 없을 때만 잇는다 @ 1b5481c
+  hubs: >-
+    docs/Link_Schema_v3.md 「허브 구조」 · 「허브가 둘일 때」(2026-11-13). 11-04 운영 수집본을 Okta 없이 정규화(엔진 normalize --without okta)하면
+    사람 Link 가 0개였고, GWS 를 둘째 허브로 두면 9개로 돌아온다. Okta 와 같이 두면 원래 데이터셋의 Link 가 바이트까지 같다(GWS 줄이 이은 22개는
+    모두 Okta 가 이미 이은 계정, 충돌 0). 순서와 합치기는 엔진 scripts/collect/shared/join.ts groupPeople.
+    주소 허브(2026-11-14, 「주소 허브」): Okta · GWS 를 다 빼면(--without okta,github:GH-20,gws) 사람 Link 0개 → 6개(16계정), 같은 사람 묶음 36 → 26.
+    Okta 있음 · Okta 없음 데이터셋은 바이트까지 같다(남은 계정 가운데 같은 주소를 SaaS 둘이 쓰는 것 없음). 엔진 join.ts addressGroups · placeAddresses
+  relation_marks: aegi-dashboard scripts/collect/normalize-v2/cross.ts addRelation properties.cross_provider @ 1b5481c
+  email_match: >-
+    Relation 주담당 2026-11-03 결정(decided.email_same_person). 공용 주소 앞부분은 RFC 2142(역할 메일함 이름 — postmaster, abuse, security,
+    webmaster, info, sales, support 등)와 흔한 역할 주소에서 골랐다. 자리표시 값과 가린 값의 모양은 join.py, 엔진 join.ts 의 email_address 에 같이 있다. domain_alias(2026-11-08)는 Atlassian 조직 도메인(실측 값 claim_status verified, claim_type dns)과
+    Google Workspace 도메인(admin#directory#domain, verified)에서 읽는다. 실측 dataset-prod3-relineage-20261108 에서 Atlassian 조직 하나가 aegi.men 과
+    aegi.site 를 둘 다 DNS 로 확인했고, Okta login 은 aegi.men, GitHub 조직 확인 도메인 메일은 aegi.site 라 같은 주소 줄로는 안 이어졌다
+  kinds: >-
+    키 종류 · 단계 — docs/Link_Schema_v3.md 「맞추는 방법」(M1–M4) · 「허브 구조」. 관계와 Link 의 경계 — docs/Relation_Schema_v3.md
+    「교차 provider 관계는 stated 만」 · docs/Profile_Schema_v4.2.md external_refs. 이어지는 동작 — aegi-dashboard
+    scripts/collect/normalize-v2/cross.ts · identity.ts @ 1b5481c. 모양은 Link_Schema_v3 「방법 단위로」 예시와 달리 provider 를
+    적지 않는다 — provider 는 칸 표시로 간다. request_target 은 groundtruth/connection-rules/gws-slack.yaml
+    slack_request_to_apps_script 의 config_id 줄 · gws-external.yaml apps_script_web_app, 효과는 relation_semantics.yaml
+    triggered_by (Automation>Endpoint)
+  fields: >-
+    aegi-dashboard scripts/collect/normalize-v2/cross.ts · identity.ts 가 읽는 칸, 그 칸을 만드는 slack.ts · okta.ts · gws.ts ·
+    github.ts @ 1b5481c. 키 종류는 위 kinds. link_material 은 오브젝트 모델 v1 의 runtime-catalog.json link_only
+    (docs/spec/model-v1, scripts/collect/model-v1/project.ts @ f0ef4b8). request_target 의 두 줄은 aegi-adapter-engine
+    scripts/collect/normalize-v2/slack.ts SL-10 매니페스트(slash_commands[].url 을 url_host · url_path 로 나눈다) · gws.ts GW-11
+    배포 목록(deployments[].deploymentId) @ a670ed2. 벤더 문서 — Slack 앱 매니페스트 slash_commands[].url 「the full https URL that
+    acts as the slash command's request URL」(docs.slack.dev/reference/app-manifest), Apps Script API projects.deployments
+    (deploymentId, entryPoints[].webApp.url), 웹앱 주소 script.google.com/macros/s/<배포 ID>/exec ·
+    Workspace 도메인이면 /a/macros/<도메인>/s/<배포 ID>/exec (developers.google.com/apps-script/guides/web).
+    natural_key 의 Salesforce · Atlassian 줄은 groundtruth/connection-rules okta-salesforce.yaml · okta-atlassian.yaml email_match,
+    값은 aegi-adapter-engine scripts/collect/normalize-v2/salesforce.ts SF-02 (SOQL User 의 Email · Username 을 소문자로
+    identifiers 에, CreatedDate 를 properties.created 에) · atlassian.ts JI-02 (users/search 의 emailAddress 를 소문자로 identifiers 에)
+    @ a670ed2. Jira 는 사용자의 개인정보 설정에 따라 email 을 안 준다 — 「fields such as email will only be returned by the API if the
+    user has permitted that data to be visible」(developer.atlassian.com/cloud/jira/platform/deprecation-notice-user-privacy-api-migration-guide).
+    Salesforce 시스템 사용자 UserType(AutomatedProcess · CloudIntegrationUser · Guest)은 동기화에서 빼는 값으로 알려져 있다
+    (oomnitza.zendesk.com 「Creating an extended integration for Salesforce users」, 2차 출처. Salesforce User 객체 문서는 이 환경에서 403).
+    federated_subject 의 Salesforce 줄은 groundtruth/connection-rules okta-salesforce.yaml saml_sso 의 via_person 줄, 값은
+    aegi-adapter-engine salesforce.ts SF-02 (SOQL User 의 FederationIdentifier · Username 을 소문자로 identifiers 에) · okta.ts OK-07
+    앱 배정(credentials.userName 을 소문자로). 벤더 문서 — Salesforce Object Reference User.FederationIdentifier 「the value that must
+    be listed in the Subject element of a Security Assertion Markup Language (SAML) IDP certificate to authenticate the user」,
+    SamlSsoConfig.IdentityMapping 「Username · FederationId · UserId」(developer.salesforce.com get_document_content 로 읽음),
+    Okta Management API Application 「salesforce」 키 이름(developer.okta.com/docs/api/openapi/okta-management/management/tag/Application)
+  open: 이 파일을 쓰며 드러난 팀 결정 — Link_Schema_v3 「아직 안 정한 것」 · 대시보드 cross.ts 머리말 · PR #19 「실측 대조로 드러난 것」
+  decided: open 에 있다가 정해진 것 — 정한 날짜와 근거(머지된 PR)를 같이 적는다
+
+# 껍데기(수집 안 된 자리표시) 객체는 어느 쪽이든 잇지 않는다
+skip_if: {any: [{a: {meta: {stub: true}}}, {b: {meta: {stub: true}}}]}
+
+# Link 는 허브 계정 하나와 provider 하나 사이에 키 종류 하나만 남는다. kinds 를 위에서부터 시도해 먼저 이은 종류가 남고, 다른 종류는
+# shadowed 로 뺀다. 같은 종류로 맞은 그 provider 계정이 여럿이면 다 잇는다(join.py). 그래도 되는지는 open.same_provider_accounts
+link_one_per_provider: true
+
+# 허브 — 같은 사람 Link 는 허브 계정 하나에서 시작한다(Link_Schema_v3 「허브 구조」, 2026-11-13). 허브는 계정을 내주는 디렉터리다:
+# IdP(Okta) 또는 메일 디렉터리(GWS). 위가 먼저다. 위 허브가 아래 허브 계정을 이었으면(Okta ↔ GWS) 같은 사람이라 한 Link 로 합친다.
+# 아래 허브가 이은 계정이 이미 다른 사람 Link 에 있거나, 합친 사람이 그 SaaS 계정을 위 허브로 이미 가졌는데 다른 계정이면 더하지 않고
+# 「연결 충돌」로 적는다(link_one_per_provider 는 합친 Link 에도 지킨다). name 은 Link 이름으로 쓰는 칸.
+# Microsoft 365(Entra) 사용자도 메일 디렉터리 허브다(Link_Schema_v3 「허브가 둘일 때」). 2026-11-20 수집기(engine #534)가 생겨 줄을 넣었다. GWS 다음 순위
+# 맨 아래 주소 허브(role address, 2026-11-14)는 계정이 아니라 정규화한 주소 하나가 기준점이다. 위 허브가 사람 Link 에 넣지 않은 계정 가운데
+# kind 의 이메일 칸(transform email_address, end 없음 — 그 계정 자신의 주소) 값이 같은 계정을 SaaS 둘 이상이면 한 Link 로 묶는다.
+# 다른 키와 섞어 사슬로 잇지 않는다 — 묶음은 「그 주소를 쓰는 계정들」을 넘지 않고, 주소 둘을 가진 계정은 두 Link 에 다 들 수 있다.
+# 그 주소를 쓰는 계정이 이미 위 허브 사람 하나에 있으면 남은 계정을 그 사람에 합친다(같은 합치기 · 충돌 규칙). 디렉터리 확인이 없어
+# Link 에 주소 허브 출처(meta.hub address)를 남기고, 단계는 email_match 그대로(같은 주소 = resolved). 공용 주소 표시와 봇 · 시스템 거름도 kind 그대로다
+hubs:
+- {provider: okta, object_type: User, role: idp, name: properties.login}
+- {provider: gws, object_type: User, role: mail_directory, name: properties.primaryEmail}
+- {provider: microsoft, object_type: User, role: mail_directory, name: properties.userPrincipalName}
+- {role: address, kind: natural_key}
+
+# 여기서 만든 관계 행에 다는 표시. 같은 이름의 SaaS 안 관계(GitHub 앱 설치 → 조직의 registered_in 등)와 가른다
+relation_marks: {cross_provider: true}
+
+# 같은 이메일이면 같은 사람 (2026-11-03 Relation 주담당 결정, decided.email_same_person).
+# 두 끝 칸이 다 transform email_address 를 거친 값(이메일 칸)이면, 키 종류의 makes 가 더 약해도 그 링크 단계를 level 로 올린다.
+# email_address 는 앞뒤 공백을 빼고, 빈 값 · 가린 값(* • … █) · 이메일 모양이 아닌 값 · 자리표시 값(unknown@, none@ 등)을 버린다(일치로 보지 않는다).
+# 대소문자는 키 종류의 same: casefold 가 가린다. 공용으로 보이는 주소는 묶되 링크에 shared_mailbox_suspected 만 남긴다(판정은 그대로):
+# 주소 앞부분(+ 뒤를 뺀)이 local_parts 에 있거나, same_provider 이면 한 SaaS 안에서 두 계정 이상이 같은 주소일 때
+email_match:
+  level: resolved
+  shared_mailbox:
+    local_parts: [admin, administrator, root, security, secops, soc, noc, abuse, postmaster, hostmaster, webmaster, noreply, no-reply, donotreply, do-not-reply, info, support, help, helpdesk, it, ops, billing, accounts, sales, marketing, contact, hello, team, office, hr, alerts, notifications, service, system]
+    same_provider: true
+  # 2026-11-08. 같은 조직이 DNS 로 확인한 도메인끼리는 그 조직의 메일 도메인 별칭으로 본다. 이메일 칸끼리 앞부분이 같고 도메인만
+  # 같은 별칭 묶음이면 kinds 의 키 종류로 잇는다. 묶음은 domains 칸 값을 그 객체의 end(조직, 고객) 단위로 모아 겹치는 도메인끼리 합친다.
+  # 링크에 domain_alias(양 끝 도메인)를 남긴다. 단계는 level(2026-11-14 decided.alias_domain_level, 없으면 그 종류의 makes 단계).
+  # 주소 허브(hubs role address)도 kinds 에 그 종류가 있으면 같은 별칭 묶음의 같은 앞부분을 한 주소로 본다
+  domain_alias:
+    kinds: [natural_key]
+    level: resolved
+    domains:
+    - {provider: atlassian, object_type: Domain, path: properties.name, where: {self: {property: {claim_status: verified}}}, end: references.parent_scope}
+    - {provider: gws, object_type: Domains, path: properties.domainName, where: {self: {property: {verified: true}}}, end: references.tenant}
+
+kinds:
+  secret_fingerprint:
+    meaning: 자동화가 쓰는 비밀 값(웹훅 주소 · 토큰)의 지문이 어떤 자격증명의 지문과 같으면, 그 자동화는 그 자격증명으로 행동한다
+    a: [Automation]
+    b: [Credential]
+    same: exact
+    evidence: stated
+    tier: fingerprint
+    makes: {relation: runs_as, from: a, to: b}
+    where: {b: {property: {removed_at: missing}}}
+    target_missing: report
+    now_in: [cross.ts:runs_as]
+    note: 비밀 값은 원문 대신 sha256 지문으로 비교한다(D-21). 코드가 아니라 스크립트 속성에 둔 값은 API 로 못 읽어 a 쪽이 빈다
+
+  tenant_pointer:
+    meaning: 연동 앱 설정이 다른 SaaS 의 테넌트를 이름(조직 이름 · 도메인)으로 가리키고 그 이름의 테넌트가 있으면, 그 앱은 그 테넌트에 붙어 있다
+    a: [Integration]
+    b: [Tenant]
+    same: casefold
+    evidence: stated
+    tier: config_name
+    makes: {relation: registered_in, from: a, to: b}
+    target_missing: report
+    now_in: [cross.ts:registered_in]
+    note: 설정 문자열은 오타 · 이름 변경 · 삭제 뒤에도 남는다 — 상대가 없을 수 있다(Link_Schema_v3 「벤더가 준 연결의 상대편이 실제로 있는가」)
+
+  request_target:
+    meaning: >-
+      다른 SaaS 의 앱이 요청을 보내는 주소(슬래시 명령의 요청 주소 등)가 이 자동화의 배포를 가리키면, 이 자동화는 그 주소로
+      들어온 요청으로 시작된다
+    a: [Automation]
+    b: [Endpoint]
+    same: exact
+    evidence: stated
+    tier: config_id
+    makes: {relation: triggered_by, from: a, to: b}
+    target_missing: report
+    note: >-
+      두 값 모두 벤더 설정이다 — 요청 주소는 Slack 앱 매니페스트, 배포 ID 는 Apps Script 배포 목록. 웹앱 주소의 배포 ID 는
+      경로의 s 다음 조각이다. 효과는 triggered_by Automation>Endpoint 의 T(input) — 그 명령을 칠 수 있는 사람이 스크립트를
+      시작시키고, 스크립트는 배포 executeAs 신원으로 돈다. Apps Script 는 요청 헤더를 못 읽어 Slack 서명을 검증하지 못한다
+      (groundtruth gws-slack slack_request_to_apps_script). Slack 의 이벤트 구독 · 상호작용 요청 주소는 엔진 정규화가 아직
+      객체로 만들지 않아 Slack에서는 슬래시 명령만 칸 표시에 있다. GitHub webhook은 공식 Apps Script 웹앱 주소에서 추출한 배포 ID로
+      같은 수신 Project를 찾는다. 비활성 webhook은 제외하며, 여러 Project가 같은 배포 ID를 가지면 연결을 보류한다.
+      배포 ID 주소 형식: developers.google.com/apps-script/guides/web. 옛 대시보드에 없던 규칙이라 now_in 이 없다
+
+  request_host:
+    meaning: >-
+      다른 SaaS 의 앱이 요청을 보내는 주소(슬래시 명령의 요청 주소 등)의 호스트가 이 테넌트가 받는 호스트면, 그 주소로 보낸 요청은
+      이 테넌트로 들어간다
+    a: [Endpoint]
+    b: [Tenant]
+    same: casefold
+    evidence: stated
+    tier: config_name
+    makes: {relation: receives_into, from: a, to: b}
+    target_missing: report
+    note: >-
+      두 값 모두 벤더 설정이다 — 요청 주소는 Slack 앱 매니페스트(slash_commands[].url), 테넌트 호스트는 그 SaaS 의 조직 설정이다.
+      Okta Workflows 의 API Endpoint 카드는 흐름을 <조직 subdomain>.workflows.okta.com/api/flo/<흐름 id>/invoke 로 열어,
+      Slack 이 중간 서버 없이 흐름을 부른다(groundtruth okta-slack slash_command_to_workflows). 흐름 객체는 읽는 공개 API 가 없어
+      도착은 흐름이 든 조직(Tenant)이다 — 흐름 id 로 흐름을 가리는 request_target 은 흐름 객체가 생기면 쓴다.
+      효과는 receives_into Endpoint>Tenant 의 G(쓰기) · F — 그 명령을 칠 수 있는 사람의 요청이 조직의 흐름으로 들어간다.
+      벤더 문서 help.okta.com/wf/en-us/content/topics/workflows/function-reference/http/http_accept.htm. GitHub Actions 워크플로 파일에 글자로 적힌 호출 주소(curl 등)도 같은 칸으로 잇는다 — 워크플로마다 주소 하나에 통로(WorkflowRequestEndpoint) 하나, 호스트가 <조직>.okta.com 이면 Okta 조직, <사이트>.atlassian.net 이면 Atlassian 사이트(groundtruth okta-github actions_calls_okta, github-atlassian actions_to_jira). 비밀이나 변수로 넣은 주소는 파일에 없어 잇지 않는다. 옛 대시보드에 없던 규칙이라 now_in 이 없다
+
+  request_resource:
+    meaning: >-
+      다른 SaaS 의 자동화가 요청을 보내는 주소가 이 자원의 API 주소면, 그 주소로 보낸 요청은 이 자원으로 들어간다
+    a: [Endpoint]
+    b: [Resource]
+    same: casefold
+    evidence: stated
+    tier: config_name
+    makes: {relation: receives_into, from: a, to: b}
+    target_missing: report
+    note: >-
+      두 값 모두 벤더 설정이다 — Jira · Confluence 자동화 규칙 상세의 Send web request 주소(rule.components[].value.url), GitHub 저장소의
+      full_name. GitHub REST 주소는 https://api.github.com/repos/<owner>/<repo>/... 다(docs.github.com/rest). 수집기가 주소를 호스트와
+      지문으로 가리면서 GitHub REST 주소면 저장소(owner/repo)만 남긴다 — 이슈 번호와 쿼리는 남기지 않는다.
+      groundtruth github-atlassian jira_automation_to_github, confluence_automation_to_github. 효과는 receives_into Endpoint>Resource 의
+      G(쓰기) · F — 규칙이 그 주소로 보내는 요청(이슈 댓글, 워크플로 실행)이 저장소로 들어간다. 옛 대시보드에 없던 규칙이라 now_in 이 없다
+
+  action_resource:
+    meaning: >-
+      다른 SaaS 의 자동화 동작이 보낼 곳으로 이 자원의 id 를 글자 그대로 적어 두면, 그 동작이 보낸 요청은 이 자원으로 들어간다
+    a: [Endpoint]
+    b: [Resource]
+    same: exact
+    evidence: stated
+    tier: config_id
+    makes: {relation: receives_into, from: a, to: b}
+    target_missing: report
+    note: >-
+      request_resource 와 같은 일을 주소 대신 자원 id 로 한다. 두 값 모두 벤더 설정이다 — Salesforce Flow 의 Slack 동작
+      (actionCalls actionName slackPostMessage)의 inputParameters slackConversationId, Slack 대화(conversations.list)의 id.
+      변수나 수식으로 넣은 값은 수집기가 unresolved 로 남겨 잇지 않는다. Flow 는 Flow 자신이 아니라 조직에 연결된 Slack 앱의 토큰
+      (slackAppIdForToken)으로 글을 올린다. 그래서 동작마다 통로(Endpoint) 객체를 두고 Flow 에는 contained_in 으로 단다 — Jira ·
+      Confluence 자동화 요청 통로(AutomationRequestEndpoint)와 같은 모양이다. 효과는 receives_into Endpoint>Resource 의 G(쓰기) · F —
+      Flow 가 도는 기록의 내용이 그 채널에 올라간다. groundtruth slack-salesforce flow_slack_action. 옛 대시보드에 없던 규칙이라 now_in 이 없다.
+      Slack 워크플로의 커넥터 단계(GitHub 이슈 만들기 · Jira 이슈 만들기 · Google Sheets 행 더하기)도 같은 칸으로 잇는다 — 단계마다 통로
+      (WorkflowConnectorEndpoint, 워크플로에 contained_in), 입력에 글자로 넣은 저장소 · 프로젝트 키 · 스프레드시트 id 가 상대 자원이다(SL-17
+      admin.workflows.search 의 steps[].inputs). 단계는 커넥터 토큰(credential_source END_USER · BUILDER)으로 부르고 그 토큰이 어느 계정 것인지는
+      Slack 이 주지 않는다. Jira 프로젝트 키는 사이트마다 따로라 같은 키가 둘이면 잇지 않는다(unique_match). groundtruth github-slack
+      slack_workflow_connector_github, slack-atlassian slack_workflow_connector_jira, gws-slack slack_workflow_google
+
+  vendor_app_pair:
+    meaning: >-
+      한 SaaS 에 설치된 상대 벤더의 공식 연동 앱과, 상대 SaaS 에 남은 같은 연동의 앱(설치 · OAuth 승인)이 벤더가 정한 한 연동의 두 쪽이면,
+      앞 앱은 뒤 앱이 든 테넌트에 붙어 있다
+    a: [Integration]
+    b: [Tenant]
+    same: exact
+    evidence: stated
+    tier: config_name
+    makes: {relation: registered_in, from: a, to: b}
+    target_missing: report
+    note: >-
+      두 쪽 모두 벤더 설정이고 같은 문자열이 없다 — 앱 id 는 벤더가 모든 고객에게 같게 주는 값이라, 칸 표시의 map 이 앱 id 를 연동 이름으로 바꿔
+      맞춘다(표에 없는 앱은 값이 없다). 한쪽 앱만 있으면 상대가 없다(target_missing report). 상대 테넌트가 여럿이면 잇지 않는다(unique_match).
+      groundtruth github-slack github_app_for_slack(GitHub 조직의 Slack 앱 설치 app_slug slack + Slack 의 GitHub 앱),
+      slack-salesforce salesforce_for_slack_apps(Slack 의 Salesforce 앱 + Salesforce 사용자가 Slack 연동 앱에 준 OAuth 승인 OauthToken.AppName).
+      앱 id 는 시험 환경 수집(GH-14 installations app_id, SL-08 approved_apps app.id)에서 읽었다. 배포 앱의 id 는 워크스페이스 · 조직마다 같다.
+      registered_in 을 SaaS 를 넘어 쓰는 것은 tenant_pointer 와 같다(open.registered_in_across). 옛 대시보드에 없던 규칙이라 now_in 이 없다
+
+  credential_endpoint:
+    meaning: >-
+      자격증명이 부르는 주소의 호스트가 다른 SaaS 테넌트의 주소 호스트면, 그 자격증명은 그 테넌트에 권한이 있다
+      (세기는 자격증명에 넣은 계정의 권한이라 설정에서는 모른다)
+    a: [Credential]
+    b: [Tenant]
+    same: casefold
+    evidence: stated
+    tier: config_name
+    makes: {relation: has_role_on, from: a, to: b}
+    target_missing: report
+    note: >-
+      두 값 모두 벤더 설정이다 — Salesforce Named Credential 의 Endpoint(SOQL NamedCredential), Atlassian 사이트의 baseUrl(serverInfo).
+      groundtruth atlassian-salesforce named_credential_atlassian_token: Named Credential 이 Atlassian 사이트 주소를 가리키고 External
+      Credential 에 Atlassian 계정 이메일과 API 토큰을 넣어 Jira · Confluence REST 를 부른다. 역할(세기)은 관계 행에 없어 효과의 G 는
+      세기 모름(role_rank_unknown)이다. 범위를 정한 토큰(api.atlassian.com/ex/jira/<cloudId>)과, Endpoint 가 빈 새 꼴(주소가 설정 감사 기록에만
+      남는다)은 이 칸 표시로 못 잇는다. 옛 대시보드에 없던 규칙이라 now_in 이 없다
+
+  vendor_foreign_key:
+    meaning: IdP 가 대상 앱의 계정 id 를 적어 줬으면(프로비저닝), 두 계정은 벤더가 가리킨 같은 사람이다
+    method: M1
+    a: [Principal]
+    b: [Principal]
+    same: exact
+    evidence: stated
+    tier: config_id
+    makes: {link: [{level: disclosed_relation}]}
+    target_missing: report
+    now_in: [identity.ts:okta_appuser_external_id]
+    note: 프로비저닝이 꺼진 앱은 값이 비어 있다(Link_Schema_v3 「M1의 전제가 실측으로 확인됐다」)
+
+  federated_subject:
+    meaning: >-
+      대상 앱이 IdP 로그인으로 받은 계정 이름(SAML nameId · IdP 앱 배정 username)이 IdP 계정 이름과 같으면 같은 사람이다.
+      그 IdP 가 대상 테넌트에 붙어 있다는 근거가 있어야 확정이다
+    method: M2
+    a: [Principal]
+    b: [Principal]
+    same: casefold
+    evidence: stated
+    tier: config_name
+    places:
+      b_tenants: {from: b, refs: [tenant], relations: [member_of], depth: 1, want: Tenant, take: all}
+    makes:
+      link:
+      - {level: resolved, when: {exists_relation: {type: registered_in, target: $b_tenants, property: {cross_provider: true}}}}
+      - {level: possibly_same}
+    target_missing: report
+    now_in: [identity.ts:saml_external_identity, identity.ts:okta_app_assignment_username]
+    differs: >-
+      「IdP 가 대상 테넌트에 붙어 있다」를 대시보드는 SAML 이면 Okta 앱 이름(ghec · github)으로 대신 보고, 앱 배정 username 이면
+      따로 보지 않는다(언제나 resolved). 명세는 tenant_pointer 가 만든 registered_in 이 b 의 테넌트에 있어야 resolved 다
+    note: >-
+      SAML 쪽 값을 가진 GitHub ExternalIdentity 는 오브젝트 모델 v1(대시보드 PR #117)부터 Object 가 아니라 Link 재료다 —
+      투영에서 빠져 묶음에 없다. 그래서 그 칸 표시에 link_material 을 단다
+
+  directory_principal:
+    meaning: >-
+      권한 명단이 같은 신원 원장(디렉터리)의 그룹 · 도메인을 그 원장의 식별자(그룹 메일 · 도메인 이름)로 가리키면, 그 그룹의 구성원과 그 도메인의 계정은
+      그 명단 주체의 구성원이다. 사람을 맞추는 추정이 아니라 벤더가 적은 식별자다 — Google Cloud IAM 의 group:{메일} 은 그 Google 그룹을,
+      domain:{도메인} 은 그 Workspace 도메인의 계정 전부를 가리킨다
+    a: [Principal]
+    b: [Principal]
+    same: casefold
+    evidence: stated
+    tier: config_id
+    makes: {relation: member_of, from: b, to: a}
+    target_missing: report
+    note: >-
+      2026-11-20 Relation 담당(Claude 가 정함). Relation_Schema_v3 「교차 provider 관계는 stated 만」은 주체에서 출발하는 교차 관계를 막는다 — 메일로 사람을 맞추는 것은
+      추정이라서다. 이 종류는 사람 계정끼리가 아니라 명단 주체(그룹 · 도메인)와 그것이 가리키는 원장 쪽 그룹 · 계정을 잇고, 값은 벤더가 명단에 적은 식별자 그대로다.
+      그래서 막는 범위 밖으로 둔다(명세 같은 절의 예외 문단, validation/check_semantics.py S9 의 directory_reference 칸).
+      3회차 실측: gcp 그룹 주체 4개가 모두 같은 메일의 GWS Group 4개와 맞고, GWS Group 소속 6개가 그 그룹 주체로 이어진다.
+      문서: Cloud Resource Manager v3 Binding.members 「group:{emailid}: An email address that represents a Google group」 · 「domain:{domain}: The G Suite domain (primary) that represents all the users of that domain」
+    directory_reference: true
+
+  natural_key:
+    meaning: >-
+      이메일처럼 사람이 정하는 값이 같으면 같은 사람일 수도 있다. 값은 재사용되므로 언제부터 그 사람 값이었는지를 같이 남긴다.
+      이메일 칸끼리 맞으면 email_match 로 같은 사람(resolved)이다(2026-11-03). Salesforce Username 처럼 이메일 칸이 아닌 줄은 possibly_same 그대로
+    method: M3
+    a: [Principal]
+    b: [Principal]
+    same: casefold
+    evidence: stated
+    tier: config_name
+    makes: {link: [{level: possibly_same}]}
+    where: {not: {any: [{a: {property: {is_bot: true}}}, {b: {property: {is_bot: true}}}]}}
+    target_missing: ignore
+    records: [valid_from]
+    now_in: [identity.ts:natural_key_email]
+    note: >-
+      봇 제외는 Link_Schema_v3 natural_key 예시의 exclude_when 이고, 대시보드도 Slack 쪽에서 봇을 뺀다(normalize-v2/slack.ts
+      userByEmail). Slack 기준선의 봇은 email 이 없었지만 g2 의 Slack 봇 계정에는 봇 전용 주소가 있다 — 그래서 이 조건이 필요하다.
+      valid_from 은 Slack 사용자의 date_created 인데, 대시보드 Slack 정규화(slack.ts addUser)가 그 칸을 안 남겨 늘 빈다
+      (Link_Schema_v3 「M3 에는 유효창이 필수다」).
+      Salesforce · Atlassian 줄(2026-10-22)은 봇 칸(is_bot)이 없어 칸 표시 where 로 사람이 아닌 계정을 뺀다 — Salesforce 시스템
+      사용자(자동 프로세스 · 통합 사용자 · 사이트 게스트)는 email 이 사람 주소와 같아도 그 사람이 아니다. 무엇을 넣는지는 조직마다
+      달라 값이 아니라 계정 종류(UserType)로 막는다. Atlassian 은 사람 계정(account_type atlassian)만 본다. Salesforce 의 valid_from 은 사용자 CreatedDate 다. Jira email 은
+      개인정보 설정에 따라 비고, Atlassian 계정 생성일은 수집하지 않아 valid_from 이 빈다.
+      계정 종류가 사람(Standard)인 서비스 계정은 못 가른다 — 시험 환경의 Salesforce 통합 사용자는 Standard 이고 메일이 관리자
+      메일함이라 관리자와 이어진다(open.service_account_email).
+      GitHub 줄(2026-10-23)은 조직 멤버의 verified_domain_emails(조직이 확인한 도메인의 메일, GraphQL organizationVerifiedDomainEmails)다.
+      SAML 외부 신원(federated_subject)이 없는 조직에서도 사람을 잇는다. 계정 type 이 User 인 것만 보고 Bot 은 뺀다. 메일은 조직
+      도메인 확인을 거친 값이라 개인 메일보다 강하지만, 사람이 바꿀 수 있어 possibly_same 이다. GitHub 은 그 메일이 언제부터
+      그 계정 것인지 알려 주지 않아 valid_from 이 빈다
+
+  log_correlation:
+    meaning: 실행 · 요청 기록 한 행에 자동화의 id 와 IdP 자격(클라이언트) id 가 함께 찍혀 있으면, 두 신원은 같은 자동화일 수도 있다
+    method: M4
+    a: [Integration, Principal]
+    b: [Principal]
+    same: co_occurs
+    evidence: observed
+    tier: log_id
+    makes: {link: [{level: possibly_same}], link_kind: automation}
+    target_missing: report
+    now_in: [identity.ts:worker_log_correlation]
+    note: >-
+      허브(IdP)를 안 거친 자동화를 잇는 유일한 방법이다(Link_Schema_v3 「아직 안 정한 것」 「현재 방법 없음」). 기록 보존 기간이 지나면
+      끊긴다. a 쪽 IdP 자격은 Okta 앱(Integration)의 client_id 칸이다(decided.okta_client_view). Principal 은 옛 묶음(g2 등)의
+      대시보드 연결을 읽으려고 남긴다 — 그때 대시보드는 OAuth2Client(Principal) 끝으로 이었다.
+      뜻으로는 「같은 신원」보다 「이 봇이 이 IdP 자격으로 동작한다」(의미 층 holds, 근거 logged)에 가깝다.
+      근거 기록 SL-12 는 SaaS 기록이 아니라 시험 환경 봇 Worker 의 D1 기록이고, okta_client_id 칸은 정답을 남기려고 Worker 가 적는다.
+      11-04 수집본에서 Okta System Log 는 MFA 초기화(user.mfa.factor.reset_all)의 행위자를 클라이언트로만 남기고 Slack id 는 한 줄도 없다.
+      Slack 감사 로그에는 슬래시 명령 기록 종류가 없다. 그래서 실제 고객에게서는 고객이 봇 자체 기록을 줄 때만 이 연결이 생긴다.
+      옮길 때 판정 변화(2026-11-15, 엔진 main 5183187, 11-04 수집본, 의미 층 켬) — 이 키 종류의 record 줄만 빼면 gt:board 는 그대로다
+      (정답 사람 라벨 맞음 · 틀림 · 못 찾음 7 · 0 · 6, 정답 위협 맞음 3/5). V2 위협은 45 → 43건이다. 정답 위협 C 는 효과(요청 기록과 Okta
+      MFA 초기화 기록을 맞춤)로 여전히 잡히고, 위협이 가리키는 곳만 Okta 클라이언트에서 Slack 슬래시 명령으로 바뀐다. 11-14 에 적은 45 → 42건은
+      자동화 간선의 반대 방향(자격 → 봇)만 뺀 결과다. SL-12 를 통째로 빼면(normalize --without worker:SL-12, 실제 고객 조건) 45 → 40건,
+      라벨 5 · 2 · 6, 정답 위협 2/5 이고 B · C 의 SaaS 를 넘는 부분이 사라진다. 그러니 판정은 걸림돌이 아니다. 남은 것은
+      open.observed_relation(팀이 정할 일) 하나다 — Relation_Schema_v3 는 교차 관계를 stated 만 받고, logged 근거는 아직 lint 가 받지 않는다.
+      그 결정이 나면 holds 로 옮기고 판정 변화를 다시 잰다
+
+# 칸 표시 — 어느 SaaS 의 어느 칸이 어느 키 종류인가. 새 SaaS 는 여기에 줄만 더한다 (위 kinds 는 그대로)
+#
+#   kind · side             키 종류와 그 종류의 a · b 중 어느 쪽인가. record 는 co_occurs 종류의 기록 (맨 아래)
+#   provider · object_type  값을 가진 객체
+#   path                    값이 있는 칸 — properties.<이름> · identifiers.<이름>. 목록이면 원소마다.
+#                           <이름>[].<칸> 은 객체 목록의 원소마다 그 칸 (예: Apps Script 배포 목록의 deploymentId)
+#   end                     연결의 끝. 없으면 값을 가진 객체 자신, references.<이름> 이면 그 참조가 가리키는 객체
+#   to                      이 값의 상대를 이 provider · object_type 의 끝에서만 찾는다 (Profile_Schema_v4.2 external_refs 의 provider)
+#   pointer                 이 값이 상대를 가리킨다 — 상대가 없으면 키 종류의 target_missing 을 따른다
+#   transform               same 으로 맞추기 전에 값을 고친다 — {strip_suffix: 글자} · {require_suffix: 글자} (끝이 그 글자면 떼고,
+#                           아니면 빈 값 — 그 칸이 이 종류의 값이 아니다) · {map: {값: 짝 이름}} (표에 있는 값만 짝 이름으로, 없으면 빈 값) ·
+#                           email_domain (@ 뒤) ·
+#                           {path_segment_after: 글자} (주소 경로를 / 로 나눠 그 글자인 첫 조각의 바로 다음 조각. 없으면 빈 값) ·
+#                           url_host (절대 주소의 호스트 이름, 소문자, 포트 뺌. 스킴이 없으면 빈 값)
+#   where                   값을 가진 객체에 더 맞아야 하는 것 (ontology/match.py 식. 자리 self · parent — parent 는 references.parent)
+#   records                 만든 연결에 남기는 칸 {이름: path}
+#   link_material           이 객체는 Object 가 아니라 Link 재료다(오브젝트 모델 v1 의 link_only) — 투영된 묶음에 없을 수 있어
+#                           묶음 밖 Link 재료(link_material)에서도 찾는다. 둘 다 없으면 「재료 없음」으로 남긴다
+#   level_cap               이 칸으로 맞춘 Link 는 이 단계보다 세지 않다. 같은 두 끝을 cap 없는 칸도 이으면 그 칸이 먼저다
+#   cap_unless_same         {a: path, b: path} — 연결의 두 끝(a 끝 · b 끝 객체)의 이 칸이 키 종류의 same 으로 같으면 level_cap 을 풀어 준다.
+#                           값 하나만으로는 약하지만 다른 칸 하나가 더 맞으면 확정할 수 있을 때
+#   source · a · b          side: record 만 — 두 값이 함께 나오는 기록의 출처와 그 안의 칸
+fields:
+# Rovo target is a measured configuration domain, never inferred from the service name.
+- {kind: tenant_pointer, side: a, provider: atlassian, object_type: RovoConnector, path: properties.target_salesforce_domain, to: {provider: salesforce, object_type: Organization}, pointer: true, unique_match: true}
+- {kind: tenant_pointer, side: b, provider: salesforce, object_type: Organization, path: properties.api_instance_host}
+# 비밀 값 지문 — Apps Script 코드에 적힌 Slack 웹훅 주소
+- {kind: secret_fingerprint, side: a, provider: gws, object_type: Project, path: properties.webhook_url_sha256, pointer: true}
+- {kind: secret_fingerprint, side: a, provider: atlassian, object_type: AutomationRule, path: properties.request_secret_fingerprints, where: {self: {property: {state: ENABLED}}}, to: {provider: slack, object_type: incoming-webhook}, pointer: true, unique_match: true}
+- {kind: secret_fingerprint, side: b, provider: slack, object_type: incoming-webhook, path: properties.webhook_url_sha256}
+# 테넌트 가리킴 — Okta 앱 설정이 가리키는 GitHub 조직 · 엔터프라이즈, Slack 워크스페이스 · 엔터프라이즈, GWS 도메인
+- {kind: tenant_pointer, side: a, provider: okta, object_type: Application, path: properties.githubOrg, to: {provider: github, object_type: Organization}, pointer: true}
+- {kind: tenant_pointer, side: a, provider: okta, object_type: Application, path: properties.githubEnterprise, to: {provider: github, object_type: Enterprise}, pointer: true}
+- {kind: tenant_pointer, side: a, provider: okta, object_type: Application, path: properties.slackDomain, transform: [{strip_suffix: .enterprise}], to: {provider: slack, object_type: [workspace, enterprise]}, pointer: true}
+- {kind: tenant_pointer, side: a, provider: okta, object_type: Application, path: properties.googleDomain, to: {provider: gws, object_type: Customer}, pointer: true}
+# Okta Salesforce 앱(OIN 키 이름 salesforce)의 설정 settings.app.loginUrl 은 그 앱이 로그인시키는 Salesforce 조직 주소다.
+# 그 호스트를 Salesforce Organization 의 api_instance_host 와 맞춘다 (Okta Management API Application 「salesforce」 앱 설정)
+- {kind: tenant_pointer, side: a, provider: okta, object_type: Application, path: properties.settings.app.loginUrl, transform: [url_host], where: {self: {property: {name: salesforce}}}, to: {provider: salesforce, object_type: Organization}, pointer: true}
+# Gemini Enterprise(gcp) 커넥터가 가리키는 상대 테넌트 — DataConnector 의 instance_uri(engine #499 Profile 칸)의 호스트, GitHub 은 동작 설정의 owner_login.
+# 2026-11-20 3회차 설정값 원본(20261118T161227Z-6e6f)과 합친 원본(r3-20261119-all): 커넥터 7개 가운데 이 넷이 각각 Atlassian 사이트 · Salesforce 조직 · GitHub 조직 하나에 붙었다(4/4).
+# Google 커넥터 셋(Drive · Gmail · Calendar)은 상대 테넌트 칸이 없다. 커넥터 OAuth client id 는 응답에 없어(비밀 1칸만 빠짐) client id 로는 잇지 않는다
+- {kind: tenant_pointer, side: a, provider: gcp, object_type: DataConnector, path: properties.instance_uri, transform: [url_host, {require_suffix: .atlassian.net}], where: {self: {property: {dataSource: jira}}}, to: {provider: atlassian, object_type: site}, pointer: true, unique_match: true}
+- {kind: tenant_pointer, side: a, provider: gcp, object_type: DataConnector, path: properties.instance_uri, transform: [url_host, {require_suffix: .atlassian.net}], where: {self: {property: {dataSource: confluence}}}, to: {provider: atlassian, object_type: site}, pointer: true, unique_match: true}
+- {kind: tenant_pointer, side: a, provider: gcp, object_type: DataConnector, path: properties.instance_uri, transform: [url_host], where: {self: {property: {dataSource: salesforce}}}, to: {provider: salesforce, object_type: Organization}, pointer: true, unique_match: true}
+- {kind: tenant_pointer, side: a, provider: gcp, object_type: DataConnector, path: properties.action_owner_login, where: {self: {property: {dataSource: github}}}, to: {provider: github, object_type: Organization}, pointer: true, unique_match: true}
+- {kind: tenant_pointer, side: b, provider: atlassian, object_type: site, path: properties.baseUrl, transform: [url_host, {require_suffix: .atlassian.net}]}
+- {kind: tenant_pointer, side: b, provider: github, object_type: Organization, path: properties.login}
+- {kind: tenant_pointer, side: b, provider: github, object_type: Enterprise, path: properties.slug}
+- {kind: tenant_pointer, side: b, provider: slack, object_type: workspace, path: properties.domain}
+- {kind: tenant_pointer, side: b, provider: slack, object_type: enterprise, path: properties.domain}
+- {kind: tenant_pointer, side: b, provider: gws, object_type: Customer, path: properties.customerDomain}
+- {kind: tenant_pointer, side: b, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_domain], end: references.tenant}
+# Okta 외부 IdP(OK-18, type MICROSOFT 등 OIDC)의 클라이언트 id 는 그 IdP 가 쓰는 Entra 앱 등록의 appId 다. 맞는 Entra 앱이 든 테넌트에 붙어 있다.
+# 2026-11-20 4회차 실측: Okta IdP 「Microsoft Entra (AEGI M365)」의 client_id 가 Entra 단일 테넌트 앱 「AEGI Okta Sign-in」의 appId 와 같다
+- {kind: tenant_pointer, side: a, provider: okta, object_type: IdentityProvider, path: properties.client_id, to: {provider: microsoft, object_type: Tenant}, pointer: true, unique_match: true}
+- {kind: tenant_pointer, side: b, provider: microsoft, object_type: Application, path: properties.appId, end: references.tenant}
+# Entra 엔터프라이즈 앱(Salesforce 갤러리 SAML)의 앱 등록 식별자(identifierUris, SAML Entity ID)가 Salesforce 조직 주소면 그 조직에 붙어 있다
+- {kind: tenant_pointer, side: a, provider: microsoft, object_type: Application, path: properties.identifierUris, transform: [url_host, {require_suffix: .my.salesforce.com}], to: {provider: salesforce, object_type: Organization}, pointer: true, unique_match: true}
+- {kind: tenant_pointer, side: b, provider: salesforce, object_type: Organization, path: properties.api_instance_host, transform: [{require_suffix: .my.salesforce.com}]}
+# 요청 주소가 가리키는 배포 — Slack 슬래시 명령의 요청 주소가 Apps Script 웹앱이면 주소 경로의 배포 ID 가 배포 목록의 deploymentId 다
+- {kind: request_target, side: a, provider: gws, object_type: Project, path: "properties.deployments[].deploymentId"}
+- {kind: request_target, side: b, provider: slack, object_type: Slash Command Request Endpoint, path: properties.url_path, transform: [{path_segment_after: s}], where: {self: {property: {url_host: script.google.com}}}, to: {provider: gws, object_type: Project}, pointer: true}
+# GitHub 수집기는 공식 Apps Script 웹앱 주소를 축약하기 전에 배포 ID를 추출한다.
+# 수신 자동화(Project)가 출발, 요청을 보내는 webhook Endpoint가 도착이다.
+# 같은 배포 ID가 여러 Project에 나타나면 특정 수신 대상을 확정하지 않는다.
+- {kind: request_target, side: b, provider: github, object_type: Webhook, path: properties.target_deployment_id, where: {self: {property: {url_host: script.google.com, active: true}}}, to: {provider: gws, object_type: Project}, pointer: true, unique_match: true}
+# Official Atlassian incoming route identifies an Automation rule, not a generic URL mention.
+# The opaque URL namespace is not assumed to equal API cloudId; duplicate rule IDs across sites are rejected.
+- {kind: request_target, side: a, provider: atlassian, object_type: AutomationRule, path: properties.incoming_rule_key, where: {self: {property: {state: ENABLED}}}}
+- {kind: request_target, side: b, provider: github, object_type: Webhook, path: properties.target_automation_rule_key, where: {self: {property: {url_host: api-private.atlassian.com, active: true}}}, to: {provider: atlassian, object_type: AutomationRule}, pointer: true, unique_match: true}
+# Worker ingress is extracted from the currently deployed script, not guessed from a host name or a log row.
+- {kind: request_target, side: a, provider: worker, object_type: WorkerScript, path: properties.ingress_post_sha256}
+- {kind: request_target, side: b, provider: slack, object_type: Slash Command Request Endpoint, path: properties.url_sha256, to: {provider: worker, object_type: WorkerScript}, pointer: true, unique_match: true}
+- {kind: request_target, side: b, provider: github, object_type: Webhook, path: properties.url.sha256, where: {self: {property: {active: true}}}, to: {provider: worker, object_type: WorkerScript}, pointer: true, unique_match: true}
+- {kind: request_target, side: b, provider: atlassian, object_type: AutomationRequestEndpoint, path: properties.url_sha256, where: {parent: {property: {state: ENABLED}}}, to: {provider: worker, object_type: WorkerScript}, pointer: true, unique_match: true}
+# 요청 주소의 호스트가 가리키는 테넌트 — Slack 슬래시 명령의 요청 주소가 Okta Workflows API Endpoint 면 호스트의 앞 조각이 Okta 조직 subdomain 이다.
+# workflows.okta.com 이 아닌 호스트는 값이 없다(require_suffix) — 다른 서버로 가는 명령을 「못 이은 이유」에 적지 않는다
+- {kind: request_host, side: a, provider: slack, object_type: Slash Command Request Endpoint, path: properties.url_host, transform: [{require_suffix: .workflows.okta.com}], to: {provider: okta, object_type: org}, pointer: true, unique_match: true}
+- {kind: request_host, side: b, provider: okta, object_type: org, path: properties.subdomain}
+# GitHub Actions 워크플로 파일에 글자로 적힌 호출 주소(GH-10 요약 url_refs 의 host)가 Okta 조직 · Atlassian 사이트 호스트면 그 테넌트로 들어간다
+- {kind: request_host, side: a, provider: github, object_type: WorkflowRequestEndpoint, path: properties.url_host, transform: [{require_suffix: .okta.com}], to: {provider: okta, object_type: org}, pointer: true, unique_match: true}
+- {kind: request_host, side: a, provider: github, object_type: WorkflowRequestEndpoint, path: properties.url_host, transform: [{require_suffix: .atlassian.net}], to: {provider: atlassian, object_type: site}, pointer: true, unique_match: true}
+- {kind: request_host, side: b, provider: atlassian, object_type: site, path: properties.baseUrl, transform: [url_host, {require_suffix: .atlassian.net}]}
+# 요청 주소가 가리키는 자원 — Jira · Confluence 자동화의 Send web request 가 GitHub REST 주소면 그 저장소다(수집기가 저장소만 남긴다).
+# github.com 화면 주소(pull, issues, commit)는 연동이 아니라 잇지 않는다(url_github_kind api 만)
+- {kind: request_resource, side: a, provider: atlassian, object_type: AutomationRequestEndpoint, path: properties.url_github_repo, where: {self: {property: {url_github_kind: api}}}, to: {provider: github, object_type: Repository}, pointer: true, unique_match: true}
+- {kind: request_resource, side: b, provider: github, object_type: Repository, path: properties.full_name}
+# 동작이 적은 자원 id — Salesforce Flow 의 Slack 동작(slackPostMessage)이 글자로 넣은 채널 id 가 Slack 대화의 id 다
+- {kind: action_resource, side: a, provider: salesforce, object_type: FlowSlackActionEndpoint, path: properties.slack_conversation_id, to: {provider: slack, object_type: conversation}, pointer: true, unique_match: true}
+- {kind: action_resource, side: b, provider: slack, object_type: conversation, path: properties.id}
+# Slack 워크플로 커넥터 단계(WorkflowConnectorEndpoint)가 글자로 넣은 보낼 곳 — GitHub 이슈 만들기의 저장소(api.github.com/repos/<owner>/<repo> 에서 뽑은 owner/repo),
+# Jira 이슈 만들기의 프로젝트 키, Google Sheets 행 더하기의 스프레드시트 id. 변수로 넣은 값은 엔진이 통로를 만들지 않는다
+- {kind: action_resource, side: a, provider: slack, object_type: WorkflowConnectorEndpoint, path: properties.github_repo, to: {provider: github, object_type: Repository}, pointer: true, unique_match: true}
+- {kind: action_resource, side: a, provider: slack, object_type: WorkflowConnectorEndpoint, path: properties.jira_project_key, to: {provider: atlassian, object_type: Project}, pointer: true, unique_match: true}
+- {kind: action_resource, side: a, provider: slack, object_type: WorkflowConnectorEndpoint, path: properties.gws_file_id, to: {provider: gws, object_type: File}, pointer: true, unique_match: true}
+- {kind: action_resource, side: b, provider: github, object_type: Repository, path: properties.full_name}
+- {kind: action_resource, side: b, provider: atlassian, object_type: Project, path: properties.key}
+- {kind: action_resource, side: b, provider: gws, object_type: File, path: identifiers.id}
+# 벤더 공식 연동 앱의 짝 — 한 SaaS 에 설치된 상대 벤더의 공식 앱과 상대 SaaS 에 남은 그 연동의 앱. 앱 id(이름)를 연동 이름으로 바꿔 맞춘다
+# GitHub 조직의 Slack 앱 설치(GitHub App 7100, slug slack) ↔ Slack 의 GitHub 앱(A01BP7R4KNY)
+- {kind: vendor_app_pair, side: a, provider: github, object_type: GitHub App Installation Registration, path: properties.app_id, transform: [{map: {'7100': github-slack}}], to: {provider: slack, object_type: [workspace, enterprise]}, pointer: true, unique_match: true}
+- {kind: vendor_app_pair, side: b, provider: slack, object_type: Slack App Installation Registration, path: properties.app_id, transform: [{map: {A01BP7R4KNY: github-slack}}], end: references.tenant}
+# Slack 의 Salesforce 앱(A04T99UKKQE) ↔ Salesforce 사용자가 Slack 연동 앱에 준 OAuth 승인(OauthToken.AppName Slack, Slackforce Auth)
+- {kind: vendor_app_pair, side: a, provider: slack, object_type: Slack App Installation Registration, path: properties.app_id, transform: [{map: {A04T99UKKQE: salesforce-slack}}], to: {provider: salesforce, object_type: Organization}, pointer: true, unique_match: true}
+- {kind: vendor_app_pair, side: b, provider: salesforce, object_type: OauthToken, path: properties.AppName, transform: [{map: {Slack: salesforce-slack, Slackforce Auth: salesforce-slack}}], end: references.tenant}
+# Slack 의 Google Drive 앱(A6NL8MJ6Q, Slack Marketplace) ↔ Google Workspace 사용자가 Slack 의 Drive 연동 클라이언트에 준 OAuth 승인(Token.clientId).
+# 클라이언트 id 는 시험 환경 수집(GW-05 tokens.list, 범위 drive · drive.activity)에서 읽었다. Slack 의 다른 Google 클라이언트(로그인, 시트)는 표에 넣지 않는다
+- {kind: vendor_app_pair, side: a, provider: slack, object_type: Slack App Installation Registration, path: properties.app_id, transform: [{map: {A6NL8MJ6Q: slack-google-drive}}], to: {provider: gws, object_type: Customer}, pointer: true, unique_match: true}
+- {kind: vendor_app_pair, side: b, provider: gws, object_type: Token, path: properties.clientId, transform: [{map: {19570130570-tfuuvh6hutjd09bq64is5sao643q67jg.apps.googleusercontent.com: slack-google-drive}}], end: references.tenant}
+# GitHub 조직의 Google Chat 앱 설치(GitHub App 2118175, slug google-chat-app, 소유 googleworkspace) ↔ Google Workspace 사용자가 GitHub for Google Chat 에 준 OAuth 승인.
+# 클라이언트 id 는 시험 환경 수집(GW-05)에서 읽었다
+- {kind: vendor_app_pair, side: a, provider: github, object_type: GitHub App Installation Registration, path: properties.app_id, transform: [{map: {'2118175': github-google-chat}}], to: {provider: gws, object_type: Customer}, pointer: true, unique_match: true}
+- {kind: vendor_app_pair, side: b, provider: gws, object_type: Token, path: properties.clientId, transform: [{map: {536184076190-kessnn602qv74g7k0ql1idf4fi314tju.apps.googleusercontent.com: github-google-chat}}], end: references.tenant}
+# GitHub 조직의 Atlassian 앱 설치(GitHub App 14320, slug atlassian, 소유 atlassian) ↔ Atlassian 사이트의 GitHub for Atlassian 앱 계정.
+# 앱 계정 id 는 시험 환경 수집(Jira 사용자 목록, accountType app)에서 읽었다. 다른 사이트에서도 같은 값인지는 확인하지 못했다
+- {kind: vendor_app_pair, side: a, provider: github, object_type: GitHub App Installation Registration, path: properties.app_id, transform: [{map: {'14320': github-atlassian}}], to: {provider: atlassian, object_type: site}, pointer: true, unique_match: true}
+- {kind: vendor_app_pair, side: b, provider: atlassian, object_type: User, path: properties.accountId, transform: [{map: {'712020:be3b7824-c9c8-42f1-91bc-7d06aff2df14': github-atlassian}}], end: references.tenant}
+# Slack 의 Outlook Calendar 앱(AFV5ECLBZ, Slack Marketplace) ↔ Microsoft 365 테넌트가 Outlook Calendar for Slack 에 준 동의(서비스 주체 appId,
+# 게시자 테넌트 9188040d-…, Microsoft Graph 위임 Calendars.*). appId 는 2026-11-20 4회차 실측(Entra 엔터프라이즈 앱, 관리자 동의)에서 읽었다
+- {kind: vendor_app_pair, side: a, provider: slack, object_type: Slack App Installation Registration, path: properties.app_id, transform: [{map: {AFV5ECLBZ: slack-outlook-calendar}}], to: {provider: microsoft, object_type: Tenant}, pointer: true, unique_match: true}
+- {kind: vendor_app_pair, side: b, provider: microsoft, object_type: ServicePrincipal, path: properties.appId, transform: [{map: {74c10fbb-017f-4f00-ba68-9d3804d8ad09: slack-outlook-calendar}}], end: references.tenant}
+# 자격증명이 부르는 주소 — Salesforce Named Credential 의 Endpoint 호스트가 Atlassian Cloud 사이트(<사이트>.atlassian.net)면 그 사이트다.
+# 수집기(SF-10)는 Endpoint 를 호스트와 지문으로 가려 둔다(maskExternalConfigUrls). 다른 호스트로 가는 Named Credential 은 값이 없다(require_suffix)
+- {kind: credential_endpoint, side: a, provider: salesforce, object_type: NamedCredential, path: properties.Endpoint.host, transform: [{require_suffix: .atlassian.net}], to: {provider: atlassian, object_type: site}, pointer: true, unique_match: true}
+- {kind: credential_endpoint, side: b, provider: atlassian, object_type: site, path: properties.baseUrl, transform: [url_host, {require_suffix: .atlassian.net}]}
+# M1 — Okta 앱 배정의 externalId. 어느 SaaS 의 계정 id 인지는 배정이 걸린 앱이 정한다
+- {kind: vendor_foreign_key, side: a, provider: okta, object_type: AppUser, path: properties.externalId, end: references.grantee, where: {parent: {property: {name: google}}}, to: {provider: gws, object_type: User}, pointer: true}
+- {kind: vendor_foreign_key, side: a, provider: okta, object_type: AppUser, path: properties.externalId, end: references.grantee, where: {parent: {property: {name: slack}}}, to: {provider: slack, object_type: user}, pointer: true}
+- {kind: vendor_foreign_key, side: b, provider: gws, object_type: User, path: identifiers.id}
+- {kind: vendor_foreign_key, side: b, provider: slack, object_type: user, path: identifiers.id}
+# M2 — GitHub SAML 외부 신원의 nameId, Okta Google 앱 배정의 username
+- {kind: federated_subject, side: a, provider: okta, object_type: User, path: properties.login, to: {provider: github, object_type: User Account}}
+- {kind: federated_subject, side: b, provider: github, object_type: ExternalIdentity, path: properties.name_id, end: references.user, pointer: true, link_material: true}
+- {kind: federated_subject, side: a, provider: okta, object_type: AppUser, path: properties.userName, transform: [email_address], end: references.grantee, where: {parent: {property: {name: google}}}, to: {provider: gws, object_type: User}, pointer: true}
+- {kind: federated_subject, side: b, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_address]}
+# GWS 별칭도 그 사람의 이메일이다. 2026-11-03 부터 주 이메일과 같이 email_match 로 resolved (decided.email_same_person, alias_level)
+- {kind: federated_subject, side: b, provider: gws, object_type: User, path: properties.aliases, transform: [email_address]}
+- {kind: federated_subject, side: b, provider: gws, object_type: User, path: properties.nonEditableAliases, transform: [email_address]}
+# M2 — Okta Salesforce 앱(OIN 키 이름 salesforce) 배정의 username. Salesforce SSO 설정(SamlSsoConfig.IdentityMapping)이
+# FederationId 면 User.FederationIdentifier, Username 이면 User.Username 과 맞춘다. 어느 쪽인지는 b 의 조직 설정이라 칸 표시로 못 가려 둘 다 적는다
+- {kind: federated_subject, side: a, provider: okta, object_type: AppUser, path: properties.userName, end: references.grantee, where: {parent: {property: {name: salesforce}}}, to: {provider: salesforce, object_type: User}, pointer: true}
+- {kind: federated_subject, side: b, provider: salesforce, object_type: User, path: identifiers.federation_id}
+- {kind: federated_subject, side: b, provider: salesforce, object_type: User, path: identifiers.username}
+# M3 — Okta login 과 Slack 이 확인한 email
+- {kind: natural_key, side: a, provider: okta, object_type: User, path: properties.login, transform: [email_address], to: {provider: slack, object_type: user}}
+- {kind: natural_key, side: b, provider: slack, object_type: user, path: properties.email, transform: [email_address], records: {valid_from: properties.date_created}}
+# M3 — Okta login 과 Salesforce 사용자 Email · Username (시스템 사용자는 뺀다), Atlassian 사람 계정 email (Jira 가 보여 준 것만)
+- {kind: natural_key, side: a, provider: okta, object_type: User, path: properties.login, transform: [email_address], to: {provider: salesforce, object_type: User}}
+- {kind: natural_key, side: b, provider: salesforce, object_type: User, path: identifiers.email, transform: [email_address], where: {self: {property: {user_type: {not: [AutomatedProcess, CloudIntegrationUser, Guest]}}}}, records: {valid_from: properties.created}}
+- {kind: natural_key, side: b, provider: salesforce, object_type: User, path: identifiers.username, where: {self: {property: {user_type: {not: [AutomatedProcess, CloudIntegrationUser, Guest]}}}}, records: {valid_from: properties.created}}
+- {kind: natural_key, side: a, provider: okta, object_type: User, path: properties.login, transform: [email_address], to: {provider: atlassian, object_type: User}}
+- {kind: natural_key, side: b, provider: atlassian, object_type: User, path: identifiers.email, transform: [email_address], where: {self: {property: {account_type: atlassian}}}}
+# M3 — Okta login 과 GWS 주 메일(primaryEmail). GWS 주 메일은 고객이 확인한 도메인의 주소다. Okta 구글 앱 배정(M2)이 없는
+# 계정(정지된 계정, 앱을 배정받지 않은 관리자)도 같은 사람으로 잇는다. 11-04 수집본에서 같은 메일인데 안 이어진 GWS 계정 4개가 이 줄로 이어진다
+- {kind: natural_key, side: a, provider: okta, object_type: User, path: properties.login, transform: [email_address], to: {provider: gws, object_type: User}}
+- {kind: natural_key, side: b, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_address]}
+# M3 — Okta login 과 GitHub 조직이 확인한 도메인 메일 (organization verified domain emails). 봇 계정은 뺀다
+- {kind: natural_key, side: a, provider: okta, object_type: User, path: properties.login, transform: [email_address], to: {provider: github, object_type: User Account}}
+- {kind: natural_key, side: b, provider: github, object_type: User Account, path: properties.verified_domain_emails, transform: [email_address], where: {self: {property: {type: User}}}}
+# M3 — Okta 가 그 사람의 앱 배정에 적은 사용자 이름(메일)과 GitHub 조직이 확인한 도메인 메일. Okta login 과 GitHub 확인 도메인이 다른 조직
+# (login 은 한 도메인, GitHub 은 다른 확인 도메인)에서 위 줄이 못 잇는 사람을 잇는다. 11-04 수집본에서 GitHub 확인 메일 3개가 모두 login 과
+# 도메인만 다르고 Okta Slack 앱 배정의 userName 과 같다. 메일 칸이 아닌 앱 사용자 이름은 transform email_address 가 거른다.
+# 공유 자격을 쓸 수 있는 앱(SWA 브라우저 플러그인, 북마크, 자동 로그인)의 배정은 여러 사람이 같은 userName 을 받을 수 있어 뺀다
+- {kind: natural_key, side: a, provider: okta, object_type: AppUser, path: properties.userName, transform: [email_address], end: references.grantee, where: {parent: {property: {signOnMode: {not: [BROWSER_PLUGIN, BOOKMARK, AUTO_LOGIN]}}}}, to: {provider: github, object_type: User Account}}
+# M3 — 메일 디렉터리 허브(hubs 의 gws, 2026-11-13). GWS 주 메일 · 별칭과 Slack · Salesforce · Atlassian 사람 계정의 메일, GitHub 조직이 확인한
+# 도메인 메일. 상대 칸(b)과 봇 · 시스템 사용자 거름은 위 Okta 줄과 같은 줄을 쓴다. IdP 가 없는 회사에서도 같은 사람 Link 가 생긴다.
+# Okta 도 있으면 엔진이 Okta ↔ GWS 연결을 따라 한 Link 로 합친다(hubs). to 로 상대 SaaS 를 정해 GWS 계정끼리는 잇지 않는다
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_address], to: {provider: slack, object_type: user}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.aliases, transform: [email_address], to: {provider: slack, object_type: user}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.nonEditableAliases, transform: [email_address], to: {provider: slack, object_type: user}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_address], to: {provider: salesforce, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.aliases, transform: [email_address], to: {provider: salesforce, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.nonEditableAliases, transform: [email_address], to: {provider: salesforce, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_address], to: {provider: atlassian, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.aliases, transform: [email_address], to: {provider: atlassian, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.nonEditableAliases, transform: [email_address], to: {provider: atlassian, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_address], to: {provider: github, object_type: User Account}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.aliases, transform: [email_address], to: {provider: github, object_type: User Account}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.nonEditableAliases, transform: [email_address], to: {provider: github, object_type: User Account}}
+# M3 — Google Cloud IAM 명단의 사용자 주체(2026-11-19). IAM 은 사용자 주체를 Google 계정의 메일 주소로 적는다 — Cloud Resource Manager v3
+# Discovery 문서 Binding.members 「user:{emailid}: An email address that represents a specific Google account」. 사람 주체(member_type user)만 본다.
+# 그룹 주체(group:{emailid})는 잇지 않는다 — 허브가 사용자뿐이고 그룹을 맞추는 키 종류가 정해지지 않았다(open.group_push)
+- {kind: natural_key, side: a, provider: okta, object_type: User, path: properties.login, transform: [email_address], to: {provider: gcp, object_type: IamMember}}
+- {kind: natural_key, side: b, provider: gcp, object_type: IamMember, path: properties.email, transform: [email_address], where: {self: {property: {member_type: user}}}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_address], to: {provider: gcp, object_type: IamMember}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.aliases, transform: [email_address], to: {provider: gcp, object_type: IamMember}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.nonEditableAliases, transform: [email_address], to: {provider: gcp, object_type: IamMember}}
+# M3 — 메일 디렉터리 허브 Microsoft 365(Entra, hubs 의 microsoft, 2026-11-20). Link_Schema_v3 「허브 구조」 표의 줄 모양 그대로:
+# userPrincipalName · mail 과 다른 SaaS 사람 계정의 메일. 손님 계정(userType Guest)은 그 회사가 내준 주소가 아니라 뺀다.
+# proxyAddresses 는 「smtp:」 앞붙임을 떼는 transform 이 없어 아직 읽지 않는다. 상대 칸(b)과 봇 · 시스템 사용자 거름은 위 Okta · GWS 줄과 같은 줄을 쓴다.
+# 위 허브(Okta · GWS)가 같은 주소의 Entra 계정을 이으면(아래 b 줄) 엔진이 한 Link 로 합친다
+- {kind: natural_key, side: b, provider: microsoft, object_type: User, path: properties.userPrincipalName, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, records: {valid_from: properties.createdDateTime}}
+- {kind: natural_key, side: b, provider: microsoft, object_type: User, path: properties.mail, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, records: {valid_from: properties.createdDateTime}}
+- {kind: natural_key, side: a, provider: okta, object_type: User, path: properties.login, transform: [email_address], to: {provider: microsoft, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_address], to: {provider: microsoft, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.aliases, transform: [email_address], to: {provider: microsoft, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.nonEditableAliases, transform: [email_address], to: {provider: microsoft, object_type: User}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.userPrincipalName, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: slack, object_type: user}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.mail, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: slack, object_type: user}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.userPrincipalName, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: salesforce, object_type: User}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.mail, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: salesforce, object_type: User}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.userPrincipalName, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: atlassian, object_type: User}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.mail, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: atlassian, object_type: User}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.userPrincipalName, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: github, object_type: User Account}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.mail, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: github, object_type: User Account}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.userPrincipalName, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: gcp, object_type: IamMember}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.mail, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: gcp, object_type: IamMember}}
+# M3 — 1Password 사용자(2026-11-21, engine #535 Profile overlays/onepassword new-user.yaml). 1Password 는 사람을 메일로 초대하고
+# op user list 가 그 메일(email)을 준다. Link_Schema_v3 「허브 구조」 표의 줄 모양 그대로 허브(Okta · GWS · Microsoft 365)의 사람 메일과 잇는다.
+# 손님(type GUEST)도 자기 메일로 초대받으므로 같은 메일이면 같은 사람이라 빼지 않는다. 서비스 계정은 사용자 목록에 없다(ServiceAccount Profile).
+# 4회차(aegi.men) 실측: 1Password 사용자 1명이 같은 메일의 Okta · GWS 사람 Link 에 든다(이 줄 없이는 Link 0)
+- {kind: natural_key, side: b, provider: onepassword, object_type: User, path: properties.email, transform: [email_address]}
+- {kind: natural_key, side: a, provider: okta, object_type: User, path: properties.login, transform: [email_address], to: {provider: onepassword, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_address], to: {provider: onepassword, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.aliases, transform: [email_address], to: {provider: onepassword, object_type: User}}
+- {kind: natural_key, side: a, provider: gws, object_type: User, path: properties.nonEditableAliases, transform: [email_address], to: {provider: onepassword, object_type: User}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.userPrincipalName, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: onepassword, object_type: User}}
+- {kind: natural_key, side: a, provider: microsoft, object_type: User, path: properties.mail, transform: [email_address], where: {self: {property: {userType: {not: [Guest]}}}}, to: {provider: onepassword, object_type: User}}
+# 같은 Google 디렉터리 — Google Cloud IAM 명단의 그룹 · 도메인 주체(2026-11-20, kinds.directory_principal). 그룹은 GWS Group 메일, 도메인은 GWS 사용자 기본 메일의 도메인
+- {kind: directory_principal, side: a, provider: gcp, object_type: IamMember, path: properties.email, transform: [email_address], where: {self: {property: {member_type: group}}}, to: {provider: gws, object_type: Group}, pointer: true}
+- {kind: directory_principal, side: b, provider: gws, object_type: Group, path: properties.email, transform: [email_address]}
+- {kind: directory_principal, side: a, provider: gcp, object_type: IamMember, path: properties.domain, where: {self: {property: {member_type: domain}}}, to: {provider: gws, object_type: User}, pointer: true}
+- {kind: directory_principal, side: b, provider: gws, object_type: User, path: properties.primaryEmail, transform: [email_domain]}
+# M4 — Slack 봇 요청 로그 한 행에 Slack 앱 id 와 Okta 클라이언트 id 가 함께 있다
+# Okta 클라이언트 id 는 Okta 앱의 client_id 칸에서 읽는다. OAuth2Client 는 같은 client_id 의 앱을 다른 API 로 본 것이라
+# 오브젝트 모델 v2 부터 앱에 합쳐진다 (decided.okta_client_view). 옛 묶음(g2 등)에는 둘 다 있지만 앱에서만 읽어 한 번만 잇는다
+- {kind: log_correlation, side: record, source: worker:SL-12, a: result_data.okta_client_id, b: api_app_id}
+- {kind: log_correlation, side: a, provider: okta, object_type: Application, path: properties.client_id}
+- {kind: log_correlation, side: b, provider: slack, object_type: user, path: properties.app_id}
+
+# 팀이 정할 일 — 여기서는 적기만 한다
+open:
+- id: observed_relation
+  question: 실행 기록만 근거로 SaaS 를 넘는 관계를 만들어도 되나
+  why: >-
+    정답 위협 B — Slack 공유 봇이 GitHub 개인 토큰으로 도는데, 설정 어디에도 「이 봇이 이 토큰을 쓴다」가 없고 실행 기록에만 보인다.
+    D · H 도 같다 — Apps Script 가 웹훅 주소를 스크립트 속성에 두면 Apps Script API 로는 못 읽어(코드 파일 · 매니페스트만 준다)
+    secret_fingerprint 의 a 쪽이 빈다. 남는 근거는 실행 · 전송 기록뿐이다. Relation_Schema_v3 는 교차 관계를 stated 만 허용하므로
+    지금 키 종류로는 못 잇는다. C 의 로그 상관 Link(kinds.log_correlation)도 뜻은 이 관계다 — 2026-11-15 에 그 Link 를 빼도 gt:board 가
+    그대로임을 쟀다(그 note). 실행 기록은 SaaS 가 아니라 봇 자체 기록이라 실제 고객에게서는 드물다
+  options: [그대로 둔다 — Link 나 관측으로만 본다, observed 교차 관계를 허용하고 판단 불가로 표시한다]
+- id: missing_target
+  question: 벤더 설정이 가리키는 상대가 수집한 목록에 없을 때 어떻게 적나
+  why: >-
+    Link_Schema_v3 「아직 안 정한 것」 그대로. g2 에서 Okta 의 Slack 앱 3개가 수집한 것과 다른 Slack 워크스페이스 · 엔터프라이즈를
+    가리킨다. 지금은 target_missing: report — 잇지 않고 적는다
+  options: [안 만든다, status unresolved 로 만든다]
+- id: registered_in_across
+  question: SaaS 를 넘는 「앱이 테넌트에 붙어 있다」에 registered_in 을 그대로 쓰나
+  why: 대시보드 cross.ts 가 properties.cross_provider 로 구분해 두고 「aegi-schema 에 확인 요청할 결정」으로 남겼다
+  options: [registered_in 그대로, 새 관계 이름]
+- id: federated_proof
+  question: M2 를 resolved 로 올리는 근거로 registered_in 을 요구하나
+  why: >-
+    Link_Schema_v3 M2 의 키는 「앱 ↔ 대상 테넌트」다. 대시보드는 앱 이름으로 대신 본다(federated_subject.differs).
+    요구하면 테넌트 가리킴 칸을 수집하기 전까지 SAML 연결이 possibly_same 으로 내려간다
+  options: [요구한다 — 지금 적은 대로, 앱 이름 같은 약한 근거도 받는다]
+- id: group_push
+  question: Okta 그룹 push 매핑을 어느 키 종류로 받나
+  why: >-
+    Link_Schema_v3 「아직 안 정한 것」 — Slack 쪽 그룹 id 를 API 로 못 얻는다. 대시보드는 v1 규칙(normalize/identity.ts
+    buildGroupLinks)으로 만들고 단계 미결로 표시한다
+  options: [SCIM 읽기를 수집 범위에 넣는다, 그룹 이름으로 맞춘다 (possibly_same), 사람이 확인한다 (M5)]
+
+# 정한 것 — open 에서 옮겨 왔다. 질문은 그대로 두고 무엇으로 정했는지와 근거를 적는다
+decided:
+- id: link_material_kept
+  question: 오브젝트 모델 v1 묶음에 Link 재료(GitHub ExternalIdentity 등)를 남기나
+  decision: 묶음에 link_material 로 따로 남긴다
+  when: 2026-10-19
+  by: >-
+    aegi-dashboard PR #120(머지 6bacb1c). normalize:model-v1 이 투영에서 뺀 Link 재료를 link_material.json 에 원본 그대로 쓰고,
+    validate:model-v1 이 그 키가 model_report.json 의 link_only_objects 와 같은지 · 그래프에 없는지 · 원본과 같은지 본다.
+    join.py 는 묶음의 link_material 을 읽는다 — 재료가 있으면 SAML 3건도 다시 계산된다(재료 없음 0)
+- id: alias_level
+  question: Okta Google 앱 배정의 username 이 GWS 주 이메일이 아니라 별칭과 맞으면 몇 단계로 잇나
+  decision: 2026-11-03 부터 별칭이 맞아도 resolved (email_same_person). 옛 결정(2026-10-19)은 별칭만 맞으면 possibly_same, 두 계정의 사람 이름도 같으면 resolved 였다
+  when: 2026-11-03
+  by: >-
+    Relation 주담당 2026-11-03 결정(email_same_person)이 대신한다. 별칭도 그 사람의 이메일이다. 옛 결정이 걱정한 「주소가 사람 사이를
+    옮겨 다니는」 경우(퇴사자 주소를 다른 사람 별칭으로)는 같은 사람으로 묶이는 위험을 받아들이고, 사후 분석에 그 연결이 있는 편을 골랐다.
+    옛 결정: Relation 담당(aegi-schema 이슈 #20 V2-R2 답변, 2026-10-19)
+- id: okta_client_view
+  question: Okta OAuth2Client 와 같은 client_id 를 가진 Okta 앱은 객체 둘인가, M4 의 Okta 클라이언트 id 는 어디서 읽나
+  decision: 객체 하나(앱)다. M4 a 쪽은 Okta 앱의 properties.client_id 에서 읽는다
+  when: 2026-10-20
+  by: >-
+    aegi-dashboard 오브젝트 모델 v2 결정 V2-D05(PR #127 머지)를 받았다 (aegi-schema 이슈 #20 답변에서 v2 가 main 에 들어오면 바꾸기로 했다).
+    OAuth2Client 는 Okta 가 같은 앱을 클라이언트 API 로 보여 준 것이라 투영이 앱에 합치고, 그 키를 가리키던 관계 · 참조 · Link 를 앱으로
+    옮긴다. 두 줄을 같이 두면 둘 다 있는 옛 묶음에서 같은 봇 연결이 두 번 생겨서 줄을 바꿨다
+- id: app_account_filter
+  question: natural_key 가 앱 계정을 거를 때 SaaS 원래 칸 대신 판정값 account_kind(판단표 G4-Q07)를 쓰나
+  decision: >-
+    SaaS 원래 칸은 그대로 두고, 엔진 G4 판정(account_kind)을 이 파일의 거르기에 맞춘다 — Salesforce CsnOnly 는 human, Guest 는 app,
+    Slack is_app_user 는 사람 쪽(is_bot 만 app). Salesforce 가 조직마다 만드는 Chatter Expert 계정은 CsnOnly 여도 app 으로 따로 가른다
+  when: 2026-11-01
+  by: >-
+    Relation 주담당 결정(판단표 G4-Q07, 권고대로). 거르기를 account_kind 로 바꾸면 엔진이 G4 판정을 동일인 연결 앞으로 옮기고 S9 시험과
+    엔진 정답 시험을 같이 고쳐야 한다. 이 파일의 입장(「Chatter Free(CsnOnly) 사용자는 사람이라 잇는다」, ontology/README.md, S9 시험의 SF-C)과
+    다르게 판정하던 엔진 쪽을 맞추는 편이 작다. 엔진은 aegi-adapter-engine scripts/collect/shared/judgments.ts accountKindOf 가 따르고,
+    judgments.test.ts 가 판정 목록이 이 파일의 natural_key 거르기(Salesforce user_type 목록, Slack is_bot)와 같은지 맞춰 본다.
+    판정이 바뀌는 계정은 대시보드 실측(10-27 게시본, 10-30 실측 묶음)과 저장소 데이터셋 넷에서 0 이다 — CsnOnly 계정은 실측과
+    aegi_inc_measured_v2 에 하나씩이고 모두 Chatter Expert 다(따로 가르지 않았다면 human 으로 바뀐다). Guest 와 Slack is_app_user 계정은
+    없다. Chatter Expert 는 이 파일의 거르기는 지나지만 사람 값과 맞지 않아 지금 링크에 없다
+- id: email_same_person
+  question: 두 계정의 이메일이 같으면 같은 사람으로 얼마나 강하게 잇나 (SaaS 가 달라도, admin@ 같은 공용 주소, 한 SaaS 안 여러 계정이어도)
+  decision: >-
+    같은 이메일이면 SaaS 를 가리지 않고 같은 사람(resolved)으로 잇는다. 공용으로 보이는 주소(앞부분이 admin, security, noreply 같은 것,
+    한 SaaS 안에서 두 계정 이상이 같은 주소)도 잇고, 링크 간선에 shared_mailbox_suspected 만 남긴다. 판정은 바꾸지 않는다.
+    비교는 대소문자, 앞뒤 공백을 가리지 않고 빈 값, 가린 값, 자리표시 값은 일치로 보지 않는다 (email_match, transform email_address)
+  when: 2026-11-03
+  by: >-
+    Relation 주담당 결정. 사후 분석에서 그 연결이 있는 편이 낫다. M3 natural_key 의 이메일 줄(Slack, Salesforce Email, Atlassian, GitHub
+    확인 도메인 메일)과 Okta Google 앱 배정 username ↔ GWS 이메일(주 이메일, 별칭) 줄이 resolved 가 된다. Salesforce Username, GitHub SAML
+    nameId, Salesforce FederationIdentifier 줄은 이메일 칸이 아니라 그대로다. alias_level 의 옛 결정과 open.same_provider_accounts,
+    open.service_account_email 을 이 결정이 대신한다. Jira (라)(Okta 프로비저닝으로 잇기)는 이 결정으로 우선순위가 내려갔다
+- id: alias_domain_level
+  question: 같은 조직이 DNS 로 확인한 별칭 도메인끼리 앞부분이 같은 주소(email_match.domain_alias)를 몇 단계로 잇나
+  decision: resolved (domain_alias.level). 주소 허브도 그 묶음을 한 주소로 본다. 링크에 domain_alias 표시는 그대로 남긴다
+  when: 2026-11-14
+  by: >-
+    11-03 결정(email_same_person)의 취지 「같은 사람의 메일이면 확정」을 데이터로 넓혔다(Relation 담당 세션, 사용자 위임). 11-04 운영 수집본에서
+    별칭으로 맞춘 간선 3개가 모두 Okta 있는 원래 Link 에서도 같은 사람이었고, 거기서는 Okta 관리자가 그 별칭 주소를 앱 사용자 이름으로 배정해
+    이미 resolved 였다. Okta 있음 데이터셋은 바이트까지 같고, Okta 없음 · Okta · GWS 없음에서 잘못 잡힌 주체가 0 이 되고 라벨 틀림이 0 이 됐다
+    (Link_Schema_v3 「별칭 도메인 단계」). 같은 조직의 두 도메인에서 앞부분만 같은 다른 사람은 수집본에 없었다 — 생기면 domain_alias 표시로 가려 본다
+- id: same_provider_accounts
+  question: 한 허브 계정이 natural_key(M3)로 같은 provider 계정 둘 이상과 맞으면 다 잇나 (aegi-knowledge#28 4번을 옮겨 적음)
+  decision: 다 잇는다(지금 구현). 이메일이 같은 같은 provider 계정 여럿은 링크 간선에 shared_mailbox_suspected 를 남긴다
+  when: 2026-11-03
+  by: >-
+    Relation 주담당 2026-11-03 결정(email_same_person). #28 4번(10-22)의 어긋남을 구현 쪽으로 정했다. Link_Schema_v3 「set 안의 provider가
+    전부 다르다」는 이 결정으로 같은 이메일이면 같은 provider 계정 여럿을 받는다
+- id: service_account_email
+  question: 사람의 메일 주소를 email 로 쓰는 서비스 계정을 M3(natural_key)로 그 사람과 잇나
+  decision: 그대로 잇는다. 이메일이 같으니 resolved 이고, 공용으로 보이는 주소면 shared_mailbox_suspected 를 남긴다
+  when: 2026-11-03
+  by: >-
+    Relation 주담당 2026-11-03 결정(email_same_person). 그 메일함 주인이 비밀번호 재설정으로 계정을 가져갈 수 있어 사후 분석에 그 연결이
+    있는 편이 낫다. 서비스 계정 표시를 수집해 빼는 길은 고르지 않았다
+- id: slack_profile_not_account
+  question: Slack users.profile.get 응답(200.profile)을 계정(Principal)으로 두나
+  decision: >-
+    계정으로 두지 않는다. 그 사용자 member 계정의 프로필을 읽는 호출이라 사람 수, 테넌트 소속, 동일인 맞추기에서 빠진다.
+    응답에 사용자 ID 가 없어 member 로 합치지 못하므로 객체를 만들지 않는다(같은 칸은 users.list members[*].profile 에 있다)
+  when: 2026-11-10
+  by: >-
+    2026-11-10 Relation 주담당 위임, Claude 가 정함. 11-04 수집본에서 수집기 토큰 사용자의 프로필이 이름 없는 Principal 로 나와
+    헬프데스크 명령 경로(GT-C)의 연동 쪽 사람으로 셌다. 엔진은 Profile 보정 emit reference_only 로 따른다
+- id: audit_only_actor_system
+  question: users.list 에 없고 감사 로그 actor 에만 나오는 Slack 행위자(Slack User, Salesforce System User 같은 시스템 행위자)를 테넌트 소속 사람으로 치나
+  decision: >-
+    치지 않는다. account_kind 를 system 으로 두고(이름이 아니라 users.list 에 없다는 사실로 가른다), 테넌트 소속 간선을 붙이지 않고,
+    관측 기록의 행위자로만 남긴다. 나중에 users.list 에 나타나면 그때 사람이다. users.list 를 수집하지 못한 수집본에서는 가르지 않는다
+  when: 2026-11-10
+  by: >-
+    2026-11-10 Relation 주담당 위임, Claude 가 정함. 11-04 수집본에서 감사 로그에만 나오는 행위자 둘이 사람(human)으로 판정돼
+    헬프데스크 명령 경로(GT-C)의 연동 쪽 사람으로 셌다. Interface_Spec_v3 account_kind 에 system 을 더했다

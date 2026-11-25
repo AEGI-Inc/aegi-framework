@@ -1,0 +1,684 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Invoice
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:3f68af10ca98b258a3a05ebd
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:3f68af10ca98b258a3a05ebd.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|Id
+  Balance:
+    path: Balance
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: Balance
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|Balance
+  BillToContactId:
+    path: BillToContactId
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: reference
+      name: BillToContactId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|BillToContactId
+  BillingAccountId:
+    path: BillingAccountId
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: reference
+      name: BillingAccountId
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|BillingAccountId
+  CurrencyIsoCode:
+    path: CurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: picklist
+      name: CurrencyIsoCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|CurrencyIsoCode
+  DaysInvoiceOpen:
+    path: DaysInvoiceOpen
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: int
+      name: DaysInvoiceOpen
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Invoice|DaysInvoiceOpen
+  DaysInvoiceOverdue:
+    path: DaysInvoiceOverdue
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: int
+      name: DaysInvoiceOverdue
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Invoice|DaysInvoiceOverdue
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: string
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|Description
+  DocumentNumber:
+    path: DocumentNumber
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: string
+      name: DocumentNumber
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|DocumentNumber
+  DueDate:
+    path: DueDate
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: date
+      name: DueDate
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|DueDate
+  FullSettlementDate:
+    path: FullSettlementDate
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: date
+      name: FullSettlementDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|FullSettlementDate
+  InvoiceBatchRunId:
+    path: InvoiceBatchRunId
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: reference
+      name: InvoiceBatchRunId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|InvoiceBatchRunId
+  InvoiceDate:
+    path: InvoiceDate
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: date
+      name: InvoiceDate
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|InvoiceDate
+  InvoiceNumber:
+    path: InvoiceNumber
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: string
+      name: InvoiceNumber
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|InvoiceNumber
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|LastViewedDate
+  NetCreditsApplied:
+    path: NetCreditsApplied
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: NetCreditsApplied
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|NetCreditsApplied
+  NetPaymentsApplied:
+    path: NetPaymentsApplied
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: NetPaymentsApplied
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|NetPaymentsApplied
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|OwnerId
+  PaymentExclusionReason:
+    path: PaymentExclusionReason
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: string
+      name: PaymentExclusionReason
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|PaymentExclusionReason
+  PaymentTermId:
+    path: PaymentTermId
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: reference
+      name: PaymentTermId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|PaymentTermId
+  PostedDate:
+    path: PostedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: date
+      name: PostedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|PostedDate
+  ReferenceEntityId:
+    path: ReferenceEntityId
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: reference
+      name: ReferenceEntityId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|ReferenceEntityId
+  SettlementStatus:
+    path: SettlementStatus
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: picklist
+      name: SettlementStatus
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|SettlementStatus
+  ShouldExcludePayment:
+    path: ShouldExcludePayment
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: boolean
+      name: ShouldExcludePayment
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Invoice|ShouldExcludePayment
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: picklist
+      name: Status
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|Status
+  TaxLocaleType:
+    path: TaxLocaleType
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: picklist
+      name: TaxLocaleType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Invoice|TaxLocaleType
+  TotalAdjustmentAmount:
+    path: TotalAdjustmentAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: TotalAdjustmentAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|TotalAdjustmentAmount
+  TotalAdjustmentAmountWithTax:
+    path: TotalAdjustmentAmountWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: TotalAdjustmentAmountWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|TotalAdjustmentAmountWithTax
+  TotalAdjustmentTaxAmount:
+    path: TotalAdjustmentTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: TotalAdjustmentTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|TotalAdjustmentTaxAmount
+  TotalAmount:
+    path: TotalAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: TotalAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|TotalAmount
+  TotalAmountWithTax:
+    path: TotalAmountWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: TotalAmountWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|TotalAmountWithTax
+  TotalChargeAmount:
+    path: TotalChargeAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: TotalChargeAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|TotalChargeAmount
+  TotalChargeAmountWithTax:
+    path: TotalChargeAmountWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: TotalChargeAmountWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|TotalChargeAmountWithTax
+  TotalChargeTaxAmount:
+    path: TotalChargeTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: TotalChargeTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|TotalChargeTaxAmount
+  TotalConvertedNegAmount:
+    path: TotalConvertedNegAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: TotalConvertedNegAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|TotalConvertedNegAmount
+  TotalTaxAmount:
+    path: TotalTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Invoice
+    declaration:
+      format: currency
+      name: TotalTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Invoice|TotalTaxAmount
+references:
+  - name: ownerid
+    field: OwnerId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:39a04ae79ef445c92a907dbb; relation=no_relation
+  - name: billtocontactid
+    field: BillToContactId
+    target: Contact
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a8ea846f1aa5ab2015eb2c4c; relation=no_relation
+  - name: referenceentityid
+    field: ReferenceEntityId
+    target: OrderSummary
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:be41d9ee33c5a76a8c5e6a09; relation=no_relation
+  - name: billingaccountid
+    field: BillingAccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:de7af5bf626c49c427bb54d9; relation=no_relation
+  - name: paymenttermid
+    field: PaymentTermId
+    target: PaymentTerm
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f202848dab1f82e4ddaa6fdd; relation=no_relation
+  - name: invoicebatchrunid
+    field: InvoiceBatchRunId
+    target: InvoiceBatchRun
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:fc364c9e195e332521408c71; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Invoice
+  interfaces: *a1
+  model:
+    research_type: object-type:3f68af10ca98b258a3a05ebd
+  extract:
+    key: PILOT-salesforce-Invoice-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-a05ebd
+            endpoint: /
+            items:
+              - records
+        properties:
+          Balance: Balance
+          BillToContactId: BillToContactId
+          BillingAccountId: BillingAccountId
+          CurrencyIsoCode: CurrencyIsoCode
+          DaysInvoiceOpen: DaysInvoiceOpen
+          DaysInvoiceOverdue: DaysInvoiceOverdue
+          Description: Description
+          DocumentNumber: DocumentNumber
+          DueDate: DueDate
+          FullSettlementDate: FullSettlementDate
+          Id: Id
+          InvoiceBatchRunId: InvoiceBatchRunId
+          InvoiceDate: InvoiceDate
+          InvoiceNumber: InvoiceNumber
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          NetCreditsApplied: NetCreditsApplied
+          NetPaymentsApplied: NetPaymentsApplied
+          OwnerId: OwnerId
+          PaymentExclusionReason: PaymentExclusionReason
+          PaymentTermId: PaymentTermId
+          PostedDate: PostedDate
+          ReferenceEntityId: ReferenceEntityId
+          SettlementStatus: SettlementStatus
+          ShouldExcludePayment: ShouldExcludePayment
+          Status: Status
+          TaxLocaleType: TaxLocaleType
+          TotalAdjustmentAmount: TotalAdjustmentAmount
+          TotalAdjustmentAmountWithTax: TotalAdjustmentAmountWithTax
+          TotalAdjustmentTaxAmount: TotalAdjustmentTaxAmount
+          TotalAmount: TotalAmount
+          TotalAmountWithTax: TotalAmountWithTax
+          TotalChargeAmount: TotalChargeAmount
+          TotalChargeAmountWithTax: TotalChargeAmountWithTax
+          TotalChargeTaxAmount: TotalChargeTaxAmount
+          TotalConvertedNegAmount: TotalConvertedNegAmount
+          TotalTaxAmount: TotalTaxAmount
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:Invoice.query
+  operation: Invoice.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Invoice
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Invoice
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Invoice.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Invoice/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - OwnerId
+    - BillToContactId
+    - ReferenceEntityId
+    - BillingAccountId
+    - PaymentTermId
+    - InvoiceBatchRunId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

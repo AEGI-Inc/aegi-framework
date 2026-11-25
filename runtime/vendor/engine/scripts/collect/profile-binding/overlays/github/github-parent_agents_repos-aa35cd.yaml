@@ -1,0 +1,5 @@
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full
+emit: reference_only
+emit_basis: 타입 이름이 API 경로 조각(parent:agents/repos/{}/{})이다. 저장소 에이전트 자동화 목록 응답이 묶음 칸(automations, total_count)뿐이다. 2026-11-03 수집에서 두 저장소 모두 0건이다. 자동화 원소를 객체로 만드는 것은 원소가 실제로 생길 때 정한다. 객체로 만들지 않는다

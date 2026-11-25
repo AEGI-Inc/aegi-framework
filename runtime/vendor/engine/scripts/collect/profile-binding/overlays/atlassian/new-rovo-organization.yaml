@@ -1,0 +1,28 @@
+format: im-pilot-profile/1
+provider: atlassian
+object_type: RovoOrganization
+interfaces: [Tenant]
+scope: additive_runtime_projection
+model:
+  runtime_type_id: rovo-connector-bindings/1:atlassian:RovoOrganization
+  source: aegi-knowledge/schema/ontology/rovo-connectors.yaml
+identity:
+  primary: [{name: id, expr: organization_id, stability: stable}]
+  scope: global
+fields: {}
+runtime_key: ATL-ROVO-ORG-{id}
+runtime_identifiers: {primary: [id], id: {stability: stable}}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AT-UI-01
+        request: {kind: rovo_connector_ui, collection_method: browser_ui}
+        items: (root)
+    id_expr: organization_id
+    tenant: none
+    properties:
+      name: {const: Atlassian organization}
+      evidence_source: source
+    display: "{organization_id}"
+    relations: []

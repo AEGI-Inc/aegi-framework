@@ -1,0 +1,634 @@
+{
+ "date": "2026-10-18",
+ "rule": "권고대로, 권고가 빼는 쪽이면 남기는 쪽으로 (3단계 interface 판정에서 다시 거른다)",
+ "decisions": [
+  {
+   "id": "G1",
+   "group": "G",
+   "saas": "Slack",
+   "object": "앱 비밀값 (client_secret)",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G2",
+   "group": "G",
+   "saas": "Slack",
+   "object": "앱 비밀값 (signing_secret)",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G3",
+   "group": "G",
+   "saas": "Slack",
+   "object": "앱 비밀값 (verification_token)",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G4",
+   "group": "G",
+   "saas": "Slack",
+   "object": "user-token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G5",
+   "group": "G",
+   "saas": "Slack",
+   "object": "bot-token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G6",
+   "group": "G",
+   "saas": "Slack",
+   "object": "incoming-webhook",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G7",
+   "group": "G",
+   "saas": "Slack",
+   "object": "bot-token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G8",
+   "group": "G",
+   "saas": "Slack",
+   "object": "user-token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G9",
+   "group": "G",
+   "saas": "Slack",
+   "object": "refresh token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G10",
+   "group": "G",
+   "saas": "Slack",
+   "object": "refresh token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G11",
+   "group": "G",
+   "saas": "Slack",
+   "object": "user-token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G12",
+   "group": "G",
+   "saas": "Slack",
+   "object": "user-token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G13",
+   "group": "G",
+   "saas": "Slack",
+   "object": "user-token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G14",
+   "group": "G",
+   "saas": "Slack",
+   "object": "user-token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G15",
+   "group": "G",
+   "saas": "Slack",
+   "object": "app-configuration-token 갱신 토큰",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G16",
+   "group": "G",
+   "saas": "Slack",
+   "object": "app-configuration-token",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G17",
+   "group": "G",
+   "saas": "Okta",
+   "object": "토큰 발급 응답의 접근 토큰",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G18",
+   "group": "G",
+   "saas": "Okta",
+   "object": "토큰 발급 응답의 갱신 토큰",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G19",
+   "group": "G",
+   "saas": "Okta",
+   "object": "토큰 발급 응답의 접근 토큰",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "G20",
+   "group": "G",
+   "saas": "Okta",
+   "object": "토큰 발급 응답의 갱신 토큰",
+   "choice": "이 복합키로 인정한다",
+   "recommended": "이 복합키로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "H1",
+   "group": "H",
+   "saas": "Okta",
+   "object": "Client (OAuth 클라이언트)",
+   "choice": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "recommended": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "changed": false
+  },
+  {
+   "id": "H2",
+   "group": "H",
+   "saas": "Okta",
+   "object": "IdentityProvider",
+   "choice": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "recommended": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "changed": false
+  },
+  {
+   "id": "H3",
+   "group": "H",
+   "saas": "Okta",
+   "object": "OAuth2ClientSecret",
+   "choice": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "recommended": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "changed": false
+  },
+  {
+   "id": "H4",
+   "group": "H",
+   "saas": "Okta",
+   "object": "ProjectCloudAccount (OPA)",
+   "choice": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "recommended": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "changed": false
+  },
+  {
+   "id": "H5",
+   "group": "H",
+   "saas": "GitHub",
+   "object": "GitHub App",
+   "choice": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "recommended": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "changed": false
+  },
+  {
+   "id": "H6",
+   "group": "H",
+   "saas": "Okta",
+   "object": "API 서비스 통합 비밀값",
+   "choice": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "recommended": "그 오브젝트에 Credential interface 후보로 표시한다",
+   "changed": false
+  },
+  {
+   "id": "A1",
+   "group": "A",
+   "saas": "Slack",
+   "object": "app-token",
+   "choice": "속성으로 둔다",
+   "recommended": "범위에서 뺀다 (수집 불가)",
+   "changed": true
+  },
+  {
+   "id": "A5",
+   "group": "A",
+   "saas": "Slack",
+   "object": "trigger",
+   "choice": "속성으로 둔다",
+   "recommended": "범위에서 뺀다 (수집 불가)",
+   "changed": true
+  },
+  {
+   "id": "R1",
+   "group": "R",
+   "saas": "Google",
+   "object": "Token (사용자의 OAuth 승인)",
+   "choice": "relation으로 둔다 (R1)",
+   "recommended": "relation으로 둔다 (R1)",
+   "changed": false
+  },
+  {
+   "id": "R2",
+   "group": "R",
+   "saas": "Okta",
+   "object": "AppUser (앱에 프로비저닝된 계정)",
+   "choice": "relation으로 둔다 (R1)",
+   "recommended": "relation으로 둔다 (R1)",
+   "changed": false
+  },
+  {
+   "id": "B1",
+   "group": "B",
+   "saas": "Google",
+   "object": "SecuritySettings (그룹)",
+   "choice": "3단계 interface 판정에 맡긴다",
+   "recommended": "3단계 interface 판정에 맡긴다",
+   "changed": false
+  },
+  {
+   "id": "B2",
+   "group": "B",
+   "saas": "Google",
+   "object": "LabelLock (드라이브 라벨)",
+   "choice": "3단계 interface 판정에 맡긴다",
+   "recommended": "3단계 interface 판정에 맡긴다",
+   "changed": false
+  },
+  {
+   "id": "B3",
+   "group": "B",
+   "saas": "Google",
+   "object": "AutoForwarding (사용자)",
+   "choice": "3단계 interface 판정에 맡긴다",
+   "recommended": "3단계 interface 판정에 맡긴다",
+   "changed": false
+  },
+  {
+   "id": "B4",
+   "group": "B",
+   "saas": "Google",
+   "object": "ImapSettings (사용자)",
+   "choice": "3단계 interface 판정에 맡긴다",
+   "recommended": "3단계 interface 판정에 맡긴다",
+   "changed": false
+  },
+  {
+   "id": "B5",
+   "group": "B",
+   "saas": "Google",
+   "object": "DomainVerificationToken (도메인)",
+   "choice": "3단계 interface 판정에 맡긴다",
+   "recommended": "3단계 interface 판정에 맡긴다",
+   "changed": false
+  },
+  {
+   "id": "B6",
+   "group": "B",
+   "saas": "Okta",
+   "object": "TeamSettings (ASA 팀)",
+   "choice": "3단계 interface 판정에 맡긴다",
+   "recommended": "3단계 interface 판정에 맡긴다",
+   "changed": false
+  },
+  {
+   "id": "B7",
+   "group": "B",
+   "saas": "Okta",
+   "object": "PasswordPolicy (ASA 프로젝트)",
+   "choice": "3단계 interface 판정에 맡긴다",
+   "recommended": "3단계 interface 판정에 맡긴다",
+   "changed": false
+  },
+  {
+   "id": "B8",
+   "group": "B",
+   "saas": "Okta",
+   "object": "ActiveDirectoryPasswordPolicy (ASA 프로젝트)",
+   "choice": "3단계 interface 판정에 맡긴다",
+   "recommended": "3단계 interface 판정에 맡긴다",
+   "changed": false
+  },
+  {
+   "id": "B9",
+   "group": "B",
+   "saas": "Slack",
+   "object": "permission (앱 권한 설정)",
+   "choice": "3단계 interface 판정에 맡긴다",
+   "recommended": "3단계 interface 판정에 맡긴다",
+   "changed": false
+  },
+  {
+   "id": "B10",
+   "group": "B",
+   "saas": "Slack",
+   "object": "workflow-permission",
+   "choice": "3단계 interface 판정에 맡긴다",
+   "recommended": "3단계 interface 판정에 맡긴다",
+   "changed": false
+  },
+  {
+   "id": "C1",
+   "group": "C",
+   "saas": "GitHub",
+   "object": "Hosted compute network configuration",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C2",
+   "group": "C",
+   "saas": "GitHub",
+   "object": "Codespaces Secret",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C3",
+   "group": "C",
+   "saas": "GitHub",
+   "object": "Organization private registry",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C4",
+   "group": "C",
+   "saas": "GitHub",
+   "object": "Secret Scanning Custom Pattern",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C5",
+   "group": "C",
+   "saas": "Google",
+   "object": "Event (Calendar)",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C6",
+   "group": "C",
+   "saas": "Google",
+   "object": "FormResponse",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C7",
+   "group": "C",
+   "saas": "Google",
+   "object": "Message (Gmail)",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C8",
+   "group": "C",
+   "saas": "Google",
+   "object": "Thread (Gmail)",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C9",
+   "group": "C",
+   "saas": "Okta",
+   "object": "team (Access Requests)",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C10",
+   "group": "C",
+   "saas": "Okta",
+   "object": "Application",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C11",
+   "group": "C",
+   "saas": "Okta",
+   "object": "EmailDomainResponse",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C12",
+   "group": "C",
+   "saas": "Okta",
+   "object": "PolicyRule",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "C13",
+   "group": "C",
+   "saas": "Okta",
+   "object": "WorkloadRole (OPA)",
+   "choice": "공간이 있는 것으로 인정한다",
+   "recommended": "공간이 있는 것으로 인정한다",
+   "changed": false
+  },
+  {
+   "id": "D1",
+   "group": "D",
+   "saas": "GitHub",
+   "object": "ProgrammingLanguage",
+   "choice": "속성으로 둔다",
+   "recommended": "범위에서 뺀다",
+   "changed": true
+  },
+  {
+   "id": "D2",
+   "group": "D",
+   "saas": "GitHub",
+   "object": "GitHubDependency",
+   "choice": "속성으로 둔다",
+   "recommended": "범위에서 뺀다",
+   "changed": true
+  },
+  {
+   "id": "D3",
+   "group": "D",
+   "saas": "GitHub",
+   "object": "GitHubContainerImageLayer",
+   "choice": "수집 과제, v1 고정에 넣지 않음",
+   "recommended": "범위에서 뺀다",
+   "changed": true,
+   "decided_by": "사용자 (1단계 문서 13.6, 2026-10-18)"
+  },
+  {
+   "id": "D4",
+   "group": "D",
+   "saas": "GitHub",
+   "object": "GitHubAction",
+   "choice": "수집 과제, v1 고정에 넣지 않음",
+   "recommended": "범위에서 뺀다",
+   "changed": true,
+   "decided_by": "사용자 (1단계 문서 13.6, 2026-10-18)"
+  },
+  {
+   "id": "D5",
+   "group": "D",
+   "saas": "GitHub",
+   "object": "GitHubCodeOwnerRule",
+   "choice": "수집 과제, v1 고정에 넣지 않음",
+   "recommended": "범위에서 뺀다",
+   "changed": true,
+   "decided_by": "사용자 (1단계 문서 13.6, 2026-10-18)"
+  },
+  {
+   "id": "D6",
+   "group": "D",
+   "saas": "GitHub",
+   "object": "PythonLibrary",
+   "choice": "수집 과제, v1 고정에 넣지 않음",
+   "recommended": "범위에서 뺀다",
+   "changed": true,
+   "decided_by": "사용자 (1단계 문서 13.6, 2026-10-18)"
+  },
+  {
+   "id": "D7",
+   "group": "D",
+   "saas": "Okta",
+   "object": "ReplyUri",
+   "choice": "속성으로 둔다",
+   "recommended": "범위에서 뺀다",
+   "changed": true
+  },
+  {
+   "id": "E1",
+   "group": "E",
+   "saas": "Slack",
+   "object": "봇",
+   "choice": "지금 지도대로 둔다",
+   "recommended": "지금 지도대로 둔다",
+   "changed": false
+  },
+  {
+   "id": "E2",
+   "group": "E",
+   "saas": "GitHub",
+   "object": "RulesetRule",
+   "choice": "지금 지도대로 둔다",
+   "recommended": "지금 지도대로 둔다",
+   "changed": false
+  },
+  {
+   "id": "E3",
+   "group": "E",
+   "saas": "GitHub",
+   "object": "컨테이너 이미지",
+   "choice": "지금 지도대로 둔다",
+   "recommended": "지금 지도대로 둔다",
+   "changed": false
+  },
+  {
+   "id": "E4",
+   "group": "E",
+   "saas": "Okta",
+   "object": "사용자 역할, 그룹 역할",
+   "choice": "지금 지도대로 둔다",
+   "recommended": "지금 지도대로 둔다",
+   "changed": false
+  },
+  {
+   "id": "E5",
+   "group": "E",
+   "saas": "Slack",
+   "object": "message",
+   "choice": "지금 지도대로 둔다",
+   "recommended": "지금 지도대로 둔다",
+   "changed": false
+  },
+  {
+   "id": "E6",
+   "group": "E",
+   "saas": "Slack",
+   "object": "work_object_record",
+   "choice": "지금 지도대로 둔다",
+   "recommended": "지금 지도대로 둔다",
+   "changed": false
+  },
+  {
+   "id": "E7",
+   "group": "E",
+   "saas": "Slack",
+   "object": "workflow (구형)",
+   "choice": "지금 지도대로 둔다",
+   "recommended": "지금 지도대로 둔다",
+   "changed": false
+  },
+  {
+   "id": "F1",
+   "group": "F",
+   "saas": "GitHub",
+   "object": "GraphQL 전용 Node 타입 261개",
+   "choice": "3단계에서 거른다",
+   "recommended": "3단계에서 거른다",
+   "changed": false
+  },
+  {
+   "id": "F2",
+   "group": "F",
+   "saas": "여럿",
+   "object": "새 단일 자원 중 메타 정보",
+   "choice": "3단계에서 거른다",
+   "recommended": "3단계에서 거른다",
+   "changed": false
+  }
+ ],
+ "later": [
+  "1단계 문서 13.6: 복합키 한 행 = 설치 x 자격증명 종류, OAuth2ClientSecret 유지(부모 두 종류, 근거 약함), 파생 노드는 v1 제외"
+ ]
+}

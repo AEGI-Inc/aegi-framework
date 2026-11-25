@@ -1,0 +1,502 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: simple-user
+interfaces: &a1
+  - Principal
+model:
+  research_type: object-type:e5af651876584e75716d4c43
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:e5af651876584e75716d4c43.identity_evidence
+  aliases:
+    - name: login
+      expr: login
+      stability: mutable
+      classification: self_address
+      evidence:
+        source: gh_rest_ghec_next_2026_03_10_latest
+        locator: simple-user.login
+  parent:
+    type: enterprise-team-with-member-count
+    expr: $req.parent_id
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  name:
+    path: name
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: name
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:simple-user|name
+  email:
+    path: email
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: email
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:simple-user|email
+  login:
+    path: login
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: login
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|login
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      format: int64
+      name: id
+      required: true
+      scalar: integer
+    map_items:
+      - space:simple-user|id
+  node_id:
+    path: node_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: node_id
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|node_id
+  avatar_url:
+    path: avatar_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      format: uri
+      name: avatar_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|avatar_url
+  gravatar_id:
+    path: gravatar_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: gravatar_id
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|gravatar_id
+  url:
+    path: url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      format: uri
+      name: url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|url
+  html_url:
+    path: html_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      format: uri
+      name: html_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|html_url
+  followers_url:
+    path: followers_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      format: uri
+      name: followers_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|followers_url
+  following_url:
+    path: following_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: following_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|following_url
+  gists_url:
+    path: gists_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: gists_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|gists_url
+  starred_url:
+    path: starred_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: starred_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|starred_url
+  subscriptions_url:
+    path: subscriptions_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      format: uri
+      name: subscriptions_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|subscriptions_url
+  organizations_url:
+    path: organizations_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      format: uri
+      name: organizations_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|organizations_url
+  repos_url:
+    path: repos_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      format: uri
+      name: repos_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|repos_url
+  events_url:
+    path: events_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: events_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|events_url
+  received_events_url:
+    path: received_events_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      format: uri
+      name: received_events_url
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|received_events_url
+  type:
+    path: type
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: type
+      required: true
+      scalar: string
+    map_items:
+      - space:simple-user|type
+  site_admin:
+    path: site_admin
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: site_admin
+      required: true
+      scalar: boolean
+    map_items:
+      - space:simple-user|site_admin
+  starred_at:
+    path: starred_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: starred_at
+      required: false
+      scalar: string
+    map_items:
+      - space:simple-user|starred_at
+  user_view_type:
+    path: user_view_type
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    declaration:
+      name: user_view_type
+      required: false
+      scalar: string
+    map_items:
+      - space:simple-user|user_view_type
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: enterprise-team-with-member-count
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:4b708dbd71302e39ee2d6435 (enterprises/{}/teams/{}) -> enterprise-team-with-member-count
+  - name: inherited_from
+    field: inherited_from
+    target: enterprise-team-with-member-count
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3108ea257131aace2d452305; relation=no_relation
+  - name: user
+    field: user
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:428766b9972ecac59686c467; relation=no_relation
+  - name: html_url
+    field: html_url
+    target: team-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:46bc471a7461dcf804bf2b53; relation=no_relation
+  - name: repo
+    field: repo
+    target: full-repository
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:57cd4c3d8568cbba48990ba2; relation=no_relation
+  - name: url
+    field: url
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:84d324f7cb8b5d3c93e9de51; relation=no_relation
+  - name: repository
+    field: repository
+    target: full-repository
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8d7466f421ce1ce9ba027bce; relation=no_relation
+  - name: invitee
+    field: invitee
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:96e5201e2bc9bf12ac2e6a98; relation=no_relation
+  - name: inviter
+    field: inviter
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9f164d02e83cd46e306f92e4; relation=no_relation
+  - name: login
+    field: login
+    target: organization-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c314bb30f766c7bc652b0023; relation=no_relation
+constants: {}
+row_contracts:
+  principal_kind:
+    if:
+      equals:
+        - type
+        - User
+    then: human
+    else:
+      if:
+        equals:
+          - type
+          - Bot
+      then: service
+      else:
+        if:
+          equals:
+            - type
+            - Organization
+        then: group
+        else: unknown
+  account_kind:
+    if:
+      equals:
+        - type
+        - User
+    then: human
+    else:
+      if:
+        equals:
+          - type
+          - Bot
+      then: app
+      else: unknown
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: simple-user
+  interfaces: *a1
+  model:
+    research_type: object-type:e5af651876584e75716d4c43
+  extract:
+    key: PILOT-github-simple-user-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-GITHUB-6d4c43
+            endpoint: /
+            items:
+              - reviewers.reviewer
+        properties:
+          avatar_url: avatar_url
+          email: email
+          events_url: events_url
+          followers_url: followers_url
+          following_url: following_url
+          gists_url: gists_url
+          gravatar_id: gravatar_id
+          html_url: html_url
+          id: id
+          login: login
+          name: name
+          node_id: node_id
+          organizations_url: organizations_url
+          received_events_url: received_events_url
+          repos_url: repos_url
+          site_admin: site_admin
+          starred_at: starred_at
+          starred_url: starred_url
+          subscriptions_url: subscriptions_url
+          type: type
+          url: url
+          user_view_type: user_view_type
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: non_object
+  call: null
+  operation_id: null
+  endpoint: null
+  paths:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+      path:
+        - "*"
+        - reviewers
+        - "*"
+        - reviewer
+  note: V3.1 판정 non_object(V2-S4). Object 로 읽지 않는다
+  candidate_operation_id: op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-members
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+    - login
+  reference_paths:
+    - inherited_from
+    - user
+    - html_url
+    - repo
+    - url
+    - repository
+    - invitee
+    - inviter
+    - login
+  metadata_paths: *a2
+  remaining_declared_fields: properties

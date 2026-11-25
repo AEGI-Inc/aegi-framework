@@ -1,0 +1,158 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/role_assignment.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-06
+        request:
+          kind: roleassignments
+        items: items
+    id_expr: roleAssignmentId
+    vars:
+      assignee:
+        ref:
+          type: User
+          lookup: id
+          value:
+            op: str
+            of: assignedTo
+        prop: $key
+      role_name:
+        ref:
+          type: Role
+          id: roleId
+        prop: roleName
+      assignee_email:
+        ref:
+          type: User
+          lookup: id
+          value:
+            op: str
+            of: assignedTo
+        prop: primaryEmail
+    refs:
+      grantee:
+        when:
+          path: $vars.assignee
+          present: true
+        ref:
+          key: $vars.assignee
+        type: User
+        value: assignedTo
+    properties:
+      roleId: roleId
+      assignedTo: assignedTo
+      assigneeType: assigneeType
+      scopeType: scopeType
+      orgUnitId: orgUnitId
+      expirationDetails: expirationDetails
+    display: "{$vars.role_name|roleId} → {$vars.assignee_email|assignedTo}"
+    relations:
+      - type: has_role_on
+        source:
+          key: $vars.assignee
+        target: $tenant
+        role:
+          ref:
+            type: Role
+            id: roleId
+        basis: stated
+        require:
+          - role
+        properties:
+          via_assignment: $self
+          ...:
+            if:
+              path: orgUnitId
+              truthy: true
+            then:
+              object:
+                qualifiers:
+                  object:
+                    org_unit: orgUnitId
+            else:
+              object: {}
+    identity:
+      primary:
+        - name: id
+          expr: roleAssignmentId
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-RA-{id}
+runtime_stub: null
+runtime_key: GWS-RA-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: RoleAssignment:list
+    sources:
+      - call: GW-06
+        request:
+          kind: roleassignments
+        items: items
+    vars:
+      assignee:
+        ref:
+          type: User
+          lookup: id
+          value:
+            op: str
+            of: assignedTo
+        prop: $key
+      role_name:
+        ref:
+          type: Role
+          id: roleId
+        prop: roleName
+      assignee_email:
+        ref:
+          type: User
+          lookup: id
+          value:
+            op: str
+            of: assignedTo
+        prop: primaryEmail
+    relations:
+      - type: has_role_on
+        source:
+          key: $vars.assignee
+        target: $tenant
+        role:
+          ref:
+            type: Role
+            id: roleId
+        basis: stated
+        require:
+          - role
+        properties:
+          via_assignment: $self
+          ...:
+            if:
+              path: orgUnitId
+              truthy: true
+            then:
+              object:
+                qualifiers:
+                  object:
+                    org_unit: orgUnitId
+            else:
+              object: {}
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: roleAssignmentId
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-RA-{id}
+    replaced:
+      - $req.parent_id
+      - roleId

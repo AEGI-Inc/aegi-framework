@@ -1,0 +1,1033 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: UserProfile
+interfaces: &a1
+  - Principal
+model:
+  research_type: object-type:3084efc8b3c78ba0ad5f4113
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+      normalization:
+        - to_18_char
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:3084efc8b3c78ba0ad5f4113.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|Id
+  AboutMe:
+    path: AboutMe
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: textarea
+      name: AboutMe
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|AboutMe
+  City:
+    path: City
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: string
+      name: City
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|City
+  CompanyName:
+    path: CompanyName
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: string
+      name: CompanyName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|CompanyName
+  Country:
+    path: Country
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: string
+      name: Country
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|Country
+  Email:
+    path: Email
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: email
+      name: Email
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|Email
+  Fax:
+    path: Fax
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: phone
+      name: Fax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|Fax
+  FirstName:
+    path: FirstName
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: string
+      name: FirstName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|FirstName
+  FullPhotoUrl:
+    path: FullPhotoUrl
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: url
+      name: FullPhotoUrl
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|FullPhotoUrl
+  IsActive:
+    path: IsActive
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: IsActive
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|IsActive
+  IsBadged:
+    path: IsBadged
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: IsBadged
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|IsBadged
+  LastName:
+    path: LastName
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: string
+      name: LastName
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|LastName
+  ManagerId:
+    path: ManagerId
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: reference
+      name: ManagerId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|ManagerId
+  MobilePhone:
+    path: MobilePhone
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: phone
+      name: MobilePhone
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|MobilePhone
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: string
+      name: Name
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|Name
+  Phone:
+    path: Phone
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: phone
+      name: Phone
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|Phone
+  PostalCode:
+    path: PostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: string
+      name: PostalCode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|PostalCode
+  SmallPhotoUrl:
+    path: SmallPhotoUrl
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: url
+      name: SmallPhotoUrl
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|SmallPhotoUrl
+  State:
+    path: State
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: string
+      name: State
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|State
+  Street:
+    path: Street
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: textarea
+      name: Street
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|Street
+  Title:
+    path: Title
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: string
+      name: Title
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:UserProfile|Title
+  UserPreferencesActivityRemindersPopup:
+    path: UserPreferencesActivityRemindersPopup
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesActivityRemindersPopup
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesActivityRemindersPopup
+  UserPreferencesApexPagesDeveloperMode:
+    path: UserPreferencesApexPagesDeveloperMode
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesApexPagesDeveloperMode
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesApexPagesDeveloperMode
+  UserPreferencesDisableAllFeedsEmail:
+    path: UserPreferencesDisableAllFeedsEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableAllFeedsEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableAllFeedsEmail
+  UserPreferencesDisableBookmarkEmail:
+    path: UserPreferencesDisableBookmarkEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableBookmarkEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableBookmarkEmail
+  UserPreferencesDisableChangeCommentEmail:
+    path: UserPreferencesDisableChangeCommentEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableChangeCommentEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableChangeCommentEmail
+  UserPreferencesDisableEndorsementEmail:
+    path: UserPreferencesDisableEndorsementEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableEndorsementEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableEndorsementEmail
+  UserPreferencesDisableFeedbackEmail:
+    path: UserPreferencesDisableFeedbackEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableFeedbackEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableFeedbackEmail
+  UserPreferencesDisableFileShareNotificationsForApi:
+    path: UserPreferencesDisableFileShareNotificationsForApi
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableFileShareNotificationsForApi
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableFileShareNotificationsForApi
+  UserPreferencesDisableFollowersEmail:
+    path: UserPreferencesDisableFollowersEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableFollowersEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableFollowersEmail
+  UserPreferencesDisableLaterCommentEmail:
+    path: UserPreferencesDisableLaterCommentEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableLaterCommentEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableLaterCommentEmail
+  UserPreferencesDisableLikeEmail:
+    path: UserPreferencesDisableLikeEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableLikeEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableLikeEmail
+  UserPreferencesDisableMentionsPostEmail:
+    path: UserPreferencesDisableMentionsPostEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableMentionsPostEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableMentionsPostEmail
+  UserPreferencesDisableMessageEmail:
+    path: UserPreferencesDisableMessageEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableMessageEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableMessageEmail
+  UserPreferencesDisableProfilePostEmail:
+    path: UserPreferencesDisableProfilePostEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableProfilePostEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableProfilePostEmail
+  UserPreferencesDisableRewardEmail:
+    path: UserPreferencesDisableRewardEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableRewardEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableRewardEmail
+  UserPreferencesDisableSharePostEmail:
+    path: UserPreferencesDisableSharePostEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableSharePostEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableSharePostEmail
+  UserPreferencesDisableWorkEmail:
+    path: UserPreferencesDisableWorkEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisableWorkEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisableWorkEmail
+  UserPreferencesDisCommentAfterLikeEmail:
+    path: UserPreferencesDisCommentAfterLikeEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisCommentAfterLikeEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisCommentAfterLikeEmail
+  UserPreferencesDisMentionsCommentEmail:
+    path: UserPreferencesDisMentionsCommentEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisMentionsCommentEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisMentionsCommentEmail
+  UserPreferencesDisProfPostCommentEmail:
+    path: UserPreferencesDisProfPostCommentEmail
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesDisProfPostCommentEmail
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesDisProfPostCommentEmail
+  UserPreferencesEnableAutoSubForFeeds:
+    path: UserPreferencesEnableAutoSubForFeeds
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesEnableAutoSubForFeeds
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesEnableAutoSubForFeeds
+  UserPreferencesEventRemindersCheckboxDefault:
+    path: UserPreferencesEventRemindersCheckboxDefault
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesEventRemindersCheckboxDefault
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesEventRemindersCheckboxDefault
+  UserPreferencesHideChatterOnboardingSplash:
+    path: UserPreferencesHideChatterOnboardingSplash
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesHideChatterOnboardingSplash
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesHideChatterOnboardingSplash
+  UserPreferencesHideCSNDesktopTask:
+    path: UserPreferencesHideCSNDesktopTask
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesHideCSNDesktopTask
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesHideCSNDesktopTask
+  UserPreferencesHideCSNGetChatterMobileTask:
+    path: UserPreferencesHideCSNGetChatterMobileTask
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesHideCSNGetChatterMobileTask
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesHideCSNGetChatterMobileTask
+  UserPreferencesHideS1BrowserUI:
+    path: UserPreferencesHideS1BrowserUI
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesHideS1BrowserUI
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesHideS1BrowserUI
+  UserPreferencesHideSecondChatterOnboardingSplash:
+    path: UserPreferencesHideSecondChatterOnboardingSplash
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesHideSecondChatterOnboardingSplash
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesHideSecondChatterOnboardingSplash
+  UserPreferencesReminderSoundOff:
+    path: UserPreferencesReminderSoundOff
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesReminderSoundOff
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesReminderSoundOff
+  UserPreferencesShowCityToExternalUsers:
+    path: UserPreferencesShowCityToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowCityToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowCityToExternalUsers
+  UserPreferencesShowCityToGuestUsers:
+    path: UserPreferencesShowCityToGuestUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowCityToGuestUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowCityToGuestUsers
+  UserPreferencesShowCountryToExternalUsers:
+    path: UserPreferencesShowCountryToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowCountryToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowCountryToExternalUsers
+  UserPreferencesShowCountryToGuestUsers:
+    path: UserPreferencesShowCountryToGuestUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowCountryToGuestUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowCountryToGuestUsers
+  UserPreferencesShowEmailToExternalUsers:
+    path: UserPreferencesShowEmailToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowEmailToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowEmailToExternalUsers
+  UserPreferencesShowFaxToExternalUsers:
+    path: UserPreferencesShowFaxToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowFaxToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowFaxToExternalUsers
+  UserPreferencesShowManagerToExternalUsers:
+    path: UserPreferencesShowManagerToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowManagerToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowManagerToExternalUsers
+  UserPreferencesShowMobilePhoneToExternalUsers:
+    path: UserPreferencesShowMobilePhoneToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowMobilePhoneToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowMobilePhoneToExternalUsers
+  UserPreferencesShowPostalCodeToExternalUsers:
+    path: UserPreferencesShowPostalCodeToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowPostalCodeToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowPostalCodeToExternalUsers
+  UserPreferencesShowPostalCodeToGuestUsers:
+    path: UserPreferencesShowPostalCodeToGuestUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowPostalCodeToGuestUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowPostalCodeToGuestUsers
+  UserPreferencesShowProfilePicToGuestUsers:
+    path: UserPreferencesShowProfilePicToGuestUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowProfilePicToGuestUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowProfilePicToGuestUsers
+  UserPreferencesShowStateToExternalUsers:
+    path: UserPreferencesShowStateToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowStateToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowStateToExternalUsers
+  UserPreferencesShowStateToGuestUsers:
+    path: UserPreferencesShowStateToGuestUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowStateToGuestUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowStateToGuestUsers
+  UserPreferencesShowStreetAddressToExternalUsers:
+    path: UserPreferencesShowStreetAddressToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowStreetAddressToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowStreetAddressToExternalUsers
+  UserPreferencesShowTitleToExternalUsers:
+    path: UserPreferencesShowTitleToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowTitleToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowTitleToExternalUsers
+  UserPreferencesShowTitleToGuestUsers:
+    path: UserPreferencesShowTitleToGuestUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowTitleToGuestUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowTitleToGuestUsers
+  UserPreferencesShowWorkPhoneToExternalUsers:
+    path: UserPreferencesShowWorkPhoneToExternalUsers
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesShowWorkPhoneToExternalUsers
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesShowWorkPhoneToExternalUsers
+  UserPreferencesTaskRemindersCheckboxDefault:
+    path: UserPreferencesTaskRemindersCheckboxDefault
+    source: research_shape
+    shape: sh:sf_object_reference:UserProfile
+    declaration:
+      format: boolean
+      name: UserPreferencesTaskRemindersCheckboxDefault
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:UserProfile|UserPreferencesTaskRemindersCheckboxDefault
+references: []
+constants: {}
+row_contracts:
+  principal_kind:
+    const: unknown
+  account_kind:
+    const: unknown
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: UserProfile
+  interfaces: *a1
+  model:
+    research_type: object-type:3084efc8b3c78ba0ad5f4113
+  extract:
+    key: PILOT-salesforce-UserProfile-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-5f4113
+            endpoint: /
+            items:
+              - records
+        properties:
+          AboutMe: AboutMe
+          City: City
+          CompanyName: CompanyName
+          Country: Country
+          Email: Email
+          Fax: Fax
+          FirstName: FirstName
+          FullPhotoUrl: FullPhotoUrl
+          Id: Id
+          IsActive: IsActive
+          IsBadged: IsBadged
+          LastName: LastName
+          ManagerId: ManagerId
+          MobilePhone: MobilePhone
+          Name: Name
+          Phone: Phone
+          PostalCode: PostalCode
+          SmallPhotoUrl: SmallPhotoUrl
+          State: State
+          Street: Street
+          Title: Title
+          UserPreferencesActivityRemindersPopup: UserPreferencesActivityRemindersPopup
+          UserPreferencesApexPagesDeveloperMode: UserPreferencesApexPagesDeveloperMode
+          UserPreferencesDisCommentAfterLikeEmail: UserPreferencesDisCommentAfterLikeEmail
+          UserPreferencesDisMentionsCommentEmail: UserPreferencesDisMentionsCommentEmail
+          UserPreferencesDisProfPostCommentEmail: UserPreferencesDisProfPostCommentEmail
+          UserPreferencesDisableAllFeedsEmail: UserPreferencesDisableAllFeedsEmail
+          UserPreferencesDisableBookmarkEmail: UserPreferencesDisableBookmarkEmail
+          UserPreferencesDisableChangeCommentEmail: UserPreferencesDisableChangeCommentEmail
+          UserPreferencesDisableEndorsementEmail: UserPreferencesDisableEndorsementEmail
+          UserPreferencesDisableFeedbackEmail: UserPreferencesDisableFeedbackEmail
+          UserPreferencesDisableFileShareNotificationsForApi: UserPreferencesDisableFileShareNotificationsForApi
+          UserPreferencesDisableFollowersEmail: UserPreferencesDisableFollowersEmail
+          UserPreferencesDisableLaterCommentEmail: UserPreferencesDisableLaterCommentEmail
+          UserPreferencesDisableLikeEmail: UserPreferencesDisableLikeEmail
+          UserPreferencesDisableMentionsPostEmail: UserPreferencesDisableMentionsPostEmail
+          UserPreferencesDisableMessageEmail: UserPreferencesDisableMessageEmail
+          UserPreferencesDisableProfilePostEmail: UserPreferencesDisableProfilePostEmail
+          UserPreferencesDisableRewardEmail: UserPreferencesDisableRewardEmail
+          UserPreferencesDisableSharePostEmail: UserPreferencesDisableSharePostEmail
+          UserPreferencesDisableWorkEmail: UserPreferencesDisableWorkEmail
+          UserPreferencesEnableAutoSubForFeeds: UserPreferencesEnableAutoSubForFeeds
+          UserPreferencesEventRemindersCheckboxDefault: UserPreferencesEventRemindersCheckboxDefault
+          UserPreferencesHideCSNDesktopTask: UserPreferencesHideCSNDesktopTask
+          UserPreferencesHideCSNGetChatterMobileTask: UserPreferencesHideCSNGetChatterMobileTask
+          UserPreferencesHideChatterOnboardingSplash: UserPreferencesHideChatterOnboardingSplash
+          UserPreferencesHideS1BrowserUI: UserPreferencesHideS1BrowserUI
+          UserPreferencesHideSecondChatterOnboardingSplash: UserPreferencesHideSecondChatterOnboardingSplash
+          UserPreferencesReminderSoundOff: UserPreferencesReminderSoundOff
+          UserPreferencesShowCityToExternalUsers: UserPreferencesShowCityToExternalUsers
+          UserPreferencesShowCityToGuestUsers: UserPreferencesShowCityToGuestUsers
+          UserPreferencesShowCountryToExternalUsers: UserPreferencesShowCountryToExternalUsers
+          UserPreferencesShowCountryToGuestUsers: UserPreferencesShowCountryToGuestUsers
+          UserPreferencesShowEmailToExternalUsers: UserPreferencesShowEmailToExternalUsers
+          UserPreferencesShowFaxToExternalUsers: UserPreferencesShowFaxToExternalUsers
+          UserPreferencesShowManagerToExternalUsers: UserPreferencesShowManagerToExternalUsers
+          UserPreferencesShowMobilePhoneToExternalUsers: UserPreferencesShowMobilePhoneToExternalUsers
+          UserPreferencesShowPostalCodeToExternalUsers: UserPreferencesShowPostalCodeToExternalUsers
+          UserPreferencesShowPostalCodeToGuestUsers: UserPreferencesShowPostalCodeToGuestUsers
+          UserPreferencesShowProfilePicToGuestUsers: UserPreferencesShowProfilePicToGuestUsers
+          UserPreferencesShowStateToExternalUsers: UserPreferencesShowStateToExternalUsers
+          UserPreferencesShowStateToGuestUsers: UserPreferencesShowStateToGuestUsers
+          UserPreferencesShowStreetAddressToExternalUsers: UserPreferencesShowStreetAddressToExternalUsers
+          UserPreferencesShowTitleToExternalUsers: UserPreferencesShowTitleToExternalUsers
+          UserPreferencesShowTitleToGuestUsers: UserPreferencesShowTitleToGuestUsers
+          UserPreferencesShowWorkPhoneToExternalUsers: UserPreferencesShowWorkPhoneToExternalUsers
+          UserPreferencesTaskRemindersCheckboxDefault: UserPreferencesTaskRemindersCheckboxDefault
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:UserProfile.query
+  operation: UserProfile.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: UserProfile
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:UserProfile
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:UserProfile.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/UserProfile/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

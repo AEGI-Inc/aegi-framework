@@ -1,0 +1,884 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: slack
+service: null
+object_type: 200.channel|1
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:3342d0b98364e89f04af0b79
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:3342d0b98364e89f04af0b79.identity_evidence
+tenant_binding:
+  type: workspace
+  service: null
+  field: context_team_id
+  prefix: T
+fields:
+  accepted_user:
+    path: accepted_user
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: accepted_user
+      required: false
+      shape: sh:slack_openapi_legacy:defs_user_id
+    map_items:
+      - space:objs_conversation|0|accepted_user
+  connected_team_ids:
+    path: connected_team_ids
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: connected_team_ids
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.connected_team_ids
+    map_items: []
+  conversation_host_id:
+    path: conversation_host_id
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: conversation_host_id
+      required: false
+      shape: sh:slack_openapi_legacy:defs_workspace_id
+    map_items:
+      - space:objs_conversation|0|conversation_host_id
+  created:
+    path: created
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: created
+      required: true
+      scalar: integer
+    map_items:
+      - space:objs_conversation|0|created
+  creator:
+    path: creator
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: creator
+      required: true
+      shape: sh:slack_openapi_legacy:defs_user_id
+    map_items:
+      - space:objs_conversation|0|creator
+  display_counts:
+    path: display_counts
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: display_counts
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.display_counts
+    map_items: []
+  enterprise_id:
+    path: enterprise_id
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: enterprise_id
+      required: false
+      shape: sh:slack_openapi_legacy:defs_enterprise_id
+    map_items:
+      - space:objs_conversation|0|enterprise_id
+  has_pins:
+    path: has_pins
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: has_pins
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|has_pins
+  id:
+    path: id
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: id
+      required: true
+      shape: sh:slack_openapi_legacy:defs_channel
+    map_items:
+      - space:objs_conversation|0|id
+  internal_team_ids:
+    path: internal_team_ids
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: internal_team_ids
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.internal_team_ids
+    map_items: []
+  is_archived:
+    path: is_archived
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_archived
+      required: true
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_archived
+  is_channel:
+    path: is_channel
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_channel
+      required: true
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_channel
+  is_ext_shared:
+    path: is_ext_shared
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_ext_shared
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_ext_shared
+  is_frozen:
+    path: is_frozen
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_frozen
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_frozen
+  is_general:
+    path: is_general
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_general
+      required: true
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_general
+  is_global_shared:
+    path: is_global_shared
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_global_shared
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_global_shared
+  is_group:
+    path: is_group
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_group
+      required: true
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_group
+  is_im:
+    path: is_im
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_im
+      required: true
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_im
+  is_member:
+    path: is_member
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_member
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_member
+  is_moved:
+    path: is_moved
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_moved
+      required: false
+      scalar: integer
+    map_items:
+      - space:objs_conversation|0|is_moved
+  is_mpim:
+    path: is_mpim
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      enum:
+        - false
+      name: is_mpim
+      required: true
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_mpim
+  is_non_threadable:
+    path: is_non_threadable
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_non_threadable
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_non_threadable
+  is_open:
+    path: is_open
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_open
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_open
+  is_org_default:
+    path: is_org_default
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_org_default
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_org_default
+  is_org_mandatory:
+    path: is_org_mandatory
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_org_mandatory
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_org_mandatory
+  is_org_shared:
+    path: is_org_shared
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_org_shared
+      required: true
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_org_shared
+  is_pending_ext_shared:
+    path: is_pending_ext_shared
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_pending_ext_shared
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_pending_ext_shared
+  is_private:
+    path: is_private
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_private
+      required: true
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_private
+  is_read_only:
+    path: is_read_only
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_read_only
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_read_only
+  is_shared:
+    path: is_shared
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_shared
+      required: true
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_shared
+  is_starred:
+    path: is_starred
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_starred
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_starred
+  is_thread_only:
+    path: is_thread_only
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: is_thread_only
+      required: false
+      scalar: boolean
+    map_items:
+      - space:objs_conversation|0|is_thread_only
+  last_read:
+    path: last_read
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: last_read
+      required: false
+      shape: sh:slack_openapi_legacy:defs_ts
+    map_items:
+      - space:objs_conversation|0|last_read
+  latest:
+    path: latest
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: latest
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.latest
+    map_items:
+      - space:objs_conversation|0|latest
+  members:
+    path: members
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: members
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.members
+    map_items: []
+  name:
+    path: name
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: name
+      required: true
+      scalar: string
+    map_items:
+      - space:objs_conversation|0|name
+  name_normalized:
+    path: name_normalized
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: name_normalized
+      required: true
+      scalar: string
+    map_items:
+      - space:objs_conversation|0|name_normalized
+  num_members:
+    path: num_members
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: num_members
+      required: false
+      scalar: integer
+    map_items:
+      - space:objs_conversation|0|num_members
+  parent_conversation:
+    path: parent_conversation
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: parent_conversation
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.parent_conversation
+    map_items: []
+  pending_connected_team_ids:
+    path: pending_connected_team_ids
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: pending_connected_team_ids
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.pending_connected_team_ids
+    map_items: []
+  pending_shared:
+    path: pending_shared
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: pending_shared
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.pending_shared
+    map_items: []
+  pin_count:
+    path: pin_count
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: pin_count
+      required: false
+      scalar: integer
+    map_items:
+      - space:objs_conversation|0|pin_count
+  previous_names:
+    path: previous_names
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: previous_names
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.previous_names
+    map_items: []
+  priority:
+    path: priority
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: priority
+      required: false
+      scalar: number
+    map_items:
+      - space:objs_conversation|0|priority
+  purpose:
+    path: purpose
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: purpose
+      required: true
+      shape: sh:slack_openapi_legacy:objs_conversation|0.purpose
+    map_items: []
+  shared_team_ids:
+    path: shared_team_ids
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: shared_team_ids
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.shared_team_ids
+    map_items: []
+  shares:
+    path: shares
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: shares
+      required: false
+      shape: sh:slack_openapi_legacy:objs_conversation|0.shares
+    map_items: []
+  timezone_count:
+    path: timezone_count
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: timezone_count
+      required: false
+      scalar: integer
+    map_items:
+      - space:objs_conversation|0|timezone_count
+  topic:
+    path: topic
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: topic
+      required: true
+      shape: sh:slack_openapi_legacy:objs_conversation|0.topic
+    map_items: []
+  unlinked:
+    path: unlinked
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: unlinked
+      required: false
+      scalar: integer
+    map_items:
+      - space:objs_conversation|0|unlinked
+  unread_count:
+    path: unread_count
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: unread_count
+      required: false
+      scalar: integer
+    map_items:
+      - space:objs_conversation|0|unread_count
+  unread_count_display:
+    path: unread_count_display
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: unread_count_display
+      required: false
+      scalar: integer
+    map_items:
+      - space:objs_conversation|0|unread_count_display
+  use_case:
+    path: use_case
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: use_case
+      required: false
+      scalar: string
+    map_items:
+      - space:objs_conversation|0|use_case
+  user:
+    path: user
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: user
+      required: false
+      shape: sh:slack_openapi_legacy:defs_user_id
+    map_items:
+      - space:objs_conversation|0|user
+  version:
+    path: version
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|0
+    declaration:
+      name: version
+      required: false
+      scalar: integer
+    map_items:
+      - space:objs_conversation|0|version
+  is_user_deleted:
+    path: is_user_deleted
+    source: research_shape
+    shape: sh:slack_openapi_legacy:objs_conversation|2
+    declaration:
+      name: is_user_deleted
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|1|is_user_deleted
+references:
+  - name: user
+    field: user
+    target: 200.self
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1697b44f949e00d1ce0dfa3d; relation=no_relation
+  - name: enterprise_id
+    field: enterprise_id
+    target: defs_enterprise_id
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2cb34ee592930685ed1648f4; relation=no_relation
+  - name: topic_creator
+    field: topic.creator
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5030ad666209bfd1da7b07a6; relation=no_relation
+  - name: shares
+    field: shares
+    target: 200.team
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:645a2eabc4a20009403a4afe; relation=no_relation
+  - name: shares_team
+    field: shares.team
+    target: objs_team
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:70511ecc7ddce90808c43e1f; relation=no_relation
+  - name: last_read
+    field: last_read
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:766c88255d718769b8b6a57f; relation=no_relation
+  - name: conversation_host_id
+    field: conversation_host_id
+    target: objs_team
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9d56fbaa86c82e4f37f6deb6; relation=no_relation
+  - name: creator
+    field: creator
+    target: 200.self
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:aee2fe429a82894cfb253263; relation=no_relation
+  - name: shares_accepted_user
+    field: shares.accepted_user
+    target: 200.self
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c9fe18da0cd65d77a41bac12; relation=no_relation
+  - name: shares_user
+    field: shares.user
+    target: 200.self
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:cb4f3c1df04e2b816d022d70; relation=no_relation
+  - name: accepted_user
+    field: accepted_user
+    target: 200.self
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d1dc7f59a12ff133861b9c55; relation=no_relation
+  - name: purpose_creator
+    field: purpose.creator
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f48113a1a566c956d4280331; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: slack
+  object_type: 200.channel|1
+  interfaces: *a1
+  model:
+    research_type: object-type:3342d0b98364e89f04af0b79
+  extract:
+    key: PILOT-slack-200.channel|1-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-SLACK-af0b79
+            endpoint: /
+            items:
+              - channel
+              - channel
+              - channel
+        properties:
+          accepted_user: accepted_user
+          connected_team_ids: connected_team_ids
+          conversation_host_id: conversation_host_id
+          created: created
+          creator: creator
+          display_counts: display_counts
+          enterprise_id: enterprise_id
+          has_pins: has_pins
+          id: id
+          internal_team_ids: internal_team_ids
+          is_archived: is_archived
+          is_channel: is_channel
+          is_ext_shared: is_ext_shared
+          is_frozen: is_frozen
+          is_general: is_general
+          is_global_shared: is_global_shared
+          is_group: is_group
+          is_im: is_im
+          is_member: is_member
+          is_moved: is_moved
+          is_mpim: is_mpim
+          is_non_threadable: is_non_threadable
+          is_open: is_open
+          is_org_default: is_org_default
+          is_org_mandatory: is_org_mandatory
+          is_org_shared: is_org_shared
+          is_pending_ext_shared: is_pending_ext_shared
+          is_private: is_private
+          is_read_only: is_read_only
+          is_shared: is_shared
+          is_starred: is_starred
+          is_thread_only: is_thread_only
+          is_user_deleted: is_user_deleted
+          last_read: last_read
+          latest: latest
+          members: members
+          name: name
+          name_normalized: name_normalized
+          num_members: num_members
+          parent_conversation: parent_conversation
+          pending_connected_team_ids: pending_connected_team_ids
+          pending_shared: pending_shared
+          pin_count: pin_count
+          previous_names: previous_names
+          priority: priority
+          purpose: purpose
+          shared_team_ids: shared_team_ids
+          shares: shares
+          timezone_count: timezone_count
+          topic: topic
+          unlinked: unlinked
+          unread_count: unread_count
+          unread_count_display: unread_count_display
+          use_case: use_case
+          user: user
+          version: version
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_with_records
+  call: SL-03
+  operation_id: op:slack_openapi_legacy:conversations.list
+  operation: conversations.list
+  surface: rpc
+  method: GET
+  kind: unknown
+  endpoint: /conversations\.list(?:\?|$)
+  endpoint_template: conversations.list
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:slack_openapi_legacy:objs_conversation|0
+      path:
+        - channels
+        - "*"
+  alternatives_total: 8
+  alternatives:
+    - operation_id: op:slack_openapi_legacy:conversations.list
+      method: GET
+      kind: unknown
+      endpoint_template: conversations.list
+      path:
+        - channels
+        - "*"
+      collected_calls:
+        - SL-03
+    - operation_id: op:slack_openapi_legacy:conversations.list
+      method: GET
+      kind: unknown
+      endpoint_template: conversations.list
+      path:
+        - channels
+        - "*"
+      collected_calls:
+        - SL-03
+    - operation_id: op:slack_openapi_legacy:conversations.info
+      method: GET
+      kind: unknown
+      endpoint_template: conversations.info
+      path:
+        - channel
+    - operation_id: op:slack_openapi_legacy:conversations.info
+      method: GET
+      kind: unknown
+      endpoint_template: conversations.info
+      path:
+        - channel
+    - operation_id: op:slack_openapi_legacy:conversations.info
+      method: GET
+      kind: unknown
+      endpoint_template: conversations.info
+      path:
+        - channel
+    - operation_id: op:slack_openapi_legacy:users.conversations
+      method: GET
+      kind: unknown
+      endpoint_template: users.conversations
+      path:
+        - channels
+        - "*"
+    - operation_id: op:slack_openapi_legacy:users.conversations
+      method: GET
+      kind: unknown
+      endpoint_template: users.conversations
+      path:
+        - channels
+        - "*"
+    - operation_id: op:slack_openapi_legacy:users.conversations
+      method: GET
+      kind: unknown
+      endpoint_template: users.conversations
+      path:
+        - channels
+        - "*"
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 14
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: fe9343e56ffad6f2b0e007b7d616aa5a36dc671b5d93ef108740be1799dc2887
+    ir/shape.jsonl: e0251d3f1d8d7f441387bb9666f63eff7398545254d0b92ccab02c9503bbfbf3
+    ir/operation.jsonl: 5f61d17fe234449c5cd1c291def84c2453e244f73063e1ce5d43b65caf9348cf
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - user
+    - enterprise_id
+    - topic.creator
+    - shares
+    - shares.team
+    - last_read
+    - conversation_host_id
+    - creator
+    - shares.accepted_user
+    - shares.user
+    - accepted_user
+    - purpose.creator
+  metadata_paths: *a2
+  remaining_declared_fields: properties

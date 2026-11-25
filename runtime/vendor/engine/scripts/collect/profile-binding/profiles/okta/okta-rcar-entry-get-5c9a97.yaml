@@ -1,0 +1,297 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: rcar-entry-get
+interfaces: &a1
+  - Policy
+model:
+  research_type: object-type:1d79a33cbafe7002635c9a97
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:1d79a33cbafe7002635c9a97.identity_evidence
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:rcar-entry-get
+    declaration:
+      name: id
+      required: true
+      scalar: string
+    map_items:
+      - space:rcar-entry-get_2|id
+  name:
+    path: name
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:rcar-entry-get
+    declaration:
+      name: name
+      required: true
+      scalar: string
+    map_items:
+      - space:rcar-entry-get_2|name
+  description:
+    path: description
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:rcar-entry-get
+    declaration:
+      name: description
+      required: false
+      scalar: string
+    map_items:
+      - space:rcar-entry-get_2|description
+  label:
+    path: label
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:rcar-entry-get
+    declaration:
+      name: label
+      required: false
+      scalar: string
+    map_items:
+      - space:rcar-entry-get_2|label
+  parent:
+    path: parent
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:rcar-entry-get
+    declaration:
+      name: parent
+      required: false
+      scalar: string
+    map_items:
+      - space:rcar-entry-get_2|parent
+  requestable:
+    path: requestable
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:rcar-entry-get
+    declaration:
+      name: requestable
+      required: true
+      shape: sh:okta_iga_enduser_openapi:rcar-entry-requestable
+    map_items:
+      - space:rcar-entry-get_2|requestable
+  counts:
+    path: counts
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:rcar-entry-get
+    declaration:
+      name: counts
+      required: false
+      shape: sh:okta_iga_enduser_openapi:rcar-entry-counts
+    map_items: []
+  _links:
+    path: _links
+    source: research_shape
+    shape: sh:okta_iga_enduser_openapi:rcar-entry-get
+    declaration:
+      name: _links
+      required: true
+      shape: sh:okta_iga_enduser_openapi:rcar-entry-links
+    map_items: []
+references:
+  - name: links_relatedentity_href
+    field: _links.relatedEntity.href
+    target: request-condition-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1815f9f051fa952bcea4b92e; relation=no_relation
+  - name: links_pendingrequest_href
+    field: _links.pendingRequest.href
+    target: request-full-api-compatible
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2b33b299d5c485e575b3240b; relation=no_relation
+  - name: links_parent_href
+    field: _links.parent.href
+    target: request-full-api-compatible
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:44b76286f35580441b13b210; relation=no_relation
+  - name: links_submittedrequest_href
+    field: _links.submittedRequest.href
+    target: request-full-api-compatible
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:539176c9dc667b36635a4f0c; relation=no_relation
+  - name: links_logo_href
+    field: _links.logo.href
+    target: request-condition-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5600c71d398fada3ad4b18c9; relation=no_relation
+  - name: parent
+    field: parent
+    target: rcar-entry-get
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:756ef5192799f849c5d010c5; relation=no_relation
+  - name: links_self_href
+    field: _links.self.href
+    target: request-full-api-compatible
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c00eafa5566fc901efc02563; relation=no_relation
+  - name: links_createrequest_href
+    field: _links.createRequest.href
+    target: request-full-api-compatible
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d73e32f99cad5fe227aa2a5a; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: rcar-entry-get
+  interfaces: *a1
+  model:
+    research_type: object-type:1d79a33cbafe7002635c9a97
+  extract:
+    key: PILOT-okta-rcar-entry-get-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-OKTA-5c9a97
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          _links: _links
+          counts: counts
+          description: description
+          id: id
+          label: label
+          name: name
+          parent: parent
+          requestable: requestable
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_iga_enduser_openapi:listMyDefaultEntriesV2
+  operation: listMyDefaultEntriesV2
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /governance/api/v2/my/catalogs/default/entries(?:\?|$)
+  endpoint_template: /governance/api/v2/my/catalogs/default/entries
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:okta_iga_enduser_openapi:rcar-entry
+      path:
+        - data
+        - "*"
+  alternatives_total: 4
+  alternatives:
+    - operation_id: op:okta_iga_requests_v2_openapi:listAllDefaultEntriesV2
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v2/catalogs/default/entries
+      path: &a3
+        - data
+        - "*"
+    - operation_id: op:okta_iga_requests_v2_openapi:listAllDefaultUserEntriesV2
+      method: GET
+      kind: read_many
+      endpoint_template: /governance/api/v2/catalogs/default/user/{userId}/entries
+      path: *a3
+    - operation_id: op:okta_iga_enduser_openapi:getMyEntryV2
+      method: GET
+      kind: read_one
+      endpoint_template: /governance/api/v2/my/catalogs/default/entries/{entryId}
+      path: []
+    - operation_id: op:okta_iga_requests_v2_openapi:getCatalogEntryV2
+      method: GET
+      kind: read_one
+      endpoint_template: /governance/api/v2/catalogs/default/entries/{entryId}
+      path: []
+  basis: ir_read_response_reachability
+  selection: tie_needs_review
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - _links.relatedEntity.href
+    - _links.pendingRequest.href
+    - _links.parent.href
+    - _links.submittedRequest.href
+    - _links.logo.href
+    - parent
+    - _links.self.href
+    - _links.createRequest.href
+  metadata_paths: *a2
+  remaining_declared_fields: properties

@@ -1,0 +1,54 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: agentregistry
+object_type: McpServer
+interfaces: [Integration]
+# 근거: Agent Registry v1 Discovery 문서의 McpServer 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-04 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-AR-MCP-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-04
+        request: {kind: mcp_servers}
+        items: mcpServers
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    properties:
+      attributes: attributes
+      displayName: displayName
+      createTime: createTime
+      interfaces: interfaces
+      updateTime: updateTime
+      description: description
+      tools: tools
+      mcpServerId: mcpServerId
+      # 시스템 속성(열쇠에 점 · 빗금이 들어 prefix_fields 로 이름을 바꿔 읽는다). 3회차 실측 7개가 Gemini Enterprise 데이터 커넥터를 가리킨다
+      runtime_reference: {op: first, of: {op: pluck, of: {op: prefix_fields, of: attributes, from: "agentregistry.googleapis.com/system/", to: ""}, field: RuntimeReference.uri}}
+      operational_state: {const: unknown}
+    display: "{displayName|title|name}"
+    relations:
+      # 커넥터의 MCP 얼굴: Gemini Enterprise 데이터 커넥터(GitHub · Salesforce · Jira · Confluence · Drive · Gmail · Calendar)를 등록 MCP 서버로 낸 것.
+      # 3회차 실측 23개 중 7개가 RuntimeReference 로 커넥터 이름(collections/<이름>/dataConnector)을 글자 그대로 가리킨다. 나머지 16개는 Google Cloud API 관리형 MCP
+      - type: contained_in
+        source: $self
+        target: {type: DataConnector, id: {op: regex, of: {op: first, of: {op: pluck, of: {op: prefix_fields, of: attributes, from: "agentregistry.googleapis.com/system/", to: ""}, field: RuntimeReference.uri}}, pattern: "^//discoveryengine[.]googleapis[.]com/(projects/.+/dataConnector)$"}}
+        basis: stated
+        require: [target]
+      - type: registered_in
+        source: $self
+        target: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+        basis: stated
+        require: [target]

@@ -1,0 +1,172 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/environment.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-24
+        items: environments
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+      repo_name:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: name
+      reviewers:
+        op: flatten
+        of:
+          op: pluck
+          of: protection_rules
+          field: reviewers
+    parent:
+      ref:
+        key: $vars.repo
+      when: always
+    mutable_ids:
+      name: name
+      node_id: node_id
+    refs:
+      reviewers:
+        each: $vars.reviewers
+        ref:
+          switch:
+            if:
+              path: $item.type
+              eq: Team
+            then:
+              const: team
+            else:
+              if:
+                path: $item.reviewer.login
+                truthy: true
+              then:
+                const: user
+          cases:
+            team:
+              type: team-full
+              id: $item.reviewer.id
+              exists: true
+            user:
+              type: simple-user
+              lookup: login
+              value: $item.reviewer.login
+        value:
+          any:
+            - $item.reviewer.slug
+            - $item.reviewer.login
+    properties:
+      name: name
+      protection_rules:
+        op: map_each
+        of: protection_rules
+        value:
+          object:
+            type: $item.type
+            wait_timer: $item.wait_timer
+            prevent_self_review: $item.prevent_self_review
+      reviewers:
+        op: map_each
+        of: $vars.reviewers
+        value:
+          object:
+            type: $item.type
+            name:
+              any:
+                - $item.reviewer.login
+                - $item.reviewer.slug
+      deployment_branch_policy:
+        op: null_if_missing
+        of: deployment_branch_policy
+      can_admins_bypass: can_admins_bypass
+      created_at: created_at
+      updated_at: updated_at
+    display: "{$vars.repo_name|$vars.repo} 환경 {name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-ENV-{id}
+runtime_stub: null
+runtime_key: GH-ENV-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  name:
+    stability: mutable
+  node_id:
+    stability: mutable
+relation_rules:
+  - id: Environment:list
+    sources:
+      - call: GH-24
+        items: environments
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+      repo_name:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: name
+      reviewers:
+        op: flatten
+        of:
+          op: pluck
+          of: protection_rules
+          field: reviewers
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-ENV-{id}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

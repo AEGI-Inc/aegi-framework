@@ -1,0 +1,56 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: aiplatform
+object_type: SandboxEnvironment
+interfaces: [Resource]
+# 근거: Agent Platform v1(reasoningEngines) Discovery 문서의 GoogleCloudAiplatformV1SandboxEnvironment 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-06 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# 접속 정보(connectionInfo)와 모양이 정해지지 않은 실행 환경 설정(spec)은 옮기지 않는다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-RE-SANDBOX-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-06
+        request: {kind: sandbox_environments}
+        items: sandboxEnvironments
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    refs:
+      template:
+        ref: {type: SandboxEnvironmentTemplate, id: sandboxEnvironmentTemplate}
+        value: sandboxEnvironmentTemplate
+        key_if_exists: true
+      snapshot:
+        ref: {type: SandboxEnvironmentSnapshot, id: sandboxEnvironmentSnapshot}
+        value: sandboxEnvironmentSnapshot
+        key_if_exists: true
+    properties:
+      sandboxEnvironmentTemplate: sandboxEnvironmentTemplate
+      updateTime: updateTime
+      createTime: createTime
+      expireTime: expireTime
+      sandboxEnvironmentSnapshot: sandboxEnvironmentSnapshot
+      owner: owner
+      displayName: displayName
+      ttl: ttl
+      state: state
+      latestSandboxEnvironmentSnapshot: latestSandboxEnvironmentSnapshot
+    display: "{displayName|title|name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: ReasoningEngine, id: {op: regex, of: name, pattern: "^(.+)/sandboxEnvironments/[^/]+$"}}
+        basis: stated
+        require: [target]

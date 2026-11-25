@@ -1,0 +1,26 @@
+{
+ "date": "2026-10-18",
+ "source": "사용자 결정 (2단계 문서 7절 Q1~Q3, 권고대로)",
+ "github": {
+  "same": [["Team", "team-full"]],
+  "different": [["Team", "enterprise-team-with-member-count"]],
+  "why": "Q1: GraphQL Team 은 조직 팀이다. 엔터프라이즈 팀 예시의 node_id 가 Team 으로 풀린 것은 문서 예시 재사용으로 본다"
+ },
+ "jira": {
+  "same": [["Group", "GroupDetails"], ["Group", "GroupName"], ["Group", "FoundGroup"]],
+  "different": [],
+  "why": "Q2: 네 공간 모두 그룹 이름과 groupId 로 같은 그룹을 가리킨다"
+ },
+ "gws": {
+  "same": [["Group", "Group_2"]],
+  "different": [],
+  "why": "Q3: Cloud Identity 그룹의 키(groupKey.id)는 그룹 이메일이고 Directory 그룹과 같은 그룹이다 (Google 문서, 원문 판단 근거)"
+ },
+ "m365": {
+  "date": "2026-11-20",
+  "source": "사용자 결정 (권고대로)",
+  "same": [["microsoft.graph.directoryRole", "microsoft.graph.unifiedRoleDefinition"]],
+  "different": [["microsoft.graph.application", "microsoft.graph.servicePrincipal"], ["microsoft.graph.applicationTemplate", "microsoft.graph.servicePrincipal"]],
+  "why": "directoryRole 은 활성화된 디렉터리 역할이고 roleTemplateId 가 unifiedRoleDefinition.id 와 같다(실측 3/3). 같은 역할로 본다. application 과 servicePrincipal 은 같은 앱의 두 면(앱 등록과 테넌트 인스턴스)이므로 같은 실체로 합치지 않고 appId 로 잇는 관계로 객체 단계에서 다룬다. applicationTemplate(갤러리 템플릿)의 id 가 1st-party 앱 servicePrincipal.appId 와 같은 것(실측)도 같은 기준으로 다른 실체로 둔다"
+ }
+}

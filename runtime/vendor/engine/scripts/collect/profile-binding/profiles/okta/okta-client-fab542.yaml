@@ -1,0 +1,367 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: Client
+interfaces: &a1
+  - Integration
+model:
+  research_type: object-type:6e28b1ec2bef041685fab542
+identity:
+  primary:
+    - name: client_id
+      expr: client_id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:6e28b1ec2bef041685fab542.identity_evidence
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  application_type:
+    path: application_type
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: application_type
+      required: false
+      shape: sh:okta_oauth_openapi:ApplicationType
+    map_items:
+      - space:Client|application_type
+  client_id:
+    path: client_id
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: client_id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Client|client_id
+  client_id_issued_at:
+    path: client_id_issued_at
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: client_id_issued_at
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Client|client_id_issued_at
+  client_name:
+    path: client_name
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: client_name
+      required: true
+      scalar: string
+    map_items:
+      - space:Client|client_name
+  client_secret:
+    path: client_secret
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: client_secret
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Client|client_secret
+  client_secret_expires_at:
+    path: client_secret_expires_at
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: client_secret_expires_at
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Client|client_secret_expires_at
+  frontchannel_logout_session_required:
+    path: frontchannel_logout_session_required
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: frontchannel_logout_session_required
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Client|frontchannel_logout_session_required
+  frontchannel_logout_uri:
+    path: frontchannel_logout_uri
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: frontchannel_logout_uri
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Client|frontchannel_logout_uri
+  grant_types:
+    path: grant_types
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: grant_types
+      required: false
+      shape: sh:okta_oauth_openapi:Client.grant_types
+    map_items: []
+  id_token_encrypted_response_alg:
+    path: id_token_encrypted_response_alg
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: id_token_encrypted_response_alg
+      required: false
+      shape: sh:okta_oauth_openapi:OAuthIdTokenKeyEncryptionAlgorithm
+    map_items:
+      - space:Client|id_token_encrypted_response_alg
+  initiate_login_uri:
+    path: initiate_login_uri
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: initiate_login_uri
+      required: false
+      scalar: string
+    map_items:
+      - space:Client|initiate_login_uri
+  jwks:
+    path: jwks
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: jwks
+      required: false
+      shape: sh:okta_oauth_openapi:Client.jwks
+    map_items: []
+  jwks_uri:
+    path: jwks_uri
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: jwks_uri
+      required: false
+      scalar: string
+    map_items:
+      - space:Client|jwks_uri
+  logo_uri:
+    path: logo_uri
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: logo_uri
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Client|logo_uri
+  policy_uri:
+    path: policy_uri
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: policy_uri
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Client|policy_uri
+  post_logout_redirect_uris:
+    path: post_logout_redirect_uris
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: post_logout_redirect_uris
+      required: false
+      shape: sh:okta_oauth_openapi:Client.post_logout_redirect_uris
+    map_items:
+      - space:Client|post_logout_redirect_uris
+  redirect_uris:
+    path: redirect_uris
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: redirect_uris
+      required: false
+      shape: sh:okta_oauth_openapi:Client.redirect_uris
+    map_items:
+      - space:Client|redirect_uris
+  request_object_signing_alg:
+    path: request_object_signing_alg
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: request_object_signing_alg
+      required: false
+      shape: sh:okta_oauth_openapi:SigningAlgorithm
+    map_items:
+      - space:Client|request_object_signing_alg
+  response_types:
+    path: response_types
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: response_types
+      required: false
+      shape: sh:okta_oauth_openapi:Client.response_types
+    map_items: []
+  token_endpoint_auth_method:
+    path: token_endpoint_auth_method
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: token_endpoint_auth_method
+      required: false
+      shape: sh:okta_oauth_openapi:EndpointAuthMethod
+    map_items:
+      - space:Client|token_endpoint_auth_method
+  tos_uri:
+    path: tos_uri
+    source: research_shape
+    shape: sh:okta_oauth_openapi:Client
+    declaration:
+      name: tos_uri
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Client|tos_uri
+references:
+  - name: jwks_keys
+    field: jwks.keys
+    target: JsonEncryptionWebKey
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:ea9c07813cfed02b1d786393; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: Client
+  interfaces: *a1
+  model:
+    research_type: object-type:6e28b1ec2bef041685fab542
+  extract:
+    key: PILOT-okta-Client-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: client_id
+        sources:
+          - call: AUTO-OKTA-fab542
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          application_type: application_type
+          client_id: client_id
+          client_id_issued_at: client_id_issued_at
+          client_name: client_name
+          client_secret: client_secret
+          client_secret_expires_at: client_secret_expires_at
+          frontchannel_logout_session_required: frontchannel_logout_session_required
+          frontchannel_logout_uri: frontchannel_logout_uri
+          grant_types: grant_types
+          id_token_encrypted_response_alg: id_token_encrypted_response_alg
+          initiate_login_uri: initiate_login_uri
+          jwks: jwks
+          jwks_uri: jwks_uri
+          logo_uri: logo_uri
+          policy_uri: policy_uri
+          post_logout_redirect_uris: post_logout_redirect_uris
+          redirect_uris: redirect_uris
+          request_object_signing_alg: request_object_signing_alg
+          response_types: response_types
+          token_endpoint_auth_method: token_endpoint_auth_method
+          tos_uri: tos_uri
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: non_object
+  call: null
+  operation_id: null
+  endpoint: null
+  paths:
+    - shape: sh:okta_oauth_openapi:Client
+      path: []
+  note: V3.1 판정 non_object(pinned out2 same_entity view_or_variant). Object 로 읽지 않는다
+  candidate_operation_id: op:okta_oauth_openapi:listClients
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - client_id
+  reference_paths:
+    - jwks.keys
+  metadata_paths: *a2
+  remaining_declared_fields: properties

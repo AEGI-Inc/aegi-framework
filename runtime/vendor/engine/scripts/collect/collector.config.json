@@ -1,0 +1,176 @@
+{
+  "since": "2026-11-07T00:00:00Z",
+  "github": {
+    "org": "aegi-r3-org",
+    "enterprise": "aegi-r3",
+    "repos": [],
+    "maxCommitDetails": 200
+  },
+  "okta": {
+    "orgHost": "trial-2897935.okta.com",
+    "scopes": [
+      "okta.agentPools.read",
+      "okta.apiTokens.read",
+      "okta.apps.read",
+      "okta.authenticators.read",
+      "okta.authorizationServers.read",
+      "okta.behaviors.read",
+      "okta.captchas.read",
+      "okta.clients.read",
+      "okta.deviceAssurance.read",
+      "okta.devices.read",
+      "okta.domains.read",
+      "okta.emailDomains.read",
+      "okta.emailServers.read",
+      "okta.eventHooks.read",
+      "okta.groups.read",
+      "okta.idps.read",
+      "okta.inlineHooks.read",
+      "okta.logs.read",
+      "okta.logStreams.read",
+      "okta.networkZones.read",
+      "okta.oauthIntegrations.read",
+      "okta.orgs.read",
+      "okta.policies.read",
+      "okta.profileMappings.read",
+      "okta.pushProviders.read",
+      "okta.realms.read",
+      "okta.roles.read",
+      "okta.schemas.read",
+      "okta.securityEventsProviders.read",
+      "okta.threatInsights.read",
+      "okta.trustedOrigins.read",
+      "okta.users.read",
+      "okta.userTypes.read",
+      "okta.uischemas.read",
+      "okta.linkedObjects.read",
+      "okta.appGrants.read",
+      "okta.devicePostureChecks.read",
+      "okta.brands.read",
+      "okta.templates.read",
+      "okta.rateLimits.read",
+      "okta.principalRateLimits.read",
+      "okta.customTelephonyProvider.read",
+      "okta.governance.assignmentCandidates.read",
+      "okta.resourceServers.apiServers.read"
+    ],
+    "policyTypes": [
+      "OKTA_SIGN_ON",
+      "ACCESS_POLICY",
+      "MFA_ENROLL",
+      "PASSWORD",
+      "IDP_DISCOVERY",
+      "PROFILE_ENROLLMENT",
+      "POST_AUTH_SESSION",
+      "ENTITY_RISK"
+    ]
+  },
+  "slack": {
+    "teamId": "T0C2NC3C892",
+    "enterpriseId": "E0C2LL4CXL1",
+    "extraChannels": [],
+    "appIds": [],
+    "usergroupIds": [],
+    "integrationLogs": true
+  },
+  "gws": {
+    "adminSubject": "svc.collector@aegi.site",
+    "driveUsers": [
+      "admin@aegi.site",
+      "sec.dohyun@aegi.site",
+      "it.hwamin@aegi.site",
+      "dev.junsik@aegi.site",
+      "dev.jiwon@aegi.site",
+      "dev.seojun@aegi.site",
+      "hr.yaeji@aegi.site",
+      "sales.taewook@aegi.site",
+      "cs.minji@aegi.site"
+    ],
+    "forms": [],
+    "scripts": [],
+    "grantedScopes": [
+      "script.deployments.readonly",
+      "gmail.settings.basic",
+      "drive.readonly",
+      "apps.groups.settings",
+      "admin.directory.device.mobile.readonly",
+      "admin.directory.device.chromeos.readonly",
+      "cloud-identity.devices.readonly",
+      "admin.datatransfer.readonly",
+      "drive.labels.readonly",
+      "drive.apps.readonly",
+      "chrome.management.reports.readonly",
+      "calendar.readonly",
+      "admin.directory.resource.calendar.readonly",
+      "ediscovery.readonly",
+      "apps.alerts",
+      "chrome.management.appdetails.readonly",
+      "chrome.management.telemetry.readonly",
+      "chrome.management.profiles.readonly",
+      "chrome.management.securityinsights.readonly",
+      "admin.directory.device.chromebrowsers.readonly",
+      "gmail.labels",
+      "admin.chrome.printers.readonly",
+      "chrome.management.connectors.readonly"
+    ],
+    "reportApplications": [
+      "drive",
+      "token:authorize",
+      "login",
+      "admin",
+      "groups"
+    ]
+  },
+  "salesforce": {
+    "instanceHost": "aegiinc.my.salesforce.com",
+    "apiVersion": "61.0",
+    "auditDays": 180
+  },
+  "atlassian": {
+    "jira": true,
+    "confluence": true,
+    "audit": true,
+    "orgId": "5ea845a9-da2e-4558-b726-6a65ec66baca",
+    "orgAudit": { "orgId": "5ea845a9-da2e-4558-b726-6a65ec66baca", "since": "2026-10-29T11:25:00Z" }
+  },
+  "worker": {
+    "baseUrl": "https://aegi-scenario-bots.haribozyme.workers.dev",
+    "tables": [
+      "slash-requests",
+      "github-webhooks",
+      "oauth-callbacks"
+    ]
+  },
+  "aws": {
+    "region": "ap-southeast-2",
+    "accountId": "184375957234"
+  },
+  "normalize": {
+    "people": {
+      "admin": "admin@aegi.site",
+      "A": "dev.jiwon@aegi.site",
+      "B": "it.hwamin@aegi.site",
+      "C": "dev.junsik@aegi.site",
+      "D": "hr.yaeji@aegi.site",
+      "E": "sales.taewook@aegi.site",
+      "F": "cs.minji@aegi.site",
+      "target": "sales.sumin@aegi.site"
+    },
+    "accounts": {
+      "A": {
+        "github": "aegi-site-dev-jiwon"
+      },
+      "C": {
+        "github": "aegi-site-dev-junsik"
+      }
+    },
+    "sensitivePaths": [
+      "scenario-lab/logging/**",
+      "scenario-lab/auth/**"
+    ],
+    "measurementPrincipals": {
+      "slack": []
+    }
+  },
+  "$comment": "r3 (2026-11-08~, aegi.site: GWS aegi.site, Okta trial-2897935, GitHub aegi-r3/aegi-r3-org, Slack Sandbox 2 E0C2LL4CXL1/T0C2NC3C892, Atlassian aegi-inc, Salesforce aegiinc). 2회차 설정은 collector.config.aegi-men.json, 1회차는 collector.config.aegi-site.json. 바꾸는 법은 env-automation/docs/AEGI_ROUND_DOMAIN_SWITCH.md. Slack extraChannels·appIds 는 3회차 시나리오 세팅 뒤 채운다."
+}

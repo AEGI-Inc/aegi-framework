@@ -1,0 +1,146 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: discoveryengine
+object_type: Agent
+interfaces: [Automation, Resource]
+# 근거: Discovery Engine v1alpha Discovery 문서의 GoogleCloudDiscoveryengineV1alphaAgent 스키마. 2026-11-19 실제 응답 6건으로 맞춰 봤다. agentIdentityInfo·longRunningOperationsEnabled·workflowAgentDefinition·lowCodeAgentDefinition 은 이 문서에 없고 실제 응답에만 있었다.
+# 호출 ID GCP-03 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 정의 본문(managed·workflow·lowCode)은 수집기가 버리고 있었다는 것만 남긴다.
+# 같은 에이전트가 ReasoningEngine·RegistryAgent 로도 보일 수 있다. 여기서 묶지 않고 참조만 남긴다. 아이콘과 모양이 정해지지 않은 managedAgentDefinition 은 옮기지 않는다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-GE-AGENT-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-03
+        request: {kind: agents}
+        items: agents
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    refs:
+      # 에이전트가 든 앱. 공유 범위 ALL_USERS 에이전트는 그 앱을 쓰는 사람 누구나 부른다(aegi-knowledge semantic_mapping records gcp_shared_agent_all_users)
+      engine:
+        ref: {type: Engine, id: {op: regex, of: name, pattern: "^(.+/engines/[^/]+)/assistants/"}}
+        value: {op: regex, of: name, pattern: "^(.+/engines/[^/]+)/assistants/"}
+        key_if_exists: true
+      reasoning_engine:
+        ref: {type: ReasoningEngine, id: adkAgentDefinition.provisionedReasoningEngine.reasoningEngine}
+        value: adkAgentDefinition.provisionedReasoningEngine.reasoningEngine
+        key_if_exists: true
+      authorizations:
+        each: authorizationConfig.toolAuthorizations
+        ref: {type: Authorization, id: $item}
+        value: $item
+        key_if_exists: true
+      agent_authorization:
+        ref: {type: Authorization, id: authorizationConfig.agentAuthorization}
+        value: authorizationConfig.agentAuthorization
+        key_if_exists: true
+    properties:
+      observabilityConfig: observabilityConfig
+      adkAgentDefinition: adkAgentDefinition
+      creationFailureReason: creationFailureReason
+      authorizationConfig: authorizationConfig
+      a2aAgentDefinition: a2aAgentDefinition
+      rejectionReason: rejectionReason
+      createTime: createTime
+      description: description
+      languageCode: languageCode
+      updateTime: updateTime
+      defaultPinned: defaultPinned
+      state: state
+      starterPrompts: starterPrompts
+      dialogflowAgentDefinition: dialogflowAgentDefinition
+      customPlaceholderText: customPlaceholderText
+      displayName: displayName
+      sharingConfig: sharingConfig
+      suspensionReason: suspensionReason
+      deploymentFailureReason: deploymentFailureReason
+      has_managed_agent_definition: {op: exists, of: managedAgentDefinition}
+      has_workflow_agent_definition: {op: exists, of: workflowAgentDefinition}
+      workflow_owner: workflowAgentDefinition.owner
+      has_low_code_agent_definition: {op: exists, of: lowCodeAgentDefinition}
+      spiffe_id: agentIdentityInfo.spiffeId
+      spiffe_id_type: agentIdentityInfo.spiffeIdType
+      agent_id_part: agentIdentityInfo.agentIdPart
+      longRunningOperationsEnabled: longRunningOperationsEnabled
+      activeRevision: activeRevision
+      # 공유 범위(ALL_USERS · RESTRICTED · PRIVATE). 3회차 실측 6개: ALL_USERS 2, RESTRICTED 1, PRIVATE 3
+      sharing_scope: sharingConfig.scope
+      # Gemini Enterprise 에이전트(관리형 · 로우코드 · 워크플로)는 부른 사람 자신의 권한과 커넥터 연결로 돈다 — 11-19 시험에서 공유 에이전트가 실행한 사람 자신의
+      # 커넥터 연결만 썼다(gemini-enterprise-logs-2026-11-19-shared-agent). ADK 에이전트의 실행 신원은 ReasoningEngine 의 runs_as(서비스 계정)가 따로 담는다
+      run_as_resolution: {const: caller}
+    display: "{displayName|title|name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Assistant, id: {op: regex, of: name, pattern: "^(.+)/agents/[^/]+$"}}
+        basis: stated
+        require: [target]
+  # 에이전트 IAM 명단(agents.getIamPolicy, 2026-11-20). 공유 범위 RESTRICTED · PRIVATE 인 에이전트만 수집기가 부른다. 역할은 agentOwner(만든 사람) · agentUser(공유받은 사람 · 그룹).
+  # 모양은 앱 IAM 과 같다(11-19 공유 에이전트 시험 정책 파일). 3회차 실측 원본에는 이 호출이 없어 가짜 서버 시험(providers/gcp.test.ts)으로만 확인했다
+  - id: agent_iam
+    kind: relation
+    sources:
+      - call: GCP-03
+        request: {kind: agent_iam}
+        items: bindings
+        each: members
+    vars:
+      mtype:
+        any:
+          - {op: regex, of: ".", pattern: "^([A-Za-z]+):"}
+        empty_as: special
+      mvalue:
+        any:
+          - {op: regex, of: ".", pattern: "^[A-Za-z]+:(.+)$"}
+          - "."
+    relations:
+      - type: has_role_on
+        when: {not: {all: [{path: $vars.mtype, eq: serviceAccount}, {has: {type: ServiceAccount, lookup: email, value: $vars.mvalue}}]}}
+        source:
+          type: IamMember
+          id: "."
+          create:
+            rule: make
+            record:
+              object:
+                member: "."
+                member_type: $vars.mtype
+                value: $vars.mvalue
+        target: {type: Agent, id: $req.resource}
+        role:
+          ref: {type: Role, id: $parent.role}
+          name: $parent.role
+        basis: stated
+        membership_enforced: true
+        properties:
+          role: $parent.role
+          condition_title: $parent.condition.title
+          condition_expression: $parent.condition.expression
+        require: [source, target]
+      # 주체가 수집된 서비스 계정이면 그 ServiceAccount 객체가 출발점이다
+      - type: has_role_on
+        when: {all: [{path: $vars.mtype, eq: serviceAccount}, {has: {type: ServiceAccount, lookup: email, value: $vars.mvalue}}]}
+        source: {type: ServiceAccount, lookup: email, value: $vars.mvalue}
+        target: {type: Agent, id: $req.resource}
+        role:
+          ref: {type: Role, id: $parent.role}
+          name: $parent.role
+        basis: stated
+        membership_enforced: true
+        properties:
+          role: $parent.role
+          condition_title: $parent.condition.title
+          condition_expression: $parent.condition.expression
+        require: [source, target]

@@ -1,0 +1,97 @@
+# GWS 라이선스 배정 (GW-25, 2026-11-15 수집 빈 곳). 누가 어떤 제품·SKU 라이선스를 받았는지.
+# 필드는 developers.google.com Enterprise License Manager 「LicenseAssignment」(userId, productId, productName, skuId, skuName).
+# 라이선스는 권한이 아니라 제품을 쓸 수 있게 하는 자격이다. 그래서 권한 관계(has_role_on)를 내지 않고 배정 객체와 받는 사람 참조만 둔다
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gws
+service: null
+object_type: LicenseAssignment
+interfaces:
+  - Assignment
+model:
+  runtime_type_id: collect-gap-2026-11-15:gws:LicenseAssignment
+  source: developers.google.com/workspace/admin/licensing/reference/rest/v1/licenseAssignments
+identity:
+  primary:
+    - name: p
+      expr: productId
+      stability: stable
+    - name: s
+      expr: skuId
+      stability: stable
+    - name: u
+      expr: $vars.uid
+      stability: catalog_reviewed
+  scope: tenant
+fields: {}
+runtime_key: GWS-LIC-{p}-{s}-{u}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-25
+        items: items
+        where:
+          path: skuId
+          truthy: true
+    vars:
+      user:
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: userId
+          ci: true
+        prop: $key
+      uid:
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: userId
+          ci: true
+        prop: $id
+    require:
+      path: $vars.uid
+      present: true
+    id_expr:
+      template: "{productId}:{skuId}:{$vars.uid}"
+    parts:
+      p: productId
+      s: skuId
+      u: $vars.uid
+    refs:
+      grantee:
+        ref:
+          key: $vars.user
+        type: User
+        value: $vars.uid
+    properties:
+      product_id: productId
+      product_name: productName
+      sku_id: skuId
+      sku_name: skuName
+    display: "{skuName|skuId} ← {$vars.uid}"
+    relations: []
+    identity:
+      primary:
+        - name: p
+          expr: productId
+          stability: stable
+        - name: s
+          expr: skuId
+          stability: stable
+        - name: u
+          expr: $vars.uid
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-LIC-{p}-{s}-{u}
+privacy:
+  secret_leaf_names: []

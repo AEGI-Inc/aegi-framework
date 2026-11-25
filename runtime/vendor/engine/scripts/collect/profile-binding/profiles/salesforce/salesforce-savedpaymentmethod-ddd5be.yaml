@@ -1,0 +1,708 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: SavedPaymentMethod
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:04028732706c159319ddd5be
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:04028732706c159319ddd5be.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|Id
+  AccountHolderEmail:
+    path: AccountHolderEmail
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: AccountHolderEmail
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|AccountHolderEmail
+  AccountHolderName:
+    path: AccountHolderName
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: AccountHolderName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|AccountHolderName
+  AsyncGatewayRefNumber:
+    path: AsyncGatewayRefNumber
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: AsyncGatewayRefNumber
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|AsyncGatewayRefNumber
+  BankAccountHolderType:
+    path: BankAccountHolderType
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: picklist
+      name: BankAccountHolderType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BankAccountHolderType
+  BankAccountType:
+    path: BankAccountType
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: BankAccountType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BankAccountType
+  BankCode:
+    path: BankCode
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: BankCode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BankCode
+  BankName:
+    path: BankName
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: BankName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BankName
+  BillingAddress:
+    path: BillingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: address
+      name: BillingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BillingAddress
+  BillingCity:
+    path: BillingCity
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: BillingCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BillingCity
+  BillingCountry:
+    path: BillingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: BillingCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BillingCountry
+  BillingGeocodeAccuracy:
+    path: BillingGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: picklist
+      name: BillingGeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BillingGeocodeAccuracy
+  BillingLatitude:
+    path: BillingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: double
+      name: BillingLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SavedPaymentMethod|BillingLatitude
+  BillingLongitude:
+    path: BillingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: double
+      name: BillingLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:SavedPaymentMethod|BillingLongitude
+  BillingPostalCode:
+    path: BillingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: BillingPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BillingPostalCode
+  BillingState:
+    path: BillingState
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: BillingState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BillingState
+  BillingStreet:
+    path: BillingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: textarea
+      name: BillingStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|BillingStreet
+  ExpiryMonth:
+    path: ExpiryMonth
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: int
+      name: ExpiryMonth
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SavedPaymentMethod|ExpiryMonth
+  ExpiryYear:
+    path: ExpiryYear
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: int
+      name: ExpiryYear
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SavedPaymentMethod|ExpiryYear
+  ExtendedPaymentMethodType:
+    path: ExtendedPaymentMethodType
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: ExtendedPaymentMethodType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|ExtendedPaymentMethodType
+  GatewayReference:
+    path: GatewayReference
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: GatewayReference
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|GatewayReference
+  GatewayToken:
+    path: GatewayToken
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: encryptedstring
+      name: GatewayToken
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|GatewayToken
+  IsDefault:
+    path: IsDefault
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: boolean
+      name: IsDefault
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:SavedPaymentMethod|IsDefault
+  IsMerchantCreated:
+    path: IsMerchantCreated
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: boolean
+      name: IsMerchantCreated
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:SavedPaymentMethod|IsMerchantCreated
+  IsSharedWithinSameAccount:
+    path: IsSharedWithinSameAccount
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: boolean
+      name: IsSharedWithinSameAccount
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:SavedPaymentMethod|IsSharedWithinSameAccount
+  Issuer:
+    path: Issuer
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: Issuer
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|Issuer
+  Last4:
+    path: Last4
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: Last4
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|Last4
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|LastViewedDate
+  MerchantAccountId:
+    path: MerchantAccountId
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: reference
+      name: MerchantAccountId
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|MerchantAccountId
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: Name
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|Name
+  Network:
+    path: Network
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: Network
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|Network
+  Nickname:
+    path: Nickname
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: Nickname
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|Nickname
+  PaymentGatewayId:
+    path: PaymentGatewayId
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: reference
+      name: PaymentGatewayId
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|PaymentGatewayId
+  PaymentMethodSubType:
+    path: PaymentMethodSubType
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: string
+      name: PaymentMethodSubType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|PaymentMethodSubType
+  ProcessingMode:
+    path: ProcessingMode
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: picklist
+      name: ProcessingMode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|ProcessingMode
+  ReferenceOwnerId:
+    path: ReferenceOwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: reference
+      name: ReferenceOwnerId
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|ReferenceOwnerId
+  StandardEntryClassCode:
+    path: StandardEntryClassCode
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: picklist
+      name: StandardEntryClassCode
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|StandardEntryClassCode
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: picklist
+      name: Status
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|Status
+  Type:
+    path: Type
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: picklist
+      name: Type
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|Type
+  UsageType:
+    path: UsageType
+    source: research_shape
+    shape: sh:sf_object_reference:SavedPaymentMethod
+    declaration:
+      format: picklist
+      name: UsageType
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:SavedPaymentMethod|UsageType
+references:
+  - name: paymentgatewayid
+    field: PaymentGatewayId
+    target: PaymentGateway
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a2fa4e3a8c0f3628be768a99; relation=no_relation
+  - name: merchantaccountid
+    field: MerchantAccountId
+    target: MerchantAccount
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:ba1d584ec6a8fd14b88ab8f0; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: SavedPaymentMethod
+  interfaces: *a1
+  model:
+    research_type: object-type:04028732706c159319ddd5be
+  extract:
+    key: PILOT-salesforce-SavedPaymentMethod-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-ddd5be
+            endpoint: /
+            items:
+              - records
+        properties:
+          AccountHolderEmail: AccountHolderEmail
+          AccountHolderName: AccountHolderName
+          AsyncGatewayRefNumber: AsyncGatewayRefNumber
+          BankAccountHolderType: BankAccountHolderType
+          BankAccountType: BankAccountType
+          BankCode: BankCode
+          BankName: BankName
+          BillingAddress: BillingAddress
+          BillingCity: BillingCity
+          BillingCountry: BillingCountry
+          BillingGeocodeAccuracy: BillingGeocodeAccuracy
+          BillingLatitude: BillingLatitude
+          BillingLongitude: BillingLongitude
+          BillingPostalCode: BillingPostalCode
+          BillingState: BillingState
+          BillingStreet: BillingStreet
+          ExpiryMonth: ExpiryMonth
+          ExpiryYear: ExpiryYear
+          ExtendedPaymentMethodType: ExtendedPaymentMethodType
+          GatewayReference: GatewayReference
+          GatewayToken: GatewayToken
+          Id: Id
+          IsDefault: IsDefault
+          IsMerchantCreated: IsMerchantCreated
+          IsSharedWithinSameAccount: IsSharedWithinSameAccount
+          Issuer: Issuer
+          Last4: Last4
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          MerchantAccountId: MerchantAccountId
+          Name: Name
+          Network: Network
+          Nickname: Nickname
+          PaymentGatewayId: PaymentGatewayId
+          PaymentMethodSubType: PaymentMethodSubType
+          ProcessingMode: ProcessingMode
+          ReferenceOwnerId: ReferenceOwnerId
+          StandardEntryClassCode: StandardEntryClassCode
+          Status: Status
+          Type: Type
+          UsageType: UsageType
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:SavedPaymentMethod.query
+  operation: SavedPaymentMethod.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: SavedPaymentMethod
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:SavedPaymentMethod
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:SavedPaymentMethod.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/SavedPaymentMethod/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - PaymentGatewayId
+    - MerchantAccountId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

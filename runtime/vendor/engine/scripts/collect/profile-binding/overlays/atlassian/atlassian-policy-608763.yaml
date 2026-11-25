@@ -1,0 +1,17 @@
+overlay_basis:
+  from: 2026-11-03 수집 run 20261103T061203Z-0db1 의 RG-AT-getPolicies 응답
+  note: RG-AT-getOrgs 응답이 비어 있어(data:[]) parent_scope($req.parent_id)로 Org 스텁을 만들고 contained_in 관계를 맺는다
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: Org
+    relation: contained_in
+    stub: true
+    reviewed_at: 2026-11-03
+    rationale: 정책 호출 경로의 orgId 로 Org 스텁 연결
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated

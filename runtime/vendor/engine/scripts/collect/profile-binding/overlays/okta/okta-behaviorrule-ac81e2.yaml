@@ -1,0 +1,5 @@
+fields:
+  settings:
+    path: settings
+    source: collected_response
+fields_basis: 설정 판정이 읽는 응답 최상위 키다. Profile 필드 선언에 없어 quarantined_fields 로 빠지던 것을 선언한다(값은 수집 응답 그대로)

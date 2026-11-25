@@ -1,0 +1,347 @@
+# okta ↔ github 연결 규칙
+# 연동 방법마다 「a 와 b 가 같아야 이어진 것」을 적는다. 읽는 법은 legend.yaml, ../README.md
+
+pair:
+- okta
+- github
+written: '2026-10-04'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/okta-github.yaml
+methods:
+- id: enterprise_saml_sso
+  type: identity
+  what: Okta가 GitHub 엔터프라이즈 로그인을 맡음 (SAML)
+  identify:
+    api: okta GET /api/v1/apps
+    when: name == ghecenterprisesaml and signOnMode == SAML_2_0
+  points_to:
+  - tier: config_name
+    a: okta GET /api/v1/apps → settings.app.githubEnterprise
+    b: github:enterprise:slug
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: github GraphQL enterprise.ownerInfo.samlIdentityProvider.issuer, ssoUrl (exk… 키)
+    b: okta GET /api/v1/apps/{appId}/sso/saml/metadata?kid= → entityID
+    check: a 와 b 가 같다
+    if_unreadable: '수집 GET /api/v1/apps/{appId}/sso/saml/metadata?kid={credentials.signing.kid} (okta.apps.read. 대시보드 수집 호출 OK-15, 2026-10-05 실행에서 entityID 가 GitHub issuer 와 같음을 확인). 사람: Okta 관리 콘솔 앱 Sign On 탭의 SAML 설정 안내에서 Identity Provider Issuer — Applications > 앱 > Sign On 탭 > Metadata details 의 Metadata URL, View SAML setup instructions, View IdP metadata, Download certificate (2026-10-05 Okta 관리 콘솔에서 확인)'
+  - tier: config_name
+    a: github ssoUrl 경로의 Okta 조직 호스트와 앱 이름
+    b: okta:org, okta:application:name
+    check: a 와 b 가 같다
+  - tier: fingerprint
+    a: github samlIdentityProvider.idpCertificate
+    b: okta SAML 메타데이터 X509Certificate
+    check: a 의 sha256 과 b 가 같다
+    if_unreadable: github GraphQL samlIdentityProvider.idpCertificate(대시보드 수집 호출 GH-24) 와 okta SAML 메타데이터의 X509Certificate(OK-15) 를 DER sha256 으로 비교 (2026-10-05 엔터프라이즈 앱에서 일치 확인). 앱 키 API 는 쓰지 않아도 된다
+  - tier: via_person
+    a: github samlIdentityProvider.externalIdentities.samlIdentity.nameId
+    b: okta:user:login
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: github 엔터프라이즈 감사 business.sso_response 의 issuer
+    b: okta SAML 메타데이터 entityID
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: okta user.authentication.sso 의 target 중 type AppInstance 의 id
+    b: okta:application:id (GitHub Enterprise 앱)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta user.authentication.sso 시각과 actor.alternateId
+    b: github business.sso_response 시각과 actor
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta System Log user.authentication.sso (target AppInstance.id == 앱 id)
+  - github 엔터프라이즈 감사 로그 business.sso_response, business.enable_saml, business.update_saml_provider_settings
+  verdict:
+    connected: settings.app.githubEnterprise 또는 issuer 가 수집한 엔터프라이즈, 앱과 맞고 앱 status ACTIVE
+    outside: 값이 있는데 수집한 엔터프라이즈가 아님
+    config_only: connected 인데 SSO 로그 없음
+  sources:
+  - https://developer.okta.com/docs/api/openapi/okta-management/management/tag/ApplicationSSO/ [Exa]
+  - https://raw.githubusercontent.com/octokit/graphql-schema/main/schema.graphql (EnterpriseIdentityProvider)
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+  - 필드 이름은 우리 수집 원본 응답으로 확인 (test-environment 참고)
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+- id: org_saml_sso
+  type: identity
+  what: Okta가 GitHub 조직 로그인을 맡음 (SAML)
+  identify:
+    api: okta GET /api/v1/apps
+    when: 조직용 GitHub 앱 (카탈로그 name githubcloud = 「Github Enterprise Cloud - Organization」. 엔터프라이즈용은 ghecenterprisesaml = 「Github Enterprise Cloud - Enterprise Accounts」. 2026-10-05 Okta 관리 콘솔 앱 카탈로그에서 확인)
+  points_to:
+  - tier: config_name
+    a: okta settings.app.githubOrg
+    b: github:organization:login
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: github GraphQL organization.samlIdentityProvider.issuer, ssoUrl
+    b: okta SAML 메타데이터 entityID
+    check: a 와 b 가 같다
+  - tier: fingerprint
+    a: github organization.samlIdentityProvider.idpCertificate
+    b: okta SAML 메타데이터 인증서
+    check: a 의 sha256 과 b 가 같다
+    if_unreadable: github GraphQL samlIdentityProvider.idpCertificate(대시보드 수집 호출 GH-24) 와 okta SAML 메타데이터의 X509Certificate(OK-15) 를 DER sha256 으로 비교 (2026-10-05 엔터프라이즈 앱에서 일치 확인). 앱 키 API 는 쓰지 않아도 된다
+  - tier: log_id
+    a: github 조직 감사 org.sso_response 의 issuer
+    b: okta SAML 메타데이터 entityID
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: okta user.authentication.sso 의 target 중 type AppInstance 의 id
+    b: okta:application:id (GitHub 조직 앱)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta user.authentication.sso 시각과 actor.alternateId
+    b: github org.sso_response 시각과 actor
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta user.authentication.sso
+  - github org.sso_response, org.enable_saml, org.update_saml_provider_settings
+  verdict:
+    connected: githubOrg 가 수집한 조직 login 과 같고 앱 ACTIVE
+  sources:
+  - 'githubOrg 필드: 대시보드 normalize-v2/okta.ts 가 읽음, 팀 블라인드 XI1 로 실물 확인'
+  - https://raw.githubusercontent.com/octokit/graphql-schema/main/schema.graphql (OrganizationIdentityProvider)
+  - "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (org.sso_response: issuer. 웹 화면에는 안 나오고 REST API·스트리밍·내보내기로만)"
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+- id: scim_provisioning
+  type: identity
+  what: Okta가 GitHub 계정, 그룹을 만들고 지움 (조직 SCIM, EMU SCIM)
+  identify:
+    api: okta GET /api/v1/apps, GET /api/v1/apps/{appId}/users
+    when: GitHub 앱의 features 에 PUSH_* 가 있고 배정 syncState 가 DISABLED 가 아님
+  points_to:
+  - tier: config_id
+    a: okta 배정 externalId
+    b: github SCIM 사용자 id — 「Identifier generated by the GitHub SCIM endpoint」. externalId 는 SAML 제공자가 만든 값이라 다르다 (GET /scim/v2/organizations/{org}/Users, https://docs.github.com/en/enterprise-cloud@latest/rest/scim/scim, 2026-10-05 원문 확인). Okta 배정 externalId 에 이 GitHub SCIM id 가 들어가는지는 실데이터 미관찰
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: github externalIdentities.scimIdentity.username (조직) / GET /scim/v2/enterprises/{e}/Users userName (EMU)
+    b: okta:user:login
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: github 엔터프라이즈 감사 external_identity.provision·external_identity.scim_api_success 의 scim_user_id
+    b: github SCIM 사용자 id
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta application.provision.user.push 시각과 대상 사용자
+    b: github external_identity.provision 시각과 user
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta application.provision.user.push, application.provision.user.sync
+  - github external_identity.provision, external_identity.deprovision, external_identity.scim_api_success, EMU 그룹은 external_group.*
+  sources:
+  - https://docs.github.com/en/rest/enterprise-admin/scim [Exa]
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise
+  - 'EMU OIDC 는 Entra ID 전용이라 Okta 해당 없음: https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/configuring-authentication-for-enterprise-managed-users/configuring-oidc-for-enterprise-managed-users [Exa]'
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+- id: team_sync
+  type:
+  - identity
+  - stored_credential
+  what: GitHub가 Okta 그룹을 읽어 팀 구성원을 맞춤. GitHub에 Okta 서비스 사용자 자격증명을 보관
+  identify:
+    api: github GET /orgs/{org}/team-sync/groups
+    when: 응답에 그룹이 있음. 쓰지 않으면 403 「This team is not externally managed」 (2026-10-05 우리 수집 GH-25 에서 관찰. 문서는 상태 코드만 적고 문구는 없음)
+  note: 조건 — 엔터프라이즈 수준에 SAML 이 있으면 개별 조직에서 팀 동기화를 켤 수 없고, 엔터프라이즈 수준 팀 동기화는 Entra ID 만 안내한다. 그래서 엔터프라이즈 SAML 을 Okta 로 쓰는 환경에서는 이 방법이 생길 수 없다. 조직 수준 팀 동기화(Okta)는 조직에 SAML·SCIM 이 있어야 하고, 읽기 전용 관리자 권한의 Okta 서비스 사용자 SSWS 토큰과 Okta 주소를 넣는다 (2026-10-05 GitHub 문서 확인)
+  points_to:
+  - tier: config_id
+    a: github team-sync groups.group_id, team-sync/group-mappings
+    b: okta:group:id
+    check: a 와 b 가 같다
+    if_unreadable: 'GitHub team-sync API — 팀 관리자나 조직 소유자, 토큰은 IdP(SSO) 승인 필요 (https://docs.github.com/en/enterprise-cloud@latest/rest/teams/team-sync, 2026-10-05 원문 확인). 사람: 조직 설정 > Authentication security > Team synchronization'
+  - tier: config_name
+    a: github team-sync groups.group_name
+    b: okta:group:name
+    check: a 와 b 가 같다
+    if_unreadable: 'GitHub team-sync API — 팀 관리자나 조직 소유자, 토큰은 IdP(SSO) 승인 필요 (https://docs.github.com/en/enterprise-cloud@latest/rest/teams/team-sync, 2026-10-05 원문 확인). 사람: 조직 설정 > Authentication security > Team synchronization'
+  - tier: log_time
+    a: okta System Log 에서 GitHub 에 넣은 서비스 사용자가 actor 인 이벤트 시각
+    b: github team.add_member·team.remove_member 시각과 team
+    check: 시각이 가깝다
+  activity:
+  - github team_sync_tenant.enabled, .disabled, .update_okta_credentials (조직·엔터프라이즈 감사 로그 문서)
+  - okta 서비스 사용자의 API 호출. SSWS 토큰 호출은 System Log 에 actor 가 토큰 소유자로 남는다 (okta-external api_token). 그룹 조회 이벤트 종류는 실제 연동을 만들어 읽는다
+  - github team.add_member, team.remove_member (team, team_type)
+  sources:
+  - https://docs.github.com/en/enterprise-cloud@latest/organizations/managing-saml-single-sign-on-for-your-organization/managing-team-synchronization-for-your-organization (Okta 서비스 사용자의 SSWS 토큰, 읽기 전용 관리자)
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (team_sync_tenant.*)
+  - https://docs.github.com/en/rest/teams/team-sync
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/using-saml-for-enterprise-iam/managing-team-synchronization-for-organizations-in-your-enterprise (엔터프라이즈 수준은 Entra ID)
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+- id: workflows_github_connector
+  type: app_grant
+  what: Okta Workflows가 GitHub 계정의 OAuth 승인으로 GitHub API를 부름
+  identify:
+    api: okta System Log
+    when: workflows.user.connection.create 의 target Connection alternateId 가 GitHub 커넥터. alternateId 는 커넥터 종류 문자열이다 (우리 로그에서 okta, slack, googledirectory). GitHub 값은 Workflows 콘솔 > Connections > New Connection > GitHub 으로 연결을 만든 뒤 System Log 에서 읽는다
+  points_to:
+  - tier: config_name
+    a: github 조직 credential-authorizations 의 application_name (GH-22 실응답 필드. 공개 문서는 credential_type 「OAuth app token」까지만 적고 application_name 은 적지 않는다)
+    b: okta:application:name=Okta Workflows
+    check: a 와 b 가 같다
+    if_unreadable: 'GitHub 조직 credential-authorizations (SAML 조직에서 승인한 토큰), 사람: 승인한 사용자의 GitHub Settings > Integrations > Applications > Authorized OAuth Apps 탭 (https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/reviewing-your-authorized-applications-oauth, 2026-10-05 원문 확인)'
+  - tier: log_time
+    a: okta workflows.user.connection.create 시각과 승인한 Okta 사용자
+    b: github 승인 기록 시각과 승인한 GitHub 사용자. 조직 감사 로그에는 OAuth 승인 이벤트가 없고 SAML 조직이면 org_credential_authorization.grant 만 남는다. 승인 자체는 그 사용자의 보안 로그 oauth_authorization.create 에만 남는다 (본인만 봄)
+    check: 시각이 가깝고 사람이 같다
+    note: Okta 연결 이벤트에는 상대 GitHub 계정이 없어 이 비교로만 짝을 짓는다
+  activity:
+  - okta workflows.user.connection.create, .delete, .revoke (target Connection 이름, 커넥터 종류, 연결 번호. 상대 계정 없음)
+  - okta workflows.user.flow.create, .save, .activate, .deactivate (target Flow 이름)
+  - 흐름이 GitHub 에 한 일. GitHub 감사 로그는 토큰으로 한 동작에 hashed_token, programmatic_access_type, token_scopes 를 붙인다 (OAuth token 포함). actor 가 승인한 GitHub 사용자로 남는지는 실제 연동을 만들어 확인한다. Okta 쪽에는 흐름 실행 이벤트가 없음
+  sources:
+  - https://help.okta.com/wf/en-us/content/topics/workflows/connector-reference/github/github.htm (커넥터 소개만. 인증 방식, System Log 이벤트는 없음)
+  - https://docs.github.com/en/enterprise-cloud@latest/rest/orgs/orgs#list-saml-sso-authorizations-for-an-organization (credential_type 값 personal access token, SSH key, OAuth app token, GitHub app token)
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (org_credential_authorization.grant, oauth_application.*. oauth_authorization 계열 없음)
+  - https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/security-log-events (oauth_authorization.create, .destroy, .update)
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/identifying-audit-log-events-performed-by-an-access-token (hashed_token, programmatic_access_type, token_scopes)
+  - https://developer.okta.com/docs/reference/api/event-types/ (workflows.user.connection.create, .delete, .reauthorize, .revoke)
+- id: webhook_to_workflows
+  type: event_delivery
+  what: GitHub 웹훅이 Okta Workflows 흐름의 API 엔드포인트로 보냄
+  identify:
+    api: github GET /orgs/{org}/hooks, GET /repos/{o}/{r}/hooks
+    when: config.url 호스트가 <조직>.workflows.okta.com 이고 경로가 /api/flo/<흐름 id>/invoke
+  points_to:
+  - tier: config_name
+    a: github webhook config.url 호스트
+    b: okta Workflows 흐름의 API Endpoint 주소 (흐름 목록·정의를 주는 공개 관리 API 는 없다. Okta 개발자 포럼 직원 답변 2025-11-19)
+    check: a 와 b 가 같다
+    if_unreadable: '사람: Okta Workflows 콘솔에서 흐름의 API Endpoint Invoke URL (https://devforum.okta.com/t/getting-workflow-configuration-through-management-api/34598)'
+  - tier: log_id
+    a: Okta Workflows 흐름 실행 기록의 요청 헤더 X-GitHub-Hook-ID, X-GitHub-Delivery
+    b: github hook id, 배달 기록 guid
+    check: a 와 b 가 같다
+    if_unreadable: "흐름 실행 기록을 주는 공개 API 는 없다. 사람: Okta Workflows 콘솔 > 흐름 > Execution History (「Save all data that passes through the flow」를 켠 흐름만 요청 내용이 남는다. 토큰 값은 옮기지 않는다)"
+  - tier: log_time
+    a: github 배달 기록 delivered_at
+    b: Okta Workflows 흐름 실행 시각
+    check: 시각이 같다
+  activity:
+  - github 웹훅 배달 기록 (hook deliveries)
+  sources:
+  - 'https://help.okta.com/wf/en-us/content/topics/workflows/function-reference/http/http_accept.htm (API Endpoint 카드: URL 로 흐름을 부름) [Exa 검색 요약]'
+  - https://support.okta.com/help/s/article/How-to-Trigger-a-Flow-6-Ways-to-Run-aFlow (외부 시스템이 API Endpoint 로 흐름 실행) [Exa 검색 요약]
+  - 'Invoke URL 꼴: <조직>.workflows.okta.com/api/flo/<흐름 id>/invoke (문서 아님, 시험 환경 흐름에서 2026-10-04 확인)'
+  - https://docs.github.com/en/webhooks/webhook-events-and-payloads (배달 헤더 X-GitHub-Hook-ID, X-GitHub-Delivery, X-GitHub-Hook-Installation-Target-ID)
+  if_unreadable: '관리 API 확인 못 함. 사람: Okta Workflows 콘솔에서 흐름의 API Endpoint Invoke URL'
+- id: shared_external_server
+  type: external_relay
+  what: SaaS 밖의 서버 하나가 GitHub 웹훅을 받고 Okta 서비스 키로 Okta API를 부름
+  identify:
+    api: github GET /orgs/{org}/hooks; okta GET /api/v1/apps (OIDC service 앱)
+    when: 웹훅 호스트가 외부이고, Okta에 client_credentials 앱이 있음
+  points_to:
+  - tier: config_name
+    a: github webhook config.url 호스트
+    b: 외부 서버 (Okta 쪽 설정에는 서버 주소가 없음)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: 외부 서버 요청 기록의 X-GitHub-Hook-ID, 그 서버가 Okta 토큰을 받은 client_id
+    b: github hook id, okta 서비스 앱 client_id (okta app.oauth2.token.grant 의 client.id)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: github 배달 기록 시각
+    b: okta 그 클라이언트가 행위자인 이벤트 시각
+    check: 시각이 가깝다
+  activity:
+  - okta app.oauth2.token.grant, 이후 같은 클라이언트가 행위자인 이벤트
+  - 외부 서버 요청 로그
+  note: Okta 쪽에 서버를 가리키는 설정 값이 없어, Okta ↔ 서버 구간은 observed 층
+  sources:
+  - 'https://docs.github.com/en/rest/orgs/webhooks#list-organization-webhooks (config.url)'
+  - 'https://developer.okta.com/docs/guides/implement-oauth-for-okta-serviceapp/main/ (API Services 앱, client_credentials, private_key_jwt, 공개키 등록, Okta scope)'
+  - 'https://developer.okta.com/docs/reference/api/event-types/ (app.oauth2.token.grant)'
+  - https://docs.github.com/en/webhooks/webhook-events-and-payloads (배달 헤더 X-GitHub-Hook-ID, X-GitHub-Delivery, X-GitHub-Hook-Installation-Target-ID)
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+- id: verified_domain_email
+  type: same_person
+  what: GitHub 조직 검증 도메인 이메일과 Okta 로그인이 같음
+  identify:
+    api: github GraphQL organizationVerifiedDomainEmails (수집 호출 GH-21)
+    when: 검증 도메인 이메일이 있음
+  points_to:
+  - tier: via_person
+    a: github 사용자의 검증 도메인 이메일
+    b: okta:user:login
+    check: a 와 b 가 같다
+  sources:
+  - 대시보드 수집 호출 GH-21 (scripts/collect/providers/github.ts:101)
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: content_ref
+  type: content_ref
+  what: Okta와 GitHub 사이 내용 참조 메커니즘은 찾지 못함
+  if_unreadable: 수집기는 본문을 지문만 남긴다. conversations.history 의 text 를 수집하거나 사람이 채널에서 본다
+  identify:
+    api: github 커밋·이슈·PR 본문 (수집하면)
+    when: 본문에 <조직>.okta.com 주소
+  points_to:
+  - tier: config_name
+    a: github 본문의 Okta 주소 호스트
+    b: okta 조직 주소
+    check: a 와 b 가 같다
+# ── 2026-10-05 연동 조합 표(../연동 조합 표.md)로 더함
+  sources:
+  - https://docs.github.com/en/rest/commits/commits (commit.author.email)
+  note: 로그 등급 없음. 본문 속 주소라 연결이 동작한 기록이 없다
+- id: actions_to_workflows
+  type: event_delivery
+  what: GitHub Actions 워크플로가 Okta Workflows 흐름의 API Endpoint 주소를 부름 (비밀의 clientToken)
+  identify:
+    api: github 워크플로 파일 (contents API, .github/workflows/*.yml)
+    when: 파일의 호출 주소 호스트가 <okta 조직>.workflows.okta.com
+  points_to:
+  - tier: config_name
+    a: github 워크플로 파일의 호출 주소 호스트
+    b: okta:org (subdomain).workflows.okta.com
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: Okta Workflows 흐름 실행 기록의 요청 시각 (user-agent 로 러너 구분)
+    b: github 워크플로 실행 (run id, 시각)
+    check: 시각이 같다
+    if_unreadable: "흐름 실행 기록은 Okta Workflows 콘솔 > 흐름 > Execution History (토큰 값은 옮기지 않는다). 워크플로 실행은 GET /repos/{o}/{r}/actions/runs"
+  activity:
+  - okta Workflows 흐름 실행 기록, 흐름이 한 일 (System Log userAgent Azuqua)
+  - github Actions 실행 기록
+  sources:
+  - "https://help.okta.com/wf/en-us/content/topics/workflows/function-reference/http/http_accept.htm (API Endpoint 카드) [Exa 검색 요약]"
+- id: actions_calls_okta
+  type: stored_credential
+  what: GitHub Actions 비밀에 Okta API 토큰을 넣고 Okta API 를 부름
+  identify:
+    api: github 워크플로 파일, Actions 비밀 이름
+    when: 파일의 호출 주소 호스트가 <okta 조직>.okta.com 이거나 비밀 이름에 okta
+  points_to:
+  - tier: config_name
+    a: github 워크플로 파일의 호출 주소 호스트, 비밀 이름 (값은 볼 수 없음)
+    b: okta:org
+    check: 호스트가 같다 (비밀 이름은 정황)
+  - tier: log_time
+    a: github Actions 실행 시각
+    b: okta System Log 에서 그 토큰(API 토큰 주인, 서비스 앱 client)이 행위자인 이벤트 시각
+    check: 시각이 같다
+  activity:
+  - okta System Log (actor 가 API 토큰 주인이나 서비스 앱)
+  sources:
+  - https://docs.github.com/en/rest/actions/secrets (비밀은 이름만, 값은 주지 않음)
+- id: copilot_okta_mcp
+  type: stored_credential
+  what: GitHub Copilot(VS Code 에이전트 모드)이 Okta 관리형 MCP 서버(https://<조직>.okta.com/mcp, Early Access) 또는 Okta 오픈소스 MCP 서버를 불러 Okta 관리 작업을 한다. 사용자가 VS Code 의 mcp.json 에 서버를 넣고, Okta 에 만든 OIDC + PKCE 앱의 client ID 를 직접 입력해 로그인한다
+  identify:
+    api: okta GET /api/v1/apps (OIDC 앱, PKCE). 사용자 PC 의 mcp.json 은 조직이 읽을 수 없다
+    when: okta 에 MCP 용 OIDC 앱이 있고 그 앱으로 토큰이 발급됨
+  points_to:
+  - tier: config_id
+    a: VS Code mcp.json 에 입력한 client ID (사용자 PC)
+    b: okta OIDC 앱 client ID
+    check: a 와 b 가 같다
+    if_unreadable: mcp.json 은 사용자 PC 에만 있다. okta 쪽에서 앱을 보고, 쓰는 사람은 System Log 의 app.oauth2.token.grant.* 로 본다
+  activity:
+  - okta System Log app.oauth2.token.grant.access_token (그 앱의 토큰 발급)
+  sources:
+  - https://help.okta.com/mcp/en-us/content/topics/mcpserver/configure-vscode-github-copilot.htm (Okta 관리형 MCP 서버 설정, Early Access)
+  - 'https://developer.okta.com/docs/guides/start-mcp-server/main/ (Okta 오픈소스 MCP 서버: 개인키 JWT 또는 디바이스 코드 인증)'
+  - 'https://developer.okta.com/docs/okta-event-types.csv (Okta 이벤트 타입 목록: 이름과 설명)'
+  note: GitHub 쪽에는 이 연결을 남기는 객체·이벤트가 문서에 없다. Okta 문서는 모든 동작이 기록된다고 쓰지만 이벤트 이름은 적지 않는다

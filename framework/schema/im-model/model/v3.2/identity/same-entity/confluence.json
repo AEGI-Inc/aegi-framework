@@ -1,0 +1,97 @@
+{
+ "counts": {
+  "different": 1,
+  "view_or_variant": 3
+ },
+ "groups": [],
+ "pairs": [
+  {
+   "combined": 0.39343449152138116,
+   "decision": "different",
+   "jev": {
+    "same_entity": 0.68,
+    "same_identifier": 0.14,
+    "scoped_view": 0.46,
+    "variant_of_parent": 0.36
+   },
+   "pair": [
+    "Theme",
+    "{}"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('단일 자원 GET, DELETE+PUT /space/{spaceKey}/theme', 1)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.18852036310209863,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.16,
+    "same_identifier": 0.26,
+    "scoped_view": 0.4,
+    "variant_of_parent": 0.84
+   },
+   "pair": [
+    "databases",
+    "folders"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 13개)', 3)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.14580997358267117,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.08,
+    "same_identifier": 0.23,
+    "scoped_view": 0.34,
+    "variant_of_parent": 0.83
+   },
+   "pair": [
+    "databases",
+    "whiteboards"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 13개)', 2)]"
+    ]
+   ]
+  },
+  {
+   "combined": 0.15182944859378314,
+   "decision": "view_or_variant",
+   "jev": {
+    "same_entity": 0.09,
+    "same_identifier": 0.23,
+    "scoped_view": 0.32,
+    "variant_of_parent": 0.83
+   },
+   "pair": [
+    "folders",
+    "whiteboards"
+   ],
+   "signals": [
+    [
+     "S5",
+     false,
+     "map3 중복 후보: [('같은 모양 지문 (속성 13개)', 3)]"
+    ]
+   ]
+  }
+ ],
+ "provider": "confluence",
+ "signal_counts": {
+  "S5": 4
+ }
+}

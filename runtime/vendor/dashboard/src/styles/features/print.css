@@ -1,0 +1,77 @@
+/* =========================================================================
+   인쇄
+
+   보고서와 감사 자료에 화면을 그대로 붙이려 인쇄하면 메뉴, AI 단추, 조작 단추가 같이 찍히고,
+   칸 안 스크롤에 숨은 줄이 잘리고, 카드가 쪽 사이에서 갈렸다. 인쇄할 때만 그것들을 숨기거나 풀고,
+   맨 위에 화면 이름, 출력 시각, 수집 시각 한 줄(.print-head, App.tsx)을 둔다.
+   ========================================================================= */
+
+.print-head { display: none; }
+
+@media print {
+  @page { margin: 14mm 12mm; }
+
+  html,
+  body,
+  .app-shell { background: #fff !important; }
+
+  /* 메뉴, AI 단추와 창, 알림, 대화 상자 */
+  .sidebar-nav,
+  .skip-link,
+  .assistant-launcher-wrap,
+  #aegi-ai-panel,
+  .ex-toast,
+  .ex-backdrop { display: none !important; }
+
+  .app-shell,
+  .app-shell.sidebar-collapsed {
+    display: block !important;
+    min-height: 0 !important;
+  }
+
+  .print-head {
+    display: block;
+    margin: 0 0 8px;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-primary);
+  }
+
+  /* 조작 단추: 제목 줄의 단추, 목록 위 단추 줄, 화면 안 되돌아가기, 줄마다의 예외 단추 */
+  .page-title-bar button,
+  .lst-actionbar,
+  .fd-back-btn,
+  .ti-exception-btn,
+  .home-v9-link { display: none !important; }
+
+  /* 제목 줄은 잉크를 아끼고 흰 종이에서 읽히게 흰 바탕에 검정 글자 */
+  .page-title-bar {
+    background: #fff !important;
+    color: var(--color-text-primary) !important;
+    border-bottom: 2px solid var(--color-text-primary) !important;
+  }
+
+  .page-title-bar h1,
+  .page-title-bar span { color: var(--color-text-primary) !important; }
+
+  /* 칸 안 스크롤을 풀어 숨은 줄까지 찍는다 */
+  .app-content,
+  .gx-side-body,
+  .pa-body,
+  .hp-paths {
+    overflow: visible !important;
+    max-height: none !important;
+  }
+
+  /* Overview 그림 칸은 화면 높이(100vh)를 따르는데 인쇄에서는 쪽 높이라 한 쪽을 다 차지했다 */
+  .hp-graph-card { height: 460px !important; }
+
+  /* 카드와 줄이 쪽 사이에서 갈리지 않게 */
+  .ti-row,
+  .lst-row,
+  .hp-kpi,
+  .hp-rows li,
+  .home-v9-card,
+  .fd-section-block,
+  .pa-table tr { break-inside: avoid; }
+}

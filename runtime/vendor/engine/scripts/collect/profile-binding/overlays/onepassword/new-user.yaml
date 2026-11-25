@@ -1,0 +1,63 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: onepassword
+service: directory
+object_type: User
+interfaces: [Principal]
+# 근거: op user list, op group user list(CLI 2.34.1) 실제 응답(2026-11-20). 필드는 id, name, email, type, state.
+# 서비스 계정은 사용자 목록에 나오지 않는다(ServiceAccount Profile). 그룹 멤버 목록의 사용자도 같은 id 로 이 객체를 가리킨다.
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: OP-USER-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OP-01
+        request: {kind: users}
+        items: (items)
+    id_expr: id
+    mutable_ids:
+      email: email
+    properties:
+      name: name
+      email: email
+      type: type
+      state: state
+      principal_kind: {const: human}
+      account_kind: {const: human}
+      account_state:
+        op: map
+        of: state
+        table:
+          ACTIVE: active
+          SUSPENDED: suspended
+        default: {const: unknown}
+    display: "{name|email|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+  # 그룹 멤버 목록(op group user list <그룹>) 한 줄이 member_of 하나다. 목록이 비면 CLI 가 null 을 준다(실측 7그룹 중 2개)
+  - id: group_members
+    kind: relation
+    sources:
+      - call: OP-01
+        request: {kind: group_members}
+        items: (items)
+    relations:
+      - type: member_of
+        source: {type: User, id: id}
+        target: {type: Group, id: $req.group_id}
+        basis: stated
+        properties:
+          group_role: role
+        require: [source, target]

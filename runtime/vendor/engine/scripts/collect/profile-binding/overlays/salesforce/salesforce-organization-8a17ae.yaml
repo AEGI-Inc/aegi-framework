@@ -1,0 +1,56 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/salesforce/profiles/organization.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SF-01
+        items: records
+        where:
+          path: attributes.type
+          eq: Organization
+    group_by:
+      const: org
+    id_expr: Id
+    tenant: none
+    vars:
+      saml:
+        op: index
+        name: saml
+        key:
+          const: all
+    properties:
+      name: Name
+      organization_type: OrganizationType
+      instance: InstanceName
+      api_instance_host: {op: url_host, of: $env.endpoint}
+      is_sandbox: IsSandbox
+      created: CreatedDate
+      saml_sso:
+        if:
+          path:
+            op: count
+            of: $vars.saml
+          truthy: true
+        then: $vars.saml
+    display: "{Name|Id}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: Id
+          stability: catalog_reviewed
+          normalization: &a1
+            - to_18_char
+      scope: tenant
+    key_template: SF-ORG-{id}
+runtime_stub: null
+runtime_key: SF-ORG-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+    normalization: *a1

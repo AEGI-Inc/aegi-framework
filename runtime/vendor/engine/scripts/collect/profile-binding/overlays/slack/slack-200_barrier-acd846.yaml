@@ -1,0 +1,90 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/slack/profiles/barrier.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-18
+        items: barriers
+        where:
+          path: id
+          present: true
+    refs:
+      barriered_from:
+        each: barriered_from_usergroups
+        when:
+          path: $item.id
+          truthy: true
+        ref:
+          type: objs_subteam
+          id: $item.id
+        value:
+          op: str
+          of: $item.id
+        key_if_exists: true
+    properties:
+      primary_usergroup:
+        op: null_if_missing
+        of: primary_usergroup.id
+      barriered_from_usergroups:
+        op: pluck
+        of: barriered_from_usergroups
+        field: id
+      restricted_subjects:
+        any:
+          - restricted_subjects
+        empty_as: []
+      date_create:
+        op: null_if_missing
+        of: date_create
+      date_update:
+        op: null_if_missing
+        of: date_update
+    display: 정보 차단 {primary_usergroup.name|id}
+    relations:
+      - type: applies_to
+        source: $self
+        target:
+          type: objs_subteam
+          id: primary_usergroup.id
+        basis: stated
+        require:
+          - target
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-BARRIER-{id}
+runtime_stub: null
+runtime_key: SLK-BARRIER-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: barrier:list
+    sources:
+      - call: SL-18
+        items: barriers
+        where:
+          path: id
+          present: true
+    relations:
+      - type: applies_to
+        source: $self
+        target:
+          type: objs_subteam
+          id: primary_usergroup.id
+        basis: stated
+        require:
+          - target
+    self_identity: object_rule
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다

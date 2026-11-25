@@ -1,0 +1,15 @@
+{
+  "format": "aegi-effective-access/v1",
+  "schema": "Effective_Access_Schema_v1",
+  "view_version": 1,
+  "inputs_view_version": 1,
+  "computed_at": "2026-11-01T00:00:00Z",
+  "x_rule_inputs": {
+    "runs_as_inherits": 0,
+    "x_member_grant": 0,
+    "x_deputy_invocation": 0,
+    "x_delivery_exposure": 0,
+    "x_dynamic_holder": 0
+  },
+  "rows": []
+}

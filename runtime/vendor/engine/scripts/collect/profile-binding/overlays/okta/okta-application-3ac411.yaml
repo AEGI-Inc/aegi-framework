@@ -1,0 +1,104 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/application.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-07
+        request:
+          app: absent
+    mutable_ids:
+      name: name
+    properties:
+      name: name
+      label: label
+      signOnMode: signOnMode
+      status: status
+      created: created
+      client_id: credentials.oauthClient.client_id
+      githubOrg: settings.app.githubOrg
+      githubEnterprise: settings.app.githubEnterprise
+      slackDomain:
+        if:
+          path: name
+          eq: slack
+        then: settings.app.domain
+      googleDomain:
+        if:
+          path: name
+          eq: google
+        then: settings.app.domain
+      bookmarkUrl:
+        if:
+          path: name
+          eq: bookmark
+        then: settings.app.url
+      operational_state:
+        op: map
+        of: status
+        table:
+          ACTIVE: active
+          INACTIVE: inactive
+        default:
+          const: unknown
+    display: "{label|name}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+      # 앱 OAuth 클라이언트의 JWKS 에 든 암호화 키(kid)는 이 앱의 자격증명이다. 수집된 키만 잇는다
+      - type: owned_by
+        each:
+          any:
+            - settings.oauthClient.jwks.keys
+          empty_as: []
+        when:
+          has:
+            type: JsonEncryptionWebKey
+            id: $item.kid
+        source:
+          type: JsonEncryptionWebKey
+          id: $item.kid
+        target: $self
+        basis: stated
+        stub: false
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-APP-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: OKTA-APP-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  name:
+    stability: mutable
+relation_rules:
+  - id: Application:list
+    sources:
+      - call: OK-07
+        request:
+          app: absent
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+fields:
+  settings:
+    path: settings
+    source: collected_response
+fields_basis: 설정 판정이 읽는 응답 최상위 키다. Profile 필드 선언에 없어 quarantined_fields 로 빠지던 것을 선언한다(값은 수집 응답 그대로)
+tenant_binding:
+  type: OrgSetting
+tenant_basis: Okta 조직(OrgSetting)은 한 테넌트에 하나다. 조직 관리자 역할(SUPER_ADMIN 등)이 OrgSetting 에 걸리므로, 이 객체가 그 조직에 속한다는 참조가 있어야 관리자 권한이 이 객체까지 내려온다(2026-11-08, /mfa-reset 격차의 원래 권한자 0명)

@@ -1,0 +1,162 @@
+# github ↔ salesforce 연결 규칙
+# 벤더 문서로만 썼다 (2026-10-14). 시험 테넌트 결과는 ../test-environment/github-salesforce.yaml 에 채운다
+
+pair:
+- github
+- salesforce
+written: '2026-10-14'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/github-salesforce.yaml
+methods:
+- id: devops_center
+  type: app_grant
+  what: Salesforce DevOps Center 가 GitHub 계정 승인(Authorize)으로 저장소 브랜치를 관리함. OAuth App 인지 GitHub App 인지, Salesforce 에 무엇이 저장되는지는 문서에 없다
+  identify:
+    api: salesforce DevOps Center Home 탭의 연결 배너 (화면); github 사용자 승인 앱, 조직 credential-authorizations (SAML 조직)
+    when: DevOps Center 가 GitHub 에 연결됨
+  points_to:
+  - tier: config_name
+    a: github 승인 OAuth 앱·설치 앱 이름 (값은 연결해 보고 읽는다)
+    b: salesforce DevOps Center
+    check: a 가 DevOps Center 의 앱이다
+  - tier: config_name
+    a: salesforce DevOps Center 프로젝트의 저장소 (프로젝트 만들기는 같은 모듈 다음 단원. 원문 미열람)
+    b: github 저장소
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: github oauth_authorization.create(사용자 보안 로그) 또는 integration_installation.create
+    b: salesforce DevOps Center 연결 시각
+    check: 시각이 가깝다
+  activity:
+  - github 사용자 보안 로그 oauth_authorization.create, 조직 감사 integration_installation.create
+  sources:
+  - https://trailhead.salesforce.com/content/learn/modules/devops-center-setup/get-started-with-devops-center (Connect to Version Control, Authorize) [Exa]
+  - https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/security-log-events
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization
+- id: actions_sf_cli_jwt
+  type: stored_credential
+  what: GitHub Actions 가 Salesforce CLI 의 JWT 흐름(connected app·external client app 의 consumer key + 인증서에 짝인 개인키)으로 조직에 로그인함. 개인키와 consumer key 는 GitHub 비밀에 둔다
+  identify:
+    api: github GET /repos/{o}/{r}/actions/secrets (이름만), 워크플로 파일; salesforce Metadata API ConnectedApp (oauthConfig.consumerKey, certificate)
+    when: 워크플로가 sf org login jwt 를 부르거나 비밀 이름에 SF·SFDX·SALESFORCE
+  note: JWT 흐름은 external client app(또는 connected app)에 인증서(server.crt)를 올리고, 그 consumer key 와 개인키(server.key)로 sf org login jwt --client-id … 를 실행한다
+  points_to:
+  - tier: fingerprint
+    a: salesforce ConnectedApp oauthConfig.certificate (PEM)
+    b: github 비밀에 둔 개인키의 짝 (값은 볼 수 없음. 러너 쪽에서만 비교)
+    check: a 와 b 가 짝이다
+  - tier: config_id
+    a: salesforce ConnectedApp oauthConfig.consumerKey
+    b: github 비밀·워크플로의 client id
+    check: a 와 b 가 같다 (GitHub 비밀 값은 볼 수 없음)
+  - tier: log_time
+    a: github 워크플로 실행 시각
+    b: salesforce LoginHistory (그 사용자, SourceIp 가 GitHub 러너. LoginType 값 목록에 JWT 는 따로 없고 OAuth 는 Oauth2 「Remote Access 2.0」 이다. 어느 값으로 남는지는 로그인을 만들어 읽는다)
+    check: 시각이 가깝다
+  activity:
+  - github 워크플로 실행
+  - salesforce LoginHistory, OauthToken (AppName = 그 앱)
+  sources:
+  - https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_connectedapp.htm (consumerKey, certificate) [브라우저]
+  - https://developer.salesforce.com/docs/platform/sfdx-dev/guide/sfdx-dev-auth-jwt-flow.html (CI 용 JWT 흐름, 디지털 인증서, server.key, consumer key, sf org login jwt --client-id) [브라우저]
+  - https://docs.github.com/en/rest/actions/secrets (비밀은 이름만)
+- id: auth_provider_github
+  type: app_grant
+  what: Salesforce 의 Auth. Provider(ProviderType GitHub)로 Salesforce 앱이 사용자의 GitHub OAuth 토큰을 받아 GitHub API 를 부름. GitHub 로 Salesforce 에 로그인하는 SSO 는 아니다
+  identify:
+    api: salesforce SOQL AuthProvider (ProviderType, ConsumerKey, DeveloperName. Customize Application 과 Manage AuthProviders 권한)
+    when: ProviderType = GitHub
+  points_to:
+  - tier: config_id
+    a: salesforce AuthProvider.ConsumerKey
+    b: github OAuth 앱 client_id
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: github OAuth 앱 Authorization callback URL
+    b: salesforce Setup > Auth. Providers 상세 화면의 Callback URL (AuthProvider 객체 필드에는 없음)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: github 사용자 보안 로그 oauth_authorization.create 의 oauth_application_name, oauth_application_id
+    b: github OAuth 앱 (client_id = salesforce AuthProvider.ConsumerKey)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: salesforce SetupAuditTrail 의 Auth. Provider 생성·변경 시각
+    b: github oauth_application.create 시각
+    check: 시각이 가깝다
+  activity:
+  - github oauth_authorization.create (사용자 보안 로그), org_credential_authorization.grant (SAML 조직)
+  - salesforce SetupAuditTrail (Auth. Provider 변경. Action 값은 문서에 없어 만들어 보고 읽는다)
+  sources:
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_authprovider.htm (ProviderType GitHub 설명, ConsumerKey, 접근 권한) [브라우저]
+  - "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/security-log-events (oauth_authorization.create: oauth_application_name)"
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_setupaudittrail.htm [Exa] (Action, Section, Display, CreatedById, CreatedDate)
+- id: person_link
+  type: same_person
+  what: 같은 사람 (GitHub 계정 ↔ Salesforce 사용자)
+  identify:
+    api: github GraphQL externalIdentities (SAML nameId), 커밋 이메일; salesforce SOQL User
+    when: 항상
+  points_to:
+  - tier: via_person
+    a: github SAML nameId, 검증 이메일
+    b: salesforce User.Email, FederationIdentifier
+    check: a 와 b 가 같다
+  sources: ["https://raw.githubusercontent.com/octokit/graphql-schema/main/schema.graphql (externalIdentities.samlIdentity.nameId, organizationVerifiedDomainEmails)", "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_user.htm [Exa] (Email, Username, FederationIdentifier)"]
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: data360_github_connector
+  type: stored_credential
+  what: Salesforce Data 360 의 GitHub 커넥터가 저장소 내용(소스 파일, 문서, 이슈, PR, 대화)을 수집해 검색 인덱스를 만든다 (GA, 배치, 기본 2시간 주기). 인증은 개인 액세스 토큰(PAT) 또는 GitHub 에 등록한 OAuth App. GitHub.com, GitHub Enterprise Cloud, Enterprise Server 를 지원한다
+  identify:
+    api: salesforce Data Cloud Setup > External Integrations > Other Connectors 의 GitHub 커넥션 (화면); github 토큰·OAuth App
+    when: salesforce Data 360 에 GitHub 커넥션이 있음
+  points_to:
+  - tier: config_name
+    a: salesforce Data 360 GitHub 커넥션의 API URL (https://api.github.com 또는 https://<호스트>/api/v3)
+    b: github 호스트
+    check: a 와 b 가 같다
+    if_unreadable: 커넥션은 화면. 읽는 API 이름은 문서에 없다
+  - tier: via_person
+    a: salesforce 커넥션을 만든 사용자 (또는 토큰 소유 계정을 쓰는 담당자)
+    b: github PAT 를 발급한 계정, 또는 OAuth App 을 등록한 조직 소유자
+    check: 같은 사람 또는 같은 팀이 관리
+  activity:
+  - salesforce Data 360 데이터 스트림 상태 화면 (이벤트 이름은 문서에 없음)
+  - github 조직 감사 org_credential_authorization.grant (SAML 조직의 토큰 승인), integration_installation.create 는 GitHub App 방식일 때
+  sources:
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-github-connector.html (GA, 수집 대상) [Exa]
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-setup-github-connection.html (PAT 또는 OAuth App, 입력값) [Exa]
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-create-github-unstructured-data-stream.html (UDLO, 2시간 주기) [Exa]
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (GitHub 조직 감사 이벤트 이름)
+  note: PAT 는 만료 없는 classic 토큰을 권장하며 만료되면 커넥터를 다시 설정해야 한다. 기존 devops_center(DevOps Center 연결)와는 다른 방법이다. 저장소 읽기는 GitHub 감사 로그에 남지 않을 수 있다(시험에서 Okta Workflows 의 저장소 읽기가 감사에 없었다). 그래서 로그 등급이 없다
+- id: agentforce_registry_github_mcp
+  type:
+  - app_grant
+  - stored_credential
+  what: Salesforce Agentforce 가 Agentforce Registry 에 등록한 GitHub 원격 MCP 서버(https://api.githubcopilot.com/mcp/)로 GitHub 를 부른다. GitHub 쪽 인증은 OAuth(호스트가 GitHub 에 앱을 등록) 또는 PAT 다. 등록 때 서버 이름·URL·인증 방식(No Authentication, OAuth 2.0, Use External Credential)을 정하면 Salesforce 가 Named Credential, External Credential, 「{서버이름} Permission Set」을 만들고, 허용한 도구가 Agentforce Assets > Actions 에 「도구 이름 서버 이름」 꼴로 나온다. 사용자별 인증은 Employee 에이전트에만 된다
+  identify:
+    api: salesforce Setup > Agentforce Registry 의 MCP 서버 (이름, URL, 인증), Named Credential·External Credential·PermissionSet 「{서버이름} Permission Set」, Agentforce Assets > Actions. github 원격 MCP 서버를 쓰는 OAuth 앱 또는 PAT
+    when: salesforce Agentforce Registry 에 URL 이 api.githubcopilot.com/mcp 인 MCP 서버가 있음
+  points_to:
+  - tier: config_name
+    a: salesforce Agentforce Registry 의 MCP 서버 URL
+    b: github 원격 MCP 서버 주소 https://api.githubcopilot.com/mcp/
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: salesforce External Credential 의 OAuth Client ID
+    b: github OAuth 앱 Client ID (PAT 로 등록하면 이 항목은 해당 없음)
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: salesforce 사용자 (사용자별 인증일 때 본인이 OAuth 동의)
+    b: github OAuth 앱을 승인한 GitHub 계정
+    check: 같은 사람
+  - tier: log_time
+    a: github 쪽 MCP 도구 호출 기록 위치는 문서에 없다
+    b: salesforce 쪽 대응 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - github OAuth 앱 승인 (조직 감사 oauth_application.* 계열이 생길 수 있으나 MCP 연결로 확인한 문서 없음)
+  sources:
+  - https://help.salesforce.com/s/articleView?id=ai.agent_mcp_connect_register.htm&language=en_US (Agentforce Registry > New, 인증 No Authentication·OAuth 2.0·Use External Credential, 사용자별 인증은 Employee 에이전트만, 자동 생성 Named Credential·External Credential·「{서버이름} Permission Set」, 도구 이름 「Tool Name ServerName」, 에디션 Enterprise·Performance·Unlimited·Developer, 권한 Manage AI Agents) [Exa]
+  - https://docs.github.com/en/copilot/how-tos/context/model-context-protocol/using-the-github-mcp-server (서버 주소, OAuth 또는 PAT, EMU 는 PAT 기본 꺼짐) [원문 미열람, 검색 발췌]
+  note: Agentforce 를 GitHub MCP 클라이언트로 쓰는 공식 문서는 없다. Registry 일반 절차와 GitHub 서버 문서를 맞춘 것이다. Registry 의 인증 칸에 PAT 를 넣는 방법은 문서에 없다(External Credential 로 헤더를 넣는 방법이 되는지 미확인). 실측 없음

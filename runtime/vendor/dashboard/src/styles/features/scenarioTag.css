@@ -1,0 +1,56 @@
+/* =========================================================================
+   Scenario Classification Tag
+   홈 카드 / Findings 목록 / Finding 상세에서 공통으로 쓰는 분류 배지.
+   흰 바탕에 분류 색 테두리 + 같은 색 글자. 전에는 옅은 파스텔 바탕 + 옅은
+   테두리(Tailwind 기본 50 · 200 · 700 단계)라 흔한 생성형 화면처럼 보였고,
+   목록에서 눈에 덜 띄었다. 심각도 배지(옅은 빨강 바탕)와 모양이 갈린다.
+   ========================================================================= */
+
+/* 분류 색. 서로, 그리고 심각도의 빨강과 잘 갈리는 원색이고 흰 바탕 대비는
+   모두 4.5:1 이상이다. 1 ~ 4 를 쓰고, 분류가 늘면 5 ~ 8 을 순서대로 쓴다.
+   자홍(#c2185b)은 HIGH 빨강과, 하늘(#0277bd)은 파랑과 가까워 뒤로 미룬다.
+   8개를 넘으면 색만으로는 가르기 어려우니 아이콘을 붙이거나 비슷한 분류끼리
+   한 색을 쓴다. 기타는 미분류용이다. */
+:root {
+  --scenario-tag-1: #0057d9; /* 파랑 */
+  --scenario-tag-2: #b54708; /* 주황. #d35400 은 흰 글씨 대비 4.17:1 이라 5.43:1 로 짙게 */
+  --scenario-tag-3: #8e24aa; /* 보라 */
+  --scenario-tag-4: #00875a; /* 초록 */
+  --scenario-tag-5: #00838f; /* 청록 */
+  --scenario-tag-6: #3949ab; /* 남색 */
+  --scenario-tag-7: #9a6700; /* 황토 */
+  --scenario-tag-8: #5f7f00; /* 올리브 */
+  --scenario-tag-other: #455a64; /* 회청 · 기타 */
+}
+
+.scenario-tag-badge {
+  --tag-color: var(--scenario-tag-other);
+  display: inline-flex;
+  align-items: center;
+  /* 분류 색 바탕에 흰 글씨. 분류 색은 모두 흰 글씨와 대비 4.5:1 이상이다 */
+  background: var(--tag-color);
+  color: #ffffff;
+  border: 1px solid var(--tag-color);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  padding: 1px 6px;
+  border-radius: 0;
+  white-space: nowrap;
+  cursor: help;
+}
+
+/* 홈 카드는 주변 배지가 11px이라 한 단계 크게 쓴다. */
+.scenario-tag-badge.lg {
+  font-size: var(--font-size-xs);
+  padding: 1px 7px;
+}
+
+
+/* 화면의 큰 분류 (scenarioTags.ts THREAT_GROUPS). 목록 배지와 Threat 분류 거르기 칩 안의 배지가 같은 색을 쓴다 */
+.scenario-tag-badge.sc-privilege_escalation { --tag-color: var(--scenario-tag-1); } /* 권한 상승 */
+.scenario-tag-badge.sc-unauthorized_access { --tag-color: var(--scenario-tag-4); } /* 비인가 접근 */
+.scenario-tag-badge.sc-data_exfiltration { --tag-color: var(--scenario-tag-2); } /* 데이터 반출 */
+.scenario-tag-badge.sc-accountability_loss { --tag-color: var(--scenario-tag-3); } /* 추적성 상실 */
+.scenario-tag-badge.sc-credential_risk { --tag-color: var(--scenario-tag-5); } /* 자격증명 위험 */
+.scenario-tag-badge.sc-config_gap { --tag-color: var(--scenario-tag-6); } /* 설정 오류 */

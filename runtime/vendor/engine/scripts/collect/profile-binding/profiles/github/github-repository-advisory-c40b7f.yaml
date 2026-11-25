@@ -1,0 +1,564 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: repository-advisory
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:1037523dfe948d54f6c40b7f
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: $record_hash
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:1037523dfe948d54f6c40b7f.identity_evidence
+  parent:
+    type: full-repository
+    expr: $req.parent_id
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  ghsa_id:
+    path: ghsa_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: ghsa_id
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|ghsa_id
+  cve_id:
+    path: cve_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: cve_id
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|cve_id
+  url:
+    path: url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      format: uri
+      name: url
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|url
+  html_url:
+    path: html_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      format: uri
+      name: html_url
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|html_url
+  summary:
+    path: summary
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: summary
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|summary
+  description:
+    path: description
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: description
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|description
+  severity:
+    path: severity
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      enum:
+        - critical
+        - high
+        - medium
+        - low
+      name: severity
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|severity
+  author:
+    path: author
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: author
+      nullable: true
+      read_only: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    map_items:
+      - space:repository-advisory|author
+  publisher:
+    path: publisher
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: publisher
+      nullable: true
+      read_only: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    map_items:
+      - space:repository-advisory|publisher
+  identifiers:
+    path: identifiers
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: identifiers
+      read_only: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory.identifiers
+    map_items: []
+  state:
+    path: state
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      enum:
+        - published
+        - closed
+        - withdrawn
+        - draft
+        - triage
+      name: state
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|state
+  created_at:
+    path: created_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      format: date-time
+      name: created_at
+      nullable: true
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|created_at
+  updated_at:
+    path: updated_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      format: date-time
+      name: updated_at
+      nullable: true
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|updated_at
+  published_at:
+    path: published_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      format: date-time
+      name: published_at
+      nullable: true
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|published_at
+  closed_at:
+    path: closed_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      format: date-time
+      name: closed_at
+      nullable: true
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|closed_at
+  withdrawn_at:
+    path: withdrawn_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      format: date-time
+      name: withdrawn_at
+      nullable: true
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:repository-advisory|withdrawn_at
+  submission:
+    path: submission
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: submission
+      nullable: true
+      read_only: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory.submission
+    map_items: []
+  vulnerabilities:
+    path: vulnerabilities
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: vulnerabilities
+      nullable: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory.vulnerabilities
+    map_items: []
+  cvss_severities:
+    path: cvss_severities
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: cvss_severities
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:cvss-severities
+    map_items: []
+  cwes:
+    path: cwes
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: cwes
+      nullable: true
+      read_only: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory.cwes
+    map_items: []
+  cwe_ids:
+    path: cwe_ids
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: cwe_ids
+      nullable: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory.cwe_ids
+    map_items:
+      - space:repository-advisory|cwe_ids
+  credits:
+    path: credits
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: credits
+      nullable: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory.credits
+    map_items: []
+  credits_detailed:
+    path: credits_detailed
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: credits_detailed
+      nullable: true
+      read_only: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory.credits_detailed
+    map_items: []
+  collaborating_users:
+    path: collaborating_users
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: collaborating_users
+      nullable: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory.collaborating_users
+    map_items:
+      - space:repository-advisory|collaborating_users
+  collaborating_teams:
+    path: collaborating_teams
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: collaborating_teams
+      nullable: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory.collaborating_teams
+    map_items:
+      - space:repository-advisory|collaborating_teams
+  private_fork:
+    path: private_fork
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+    declaration:
+      name: private_fork
+      nullable: true
+      read_only: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-repository
+    map_items:
+      - space:repository-advisory|private_fork
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: full-repository
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:6d9b296d4f0e4daa329c4191 (repos/{}/{}) -> full-repository
+  - name: html_url
+    field: html_url
+    target: global-advisory
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1f746005fe210c1c3cd85a7f; relation=no_relation
+  - name: url
+    field: url
+    target: repository-advisory
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:458ec684c6d00f3e86581182; relation=no_relation
+  - name: collaborating_teams
+    field: collaborating_teams
+    target: team-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:48f131e60aa24dd4808eb7ee; relation=no_relation
+  - name: private_fork
+    field: private_fork
+    target: full-repository
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:4dc00ff26f191cbe270e2e48; relation=no_relation
+  - name: author
+    field: author
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:7a2915c365f4b249457d185c; relation=no_relation
+  - name: ghsa_id
+    field: ghsa_id
+    target: global-advisory
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:92095b9d164702b7516bc6bb; relation=no_relation
+  - name: publisher
+    field: publisher
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:b087214965743bad2594ebf4; relation=no_relation
+  - name: identifiers_value
+    field: identifiers.value
+    target: global-advisory
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c2a608ab81d8c003294a5bb9; relation=no_relation
+  - name: collaborating_users
+    field: collaborating_users
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c4e49cc8685a188ad58042c7; relation=no_relation
+  - name: credits_detailed_user
+    field: credits_detailed.user
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:ebeb66ac04edc3644a33be04; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: repository-advisory
+  interfaces: *a1
+  model:
+    research_type: object-type:1037523dfe948d54f6c40b7f
+  extract:
+    key: PILOT-github-repository-advisory-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{$record_hash}"
+        sources:
+          - call: AUTO-GITHUB-c40b7f
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          author: author
+          closed_at: closed_at
+          collaborating_teams: collaborating_teams
+          collaborating_users: collaborating_users
+          created_at: created_at
+          credits: credits
+          credits_detailed: credits_detailed
+          cve_id: cve_id
+          cvss_severities: cvss_severities
+          cwe_ids: cwe_ids
+          cwes: cwes
+          description: description
+          ghsa_id: ghsa_id
+          html_url: html_url
+          identifiers: identifiers
+          private_fork: private_fork
+          published_at: published_at
+          publisher: publisher
+          severity: severity
+          state: state
+          submission: submission
+          summary: summary
+          updated_at: updated_at
+          url: url
+          vulnerabilities: vulnerabilities
+          withdrawn_at: withdrawn_at
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:gh_rest_ghec_next_2026_03_10_latest:security-advisories/list-org-repository-advisories
+  operation: security-advisories/list-org-repository-advisories
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /orgs/[^/]+/security-advisories(?:\?|$)
+  endpoint_template: /orgs/{org}/security-advisories
+  request: {}
+  required_params:
+    - org
+  paths:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository-advisory
+      path:
+        - "*"
+  alternatives_total: 2
+  alternatives:
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:security-advisories/list-repository-advisories
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/security-advisories
+      path:
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:security-advisories/get-repository-advisory
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/security-advisories/{ghsa_id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths: []
+  reference_paths:
+    - html_url
+    - url
+    - collaborating_teams
+    - private_fork
+    - author
+    - ghsa_id
+    - publisher
+    - identifiers.value
+    - collaborating_users
+    - credits_detailed.user
+  metadata_paths: *a2
+  remaining_declared_fields: properties

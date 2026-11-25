@@ -1,0 +1,289 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: JsonWebKey
+interfaces: &a1
+  - Credential
+model:
+  research_type: object-type:2c6c01a1c2aca8fee892b8b2
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: kid
+      expr: kid
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:2c6c01a1c2aca8fee892b8b2.identity_evidence
+  parent:
+    type: Application
+    expr: $req.parent_id
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  created:
+    path: created
+    source: research_shape
+    shape: sh:okta_management_openapi:JsonWebKey
+    declaration:
+      name: created
+      required: false
+      shape: sh:okta_management_openapi:createdProperty
+    map_items:
+      - space:JsonWebKey|created
+  e:
+    path: e
+    source: research_shape
+    shape: sh:okta_management_openapi:JsonWebKey
+    declaration:
+      name: e
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:JsonWebKey|e
+  expiresAt:
+    path: expiresAt
+    source: research_shape
+    shape: sh:okta_management_openapi:JsonWebKey
+    declaration:
+      format: date-time
+      name: expiresAt
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:JsonWebKey|expiresAt
+  kid:
+    path: kid
+    source: research_shape
+    shape: sh:okta_management_openapi:JsonWebKey
+    declaration:
+      name: kid
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:JsonWebKey|kid
+  kty:
+    path: kty
+    source: research_shape
+    shape: sh:okta_management_openapi:JsonWebKey
+    declaration:
+      name: kty
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:JsonWebKey|kty
+  lastUpdated:
+    path: lastUpdated
+    source: research_shape
+    shape: sh:okta_management_openapi:JsonWebKey
+    declaration:
+      name: lastUpdated
+      required: false
+      shape: sh:okta_management_openapi:lastUpdatedProperty
+    map_items:
+      - space:JsonWebKey|lastUpdated
+  n:
+    path: n
+    source: research_shape
+    shape: sh:okta_management_openapi:JsonWebKey
+    declaration:
+      name: n
+      required: false
+      scalar: string
+    map_items:
+      - space:JsonWebKey|n
+  use:
+    path: use
+    source: research_shape
+    shape: sh:okta_management_openapi:JsonWebKey
+    declaration:
+      name: use
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:JsonWebKey|use
+  x5c:
+    path: x5c
+    source: research_shape
+    shape: sh:okta_management_openapi:JsonWebKey
+    declaration:
+      name: x5c
+      read_only: true
+      required: false
+      shape: sh:okta_management_openapi:JsonWebKey.x5c
+    map_items:
+      - space:JsonWebKey|x5c
+  x5t#S256:
+    path: x5t#S256
+    source: research_shape
+    shape: sh:okta_management_openapi:JsonWebKey
+    declaration:
+      name: x5t#S256
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:JsonWebKey|x5t#S256
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: Application
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:44ef8b93c5121fda06fcc441 (apps/{}) -> Application
+constants:
+  credential_kind:
+    const: certificate
+row_contracts:
+  expires_at:
+    if:
+      defined: expiresAt
+    then: expiresAt
+    else: null
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: JsonWebKey
+  interfaces: *a1
+  model:
+    research_type: object-type:2c6c01a1c2aca8fee892b8b2
+  extract:
+    key: PILOT-okta-JsonWebKey-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{kid}"
+        sources:
+          - call: AUTO-OKTA-92b8b2
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          created: created
+          e: e
+          expiresAt: expiresAt
+          kid: kid
+          kty: kty
+          lastUpdated: lastUpdated
+          n: n
+          use: use
+          x5c: x5c
+          x5t#S256: x5t#S256
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_management_openapi:listApplicationKeys
+  operation: listApplicationKeys
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /api/v1/apps/[^/]+/credentials/keys(?:\?|$)
+  endpoint_template: /api/v1/apps/{appId}/credentials/keys
+  request: {}
+  required_params:
+    - appId
+  paths:
+    - shape: sh:okta_management_openapi:JsonWebKey
+      path:
+        - "*"
+  alternatives_total: 2
+  alternatives:
+    - operation_id: op:okta_management_openapi:getApplicationKey
+      method: GET
+      kind: read_one
+      endpoint_template: /api/v1/apps/{appId}/credentials/keys/{keyId}
+      path: []
+    - operation_id: op:okta_management_openapi:getUserProvisioningConnectionJWKS
+      method: GET
+      kind: read_one
+      endpoint_template: /api/v1/apps/{appId}/connections/default/jwks
+      path:
+        - jwks
+        - keys
+        - "*"
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - kid
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

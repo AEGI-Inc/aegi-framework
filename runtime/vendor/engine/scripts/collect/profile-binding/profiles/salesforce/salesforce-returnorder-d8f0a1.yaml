@@ -1,0 +1,948 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: ReturnOrder
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:caf750ca22de327345d8f0a1
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:caf750ca22de327345d8f0a1.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|Id
+  AccountId:
+    path: AccountId
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: AccountId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|AccountId
+  CaseId:
+    path: CaseId
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: CaseId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|CaseId
+  ContactId:
+    path: ContactId
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: ContactId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ContactId
+  CurrencyIsoCode:
+    path: CurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: picklist
+      name: CurrencyIsoCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|CurrencyIsoCode
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|Description
+  DestinationLocationId:
+    path: DestinationLocationId
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: DestinationLocationId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|DestinationLocationId
+  ExpectedArrivalDate:
+    path: ExpectedArrivalDate
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: dateTime
+      name: ExpectedArrivalDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ExpectedArrivalDate
+  ExpirationDate:
+    path: ExpirationDate
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: dateTime
+      name: ExpirationDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ExpirationDate
+  GrandTotalAmount:
+    path: GrandTotalAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: GrandTotalAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|GrandTotalAmount
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|LastViewedDate
+  LifeCycleType:
+    path: LifeCycleType
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: picklist
+      name: LifeCycleType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|LifeCycleType
+  OrderId:
+    path: OrderId
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: OrderId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|OrderId
+  OrderSummaryId:
+    path: OrderSummaryId
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: OrderSummaryId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|OrderSummaryId
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|OwnerId
+  ProductRequestId:
+    path: ProductRequestId
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: ProductRequestId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ProductRequestId
+  ProductServiceCampaignId:
+    path: ProductServiceCampaignId
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: ProductServiceCampaignId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ProductServiceCampaignId
+  RefundInstructionsHint:
+    path: RefundInstructionsHint
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: textarea
+      name: RefundInstructionsHint
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|RefundInstructionsHint
+  ReturnOrderNumber:
+    path: ReturnOrderNumber
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: string
+      name: ReturnOrderNumber
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ReturnOrderNumber
+  ReturnedById:
+    path: ReturnedById
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: ReturnedById
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ReturnedById
+  ShipFromAddress:
+    path: ShipFromAddress
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: address
+      name: ShipFromAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ShipFromAddress
+  ShipFromCity:
+    path: ShipFromCity
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: string
+      name: ShipFromCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ShipFromCity
+  ShipFromCountry:
+    path: ShipFromCountry
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: string
+      name: ShipFromCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ShipFromCountry
+  ShipFromGeocodeAccuracy:
+    path: ShipFromGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: picklist
+      name: ShipFromGeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ShipFromGeocodeAccuracy
+  ShipFromLatitude:
+    path: ShipFromLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: double
+      name: ShipFromLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|ShipFromLatitude
+  ShipFromLongitude:
+    path: ShipFromLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: double
+      name: ShipFromLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|ShipFromLongitude
+  ShipFromPostalCode:
+    path: ShipFromPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: string
+      name: ShipFromPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ShipFromPostalCode
+  ShipFromState:
+    path: ShipFromState
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: string
+      name: ShipFromState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ShipFromState
+  ShipFromStreet:
+    path: ShipFromStreet
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: textarea
+      name: ShipFromStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ShipFromStreet
+  ShipmentType:
+    path: ShipmentType
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: picklist
+      name: ShipmentType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|ShipmentType
+  SourceLocationId:
+    path: SourceLocationId
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: reference
+      name: SourceLocationId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|SourceLocationId
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: picklist
+      name: Status
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|Status
+  StatusCategory:
+    path: StatusCategory
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: picklist
+      name: StatusCategory
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|StatusCategory
+  TaxLocaleType:
+    path: TaxLocaleType
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: picklist
+      name: TaxLocaleType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ReturnOrder|TaxLocaleType
+  TotalAmount:
+    path: TotalAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalAmount
+  TotalDeliveryAdjustAmount:
+    path: TotalDeliveryAdjustAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalDeliveryAdjustAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalDeliveryAdjustAmount
+  TotalDeliveryAdjustAmtWithTax:
+    path: TotalDeliveryAdjustAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalDeliveryAdjustAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalDeliveryAdjustAmtWithTax
+  TotalDeliveryAdjustTaxAmount:
+    path: TotalDeliveryAdjustTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalDeliveryAdjustTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalDeliveryAdjustTaxAmount
+  TotalDeliveryAmount:
+    path: TotalDeliveryAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalDeliveryAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalDeliveryAmount
+  TotalDeliveryAmtWithTax:
+    path: TotalDeliveryAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalDeliveryAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalDeliveryAmtWithTax
+  TotalDeliveryTaxAmount:
+    path: TotalDeliveryTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalDeliveryTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalDeliveryTaxAmount
+  TotalFeeAdjustAmount:
+    path: TotalFeeAdjustAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalFeeAdjustAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalFeeAdjustAmount
+  TotalFeeAdjustAmtWithTax:
+    path: TotalFeeAdjustAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalFeeAdjustAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalFeeAdjustAmtWithTax
+  TotalFeeAdjustTaxAmount:
+    path: TotalFeeAdjustTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalFeeAdjustTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalFeeAdjustTaxAmount
+  TotalFeeAmount:
+    path: TotalFeeAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalFeeAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalFeeAmount
+  TotalFeeAmtWithTax:
+    path: TotalFeeAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalFeeAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalFeeAmtWithTax
+  TotalFeeTaxAmount:
+    path: TotalFeeTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalFeeTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalFeeTaxAmount
+  TotalProductAdjustAmount:
+    path: TotalProductAdjustAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalProductAdjustAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalProductAdjustAmount
+  TotalProductAdjustAmtWithTax:
+    path: TotalProductAdjustAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalProductAdjustAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalProductAdjustAmtWithTax
+  TotalProductAdjustTaxAmount:
+    path: TotalProductAdjustTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalProductAdjustTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalProductAdjustTaxAmount
+  TotalProductAmount:
+    path: TotalProductAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalProductAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalProductAmount
+  TotalProductAmtWithTax:
+    path: TotalProductAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalProductAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalProductAmtWithTax
+  TotalProductTaxAmount:
+    path: TotalProductTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalProductTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalProductTaxAmount
+  TotalTaxAmount:
+    path: TotalTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:ReturnOrder
+    declaration:
+      format: currency
+      name: TotalTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:ReturnOrder|TotalTaxAmount
+references:
+  - name: accountid
+    field: AccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1d37fa346ee082e9f5e24100; relation=no_relation
+  - name: sourcelocationid
+    field: SourceLocationId
+    target: Location
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:33fc810dbf1bae7b4ed3df89; relation=no_relation
+  - name: caseid
+    field: CaseId
+    target: Case
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3d0369620931f0b869cf4f61; relation=no_relation
+  - name: orderid
+    field: OrderId
+    target: Order
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6051a89b3a5ac67648944f98; relation=no_relation
+  - name: destinationlocationid
+    field: DestinationLocationId
+    target: Location
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6258268ad06e1238b5a10f54; relation=no_relation
+  - name: ownerid
+    field: OwnerId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8130f6fbdaf0f7aeb29f6fb5; relation=no_relation
+  - name: contactid
+    field: ContactId
+    target: Contact
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d721852b792c68eacc0d3c6d; relation=no_relation
+  - name: productrequestid
+    field: ProductRequestId
+    target: ProductRequest
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d8b47cc49ba64542561dfc6d; relation=no_relation
+  - name: returnedbyid
+    field: ReturnedById
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:fee5e90e1c901dbe845bb02d; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: ReturnOrder
+  interfaces: *a1
+  model:
+    research_type: object-type:caf750ca22de327345d8f0a1
+  extract:
+    key: PILOT-salesforce-ReturnOrder-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-d8f0a1
+            endpoint: /
+            items:
+              - records
+        properties:
+          AccountId: AccountId
+          CaseId: CaseId
+          ContactId: ContactId
+          CurrencyIsoCode: CurrencyIsoCode
+          Description: Description
+          DestinationLocationId: DestinationLocationId
+          ExpectedArrivalDate: ExpectedArrivalDate
+          ExpirationDate: ExpirationDate
+          GrandTotalAmount: GrandTotalAmount
+          Id: Id
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          LifeCycleType: LifeCycleType
+          OrderId: OrderId
+          OrderSummaryId: OrderSummaryId
+          OwnerId: OwnerId
+          ProductRequestId: ProductRequestId
+          ProductServiceCampaignId: ProductServiceCampaignId
+          RefundInstructionsHint: RefundInstructionsHint
+          ReturnOrderNumber: ReturnOrderNumber
+          ReturnedById: ReturnedById
+          ShipFromAddress: ShipFromAddress
+          ShipFromCity: ShipFromCity
+          ShipFromCountry: ShipFromCountry
+          ShipFromGeocodeAccuracy: ShipFromGeocodeAccuracy
+          ShipFromLatitude: ShipFromLatitude
+          ShipFromLongitude: ShipFromLongitude
+          ShipFromPostalCode: ShipFromPostalCode
+          ShipFromState: ShipFromState
+          ShipFromStreet: ShipFromStreet
+          ShipmentType: ShipmentType
+          SourceLocationId: SourceLocationId
+          Status: Status
+          StatusCategory: StatusCategory
+          TaxLocaleType: TaxLocaleType
+          TotalAmount: TotalAmount
+          TotalDeliveryAdjustAmount: TotalDeliveryAdjustAmount
+          TotalDeliveryAdjustAmtWithTax: TotalDeliveryAdjustAmtWithTax
+          TotalDeliveryAdjustTaxAmount: TotalDeliveryAdjustTaxAmount
+          TotalDeliveryAmount: TotalDeliveryAmount
+          TotalDeliveryAmtWithTax: TotalDeliveryAmtWithTax
+          TotalDeliveryTaxAmount: TotalDeliveryTaxAmount
+          TotalFeeAdjustAmount: TotalFeeAdjustAmount
+          TotalFeeAdjustAmtWithTax: TotalFeeAdjustAmtWithTax
+          TotalFeeAdjustTaxAmount: TotalFeeAdjustTaxAmount
+          TotalFeeAmount: TotalFeeAmount
+          TotalFeeAmtWithTax: TotalFeeAmtWithTax
+          TotalFeeTaxAmount: TotalFeeTaxAmount
+          TotalProductAdjustAmount: TotalProductAdjustAmount
+          TotalProductAdjustAmtWithTax: TotalProductAdjustAmtWithTax
+          TotalProductAdjustTaxAmount: TotalProductAdjustTaxAmount
+          TotalProductAmount: TotalProductAmount
+          TotalProductAmtWithTax: TotalProductAmtWithTax
+          TotalProductTaxAmount: TotalProductTaxAmount
+          TotalTaxAmount: TotalTaxAmount
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:ReturnOrder.query
+  operation: ReturnOrder.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: ReturnOrder
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:ReturnOrder
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:ReturnOrder.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/ReturnOrder/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - AccountId
+    - SourceLocationId
+    - CaseId
+    - OrderId
+    - DestinationLocationId
+    - OwnerId
+    - ContactId
+    - ProductRequestId
+    - ReturnedById
+  metadata_paths: *a2
+  remaining_declared_fields: properties

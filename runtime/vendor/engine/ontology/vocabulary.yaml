@@ -1,0 +1,12 @@
+# 이름 바꾸기 검사의 어휘 — 바꾸는 필드와 바꾸지 않는 구조 칸
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  name_fields: aegi-dashboard scripts/groundtruth/scramble.ts NAME_FIELDS @ 0ee565f
+  structural: aegi-dashboard scripts/groundtruth/scramble.ts STRUCTURAL @ 0ee565f
+
+name_fields: [name, label, title, display_name, displayName, real_name, fullName, firstName, lastName, givenName, familyName, documentTitle, email, primaryEmail, login, secondEmail, emailAddress, owner, creator, run_as_user, user, actor_email, requester_email, owner_login, author_login, user_login, name_id, username, native_github_login, app_slug, token_name, client_name, application_name, channel_name, request_channel_name, app_name, command, description, text, url, url_host, url_path, html_url, configuration_url, redirect_url, domain, customerDomain, slug, slackDomain, googleDomain, githubOrg, githubEnterprise, bookmarkUrl, full_name, path, functionName, projectName, linkedSheetId, subdomain, enterprise_name, team_name, mobilePhone, department, organization]
+
+structural: [provider, object_type, relation_type, template, kind, identifier_type, interfaces, interface, basis, stability, evidenceType, record, primary, provider_term, schema_version]

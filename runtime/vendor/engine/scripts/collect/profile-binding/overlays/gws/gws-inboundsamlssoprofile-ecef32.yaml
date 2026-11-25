@@ -1,0 +1,58 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/inbound_saml_sso_profile.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-17
+        request:
+          kind: saml
+        items: inboundSamlSsoProfiles
+      - call: GW-17
+        endpoint: /inboundSamlSsoProfiles(\?|$)
+        items: inboundSamlSsoProfiles
+    id_expr: name
+    properties:
+      name: name
+      displayName: displayName
+      customer: customer
+      idpConfig: idpConfig
+      spConfig: spConfig
+    display: "{displayName|name}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: name
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-SAML-{id}
+runtime_stub: null
+runtime_key: GWS-SAML-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: InboundSamlSsoProfile:list
+    sources:
+      - call: GW-17
+        request:
+          kind: saml
+        items: inboundSamlSsoProfiles
+      - call: GW-17
+        endpoint: /inboundSamlSsoProfiles(\?|$)
+        items: inboundSamlSsoProfiles
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule

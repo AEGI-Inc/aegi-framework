@@ -1,0 +1,29 @@
+{
+ "source_kind": "local_profile_snapshot",
+ "sources": [
+  {
+   "file": "collect/interface_contracts/profiles/Slack_Profiles_v3.md.source",
+   "name": "Slack_Profiles_v3.md",
+   "origin": "aegi-schema/docs/Slack_Profiles_v3.md",
+   "sha256": "f533e786e633da5efdb88203138577aa9e97b5de6b7392fdf93c52a60fa93db1",
+   "commit": "c067b0228c3cc7a3504b575a276326f6015e7ab6"
+  },
+  {
+   "file": "collect/interface_contracts/profiles/Okta_Profiles_v3.md.source",
+   "name": "Okta_Profiles_v3.md",
+   "origin": "aegi-schema/docs/Okta_Profiles_v3.md",
+   "sha256": "1d7f60fd344394b3ed27f3493c517704fffe721ad7a5d2c6dd4f76f83c619d03",
+   "commit": "c067b0228c3cc7a3504b575a276326f6015e7ab6"
+  },
+  {
+   "file": "collect/interface_contracts/profiles/Pilot_Profiles_v3.md.source",
+   "name": "Pilot_Profiles_v3.md",
+   "origin": "aegi-schema/docs/Pilot_Profiles_v3.md",
+   "sha256": "71d6fe9f4105a4d6be72d813b9734e54a369cc175458a62816f31c65a8edcf22",
+   "commit": "c067b0228c3cc7a3504b575a276326f6015e7ab6"
+  }
+ ],
+ "pinned_commit": "c067b0228c3cc7a3504b575a276326f6015e7ab6",
+ "pinned_on": "2026-10-19",
+ "previous_commit": "5e160f0"
+}

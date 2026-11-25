@@ -1,0 +1,726 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: gws
+service: admin
+object_type: User
+interfaces: &a1
+  - Principal
+model:
+  research_type: object-type:3a43e1825b797ef4455adc16
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: gws_directory
+    locator: schemas.User.properties.id
+    statement: The unique ID for the user. A user `id` can be used as a user request URI's `userKey`.
+  aliases:
+    - name: primaryEmail
+      expr: primaryEmail
+      stability: mutable
+      classification: self_address
+      evidence:
+        source: gws_directory
+        locator: schemas.User.properties.primaryEmail
+        statement: The user's primary email address. This property is required in a request to create a user account. The `primaryEmail` must be unique and cannot be an alias of another user.
+tenant_binding:
+  type: Customer
+  service: admin
+  call: GW-01
+  items: (root)
+  id: id
+fields:
+  name:
+    path: name
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: name
+      required: false
+      shape: sh:gws_directory:UserName
+    map_items: []
+  phones:
+    path: phones
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: phones
+      required: false
+      scalar: any
+    map_items:
+      - space:User|phones
+  archivalTime:
+    path: archivalTime
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: archivalTime
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|archivalTime
+  customerId:
+    path: customerId
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: customerId
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|customerId
+  orgUnitPath:
+    path: orgUnitPath
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: orgUnitPath
+      required: false
+      scalar: string
+    map_items:
+      - space:User|orgUnitPath
+  isDelegatedAdmin:
+    path: isDelegatedAdmin
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: isDelegatedAdmin
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|isDelegatedAdmin
+  notes:
+    path: notes
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: notes
+      required: false
+      scalar: any
+    map_items:
+      - space:User|notes
+  lastLoginTime:
+    path: lastLoginTime
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      format: date-time
+      name: lastLoginTime
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|lastLoginTime
+  relations:
+    path: relations
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: relations
+      required: false
+      scalar: any
+    map_items:
+      - space:User|relations
+  suspensionTime:
+    path: suspensionTime
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: suspensionTime
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|suspensionTime
+  suspended:
+    path: suspended
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: suspended
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|suspended
+  sshPublicKeys:
+    path: sshPublicKeys
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: sshPublicKeys
+      required: false
+      scalar: any
+    map_items:
+      - space:User|sshPublicKeys
+  customSchemas:
+    path: customSchemas
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: customSchemas
+      required: false
+      shape: sh:gws_directory:User.customSchemas
+    map_items:
+      - space:User|customSchemas
+  changePasswordAtNextLogin:
+    path: changePasswordAtNextLogin
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: changePasswordAtNextLogin
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|changePasswordAtNextLogin
+  thumbnailPhotoUrl:
+    path: thumbnailPhotoUrl
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: thumbnailPhotoUrl
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|thumbnailPhotoUrl
+  recoveryPhone:
+    path: recoveryPhone
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: recoveryPhone
+      required: false
+      scalar: string
+    map_items:
+      - space:User|recoveryPhone
+  deletionTime:
+    path: deletionTime
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      format: date-time
+      name: deletionTime
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|deletionTime
+  guestAccountInfo:
+    path: guestAccountInfo
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: guestAccountInfo
+      required: false
+      shape: sh:gws_directory:GuestAccountInfo
+    map_items: []
+  recoveryEmail:
+    path: recoveryEmail
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: recoveryEmail
+      required: false
+      scalar: string
+    map_items:
+      - space:User|recoveryEmail
+  ipWhitelisted:
+    path: ipWhitelisted
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: ipWhitelisted
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|ipWhitelisted
+  addresses:
+    path: addresses
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: addresses
+      required: false
+      scalar: any
+    map_items:
+      - space:User|addresses
+  nonEditableAliases:
+    path: nonEditableAliases
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: nonEditableAliases
+      read_only: true
+      required: false
+      shape: sh:gws_directory:User.nonEditableAliases
+    map_items:
+      - space:User|nonEditableAliases
+  emails:
+    path: emails
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: emails
+      required: false
+      scalar: any
+    map_items:
+      - space:User|emails
+  organizations:
+    path: organizations
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: organizations
+      required: false
+      scalar: any
+    map_items:
+      - space:User|organizations
+  ims:
+    path: ims
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: ims
+      required: false
+      scalar: any
+    map_items:
+      - space:User|ims
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: id
+      required: false
+      scalar: string
+    map_items:
+      - space:User|id
+  websites:
+    path: websites
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: websites
+      required: false
+      scalar: any
+    map_items:
+      - space:User|websites
+  aliases:
+    path: aliases
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: aliases
+      read_only: true
+      required: false
+      shape: sh:gws_directory:User.aliases
+    map_items:
+      - space:User|aliases
+  thumbnailPhotoEtag:
+    path: thumbnailPhotoEtag
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: thumbnailPhotoEtag
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|thumbnailPhotoEtag
+  isEnforcedIn2Sv:
+    path: isEnforcedIn2Sv
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: isEnforcedIn2Sv
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|isEnforcedIn2Sv
+  isEnrolledIn2Sv:
+    path: isEnrolledIn2Sv
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: isEnrolledIn2Sv
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|isEnrolledIn2Sv
+  keywords:
+    path: keywords
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: keywords
+      required: false
+      scalar: any
+    map_items:
+      - space:User|keywords
+  includeInGlobalAddressList:
+    path: includeInGlobalAddressList
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: includeInGlobalAddressList
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|includeInGlobalAddressList
+  agreedToTerms:
+    path: agreedToTerms
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: agreedToTerms
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|agreedToTerms
+  primaryEmail:
+    path: primaryEmail
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: primaryEmail
+      required: false
+      scalar: string
+    map_items:
+      - space:User|primaryEmail
+  archived:
+    path: archived
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: archived
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|archived
+  languages:
+    path: languages
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: languages
+      required: false
+      scalar: any
+    map_items:
+      - space:User|languages
+  hashFunction:
+    path: hashFunction
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: hashFunction
+      required: false
+      scalar: string
+    map_items:
+      - space:User|hashFunction
+  suspensionReason:
+    path: suspensionReason
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: suspensionReason
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|suspensionReason
+  gender:
+    path: gender
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: gender
+      required: false
+      scalar: any
+    map_items:
+      - space:User|gender
+  posixAccounts:
+    path: posixAccounts
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: posixAccounts
+      required: false
+      scalar: any
+    map_items:
+      - space:User|posixAccounts
+  locations:
+    path: locations
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: locations
+      required: false
+      scalar: any
+    map_items:
+      - space:User|locations
+  creationTime:
+    path: creationTime
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      format: date-time
+      name: creationTime
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|creationTime
+  kind:
+    path: kind
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: kind
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|kind
+  isAdmin:
+    path: isAdmin
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: isAdmin
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|isAdmin
+  isGuestUser:
+    path: isGuestUser
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: isGuestUser
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|isGuestUser
+  password:
+    path: password
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: password
+      required: false
+      scalar: string
+    map_items:
+      - space:User|password
+  externalIds:
+    path: externalIds
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: externalIds
+      required: false
+      scalar: any
+    map_items:
+      - space:User|externalIds
+  isMailboxSetup:
+    path: isMailboxSetup
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: isMailboxSetup
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:User|isMailboxSetup
+  etag:
+    path: etag
+    source: research_shape
+    shape: sh:gws_directory:User
+    declaration:
+      name: etag
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:User|etag
+references:
+  - name: customer
+    field: customerId
+    target: Customer
+    relation: no_relation
+    source: gws_directory
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source gws_directory; no_relation
+  - name: org_unit
+    field: orgUnitPath
+    target: OrgUnit
+    identifier_type: path
+    relation: no_relation
+    source: gws_directory
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source gws_directory; no_relation
+constants: {}
+row_contracts:
+  principal_kind:
+    const: unknown
+  account_kind:
+    const: unknown
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: gws
+  object_type: User
+  interfaces: *a1
+  model:
+    research_type: object-type:3a43e1825b797ef4455adc16
+  extract:
+    key: PILOT-gws-User-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: GW-03
+            endpoint: /admin/directory/v1/users(?:\?|$)
+            items:
+              - users
+        properties:
+          addresses: addresses
+          agreedToTerms: agreedToTerms
+          aliases: aliases
+          archivalTime: archivalTime
+          archived: archived
+          changePasswordAtNextLogin: changePasswordAtNextLogin
+          creationTime: creationTime
+          customSchemas: customSchemas
+          customerId: customerId
+          deletionTime: deletionTime
+          emails: emails
+          etag: etag
+          externalIds: externalIds
+          gender: gender
+          guestAccountInfo: guestAccountInfo
+          hashFunction: hashFunction
+          id: id
+          ims: ims
+          includeInGlobalAddressList: includeInGlobalAddressList
+          ipWhitelisted: ipWhitelisted
+          isAdmin: isAdmin
+          isDelegatedAdmin: isDelegatedAdmin
+          isEnforcedIn2Sv: isEnforcedIn2Sv
+          isEnrolledIn2Sv: isEnrolledIn2Sv
+          isGuestUser: isGuestUser
+          isMailboxSetup: isMailboxSetup
+          keywords: keywords
+          kind: kind
+          languages: languages
+          lastLoginTime: lastLoginTime
+          locations: locations
+          name: name
+          nonEditableAliases: nonEditableAliases
+          notes: notes
+          orgUnitPath: orgUnitPath
+          organizations: organizations
+          password: password
+          phones: phones
+          posixAccounts: posixAccounts
+          primaryEmail: primaryEmail
+          recoveryEmail: recoveryEmail
+          recoveryPhone: recoveryPhone
+          relations: relations
+          sshPublicKeys: sshPublicKeys
+          suspended: suspended
+          suspensionReason: suspensionReason
+          suspensionTime: suspensionTime
+          thumbnailPhotoEtag: thumbnailPhotoEtag
+          thumbnailPhotoUrl: thumbnailPhotoUrl
+          websites: websites
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  call: GW-03
+  endpoint: /admin/directory/v1/users(?:\?|$)
+  request: {}
+  paths:
+    - shape: sh:gws_directory:User
+      path:
+        - users
+        - "*"
+  status: pilot_manual
+  operation_id: op:gws_directory:directory.users.list
+  alternatives_total: 2
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 8d48095984113f27a11dc420a752b717df59eae51bc3bbd4797896c8ad4af30d
+    ir/shape.jsonl: 998cf62cfd25e0d4d9d9e705e0e34b0b8c31494250a970686a7d8867e0503fbc
+    ir/operation.jsonl: 14fd7a38425bfeae03709952cd2c90c62f41d51658abd12c249f48def14db67f
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+    - primaryEmail
+  reference_paths:
+    - customerId
+    - orgUnitPath
+  metadata_paths: *a2
+  remaining_declared_fields: properties

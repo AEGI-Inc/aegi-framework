@@ -1,0 +1,93 @@
+# Confluence Cloud 사전 v0 (2026-10-12)
+
+sources:
+  openapi:
+    - {id: confluence_openapi_v2, path: atlassian_api_list/snapshot_2026-10-12/raw/dac-static.atlassian.com__cloud__confluence__openapi-v2.v3.json, strip_prefixes: [/wiki/api/v2]}
+    - {id: confluence_openapi_v1, path: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__confluence__swagger.v3.json, strip_prefixes: [/wiki/rest/api]}
+  events:
+    # Connect 웹훅 문서는 Jira 와 공용이라 Jira 이벤트가 섞여 있다
+    - {id: confluence_webhooks, path: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__confluence__modules__webhook,
+       exclude_prefixes: ["jira:", issue, option_, worklog_, version_, filter_, project_]}
+  # 2026-10-14 추가 (normalize_atlassian.py)
+  audit_db:
+    - {id: atlassian_audit_db, path: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__security-and-access-policies__docs__audit-log-activities-database,
+       categories: ["Confluence user actions"], name_prefixes: ["Confluence "]}
+  scope_docs:
+    - {id: confluence_scopes, path: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__confluence__scopes-for-oauth-2-3LO-and-forge-apps}
+  permission_docs:
+    - {id: confluence_space_permissions, path: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__confluence-cloud__docs__what-are-confluences-roles,
+       how: table_column, header: "Old name", col: 1, kind: space_permission}
+    - {id: confluence_space_permissions_new, path: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__confluence-cloud__docs__what-are-confluences-roles,
+       how: row_prefix, prefix: "NEW Split from", col: 1, kind: space_permission}
+    - {id: confluence_roles, path: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__confluence-cloud__docs__what-are-confluences-roles,
+       how: first_word, section: "Confluence’s roles", kind: space_role}
+    - {id: confluence_global_permissions, path: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__confluence-cloud__docs__manage-global-permissions,
+       how: table_header, section: "Assign global permissions for licensed users", kind: global_permission}
+
+param_suffixes: [IdOrKey, KeyOrId]
+
+param_space:
+  accountId: user
+  groupId: group
+  groupName: group
+
+field_space:
+  accountId: user
+  authorId: user
+  ownerId: user
+
+scope_spaces: []
+vendor_hosts: [atlassian.net, atlassian.com, atl-paas.net]
+
+collect_tiers:
+  - {scope_prefix: "manage:confluence-configuration", tier: admin_token, note: "Confluence 관리자"}
+  - {scope_prefix: "read:audit-log", tier: admin_token}
+default_tier: standard_token
+
+# 받는 쪽 객체 type 값 -> 공간 (enum 은 명세에 있다: user, group, role)
+recipient_type_space:
+  role: spacerole
+
+# 감사 활동은 범주가 대상이 아니다(「Jira user actions」). 이름의 명사로 공간을 정한다 (2026-10-14, info_map.py audit_space_from_name)
+audit_space_from_name: true
+action_stop_extra: [confluence, a, the, new, for]
+
+# ID 공간 설명 (2026-10-14). 정보 지도 화면과 인계 문서가 쓴다.
+# 형식: "설명 | 상태". 상태: 대상 = Object 로 볼 만함, 확인 = 묶음이나 범위를 정해야 함, 의심 = 독립 대상이 아닐 수 있음
+space_notes:
+  space: "Confluence 스페이스. 문서와 권한을 격리하는 최상위 작업 공간 컨테이너 | 대상"
+  page: "스페이스 내 문서 페이지 (v2 API) | 대상"
+  blogpost: "스페이스 내 블로그 게시글 (v2 API) | 대상"
+  content: "페이지, 블로그, 첨부파일 등 모든 콘텐츠를 아우르는 v1 모델 | 확인"
+  draft: "발행 전 문서 초안 | 대상"
+  attachment: "페이지 및 블로그 첨부 파일 | 대상"
+  comment: "콘텐츠 댓글 (v1 모델) | 확인"
+  footercomment: "페이지 하단 댓글 (v2 API) | 대상"
+  inlinecomment: "본문 텍스트 인라인 인용 댓글 (v2 API) | 대상"
+  customcontent: "앱 및 플러그인이 생성한 사용자 정의 콘텐츠 | 대상"
+  whiteboard: "화이트보드 협업 캔버스 | 대상"
+  database: "Confluence 구조화 데이터베이스 콘텐츠 | 대상"
+  folder: "스페이스 내 콘텐츠 정리 폴더 | 대상"
+  embed: "스마트 링크 및 외부 임베드 콘텐츠 | 확인"
+  user: "Confluence 사용자 (accountId) | 대상"
+  spacerole: "스페이스 역할 권한 정책 | 대상"
+  contenttemplate: "문서 생성 템플릿 | 대상"
+  label: "콘텐츠 분류 태그/라벨 | 대상"
+  task: "본문 내 인라인 체크리스트 태스크 | 대상"
+  longtask: "비동기 장기 실행 작업 진행 상태 | 확인"
+  theme: "스페이스 UI 테마 설정 | 확인"
+  async: "비동기 작업 조회 키. 임시 토큰 | 의심"
+  target: "작업 및 권한 요청 대상 파라미터. 구체적 객체가 아님 | 의심"
+  property: "콘텐츠/스페이스 JSON 속성 저장소 | 의심"
+  macro: "에디터 매크로 인스턴스 | 의심"
+
+
+# 스키마 계열 우선 공간 (2026-10-14, extract.py schema_spaces). 결과 out/confluence/space_rebuild.json
+space_from_schema: true
+record_key_fields: [id, key]
+# 스키마 이름 접사: v2 API 의 단건, 목록 모양 (PageSingle, PageBulk, PageCommentModel)
+schema_affixes: [single, bulk, model, v2, response]
+schema_cut_words: [with, for]
+schema_space:
+  LongTaskStatus: longtask
+  LongTaskStatusWithLinks: longtask

@@ -1,0 +1,4079 @@
+# 사건 사전 — 원본 사건 종류(provider|event_type)마다 행위, 효과, 원본 칸 위치
+#
+# 명세는 specs/Activity_Schema_v1.md. 엔진은 이 파일에서 생성한 코드로 사건 기록(Activity)을 만든다.
+# SaaS 마다 다른 것은 여기에만 둔다. 새 SaaS 는 calls 한 줄과 types 줄을 더한다(엔진 코드를 고치지 않는다).
+# 검사는 validation/check_activity_types.py (관계 종류가 17종 안, 자리·행위·효과가 어휘 안, 키 중복 없음, 호출이 calls 에 있음).
+#
+# types 는 11-04 운영 수집본 로그 418종을 종류마다 손으로 분류한 결과(11-11)를 씨앗으로 옮겼다.
+# GH-19(엔터프라이즈 감사 로그, 조직 필터)는 GH-17 과 같은 사건이라 줄을 따로 두지 않는다.
+# 씨앗의 기계 추정 211줄은 11-11 사람이 확인해 고쳤다(원본 대상 칸 모양과 벤더 문서). 남은 review 는 확인하지 못한 까닭이다.
+# 관계 효과의 from, to 는 그 관계 행의 출발과 도착이고, 원본 대상 칸에 없는 끝은 비운다. 3항 관계의 역할은 role 이다.
+# 부여 사건의 관계가 스냅샷에 없는 까닭이 사전 밖(수집·추출·식별)이면 줄의 snapshot_gap 에 관계 종류별로 적는다. 사전 자리를 억지로 맞추지 않는다.
+# relation_type 은 지금 관계 17종 이름이다. 관계 어휘를 바꾸면 이 칸도 같이 바꾼다.
+# 이 단계에서 엔진은 사건을 간선, EA, 격차에 쓰지 않는다(보관만). observation 칸이 있는 줄만 지금 관측을 만든다.
+# self_service 는 자기 계정에 하는 행위(비밀번호 · MFA · 내 정보 · 내 자격증명 SSO 인가)다. actor 면 늘 행위자 자신의 계정, target 이면 대상이 행위자일 때만.
+# 그때 로그 점수판은 관리 권한 대신 그 테넌트 구성원인지를 묻는다. 남의 계정에 한 같은 행위는 그대로 관리 권한을 묻는다.
+
+sources:
+  vocabulary: specs/Activity_Schema_v1.md 「어휘」. 기존 Splunk_Normalized_Event_Contract_v1 의 outcome, unmatched, matched_on 과 같은 말
+  calls: 11-04 운영 수집본(20261104T102155Z-ad5b) 로그 호출의 원본 모양을 읽고 적음(2026-11-11). Okta 경로는 엔진 observations.ts, Splunk 매퍼 mapper.ts 와 같다
+  types: 11-11 운영 로그 418종 분류(종류마다 효과, 관계, 자리, 맞음 정도). observation 은 엔진 observations.ts 의 Okta AUDIT 9종(2026-11-11 main). self_service 칸 2026-11-15 Relation 주담당 위임, Claude 가 정함. 11-04 운영 로그의 설명 안 된 사건 중 자기 계정 행위 9건(GWS password_edit 은 resourceDetails.title 이 행위자 메일 5/5, Okta MFA 등록 · Atlassian 내 정보는 대상 = 행위자). GitHub 문서 audit log events 「org_credential_authorization.grant — A member authorized credentials for use with SAML single sign-on」, Google 관리 콘솔 도움말 Login audit 「Password change」(사용자 자신). 같은 모양 줄(MFA 끄기, 내 정보 고치기)을 함께 적음. Salesforce changedemail 은 Display 사용자 id 를 18자로 맞춘 뒤 대상 = 행위자 2건. 2026-11-18 11-14 시험 환경 수집본(20261002T162805Z-687d)의 사전 밖 33종 140건 가운데 30종을 더함(Relation 주담당 위임, Claude 가 정함). 뜻은 벤더 문서로 확인한 것은 Okta Event Types 카탈로그 14종(예 user.account.privilege.revoke 「All of user's admin privilege revoked」, iam.resourceset.bindings.delete 「Admin assignment is deleted」), Slack Audit Logs API methods & actions 8종, Google Reports API Login 활동 2종(login_challenge, email_forwarding_out_of_domain)과 Workspace 도움말 「세션 묶기로 쿠키 도용 막기」의 DBSC key validation, GitHub 조직 감사 로그 이벤트 5종. 자리는 그 원본 대상 칸 모양으로 정함(Slack permissions_assigned 32건은 문서는 「구성원에게 권한」이나 원본은 모두 계정 종류 역할 단위 설정이라 설정 바뀜으로). 문서에서 찾지 못한 Slack api_apps_acls_updated, pref.slack_connect_approval_type, org_owner_created 3종은 넣지 않음
+
+vocabulary:
+  verbs: [read, write, create, delete, grant, revoke, configure, authenticate, execute, send, export, request, activate]
+  effect_kinds: [relation_created, relation_removed, relation_modified, object_created, object_removed, object_state_changed, object_attr_changed, setting_changed, exercised, denied, none]
+  actor_kinds: [human, integration, automation, credential, system, anonymous]
+  via_as: [app, token, bot, automation, agent, delegation]
+  slots: [target, source, role, assignment, container, policy, destination, credential, object, counterparty]
+  outcomes: [success, failure, unknown, success_implied]
+  deny_kinds: [policy, no_relation, app_code, protocol]
+  decision_results: [allow, deny, challenge]
+  unmatched: [not_in_graph, ambiguous, name_only]
+  fits: [fits, fits_with_attr, no_fit, n/a]
+  snapshot_gaps: [not_collected, not_extracted, identity]
+  self_services: [actor, target]
+
+# 수집 호출마다 원본 칸이 어디 있나. 읽는 법(경로 문법)은 Activity_Schema_v1 「사전의 칸 위치」.
+# 대상 칸의 slot_by 는 원소의 칸 값 → 자리. Okta 매핑 사건은 앱을 옮기면 옮기기 전 정책도 대상에 넣고 detailEntry.previousPolicy=true 로 표시한다.
+# kinds 는 원본 대상 종류 → IM 객체 종류(object_type) 목록. 적으면 엔진은 그 종류 안에서만 대상을 찾는다.
+# 같은 값을 다른 종류가 id 로 갖는 곳만 적는다(GWS 사용자 메일 = 같은 사용자의 Calendar id, Jira 프로젝트 id = 같은 숫자의 Filter id).
+# id_alias 는 원본이 같은 객체를 그래프와 다른 식별자로 적어 경로 앞부분이 다를 때 쓴다. match 의 첫 묶음이 kinds 객체의 from 식별자 값이면, 맞은 부분을 그 객체의 to 식별자 값으로 바꿔 대상을 찾는다.
+# records 가 없는 호출은 칸 위치를 아직 적지 않았다(엔진이 건너뛰고 건수만 센다).
+calls:
+  OK-12:
+    provider: okta
+    records: ''
+    key: [uuid]
+    event_type: eventType
+    occurred_at: published
+    actor:
+      id: [actor.id, actor.alternateId]
+      type: actor.type
+      kind:
+      - {path: actor.type, map: {User: human, PublicClientApp: integration, Client: integration, SystemPrincipal: system}}
+    targets:
+    - {each: 'target[]', id: [id, alternateId], type: type, slot_by: {path: detailEntry.previousPolicy, map: {'true': source}}}
+    slots:
+      {UserGroup: container, AppInstance: container, ResourceSet: container, RESOURCE_SET: container,
+       AppUser: assignment, ConsentGrant: assignment, ROLE_ASSIGNED: assignment, CUSTOM_ROLE_BINDING_ADDED: assignment,
+       PolicyEntity: policy, PolicyRule: policy, Policy: policy, 'Bucket UUID': policy, 'Bucket Uuid': policy,
+       ROLE: role, Role: role, CUSTOM_ROLE: role,
+       AuthenticatorEnrollment: credential, 'Factor Type': credential, access_token: credential, refresh_token: credential, id_token: credential,
+       code: credential, Token: credential, OAuth2ClientSecretEntity: credential, Connection: credential}
+    outcome: {path: outcome.result, map: {SUCCESS: success, ALLOW: success, FAILURE: failure, DENY: failure}, default: unknown}
+    outcome_reason: outcome.reason
+    session: {id: authenticationContext.externalSessionId, root_id: authenticationContext.rootSessionId, auth_method: authenticationContext.credentialType}
+    job: {id: transaction.id, step: authenticationContext.authenticationStep}
+    change:
+    - {names: debugContext.debugData.changedAttributes, sep: ','}
+    - {each: 'target[]', field: type, before: changeDetails.from, after: changeDetails.to}
+    decision: {result: {path: outcome.result, map: {ALLOW: allow, SUCCESS: allow, DENY: deny, FAILURE: deny, CHALLENGE: challenge}}}
+  GW-10:
+    provider: gws
+    records: items
+    children: 'events[]'
+    key: [id.uniqueQualifier, id.time, etag]
+    event_type: {join: [$parent.id.applicationName, name], sep: ':'}
+    occurred_at: $parent.id.time
+    params: {list: 'parameters[]', name: name, value: [value, multiValue, intValue, boolValue]}
+    actor:
+      id: [$parent.actor.profileId, $parent.actor.email]
+      kind:
+      - {path: $parent.actor.email, regex: 'gserviceaccount\.com$', kind: integration}
+      - {path: $parent.actor.callerType, map: {KEY: credential}}
+      - {path: $parent.actor.email, regex: '.', kind: human}
+      - {path: $parent.actor.profileId, regex: '.', kind: human}
+    via:
+    - {id: [$parent.actor.applicationInfo.oauthClientId], as: app}
+    targets:
+    - {params: [doc_id, target_user, USER_EMAIL, GROUP_EMAIL, group_email, member_id, user_email, ORG_UNIT_NAME, ROLE_NAME, DOMAIN_NAME, target_domain, SETTING_NAME, ALERT_ID, RULE_NAME, shared_drive_id, destination_folder_id, source_folder_id, APPLICATION_NAME, SCRIPT_ID, CALENDAR_ID, RESOURCE_IDENTIFIER, email_forwarding_destination_address]}
+    - {join: {paths: [$parent.actor.profileId, 'param:client_id'], sep: '|'}, id: ['param:client_id'], type: '=client_id'}
+    - {each: '$parent.resourceDetails[]', id: [id], type: type}
+    slots: {GROUP_EMAIL: container, group_email: container, ORG_UNIT_NAME: container, DOMAIN_NAME: container, target_domain: container, ROLE_NAME: role, SETTING_NAME: policy, RULE_NAME: policy, shared_drive_id: container, destination_folder_id: destination, source_folder_id: source}
+    kinds: {target_user: [User], USER_EMAIL: [User], user_email: [User]}
+    outcome: {path: status.eventStatus, map: {SUCCEEDED: success, SUCCESS: success, FAILED: failure, FAILURE: failure}, default: success_implied}
+    change:
+    - {field: param:SETTING_NAME, before: param:OLD_VALUE, after: param:NEW_VALUE}
+    - {field: '=visibility', before: param:old_visibility, after: param:visibility}
+  SL-11:
+    provider: slack
+    records: entries
+    key: [id]
+    event_type: action
+    occurred_at: date_create
+    actor:
+      id: [actor.user.id, actor.user.email]
+      type: actor.type
+      kind:
+      - {path: actor.type, map: {user: human}}
+    via:
+    - {id: [context.app.id], as: app}
+    - {id: [context.acting_agent], as: agent}
+    targets:
+    - {id: [entity.user.id], type: '=user'}
+    - {id: [entity.channel.id], type: '=channel'}
+    - {id: [entity.app.id], type: '=app'}
+    - {id: [entity.workspace.id], type: '=workspace'}
+    - {id: [entity.enterprise.id], type: '=enterprise'}
+    - {id: [entity.file.id], type: '=file'}
+    - {id: [entity.usergroup.id], type: '=usergroup'}
+    - {id: [entity.workflow.id], type: '=workflow'}
+    - {id: [entity.role.id], type: '=role'}
+    - {id: [entity.external_auth_oauth2_token.id], type: '=external_auth_oauth2_token'}
+    - {id: [entity.external_data_source.id], type: '=external_data_source'}
+    - {id: [details.target_user], type: '=user'}
+    - {id: [details.target_user_id], type: '=user'}
+    - {each: 'details.affected_users[]', id: ['.'], type: '=user'}
+    - {id: [details.app_id], type: '=app'}
+    - {id: [details.api_app_id], type: '=app'}
+    - {id: [details.shared_with.channel_id], type: '=channel', slot: destination}
+    - {id: [context.location.id], type: context.location.type}
+    slots: {workspace: container, enterprise: container, role: role}
+    outcome: {path: details.success, map: {'true': success, 'false': failure}, default: success_implied}
+    session: {id: context.session_id}
+    change:
+    - {field: '=scopes', before: 'details.previous_scopes', after: 'details.new_scopes'}
+    decision: {result: {path: details.decision, map: {allow: allow, allowed: allow, deny: deny, denied: deny, block: deny, blocked: deny}}, rule: details.matched_rule.id}
+  AT-90:
+    provider: atlassian
+    records: data
+    key: [id]
+    event_type: attributes.action
+    occurred_at: attributes.time
+    actor:
+      id: [attributes.actor.id, attributes.actor.email]
+      kind:
+      - {path: attributes.actor.id, regex: '.', kind: human}
+    via:
+    - {id: [attributes.actor.auth.tokenId], as: token}
+    # context 를 container 앞에 둔다: 줄이 context 종류를 container 로 덮으면(사용자를 넣은 그룹) 조직보다 먼저 잡힌다
+    targets:
+    - {each: 'attributes.context[]', id: [id], type: type}
+    - {each: 'attributes.container[]', id: [id], type: type, slot: container}
+    slots: {role: role, auth-policy: policy}
+    kinds: {project: [Project]}
+    outcome: {path: '=success_implied'}
+  JI-90:
+    provider: atlassian
+    records: records
+    key: [id]
+    event_type: summary
+    occurred_at: created
+    actor:
+      id: [authorAccountId]
+      kind:
+      - {path: authorAccountId, regex: '.', kind: human}
+      - {kind: system}
+    targets:
+    - {id: [objectItem.id, objectItem.name], type: objectItem.typeName}
+    - {each: 'associatedItems[]', id: [id, name], type: typeName}
+    slots: {GROUP: container, PROJECT: container, PROJECT_ROLE: role}
+    kinds: {PROJECT: [Project], PROJECT_ROLE: [ProjectRole]}
+    outcome: {path: '=success_implied'}
+    change:
+    - {each: 'changedValues[]', field: fieldName, before: changedFrom, after: changedTo}
+  CF-90:
+    provider: atlassian
+    records: results
+    key: [creationDate, summary, affectedObject.name, affectedObject.objectType]
+    event_type: summary
+    occurred_at: creationDate
+    actor:
+      id: [author.accountId]
+      kind:
+      - {path: author.accountId, regex: '.', kind: human}
+      - {kind: system}
+    targets:
+    - {id: [affectedObject.name], type: affectedObject.objectType, name_only: true}
+    - {each: 'associatedObjects[]', id: [name], type: objectType, name_only: true}
+    slots: {Group: container, Space: container, 'Space ID': container, 'Space key': container}
+    outcome: {path: '=success_implied'}
+    change:
+    - {each: 'changedValues[]', field: name, before: oldValue, after: newValue}
+  GH-17:
+    provider: github
+    records: ''
+    key: [_document_id]
+    event_type: action
+    occurred_at: '@timestamp'
+    actor:
+      id: [actor, actor_id]
+      kind:
+      - {path: actor_is_bot, map: {'true': integration}}
+      - {path: actor, regex: '.', kind: human}
+      - {kind: system}
+    via:
+    - {id: [token_id], as: token, when: programmatic_access_type}
+    - {id: [oauth_application_id], as: app}
+    targets:
+    - {id: [user], type: '=user'}
+    - {id: [repo], type: '=repo'}
+    - {id: [team], type: '=team'}
+    - {id: [hook_id], type: '=hook'}
+    - {id: [integration], type: '=integration'}
+    - {id: [workflow_id], type: '=workflow'}
+    - {id: [environment_name], type: '=environment'}
+    - {id: [org], type: '=org', slot: container}
+    slots: {repo: container, team: container}
+    outcome: {path: '=success_implied'}
+    change:
+    - {field: '=config', before: config_was, after: config}
+  GH-19: {same_as: GH-17}
+  SF-90:
+    provider: salesforce
+    records: records
+    key: [Id]
+    event_type: Action
+    occurred_at: CreatedDate
+    actor:
+      id: [CreatedById]
+      kind:
+      - {kind: human}
+    via:
+    - {id: [DelegateUser], as: delegation}
+    targets:
+    - {id: [Display], regex: '(?<!(?!_)\w)(005(?:(?!_)\w){12}(?:(?:(?!_)\w){3})?)(?!(?!_)\w)', type: '=User', normalize: [to_18_char]}
+    outcome: {path: '=success_implied'}
+  # Gemini Enterprise(provider gcp) Cloud Logging 항목. 수집기는 아직 받지 않는다(조회가 POST 라 GET 전용 규칙에 걸림, engine #499 GCP-07 임시 이름과 같게 둠).
+  # 칸 위치는 2026-11-17~19 3회차 로그 7,867건(활동·데이터 접근 감사, gemini_enterprise_user_activity, connector_activity)의 키 구조로 적었다.
+  # 감사 로그는 protoPayload.methodName, 사용자 활동·커넥터 활동은 jsonPayload.logMetadata.methodName, 에이전트 추론 기록은 labels."event.name" 이 종류다
+  # (한 항목에 하나만 있어 빈 sep 으로 잇는다. 점 든 키는 큰따옴표로 감싼다). api_error(s) 는 종류 칸이 없어 다루지 않는다.
+  # 대상은 resourceName 을 끝까지 맞춘 것이 target, 경로 중간의 엔진·어시스턴트·프로젝트가 container 다. 객체 id 는 PR #499 Profile 의 name 꼴(projects/<번호>/...)이다.
+  # 2026-11-20 설정값 원본(20261118T161227Z-6e6f)으로 맞춰 봄: 번호 꼴은 엔진·어시스턴트·에이전트·커넥터·저장소가 그대로 같다. 콘솔 조회 등 178건은 projects/<프로젝트 id> 꼴이라 id_alias 로 번호 꼴로 바꿔 찾는다.
+  # 행위자는 IAM 주체(IamMember)의 메일로 찾는다(같은 메일을 id 로 가진 UserLicense 에 붙지 않게 kinds 로 좁힘). IamMember 에 메일 식별자가 있어야 한다.
+  # IAM 명단에 사용자 주체가 없는 사람(그룹 · 도메인으로만 권한을 받음)은 gcp 계정 객체가 없다. 로그의 메일은 같은 Google 계정, 곧 GWS 사용자 그 자체라
+  # (crosswalk directory_principal 과 같은 근거, 추정 아님) 그때만 GWS User 안에서 찾는다(actor.directory). 다른 SaaS 계정으로 넓히지 않는다(2026-11-20 Relation 담당 결정)
+  GCP-07:
+    provider: gcp
+    records: ''
+    key: [insertId]
+    event_type: {join: [protoPayload.methodName, jsonPayload.logMetadata.methodName, 'labels."event.name"'], sep: ''}
+    occurred_at: timestamp
+    actor:
+      id: [protoPayload.authenticationInfo.principalEmail, jsonPayload.userIamPrincipal]
+      type: '=principal'
+      directory: {provider: gws, kinds: [User]}
+      kind:
+      - {path: protoPayload.authenticationInfo.principalEmail, regex: 'gserviceaccount\.com$', kind: integration}
+      - {path: protoPayload.authenticationInfo.principalEmail, regex: '.', kind: human}
+      - {path: jsonPayload.userIamPrincipal, regex: '@', kind: human}
+      - {kind: system}
+    via:
+    - {id: [protoPayload.authenticationInfo.oauthInfo.oauthClientId], as: app}
+    targets:
+    - {id: [protoPayload.resourceName], regex: '^(projects/[^/]+)$', type: '=Project'}
+    - {id: [protoPayload.resourceName], regex: '^(projects/[^/]+)/', type: '=ProjectParent'}
+    - {id: [protoPayload.resourceName], regex: '^(projects/[^/]+/locations/[^/]+/collections/[^/]+/engines/[^/]+)$', type: '=Engine'}
+    - {id: [protoPayload.resourceName], regex: '^(projects/[^/]+/locations/[^/]+/collections/[^/]+/engines/[^/]+)/', type: '=EngineParent'}
+    - {id: [protoPayload.resourceName], regex: '^(.+/engines/[^/]+/assistants/[^/]+)$', type: '=Assistant'}
+    - {id: [protoPayload.resourceName], regex: '^(.+/engines/[^/]+/assistants/[^/]+)/', type: '=AssistantParent'}
+    # 사용자 활동 로그의 에이전트 만들기(CreateAgent)는 resourceName 이 없고 만들 곳(어시스턴트)을 request.parent 에 적는다(3회차 6/6).
+    # 감사 로그의 같은 사건(resourceName)처럼 경로 중간의 엔진(앱)도 container 로 잡는다. 같은 칸의 WriteUserEvent 는 위치 경로라 두 regex 에 맞지 않는다
+    - {id: [jsonPayload.request.parent], regex: '^(projects/[^/]+/locations/[^/]+/collections/[^/]+/engines/[^/]+)/', type: '=EngineParent'}
+    - {id: [jsonPayload.request.parent], regex: '^(.+/engines/[^/]+/assistants/[^/]+)$', type: '=AssistantParent'}
+    # 사용자 활동 로그의 에이전트 고치기 · 공유(UpdateAgent 24 · SetIamPolicy 1, 3회차)도 resourceName 이 없고 에이전트 이름을 logMetadata.name 에 적는다(25/25).
+    # 감사 로그의 같은 사건처럼 에이전트를 target, 경로 중간의 엔진 · 어시스턴트를 container 로 잡는다. 끝이 /agents/<id> 인 이름만 맞춘다(다른 사건의 이름 칸은 건드리지 않음)
+    - {id: [jsonPayload.logMetadata.name], regex: '^(projects/[^/]+/locations/[^/]+/collections/[^/]+/engines/[^/]+)/assistants/[^/]+/agents/[^/]+$', type: '=EngineParent'}
+    - {id: [jsonPayload.logMetadata.name], regex: '^(.+/engines/[^/]+/assistants/[^/]+)/agents/[^/]+$', type: '=AssistantParent'}
+    - {id: [jsonPayload.logMetadata.name], regex: '^(.+/assistants/[^/]+/agents/[^/]+)$', type: '=Agent'}
+    - {id: [protoPayload.resourceName], regex: '^(.+/assistants/[^/]+/agents/[^/]+)$', type: '=Agent'}
+    - {id: [protoPayload.resourceName], regex: '^(.+/sessions/[^/]+)$', type: '=Session'}
+    - {id: [protoPayload.resourceName], regex: '^(.+/dataStores/[^/]+)$', type: '=DataStore'}
+    - {id: [protoPayload.resourceName], regex: '^(projects/[^/]+/locations/[^/]+/collections/[^/]+/dataConnector)$', type: '=DataConnector'}
+    - {id: [protoPayload.resourceName], regex: '^(.+/userStores/[^/]+)$', type: '=UserStore'}
+    - {id: [protoPayload.resourceName], regex: '^(projects/[^/]+/locations/[^/]+/aclConfig)$', type: '=AclConfig'}
+    # 에이전트 추론 기록은 자원 이름이 라벨 조각으로만 온다. 엔진은 기본 컬렉션 아래에 있다(설정값 원본 엔진 2개 모두)
+    - {join: {paths: ['=projects/', resource.labels.resource_container, '=/locations/', resource.labels.location, '=/collections/default_collection/engines/', resource.labels.engine_id, '=/assistants/', resource.labels.assistant_id, '=/agents/', resource.labels.agent_id], sep: ''}, id: [], type: '=Agent'}
+    slots: {ProjectParent: container, EngineParent: container, AssistantParent: container, UserStore: container, AclConfig: policy}
+    kinds: {principal: [IamMember], Project: [Project], ProjectParent: [Project], Engine: [Engine], EngineParent: [Engine], Assistant: [Assistant], AssistantParent: [Assistant],
+            Agent: [Agent], Session: [Session], DataStore: [DataStore], DataConnector: [DataConnector], UserStore: [UserStore], AclConfig: [AclConfig]}
+    # 콘솔 조회 등은 자원 이름을 projects/<프로젝트 id>/… 로 적는다. 그래프 객체는 projects/<번호>/… 다. 같은 프로젝트의 두 식별자(Project Profile 의 mutable_ids.project_id 와 id)로 앞부분을 바꿔 찾는다(id_alias)
+    id_alias:
+    - {match: '^projects/([^/]+)', kinds: [Project], from: project_id, to: id}
+    outcome: {path: protoPayload.status.code, map: {'3': failure, '5': failure, '7': failure, '8': failure, '9': failure, '12': failure, '16': failure}, default: success}
+    outcome_reason: protoPayload.status.message
+    job: {id: jsonPayload.assistToken}
+    change:
+    - {each: 'protoPayload.serviceData.policyDelta.bindingDeltas[]', field: role, after: member}
+  # 1Password 감사 이벤트(Events API v3 beta GET /api/v3/auditevents, engine #535 수집기 OP-03, 2026-11-21). 원본 칸은 4회차(aegi.men) 실측 3건과
+  # www.1password.dev events-api beta reference get-v3-auditevents 의 AuditEvent 꼴(id, create_time, actor, category, action, targets, correlation_id).
+  # 사건 이름은 action(target.attribute.verb 꼴)이다. 행위자 종류는 문서가 user 만 예로 든다. service-account 는 실측 값이다(수집 서비스 계정 자신)
+  OP-03:
+    provider: onepassword
+    records: audit_events
+    key: [id]
+    event_type: action
+    occurred_at: create_time
+    actor:
+      id: [actor.id, actor.email]
+      type: actor.type
+      kind:
+      - {path: actor.type, map: {user: human, service-account: integration}}
+    targets:
+    - {each: 'targets[]', id: [id], type: type}
+    kinds: {user: [User], service-account: [ServiceAccount], group: [Group], vault: [Vault], item: [Item]}
+    outcome: {path: outcome.result, map: {success: success, failure: failure}, default: unknown}
+    session: {id: context.session.id}
+  GW-16: {provider: gws}
+  SL-05: {provider: slack}
+  SL-12: {provider: slack}
+  GH-18: {provider: github}
+  D-21: {provider: slack}
+  GH-11: {provider: github}
+  RG-GW-alertcenter.alerts.list: {provider: gws}
+  RG-SF-BrowserPolicyViolation: {provider: salesforce}
+  RG-SF-WaveAutoInstallRequest: {provider: salesforce}
+
+types:
+  "atlassian|Default space roles removed":
+    calls: [CF-90]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: has_role_on, from: "targets[container]"}
+    fit: fits_with_attr
+    cluster: DEFAULT_GRANT
+    missing: 기본 배정 표시
+  "atlassian|Deleted Jira issue":
+    calls: [JI-90]
+    verb: delete
+    effects:
+    - {kind: object_removed, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "atlassian|Group created":
+    calls: [JI-90, CF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Principal, at: "targets[container]"}
+    fit: fits
+  "atlassian|Project roles changed":
+    calls: [JI-90]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, to: "targets[container]", role: "targets[role]"}
+    fit: fits
+  "atlassian|Space created":
+    calls: [CF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource, at: "targets[container]"}
+    fit: fits
+  "atlassian|Space owner updated":
+    calls: [CF-90]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: owned_by, from: "targets[container]"}
+    fit: fits
+  "atlassian|Space role assignment set":
+    calls: [CF-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "atlassian|User added to group":
+    calls: [JI-90, CF-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "atlassian|User created":
+    calls: [JI-90, CF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "atlassian|allowance_pool_member_updated":
+    calls: [AT-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy, at: "targets[target]"}
+    fit: fits_with_attr
+    missing: 한도 풀에 넣고 뺀 사람(원본 context 는 allowance 뿐). 효과는 한도 설정 바뀜으로 확정(11-12)
+  "atlassian|allowance_pool_updated":
+    calls: [AT-90]
+    verb: write
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "atlassian|api_token_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: authenticates_with, from: "targets[target]"}
+    - {kind: object_created, interface: Credential}
+    fit: fits
+  "atlassian|api_token_revoked":
+    calls: [AT-90]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: authenticates_with, from: "targets[target]"}
+    - {kind: object_removed, interface: Credential}
+    fit: fits
+  "atlassian|audit_log_installation_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: 받은 범위(감사 로그)
+  "atlassian|auth_policy_updated":
+    calls: [AT-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: POLICY_CONTENT
+    missing: 인증 정책 내용 전후
+  "atlassian|automation_flow_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Automation, at: "targets[target]"}
+    fit: fits
+  "atlassian|automation_flow_edit_access_mode_updated":
+    calls: [AT-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Automation, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 누가 자동화를 고칠 수 있나(편집 접근 모드) 값
+  "atlassian|automation_flow_owner_updated":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: owned_by, from: "targets[target]"}
+    fit: no_fit
+    cluster: OWNER_AUTOMATION
+    missing: owned_by Automation→Principal 갈래
+    review: ["갈래 밖: owned_by Automation→Principal 이 17종에 없음", 자동화(partition)와 새 주인(users)이 같은 자리라 도착을 못 가름]
+  "atlassian|confluence_accessed_api":
+    calls: [AT-90]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    self_possible: true
+    fit: fits_with_attr
+    cluster: APIPATH
+    missing: "API 경로·메서드 단위 대상, 쓴 토큰(via_grant) 객체"
+  "atlassian|confluence_audit_record_created_user":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "atlassian|confluence_audit_record_default_space_role_assignment_removed":
+    calls: [AT-90]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: DEFAULT_GRANT
+    missing: 새로 만들 스페이스에만 걸리는 기본 배정 표시
+  "atlassian|confluence_audit_record_group_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "atlassian|confluence_audit_record_group_membership_added":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "atlassian|confluence_audit_record_space_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "atlassian|confluence_audit_record_space_owner_updated":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: owned_by}
+    fit: fits
+  "atlassian|confluence_audit_record_space_role_assignment_set":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on}
+    fit: fits
+  "atlassian|confluence_livedoc_created":
+    calls: [AT-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource}
+    fit: fits
+  "atlassian|confluence_page_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: owned_by, from: "targets[target]", to: "targets[container]"}
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "atlassian|confluence_page_updated":
+    calls: [AT-90]
+    verb: write
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "atlassian|confluence_page_viewed":
+    calls: [AT-90]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "atlassian|confluence_removed_default_space_role_assignment":
+    calls: [AT-90]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: DEFAULT_GRANT
+    missing: 기본 배정 표시
+  "atlassian|confluence_set_space_role_assignment":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    slots: {space: container}
+    fit: fits
+  "atlassian|confluence_space_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "atlassian|confluence_space_created_v2":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "atlassian|confluence_space_owner_updated":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: owned_by}
+    fit: fits
+  "atlassian|group_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    snapshot_gap:
+      contained_in: {kind: not_collected, note: "그룹의 조직 소속이 스냅샷에 없다(그룹은 Jira 그룹 목록 JI-03 에서만 온다). 수집 코드 AT-04 조직 그룹(2026-11-15)이 있고 재수집 전이다"}
+    fit: fits
+  "atlassian|jira_accessed_api":
+    calls: [AT-90]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    self_possible: true
+    fit: fits_with_attr
+    cluster: APIPATH
+    missing: API 경로 단위 대상·토큰
+  "atlassian|jira_audit_record_group_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "atlassian|jira_audit_record_user_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "atlassian|jira_audit_record_user_to_group_added":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "atlassian|jira_issue_created":
+    calls: [AT-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource}
+    fit: fits
+  "atlassian|jira_issue_viewed":
+    calls: [AT-90]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "atlassian|jira_member_added_project_role":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    slots: {project: container}
+    fit: fits
+  "atlassian|jira_project_role_changed":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on}
+    fit: fits
+  "atlassian|logs_access_granted":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: 받은 범위·승인자
+  "atlassian|org_settings_update":
+    calls: [AT-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[container]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 조직 설정 키·전후
+  "atlassian|rovo_ai_3p_connector_connection_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 SaaS·연결 주체
+  "atlassian|rovo_ai_3p_connector_connection_deleted":
+    calls: [AT-90]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_removed, interface: Integration, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 SaaS
+  "atlassian|rovo_chat_invoked":
+    calls: [AT-90]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AGENT
+    missing: AI 대화가 읽은 자원·경유 에이전트
+  "atlassian|rovo_chat_session_started":
+    calls: [AT-90]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: acts_as, to: actor}
+    fit: no_fit
+    cluster: SESSION
+    missing: AI 대화 세션 객체
+  "atlassian|saml_config_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: trusts, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: IdP 끝·인증서
+  "atlassian|service_account_api_token_created":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: authenticates_with, from: "targets[target]"}
+    - {kind: object_created, interface: Credential}
+    fit: fits
+  "atlassian|updated_users_claim":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    slots: {orgs: container}
+    fit: fits
+    snapshot_gap:
+      member_of: {kind: not_collected, note: "조직 구성원 관계가 스냅샷에 없다(사용자는 사이트 구성원만, JI-02). 수집 코드 AT-02 조직 사용자(2026-11-15)가 있고 재수집 전이다"}
+  "atlassian|user_added_to_group":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    slots: {groups: container}
+    fit: fits
+  "atlassian|user_auth_policy_changed":
+    calls: [AT-90]
+    verb: configure
+    effects:
+    - {kind: relation_modified, relation_type: applies_to, from: "targets[policy]", to: "targets[target]"}
+    fit: fits
+  "atlassian|user_created":
+    calls: [AT-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Principal, at: "targets[container]"}
+    fit: fits
+  "atlassian|user_detail_change":
+    calls: [AT-90]
+    verb: write
+    self_service: target
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "atlassian|user_invite_to_org":
+    calls: [AT-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    snapshot_gap:
+      member_of: {kind: not_collected, note: "조직 구성원 관계가 스냅샷에 없다(사용자는 사이트 구성원만, JI-02). 수집 코드 AT-02 조직 사용자(2026-11-15)가 있고 재수집 전이다"}
+      has_role_on: {kind: not_collected, note: "조직 단위 역할이 스냅샷에 없다. 수집 코드 AT-03 역할 배정(2026-11-15)은 조직 관리자(atlassian/org-admin)만 조직으로 편다 — 초대로 받은 제품 역할은 사이트 · 앱 대상이라 이 쌍은 재수집 뒤에도 남을 수 있다"}
+    fit: fits_with_attr
+    cluster: PENDING
+    missing: 초대 상태(pending)
+  "atlassian|user_login":
+    calls: [AT-90]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SESSION
+    missing: 세션·인증 수단
+  "atlassian|user_logout":
+    calls: [AT-90]
+    verb: authenticate
+    effects:
+    - {kind: none}
+    fit: no_fit
+    cluster: SESSION
+    missing: 세션 객체(끝)
+  # --- gcp(Gemini Enterprise). 2026-11-20 3회차 로그 7,867건(121종)에서 쓰기·권한·동의·사용 종류와 건수 많은 조회를 적었다(Relation 주담당 위임, Claude 가 정함).
+  # 사람 검토 전이다. 대상 객체 id 를 설정값 원본(gcp 수집본)과 아직 맞추지 못해(작성자 PC 에만 있음) 모든 줄에 review 를 단다.
+  "gcp|SetIamPolicy":
+    calls: [GCP-07]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, to: "targets[target]"}
+    fit: fits_with_attr
+    missing: "받는 주체·역할은 change(policyDelta.bindingDeltas)에만 있어 출발(from)은 비움. 사용자 활동 로그의 같은 이름(에이전트 공유)은 resourceName 이 없어 에이전트를 logMetadata.name 으로 읽고, 정책 전후는 jsonPayload.request.policy 에만 있다"
+    review: ["프로젝트 감사 로그는 resourceName 이 projects/<프로젝트 id> 꼴이라 Profile 의 projects/<번호> 와 맞추는 정규화가 필요하다(설정값 원본으로 확인)"]
+  "gcp|google.cloud.discoveryengine.v1.EngineService.SetIamPolicy":
+    calls: [GCP-07]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, to: "targets[target]"}
+    fit: fits_with_attr
+    missing: 이 감사 로그에는 정책 전후(policyDelta)가 없다
+    review: [설정값 원본으로 엔진 id 를 맞춰 보지 못함]
+  "gcp|google.cloud.discoveryengine.v1main.AgentService.SetIamPolicy":
+    calls: [GCP-07]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, to: "targets[target]"}
+    fit: fits_with_attr
+    missing: "공유 대상(agentUser 를 받은 사용자·그룹)은 사용자 활동 로그 SetIamPolicy 의 요청 정책에만 있다. 공유 3단계(PRIVATE·RESTRICTED·ALL_USERS)는 바인딩 모양으로만 보인다"
+    review: [설정값 원본으로 에이전트 id 를 맞춰 보지 못함]
+  "gcp|google.cloud.discoveryengine.v1main.AgentService.InitIamPolicy":
+    calls: [GCP-07]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, to: "targets[target]"}
+    fit: fits_with_attr
+    missing: "받는 사람(정책 파일로는 만든 사람이 agentOwner)과 역할이 원본 칸에 없어 출발(from)은 비움"
+    review: [에이전트를 만든 사람이 agentOwner 를 받는다는 뜻은 11-18 정책 파일 3개로만 확인함]
+  "gcp|google.cloud.discoveryengine.v1.UserLicenseService.BatchUpdateUserLicenses":
+    calls: [GCP-07]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, to: "targets[container]"}
+    fit: fits_with_attr
+    missing: 라이선스를 받은 사람·뺀 사람(UserLicense 배정 객체)이 감사 로그 칸에 없다
+    review: [라이선스 배정을 has_role_on 으로 볼지(Profile 은 UserLicense 를 UserStore 안 Assignment 로 둠)]
+  "gcp|google.cloud.discoveryengine.v1alpha.EngineService.CreateEngine":
+    calls: [GCP-07]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource}
+    fit: fits
+    review: [만든 엔진 id 는 응답에만 있다]
+  "gcp|google.cloud.discoveryengine.v1alpha.EngineService.UpdateEngine":
+    calls: [GCP-07]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Resource, at: "targets[target]"}
+    fit: fits_with_attr
+    missing: "에이전트 공유 허용(features.disable-agent-sharing, agent-sharing-without-admin-approval, enable-end-user-sharing-with-groups) 같은 바뀐 값은 사용자 활동 로그 응답에만"
+    review: [설정값 원본으로 엔진 id 를 맞춰 보지 못함]
+  "gcp|UpdateEngine":
+    calls: [GCP-07]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Resource}
+    fit: fits_with_attr
+    missing: 사용자 활동 로그라 resourceName 이 없어 끝(at)을 비움. 값은 jsonPayload.response.features
+    review: [감사 로그 UpdateEngine 과 같은 일을 두 번 적는지(11-17 2건 모두 감사 로그에도 있음)]
+  "gcp|google.cloud.discoveryengine.v1alpha.DataConnectorService.SetUpDataConnector":
+    calls: [GCP-07]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Integration}
+    fit: fits_with_attr
+    missing: "만든 커넥터 id 와 상대 SaaS 주소(instance_uri)·OAuth client 는 요청·응답에 없다(로그에 키만 parent)"
+    review: [커넥터 id 를 설정값 원본으로 맞춰 보지 못함]
+  "gcp|google.cloud.discoveryengine.v1alpha.DataConnectorService.UpdateDataConnector":
+    calls: [GCP-07]
+    verb: configure
+    effects:
+    - {kind: object_attr_changed, interface: Integration, at: "targets[target]"}
+    fit: fits
+    review: [설정값 원본으로 커넥터 id 를 맞춰 보지 못함]
+  "gcp|google.cloud.discoveryengine.v1alpha.SlackWorkspaceService.CreateSlackWorkspace":
+    calls: [GCP-07]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Integration}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 Slack 워크스페이스 id(원본 요청에 없음). Slack 쪽 app_installed(Gemini Enterprise) 1건과 짝
+    review: [Profile 에 SlackWorkspace 객체가 없다]
+  "gcp|google.cloud.discoveryengine.v1alpha.SlackWorkspaceService.DeleteSlackWorkspace":
+    calls: [GCP-07]
+    verb: delete
+    effects:
+    - {kind: object_removed, interface: Integration}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    review: [Profile 에 SlackWorkspace 객체가 없다]
+  "gcp|google.cloud.discoveryengine.v1main.AgentService.CreateAgent":
+    calls: [GCP-07]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Automation}
+    - {kind: relation_created, relation_type: contained_in, to: "targets[target]"}
+    fit: fits
+    missing: 만든 에이전트 id 는 응답에만(대상 칸은 부모 어시스턴트)
+    review: [설정값 원본으로 어시스턴트 id 를 맞춰 보지 못함]
+  "gcp|CreateAgent":
+    calls: [GCP-07]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Automation}
+    fit: fits_with_attr
+    missing: 사용자 활동 로그라 resourceName 이 없다. 부모는 jsonPayload.request.parent
+    review: [감사 로그 CreateAgent 와 같은 일인지]
+  "gcp|google.cloud.discoveryengine.v1main.AgentService.UpdateAgent":
+    calls: [GCP-07]
+    verb: configure
+    effects:
+    - {kind: object_attr_changed, interface: Automation, at: "targets[target]"}
+    fit: fits
+    review: [설정값 원본으로 에이전트 id 를 맞춰 보지 못함]
+  "gcp|UpdateAgent":
+    calls: [GCP-07]
+    verb: configure
+    effects:
+    - {kind: object_attr_changed, interface: Automation, at: "targets[target]"}
+    fit: fits_with_attr
+    missing: 사용자 활동 로그라 resourceName 이 없다. 에이전트는 jsonPayload.logMetadata.name(대상 칸으로 읽음) · request.agent.name
+    review: [감사 로그 UpdateAgent 24건과 같은 일(24건)]
+  "gcp|google.cloud.discoveryengine.v1main.AgentService.PublishAgent":
+    calls: [GCP-07]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Automation, at: "targets[target]"}
+    fit: fits
+    review: [설정값 원본으로 에이전트 id 를 맞춰 보지 못함]
+  "gcp|google.cloud.discoveryengine.v1main.AgentService.DeployLowCodeAgent":
+    calls: [GCP-07]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Automation, at: "targets[target]"}
+    fit: fits
+    review: [설정값 원본으로 에이전트 id 를 맞춰 보지 못함]
+  "gcp|google.cloud.discoveryengine.v1main.DataConnectorService.BuildAuthorizationUrl":
+    calls: [GCP-07]
+    verb: request
+    self_service: actor
+    effects:
+    - {kind: none}
+    fit: "n/a"
+    cluster: CONSENT
+    missing: 동의 화면을 연 것뿐이다. 끝난 동의는 AcquireAndStoreRefreshToken
+  "gcp|google.cloud.discoveryengine.v1main.DataConnectorService.AcquireAndStoreRefreshToken":
+    calls: [GCP-07]
+    verb: grant
+    self_service: actor
+    effects:
+    - {kind: relation_created, relation_type: authenticates_with, from: actor}
+    - {kind: object_created, interface: Credential}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: "저장된 사람별 연결(갱신 토큰)은 객체가 없고 커넥터(targets[target])만 안다. 상대 SaaS 계정·scope 없음"
+    snapshot_gap:
+      authenticates_with: {kind: not_collected, note: "사람별 커넥터 연결은 API 로 나열할 수 없다. engine #499 는 이 사건을 DataConnector 의 user_consent_observations 로만 붙인다"}
+    review: [설정값 원본으로 커넥터 id 를 맞춰 보지 못함]
+  "gcp|google.cloud.discoveryengine.v1alpha.DataConnectorService.CheckRefreshToken":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+    cluster: CONSENT
+  "gcp|google.cloud.discoveryengine.v1main.DataConnectorService.AcquireAccessToken":
+    calls: [GCP-07]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor}
+    fit: fits_with_attr
+    cluster: TOKEN
+    missing: "받은 토큰의 상대 SaaS·scope. 11-17~19 302건은 모두 행위자 자신이 먼저 동의한 커넥터였다(남의 연결 0)"
+    review: [설정값 원본으로 커넥터 id 를 맞춰 보지 못함]
+  "gcp|google.cloud.discoveryengine.v1main.AssistantService.StreamAssist":
+    calls: [GCP-07]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    missing: "부른 에이전트(gen_ai 로그 resource.labels.agent_id)와 쓴 커넥터(connector_activity, assistToken 으로 이음)는 다른 로그에 있다"
+    review: [설정값 원본으로 어시스턴트 id 를 맞춰 보지 못함]
+  "gcp|StreamAssist":
+    calls: [GCP-07]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor}
+    fit: fits_with_attr
+    missing: 사용자 활동 로그라 끝이 없다. jsonPayload.response.assistToken 이 같은 요청의 커넥터 활동과 잇는 열쇠
+  "gcp|StreamRunAgent":
+    calls: [GCP-07]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: authenticates_with}
+    fit: fits_with_attr
+    cluster: TOKEN
+    missing: "커넥터 활동 로그에 행위자가 없다. job.id(assistToken)로 같은 요청의 StreamAssist 와 이어야 사람이 나온다(11-17~19 22건 중 21건 이어짐). 쓴 도구는 jsonPayload.dataConnectorInfo.tool, 커넥터는 resource.labels.connector_id"
+  "gcp|gen_ai.client.inference.operation.details":
+    calls: [GCP-07]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: "targets[target]"}
+    fit: fits_with_attr
+    missing: "에이전트 한 번 추론. 부른 사람은 jsonPayload.user.id(가명 id)뿐이라 끝(to)을 비움. 같은 요청의 StreamAssist 와 잇는 열쇠가 기록에 없다"
+  "gcp|google.cloud.discoveryengine.v1main.SearchService.Search":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor}
+    fit: fits_with_attr
+    missing: 대상 칸이 servingConfig 라 엔진 끝을 regex 로 못 잡음(경로 중간 엔진은 container)
+  "gcp|Search":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor}
+    fit: fits_with_attr
+    missing: 사용자 활동 로그라 끝이 없다
+  "gcp|google.cloud.discoveryengine.v1main.ConversationalSearchService.CreateSession":
+    calls: [GCP-07]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource}
+    - {kind: relation_created, relation_type: contained_in, to: "targets[target]"}
+    fit: fits
+    missing: 만든 세션 id 는 응답에만
+  "gcp|google.cloud.discoveryengine.v1main.AssistantService.UploadSessionFile":
+    calls: [GCP-07]
+    verb: write
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+  "gcp|UploadSessionFile":
+    calls: [GCP-07]
+    verb: write
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor}
+    fit: fits_with_attr
+  "gcp|google.cloud.discoveryengine.v1main.UserService.UpdateEngineUserData":
+    calls: [GCP-07]
+    verb: write
+    self_service: actor
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1main.UserEventService.WriteUserEvent":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+    missing: "앱을 쓰는 동안 웹 앱이 사람 대신 찍는 사용 기록(검색 · 보기 · 클릭)이라 내용 쓰기가 아니다. 앱 사용 권한으로 설명한다(2026-11-20, 합친 판에서 write 로 두면 82건이 읽기까지만 닿음)"
+  "gcp|WriteUserEvent":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+    missing: "앱을 쓰는 동안 웹 앱이 사람 대신 찍는 사용 기록(검색 · 보기 · 클릭)이라 내용 쓰기가 아니다. 앱 사용 권한으로 설명한다(2026-11-20, 합친 판에서 write 로 두면 82건이 읽기까지만 닿음)"
+  "gcp|google.cloud.discoveryengine.v1main.CompletionService.AdvancedCompleteQuery":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1main.ConversationalSearchService.ListSessions":
+    calls: [GCP-07]
+    verb: read
+    self_possible: true
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1alpha.DevToolsConfigService.GetDevToolsConfig":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1main.DevToolsConfigService.GetDevToolsConfig":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1main.WidgetConfigService.GetWidgetConfig":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1alpha.WidgetConfigService.GetWidgetConfig":
+    calls: [GCP-07]
+    verb: read
+    self_possible: true
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1alpha.EngineService.GetWorkspaceSettings":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1alpha.EngineService.ListEngines":
+    calls: [GCP-07]
+    verb: read
+    self_possible: true
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1alpha.DataStoreService.ListDataStores":
+    calls: [GCP-07]
+    verb: read
+    self_possible: true
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1alpha.DataConnectorService.GetDataConnector":
+    calls: [GCP-07]
+    verb: read
+    self_possible: true
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1alpha.AclConfigService.GetAclConfig":
+    calls: [GCP-07]
+    verb: read
+    self_possible: true
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1main.CannedQueryService.ListActiveCannedQueryUserViews":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1main.AssistantService.ListSessionFileMetadata":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gcp|google.cloud.discoveryengine.v1main.AssistantService.ListTools":
+    calls: [GCP-07]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "github|commit":
+    calls: [GH-11]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource, at: "targets[target]"}
+    - {kind: exercised, relation_type: has_role_on, from: actor}
+    fit: fits
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(GH-11)"]
+  "github|hook.config_changed":
+    calls: [GH-17]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Endpoint, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 웹훅 URL·비밀·이벤트 전후
+  "github|integration.update":
+    calls: [GH-17]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Integration, at: "targets[target]"}
+    - {kind: relation_modified, relation_type: has_role_on, from: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SCOPE_DIFF
+    missing: 앱 권한·웹훅 설정 전후
+  "github|integration_installation.create":
+    calls: [GH-17]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: relation_created, relation_type: registered_by, from: "targets[target]", to: actor}
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: 설치 때 받은 권한 목록
+  "github|integration_installation.version_updated":
+    calls: [GH-17]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: SCOPE_DIFF
+    missing: 새 권한 버전 전후
+  "github|integration_installation_request.close":
+    calls: [GH-17]
+    verb: request
+    effects:
+    - {kind: none}
+    fit: fits_with_attr
+    cluster: PENDING
+    missing: 요청 상태(닫힘)
+  "github|integration_installation_request.create":
+    calls: [GH-17]
+    verb: request
+    effects:
+    - {kind: none}
+    fit: fits_with_attr
+    cluster: PENDING
+    missing: 요청 상태(pending)
+  "github|member.added":
+    calls: [GH-18]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(GH-18)"]
+  "github|oauth_application.create":
+    calls: [GH-17]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Integration}
+    fit: fits_with_attr
+    missing: "만든 앱 id(oauth_application_id)는 경유(via) 칸에만 있다. 효과는 앱 만들기로 확정, 자리(at)는 비움(11-12)"
+  "github|oauth_application.generate_client_secret":
+    calls: [GH-17]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: "비밀값을 만든 사람이 가짐, rotated_at. 비밀의 앱 id 는 경유(via) 칸에만 있어 자리(at)는 비움(11-12)"
+  "github|org.add_member":
+    calls: [GH-17]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    missing: 조직 권한(permission)
+  "github|org.disable_saml":
+    calls: [GH-17]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: trusts, from: "targets[container]"}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: IdP 끝
+  "github|org.enable_saml":
+    calls: [GH-17]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: trusts, from: "targets[container]"}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: IdP 끝
+  "github|org.invite_member":
+    calls: [GH-17]
+    verb: request
+    effects:
+    - {kind: none}
+    fit: fits_with_attr
+    cluster: PENDING
+    missing: 초대 상태(pending)·초대 받은 메일
+  "github|org.oauth_app_access_approved":
+    calls: [GH-17]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: "승인 대상 앱 id(사건에 이름만), 승인자"
+  "github|org.oauth_app_access_requested":
+    calls: [GH-17]
+    verb: request
+    effects:
+    - {kind: none}
+    fit: fits_with_attr
+    cluster: PENDING
+    missing: 요청 상태
+  "github|org.recovery_codes_generated":
+    calls: [GH-17]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: SSO 를 우회하는 복구 코드 — 만든 사람이 가짐
+  "github|org.sso_response":
+    calls: [GH-17]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: trusts, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SESSION
+    missing: SSO 세션·IdP 응답 결과
+  "github|org_credential_authorization.grant":
+    calls: [GH-17]
+    verb: grant
+    self_service: actor
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: "SSO 인가 상태·인가한 사람. credential-authorizations Assignment 객체 9개는 있으나 관계를 안 만듦. 인가한 자격증명(token_id)은 경유 칸에만 있어 출발(from)은 비움(11-12)"
+  "github|organization.member_added":
+    calls: [GH-18]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(GH-18)"]
+  "github|organization.member_invited":
+    calls: [GH-18]
+    verb: request
+    effects:
+    - {kind: none}
+    fit: fits_with_attr
+    cluster: PENDING
+    missing: 초대 상태(pending)
+  "github|personal_access_token.access_granted":
+    calls: [GH-17]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: "받은 권한(permissions)·저장소 선택(repository_selection). 토큰(token_id)은 대상 칸에 없어 출발(from)은 비움"
+  "github|personal_access_token.request_created":
+    calls: [GH-17]
+    verb: request
+    effects:
+    - {kind: none}
+    fit: fits_with_attr
+    cluster: PENDING
+    missing: 요청 상태(pending)·요청한 권한 목록(permissions_added 등)
+  "github|personal_access_token_request.approved":
+    calls: [GH-18]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[credential]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: 승인자·승인 상태 전후
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(GH-18)"]
+  "github|personal_access_token_request.created":
+    calls: [GH-18]
+    verb: request
+    effects:
+    - {kind: none}
+    fit: fits_with_attr
+    cluster: PENDING
+    missing: 요청 상태(pending)·요청한 권한 목록
+  "github|ping.-":
+    calls: [GH-18]
+    verb: execute
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "github|pull_request.assigned":
+    calls: [GH-18]
+    verb: request
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "github|pull_request.edited":
+    calls: [GH-18]
+    verb: request
+    effects:
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "github|pull_request.opened":
+    calls: [GH-18]
+    verb: request
+    effects:
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "github|pull_request.review_requested":
+    calls: [GH-18]
+    verb: request
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "github|pull_request.synchronize":
+    calls: [GH-18]
+    verb: request
+    effects:
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "github|push.-":
+    calls: [GH-18]
+    verb: write
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    fit: fits
+  "github|repo.add_member":
+    calls: [GH-17]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    missing: 저장소 권한(permission)
+  "github|repo.update_actions_secret":
+    calls: [GH-17]
+    verb: configure
+    effects:
+    - {kind: exercised, relation_type: contained_in, from: actor, to: "targets[target]"}
+    - {kind: object_state_changed, interface: Credential, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: "rotated_at. 저장소 칸 둘(repo, repository)"
+  "github|repo.update_actions_variable":
+    calls: [GH-17]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Resource, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 저장소 변수 값
+  "github|workflows.completed_workflow_run":
+    calls: [GH-17]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: runs_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: 실행 결과·트리거 이벤트
+  "github|workflows.created_workflow_run":
+    calls: [GH-17]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: 트리거 종류·실행 id
+  "github|workflows.prepared_workflow_job":
+    calls: [GH-17]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: contained_in, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: 어느 러너가 받았나(러너 그룹 Resource 와 잇는 칸)
+  "gws|ADD_ON:COMPLETED":
+    calls: [GW-16]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: runs_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: "실행 한 번(트리거 종류=부가기능, 결과, 처리 시간). triggered_by 에 트리거 종류 칸 없음"
+  "gws|EDITOR:COMPLETED":
+    calls: [GW-16]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: runs_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: "실행 한 번(트리거 종류=편집기, 결과, 처리 시간). triggered_by 에 트리거 종류 칸 없음"
+  "gws|MENU:COMPLETED":
+    calls: [GW-16]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: runs_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: "실행 한 번(트리거 종류=메뉴, 결과, 처리 시간). triggered_by 에 트리거 종류 칸 없음"
+  "gws|SIMPLE_TRIGGER:COMPLETED":
+    calls: [GW-16]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: runs_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: "실행 한 번(트리거 종류=단순 트리거, 결과, 처리 시간). triggered_by 에 트리거 종류 칸 없음"
+  "gws|TRIGGER:COMPLETED":
+    calls: [GW-16]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: runs_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: "실행 한 번(트리거 종류=설치형 트리거, 결과, 처리 시간). triggered_by 에 트리거 종류 칸 없음"
+  "gws|UNKNOWN:COMPLETED":
+    calls: [GW-16]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: runs_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: "실행 한 번(트리거 종류=알 수 없음, 결과, 처리 시간). triggered_by 에 트리거 종류 칸 없음. 행위자 종류도 없음"
+  "gws|UNKNOWN:FAILED":
+    calls: [GW-16]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: runs_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: "실행 한 번(트리거 종류=알 수 없음, 결과, 처리 시간). triggered_by 에 트리거 종류 칸 없음. 행위자 종류도 없음"
+  "gws|User suspended":
+    calls: [RG-GW-alertcenter.alerts.list]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Principal, at: "targets[target]"}
+    signal: true
+    fit: fits
+  "gws|admin:ADD_APPLICATION":
+    calls: [GW-10]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Integration, at: "targets[target]"}
+    fit: fits
+  "gws|admin:ADD_NICKNAME":
+    calls: [GW-10]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROFILE_ID
+    missing: 별칭 메일(식별자) 추가 이력
+  "gws|admin:ADD_PRIVILEGE":
+    calls: [GW-10]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: POLICY_CONTENT
+    missing: 역할에 더해진 권한(PRIVILEGE_NAME) → 그 역할 보유자의 rank 가 바뀌지만 Policy 에 권한 목록 칸 없음
+  "gws|admin:ALERT_CENTER_GET_SIT_LINK":
+    calls: [GW-10]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gws|admin:ALERT_CENTER_LIST_CHANGE":
+    calls: [GW-10]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gws|admin:ALERT_CENTER_LIST_FEEDBACK":
+    calls: [GW-10]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gws|admin:ALERT_CENTER_LIST_RELATED_ALERTS":
+    calls: [GW-10]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gws|admin:ALERT_CENTER_UPDATE_ALERT_METADATA":
+    calls: [GW-10]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "gws|admin:ALERT_CENTER_VIEW":
+    calls: [GW-10]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gws|admin:ASSIGN_ROLE":
+    calls: [GW-10]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", role: "targets[role]"}
+    fit: fits
+  "gws|admin:AUTHORIZE_API_CLIENT_ACCESS":
+    calls: [GW-10]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: "API_SCOPES 목록(관계 scope), DWD 클라이언트 Integration 객체가 데이터셋에 거의 없음"
+  "gws|admin:CHANGE_FIRST_NAME":
+    calls: [GW-10]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "gws|admin:CHANGE_LAST_NAME":
+    calls: [GW-10]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "gws|admin:CHANGE_PASSWORD":
+    calls: [GW-10]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Credential}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: 관리자가 남의 비밀번호를 정함 → 관리자가 그 사람으로 인증 가능(authenticates_with) 칸
+  "gws|admin:CHANGE_USER_LANGUAGE":
+    calls: [GW-10]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "gws|admin:CHANGE_USER_ORGANIZATION":
+    calls: [GW-10]
+    verb: configure
+    effects:
+    - {kind: relation_modified, relation_type: member_of, from: "targets[target]"}
+    fit: fits
+  "gws|admin:CHANGE_USER_PHONE_NUMBER":
+    calls: [GW-10]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "gws|admin:CHANGE_USER_RELATION":
+    calls: [GW-10]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: no_fit
+    cluster: MANAGER
+    missing: 보고(manager) 관계
+  "gws|admin:CREATE_APPLICATION_SETTING":
+    calls: [GW-10]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: applies_to, from: "targets[target]", to: "targets[container]"}
+    - {kind: setting_changed, interface: Resource, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 앱 설정 이름·값을 Policy 객체 키로 잇는 칸
+  "gws|admin:CREATE_ORG_UNIT":
+    calls: [GW-10]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource, at: "targets[container]"}
+    fit: fits
+  "gws|admin:CREATE_ROLE":
+    calls: [GW-10]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy, at: "targets[target]"}
+    fit: fits
+  "gws|admin:CREATE_USER":
+    calls: [GW-10]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "gws|admin:DELETE_USER":
+    calls: [GW-10]
+    verb: delete
+    effects:
+    - {kind: object_removed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "gws|admin:GENERATE_CERTIFICATE":
+    calls: [GW-10]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: GWS 를 IdP 로 쓰는 SP 끝·인증서 객체
+  "gws|admin:MOVE_USER_TO_ORG_UNIT":
+    calls: [GW-10]
+    verb: configure
+    effects:
+    - {kind: relation_modified, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "gws|admin:RENAME_USER":
+    calls: [GW-10]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROFILE_ID
+    missing: 기본 메일(식별자) 전후 — crosswalk 연결이 바뀜
+  "gws|admin:SECURITY_INVESTIGATION_ACTION":
+    calls: [GW-10]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[target]"}
+    fit: no_fit
+    cluster: INVESTIGATION
+    missing: 조치 대상·내용
+  "gws|admin:SECURITY_INVESTIGATION_ACTION_COMPLETION":
+    calls: [GW-10]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[target]"}
+    fit: no_fit
+    cluster: INVESTIGATION
+    missing: 조치 대상·결과
+  "gws|admin:SECURITY_INVESTIGATION_OBJECT_CREATE_DRAFT_INVESTIGATION":
+    calls: [GW-10]
+    verb: create
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gws|admin:SECURITY_INVESTIGATION_QUERY":
+    calls: [GW-10]
+    verb: read
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "gws|admin:TOGGLE_SERVICE_ENABLED":
+    calls: [GW-10]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[container]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 서비스 켜기 값 전후. GWS Policy 객체(318)는 있으나 사건 SERVICE_NAME 과 잇는 키가 없음
+  "gws|admin:USER_LICENSE_ASSIGNMENT":
+    calls: [GW-10]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]"}
+    fit: fits
+  "gws|admin:USER_LICENSE_REVOKE":
+    calls: [GW-10]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: has_role_on, from: "targets[target]"}
+    fit: fits
+  "gws|drive:access_item_content":
+    calls: [GW-10]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    fit: fits
+  "gws|drive:access_url":
+    calls: [GW-10]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: runs_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: APIPATH
+    missing: 호출한 스크립트 배포(originating_app_id)·API 키 자격증명이 객체로 없음
+  "gws|drive:add_to_folder":
+    calls: [GW-10]
+    verb: write
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[destination]"}
+    fit: fits
+  "gws|drive:change_acl_editors":
+    calls: [GW-10]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Resource, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 「편집자가 공유를 바꿀 수 있나」 자원 설정 값 전후
+  "gws|drive:change_document_access_scope":
+    calls: [GW-10]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: shared_with, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "gws|drive:change_document_visibility":
+    calls: [GW-10]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: shared_with, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "gws|drive:change_user_access":
+    calls: [GW-10]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    slots: {doc_id: container}
+    fit: fits
+  "gws|drive:create":
+    calls: [GW-10]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource, at: "targets[target]"}
+    - {kind: relation_created, relation_type: owned_by, from: "targets[target]", to: actor}
+    fit: fits
+  "gws|drive:delete":
+    calls: [GW-10]
+    verb: delete
+    effects:
+    - {kind: object_removed, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "gws|drive:download":
+    calls: [GW-10]
+    verb: export
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: DATAFLOW
+    missing: 사본이 간 곳(F 도착)
+  "gws|drive:edit":
+    calls: [GW-10]
+    verb: write
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "gws|drive:publish_change":
+    calls: [GW-10]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: shared_with, from: "targets[target]"}
+    fit: fits
+  "gws|drive:rename":
+    calls: [GW-10]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "gws|drive:search":
+    calls: [GW-10]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "gws|drive:view":
+    calls: [GW-10]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "gws|login:account_disabled_generic":
+    calls: [GW-10]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "gws|login:dbsc_key_binding":
+    calls: [GW-10]
+    verb: authenticate
+    effects:
+    - {kind: object_created, interface: Credential}
+    fit: no_fit
+    cluster: SESSION
+    missing: 세션에 묶인 기기 키(DBSC) — 세션 객체 없음
+  "gws|login:dbsc_key_validation":
+    calls: [GW-10]
+    verb: authenticate
+    effects:
+    - {kind: none}
+    fit: no_fit
+    cluster: SESSION
+    missing: 세션에 묶인 기기 키(DBSC)로 쿠키를 검증한 결과 — 세션 객체 없음
+  "gws|login:email_forwarding_out_of_domain":
+    calls: [GW-10]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Principal, at: "targets[target]"}
+    slots: {email_forwarding_destination_address: destination}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 바깥 도메인으로 메일을 전달하는 설정을 켬. 받는 바깥 주소는 destination 자리(그래프에 없음, not_in_graph)
+  "gws|login:login_challenge":
+    calls: [GW-10]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SESSION
+    missing: "도전 결과(login_challenge_status: passed 는 통과, 그 밖은 실패나 모름. 호출 결과 칸 status 에는 없어 기록 결과는 success_implied)·방식(login_challenge_method)"
+  "gws|login:login_failure":
+    calls: [GW-10]
+    verb: authenticate
+    effects:
+    - {kind: denied, relation_type: authenticates_with, from: actor, to: "targets[target]"}
+    outcome: failure
+    fit: fits_with_attr
+    cluster: SESSION
+    missing: 실패한 인증 수단·이유
+  "gws|login:login_success":
+    calls: [GW-10]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SESSION
+    missing: 인증 수단(login_challenge_method)·세션·is_suspicious
+  "gws|login:login_verification":
+    calls: [GW-10]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SESSION
+    missing: 인증 수단·세션
+  "gws|login:logout":
+    calls: [GW-10]
+    verb: authenticate
+    effects:
+    - {kind: none}
+    fit: no_fit
+    cluster: SESSION
+    missing: 세션 객체(끝)
+  "gws|login:password_edit":
+    calls: [GW-10]
+    verb: configure
+    self_service: actor
+    effects:
+    - {kind: object_state_changed, interface: Credential}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: "rotated_at, 비밀번호 Credential 객체 없음"
+  "gws|token:authorize":
+    calls: [GW-10]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    self_possible: true
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: "scope 목록, 동의 객체(Token)와 관계 연결, 반복 횟수(같은 동의가 매번 사건)"
+  "okta|app.generic.unauth_app_access_attempt":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: denied, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    outcome: failure
+    fit: fits
+  "okta|app.oauth2.admin.consent.grant":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on}
+    - {kind: object_created, interface: Assignment, at: "targets[assignment]"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: "동의한 scope 와 동의한 관리자, ConsentGrant 객체가 has_role_on 을 만들지 않음(데이터에 contained_in→Application 만)"
+  "okta|app.oauth2.authorize":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: denied, relation_type: acts_as, from: actor, to: "targets[target]"}
+    outcome: failure
+    fit: fits_with_attr
+    cluster: TOKEN
+    missing: "대상 사용자·요청 scope 가 사건에 없음, 전부 FAILURE"
+  "okta|app.oauth2.authorize.code":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    - {kind: object_created, interface: Credential, at: "targets[credential]"}
+    fit: fits_with_attr
+    cluster: TOKEN
+    missing: "인가 코드(교환 전 단계, 일시)·요청 scope. 코드→토큰 교환이 다른 사건"
+  "okta|app.oauth2.client.lifecycle.activate":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Integration, at: "targets[target]"}
+    fit: fits
+  "okta|app.oauth2.client.lifecycle.create":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Integration, at: "targets[target]"}
+    fit: fits
+  "okta|app.oauth2.client.privilege.grant":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", role: "targets[role]"}
+    fit: fits
+  "okta|app.oauth2.client.read_client_secret":
+    calls: [OK-12]
+    verb: read
+    effects:
+    - {kind: exercised, from: actor, to: "targets[credential]"}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: 비밀값을 본 사람이 그 앱으로 인증할 수 있게 됨을 「사건에서 얻음」으로
+  "okta|app.oauth2.token.grant":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: denied, relation_type: authenticates_with, from: actor, to: "targets[credential]"}
+    outcome: failure
+    self_possible: true
+    fit: fits_with_attr
+    cluster: TOKEN
+    missing: 한 토큰 요청이 DPoP nonce CHALLENGE + 재요청 두 사건으로 쪼개짐(묶음 키 없음)
+  "okta|app.oauth2.token.grant.access_token":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[credential]"}
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    - {kind: object_created, interface: Credential, at: "targets[credential]"}
+    self_possible: true
+    fit: fits_with_attr
+    cluster: TOKEN
+    missing: 발급된 토큰의 scope(grantedScopes)·grant_type·발급 근거 refresh 토큰
+  "okta|app.oauth2.token.grant.id_token":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[credential]"}
+    - {kind: object_created, interface: Credential, at: "targets[credential]"}
+    fit: fits_with_attr
+    cluster: TOKEN
+    missing: ID 토큰(일시 Credential)·scope
+  "okta|app.oauth2.token.grant.refresh_token":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[credential]"}
+    - {kind: object_created, interface: Credential, at: "targets[credential]"}
+    fit: fits_with_attr
+    cluster: TOKEN
+    missing: 새 refresh 토큰이 옛 토큰을 대신함(회전) 사실·scope
+  "okta|app.oauth2.token.revoke":
+    calls: [OK-12]
+    verb: revoke
+    effects:
+    - {kind: object_removed, interface: Credential, at: "targets[credential]"}
+    outcome: failure
+    fit: fits
+  "okta|app.oauth2.token.revoke.implicit.user":
+    calls: [OK-12]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: authenticates_with, from: "targets[target]"}
+    - {kind: object_removed, interface: Credential}
+    fit: fits_with_attr
+    cluster: TOKEN
+    missing: 거둔 토큰 수(tokencount)·종류·앱. 원본 대상은 사용자뿐이라 토큰 끝은 비움
+  "okta|app.user_management.push_new_user_success":
+    calls: [OK-12]
+    verb: write
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    - {kind: object_created, interface: Assignment, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 밀어넣기 방향·앱 쪽 계정 id
+  "okta|application.cache.invalidate":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "okta|application.lifecycle.create":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[container]"}
+    - {kind: relation_created, relation_type: registered_by, from: "targets[container]", to: actor}
+    - {kind: object_created, interface: Integration, at: "targets[container]"}
+    fit: fits
+    snapshot_gap:
+      registered_by: {kind: not_collected, note: "Okta 앱 목록 API 가 만든 사람을 주지 않는다(스냅샷에 registered_by 0행)"}
+  "okta|application.lifecycle.deactivate":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Integration, at: "targets[container]"}
+    fit: fits
+  "okta|application.lifecycle.update":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Integration, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: "바뀐 앱 설정 칸·전후 값(사건에 없음, customMessage 만)"
+  "okta|application.provision.group_push.push_memberships":
+    calls: [OK-12]
+    verb: write
+    effects:
+    - {kind: relation_modified, relation_type: member_of, to: "targets[target]"}
+    slots: {GroupPushMapping: object, UserGroup: source, AppGroup: target}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 밀어 넣은 구성원 목록(원본에 없음). 앱 쪽 그룹(AppGroup)과 Okta 그룹(source)의 짝
+  "okta|application.provision.group_push.pushed":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 앱 쪽 그룹과 Okta 그룹의 짝(원본 대상에 Okta 그룹 없음)
+  "okta|application.provision.group_push.updated":
+    calls: [OK-12]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 바뀐 칸 전후
+  "okta|application.provision.user.deactivate":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Assignment, at: "targets[assignment]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 앱 쪽 계정의 비활성 상태(밀어 넣은 결과). 앱 쪽 계정은 Okta 배정(AppUser)으로만 보임
+  "okta|application.provision.user.deprovision":
+    calls: [OK-12]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_removed, interface: Assignment, at: "targets[assignment]"}
+    slots: {DeprovisionTask: object}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 해제 작업(DeprovisionTask)의 시작·끝·결과
+  "okta|application.provision.user.push":
+    calls: [OK-12]
+    verb: write
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 밀어넣기 방향
+  "okta|application.provision.user.push_profile":
+    calls: [OK-12]
+    verb: write
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: Okta→앱 밀어넣기 방향(마스터) 칸
+  "okta|application.provision.user.sync":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 동기화 방향·결과
+  "okta|application.provision.user.verify_exists":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 앱 쪽 계정 확인 결과
+  "okta|application.user_membership.add":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Assignment, at: "targets[target]"}
+    fit: fits
+    observation: audit_event
+  "okta|application.user_membership.change_username":
+    calls: [OK-12]
+    verb: write
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    - {kind: object_attr_changed, interface: Assignment, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROFILE_ID
+    missing: 앱 계정 사용자명 전후(앱 쪽 계정과 잇는 식별자)
+  "okta|application.user_membership.remove":
+    calls: [OK-12]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_removed, interface: Assignment, at: "targets[target]"}
+    fit: fits
+    observation: audit_event
+  "okta|application.user_membership.update":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: SCOPE_DIFF
+    missing: debugData.changedAttributes 의 앱 프로필(역할·scope 속성) 전후
+  "okta|directory.app_user_profile.bootstrap":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "okta|directory.app_user_profile.update":
+    calls: [OK-12]
+    verb: write
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "okta|directory.mapping.update":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Automation, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: 매핑 속성 추가·삭제·변경 목록(attributesAdded/Deleted/Modified)
+  "okta|group.application_assignment.add":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    slots: {UserGroup: target}
+    fit: fits
+  "okta|group.lifecycle.create":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Principal, at: "targets[container]"}
+    fit: fits
+  "okta|group.user_membership.add":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+    observation: audit_event
+  "okta|group.user_membership.remove":
+    calls: [OK-12]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+    observation: audit_event
+  "okta|iam.resourceset.bindings.add":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "okta|iam.resourceset.bindings.delete":
+    calls: [OK-12]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: has_role_on, from: "targets[target]", to: "targets[container]", role: "targets[role]"}
+    fit: fits
+  "okta|iam.resourceset.create":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "okta|iam.resourceset.resources.add":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "okta|iam.role.create":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy, at: "targets[target]"}
+    fit: fits
+  "okta|policy.evaluate_sign_on":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: applies_to, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: evaluates, from: actor, to: "targets[target]"}
+    decision: true
+    deny_kind: policy
+    fit: fits_with_attr
+    cluster: DECISION
+    missing: "판정 결과(ALLOW 137 / CHALLENGE 198), 맞은 규칙(policyRulePriority), 요구한 인증 수단"
+  "okta|policy.lifecycle.create":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy, at: "targets[policy]"}
+    fit: fits
+  "okta|policy.mapping.create":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: relation_created, relation_type: applies_to, from: "targets[policy]", to: "targets[container]"}
+    - {kind: relation_removed, relation_type: applies_to, from: "targets[source]", to: "targets[container]"}
+    fit: fits
+  "okta|policy.rule.activate":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Policy, at: "targets[policy]"}
+    slots: {PolicyEntity: container}
+    fit: fits
+  "okta|policy.rule.add":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy, at: "targets[policy]"}
+    - {kind: relation_created, relation_type: contained_in, from: "targets[policy]", to: "targets[container]"}
+    slots: {PolicyEntity: container}
+    fit: fits_with_attr
+    cluster: POLICY_CONTENT
+    missing: 규칙 조건(사람·그룹·네트워크·인증 강도)이 사건에 없음 → applies_to/excludes/evaluates 를 사건만으로 못 만듦
+  "okta|policy.rule.update":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy, at: "targets[policy]"}
+    slots: {PolicyEntity: container}
+    fit: fits_with_attr
+    cluster: POLICY_CONTENT
+    missing: 규칙 조건 전후
+  "okta|security.protected_action.attempt":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: applies_to, to: actor}
+    decision: true
+    deny_kind: policy
+    fit: fits_with_attr
+    cluster: DECISION
+    missing: 보호 동작 정책의 판정(CHALLENGE 15 / ALLOW 7)·보호 대상 동작
+  "okta|system.api_token.create":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential, at: "targets[credential]"}
+    - {kind: relation_created, relation_type: authenticates_with, from: actor, to: "targets[credential]"}
+    fit: fits
+  "okta|system.email.delivery":
+    calls: [OK-12]
+    verb: send
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "okta|system.import.complete":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.complete_batch":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.custom_object.complete":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.custom_object.create":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy}
+    fit: fits_with_attr
+    cluster: MIRROR
+    missing: 가져온 객체가 GWS 라이선스(52)·역할(32)·조직 단위(10)의 사본이라는 표시
+  "okta|system.import.custom_object.update":
+    calls: [OK-12]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Policy, at: "targets[container]"}
+    fit: fits_with_attr
+    cluster: MIRROR
+    missing: 사본 객체 표시·바뀐 칸
+  "okta|system.import.download.complete":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.download.start":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.group.complete":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.group_membership.complete":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    - {kind: relation_modified, relation_type: member_of}
+    fit: no_fit
+    cluster: PROVISION
+    missing: "어느 멤버십이 바뀌었는지 사건에 없음, 작업 단계만"
+  "okta|system.import.implicit_deletion.complete":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.implicit_deletion.start":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.import_provisioning_info":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.membership_processing.complete":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    - {kind: relation_modified, relation_type: member_of}
+    fit: no_fit
+    cluster: PROVISION
+    missing: "어느 멤버십이 바뀌었는지 사건에 없음, 작업 단계만"
+  "okta|system.import.membership_processing.start":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: "어느 멤버십이 바뀌었는지 사건에 없음, 작업 단계만"
+  "okta|system.import.object_creation.complete":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.object_creation.start":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.schedule":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.start":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.user.complete":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.user.create":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Assignment, at: "targets[assignment]"}
+    - {kind: relation_created, relation_type: has_role_on, to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 가져오기 방향·작업 id
+  "okta|system.import.user.delete":
+    calls: [OK-12]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: owned_by, from: "targets[target]", to: "targets[container]"}
+    - {kind: relation_removed, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_removed, interface: Assignment, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 가져오기 방향·작업 id
+  "okta|system.import.user_match.confirm":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.user_matching.complete":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.import.user_matching.start":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, from: actor, to: "targets[container]"}
+    fit: no_fit
+    cluster: PROVISION
+    missing: 가져오기 작업 단위 객체·단계. 같은 transaction.id(JOB) 로만 묶인다
+  "okta|system.operation.rate_limit.violation":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: denied, relation_type: applies_to, from: "targets[policy]", to: actor}
+    outcome: failure
+    decision: true
+    deny_kind: policy
+    signal: true
+    fit: fits_with_attr
+    cluster: DECISION
+    missing: 어느 한도 정책이 어느 클라이언트·URL 패턴에 걸렸나(DENY 2)
+  "okta|system.org.rate_limit.warning":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: applies_to, from: "targets[policy]", to: actor}
+    signal: true
+    self_possible: true
+    fit: fits
+  "okta|user.account.privilege.grant":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]", role: "targets[role]"}
+    fit: fits
+  "okta|user.account.privilege.revoke":
+    calls: [OK-12]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: has_role_on, from: "targets[target]", to: "targets[container]", role: "targets[role]"}
+    - {kind: object_removed, interface: Assignment, at: "targets[assignment]"}
+    slots: {ROLE_UNASSIGNED_ALL_PRIVILEGES_REVOKED: assignment}
+    fit: fits
+  "okta|user.account.reset_password":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Credential}
+    fit: fits
+    observation: audit_event
+  "okta|user.account.subscriptions.update":
+    calls: [OK-12]
+    verb: execute
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "okta|user.account.update_password":
+    calls: [OK-12]
+    verb: configure
+    self_service: target
+    effects:
+    - {kind: object_state_changed, interface: Credential}
+    fit: fits
+  "okta|user.account.update_profile":
+    calls: [OK-12]
+    verb: write
+    self_service: target
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROFILE_ID
+    missing: changedAttributes 전후(정책 조건 속성일 수 있음). targetEventHookIds = 이 사건이 이벤트 훅으로 나감(Endpoint)
+    observation: audit_event
+  "okta|user.authentication.auth_via_mfa":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[credential]"}
+    fit: fits
+  "okta|user.authentication.sso":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "okta|user.authentication.verify":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[target]"}
+    fit: fits
+  "okta|user.lifecycle.activate":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "okta|user.lifecycle.create":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "okta|user.lifecycle.deactivate":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "okta|user.lifecycle.delete.completed":
+    calls: [OK-12]
+    verb: delete
+    effects:
+    - {kind: object_removed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "okta|user.lifecycle.delete.initiated":
+    calls: [OK-12]
+    verb: delete
+    effects:
+    - {kind: object_state_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    missing: 지우는 중 상태(끝난 것은 user.lifecycle.delete.completed)
+  "okta|user.lifecycle.reset_password":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Credential}
+    fit: fits
+    observation: audit_event
+  "okta|user.mfa.factor.activate":
+    calls: [OK-12]
+    verb: grant
+    self_service: target
+    effects:
+    - {kind: relation_created, relation_type: authenticates_with, from: "targets[target]", to: "targets[credential]"}
+    - {kind: object_created, interface: Credential, at: "targets[credential]"}
+    fit: fits
+  "okta|user.mfa.factor.deactivate":
+    calls: [OK-12]
+    verb: revoke
+    self_service: target
+    effects:
+    - {kind: relation_removed, relation_type: authenticates_with, from: "targets[target]", to: "targets[credential]"}
+    - {kind: object_removed, interface: Credential, at: "targets[credential]"}
+    fit: fits
+    observation: audit_event
+  "okta|user.mfa.factor.reset_all":
+    calls: [OK-12]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: authenticates_with, from: "targets[target]"}
+    fit: fits
+    observation: audit_event
+  "okta|user.session.access_admin_app":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "okta|user.session.clear":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: none}
+    fit: no_fit
+    cluster: SESSION
+    missing: 세션 객체(강제 종료)
+  "okta|user.session.context.change":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: none}
+    fit: no_fit
+    cluster: SESSION
+    missing: 세션 객체와 그 문맥(기기·네트워크) 변경
+  "okta|user.session.end":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: none}
+    fit: no_fit
+    cluster: SESSION
+    missing: 세션 객체(끝)
+  "okta|user.session.start":
+    calls: [OK-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[credential]"}
+    fit: no_fit
+    cluster: SESSION
+    missing: 세션 객체(시작). FAILURE 8
+  "okta|workflows.user.connection.create":
+    calls: [OK-12]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential, at: "targets[credential]"}
+    - {kind: relation_created, relation_type: owned_by, from: "targets[credential]", to: "targets[container]"}
+    - {kind: relation_created, relation_type: authenticates_with, from: actor, to: "targets[credential]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 연결이 상대 SaaS 의 어느 주체로 인증하나
+  "okta|workflows.user.connection.folder.assign":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: runs_as, from: "targets[target]", to: "targets[credential]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 폴더 단위 배정(폴더 안 모든 flow 가 그 연결을 씀)
+  "okta|workflows.user.connection.reauthorize":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Credential, at: "targets[credential]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 재인가로 바뀐 상대 주체·scope
+  "okta|workflows.user.flow.activate":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Automation, at: "targets[target]"}
+    - {kind: denied, from: actor, to: "targets[target]"}
+    outcome: failure
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: Automation 활성 상태 칸. FAILURE 3
+  "okta|workflows.user.flow.create":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Automation, at: "targets[target]"}
+    fit: fits
+  "okta|workflows.user.flow.deactivate":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Automation, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: Automation 활성 상태 칸
+  "okta|workflows.user.flow.execution_history.activate":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Automation, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: 실행 기록 남기기 설정 칸
+  "okta|workflows.user.flow.execution_history.deactivate":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Automation, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: 실행 기록 남기기 설정 칸
+  "okta|workflows.user.flow.save":
+    calls: [OK-12]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: contained_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_state_changed, interface: Automation, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: 자동화 버전 칸
+  "okta|workflows.user.flow.version.revert":
+    calls: [OK-12]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Automation, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: 자동화 버전 칸
+  # 1Password 로그인 평가(2026-11-21). 사건 이름은 문서 v3 사건 목록에서 찾지 못했다. 분류 category sign-in 은 문서 v3 목록의 「Sign-in attempts」
+  # (성공 · 실패한 로그인 시도)다. 대상 종류 sign-in 은 id 가 없고 payload.stage 만 있다. 4회차 3건 모두 수집 서비스 계정(자기 사건)
+  "onepassword|sign-in.evaluate":
+    calls: [OP-03]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor}
+    fit: fits_with_attr
+    cluster: SESSION
+    missing: 인증 단계(targets[].payload.stage)·세션(context.session.id)
+    review: ["사건 이름 sign-in.evaluate 의 뜻은 문서에 없다. 분류(category sign-in)로 로그인으로 둠"]
+  "salesforce|ConnectSrc":
+    calls: [RG-SF-BrowserPolicyViolation]
+    verb: read
+    effects:
+    - {kind: denied, relation_type: applies_to, to: actor}
+    outcome: failure
+    decision: true
+    deny_kind: policy
+    signal: true
+    fit: fits_with_attr
+    cluster: DECISION
+    missing: 어느 CSP 정책이 어느 주소를 막았나
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(RG-SF-BrowserPolicyViolation)"]
+  "salesforce|ExternalServicesCreate":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Endpoint}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 SaaS 끝과 쓰는 Named Credential
+  "salesforce|ExternalServicesDelete":
+    calls: [SF-90]
+    verb: delete
+    effects:
+    - {kind: object_removed, interface: Endpoint, at: "targets[target]"}
+    fit: fits
+  "salesforce|ExternalServicesSchemaChange":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Endpoint, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 스키마(부를 수 있는 동작) 전후
+  "salesforce|PermSetAssign":
+    calls: [SF-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]"}
+    fit: fits
+  "salesforce|PermSetCreate":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy, at: "targets[target]"}
+    fit: fits
+  "salesforce|PermSetCreateNoLicense":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy, at: "targets[target]"}
+    fit: fits
+  "salesforce|PermSetEnableUserPerm":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: POLICY_CONTENT
+    missing: 권한 집합 안 권한(객체 권한·사용자 권한) 전후 → 보유자 rank 가 바뀜
+  "salesforce|PermSetEntityPermChanged":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: POLICY_CONTENT
+    missing: 권한 집합 안 권한(객체 권한·사용자 권한) 전후 → 보유자 rank 가 바뀜
+  "salesforce|PermSetGroupStandardChange":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: POLICY_CONTENT
+    missing: 권한 집합 안 권한(객체 권한·사용자 권한) 전후 → 보유자 rank 가 바뀜
+  "salesforce|PermSetGroupUserPermEnabled":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: POLICY_CONTENT
+    missing: 권한 집합 안 권한(객체 권한·사용자 권한) 전후 → 보유자 rank 가 바뀜
+  "salesforce|PermSetLicenseAssign":
+    calls: [SF-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]"}
+    fit: fits
+  "salesforce|PermissionSetGroupCalculationComplete":
+    calls: [SF-90]
+    verb: write
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|PermissionSetGroupCalculationStarted":
+    calls: [SF-90]
+    verb: write
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|PermissionSetGroupCreate":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy, at: "targets[target]"}
+    fit: fits
+  "salesforce|SetupEntityAccessAudit_PermissionSet_BotDefinition_Enabled":
+    calls: [SF-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on}
+    fit: fits
+  "salesforce|SetupEntityAccessAudit_PermissionSet_ExternalCredentialParameter_Enabled":
+    calls: [SF-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on}
+    fit: no_fit
+    cluster: POLICY_TO_CRED
+    missing: has_role_on/permits 도착에 Credential 갈래
+    review: ["갈래 밖: has_role_on 도착에 Credential(외부 자격증명 주체)이 없음"]
+  "salesforce|SlackSeamlessAuthActivateConnection":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: relation_modified, relation_type: trusts}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 연결 상태(활성)
+  "salesforce|SlackSeamlessAuthApproveConnection":
+    calls: [SF-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: trusts}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: 승인자·요청 상태
+  "salesforce|SlackSeamlessAuthAutoConnection":
+    calls: [SF-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: trusts}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 자동 연결(사람 승인 없음) 표시
+  "salesforce|SlackSeamlessAuthRemoveConnection":
+    calls: [SF-90]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: trusts}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 끝은 Display 안 팀 id 뿐
+  "salesforce|SlackSeamlessAuthUserExport":
+    calls: [SF-90]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: trusts, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: DATAFLOW
+    missing: 사용자 목록 사본이 간 곳(Slack 팀)
+  "salesforce|SlackSeamlessAuthUserProvisioning":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROVISION
+    missing: 프로비저닝 방향·켜짐
+  "salesforce|WaveAppCreate:Skipped":
+    calls: [RG-SF-WaveAutoInstallRequest]
+    verb: create
+    effects:
+    - {kind: denied, from: actor}
+    outcome: failure
+    fit: fits
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(RG-SF-WaveAutoInstallRequest)"]
+  "salesforce|activatedinteractiondefinition":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Automation, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: Automation 활성 상태 칸
+  "salesforce|activatedinteractiondefinitionWithSystemMode":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Automation, at: "targets[target]"}
+    - {kind: setting_changed, interface: Automation, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: 활성 상태 칸(run_as_resolution 칸은 있음)
+  "salesforce|agentPlatformEnabledOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: AI 에이전트 기능 켜기 값
+  "salesforce|autonomousExperienceOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: AI 에이전트 기능 켜기 값
+  "salesforce|changeAuthProviderConsumerKey":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Credential, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: rotated_at
+  "salesforce|changeAuthProviderConsumerSecret":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Credential, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: rotated_at
+  "salesforce|changedUserEmailVerifiedStatusUnverified":
+    calls: [SF-90]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROFILE_ID
+    missing: 메일 확인 상태 전후
+  "salesforce|changedUserEmailVerifiedStatusVerified":
+    calls: [SF-90]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROFILE_ID
+    missing: 메일 확인 상태(식별자 신뢰) 전후
+  "salesforce|changedemail":
+    calls: [SF-90]
+    verb: write
+    self_service: target
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROFILE_ID
+    missing: 메일 전후
+  "salesforce|changedfederationid":
+    calls: [SF-90]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROFILE_ID
+    missing: federation id 전후 — Okta 계정과 잇는 값
+  "salesforce|changedpassword":
+    calls: [SF-90]
+    verb: configure
+    self_service: target
+    effects:
+    - {kind: object_state_changed, interface: Credential}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: 관리자가 남의 비밀번호를 바꿈 → 그 사람으로 인증 가능
+  "salesforce|createdApexClass":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Automation, at: "targets[target]"}
+    fit: fits
+  "salesforce|createdgroup":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "salesforce|createdinteractiondefinition":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Automation, at: "targets[target]"}
+    fit: fits
+  "salesforce|createdinteractiondefversion":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Automation}
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: 자동화 버전 칸
+  "salesforce|createdoutboundmessage":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Endpoint}
+    fit: fits
+  "salesforce|createdrole":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy, at: "targets[target]"}
+    fit: fits
+  "salesforce|createduser":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "salesforce|createdworkflowrule":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Automation}
+    - {kind: relation_created, relation_type: triggered_by}
+    fit: fits
+  "salesforce|deletedinteractiondefversion":
+    calls: [SF-90]
+    verb: delete
+    effects:
+    - {kind: object_removed, interface: Automation}
+    fit: fits_with_attr
+    cluster: AUTO_STATE
+    missing: 자동화 버전 칸
+  "salesforce|ecAppChildEntityCreated":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy}
+    fit: fits
+    review: ["만든 하위 객체가 OAuth 설정(Credential)인지 OAuth 정책(Policy)인지 Display 문장으로만 가른다(11-04 수집본 15건 중 설정 5, 정책 10). 칸이 없어 못 정함"]
+  "salesforce|ecAppChildEntityDeleted":
+    calls: [SF-90]
+    verb: delete
+    effects:
+    - {kind: object_removed, interface: Policy}
+    fit: fits
+  "salesforce|ecAppChildEntityUpdated":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 실행 프로필 전후(시스템 관리자로 바뀜 = 앱 권한 상승)
+  "salesforce|ecAppEntityCreated":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy}
+    fit: fits
+  "salesforce|ecAppEntityUpdated":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Credential, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 설정 칸 전후(ID 토큰 유효기간 등)
+  "salesforce|ecAppGenerateConsumerKey":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: rotated_at·만든 사람
+  "salesforce|ecAppGenerateConsumerSecret":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: rotated_at·만든 사람(수집기 앱 비밀도 있음)
+  "salesforce|ecAppInsertValidationCert":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    - {kind: relation_created, relation_type: authenticates_with}
+    fit: fits
+  "salesforce|ecAppPolicyUpdated":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: "OAuth 정책 칸(TTL, IP 완화 등) 전후"
+  "salesforce|ecappOauthConsumerSecretGet":
+    calls: [SF-90]
+    verb: read
+    effects:
+    - {kind: exercised, from: actor}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: 비밀값을 돌려받은 사람이 그 앱으로 인증 가능
+  "salesforce|einsteinGPTPlatformEnabledOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: AI 에이전트 기능 켜기 값
+  "salesforce|enabledForecasting":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|eventManagerEventDestinationEnableStore":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Endpoint, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 이벤트 저장 켜기 값
+  "salesforce|externalCredentialDelete":
+    calls: [SF-90]
+    verb: delete
+    effects:
+    - {kind: object_removed, interface: Credential, at: "targets[target]"}
+    fit: fits
+  "salesforce|externalCredentialInsert":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 SaaS(Jira) 끝
+  "salesforce|externalCredentialParameterInsert":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 SaaS(Jira) 의 어느 주체로 인증하나
+  "salesforce|externalSharingModelEnabled":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 외부 공유 모델 값 — 켜면 외부 사용자 공유 갈래가 생김
+  "salesforce|groupMemberAdded":
+    calls: [SF-90]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]"}
+    fit: fits
+  "salesforce|insertAuthProvider":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    - {kind: relation_created, relation_type: trusts}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 SaaS(Slack) 테넌트 끝
+  "salesforce|insertCertificate":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: 인증서 용도(SAML SP)
+  "salesforce|insertConnectedApplication":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Integration}
+    - {kind: relation_created, relation_type: registered_by, to: actor}
+    fit: fits
+  "salesforce|intAccessChanged":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: relation_modified, relation_type: shared_with}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 레코드 종류 단위 Resource 와 공유 수준(읽기 전용→비공개) 전후
+  "salesforce|knowledgeEnabledOrgPrefTurnedOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|namedCredentialDelete":
+    calls: [SF-90]
+    verb: delete
+    effects:
+    - {kind: object_removed, interface: Credential, at: "targets[target]"}
+    fit: fits
+  "salesforce|namedCredentialEncryptedFieldChange":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Credential, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: 비밀값 회전 시각
+  "salesforce|namedCredentialFieldChange":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Credential, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 바뀐 칸 전후
+  "salesforce|namedCredentialInsert":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 SaaS(Slack API) 끝
+  "salesforce|namedCredentialParameterInsert":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Credential}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 끝
+  "salesforce|owdInternalUpdateStartedForEntity":
+    calls: [SF-90]
+    verb: write
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|owdUpdateFinished":
+    calls: [SF-90]
+    verb: write
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|owdUpdateStarted":
+    calls: [SF-90]
+    verb: write
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|remoteproxy":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 허용한 바깥 주소(Endpoint)와 잇는 칸
+  "salesforce|reqFirstPartyUseOfCookiesOnOff":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 설정 값
+  "salesforce|resetpassword":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Credential}
+    fit: fits_with_attr
+    cluster: CRED_MATERIAL
+    missing: 재설정한 사람이 임시 비밀번호를 가짐
+  "salesforce|role":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Policy, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: POLICY_CONTENT
+    missing: 역할 속성 전후
+  "salesforce|sAMLLoginEnabledOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant}
+    - {kind: relation_created, relation_type: trusts}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: SAML 켜기 값
+  "salesforce|sAMLLoginEnabledOnOff":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant}
+    - {kind: relation_removed, relation_type: trusts}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: SAML 값
+  "salesforce|samlSsoConfig_create":
+    calls: [SF-90]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Policy}
+    - {kind: relation_created, relation_type: trusts}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: IdP 끝(Display 안 이름)
+  "salesforce|scoringFrameworkOrgPrefOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|secureGuestUserRecordAccessEnabled":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 게스트(인증 안 한 사람) 접근 설정 값
+  "salesforce|slackBetaTOSOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: Slack 연동 기능 값
+  "salesforce|slackButtonEnabledOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: Slack 연동 기능 값
+  "salesforce|slackInfraTOSOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: Slack 연동 기능 값
+  "salesforce|slackRecordChannelsOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: Slack 연동 기능 값
+  "salesforce|slackSalesEnabledOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: Slack 연동 기능 값
+  "salesforce|slackUserSyncOffOn":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 설정 값
+  "salesforce|slackUserSyncOnOff":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: Slack 연동 기능 값
+  "salesforce|updatedDefaultCompactLayoutMapping":
+    calls: [SF-90]
+    verb: execute
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|useremailchangesent":
+    calls: [SF-90]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PENDING
+    missing: 메일 변경 요청(대기)
+  "salesforce|value_CASE_FEEDS_JOB_STATUS":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|value_CASE_FEEDS_PROCESSING_STATE":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|value_FORECASTING_SETUP_STATUS":
+    calls: [SF-90]
+    verb: write
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|value_MAX_STREAMING_TOPICS_PROV":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|value_ORG_CREATED_ON_VERSION":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|value_PROV_SCRATCH_ACTIVE_LIMIT":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|value_PROV_SCRATCH_DAILY_LIMIT":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|value_PROV_SNAPSHOT_ACTIVE_LIMIT":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "salesforce|value_PROV_SNAPSHOT_DAILY_LIMIT":
+    calls: [SF-90]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "slack|/devbot:denied":
+    calls: [SL-12]
+    verb: execute
+    effects:
+    - {kind: denied, relation_type: triggered_by, to: actor}
+    outcome: failure
+    fit: no_fit
+    cluster: BOT_AUTHZ
+    missing: 봇 코드 안의 허용 목록
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(SL-12)"]
+  "slack|/devbot:success":
+    calls: [SL-12]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: triggered_by, to: actor}
+    - {kind: exercised, relation_type: runs_as}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: 요청 사건과 다른 SaaS 결과 사건(GitHub 커밋)을 잇는 칸
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(SL-12)"]
+  "slack|/mfa-reset:denied":
+    calls: [SL-12]
+    verb: execute
+    effects:
+    - {kind: denied, relation_type: triggered_by, to: actor}
+    outcome: failure
+    fit: no_fit
+    cluster: BOT_AUTHZ
+    missing: 봇 코드 안의 허용 목록(Policy 객체 없음)
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(SL-12)"]
+  "slack|/mfa-reset:success":
+    calls: [SL-12]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: triggered_by, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: runs_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: RUN
+    missing: 요청→Okta user.mfa.factor.reset_all 사건 연결(엔진은 2분 안·같은 대상으로 추정)
+  "slack|agentforce_agent_slack_connection_added":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: AGENT
+    missing: 상대 Salesforce 에이전트(Automation)와 잇는 끝
+  "slack|anomaly":
+    calls: [SL-11]
+    verb: authenticate
+    effects:
+    - {kind: none}
+    signal: true
+    fit: fits
+    missing: "이상 종류(details.reason). 11-04 수집본 13건은 모두 세션 이상(user_agent, unexpected_user_agent, session_fingerprint)이라 인증으로 확정(11-12)"
+  "slack|app_allowlist_rule_matched":
+    calls: [SL-11]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: applies_to, from: actor, to: "targets[target]"}
+    decision: true
+    deny_kind: policy
+    fit: fits_with_attr
+    cluster: DECISION
+    missing: "앱 허용 규칙 판정(matched_rule, rules_checked)"
+  "slack|app_approved":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: 관리자 승인(요청→승인) 상태·승인자
+  "slack|app_collaborator_added":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    slots: {app: container}
+    snapshot_gap:
+      has_role_on: {kind: not_collected, note: "앱 협업자 목록을 수집하지 않는다(스냅샷에 사용자→앱 관계 0행)"}
+    fit: fits
+  "slack|app_installed":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: relation_created, relation_type: registered_by, from: "targets[target]", to: actor}
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    snapshot_gap:
+      registered_in: {kind: not_collected, note: "앱의 워크스페이스 설치 목록은 수집하지 않는다. 봇·토큰 객체가 있는 앱만 그 객체로 워크스페이스와 이어진다"}
+      registered_by: {kind: not_collected, note: "Slack 앱 목록·설치 API 가 설치자를 주지 않는다(스냅샷에 registered_by 0행)"}
+      has_role_on: {kind: not_extracted, note: "앱 scope 는 토큰 객체(credential-row) 속성으로만 있고 앱→테넌트 권한 관계 행이 없다"}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: 설치 때 받은 scope 목록·설치 승인자
+  "slack|app_manifest_created":
+    calls: [SL-11]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Integration, at: "targets[target]"}
+    - {kind: relation_created, relation_type: registered_by, from: "targets[target]", to: actor}
+    snapshot_gap:
+      registered_by: {kind: not_collected, note: "Slack 앱 목록·설치 API 가 설치자를 주지 않는다(스냅샷에 registered_by 0행)"}
+    fit: fits
+  "slack|app_manifest_updated":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Integration, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SCOPE_DIFF
+    missing: 매니페스트(scope·redirect·이벤트 구독) 전후
+  "slack|app_scopes_expanded":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    snapshot_gap:
+      has_role_on: {kind: not_extracted, note: "앱 scope 는 토큰 객체(credential-row) 속성으로만 있고 앱→테넌트 권한 관계 행이 없다"}
+    fit: fits_with_attr
+    cluster: SCOPE_DIFF
+    missing: details.previous_scopes/new_scopes 전후를 담을 관계 칸
+  "slack|auth_policy_entity_assigned":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: relation_created, relation_type: applies_to}
+    fit: fits
+  "slack|bot_add":
+    calls: [SL-05]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: actor, to: "targets[target]"}
+    fit: fits
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(SL-05)"]
+  "slack|bot_message":
+    calls: [SL-05]
+    verb: send
+    effects:
+    - {kind: exercised, relation_type: receives_into, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: owned_by, from: actor, to: "targets[target]"}
+    fit: fits
+  "slack|canvas_opened":
+    calls: [SL-11]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits
+  "slack|channel_email_address_created":
+    calls: [SL-11]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Endpoint}
+    - {kind: relation_created, relation_type: receives_into, to: "targets[target]"}
+    fit: fits
+  "slack|channel_join":
+    calls: [SL-05]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: actor, to: "targets[target]"}
+    fit: fits
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(SL-05)"]
+  "slack|channel_tab_added":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "slack|external_auth_oauth2_token_fetched":
+    calls: [SL-11]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: TOKEN
+    missing: "어느 SaaS 의 토큰인지, 가져간 자동화"
+  "slack|external_data_source_created":
+    calls: [SL-11]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Endpoint, at: "targets[target]"}
+    - {kind: relation_created, relation_type: receives_into, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 SaaS 와 인증 주체
+  "slack|external_data_source_updated":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Endpoint, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 바뀐 연결 설정 전후
+  "slack|file_downloaded":
+    calls: [SL-11]
+    verb: export
+    effects:
+    - {kind: exercised, relation_type: member_of, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: has_role_on, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: DATAFLOW
+    missing: 사본이 간 곳
+  "slack|file_shared":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: shared_with, from: "targets[target]", to: "targets[destination]"}
+    fit: no_fit
+    cluster: SHARE_TO_RESOURCE
+    missing: 파일→채널 공유로 채널 멤버가 읽게 됨(shared_with 도착 Resource 없음)
+    review: ["갈래 밖: shared_with 도착에 Resource(채널)가 없음"]
+  "slack|file_uploaded":
+    calls: [SL-11]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource, at: "targets[target]"}
+    - {kind: relation_created, relation_type: owned_by, from: "targets[target]", to: actor}
+    fit: fits
+  "slack|idp_configuration_added":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: trusts, from: "targets[container]"}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: IdP 끝은 이름만
+  "slack|idp_prod_configuration_updated":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: relation_modified, relation_type: trusts, from: "targets[container]"}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: 운영 IdP 설정 전후
+  "slack|idp_test_configuration_updated":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: relation_modified, relation_type: trusts, from: "targets[container]"}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: 시험용 IdP 설정 내용
+  "slack|message":
+    calls: [SL-05]
+    verb: send
+    effects:
+    - {kind: exercised, relation_type: member_of, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    - {kind: exercised, relation_type: receives_into, from: actor, to: "targets[target]"}
+    fit: fits
+  "slack|oauth.v2.access(install)":
+    calls: [D-21]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: relation_created, relation_type: registered_by, from: "targets[target]", to: actor}
+    - {kind: relation_created, relation_type: receives_into}
+    fit: fits_with_attr
+    cluster: CONSENT
+    missing: 설치 때 받은 scope 목록을 has_role_on Integration→Tenant 칸으로
+    review: ["호출 칸 위치 아직 없음: 자리 이름은 칸 위치를 적을 때 맞춘다(D-21)"]
+  "slack|org_app_future_workspace_install_disabled":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Integration, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: 「앞으로 만들 워크스페이스에 자동 설치」 설정 값
+  "slack|org_app_workspace_added":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "slack|organization_created":
+    calls: [SL-11]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Tenant, at: "targets[container]"}
+    fit: fits
+  "slack|permissions_assigned":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[container]"}
+    fit: fits_with_attr
+    cluster: SETTING
+    missing: "어느 계정 종류 역할(entity.account_type_role)에 어느 권한(changed_permissions, is_allowed)을 허용했나, 적용 워크스페이스(details.target_entity_id). 11-14 원본 32건은 모두 사람이 아니라 역할 단위(채널 보관·이름 바꾸기 같은 것)"
+  "slack|pref.dnd_enabled":
+    calls: [SL-11]
+    verb: configure
+    self_service: actor
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "slack|pref.dnd_end_hour":
+    calls: [SL-11]
+    verb: configure
+    self_service: actor
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "slack|pref.dnd_start_hour":
+    calls: [SL-11]
+    verb: configure
+    self_service: actor
+    effects:
+    - {kind: none}
+    fit: "n/a"
+  "slack|pref.sso_setting_changed":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Tenant, at: "targets[container]"}
+    - {kind: relation_modified, relation_type: trusts, from: "targets[container]"}
+    fit: fits_with_attr
+    cluster: IDP
+    missing: SSO 필수 여부 전후
+  "slack|private_channel_converted_to_public":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: shared_with, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "slack|private_channel_created":
+    calls: [SL-11]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "slack|public_channel_converted_to_private":
+    calls: [SL-11]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: shared_with, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "slack|public_channel_created":
+    calls: [SL-11]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Resource, at: "targets[target]"}
+    fit: fits
+  "slack|public_channel_preview":
+    calls: [SL-11]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: shared_with, from: actor, to: "targets[target]"}
+    fit: fits
+  "slack|role_assigned":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]", role: "targets[role]"}
+    fit: fits
+  "slack|salesforce_access_granted":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: has_role_on, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: Slack 사용자가 Salesforce 조직에 닿는 연결 주체(어느 SF 사용자로)
+  "slack|salesforce_mcp_server_acl_updated":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AGENT
+    missing: Slack 의 「모두」 특수 주체(Atlassian 특수 주체 갈래만 있음)
+  "slack|salesforce_mcp_server_enabled":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    - {kind: object_created, interface: Tenant, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AGENT
+    missing: MCP 서버가 닿는 Salesforce 조직
+  "slack|salesforce_mcp_server_workspace_granted":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: registered_in, from: "targets[target]", to: "targets[container]"}
+    fit: fits_with_attr
+    cluster: AGENT
+    missing: MCP 서버 키(platform.sobject-reads) = 다른 SaaS 읽기 범위
+  "slack|salesforce_org_record_channel_config_added":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: relation_created, relation_type: receives_into}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 상대 Salesforce 조직·객체 종류(Contract)와 채널 공개 여부
+  "slack|salesforce_permissions_synced":
+    calls: [SL-11]
+    verb: execute
+    effects:
+    - {kind: relation_modified, relation_type: has_role_on, from: "targets[target]"}
+    fit: fits_with_attr
+    cluster: MIRROR
+    missing: "Salesforce 권한을 Slack 이 사본으로 가진다는 표시, 영향 받은 사용자별 전후"
+  "slack|seamless_auth_org_created":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: trusts, from: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 연결 설정 내용
+  "slack|seamless_auth_org_updated":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: relation_modified, relation_type: trusts, from: "targets[container]"}
+    fit: fits_with_attr
+    cluster: CROSS_SAAS
+    missing: 연결 설정 내용(salesforce_org_config) 전후
+  "slack|slack_ai_mcp_connector_changed":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: setting_changed, interface: Integration, at: "targets[container]"}
+    fit: fits_with_attr
+    cluster: AGENT
+    missing: 커넥터 설정 전후
+  "slack|slack_ai_mcp_resource_read":
+    calls: [SL-11]
+    verb: read
+    effects:
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AGENT
+    missing: 읽은 다른 SaaS 자원
+  "slack|slack_ai_mcp_tool_called":
+    calls: [SL-11]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AGENT
+    missing: "경유 에이전트(context.acting_agent), 도구 이름, read_only, 다른 SaaS(Atlassian) 쪽 결과"
+  "slack|slack_ai_mcp_tool_permission_changed":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: acts_as, to: actor}
+    fit: no_fit
+    cluster: AGENT
+    missing: 일회성 허용(decision allow_once) — 관계 수명 칸 없음
+  "slack|slack_ai_summary_requested":
+    calls: [SL-11]
+    verb: execute
+    effects:
+    - {kind: exercised, relation_type: acts_as, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: AGENT
+    missing: 무엇을 요약했나(대상 채널)·경유 AI
+  "slack|user_channel_join":
+    calls: [SL-11]
+    verb: grant
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: actor, to: "targets[target]"}
+    fit: fits
+  "slack|user_channel_leave":
+    calls: [SL-11]
+    verb: revoke
+    effects:
+    - {kind: relation_removed, relation_type: member_of, from: actor, to: "targets[target]"}
+    fit: fits
+  "slack|user_created":
+    calls: [SL-11]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "slack|user_deactivated":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "slack|user_email_updated":
+    calls: [SL-11]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROFILE_ID
+    missing: 메일 전후
+  "slack|user_joined_workspace":
+    calls: [SL-11]
+    verb: grant
+    self_service: target
+    effects:
+    - {kind: relation_created, relation_type: member_of, from: "targets[target]", to: "targets[container]"}
+    fit: fits
+  "slack|user_login":
+    calls: [SL-11]
+    verb: authenticate
+    effects:
+    - {kind: exercised, relation_type: authenticates_with, from: actor, to: "targets[target]"}
+    fit: fits_with_attr
+    cluster: SESSION
+    missing: 세션(context.session_id)·인증 수단
+  "slack|user_logout":
+    calls: [SL-11]
+    verb: authenticate
+    effects:
+    - {kind: none}
+    fit: no_fit
+    cluster: SESSION
+    missing: 세션 객체(끝)
+  "slack|user_profile_updated":
+    calls: [SL-11]
+    verb: write
+    self_service: target
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "slack|user_reactivated":
+    calls: [SL-11]
+    verb: configure
+    effects:
+    - {kind: object_state_changed, interface: Principal, at: "targets[target]"}
+    fit: fits
+  "slack|user_username_updated":
+    calls: [SL-11]
+    verb: write
+    effects:
+    - {kind: object_attr_changed, interface: Principal, at: "targets[target]"}
+    fit: fits_with_attr
+    cluster: PROFILE_ID
+    missing: 사용자명 전후
+  "slack|workspace_created":
+    calls: [SL-11]
+    verb: create
+    effects:
+    - {kind: object_created, interface: Tenant, at: "targets[container]"}
+    fit: fits

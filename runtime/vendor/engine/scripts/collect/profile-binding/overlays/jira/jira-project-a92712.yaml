@@ -1,0 +1,63 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/project.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: JI-04
+        items: (array_or:values|results)
+    vars:
+      scheme:
+        op: index
+        name: scheme_of_project
+        key:
+          op: str
+          of: id
+    mutable_ids:
+      key: key
+    refs:
+      lead:
+        when:
+          path: lead.accountId
+          truthy: true
+        ref:
+          type: User
+          id: lead.accountId
+        value: lead.accountId
+      permission_scheme:
+        when:
+          path: $vars.scheme
+          truthy: true
+        ref:
+          type: PermissionScheme
+          id: $vars.scheme
+        value: $vars.scheme
+    properties:
+      key: key
+      name: name
+      project_type: projectTypeKey
+      style: style
+      is_private: isPrivate
+      lead_account:
+        op: null_if_missing
+        of: lead.accountId
+    display: "{name|key|id}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: JIRA-P-{id}
+runtime_stub: null
+runtime_key: JIRA-P-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  key:
+    stability: mutable

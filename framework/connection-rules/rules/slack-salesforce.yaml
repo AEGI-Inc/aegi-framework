@@ -1,0 +1,273 @@
+# slack ↔ salesforce 연결 규칙
+# 벤더 문서로만 썼다 (2026-10-14). 시험 테넌트 결과는 ../test-environment/slack-salesforce.yaml 에 채운다
+
+pair:
+- slack
+- salesforce
+written: '2026-10-14'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/slack-salesforce.yaml
+methods:
+- id: salesforce_org_connection
+  type: app_grant
+  what: Slack 워크스페이스와 Salesforce 조직을 연결 (모든 플랜). Slack 에서 요청하고 Salesforce 관리자가 승인한 뒤 Slack 에서 활성화한다. 계정 매핑은 Email 또는 SAML NameID 이고 Salesforce 쪽은 Platform Integration User 를 쓴다. Free·Pro 에서 SAML SSO 를 쓰는 조건이기도 하다
+  identify:
+    api: slack 감사 salesforce_org_upserted, salesforce_org_deleted, sales_elevate_org_connection_added·removed (Enterprise)
+    when: 연결이 있음
+  points_to:
+  - tier: config_name
+    a: slack Tools & settings > Manage Salesforce Organizations 의 org URL
+    b: salesforce My Domain
+    check: a 와 b 가 같다
+    if_unreadable: 'Salesforce Setup > Platform tools > Slack > Manage Slack Connection (조회 API 는 문서에 없음)'
+  - tier: via_person
+    a: slack 사용자 email 또는 SAML NameID
+    b: salesforce User.Email 또는 FederationIdentifier (매핑 필드)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack 감사 seamless_auth_org_created·seamless_auth_org_updated 시각 (salesforce_org_upserted 는 이 환경에서 안 나왔다)
+    b: salesforce SetupAuditTrail 의 Slack 연결 승인 기록 (남는지는 문서에 없음)
+    check: 시각이 가깝다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  - tier: log_time
+    a: slack 감사 salesforce_org_upserted 의 시각 (Enterprise 감사 API)
+    b: 'salesforce SetupAuditTrail 의 Action 값. 문서 없음, 화면 관찰: SlackSeamlessAuthApproveConnection, SlackSeamlessAuthActivateConnection, SlackSeamlessAuthRemoveConnection. Display 필드 원문은 화면에서 확인'
+    check: 시각이 가깝다. Action 이름은 화면 관찰로만 적었다 (문서 없음, 화면 관찰. SetupAuditTrail 문서는 Action 을 "The category of the change made in Setup." 로 정의하고 예(PermSetCreate)만 든다. Action 목록과 Section 목록이 없다. SlackSeamlessAuth 세 이름은 공식 문서에서 찾지 못했다. 문서상 SetupAuditTrail 은 최근 180일을 보여 준다. 기존 log_time 행의 「남는지 문서에 없음」은 그대로 둔다.)
+    note: SetupAuditTrail Display 에 Slack 팀 ID 가 들어 있다 (「팀 ID E0C60HWMGD7에 대한 Slack 연결 요청이 승인됨」). 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  activity:
+  - slack 감사 salesforce_org_upserted, salesforce_org_deleted, salesforce_access_granted·removed, salesforce_permissions_synced
+  - salesforce SetupAuditTrail
+  sources:
+  - https://slack.com/help/articles/30754346665747-Connect-Salesforce-and-Slack (절차, 매핑, Platform Integration User, 모든 플랜, Government Cloud 불가)
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (salesforce_* 이벤트. WebFetch 발췌)
+  - https://slack.com/help/articles/203772216-Set-up-SAML-single-sign-on-for-Slack (Free·Pro SSO 는 Salesforce 조직 연결 조건) [Exa]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_setupaudittrail.htm ("Represents changes you or other admins made in your org") [Exa]
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (salesforce_org_upserted 설명) [Exa]
+- id: salesforce_for_slack_apps
+  type: app_grant
+  what: Salesforce 가 만든 Slack 연동 앱(알림 앱 My Alerts, Channel Alerts, Bulk Alerts 등). Slack 이 만든 옛 Salesforce 앱(Salesforce 쪽 패키지 + Slack 쪽 앱, Slack Standard User 권한 세트)은 신규 설치가 안 된다
+  identify:
+    api: slack 감사 app_installed, admin.apps.approved.list; salesforce Tooling InstalledSubscriberPackage (SubscriberPackage.Name, NamespacePrefix), SOQL OauthToken
+    when: Slack 쪽에 Salesforce 앱이, Salesforce 쪽에 Slack 패키지가 있음
+  points_to:
+  - tier: config_name
+    a: slack 설치 앱 (Salesforce 앱)
+    b: salesforce 설치 패키지 이름·네임스페이스 (Slack 패키지)
+    check: 둘 다 있다
+  - tier: config_name
+    a: salesforce OauthToken.AppName (Slack 연동 앱 라벨. 이름은 문서에 없음)
+    b: slack 앱
+    check: 같은 사람과 시각
+  - tier: log_id
+    a: slack 감사 app_installed 의 entity.app.id, entity.app.name
+    b: Salesforce 가 만든 Slack 앱
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack 감사 app_installed 시각
+    b: salesforce SetupAuditTrail 의 패키지 설치 시각
+    check: 시각이 가깝다
+  - tier: config_name
+    a: slack 앱 디렉터리 id A01RDL2NJAH (Service Cloud for Slack, 게시자 Salesforce). 설치 후 slack 감사 app_installed 의 entity.app.id·entity.app.name 과 같은지 확인 필요
+    b: salesforce 설치 패키지 「Service Cloud Swarming Reports and Dashboards」 (AppExchange 패키지, InstalledSubscriberPackage.Name 후보). 메인 Slack 연동 패키지 이름은 문서에 없다
+    check: 'a 와 b 가 같은 Salesforce 조직 설치에 있다. 둘 다 있으면 Service Cloud 연동이 설치된 것으로 본다 (이미 있음. Service Cloud for Slack 은 Salesforce 가 만든 Slack 연동 앱이라 salesforce_for_slack_apps 의 범위에 든다. 위 두 값이 추가 근거다. Swarming 은 Slack 에서 시작되며 감사 action 이름은 문서에 없다. Salesforce 쪽 설정 화면과 permission set 은 문서에 없다. 확신 낮은 칸: b 는 메인 패키지가 아니라 리포트 패키지다.)'
+  - tier: config_name
+    a: slack 앱 디렉터리 id A02FTH353M0 (Slack 마켓플레이스 「CRM Analytics & Slack Integration」, 개발자 Salesforce). 설치 후 app_installed 의 entity.app.id·entity.app.name 확인 필요
+    b: salesforce 쪽 CRM Analytics for Slack 연결. 설정 화면 이름과 설치 패키지 이름은 문서로 확인 못 했다
+    check: 같은 Salesforce 조직의 CRM Analytics 연결이 Slack 쪽 앱과 짝을 이룬다. 확인은 화면으로 한다 (이미 있음. 개발자가 Salesforce 이고 Salesforce 가 만든 Slack 연동 앱이라 salesforce_for_slack_apps 에 든다. 앱 이름 표기가 목록 제목 「CRM Analytics & Slack Integration」과 본문 「CRM Analytics for Slack」 두 가지다. 설정 경로 「Initial Slack Setup」은 비공식 검색 요약에서만 나와 근거로 안 적었다. Trailhead 원문(meet-crm-analytics-for-slack)은 검색 요약만 보고 원문 미열람이다.)
+  activity:
+  - slack app_installed, app_uninstalled
+  - salesforce OauthToken, SetupAuditTrail (패키지 설치)
+  sources:
+  - https://slack.com/help/articles/227838227-salesforce-for-slack (Salesforce built integrations 권장, 알림 앱, 옛 앱 구조) [Exa]
+  - https://slack.com/help/articles/360044038514-Configure-Salesforce-for-use-with-Slack (AppExchange 패키지, Slack Standard User, no longer supports new installations) [Exa]
+  - https://developer.salesforce.com/docs/atlas.en-us.api_tooling.meta/api_tooling/tooling_api_objects_installedsubscriberpackage.htm (InstalledSubscriberPackage, SOQL 예시) [브라우저]
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_setupaudittrail.htm [Exa] (Action, Section, Display, CreatedById, CreatedDate)
+  - https://slack.com/apps/A01RDL2NJAH (게시자 Salesforce, Service Cloud 라이선스에 무료 포함, Swarming 과 리포트 패키지 설치) [WebFetch 요약]
+  - https://slack.com/help/articles/227838227-salesforce-for-slack ("Salesforce has built a suite of Salesforce for Slack Integrations") [Exa]
+  - https://slack.com/marketplace/A02FTH353M0 (개발자 Salesforce, "CRM Analytics for Slack makes it easy to access your analytics") [Exa]
+- id: flow_slack_action
+  type: event_delivery
+  what: Salesforce Flow 가 Slack 동작(메시지 보내기 등)을 실행. Flow 동작 입력에 Slack 앱, 워크스페이스, 대화 ID 를 넣는다 (Initial Slack Setup 으로 조직을 Slack 과 먼저 잇는다)
+  identify:
+    api: slack 감사 app_flows_execute_slack_action (A Salesforce Flow executed a Slack Action)
+    when: 이벤트가 있음
+  points_to:
+  - tier: config_id
+    a: salesforce Tooling API Flow 메타데이터 actionCalls(actionName slackPostMessage) 의 inputParameters slackConversationId, 그리고 워크스페이스 id
+    b: slack:workspace:id, slack 채널 id
+    check: a 와 b 가 같다
+    if_unreadable: Salesforce Flow Builder 에서 그 동작의 입력 (Flow 를 만든 관리자)
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  - tier: config_name
+    a: salesforce Flow 동작 입력 Slack App (Salesforce for Slack)
+    b: slack 설치 앱 (Salesforce for Slack)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack 감사 app_flows_execute_slack_action 시각
+    b: salesforce Flow 실행 기록 (Flow 화면. API 는 문서에 없음)
+    check: 시각이 가깝다
+  activity:
+  - slack 감사 app_flows_execute_slack_action
+  sources:
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (app_flows_execute_slack_action. WebFetch 발췌)
+  - https://admin.salesforce.com/blog/2023/automate-this-boost-user-productivity-by-integrating-approvals-and-flows-in-slack [Exa] (Salesforce Admins 블로그. Initial Slack Setup, Flow Slack 동작 입력 Slack App·Slack Workspace·Slack Conversation ID)
+- id: named_credential_to_slack_api
+  type: stored_credential
+  what: Salesforce 가 Auth. Provider(ProviderType Slack 또는 OpenID Connect) + External Credential + Named Credential(URL https://slack.com/api)로 Slack Web API 를 부름 (Agentforce 커스텀 Slack 액션 예)
+  identify:
+    api: salesforce SOQL AuthProvider (ProviderType, ConsumerKey), NamedCredential; slack 앱 설정
+    when: Named Credential URL 이 slack.com, AuthProvider 가 Slack
+  points_to:
+  - tier: config_id
+    a: salesforce AuthProvider.ConsumerKey
+    b: slack 앱 Client ID
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: slack 앱 OAuth & Permissions Redirect URLs
+    b: salesforce Setup > Auth. Providers 상세 화면의 Callback URL (AuthProvider 객체 필드에는 없음)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack 감사 external_auth_oauth2_token_fetched (대응은 문서에 없음)
+    b: salesforce External Credential 인증 시각
+    check: 시각이 가깝다
+  activity:
+  - slack app_installed (그 앱), API 호출
+  sources:
+  - https://api.slack.com/docs/apps/custom-slack-actions (Auth. Provider, External Credential, Named Credential slack.com/api, 앱 이름 Agentforce Custom Actions) [Exa]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_authprovider.htm (ProviderType Slack) [브라우저]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_namedcredential.htm [Exa]
+- id: apex_slack_sdk_app
+  type: event_delivery
+  what: Salesforce Platform 에서 만든 Slack 앱(Apex SDK for Slack, 베타). 슬래시 명령·OAuth 주소가 Salesforce 호스트를 가리킨다
+  identify:
+    api: slack apps.manifest.export (SL-10)
+    when: 슬래시 명령 url 이 slack-apps.salesforce.com, redirect 가 auth.slack-apps.salesforce.com
+  points_to:
+  - tier: config_id
+    a: slack 매니페스트 url 의 앱 ID (https://slack-apps.salesforce.com:9443/a/<앱 ID>, …/slack_oauth_callback/<앱 ID>)
+    b: salesforce 쪽 Slack 앱 ID
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: slack 감사 app_installed 의 entity.app.id, entity.app.name
+    b: 매니페스트의 그 앱
+    check: a 와 b 가 같다
+  activity:
+  - slack 감사 app_installed
+  sources:
+  - https://developer.salesforce.com/docs/platform/salesforce-slack-sdk/guide/setup-install-app.html (매니페스트 주소 꼴) [Exa]
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference
+- id: slack_workflow_connector_salesforce
+  type: app_grant
+  what: Slack 워크플로 빌더의 「Salesforce」 커넥터 단계 (개발자 커넥터 함수 salesforce/create_record, END_USER 인증)
+  identify:
+    api: slack admin.workflows.search (steps), 감사 external_auth_oauth2_token_*
+    when: 워크플로 단계에 Salesforce 커넥터
+  points_to:
+  - tier: config_name
+    a: slack 워크플로 단계의 Salesforce 커넥터
+    b: salesforce OauthToken.AppName (커넥터가 쓰는 앱 라벨. 이름은 문서에 없음), UserId
+    check: 같은 사람과 시각
+  - tier: log_id
+    a: slack 감사 workflow_published 의 entity.workflow_v2.step_configuration[].step_function_app_id
+    b: Slack 워크플로 빌더 Salesforce 커넥터 앱 ID (값은 문서에 없어 커넥터를 넣어 보고 읽는다)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack external_auth_oauth2_token_fetched 시각과 actor
+    b: salesforce OauthToken.CreatedDate 와 UserId
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - slack workflow_published, external_auth_oauth2_token_fetched
+  - salesforce OauthToken
+  sources:
+  - https://slack.com/help/articles/20155812595219-Slack-connectors-for-Workflow-Builder (커넥터 목록에 Salesforce) [Exa]
+  - https://docs.slack.dev/tools/deno-slack-sdk/reference/connector-functions/salesforce/create_record (END_USER)
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_oauthtoken.htm [Exa] (AppName, UserId, CreatedDate, LastUsedDate, UseCount)
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference
+- id: person_link
+  type: same_person
+  what: 같은 사람 (Slack 계정 ↔ Salesforce 사용자)
+  identify:
+    api: slack users.list email; salesforce SOQL User
+    when: 항상
+  points_to:
+  - tier: via_person
+    a: slack user profile.email
+    b: salesforce User.Email
+    check: a 와 b 가 같다
+  sources: ["https://docs.slack.dev/reference/methods/users.list (profile.email)", "https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_user.htm [Exa] (Email, Username, FederationIdentifier)"]
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: slackbot_salesforce_mcp
+  type: app_grant
+  what: Slackbot 이 Salesforce MCP 서버(Data 360, SObject All·Reads·Mutations·Deletes, Tableau Next 등 표준 서버와 맞춤 서버)로 Salesforce 를 조회하고 고친다. 먼저 salesforce_org_connection 으로 org 를 Slack 에 연결해야 한다. Slack 소유자·관리자가 서버를 추가하고 도구별 접근을 정한다 (Enterprise Grid, Enterprise+). Salesforce 쪽은 관리자가 Slackbot 권한 세트를 할당해야 Salesforce 안에서 Slackbot 을 쓴다
+  identify:
+    api: slack 감사 salesforce_mcp_server_* (Audit Logs API); salesforce Setup 권한 세트·Platform Integration User (화면)
+    when: slack 감사에 salesforce_mcp_server_enabled 행이 있음
+  points_to:
+  - tier: config_name
+    a: slack 에 추가된 Salesforce MCP 서버 항목(서버 이름)
+    b: 'salesforce Hosted MCP 서버 이름 (예: SObject Reads, Data 360)'
+    check: a 와 b 가 같다
+    if_unreadable: '읽는 API 가 문서에 없다. 사람: Slack 관리 > Salesforce, Salesforce Setup'
+  - tier: log_time
+    a: slack 감사 salesforce_mcp_server_enabled 또는 salesforce_query_executed 시각과 사용자
+    b: salesforce LoginHistory 의 Slack 연결 통합 사용자 로그인 시각
+    check: 시각이 가깝다
+  activity:
+  - slack 감사 salesforce_mcp_server_enabled, _disabled, _deleted, _config_updated, _acl_updated, _tool_acl_updated, _tool_default_updated, _workspace_granted, _workspace_revoked, _org_disconnected, _org_reconnected, _tool_permissions_deleted, salesforce_query_executed
+  sources:
+  - https://slack.com/help/articles/52462858006675-Connect-Slackbot-to-Salesforce-with-MCP (표준 서버, 설정 주체)
+  - https://slack.com/help/articles/55480904959763-Work-with-Slackbot-in-Salesforce (Slackbot 권한 세트) [Exa]
+  - https://developer.salesforce.com/blogs/2026/07/connect-slack-to-salesforce-with-hosted-mcp-servers (Salesforce Hosted MCP Servers) [Exa]
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (Slack 감사 로그 action 이름)
+  note: Salesforce 쪽 이벤트 이름은 문서에 없다. Slack 감사 salesforce_* 이름 열두 개와 salesforce_query_executed 는 모두 공식 action 목록에 있다. Salesforce Hosted MCP Servers 는 개발자 블로그가 GA 로 소개한다(원문 앞부분만 읽음)
+- id: agentforce_in_slack
+  type: app_grant
+  what: Salesforce Agentforce 에이전트를 Slack 에 배포한다. Salesforce 관리자가 Setup > Agents > Connections 에서 Slack 을 연결 앱으로 하는 연결을 만들고 활성화하면, Slack 소유자·관리자가 Admin > Manage Agentforce 에서 에이전트를 골라 워크스페이스에 할당한다. Employee Agent 는 Salesforce 권한으로, Service Agent 는 명시 지정으로 동작한다. Salesforce 계정이 없는 Slack 멤버는 임시 라이선스가 필요하다
+  identify:
+    api: slack 감사 agentforce_agent_* (Audit Logs API); salesforce Setup > Agents > Connections (화면)
+    when: slack 감사에 agentforce_agent_slack_connection_added 행이 있음
+  points_to:
+  - tier: config_name
+    a: salesforce Agentforce 에이전트의 Slack 연결 (Agents > Connections)
+    b: slack 설치된 에이전트 앱의 워크스페이스 할당
+    check: a 와 b 가 같다
+    if_unreadable: '읽는 API 가 문서에 없다. 사람: Salesforce Setup > Agents > Connections, Slack Admin > Manage Agentforce'
+  - tier: log_time
+    a: slack 감사 agentforce_agent_slack_connection_added 시각
+    b: salesforce SetupAuditTrail 의 에이전트 연결 변경 시각
+    check: 시각이 가깝다
+  activity:
+  - slack 감사 agentforce_agent_slack_connection_added, _removed, agentforce_agent_activated, _deactivated, agentforce_agent_slack_deleted, agentforce_agent_actions_updated, agentforce_agent_metadata_updated, app_agentforce_execute_slack_action, pref.agentforce_workspaces_settings_changed
+  sources:
+  - 'https://www.salesforce.com/slack/agentforce-in-slack/ (설정 순서, 할당) '
+  - https://slack.com/help/articles/36218109305875-Set-up-and-manage-Agentforce-in-Slack (설치 주체, 사용자 권한, 레거시 빌더의 Slack 연결 앱)
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (Slack 감사 로그 action 이름)
+  note: 레거시 빌더에서는 Connected Apps OAuth Usage 에서 Slack 연결 앱을 설치해야 하고 새 Agentforce Builder 는 필요 없다. SetupAuditTrail 의 Section·Action 값은 문서에서 찾지 못했다. 기존 named_credential_to_slack_api 는 반대 방향(Agentforce 액션이 Slack Web API 를 부름)이다
+- id: salesforce_record_channel
+  type: app_grant
+  what: Salesforce 레코드(Account, Opportunity 등)에 대응하는 Slack 채널. 레코드에서 Create Channel 로 새로 만들거나 기존 채널을 연결하고, 채널 접근은 그 레코드에 대한 Salesforce 권한을 따른다. 조직 연결(salesforce_org_connection) 뒤에 Salesforce Setup 의 Slack Channels for Records 에서 객체를 고르고 Slack 에서 기본값을 정한다. 모든 플랜에서 쓸 수 있고 Summary 탭은 Business+·Enterprise+ 에서만 된다.
+  identify:
+    api: slack 관리 화면 Admin > Manage Salesforce Organizations > 조직 > Channel configurations (화면). salesforce Setup > Slack Channels for Records 의 객체 목록 (화면). slack 감사 pref.public_record_channel_retention_changed 외 여섯 개 (보존·삭제 설정 변경만, 연결 자체는 없음)
+    when: Channel configurations 에 레코드 객체가 있고, 그 객체의 레코드에 연결된 Slack 채널이 있음
+  points_to:
+  - tier: config_name
+    a: slack Channel configurations 의 객체 이름 (예 Account, Opportunity)
+    b: salesforce Slack Channels for Records 에 추가된 객체 (화면. 조회 API 는 문서에 없음)
+    check: a 와 b 가 같은 객체다
+    if_unreadable: slack 화면과 salesforce 화면을 같이 본다. 둘 다 읽는 API 가 문서에 없다
+  - tier: via_person
+    a: slack 채널 멤버의 email (또는 SAML NameID, org 연결의 사용자 매핑)
+    b: salesforce User.Email 과 그 레코드에 대한 접근 권한
+    check: 같은 사람이고 그 레코드에 접근 권한이 있다
+  activity:
+  - slack 감사 pref.public_record_channel_retention_changed, pref.private_record_channel_retention_changed 등 (설정 변경)
+  - slack 채널 생성·연결 이벤트와 salesforce 쪽 기록은 문서에 이름이 없다
+  sources:
+  - https://slack.com/help/articles/32664824986259-Use-Salesforce-channels-in-Slack (정의, 권한, 탭, 플랜) [Exa]
+  - https://slack.com/help/articles/32665140498195-Set-up-and-manage-Salesforce-channels-in-Slack (Step 1·2, Slack Channels for Records, Channel configurations 경로) [Exa]
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (pref.*_record_channel_* 이름, Enterprise 전용) [Exa]
+  note: '(1) 「Salesforce 화면의 Lightning 패널」은 문서에 없다. 두 Slack 도움말 원문에서 레코드 화면 배치는 찾지 못했고, 사용 기사는 Salesforce Help Center 로만 안내한다. (2) 채널과 레코드를 잇는 ID(Salesforce record Id 가 Slack 에 저장되는지)는 문서에 없다. 문서상 채널 이름은 레코드 필드에서 만들어지므로 config_name 은 이름 비교라 약하다. (3) 채널을 레코드에 연결하는 감사 action 은 문서에 없다. Create Channel / Link an existing channel 은 화면 흐름으로만 적혀 있다. (4) 감사 API 는 Enterprise 전용이라 다른 플랜에서는 pref 행을 못 읽는다. (5) type 을 app_grant 로 둔 이유: 접근이 조직 연결과 Salesforce 권한으로 정해지므로 app 승인 범주에 가깝다. event_delivery·content_ref 는 맞지 않는다. 확신 낮은 칸: config_name 의 객체 비교.'

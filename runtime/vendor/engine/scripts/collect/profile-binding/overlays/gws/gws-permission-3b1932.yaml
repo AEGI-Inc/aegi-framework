@@ -1,0 +1,504 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/permission.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: drive
+    kind: object
+    key: GWS-DRVPERM-{f}-{p}
+    sources:
+      - call: GW-19
+        request:
+          drive: present
+        items: permissions
+    vars:
+      drive:
+        op: str
+        of: $req.drive
+      grantee_kind:
+        op: map
+        of: type
+        table:
+          user: user
+          group: group
+        default:
+          const: none
+      grantee:
+        ref:
+          switch: $vars.grantee_kind
+          cases:
+            user:
+              type: User
+              lookup:
+                - primaryEmail
+                - aliases
+              value: emailAddress
+              ci: true
+            group:
+              type: Group
+              lookup: email
+              value:
+                op: lower
+                of:
+                  op: str
+                  of: emailAddress
+              ci: true
+        prop: $key
+      drive_name:
+        ref:
+          type: Drive
+          id: $vars.drive
+        prop: name
+    id_expr:
+      template: "{$vars.drive}:{id}"
+    parts:
+      f: $vars.drive
+      p: id
+    parent:
+      ref:
+        type: Drive
+        id: $vars.drive
+      when: always
+    refs:
+      grantee:
+        - when:
+            path: $vars.grantee
+            present: true
+          ref:
+            key: $vars.grantee
+          value: emailAddress
+        - when:
+            all:
+              - path: $vars.grantee
+                present: false
+              - path: emailAddress
+                truthy: true
+          type: User
+          value: emailAddress
+          external: true
+    properties:
+      type: type
+      role: role
+      emailAddress:
+        op: lower
+        of: emailAddress
+      domain: domain
+    display: "{role} {emailAddress|domain|type} → {$vars.drive_name|$vars.drive}"
+    relations:
+      - type: shared_with
+        when:
+          path: type
+          in:
+            - domain
+            - anyone
+        source:
+          type: Drive
+          id: $vars.drive
+        target: $tenant
+        basis: stated
+        properties:
+          via_assignment: $self
+          permission_type: type
+          role: role
+      - type: has_role_on
+        when:
+          all:
+            - path: type
+              not_in:
+                - domain
+                - anyone
+            - path: $vars.grantee
+              present: true
+        source:
+          key: $vars.grantee
+        target:
+          type: Drive
+          id: $vars.drive
+        role:
+          name: role
+        basis: stated
+        properties:
+          via_assignment: $self
+    identity:
+      primary:
+        - name: f
+          expr: $vars.drive
+          stability: catalog_reviewed
+        - name: p
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-DRVPERM-{f}-{p}
+  - id: file
+    kind: object
+    sources:
+      - call: GW-07
+        request:
+          file: present
+        items: permissions
+    vars:
+      file:
+        op: str
+        of: $req.file
+      grantee_kind:
+        op: map
+        of: type
+        table:
+          user: user
+          group: group
+        default:
+          const: none
+      grantee:
+        ref:
+          switch: $vars.grantee_kind
+          cases:
+            user:
+              type: User
+              lookup:
+                - primaryEmail
+                - aliases
+              value: emailAddress
+              ci: true
+            group:
+              type: Group
+              lookup: email
+              value:
+                op: lower
+                of:
+                  op: str
+                  of: emailAddress
+              ci: true
+        prop: $key
+      file_name:
+        ref:
+          type: File
+          id: $vars.file
+        prop: name
+    id_expr:
+      template: "{$vars.file}:{id}"
+    parts:
+      f: $vars.file
+      p: id
+    parent:
+      ref:
+        type: File
+        id: $vars.file
+      when: always
+    refs:
+      grantee:
+        - when:
+            path: $vars.grantee
+            present: true
+          ref:
+            key: $vars.grantee
+          value: emailAddress
+        - when:
+            all:
+              - path: $vars.grantee
+                present: false
+              - path: emailAddress
+                truthy: true
+          type: User
+          value: emailAddress
+          external: true
+    properties:
+      type: type
+      role: role
+      emailAddress:
+        op: lower
+        of: emailAddress
+      domain: domain
+      allowFileDiscovery: allowFileDiscovery
+      deleted: deleted
+      expirationTime: expirationTime
+    display: "{role} {emailAddress|domain|type} → {$vars.file_name|$vars.file}"
+    relations:
+      - type: shared_with
+        when:
+          path: type
+          in:
+            - domain
+            - anyone
+        source:
+          type: File
+          id: $vars.file
+        target: $tenant
+        basis: stated
+        properties:
+          via_assignment: $self
+          permission_type: type
+          role: role
+          ...:
+            if:
+              path: type
+              eq: anyone
+            then:
+              object:
+                target_kind:
+                  const: set
+                set:
+                  const: anyone
+            else:
+              object: {}
+      - type: has_role_on
+        when:
+          all:
+            - path: type
+              not_in:
+                - domain
+                - anyone
+            - path: $vars.grantee
+              present: true
+        source:
+          key: $vars.grantee
+        target:
+          type: File
+          id: $vars.file
+        role:
+          name: role
+        basis: stated
+        properties:
+          via_assignment: $self
+    identity:
+      primary:
+        - name: f
+          expr: $vars.file
+          stability: catalog_reviewed
+        - name: p
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-PERM-{f}-{p}
+runtime_stub: null
+runtime_key: GWS-PERM-{f}-{p}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Permission:drive
+    sources:
+      - call: GW-19
+        request:
+          drive: present
+        items: permissions
+    vars:
+      drive:
+        op: str
+        of: $req.drive
+      grantee_kind:
+        op: map
+        of: type
+        table:
+          user: user
+          group: group
+        default:
+          const: none
+      grantee:
+        ref:
+          switch: $vars.grantee_kind
+          cases:
+            user:
+              type: User
+              lookup:
+                - primaryEmail
+                - aliases
+              value: emailAddress
+              ci: true
+            group:
+              type: Group
+              lookup: email
+              value:
+                op: lower
+                of:
+                  op: str
+                  of: emailAddress
+              ci: true
+        prop: $key
+      drive_name:
+        ref:
+          type: Drive
+          id: $vars.drive
+        prop: name
+    relations:
+      - type: shared_with
+        when:
+          path: type
+          in:
+            - domain
+            - anyone
+        source:
+          type: Drive
+          id: $vars.drive
+        target: $tenant
+        basis: stated
+        properties:
+          via_assignment: $self
+          permission_type: type
+          role: role
+      - type: has_role_on
+        when:
+          all:
+            - path: type
+              not_in:
+                - domain
+                - anyone
+            - path: $vars.grantee
+              present: true
+        source:
+          key: $vars.grantee
+        target:
+          type: Drive
+          id: $vars.drive
+        role:
+          name: role
+        basis: stated
+        properties:
+          via_assignment: $self
+    self_identity: object_rule
+  - id: Permission:file
+    sources:
+      - call: GW-07
+        request:
+          file: present
+        items: permissions
+    vars:
+      file:
+        op: str
+        of: $req.file
+      grantee_kind:
+        op: map
+        of: type
+        table:
+          user: user
+          group: group
+        default:
+          const: none
+      grantee:
+        ref:
+          switch: $vars.grantee_kind
+          cases:
+            user:
+              type: User
+              lookup:
+                - primaryEmail
+                - aliases
+              value: emailAddress
+              ci: true
+            group:
+              type: Group
+              lookup: email
+              value:
+                op: lower
+                of:
+                  op: str
+                  of: emailAddress
+              ci: true
+        prop: $key
+      file_name:
+        ref:
+          type: File
+          id: $vars.file
+        prop: name
+    relations:
+      - type: shared_with
+        when:
+          path: type
+          in:
+            - domain
+            - anyone
+        source:
+          type: File
+          id: $vars.file
+        target: $tenant
+        basis: stated
+        properties:
+          via_assignment: $self
+          permission_type: type
+          role: role
+          ...:
+            if:
+              path: type
+              eq: anyone
+            then:
+              object:
+                target_kind:
+                  const: set
+                set:
+                  const: anyone
+            else:
+              object: {}
+      - type: has_role_on
+        when:
+          all:
+            - path: type
+              not_in:
+                - domain
+                - anyone
+            - path: $vars.grantee
+              present: true
+        source:
+          key: $vars.grantee
+        target:
+          type: File
+          id: $vars.file
+        role:
+          name: role
+        basis: stated
+        properties:
+          via_assignment: $self
+    self_identity: object_rule
+vars:
+  drive:
+    op: str
+    of: $req.drive
+  grantee_kind:
+    op: map
+    of: type
+    table:
+      user: user
+      group: group
+    default:
+      const: none
+  grantee:
+    ref:
+      switch: $vars.grantee_kind
+      cases:
+        user:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: emailAddress
+          ci: true
+        group:
+          type: Group
+          lookup: email
+          value:
+            op: lower
+            of:
+              op: str
+              of: emailAddress
+          ci: true
+    prop: $key
+  drive_name:
+    ref:
+      type: Drive
+      id: $vars.drive
+    prop: name
+identity:
+  primary:
+    - name: f
+      expr: $vars.drive
+      stability: catalog_reviewed
+    - name: p
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-PERM-{f}-{p}
+    replaced:
+      - $req.file
+      - id

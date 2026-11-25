@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>AEGI Security Analysis</title>
+
+    <!-- 본문이 한국어라 한글 웹폰트를 지정한다. 지정이 없으면 한글은 OS
+         기본 글꼴(윈도우 맑은 고딕)로 떨어져 영문과 자소 굵기/높이가
+         어긋난다. dynamic subset이라 화면에 쓰인 글자만 내려받는다. -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      as="style"
+      crossorigin
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
+    />
+
+    <!-- 앱 스크립트와 데이터가 오기 전 첫 화면. 전에는 약 5초 동안 글자도 표시도 없는 빈 바탕이었다.
+         색과 글꼴은 src/styles/tokens.css 의 값(--color-chrome-bg, --color-bg-app, --color-text-primary)과 같다.
+         React 가 #root 를 그리면 이 틀은 사라진다. -->
+    <style>
+      body { margin: 0; }
+      .boot { display: flex; min-height: 100vh; background: #f8fafc; font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Malgun Gothic", sans-serif; }
+      .boot-side { flex: none; box-sizing: border-box; width: 196px; padding: 18px 20px; background: #1e1b4b; color: #ffffff; font-size: 17px; font-weight: 700; }
+      .boot-main { flex: 1; min-width: 0; }
+      .boot-bar { height: 60px; background: #1e1b4b; }
+      .boot-msg { margin: 24px; font-size: 15px; font-weight: 600; color: #0f172a; }
+      @media (max-width: 760px) { .boot-side { display: none; } }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <!-- boot:start (공개 데모 빌드는 이 틀 대신 src/tutorial/demoBoot.html 을 넣는다) -->
+      <div class="boot">
+        <div class="boot-side">AEGI</div>
+        <div class="boot-main">
+          <div class="boot-bar"></div>
+          <p class="boot-msg" role="status">데이터 불러오는 중</p>
+        </div>
+      </div>
+      <!-- boot:end -->
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

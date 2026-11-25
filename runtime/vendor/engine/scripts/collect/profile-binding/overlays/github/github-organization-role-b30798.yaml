@@ -1,0 +1,253 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/organization_role.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-27
+        request:
+          role_id: absent
+        items: roles
+    properties:
+      name: name
+      role_name: name
+      description: description
+      permissions: permissions
+      base_role:
+        op: null_if_missing
+        of: base_role
+      source:
+        op: null_if_missing
+        of: source
+      created_at: created_at
+      updated_at: updated_at
+    display: "{name}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-OROLE-{id}
+  - id: assignments
+    kind: relations
+    sources:
+      - call: GH-27
+        request:
+          role_id: present
+        items: (items)
+        where:
+          has:
+            type: organization-role
+            id: $req.role_id
+    vars:
+      direct:
+        if:
+          any:
+            - path: assignment
+              truthy: false
+            - path: assignment
+              eq: direct
+        then: true
+        else: false
+      props:
+        if:
+          path: $vars.direct
+          truthy: true
+        then:
+          object:
+            assignment:
+              any:
+                - assignment
+              empty_as: direct
+        else:
+          object:
+            assignment:
+              any:
+                - assignment
+              empty_as: direct
+            decomposable: false
+            inherited_from:
+              op: map_each
+              of: inherited_from
+              value:
+                any:
+                  - $item.slug
+                  - $item.name
+    relations:
+      - type: has_role_on
+        when:
+          path: $req.kind
+          eq: teams
+        source:
+          type: team-full
+          id: id
+        target: $tenant
+        role:
+          ref:
+            type: organization-role
+            id: $req.role_id
+        basis:
+          if:
+            path: $vars.direct
+            truthy: true
+          then:
+            const: stated
+          else:
+            const: computed
+        require:
+          - source
+        properties:
+          ...: $vars.props
+      - type: has_role_on
+        when:
+          all:
+            - path: $req.kind
+              ne: teams
+            - path: login
+              truthy: true
+        source:
+          type: simple-user
+          lookup: login
+          value: login
+          create:
+            rule: account
+        target: $tenant
+        role:
+          ref:
+            type: organization-role
+            id: $req.role_id
+        basis:
+          if:
+            path: $vars.direct
+            truthy: true
+          then:
+            const: stated
+          else:
+            const: computed
+        properties:
+          ...: $vars.props
+    key_template: GH-OROLE-{id}
+runtime_stub: null
+runtime_key: GH-OROLE-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Organization Role:assignments
+    sources:
+      - call: GH-27
+        request:
+          role_id: present
+        items: (items)
+        where:
+          has:
+            type: Organization Role
+            id: $req.role_id
+    vars:
+      direct:
+        if:
+          any:
+            - path: assignment
+              truthy: false
+            - path: assignment
+              eq: direct
+        then: true
+        else: false
+      props:
+        if:
+          path: $vars.direct
+          truthy: true
+        then:
+          object:
+            assignment:
+              any:
+                - assignment
+              empty_as: direct
+        else:
+          object:
+            assignment:
+              any:
+                - assignment
+              empty_as: direct
+            decomposable: false
+            inherited_from:
+              op: map_each
+              of: inherited_from
+              value:
+                any:
+                  - $item.slug
+                  - $item.name
+    relations:
+      - type: has_role_on
+        when:
+          path: $req.kind
+          eq: teams
+        source:
+          type: team-full
+          id: id
+        target: $tenant
+        role:
+          ref:
+            type: organization-role
+            id: $req.role_id
+        basis:
+          if:
+            path: $vars.direct
+            truthy: true
+          then:
+            const: stated
+          else:
+            const: computed
+        require:
+          - source
+        properties:
+          ...: $vars.props
+      - type: has_role_on
+        when:
+          all:
+            - path: $req.kind
+              ne: teams
+            - path: login
+              truthy: true
+        source:
+          type: simple-user
+          lookup: login
+          value: login
+          create:
+            rule: account
+        target: $tenant
+        role:
+          ref:
+            type: organization-role
+            id: $req.role_id
+        basis:
+          if:
+            path: $vars.direct
+            truthy: true
+          then:
+            const: stated
+          else:
+            const: computed
+        properties:
+          ...: $vars.props
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-OROLE-{id}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

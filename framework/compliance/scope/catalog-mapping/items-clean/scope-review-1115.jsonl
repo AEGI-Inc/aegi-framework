@@ -1,0 +1,87 @@
+{"item_key": "ISMS-P:2.5.1-02", "type_key": "atlassian:FoundGroup", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISO27001:5.16", "type_key": "atlassian:FoundGroup", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISO27001:5.16", "type_key": "atlassian:SpecialPrincipal", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISO27001:5.23", "type_key": "github:Enterprise", "decision": "drop", "reason": "엔터프라이즈 객체에는 판정할 설정 값이 없다"}
+{"item_key": "ISMS-P:2.3.1-01", "type_key": "github:credential-authorizations", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.4-03", "type_key": "github:credential-authorizations", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "github:enterprise-role", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "github:integration", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "github:organization-role", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.2.5-02", "type_key": "github:personal-access-tokens", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.3.1-01", "type_key": "github:personal-access-tokens", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.11.3-01", "type_key": "gws:Alert", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "gws:Alert", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISO27001:8.16", "type_key": "gws:Alert", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "gws:Application", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISO27001:5.14", "type_key": "gws:Calendar", "decision": "drop", "reason": "캘린더 객체에는 공유 값이 없다. 캘린더 공유는 접근 규칙(AclRule)으로 따로 판정한다"}
+{"item_key": "ISO27001:8.12", "type_key": "gws:Calendar", "decision": "drop", "reason": "캘린더 객체에는 공유 값이 없다. 캘린더 공유는 접근 규칙(AclRule)으로 따로 판정한다"}
+{"item_key": "ISO27001:8.3", "type_key": "gws:Calendar", "decision": "drop", "reason": "캘린더 객체에는 공유 값이 없다. 캘린더 공유는 접근 규칙(AclRule)으로 따로 판정한다"}
+{"item_key": "PIPA:admin-73493:article-6:p3", "type_key": "gws:Calendar", "decision": "drop", "reason": "캘린더 객체에는 공유 값이 없다. 캘린더 공유는 접근 규칙(AclRule)으로 따로 판정한다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "gws:Form", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISO27001:5.14", "type_key": "gws:Form", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "PIPA:admin-73493:article-7:p5", "type_key": "gws:GoogleAppsCloudidentityDevicesV1DeviceUser", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISO27001:5.16", "type_key": "gws:OrgUnit", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "gws:Policy", "decision": "narrow", "via": ["encryption"], "reason": "GWS 설정 중 암호화 설정만 이 항목 대상. 연동 설정은 정보전송 보안을 답하지 않는다"}
+{"item_key": "ISMS-P:2.2.5-02", "type_key": "gws:Policy", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "PIPA:admin-73493:article-8:p1", "type_key": "gws:Policy", "decision": "narrow", "via": ["monitoring"], "reason": "GWS 설정 중 경고와 감사 설정만 이 항목 대상. Takeout, 녹화, 백업 설정은 접속기록 보관을 답하지 않는다"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "gws:Role", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "gws:RoleAssignment", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "okta:Application", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.4-03", "type_key": "okta:BehaviorRule", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "PIPA:admin-73493:article-5:p5", "type_key": "okta:BehaviorRule", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "PIPA:admin-73493:article-5:p6", "type_key": "okta:BehaviorRule", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "PIPA:admin-73493:article-6:p1", "type_key": "okta:BehaviorRule", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "okta:CustomRole", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.10.2-03", "type_key": "okta:EventHook", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.11.3-01", "type_key": "okta:EventHook", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.9.4-01", "type_key": "okta:EventHook", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "okta:EventHook", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISO27001:8.16", "type_key": "okta:EventHook", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "PIPA:admin-73493:article-8:p1", "type_key": "okta:EventHook", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.1-02", "type_key": "okta:Group", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISO27001:5.16", "type_key": "okta:Group", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISMS-P:2.5.1-01", "type_key": "okta:GroupRule", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "okta:IamRole", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.4-03", "type_key": "okta:JsonWebKey", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.4-03", "type_key": "okta:JsonWebKey_2", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "okta:OAuth2Client", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.4-03", "type_key": "okta:OAuth2RefreshToken", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.4-01", "type_key": "okta:PolicyRule", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "okta:ProfileMapping", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.1-01", "type_key": "okta:ProfileMapping", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISO27001:5.14", "type_key": "okta:ProfileMapping", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "okta:ProvisioningConnectionResponse", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.1-01", "type_key": "okta:ProvisioningConnectionResponse", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISO27001:5.14", "type_key": "okta:ProvisioningConnectionResponse", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.1-02", "type_key": "okta:ResourceSetResource", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISMS-P:2.6.3-01", "type_key": "okta:ResourceSetResource", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISO27001:5.15", "type_key": "okta:ResourceSetResource", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISO27001:8.3", "type_key": "okta:ResourceSetResource", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "PIPA:admin-73493:article-5:p1", "type_key": "okta:ResourceSetResource", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "salesforce:AuthProvider", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.11.3-01", "type_key": "salesforce:BrowserPolicyViolation", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISO27001:8.16", "type_key": "salesforce:BrowserPolicyViolation", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "salesforce:ConnectedApplication", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.6.2-02", "type_key": "salesforce:ConnectedApplication", "decision": "drop", "reason": "연결된 앱의 수집 값(승인 방식)은 세션 관리를 답하지 않는다"}
+{"item_key": "ISMS-P:2.6.3-02", "type_key": "salesforce:ConnectedApplication", "decision": "drop", "reason": "연결된 앱의 수집 값(승인 방식)은 세션 관리를 답하지 않는다"}
+{"item_key": "ISO27001:8.5", "type_key": "salesforce:ConnectedApplication", "decision": "drop", "reason": "연결된 앱의 수집 값(승인 방식)은 세션 관리를 답하지 않는다"}
+{"item_key": "PIPA:admin-73493:article-6:p4", "type_key": "salesforce:ConnectedApplication", "decision": "drop", "reason": "연결된 앱의 수집 값(승인 방식)은 세션 관리를 답하지 않는다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "salesforce:ExternalClientApplication", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "salesforce:ExtlClntAppOauthPlcyCnfg", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.3.1-01", "type_key": "salesforce:ExtlClntAppOauthPlcyCnfg", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "salesforce:ExtlClntAppOauthSettings", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.4-03", "type_key": "salesforce:ExtlClntAppOauthSettings", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.3.1-01", "type_key": "salesforce:ExtlClntAppPlcyCnfg", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.4-03", "type_key": "salesforce:NamedCredential", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.4-03", "type_key": "salesforce:OauthToken", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "salesforce:PermissionSet", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.5.1-02", "type_key": "salesforce:PermissionSetGroupComponent", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISMS-P:2.6.3-01", "type_key": "salesforce:PermissionSetGroupComponent", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISO27001:5.15", "type_key": "salesforce:PermissionSetGroupComponent", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISO27001:8.3", "type_key": "salesforce:PermissionSetGroupComponent", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "PIPA:admin-73493:article-5:p1", "type_key": "salesforce:PermissionSetGroupComponent", "decision": "drop", "reason": "묶음 객체. 구성원과 권한 부여 객체가 따로 점검된다"}
+{"item_key": "ISMS-P:2.2.5-02", "type_key": "salesforce:SamlSsoConfig", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISMS-P:2.3.1-01", "type_key": "salesforce:SamlSsoConfig", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISO27001:5.23", "type_key": "slack:200.team_2", "decision": "drop", "reason": "워크스페이스 객체에는 판정할 설정 값이 없다"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "slack:credential-row:oauth:url", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}
+{"item_key": "ISO27001:5.14", "type_key": "slack:credential-row:oauth:url", "decision": "drop", "reason": "이 종류의 수집 값으로는 항목이 묻는 것을 판정할 수 없고, 다른 항목의 점검만 닿는다"}

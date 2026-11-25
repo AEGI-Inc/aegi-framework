@@ -1,0 +1,371 @@
+# okta ↔ gws 연결 규칙
+# 연동 방법마다 「a 와 b 가 같아야 이어진 것」을 적는다. 읽는 법은 legend.yaml, ../README.md
+
+pair:
+- okta
+- gws
+written: '2026-10-04'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/okta-gws.yaml
+methods:
+- id: saml_sso
+  type: identity
+  what: Okta가 GWS 로그인을 맡음 (SAML)
+  identify:
+    api: okta GET /api/v1/apps
+    when: name == google and signOnMode == SAML_2_0
+  points_to:
+  - tier: config_name
+    a: okta settings.app.domain
+    b: gws:customer:customerDomain
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: gws Cloud Identity inboundSamlSsoProfiles idpConfig.entityId, singleSignOnServiceUri
+    b: okta SAML 메타데이터 entityID (exk…)
+    check: a 와 b 가 같다
+    if_unreadable: '서비스 계정 위임 범위에 https://www.googleapis.com/auth/cloud-identity.inboundsso.readonly 를 더하고 서비스 계정 프로젝트에서 Cloud Identity API 를 켠다 (2026-10-05 우리 수집 GW-17 로 확인). 사람: Google 관리 콘솔 보안 > 인증 > 서드 파티 IdP를 사용한 SSO (보안 설정 관리자 권한, https://support.google.com/a/answer/12032922 [Exa])'
+  - tier: fingerprint
+    a: gws 프로필 인증서 — API(inboundSamlSsoProfiles.idpCredentials)는 인증서를 주지 않고 rsaKeyInfo·dsaKeyInfo(keySize)와 updateTime 만 준다 (https://docs.cloud.google.com/identity/docs/reference/rest/v1/inboundSamlSsoProfiles.idpCredentials, 2026-10-05 원문 확인). 그래서 지문 비교는 API 로 못 하고 콘솔에서 본다. API 로는 키 크기·갱신 시각이 Okta 인증서와 맞는지까지만
+    b: okta 메타데이터 인증서
+    check: a 의 sha256 과 b 가 같다 (콘솔에서)
+    if_unreadable: Google 관리 콘솔 보안 > 인증 > 서드 파티 IdP를 사용한 SSO > 프로필의 IdP 세부정보 인증서 (https://support.google.com/a/answer/12032922 [Exa])
+  - tier: log_id
+    a: okta user.authentication.sso 의 target 중 type AppInstance 의 id
+    b: okta:application:id (Google Workspace 앱)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta user.authentication.sso 시각과 actor.alternateId
+    b: gws login 감사 login_success (login_type saml) 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다
+  - tier: log_id
+    a: okta System Log application.lifecycle.create 와 application.lifecycle.activate 의 target 중 id (target 형식은 이벤트 목록 페이지에 없음)
+    b: okta:application:id (Google Workspace 앱)
+    check: a 와 b 가 같다 (okta-slack saml_sso 와 같은 근거다. Google 앱 생성이 이 이벤트로 남는지는 실측 필요.)
+  activity:
+  - okta user.authentication.sso (target AppInstance.id)
+  - gws login 감사 login_type = saml
+  sources:
+  - https://docs.cloud.google.com/identity/docs/reference/rest/v1/inboundSamlSsoProfiles [Exa]
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/login
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+  - https://developer.okta.com/docs/reference/api/event-types/ (application.lifecycle.create, application.lifecycle.activate 이름과 설명)
+- id: swa_sign_on
+  type: identity
+  what: Okta가 보관한 Google 비밀번호를 브라우저 플러그인이 대신 넣음 (BROWSER_PLUGIN = SWA)
+  identify:
+    api: okta GET /api/v1/apps
+    when: name == google and signOnMode == BROWSER_PLUGIN
+  points_to:
+  - tier: config_name
+    a: okta settings.app.domain
+    b: gws:customer:customerDomain
+    check: a 와 b 가 같다
+    note: gws 쪽 설정에는 Okta가 없다
+  - tier: log_id
+    a: okta user.authentication.sso 의 target 중 type AppInstance 의 id
+    b: okta:application:id (Google Workspace SWA 앱)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta user.authentication.sso 시각과 actor.alternateId
+    b: gws login 감사 login_success (login_type google_password) 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta user.authentication.sso
+  - gws login 감사 login_type = google_password (Okta가 넣었는지 가릴 수 없음)
+  sources:
+  - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/application/other/createapplication [Exa] (signOnMode 표)
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/login (login_success: login_type saml·google_password 등)"
+- id: provisioning_push
+  type: identity
+  what: Okta가 GWS 계정, 그룹을 만들고 맞춤
+  identify:
+    api: okta GET /api/v1/apps
+    when: Google 앱 features 에 PUSH_NEW_USERS 또는 PUSH_PROFILE_UPDATES (Application.features 열거값. https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml)
+  points_to:
+  - tier: config_id
+    a: okta 배정 externalId
+    b: gws:user:id
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: okta settings.app.domain
+    b: gws:customer:customerDomain
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: gws tokens.list displayText = Okta (승인한 관리자)
+    b: okta 앱
+    check: a 와 b 가 같다
+    if_unreadable: 최고 관리자가 승인했으면 위임 관리자로는 읽을 수 없다(401). 최고 관리자 권한으로 tokens.list, 또는 Google 관리 콘솔 > 보안 > 액세스 및 데이터 제어 > API 제어 > 서드파티 앱 액세스 관리. 토큰 감사 로그 authorize 이벤트로는 설정 대신 승인 사실을 본다
+  - tier: log_id
+    a: gws token 감사 activity 의 client_id
+    b: gws tokens.list 에서 displayText 가 Okta 인 토큰의 clientId
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta application.provision.user.push 시각과 대상 사용자
+    b: gws admin 감사 CREATE_USER 시각과 대상 사용자 (행위자는 승인한 관리자)
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta application.provision.user.push, push_profile, sync, app.user_management.push_new_user_success
+  - gws token 감사 authorize, activity (app_name = Okta)
+  - gws admin 감사 CREATE_USER 등 (행위자는 승인한 관리자)
+  sources:
+  - https://help.okta.com/en-us/content/topics/provisioning/google/google-provisioning.htm [Exa]
+  - https://developer.okta.com/docs/api/openapi/okta-management/management/tag/ApplicationFeatures/ [Exa]
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token
+  - https://developers.google.com/workspace/admin/directory/reference/rest/v1/tokens (clientId, displayText)
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-user-settings (CREATE_USER)
+- id: import
+  type: identity
+  what: GWS 사용자를 Okta로 가져와 Okta 사용자와 짝지음
+  identify:
+    api: okta GET /api/v1/apps
+    when: Google 앱 features 에 IMPORT_NEW_USERS
+  points_to:
+  - tier: config_id
+    a: okta 배정 externalId
+    b: gws:user:id
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: okta settings.app.domain
+    b: gws:customer:customerDomain
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: gws tokens.list displayText = Okta
+    b: okta 앱
+    check: a 와 b 가 같다
+    if_unreadable: 최고 관리자가 승인했으면 위임 관리자로는 읽을 수 없다(401). 최고 관리자 권한으로 tokens.list, 또는 Google 관리 콘솔 > 보안 > 액세스 및 데이터 제어 > API 제어 > 서드파티 앱 액세스 관리. 토큰 감사 로그 authorize 이벤트로는 설정 대신 승인 사실을 본다
+  - tier: via_person
+    a: okta 배정 userName
+    b: gws:user:primaryEmail
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: okta system.import.* 의 target 중 type AppInstance 의 id
+    b: okta:application:id (Google Workspace 앱)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta system.import.start 시각
+    b: gws token 감사 activity (app_name Okta) 시각
+    check: 시각이 가깝다
+  activity:
+  - okta system.import.start, download.complete, user.create, user_match.confirm, complete, application.user_membership.add
+  - gws token 감사 authorize (app_name = Okta, client_id)
+  sources:
+  - provisioning_push 와 같음
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+- id: oidc_sso
+  type: identity
+  what: OIDC IdP 로 GWS 로그인. GWS 「사용자 지정 OIDC 프로필」은 발급자 URL, 클라이언트 ID, 클라이언트 보안 비밀번호를 받아 특정 IdP 에 묶이지 않는다 (Okta 도 넣을 수 있음). IdP 쪽은 email 클레임이 GWS 기본 이메일과 같고 승인 코드 흐름이어야 한다
+  note: 프로필은 만들기만 하고 조직 단위·그룹에 배정하지 않을 수 있다 (배정 전에는 로그인이 바뀌지 않음). 만들려면 보안 설정 관리자 권한 (2026-10-05 Google 문서 확인)
+  identify:
+    api: gws Cloud Identity inboundOidcSsoProfiles
+    when: 프로필이 있음
+  points_to:
+  - tier: config_id
+    a: gws rpConfig.clientId
+    b: okta OIDC 앱 client_id
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: gws idpConfig.issuerUri
+    b: okta 조직 또는 인가 서버 주소
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: okta System Log 이벤트의 client.id (OAuth 요청이면 요청한 OAuth 클라이언트 ID)
+    b: gws rpConfig.clientId
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta 그 클라이언트 이벤트 시각과 actor.alternateId
+    b: gws login 감사 login_success 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다. login_type 값 목록에 OIDC 가 따로 없어 어느 값으로 남는지는 로그인해 보고 읽는다
+  activity:
+  - okta app.oauth2.token.grant (client.id = 그 OIDC 앱)
+  - gws login 감사 login_success
+  sources:
+  - https://docs.cloud.google.com/identity/docs/reference/rest/v1/inboundOidcSsoProfiles [Exa]
+  - https://support.google.com/a/answer/12032922 [Exa] (Set up SSO with OIDC, custom OIDC profile)
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+  - https://developer.okta.com/docs/reference/api/event-types/
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/login (login_success: login_type saml·google_password 등)"
+- id: google_idp_for_okta
+  type: identity
+  what: Google 계정으로 Okta에 로그인 (Okta Identity Provider 유형 Google)
+  identify:
+    api: okta GET /api/v1/idps
+    when: type GOOGLE
+  points_to:
+  - tier: config_id
+    a: 'okta IdP(type GOOGLE) protocol.credentials.client.client_id (https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (IdentityProvider.protocol: ProtocolOAuth·ProtocolOidc·ProtocolSaml), 2026-10-05 명세 확인)'
+    b: gws 쪽 GCP 프로젝트 OAuth 클라이언트
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: gws token 감사 authorize 의 client_id
+    b: okta IdP(type GOOGLE) protocol.credentials.client.client_id
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: okta user.authentication.auth_via_IDP 의 target (IdP 가 어느 target type 으로 오는지는 문서에 없어 로그인해 보고 읽는다)
+    b: okta GET /api/v1/idps 의 Google IdP id
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 authorize 시각과 actor.email
+    b: okta user.authentication.auth_via_IDP 시각과 actor
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta user.authentication.auth_via_IDP, user.authentication.auth_via_social (IdP·소셜 로그인)
+  - gws token 감사 authorize (client_id = Okta IdP 의 Google OAuth 클라이언트)
+  sources:
+  - https://developer.okta.com/docs/guides/social-login/google/main/ (IdP 유형 GOOGLE)
+  - https://developer.okta.com/docs/reference/api/event-types/ (user.authentication.auth_via_IDP, auth_via_social)
+  - https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (GET /api/v1/idps)
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+- id: workflows_gws_connector
+  type: app_grant
+  what: Okta Workflows Google Workspace Admin 커넥터가 GWS 관리 API를 부름
+  identify:
+    api: okta System Log
+    when: workflows.user.connection.create 의 target Connection alternateId 가 googledirectory (2026-10-05 우리 로그에서 확인)
+  note: 2026-10-05 시험 환경 관찰 — Okta 연결 생성 21:44:24.338Z 와 GWS 최고 관리자 승인 21:44:24.101Z 가 1초 안, 같은 사람(admin@aegi.men). 최고 관리자가 승인하면 위임 관리자의 tokens.list 로는 안 보이고 token 감사로만 보인다
+  points_to:
+  - tier: config_name
+    a: gws token 감사 authorize app_name 「Okta Workflows」 (client_id 는 Google 쪽 Okta Workflows OAuth 클라이언트). 일반 사용자가 승인한 경우 tokens.list displayText(앱 표시 이름)에 어떤 이름으로 나오는지는 실제로 승인해 봐야 한다
+    b: okta Workflows
+    check: a 와 b 가 같다
+    if_unreadable: 최고 관리자가 승인했으면 위임 관리자로는 읽을 수 없다(401). 최고 관리자 권한으로 tokens.list, 또는 Google 관리 콘솔 > 보안 > 액세스 및 데이터 제어 > API 제어 > 서드파티 앱 액세스 관리. 토큰 감사 로그 authorize 이벤트로는 설정 대신 승인 사실을 본다
+  - tier: log_time
+    a: okta workflows.user.connection.create 시각과 승인한 Okta 사용자
+    b: gws token 감사 authorize 시각과 승인한 GWS 사용자
+    check: 시각이 가깝고 사람이 같다
+    note: Okta 연결 이벤트에는 상대 GWS 계정, 도메인이 없어 이 비교로 짝을 짓는다
+  - tier: log_time
+    a: okta workflows.user.connection.reauthorize 시각과 재승인한 Okta 사용자
+    b: gws token 감사 authorize 시각과 승인한 GWS 사용자 (app_name Okta Workflows)
+    check: '시각이 가깝고 사람이 같다 (정정 제안: 요청에서 workflows 연결 이벤트를 okta-slack saml_sso 등에 묶었는데, 이 이벤트는 okta-slack workflows_slack_connector 와 okta-gws workflows_gws_connector 에 붙는 것이 맞다. workflows.user.connection 은 create, delete, reauthorize, revoke 4개다. reauthorize 는 rule 에 없던 이벤트다.)'
+  activity:
+  - okta workflows.user.connection.create, .delete, .revoke (target Connection 이름, 커넥터 종류, 연결 번호. 상대 계정 없음)
+  - okta workflows.user.flow.create, .save, .activate, .deactivate (target Flow 이름)
+  - gws token 감사 authorize (app_name Okta Workflows, client_type WEB, scope 목록). 2026-10-05 관찰한 scope 8개 — admin.directory.device.mobile, admin.directory.group, admin.directory.orgunit, admin.directory.rolemanagement, admin.directory.user, admin.directory.user.security, apps.groups.settings, apps.licensing. 아래 Okta 문서 목록에 없는 rolemanagement 가 더 있다
+  - 흐름이 부른 관리 API 는 gws token 감사 activity (app_name, client_id, method_name) 로 남는다. admin 감사의 actor 가 승인한 사용자로 남는지는 실제 연동으로 확인한다
+  sources:
+  - https://help.okta.com/wf/en-us/Content/Topics/workflows/connector-reference/googledirectory/overviews/authorization.htm (연결할 때 도메인 입력, 범위 admin.directory.group, admin.directory.user, apps.licensing, admin.directory.user.security, admin.directory.orgunit, admin.directory.device.mobile, apps.groups.settings)
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize, activity 이벤트와 app_name, client_id)
+  - https://developer.okta.com/docs/reference/api/event-types/ (workflows.user.connection.*, workflows.user.flow.*)
+  - https://developer.okta.com/docs/reference/api/event-types/ (workflows.user.connection.create, .delete, .reauthorize, .revoke 설명)
+  - 'https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize: app_name, client_id)'
+- id: script_calls_okta
+  type:
+  - stored_credential
+  - event_delivery
+  what: Apps Script 가 Okta API 토큰으로 Okta를 부름. (Okta Event Hook 이 Apps Script 웹앱을 부르는 것은 불가 — Okta 검증 요청은 x-okta-verification-challenge 헤더를 되돌려야 하는데 Apps Script doGet 의 이벤트 객체에는 요청 헤더 필드가 없다. 문서의 e 필드 목록 기준)
+  identify:
+    api: gws Apps Script projects.getContent, deployments; okta GET /api/v1/eventHooks
+    when: 코드에 Okta 주소, 또는 Event Hook 주소가 script.google.com
+  points_to:
+  - tier: config_name
+    a: Apps Script 코드의 호출 호스트
+    b: okta 조직 주소
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: okta eventHook channel 주소
+    b: gws Apps Script 웹앱 배포
+    check: a 와 b 가 같다
+    if_unreadable: 'Okta 범위 okta.eventHooks.read (2026-10-05 수집 OK-18 200). 사람: Okta 관리 콘솔 Workflow > Event Hooks'
+  - tier: log_time
+    a: gws Apps Script 실행 기록 시각 (GW-13)
+    b: okta System Log 에서 그 토큰 소유자가 actor 인 이벤트 시각
+    check: 시각이 같다
+  activity:
+  - gws Apps Script 실행 기록 (processes.list)
+  - okta System Log (actor = 토큰 소유자)
+  sources:
+  - '가능성만 적음. Event Hook: https://developer.okta.com/docs/concepts/event-hooks/ [Exa]'
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+# ── 2026-10-05 연동 조합 표(../연동 조합 표.md)로 더함
+- id: workflows_http_to_apps_script
+  type: event_delivery
+  what: Okta Workflows 흐름의 HTTP 카드(Raw Request 등)가 Apps Script 웹앱 주소를 부름
+  identify:
+    api: Okta Workflows 흐름 정의 (흐름 정의를 주는 공개 관리 API 없음 — Okta 개발자 포럼 직원 답변 2025-11-19. 콘솔에서 본다)
+    when: HTTP 카드의 URL 호스트가 script.google.com
+  points_to:
+  - tier: config_id
+    a: Okta Workflows HTTP 카드 URL
+    b: gws Apps Script 웹앱 배포 주소 (GW-11)
+    check: a 와 b 가 같다
+    if_unreadable: "사람: Okta Workflows 콘솔에서 흐름을 열어 HTTP 카드 URL 확인 (변경하지 않는다)"
+  - tier: log_time
+    a: Okta Workflows 흐름 실행 시각
+    b: gws Apps Script 실행 기록 (WEBAPP, GW-13)
+    check: 시각이 같다
+  activity:
+  - Okta Workflows 실행 기록, gws Apps Script 실행 기록
+  sources:
+  - https://help.okta.com/wf/en-us/Content/Topics/workflows/function-reference/http/http_raw.htm (Raw Request 는 아무 주소와 헤더) [Exa]
+- id: apps_script_to_workflows
+  type: event_delivery
+  what: Apps Script 가 Okta Workflows 흐름의 API Endpoint 주소를 부름 (clientToken 을 코드나 속성에)
+  identify:
+    api: gws Apps Script 코드 (GW-09)
+    when: 코드의 호출 호스트가 <okta 조직>.workflows.okta.com
+  points_to:
+  - tier: config_name
+    a: Apps Script 코드의 호출 호스트
+    b: okta:org (subdomain).workflows.okta.com
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: Okta Workflows 흐름 실행 기록의 요청 시각 (Apps Script UrlFetchApp 의 user-agent 값은 벤더 문서에 없다. 실제 호출로 읽는다)
+    b: gws Apps Script 실행 시각
+    check: 시각이 같다
+    if_unreadable: "Okta Workflows 콘솔 > 흐름 > Execution History 의 요청 헤더 (토큰 값은 옮기지 않는다)"
+  activity:
+  - gws Apps Script 실행 기록, Okta Workflows 실행 기록
+  sources:
+  - "https://help.okta.com/wf/en-us/content/topics/workflows/function-reference/http/http_accept.htm [Exa 검색 요약]"
+- id: workflows_google_user_connectors
+  type: app_grant
+  what: Okta Workflows 의 Gmail, Google Drive, Google Calendar, Google Sheets, Google Docs 커넥터. 연결은 OAuth 2.0 이고, Gmail 커넥터는 Google Workspace 사용자만 제대로 연결된다고 Okta 문서가 적는다. 관리 API 커넥터(workflows_gws_connector)와 다른 범위
+  identify:
+    api: okta System Log
+    when: workflows.user.connection.create 의 target Connection alternateId 가 그 커넥터 (값은 연결을 만든 뒤 로그에서 읽는다. 우리 로그에는 googledirectory 만 있음)
+  points_to:
+  - tier: config_name
+    a: gws token 감사 authorize 의 app_name, client_id, scope (Gmail·Drive 범위)
+    b: okta Workflows 연결 (Connection Nickname 은 사용자가 정함)
+    check: 승인한 Google 계정과 연결을 만든 Okta 사용자가 같고 시각이 가깝다
+    if_unreadable: 'Google 관리 콘솔 > 보안 > API 제어 > Manage App Access. Okta Workflows 콘솔 > Connections'
+  - tier: log_time
+    a: okta workflows.user.connection.create 시각과 사용자
+    b: gws token 감사 authorize 시각과 사용자
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta workflows.user.connection.create, .delete, .reauthorize, .revoke
+  - gws token 감사 authorize, activity (app_name, client_id)
+  - 흐름 트리거 Gmail 「New Email」·「Label Added or Removed」, Drive 「File Created」 등 (Google 쪽에 어떤 호출로 남는지는 문서에 없음)
+  sources:
+  - https://help.okta.com/wf/en-us/Content/Topics/Workflows/connector-reference/connector-reference.htm (커넥터 색인)
+  - https://help.okta.com/wf/en-us/Content/Topics/Workflows/connector-reference/gmail/overviews/authorization.htm (Only Google Workspace users, OAuth 2.0, 기본·사용자 지정 범위, Connection Nickname)
+  - https://help.okta.com/wf/en-us/Content/Topics/Workflows/connector-reference/gmail/gmail.htm (트리거 2, 액션 13)
+  - https://help.okta.com/wf/en-us/Content/Topics/Workflows/connector-reference/googledrive/googledrive.htm (트리거 5, 액션 21)
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token
+- id: gemini_agent_import
+  type: app_grant
+  what: Okta 가 Google 의 Gemini Enterprise Agent Platform(구 Vertex AI)에 있는 에이전트를 가져와 Okta 에 등록한다 (AI agent import). Google Cloud 에서 OAuth 웹 클라이언트를 만들고 리디렉션 URI 에 Okta 조직의 /oauth2/v1/sts/callback 을 넣은 뒤 Client ID·Secret 을 Okta 에 입력한다
+  identify:
+    api: okta Google Workspace 앱 인스턴스의 AI agent import 설정 (화면); google Cloud Console APIs & Services > Credentials 의 OAuth 클라이언트 (화면)
+    when: okta 에 Google Workspace 앱이 있고 AI agent import 가 켜져 있음
+  points_to:
+  - tier: config_id
+    a: okta 에 입력한 Google OAuth Client ID
+    b: google OAuth 웹 클라이언트 ID
+    check: a 와 b 가 같다
+    if_unreadable: 'Okta 에 입력한 값은 화면에서만 본다. 사람: Okta 앱 > AI agent import 설정, Google Cloud Console > Credentials'
+  - tier: config_name
+    a: google OAuth 클라이언트의 승인된 리디렉션 URI 에 든 Okta 조직 주소 ({domain}/oauth2/v1/sts/callback)
+    b: okta 조직 주소
+    check: a 와 b 가 같다
+  activity:
+  - okta System Log app.ai_agent_provider.create, .update, .credential.validate, .import.start, .import.complete, .import_staging.confirm, .profile_mapping.update; 등록되면 workload_principal.register
+  sources:
+  - https://help.okta.com/oie/en-us/content/topics/ai-agents/ai-agent-configure-google.htm (Google 쪽 설정, 리디렉션 URI)
+  - https://help.okta.com/oie/en-us/Content/topics/ai-agents/ai-agent-import-supported-apps.htm (가져오기 지원 앱 목록)
+  - 'https://developer.okta.com/docs/okta-event-types.csv (Okta 이벤트 타입 목록: 이름과 설명)'
+  note: Google 쪽 감사 이벤트는 Okta 문서에 없다. 2026-09 Okta 소식에 GA 로 표기된 항목이다

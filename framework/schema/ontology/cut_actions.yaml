@@ -1,0 +1,835 @@
+# 조치 동사 사전 — 위험한 길을 막으려면 무엇을 끊나 (4층 초안)
+#
+# Relation 4개 층의 4층(조치). 2026-10-31 초안. 동사는 open(열어 두고 작업)이고, 2026-11-02 에 셋을 먼저 닫았다(adopted, 아래 open 「닫힌 어휘로 둘지」).
+# 2026-11-03 에 엔진의 범용 판정과 정책 위협이 쓰는 동사 여덟을 더 닫고 조치 문장틀(phrase, phrases)을 이 파일로 옮겼다(구조 개편 5단계).
+# 2026-11-04 에 운영 current 에 남은 범용 문장을 대신할 둘(웹훅 끄기, 호출 권한 제한)을 벤더 문서로 닫았다.
+# EA 행의 cut 과 범용 접근 엔진의 회수 후보는 「어느 관계 행을 끊으면 길이 무너지나」까지만 말한다.
+# 이 파일은 그 관계 행을 실제로 끊는 동사를 적는다: 어느 SaaS 의 어느 API 나 화면으로, 되돌릴 수 있는지, 누가 할 수 있는지,
+# 끊으면 무엇이 같이 끊기는지. 2층 권한 방식(access_patterns.yaml)처럼 공통 양식을 한 번 적고 SaaS 마다 다른 값은 saas 빈칸에 둔다.
+#
+#   관계(relation_types · relation_semantics) = 단어
+#   권한 방식(access_patterns.yaml)           = 문법. 관계를 조합해 권한이 생기는 규칙
+#   접근 규칙(access_rules.yaml) cut           = 어느 홉이 회수 지점인가
+#   조치 동사(이 파일)                         = 그 홉을 끊는 손. SaaS 빈칸은 SaaS 마다 손을 대는 곳
+#
+# 형식과 원칙은 specs/Cut_Action_Schema_v1.md, 검사는 validation/check_cut_actions.py.
+# 관계 17종, interface 9종을 늘리지 않는다. 동사는 관계 어휘가 아니다(관계 행이 아니라 사람이 하는 일이다).
+#
+# cuts 의 종류(cut_kinds)
+#   relation   관계 행 하나를 지운다. {relation: <17종>, pairs: [<출발 interface>><도착 interface>], role?: <역할 이름>}
+#              role 은 has_role_on 에만 쓴다. 그 역할 이름의 부여만 이 동사가 끊는다(이름은 capabilities.yaml role_name_from 대로 읽는다)
+#   rule       relation_semantics.yaml rules 의 표가 만드는 간선의 값을 바꾼다. {rule: <rules 의 이름>}
+#   object     객체 하나를 지우거나 끈다. 그 객체에 걸린 관계가 다 같이 사라진다. {object: <interface>}
+#   setting    객체 속성 값을 바꾼다. 관계 행은 그대로다. {setting: <interface>}. 어느 속성인지는 SaaS 빈칸이 적는다
+#
+# saas 빈칸의 칸
+#   provider    SaaS
+#   cut         이 행이 맡는 사실. relation 이면 {relation, pair, role?}, rule 이면 {rule}, object · setting 이면 {object|setting, type, property?}.
+#               role 이 있는 줄은 그 역할 이름의 부여에만 맞고, 같은 칸의 role 없는 줄보다 앞선다
+#   api         벤더 API (메서드와 경로, 또는 메서드 이름)
+#   ui          관리 화면 경로
+#   who         할 수 있는 사람(필요 권한)
+#   reversible  yes(같은 것으로 되돌림) | partial(되돌리지만 같지 않음) | no | unknown. 까닭은 undo 에
+#   undo        되돌리는 방법과 같지 않은 점
+#   cascades    끊으면 같이 끊기거나 멈추는 것
+#   follow_with 이 동사 하나로는 그 주체의 길이 닫히지 않을 때 이어서 해야 하는 동사(소유권을 넘겨도 옛 주인이 편집자로 남는 것 같은)
+#   doc         벤더 문서 주소
+#   checked     doc(벤더 문서를 열어 확인) | inferred(문서에 그대로 적혀 있지 않음) | blank(아직 안 채움)
+#
+# now 의 where(지금 이 동사를 말하는 곳)
+#   ea_note           엔진 EA 손코드가 cut 에 붙이는 설명(compute.ts x_scope.note)
+#
+# 문장틀(phrases.ea_cut). EA 회수 지점 설명이고 엔진 src/detection/cutActions.ts eaCutNote 가 채운다. 틀에 손 문장을 따로 두지 않는다
+#   자리 {이름}        채울 값. {이름|과/와} 처럼 조사를 붙인다(과/와, 은/는, 이/가, 을/를, 으로/로). 값이 빠지면 엔진이 멈춘다
+#     EA 회수 지점    주체(그 행의 주체나 그 홉의 출발), 그룹, 인원(그룹 멤버 수), 봇, 프로젝트, 스킴
+#   범용 판정의 회수 후보 문장(동사의 phrase, engine_cut_step 과 engine_gap_fallback 자리, 범용 틀)은 2026-11-18 읽는 코드가 없어 지웠다
+
+sources:
+  form: 이 파일이 정본(초안). 칸은 2층 access_patterns.yaml 의 「공통 양식 + SaaS 빈칸」을 따랐고, 칸 이름은 aegi-adapter-engine src/domain/remediation.ts 의 ConfigurationTarget(permissionsRequired, rollback, documentationUrl)과 뜻을 맞췄다
+  cut_kinds: 이 파일이 정본(초안). relation 은 relation_types.yaml, rule 과 참조는 relation_semantics.yaml rules, references 를 가리킨다
+  verbs: 이 파일이 정본(초안). cuts 와 ea_cuts 는 access_rules.yaml cut, aegi-adapter-engine 9755454 의 effectiveAccess/compute.ts cut, engine/edges.ts revocable 간선, generic/index.ts cutStep, generic/policies.ts 조치 문구, src/data/fixtures/aegi-inc/remediations 를 읽고 적었다. saas 의 벤더 값은 2026-10-31 벤더 문서에서 확인했고 행마다 doc, checked 가 있다
+  phrases: '이 파일이 정본(2026-11-03, 구조 개편 5단계). ea_cut 은 aegi-adapter-engine #290(80f2718) 의 EA 회수 지점 설명(scripts/accessRules/production.ts, effectiveAccess/rules)을 글자 그대로 옮겼다'
+  open: 팀이 정할 일과 정한 것. decided 가 달린 것은 정했다(2026-11-01 여섯 모두). specs/Cut_Action_Schema_v1.md 「정한 것」과 같다
+
+form:
+  - {field: id, means: '동사 이름(영문 동사구). 화면, 보고서, AI 가 이 이름으로 부른다'}
+  - {field: name, means: 사람이 읽는 이름(한국어 동사구)}
+  - {field: status, means: 'open(열어 두고 작업) | adopted(닫음. 이름, 끊는 사실, 뜻을 바꾸려면 decision 을 거친다. SaaS 빈칸의 벤더 값은 계속 고친다)'}
+  - {field: says, means: 무엇을 끊고 그 결과 무엇이 사라지나 한 문장}
+  - {field: cuts, means: '끊는 사실. cut_kinds 넷 가운데 하나 이상'}
+  - {field: patterns, means: 끊는 권한 방식(access_patterns.yaml 의 id)}
+  - {field: ea_cuts, means: '이 동사가 끊는 접근 규칙의 회수 지점(access_rules.yaml 의 <규칙 id>.<홉 이름>). 회수 지점이 아니어도 길을 막는 동사는 비어 있다'}
+  - {field: reversible, means: '공통 기본값. SaaS 빈칸이 덮는다'}
+  - {field: cascades, means: 'SaaS 와 상관없이 같이 끊기는 것'}
+  - {field: now, means: '지금 엔진에서 이 동사를 말하는 곳(위 now 의 where)'}
+  - {field: saas, means: 'SaaS 빈칸 행(위 saas 빈칸의 칸)'}
+
+cut_kinds: [relation, rule, object, setting]
+
+# 동사 하나에 매이지 않는 문장틀(위 「문장틀」). 회수 후보 문장의 설명은 [범위, 효과(, 같이 잃는 사람), 화면, 이어서 할 동사]를 「. 」로 잇는다
+phrases:
+  # EA 회수 지점 설명(cut 의 x_scope.note): 그 회수 지점에서 끊으면 누가 영향을 받나. 키는 access_rules.yaml 의 회수 지점(<규칙 id>.<홉 이름>)이고
+  # 회수 지점마다 하나다. 동사가 아니라 회수 지점에 매인다(한 회수 지점을 SaaS 마다 다른 동사가 끊는다. 동사의 ea_cuts)
+  ea_cut:
+    runs_as_inherits.r: '실행 신원을 바꾸면 이 자동화만 영향'
+    runs_as_inherits.h: '{주체} 본인과 그 신원으로 도는 자동화 모두 영향'
+    x_member_grant.m: '{주체} 만 영향 ({그룹} 에서 제외)'
+    x_member_grant.h: '{그룹} 멤버 {인원}명 모두 영향'
+    x_dynamic_holder.s: '{프로젝트} 에 {스킴} 대신 다른 권한 스킴을 쓰면 이 스킴으로 권한을 받은 전체 호출자 영향'
+    x_acts_as_inherits.r: '앱을 지우면 이 앱만 영향'
+    x_acts_as_inherits.h: '{주체|과/와} 그 주체로 동작하는 앱 모두 영향'
+    x_token_inherits.t: '토큰을 거두면 이 토큰만 영향'
+    x_token_inherits.h: '{주체} 본인과 그 사람의 토큰 모두 영향'
+    x_token_scoped.t: '토큰을 거두면 이 토큰만 영향'
+    x_token_scoped.h: '{주체} 본인과 그 사람이 앱에 준 토큰 모두 영향'
+
+verbs:
+
+- id: remove_group_member
+  name: 그룹에서 빼기
+  status: adopted
+  says: 주체를 그룹에서 뺀다. 그 그룹을 거쳐 받은 권한이 그 주체에게서만 사라진다(그룹 부여가 집행될 때)
+  cuts:
+    - {relation: member_of, pairs: [Principal>Principal]}
+  patterns: [group_membership]
+  ea_cuts: [x_member_grant.m]
+  reversible: 'yes'
+  cascades:
+    - 그 그룹으로 받은 앱 배정, 역할이 그 주체에게서 같이 사라진다. 집행 표시(membership_enforced true)가 있는 부여만 그렇다. 표시가 없으면 사라지는지 모른다(EA 명세 「집행되는 경로와 권한이 생긴 이력은 다르다」)
+    - 같은 대상을 다른 그룹이나 직접 부여로도 받았으면 그 길은 남는다(EA 행이 따로 있다)
+  now:
+    - {where: ea_note, rule: x_member_grant, via: 0}
+  saas:
+    - provider: okta
+      cut: {relation: member_of, pair: Principal>Principal}
+      api: 'DELETE /api/v1/groups/{groupId}/users/{userId} (scope okta.groups.manage). OKTA_GROUP 형식 그룹만 된다'
+      ui: 'Directory > Groups > 그룹 > People 에서 뺀다'
+      who: 그룹을 관리하는 관리자
+      reversible: 'partial'
+      undo: 'PUT /api/v1/groups/{groupId}/users/{userId} 로 다시 넣는다. 그룹 규칙이 넣은 멤버를 손으로 빼면 그 사람이 규칙의 예외 목록에 들어가, 예외를 지워야 규칙이 다시 관리한다'
+      cascades:
+        - 앱 배정에 쓰는 그룹이면 받는 앱에서도 빠진다. 앱 프로비저닝의 Deactivate Users 가 켜져 있으면 받는 쪽 계정이 꺼진다
+        - AD, LDAP 에서 가져온 그룹(APP_GROUP)은 여기서 못 뺀다. 원천 디렉터리에서 뺀다
+      doc:
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/group/other/unassignuserfromgroup
+        - https://support.okta.com/help/s/article/How-to-add-and-remove-users-from-groups-using-group-rules-and-exceptions?language=en_US
+        - https://help.okta.com/oie/en-us/Content/Topics/users-groups-profiles/app-assignments-group-push.htm
+      checked: doc
+      note: 화면 경로와 필요 권한은 문서에 그대로 적혀 있지 않다(추정)
+    - provider: github
+      cut: {relation: member_of, pair: Principal>Principal}
+      api: 'DELETE /orgs/{org}/teams/{team_slug}/memberships/{username} (fine-grained 토큰은 조직 Members 쓰기)'
+      ui: 'Org > Teams > 팀 > Members > Remove from team'
+      who: 팀 maintainer 나 조직 owner
+      reversible: 'yes'
+      undo: 'PUT /orgs/{org}/teams/{team_slug}/memberships/{username}. 조직 멤버가 아니면 초대가 나가 상대가 받아야 한다'
+      cascades:
+        - 팀으로 받던 저장소 권한을 잃는다. 다른 팀, 직접 협업, 조직 기본 권한으로 받은 것은 남는다
+        - 팀이 IdP 그룹과 동기화되어 있으면 API 가 403 이다. IdP 에서 뺀다
+      doc:
+        - https://docs.github.com/en/rest/teams/members?apiVersion=2022-11-28
+        - https://docs.github.com/en/organizations/organizing-members-into-teams/synchronizing-a-team-with-an-identity-provider-group
+      checked: doc
+      note: 화면 경로는 추정
+    - provider: slack
+      cut: {relation: member_of, pair: Principal>Principal}
+      api: 'usergroups.users.update (scope usergroups:write). 목록 전체를 바꿔 쓴다. 한 명을 빼려면 usergroups.users.list 로 읽고 그 사람을 뺀 목록을 보낸다'
+      ui: '워크스페이스 설정 Permissions > User Groups 가 누가 고칠 수 있는지 정한다'
+      who: 워크스페이스 User Groups 설정이 허락한 사람. 봇 토큰은 그 설정이 everyone 일 때만
+      reversible: 'yes'
+      undo: 같은 메서드로 앞 목록을 다시 보낸다(앞 목록을 적어 둔다)
+      cascades:
+        - 멤버를 0명으로 만들 수 없다. 그때는 usergroups.disable
+        - 사용자 그룹의 기본 채널에 들어간 멤버십은 남는다(EA 명세 「집행되는 경로와 권한이 생긴 이력은 다르다」 실측)
+      doc:
+        - https://docs.slack.dev/reference/methods/usergroups.users.update
+      checked: doc
+    - provider: gws
+      cut: {relation: member_of, pair: Principal>Principal}
+      api: 'DELETE https://admin.googleapis.com/admin/directory/v1/groups/{groupKey}/members/{memberKey} (members.delete, scope admin.directory.group.member)'
+      ui: 'Directory > Groups > 그룹 > Members 에서 뺀다'
+      who: Groups 관리자 권한
+      reversible: 'yes'
+      undo: members.insert 로 다시 넣는다. 앞의 역할(OWNER, MANAGER, MEMBER)과 메일 받기 설정을 적어 둔다
+      cascades:
+        - 동적 그룹(멤버 조건식)은 손으로 못 뺀다. 조건식을 바꾼다
+        - 그 그룹에 준 Drive 공유, 앱 접근도 그 사람에게서 사라진다(추정)
+      doc:
+        - https://developers.google.com/workspace/admin/directory/reference/rest/v1/members/delete
+        - https://knowledge.workspace.google.com/admin/groups/manage-membership-automatically-with-dynamic-groups
+      checked: doc
+    - provider: atlassian
+      cut: {relation: member_of, pair: Principal>Principal}
+      api: 'DELETE /rest/api/3/group/user?groupId={groupId}&accountId={accountId} (scope manage:jira-configuration)'
+      ui: 'Atlassian Administration > Directory > Groups > 그룹 > Members > Remove'
+      who: 사이트 관리자(API). 화면은 조직 관리자, 또는 자기 앱 접근 그룹에 한해 user access admin
+      reversible: 'yes'
+      undo: 'POST /rest/api/3/group/user'
+      cascades:
+        - SCIM 으로 들어온 그룹은 읽기 전용이다. IdP 에서 뺀다
+        - 다른 그룹이 같은 앱 접근을 주면 앱 접근은 남는다(추정)
+      doc:
+        - https://developer.atlassian.com/cloud/jira/platform/rest/v3/api-group-groups/
+        - https://support.atlassian.com/user-management/docs/edit-a-group/
+      checked: doc
+      note: API 문서 페이지는 스크립트로 그려져 공식 OpenAPI 명세(swagger-v3.v3.json)에서 읽었다
+
+- id: remove_resource_member
+  name: 자원 멤버에서 빼기
+  status: adopted
+  says: 주체를 자원(채널 같은 것)의 멤버에서 뺀다. 그 자원에 멤버로 가진 능력이 사라진다
+  cuts:
+    - {relation: member_of, pairs: [Principal>Resource]}
+  patterns: [resource_membership]
+  ea_cuts: [runs_as_inherits.h, x_acts_as_inherits.h, x_token_inherits.h, x_token_scoped.h]
+  reversible: 'yes'
+  cascades:
+    - 공개 자원이면 다시 들어올 수 있다. 그래서 공개 채널의 멤버십은 회수 지점이 아니다
+    - Google Workspace 조직 단위 소속은 이 동사로 끊지 않는다. 소속(M)이라 회수 지점이 아니다(2026-11-01 결정, open 「조직 단위 소속」). 사용자를 다른 조직 단위로 옮기는 일은 회수가 아니다
+  now: []
+  saas:
+    - provider: slack
+      cut: {relation: member_of, pair: Principal>Resource}
+      api: 'conversations.kick (봇 토큰 scope channels:manage, groups:write)'
+      ui: '채널 > 멤버 목록 > Remove from channel'
+      who: 워크스페이스 설정이 막지 않은 사람(막히면 restricted_action)
+      reversible: 'yes'
+      undo: conversations.invite 로 다시 넣는다
+      cascades:
+        - '#general 에서는 못 뺀다(cant_kick_from_general)'
+        - 공개 채널이면 스스로 다시 들어올 수 있다
+      doc:
+        - https://docs.slack.dev/reference/methods/conversations.kick
+      checked: doc
+      note: 화면 경로와 되돌리기 메서드는 추정
+
+- id: revoke_role
+  name: 역할 회수
+  status: adopted
+  says: 주체가 자원이나 테넌트에 직접 받은 역할을 지운다. 그 역할로 가진 능력이 그 보유자에게서 사라진다
+  cuts:
+    - {relation: has_role_on, pairs: [Principal>Resource, Principal>Tenant, Integration>Tenant, Integration>Resource]}
+  patterns: [direct_grant]
+  ea_cuts: [x_member_grant.h, runs_as_inherits.h, x_acts_as_inherits.h, x_token_inherits.h, x_token_scoped.h]
+  reversible: 'yes'
+  cascades:
+    - 보유자가 그룹이면 그룹 멤버 모두가 잃는다(access_rules.yaml cut affects group)
+    - 보유자가 앱(서비스 앱, OAuth 클라이언트)이면 그 앱을 부르는 모두가 잃는다(affects all_callers)
+  now:
+    - {where: ea_note, rule: x_member_grant, via: 1}
+    - {where: ea_note, rule: runs_as_inherits, via: 1}
+  saas:
+    - provider: github
+      cut: {relation: has_role_on, pair: Principal>Resource}
+      api: '팀: DELETE /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo}. 사람(협업자): DELETE /repos/{owner}/{repo}/collaborators/{username}'
+      ui: '저장소 Settings > Collaborators and teams > Remove'
+      who: '팀: 조직 owner, 팀 maintainer, 또는 그 저장소 admin. 협업자: 저장소 admin'
+      reversible: 'partial'
+      undo: '팀은 PUT /orgs/{org}/teams/{team_slug}/repos/{owner}/{repo} 에 앞의 권한 값으로(적어 둔다). 협업자는 다시 초대하고 상대가 받아야 한다'
+      cascades:
+        - 협업자를 빼면 이슈 담당이 풀리고 그 사람의 포크가 지워진다(REST 문서. 포크 문서는 비공개 저장소의 포크가 지워진다고 적는다). 다시 넣으면 돌아오는지는 문서에 없다
+        - 다른 팀, 조직 기본 권한으로 받은 접근은 남는다
+      doc:
+        - https://docs.github.com/en/rest/teams/teams?apiVersion=2022-11-28
+        - https://docs.github.com/en/rest/collaborators/collaborators?apiVersion=2022-11-28
+        - https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/about-permissions-and-visibility-of-forks
+      checked: doc
+      note: 화면 경로는 추정
+    - provider: okta
+      cut: {relation: has_role_on, pair: Principal>Tenant}
+      api: '사람: DELETE /api/v1/users/{userId}/roles/{roleAssignmentId}. 그룹: DELETE /api/v1/groups/{groupId}/roles/{roleAssignmentId}. 서비스 앱: DELETE /oauth2/v1/clients/{clientId}/roles/{roleAssignmentId} (scope okta.roles.manage)'
+      ui: ''
+      who: 관리자 역할을 관리하는 관리자(Super Admin 으로 보인다, 문서에 없음)
+      reversible: 'partial'
+      undo: 다시 배정하면 새 roleAssignmentId 가 생기고, 역할의 범위(target)도 다시 걸어야 한다
+      cascades:
+        - 그룹의 역할이면 그 그룹 멤버 모두가 잃는다
+      doc:
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/roleassignmentauser/other/unassignrolefromuser
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/roleassignmentbgroup/other/unassignrolefromgroup
+        - https://developer.okta.com/docs/concepts/role-assignment/
+      checked: doc
+      note: 화면 경로와 마지막 Super Admin 을 지키는지는 문서에서 못 찾았다. 서비스 앱(OAuth2Client)이 Principal 인 데이터셋이 있어 서비스 앱 경로도 이 줄에 적었다
+    - provider: okta
+      cut: {relation: has_role_on, pair: Integration>Tenant}
+      api: 'DELETE /oauth2/v1/clients/{clientId}/roles/{roleAssignmentId} (scope okta.roles.manage)'
+      ui: ''
+      who: 관리자 역할을 관리하는 관리자(문서에 없음)
+      reversible: 'partial'
+      undo: 다시 배정하면 새 roleAssignmentId 가 생긴다
+      cascades:
+        - 그 서비스 앱을 부르는 모두가 그 역할로 하던 일을 잃는다(affects all_callers)
+      doc:
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/roleassignmentclient/other/retrieveclientrole
+      checked: doc
+    - provider: atlassian
+      cut: {relation: has_role_on, pair: Principal>Resource}
+      api: 'DELETE /rest/api/3/project/{projectIdOrKey}/role/{id}?user={accountId} 또는 ?groupId={groupId} (scope manage:jira-project)'
+      ui: 'Project settings > People 에서 역할을 뺀다'
+      who: 그 프로젝트의 Administer Projects, 또는 Administer Jira
+      reversible: 'yes'
+      undo: 'POST /rest/api/3/project/{projectIdOrKey}/role/{id}'
+      cascades:
+        - 그 사람이 든 그룹이 같은 역할에 있으면 역할 권한은 남는다(추정)
+      doc:
+        - https://developer.atlassian.com/cloud/jira/platform/swagger-v3.v3.json
+      checked: doc
+      note: 화면 경로는 추정. API 는 공식 OpenAPI 명세(Delete actors from project role)에서 읽었다
+
+- id: unassign_app
+  name: 앱 배정 지우기
+  status: open
+  says: IdP 에서 사람이나 그룹에게 준 앱 배정을 지운다. 그 앱에 로그인하는 길이 사라진다
+  cuts:
+    - {relation: has_role_on, pairs: [Principal>Integration]}
+  patterns: [direct_grant, idp_federation]
+  ea_cuts: [x_member_grant.h]
+  reversible: 'partial'
+  cascades:
+    - 앱에 프로비저닝이 켜져 있으면 받는 SaaS 쪽 계정이 꺼지거나 지워질 수 있다. 다시 배정해도 지워진 쪽 데이터는 돌아오지 않을 수 있다
+    - 보유자가 그룹이면 그 그룹으로 배정받은 사람 모두가 잃는다
+  now:
+    - {where: ea_note, rule: x_member_grant, via: 1}
+  saas:
+    - provider: okta
+      cut: {relation: has_role_on, pair: Principal>Integration}
+      api: '그룹: DELETE /api/v1/apps/{appId}/groups/{groupId}. 사람: DELETE /api/v1/apps/{appId}/users/{userId} (scope okta.apps.manage)'
+      ui: 'Directory > People > 사람 > 앱 옆 X > Unassign Application'
+      who: 앱 관리자 이상(문서에 역할 이름 없음)
+      reversible: 'partial'
+      undo: 다시 배정할 수 있지만 그 사람의 앱 프로필은 되살아나지 않는다. 그룹 배정의 우선순위와 앱 프로필 값은 다시 넣는다
+      cascades:
+        - 프로비저닝의 Deactivate Users 가 켜져 있으면 받는 SaaS 쪽 계정이 꺼진다. 다시 배정하면 다시 켠다
+        - 그룹으로 받은 배정은 사람 단위로 못 푼다. 그룹에서 빼거나 그룹 배정을 통째로 지운다
+      doc:
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/applicationgroups/other/unassignapplicationfromgroup
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/applicationusers/other/unassignuserfromapplication
+        - https://help.okta.com/en-us/content/topics/users-groups-profiles/usgp-unassign-apps.htm
+        - https://help.okta.com/oie/en-us/content/topics/provisioning/lcm/lcm-provision-application.htm
+      checked: doc
+      note: 그룹 배정을 지울 때의 하류 해제는 사람 배정 문서에서 미루어 본 것이다
+
+- id: remove_share
+  name: 공유 끊기
+  status: adopted
+  says: 파일이나 자원의 공유 항목을 지운다. 그 공유로 열던 사람이 못 연다
+  cuts:
+    - {relation: shared_with, pairs: [Resource>Tenant]}
+    - {relation: has_role_on, pairs: [Principal>Resource]}
+  patterns: [direct_grant, scope_visibility]
+  ea_cuts: [runs_as_inherits.h]
+  reversible: 'partial'
+  cascades:
+    - 위 폴더나 공유 드라이브에서 내려온 공유는 이 자리에서 못 지운다. 내려 준 곳을 끊어야 한다
+    - 주인의 권한 줄은 이 동사가 맡지 않는다. 주인은 소유권 넘기기로 바꾼다(주인 권한 줄을 지울 수 없다는 것은 추정. 벤더 문서는 넘기는 길만 적는다)
+  now:
+    - {where: ea_note, rule: runs_as_inherits, via: 1}
+  saas:
+    - provider: gws
+      cut: {relation: has_role_on, pair: Principal>Resource}
+      api: 'DELETE https://www.googleapis.com/drive/v3/files/{fileId}/permissions/{permissionId} (permissions.delete, scope drive)'
+      ui: '파일 > 공유 > 사람 옆 권한 > 삭제'
+      who: '내 드라이브: 주인, writersCanShare 면 편집자도. 공유 드라이브: organizer, fileOrganizer, writer(writer 는 파일만)'
+      reversible: 'partial'
+      undo: permissions.create 로 같은 역할을 다시 만든다. 새 permissionId 가 생기고 공유 알림이 다시 갈 수 있다. 만료일 같은 속성은 다시 넣는다
+      cascades:
+        - 위 폴더나 공유 드라이브에서 내려온 권한은 여기서 못 지운다. 위에서 지우거나 폴더의 inheritedPermissionsDisabled 를 켠다(폴더만 된다)
+      doc:
+        - https://developers.google.com/workspace/drive/api/reference/rest/v3/permissions/delete
+        - https://developers.google.com/workspace/drive/api/guides/manage-sharing
+        - https://developers.google.com/workspace/drive/api/guides/limited-expansive-access
+      checked: doc
+      note: 화면 경로는 추정
+    - provider: gws
+      cut: {relation: shared_with, pair: Resource>Tenant}
+      api: 'DELETE https://www.googleapis.com/drive/v3/files/{fileId}/permissions/{permissionId} (type anyone 이나 domain 인 권한)'
+      ui: '파일 > 공유 > 일반 액세스를 제한됨으로'
+      who: 위 줄과 같다
+      reversible: 'partial'
+      undo: permissions.create 로 다시 만든다. 새 permissionId 가 생긴다
+      cascades:
+        - 위 폴더나 공유 드라이브에서 내려온 공유는 여기서 못 지운다
+      doc:
+        - https://developers.google.com/workspace/drive/api/reference/rest/v3/permissions/delete
+        - https://developers.google.com/workspace/drive/api/guides/manage-sharing
+      checked: doc
+      note: 화면 경로는 추정
+
+- id: transfer_ownership
+  name: 소유권 넘기기
+  status: adopted
+  says: 자원의 주인을 다른 주체로 바꾼다. 벤더 문서가 적는 길은 넘기기뿐이다(주인을 그냥 지울 수 없다는 것은 추정)
+  cuts:
+    - {relation: owned_by, pairs: [Resource>Principal]}
+    - {relation: has_role_on, pairs: [Principal>Resource], role: owner}
+  patterns: [ownership, direct_grant]
+  ea_cuts: [runs_as_inherits.h]
+  reversible: 'partial'
+  cascades:
+    - 받는 사람이 새 주인이 된다. 되돌리려면 새 주인이 다시 넘겨야 한다
+    - 옛 주인이 남는 권한(편집자 등)을 가질 수 있다. 그러면 이 동사 하나로는 그 사람의 길이 닫히지 않고, 공유 끊기를 이어서 해야 한다(SaaS 빈칸 follow_with)
+  now:
+    - {where: ea_note, rule: runs_as_inherits, via: 1}
+  saas:
+    - provider: gws
+      cut: {relation: has_role_on, pair: Principal>Resource, role: owner}
+      api: 'permissions.update (role owner, transferOwnership true)로 다른 사람을 주인으로 만든다. 개인 계정 사이는 주인이 pendingOwner 를 걸고 받는 사람이 받아야 한다'
+      ui: '관리 콘솔 Apps > Google Workspace > Drive and Docs > Transfer ownership'
+      who: 지금 주인(API), Drive and Docs 관리자(콘솔)
+      reversible: 'partial'
+      undo: 자동으로 되돌리는 길이 없다. 새 주인이 다시 넘겨야 한다
+      cascades:
+        - API 로 넘기면 옛 주인은 편집자(writer)로 남고, 콘솔로 넘겨도 누가 접근하는지는 바뀌지 않는다. 옛 주인의 접근까지 끊으려면 공유 끊기를 이어서 한다
+        - 공유 드라이브 항목은 넘길 수 없다(조직이 주인이다)
+      follow_with: [remove_share]
+      doc:
+        - https://developers.google.com/workspace/drive/api/guides/transfer-file
+        - https://knowledge.workspace.google.com/admin/drive/transfer-drive-files-to-a-new-owner-as-an-admin
+      checked: doc
+      note: Drive 는 주인을 역할 owner 의 권한 줄(has_role_on)과 owned_by 둘로 준다. 주인 권한 줄을 permissions.delete 로 지울 수 없다는 것은 추정이다(문서는 넘기는 길만 적는다)
+    - provider: gws
+      cut: {relation: owned_by, pair: Resource>Principal}
+      api: 'permissions.update (role owner, transferOwnership true). 개인 계정 사이는 주인이 pendingOwner 를 걸고 받는 사람이 받아야 한다'
+      ui: '관리 콘솔 Apps > Google Workspace > Drive and Docs > Transfer ownership'
+      who: 지금 주인(API), Drive and Docs 관리자(콘솔)
+      reversible: 'partial'
+      undo: 자동으로 되돌리는 길이 없다. 새 주인이 다시 넘겨야 한다
+      cascades:
+        - API 로 넘기면 옛 주인은 편집자(writer)로 남고, 콘솔로 넘겨도 누가 접근하는지는 바뀌지 않는다. 옛 주인의 접근까지 끊으려면 공유 끊기를 이어서 한다
+        - 공유 드라이브 항목은 넘길 수 없다(조직이 주인이다)
+      follow_with: [remove_share]
+      doc:
+        - https://developers.google.com/workspace/drive/api/guides/transfer-file
+        - https://knowledge.workspace.google.com/admin/drive/transfer-drive-files-to-a-new-owner-as-an-admin
+      checked: doc
+
+- id: change_run_as
+  name: 실행 신원 바꾸기
+  status: adopted
+  says: 자동화가 도는 신원을 바꾼다. 옛 신원의 권한으로 닿던 곳에 이 자동화만 못 닿는다
+  cuts:
+    - {relation: runs_as, pairs: [Automation>Principal]}
+  patterns: [run_as]
+  ea_cuts: [runs_as_inherits.r]
+  reversible: 'yes'
+  cascades:
+    - 새 신원의 권한으로 닿는 곳이 새로 생긴다. 바꾸기 전에 새 신원의 권한을 본다
+  now:
+    - {where: ea_note, rule: runs_as_inherits, via: 0}
+  saas:
+    - provider: gws
+      cut: {relation: runs_as, pair: Automation>Principal}
+      api: '매니페스트 webapp.executeAs(USER_DEPLOYING | USER_ACCESSING)를 고친 새 버전을 만들고, projects.deployments.update(PUT https://script.googleapis.com/v1/projects/{scriptId}/deployments/{deploymentId})로 배포가 그 버전을 가리키게 한다'
+      ui: 'Deploy > Manage deployments > 배포 > Edit'
+      who: 스크립트를 고칠 수 있는 사람(문서에 없음)
+      reversible: 'yes'
+      undo: 배포를 고쳐도 배포 ID 와 주소가 그대로다. 앞 버전을 다시 가리키게 한다
+      cascades:
+        - USER_DEPLOYING 이면 누가 열든 배포한 사람 권한으로 돈다. USER_ACCESSING 으로 바꾸면 여는 사람마다 동의를 다시 받는다(추정)
+        - 소유권을 다른 도메인이나 공유 드라이브로 옮기면 웹앱이 깨질 수 있다
+      doc:
+        - https://developers.google.com/apps-script/api/reference/rest/v1/projects.deployments/update
+        - https://developers.google.com/apps-script/manifest/web-app-api-executable
+        - https://developers.google.com/apps-script/concepts/deployments
+      checked: inferred
+      note: deployments.update 에는 executeAs 칸이 없다. 매니페스트 칸은 문서에 있고, 새 버전으로 바꾸는 방법은 추정이다
+
+- id: restrict_invokers
+  name: 호출 권한 제한
+  status: adopted
+  says: 자동화나 배포를 부를 수 있는 사람의 범위를 줄인다. 자동화가 가진 권한을 범위 밖 사람이 못 빌린다
+  cuts:
+    - {rule: deployments}
+    - {rule: entry_points}
+    - {relation: triggered_by, pairs: [Automation>Principal, Automation>Endpoint, Automation>Resource, Automation>Integration]}
+  patterns: [who_can_trigger, gate]
+  ea_cuts: []
+  reversible: 'yes'
+  cascades:
+    - 범위 밖으로 밀린 정상 사용자도 못 쓴다(범용 엔진 회수 후보의 collateral)
+  now: []
+  saas:
+    - provider: gws
+      cut: {rule: deployments}
+      api: '매니페스트 webapp.access(MYSELF | DOMAIN | ANYONE | ANYONE_ANONYMOUS)를 고친 새 버전을 만들고 projects.deployments.update 로 배포가 그 버전을 가리키게 한다'
+      ui: 'Deploy > Manage deployments > 배포 > Edit > Who has access'
+      who: 스크립트를 고칠 수 있는 사람(문서에 없음)
+      reversible: 'yes'
+      undo: 앞 버전을 다시 가리키게 한다
+      cascades:
+        - 범위 밖으로 밀린 사람은 웹앱을 못 연다
+      doc:
+        - https://developers.google.com/apps-script/manifest/web-app-api-executable
+        - https://developers.google.com/apps-script/api/reference/rest/v1/projects.deployments/update
+      checked: inferred
+      note: 실행 신원 바꾸기의 Google Workspace 줄과 같은 까닭으로 추정
+    - provider: slack
+      cut: {rule: entry_points}
+      api: ''
+      ui: 'Organization settings > Integrations > Installed apps > 앱 > Member Permissions > Who has permission to initiate interaction with this app(Everyone, No one, Specific people and groups)'
+      who: Enterprise 조직 관리자
+      reversible: 'yes'
+      undo: Everyone 으로 되돌린다
+      cascades:
+        - 앱 단위다. 범위 밖 사람은 그 앱의 다른 명령과 기능도 같이 못 쓴다
+      doc:
+        - https://slack.com/help/articles/360000281563-Manage-apps-in-an-Enterprise-organization
+        - https://docs.slack.dev/interactivity/implementing-slash-commands/
+      checked: inferred
+      note: '2026-11-04 확인. Enterprise 요금제의 앱 사용 권한이다(문서: 기본은 설치된 워크스페이스의 멤버와 게스트 모두, 관리자가 Everyone, No one, 특정 사람과 그룹 가운데 고른다). 문서는 앱과 상호작용을 시작할 사람이라고 적었고 슬래시 명령을 따로 적지 않았다(슬래시 명령도 그 상호작용으로 봄, 추정). 다른 요금제에는 이 설정이 없다. 그때는 앱이 요청의 user_id 로 거르거나(앱 코드, 슬래시 명령 문서는 user_id 를 보낸다고만 적었다) 앱 설치 지우기(uninstall_app)다'
+
+- id: uninstall_app
+  name: 앱 설치 지우기
+  status: adopted
+  says: 테넌트에서 앱 설치를 지운다. 앱이 봇이나 앱 신원으로 하던 일과 그 앱의 토큰이 모두 멈춘다
+  cuts:
+    - {relation: acts_as, pairs: [Integration>Principal]}
+    - {object: Integration}
+  patterns: [acts_for_app]
+  ea_cuts: [x_acts_as_inherits.r]
+  reversible: 'partial'
+  cascades:
+    - 그 앱의 토큰, 봇 사용자, 수신 웹훅이 같이 멈춘다. 다시 설치하면 새 토큰이 나와 연동을 다시 맞춰야 한다
+  now: []
+  saas:
+    - provider: slack
+      cut: {relation: acts_as, pair: Integration>Principal}
+      api: 'apps.uninstall 은 그 앱 자신의 client_id, client_secret 이 있어야 한다. 남의 앱은 admin.apps.uninstall(Enterprise 플랜, user 토큰 scope admin.apps:write)'
+      ui: 'Tools & settings > Manage apps > Installed Apps > App Details > Configuration > Remove App'
+      who: 기본은 게스트가 아닌 멤버. 앱 승인 제도가 켜져 있으면 Workspace Owner 와 app manager
+      reversible: 'no'
+      undo: 문서가 앱 지우기는 되돌릴 수 없다고 적는다. 다시 설치하면 새 토큰과 새 웹훅 주소가 생긴다(추정)
+      cascades:
+        - 그 설치의 토큰이 모두 폐기된다. 토큰에 묶인 수신 웹훅도 멈춘다
+        - 조직 전체에 배포한 앱은 워크스페이스 하나에서 못 뺀다
+      doc:
+        - https://docs.slack.dev/reference/methods/apps.uninstall
+        - https://docs.slack.dev/reference/methods/admin.apps.uninstall
+        - https://slack.com/help/articles/360003125231-Remove-apps-and-custom-integrations-from-your-workspace
+        - https://docs.slack.dev/authentication/installing-with-oauth/
+      checked: doc
+      note: 봇 사용자가 어떻게 되는지는 문서에서 못 찾았다(토큰 폐기 auth.revoke 는 봇을 끈다고 적는다)
+    - provider: github
+      cut: {object: Integration, type: GitHub App 설치}
+      api: 'DELETE /app/installations/{installation_id}(지우기), PUT /app/installations/{installation_id}/suspended(멈춤). 둘 다 그 앱 자신의 JWT 로만 부른다'
+      ui: 'Org Settings > Third-party Access > GitHub Apps > Configure > Suspend 또는 Uninstall'
+      who: 조직 owner
+      reversible: 'partial'
+      undo: 멈춤은 풀 수 있다(앱 주인이 멈춘 것은 조직이 못 푼다). 지운 뒤 다시 설치하면 설치 ID, 저장소 선택, 권한 승인을 다시 한다(추정)
+      cascades:
+        - 멈추면 그 조직에 대한 API 와 웹훅 이벤트가 막힌다. 사람들이 앱에 준 사용자 승인은 그대로라 따로 끊는다
+      doc:
+        - https://docs.github.com/en/rest/apps/apps?apiVersion=2022-11-28
+        - https://docs.github.com/en/apps/using-github-apps/reviewing-and-modifying-installed-github-apps
+      checked: doc
+
+- id: revoke_token
+  name: 토큰 폐기
+  status: adopted
+  says: 자격증명(토큰, OAuth 승인)을 폐기한다. 그 자격증명을 쥔 쪽이 그것으로 하던 일이 모두 멈춘다
+  cuts:
+    - {object: Credential}
+    - {relation: authenticates_with, pairs: [Principal>Credential, Endpoint>Credential, Integration>Credential]}
+  patterns: [acts_for_app]
+  ea_cuts: [x_token_inherits.t, x_token_scoped.t]
+  reversible: 'no'
+  cascades:
+    - 같은 토큰을 쓰는 다른 연동도 같이 멈춘다. 새 토큰을 받아 다시 넣어야 한다
+  now: []
+  saas:
+    - provider: okta
+      cut: {object: Credential, type: API 토큰}
+      api: 'DELETE /api/v1/api-tokens/{apiTokenId} (scope okta.apiTokens.manage)'
+      ui: 'Security > API > Tokens > Revoke token'
+      who: 문서에 폐기할 수 있는 역할이 없다. 남의 토큰도 폐기할 수 있다고 읽힌다
+      reversible: 'no'
+      undo: 되살릴 수 없다. 새 토큰을 만들고 그 토큰을 쓰던 연동을 모두 바꾼다
+      cascades:
+        - 토큰은 만든 사람의 권한을 그대로 갖는다. 폐기하면 그 권한으로 하던 연동이 모두 멈춘다
+      doc:
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/apitoken/other/revokeapitoken
+        - https://help.okta.com/en-us/Content/Topics/Security/API.htm
+      checked: doc
+    - provider: github
+      cut: {object: Credential, type: fine-grained 개인 토큰}
+      api: 'POST /orgs/{org}/personal-access-tokens/{pat_id} body {"action":"revoke"}. GitHub App 만 부를 수 있다(조직 Personal access tokens 쓰기)'
+      ui: 'Org Settings > Personal access tokens > Active tokens > Revoke'
+      who: 조직 owner(화면). API 는 GitHub App 만 부른다
+      reversible: 'no'
+      undo: 다시 승인하는 길이 문서에 없다. 토큰 주인이 새 토큰을 만들어 다시 요청한다(추정)
+      cascades:
+        - 토큰 주인에게 메일이 간다
+        - classic 개인 토큰은 이 길로 보거나 폐기할 수 없다. 조직 정책으로 막는다. SAML SSO 를 쓰는 조직(Enterprise Cloud)은 classic 토큰의 SSO 승인을 회수할 수 있지만, 회수해도 토큰은 지워지지 않는다
+      doc:
+        - https://docs.github.com/en/rest/orgs/personal-access-tokens?apiVersion=2022-11-28
+        - https://docs.github.com/en/organizations/managing-programmatic-access-to-your-organization/reviewing-and-revoking-personal-access-tokens-in-your-organization
+        - https://docs.github.com/en/enterprise-cloud@latest/organizations/granting-access-to-your-organization-with-saml-single-sign-on/viewing-and-managing-a-members-saml-access-to-your-organization
+      checked: doc
+    - provider: slack
+      cut: {object: Credential, type: 토큰}
+      api: 'auth.revoke (폐기할 토큰 자체로 부른다)'
+      ui: ''
+      who: 토큰을 쥔 쪽
+      reversible: 'no'
+      undo: OAuth 를 다시 거쳐 새 토큰을 받는다
+      cascades:
+        - 봇 토큰이면 봇 사용자가 꺼지고 채널 멤버십이 모두 빠진다. 그 토큰에 묶인 수신 웹훅도 지워진다
+      doc:
+        - https://docs.slack.dev/reference/methods/auth.revoke
+        - https://docs.slack.dev/authentication/installing-with-oauth/
+      checked: doc
+    - provider: gws
+      cut: {object: Credential, type: OAuth 승인}
+      api: 'DELETE https://admin.googleapis.com/admin/directory/v1/users/{userKey}/tokens/{clientId} (tokens.delete, scope admin.directory.user.security)'
+      ui: 'Directory > Users > 사람 > Security > Connected applications > Remove'
+      who: 사용자 관리 권한
+      reversible: 'yes'
+      undo: 사람이 그 앱에 다시 로그인하면 접근이 돌아온다
+      cascades:
+        - 지우기만으로는 오래 막지 못한다. 오래 막으려면 API controls 에서 그 앱을 막는다
+      doc:
+        - https://developers.google.com/workspace/admin/directory/reference/rest/v1/tokens/delete
+        - https://knowledge.workspace.google.com/admin/security/manage-a-users-security-settings
+      checked: doc
+    - provider: gws
+      cut: {object: Credential, type: 도메인 전체 위임}
+      api: ''
+      ui: 'Security > Access and data control > API controls > Manage Domain Wide Delegation > Delete'
+      who: super administrator 만. 다중 승인이 켜져 있으면 다른 super administrator 의 승인
+      reversible: 'partial'
+      undo: 되살리는 길이 없다. 같은 client ID 와 scope 목록을 다시 넣는다(지우기 전에 적어 둔다)
+      cascades:
+        - 그 위임에 기대던 앱이 바로 멈춘다. 반영은 24시간까지 걸린다
+      doc:
+        - https://knowledge.workspace.google.com/admin/apps/control-api-access-with-domain-wide-delegation?hl=en
+      checked: doc
+      note: 공개 API 는 찾지 못했다. 화면만 있다
+
+- id: narrow_scope
+  name: 권한 범위 줄이기
+  status: adopted
+  says: 토큰이나 앱이 요청한 권한 범위(scope)를 줄인다. 자격증명은 남고 할 수 있는 일만 준다
+  cuts:
+    - {setting: Credential}
+    - {setting: Integration}
+    - {setting: Automation}
+  patterns: [acts_for_app]
+  ea_cuts: []
+  reversible: 'partial'
+  cascades:
+    - 줄인 범위가 필요한 기능은 멈춘다. 다시 늘리려면 새로 승인받아야 하는 SaaS 가 많다
+  now: []
+  saas:
+    - provider: okta
+      cut: {setting: Integration, type: 서비스 앱 scope 승인}
+      api: 'DELETE /api/v1/apps/{appId}/grants/{grantId} (scope okta.appGrants.manage)'
+      ui: 'Applications > 앱 > Okta API Scopes > Revoke'
+      who: 문서에 없다
+      reversible: 'partial'
+      undo: 'POST /api/v1/apps/{appId}/grants 로 다시 준다. 새 grantId 가 생긴다(추정)'
+      cascades:
+        - 그 scope 로 새 토큰을 못 받는다. 이미 받은 토큰이 만료까지 쓰이는지는 문서에 없다
+      doc:
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/applicationgrants/other/revokescopeconsentgrant
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/applicationgrants/other/grantconsenttoscope
+      checked: doc
+      note: 화면 경로는 추정
+
+- id: disable_webhook
+  name: 웹훅 끄기
+  status: adopted
+  says: 데이터를 밖으로 보내거나 안으로 받는 통로(웹훅)를 끄거나 지운다. 앞으로의 흐름이 멈춘다
+  cuts:
+    - {object: Endpoint}
+    - {relation: receives_into, pairs: [Endpoint>Resource, Endpoint>Tenant]}
+    - {rule: outbound_hooks}
+  patterns: [data_flow]
+  ea_cuts: []
+  reversible: 'partial'
+  cascades:
+    - 이미 보낸 사본은 남는다. 그래서 통로를 끊는 것은 EA 회수 지점이 아니다
+    - 같은 통로를 쓰는 다른 자동화도 멈춘다
+  now: []
+  saas:
+    - provider: github
+      cut: {rule: outbound_hooks}
+      api: 'PATCH /repos/{owner}/{repo}/hooks/{hook_id} body {"active": false}(끄기), DELETE /repos/{owner}/{repo}/hooks/{hook_id}(지우기). 저장소 Webhooks 쓰기'
+      ui: '저장소 Settings > Webhooks > Edit > Active 해제 또는 Delete'
+      who: 저장소 owner 나 admin
+      reversible: 'partial'
+      undo: 끄기는 active true 로 되돌린다. 지우면 다시 만들어야 하고 새 hook_id 가 생기며 secret 을 다시 받을 수 없다(추정)
+      cascades:
+        - PATCH 에 config 를 줄 때 secret 을 빠뜨리면 secret 이 지워진다
+      doc:
+        - https://docs.github.com/en/rest/repos/webhooks?apiVersion=2022-11-28
+      checked: doc
+      note: 저장소 웹훅만 확인했다. 조직 웹훅 경로는 확인하지 않았다. 화면 경로는 추정
+    - provider: atlassian
+      cut: {rule: outbound_hooks}
+      api: '관리자 웹훅: DELETE https://{site}.atlassian.net/rest/webhooks/1.0/webhook/{webhookId}. 앱이 등록한 웹훅: DELETE /rest/api/3/webhook (부른 앱이 등록한 것만 지운다)'
+      ui: 'Settings > System > Advanced > WebHooks > 웹훅 > 끄기 또는 지우기'
+      who: Administer Jira 전역 권한
+      reversible: 'partial'
+      undo: 끄기는 되돌릴 수 있다. 지우기는 영구라 문서가 끄기를 권한다
+      cascades:
+        - 워크플로 post-function 에 걸린 웹훅은 그 연결을 먼저 풀어야 지운다
+      doc:
+        - https://developer.atlassian.com/cloud/jira/platform/webhooks/
+        - https://support.atlassian.com/jira-cloud-administration/docs/manage-webhooks/
+      checked: doc
+    - provider: slack
+      cut: {relation: receives_into, pair: Endpoint>Resource}
+      api: 'auth.revoke(그 설치의 토큰. 그 토큰에 묶인 수신 웹훅이 지워진다)'
+      ui: 'Manage apps > 앱 > Configuration > Authorizations > Revoke (그 사람이 한 설치 단위)'
+      who: 기본은 게스트를 뺀 멤버. 앱 승인을 켜면 Workspace Owner 와 앱 관리자
+      reversible: 'no'
+      undo: 같은 주소는 돌아오지 않는다. 새 웹훅을 만들어 보내는 쪽에 새 주소를 넣는다
+      cascades:
+        - 수신 웹훅 하나만 끊는 API 는 찾지 못했다. 다른 길(봇 토큰 폐기, 앱 지우기)은 그 토큰의 웹훅을 모두 끊는다
+        - 지운 웹훅으로 보내면 no_service 가 온다
+      doc:
+        - https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks/
+        - https://slack.com/help/articles/360003125231-Remove-apps-and-custom-integrations-from-your-workspace
+        - https://docs.slack.dev/authentication/installing-with-oauth/
+      checked: doc
+      note: '2026-11-04 확인. OAuth 설치 문서: 사용자가 자기 설정을 지우거나, 봇 토큰을 폐기하거나(auth.revoke), 워크스페이스 owner 가 앱을 지우면 그 인증에 묶인 수신 웹훅이 지워진다. 화면은 도움말 문서의 Configuration > Authorizations > Revoke. 웹훅 주소 하나만 지우는 API 는 찾지 못했다'
+
+- id: stop_mail_forwarding
+  name: 메일 자동 전달 끄기
+  status: adopted
+  says: 계정의 받은 메일 자동 전달을 끈다. 앞으로 오는 메일의 사본이 밖으로 가지 않는다
+  cuts:
+    - {setting: Principal}
+  patterns: [data_flow]
+  ea_cuts: []
+  reversible: 'yes'
+  cascades:
+    - 이미 전달된 메일은 남는다
+  now: []
+  saas:
+    - provider: gws
+      cut: {setting: Principal, property: gmail_forwarding}
+      api: 'PUT https://gmail.googleapis.com/gmail/v1/users/{userId}/settings/autoForwarding (updateAutoForwarding), DELETE .../settings/forwardingAddresses/{forwardingEmail}. scope gmail.settings.sharing, 도메인 전체 위임을 받은 서비스 계정만'
+      ui: '조직: Apps > Google Workspace > Gmail > End User Access > Automatic forwarding 해제(조직 단위마다)'
+      who: API 는 도메인 전체 위임 서비스 계정, 콘솔은 Gmail 설정 관리자
+      reversible: 'partial'
+      undo: 다시 켤 수 있지만 전달 주소를 지웠으면 그 주소에서 다시 확인을 받아야 한다
+      cascades:
+        - 조직 설정을 끌 때 이미 켜 둔 전달과 전달 필터가 멈추는지는 문서에 없다
+      doc:
+        - https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settings/updateAutoForwarding
+        - https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settings.forwardingAddresses/delete
+        - https://knowledge.workspace.google.com/admin/gmail/let-users-automatically-forward-their-own-gmail-emails
+      checked: doc
+
+- id: lock_condition_attribute
+  name: 조건 속성 잠그기
+  status: adopted
+  says: 권한 조건(그룹 규칙)이 읽는 속성을 본인이 못 바꾸게 하거나, 조건을 본인이 못 바꾸는 값으로 바꾼다
+  cuts:
+    - {setting: Principal}
+    - {setting: Policy}
+  patterns: [group_membership]
+  ea_cuts: []
+  reversible: 'yes'
+  cascades:
+    - 이미 규칙으로 들어간 사람은 그대로다. 조건을 바꾸면 규칙이 다시 평가할 때 빠진다
+  now: []
+  saas:
+    - provider: okta
+      cut: {setting: Principal, property: profile_attribute_permissions}
+      api: 'POST /api/v1/meta/schemas/user/default 로 그 속성의 permissions 를 [{principal: SELF, action: READ_ONLY}] 로 (scope okta.schemas.manage)'
+      ui: 'Directory > Profile Editor > 사용자 프로필 > 속성 > User permission: Read Only'
+      who: API 문서 표기는 ORG_ADMIN, APP_ADMIN, API_ACCESS_MANAGEMENT_ADMIN
+      reversible: 'yes'
+      undo: 같은 호출로 READ_WRITE 로 되돌린다
+      cascades:
+        - 그 속성을 쓰는 프로필 등록 양식이 꺼질 수 있다
+        - 이미 규칙으로 그룹에 들어간 사람은 그대로다
+      doc:
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/schema/other/updateuserprofile
+        - https://help.okta.com/en-us/content/topics/users-groups-profiles/usgp-user-edit-attributes.htm
+      checked: doc
+      note: action 값 READ_ONLY 는 OpenAPI 명세에 열거되어 있지 않아 화면의 Read Only 에서 미루어 본 것이다
+    - provider: okta
+      cut: {setting: Policy, type: GroupRule}
+      api: 'POST /api/v1/groups/rules/{groupRuleId}/lifecycle/deactivate(끄기). 지우기는 DELETE /api/v1/groups/rules/{groupRuleId}?removeUsers=true|false (scope okta.groups.manage)'
+      ui: 'Directory > Groups > Rules > 규칙 > Deactivate'
+      who: Super admin, Org admin 만 규칙을 고친다
+      reversible: 'partial'
+      undo: 끄기는 lifecycle/activate 로 되돌린다. 지울 때 removeUsers 로 고른 것은 되돌릴 수 없다
+      cascades:
+        - 끄기만 하면 이미 들어간 멤버가 그대로 남아 지금 접근이 줄지 않는다. 빼려면 removeUsers true 로 지우거나 그룹에서 뺀다
+      doc:
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/grouprule/other/deactivategrouprule
+        - https://developer.okta.com/docs/api/openapi/okta-management/management/tags/grouprule/other/deletegrouprule
+        - https://support.okta.com/help/s/article/what-happens-if-group-rules-are-deactivated-and-deleted?language=en_US
+        - https://help.okta.com/en/prod/Content/Topics/users-groups-profiles/usgp-about-group-rules.htm
+      checked: doc
+      note: 화면 경로는 추정
+
+- id: change_permission_scheme
+  name: 권한 스킴 바꾸기
+  status: open
+  says: 프로젝트에 걸린 권한 스킴을 다른 것으로 바꾼다. 그 스킴 줄로 권한을 받던 모두가 잃는다
+  cuts:
+    - {relation: applies_to, pairs: [Policy>Resource]}
+  patterns: [direct_grant]
+  ea_cuts: [x_dynamic_holder.s]
+  reversible: 'yes'
+  cascades:
+    - 그 스킴으로 권한을 받던 전체 호출자가 잃는다(affects all_callers). 새 스킴의 줄을 먼저 본다
+  now:
+    - {where: ea_note, rule: x_dynamic_holder, via: 0}
+  saas:
+    - provider: atlassian
+      cut: {relation: applies_to, pair: Policy>Resource}
+      api: 'PUT /rest/api/3/project/{projectKeyOrId}/permissionscheme (scope manage:jira-project)'
+      ui: 'More actions > Space settings > Permissions > Actions > Use a different scheme > Associate'
+      who: Administer Jira 전역 권한(프로젝트 관리자로는 안 된다)
+      reversible: 'yes'
+      undo: 앞 스킴 ID 를 적어 두었다가 다시 건다
+      cascades:
+        - 바로 적용된다. company-managed 프로젝트만 되고 Free 플랜은 안 된다
+      doc:
+        - https://developer.atlassian.com/cloud/jira/platform/swagger-v3.v3.json
+        - https://support.atlassian.com/jira-cloud-administration/docs/change-which-permission-scheme-a-space-uses/
+      checked: doc
+      note: 요청 body 모양({"id"})과 되돌리기는 추정
+
+- id: narrow_visibility
+  name: 공개 범위 줄이기
+  status: open
+  says: 자원의 공개 범위(회사 누구나, 링크가 있는 누구나)를 줄인다. 멤버가 아닌 사람이 못 보게 된다
+  cuts:
+    - {rule: visibility_scoped}
+  patterns: [scope_visibility]
+  ea_cuts: []
+  reversible: 'partial'
+  cascades:
+    - 공개일 때 이미 들어온 멤버는 그대로다. 멤버십을 따로 본다
+    - 공개 채널을 비공개로 바꾸면 다시 들어올 수 없으니 그 채널의 멤버십이 회수 지점이 된다
+  now: []
+  saas:
+    - provider: slack
+      cut: {rule: visibility_scoped}
+      api: 'admin.conversations.convertToPrivate (Enterprise 플랜, user 토큰 scope admin.conversations:write). Enterprise 가 아니면 화면만'
+      ui: '채널 이름 > Settings > Change to a private channel'
+      who: Workspace Owner, Admin, Org Owner, Admin, Channel Manager
+      reversible: 'partial'
+      undo: 공개로 되돌릴 수 있지만 그 권한은 더 좁다(Workspace Owner, Org Owner, Admin)
+      cascades:
+        - '#general 과 조직 전체 기본 채널은 못 바꾼다'
+        - 공개였던 동안 올라간 파일의 노출을 거둬들이지 못할 수 있다(추정)
+      doc:
+        - https://docs.slack.dev/reference/methods/admin.conversations.convertToPrivate
+        - https://slack.com/help/articles/213185467-Convert-a-channel-to-private-or-public
+      checked: doc
+
+open:
+  - {open: 이름, used: '조치 동사(cut action). Splunk 정규 이벤트의 행동(action) 칸, 대시보드의 조치 진행(remediation_progress)과 다른 것이다', ask: 이름을 이대로 둘지, decided: '2026-11-01 Relation 주담당 결정(aegi-knowledge#149). cut action(조치 동사) 그대로'}
+  - {open: 닫힌 어휘로 둘지, used: '초안이라 동사 목록을 열어 두었다. 닫으면 관계 17종처럼 바꿀 때 decision 이슈를 거친다', ask: 언제 닫을지, decided: '2026-11-01 Relation 주담당 결정(aegi-knowledge#149). 지금은 열어 두고 작업하다가 나중에 닫는다. 닫을 때 동사 status 를 adopted 로 옮긴다. 2026-11-02 범용 판정의 「연결 해제」 문장을 대신할 셋(remove_group_member, change_run_as, uninstall_app)을 먼저 닫았다. 데이터의 「연결 해제」 문장 14개가 모두 이 셋으로 간다(명세 「닫은 동사」). 2026-11-03 범용 판정의 나머지 제목과 정책 위협 고정 문구가 쓰는 여덟(remove_resource_member, revoke_role, remove_share, transfer_ownership, revoke_token, narrow_scope, stop_mail_forwarding, lock_condition_attribute)을 닫고 그 자리의 문장틀을 이 파일로 옮겼다(구조 개편 5단계). 호출 권한 제한(restrict_invokers)는 Slack 줄이 blank 라 열어 두었다. 2026-11-04 운영 current 에 남은 범용 문장을 대신할 둘(disable_webhook, restrict_invokers)을 벤더 문서로 닫았다. 호출 권한 제한의 Slack 줄은 Enterprise 요금제의 앱 사용 권한 설정이다(슬래시 명령까지 드는지는 추정, 그 줄의 checked)'}
+  - {open: 엔진이 이 사전을 읽을지, used: '지금 엔진은 조치 문구를 네 곳(EA note, cutStep, 정책 고정 문구, 시나리오 템플릿)에서 따로 낸다. 이 사전을 읽게 하면 같은 일을 하는 경로가 하나 더 생기므로(architecture/rules.yaml R-no-new-parallel-path) 옛 경로를 없앨 조건을 먼저 정해야 한다', ask: '읽게 할지, 어느 경로를 먼저 바꿀지', decided: '2026-11-01 Relation 주담당 결정(aegi-knowledge#149). 사전을 닫을 때 엔진이 읽게 한다. 그때 범용 위협 판정(generic/index.ts cutStep)의 「연결 해제」 문장부터 바꾸고, 옛 네 곳을 없앨 조건을 architecture/rules.yaml duplicates 에 적는다'}
+  - {open: 조직 단위 소속, used: 'Google Workspace 조직 단위(OrgUnit) 소속은 member_of Principal>Resource 라 G 로 세어져 회수 지점이 된다. 그런데 사용자를 조직 단위에서 뺄 수는 없고 옮길 수만 있다', ask: '회수 지점으로 둘지(옮기기로), 소속(M)으로 볼지', decided: '2026-11-01 Relation 주담당 결정(aegi-knowledge#149). 소속으로 보고 EA 회수 지점에서 뺀다. 옮기기로 끊지 않는다. 자원 멤버에서 빼기의 Google Workspace 줄을 지웠다. 엔진이 먼저 조직 단위로 가는 member_of 를 소속(M)으로 세고, 그 뒤 relation_semantics.yaml member_of 에 조건 갈래를 둔다'}
+  - {open: Drive 파일 주인, used: '주인 권한 줄(has_role_on, 역할 이름 owner)과 owned_by 가 EA 회수 지점이고 범용 엔진도 주인 권한 줄을 회수 가능한 간선으로 본다. 실제로는 넘겨야 하고 넘겨도 옛 주인이 편집자로 남는다. 초안은 소유권 넘기기의 SaaS 빈칸에 follow_with remove_share 로 적었다', ask: '회수 지점으로 둘지(넘기고 공유 끊기 둘로), 못 푼 구간으로 볼지, 엔진의 역할 회수 문장을 고칠지', decided: '2026-11-01 Relation 주담당 결정(aegi-knowledge#149). 초안대로 회수 지점으로 두고, 소유권 넘기기 뒤 공유 끊기(follow_with)'}
+  - {open: 실행 기록만 있는 격차, used: '범용 엔진 격차 가운데 회수 후보 간선이 없는 것은 「호출 권한 제한」를 기본으로 넣는다(engine_gap_fallback). 동사는 정해져도 끊을 사실이 그래프에 없다', ask: 그대로 둘지, decided: '2026-11-01 Relation 주담당 결정(aegi-knowledge#149). 초안대로 그대로'}

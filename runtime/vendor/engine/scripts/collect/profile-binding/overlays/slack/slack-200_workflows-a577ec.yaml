@@ -1,0 +1,158 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/slack/profiles/workflow.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-17
+        items: workflows
+        where:
+          path: id
+          present: true
+    vars:
+      steps:
+        op: map_each
+        of: steps
+        value:
+          object:
+            function_id:
+              op: null_if_missing
+              of: $item.function_id
+            input_names:
+              op: keys
+              of: $item.inputs
+      has_app:
+        if:
+          all:
+            - path: app_id
+              present: true
+            - has:
+                type: defs_app_id
+                id: app_id
+        then:
+          const: app
+        else:
+          const: tenant
+    properties:
+      title: title
+      description:
+        op: null_if_missing
+        of: description
+      app_id:
+        op: null_if_missing
+        of: app_id
+      workflow_function_id:
+        op: null_if_missing
+        of: workflow_function_id
+      is_published:
+        op: null_if_missing
+        of: is_published
+      trigger_types:
+        any:
+          - trigger_types
+        empty_as: []
+      trigger_ids:
+        any:
+          - trigger_ids
+        empty_as: []
+      steps: $vars.steps
+      functions:
+        op: uniq_sorted
+        of:
+          op: pluck
+          of: $vars.steps
+          field: function_id
+      last_updated_by:
+        op: null_if_missing
+        of: last_updated_by
+      date_updated:
+        if:
+          path: date_updated
+          type: number
+        then:
+          op: epoch_iso
+          of: date_updated
+        else:
+          op: null_if_missing
+          of: date_updated
+    display: 워크플로 {title|id}
+    relations:
+      - type: owned_by
+        source: $self
+        target:
+          switch: $vars.has_app
+          cases:
+            app:
+              type: defs_app_id
+              id: app_id
+            tenant: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-WF-{id}
+runtime_stub: null
+runtime_key: SLK-WF-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: workflow:list
+    sources:
+      - call: SL-17
+        items: workflows
+        where:
+          path: id
+          present: true
+    vars:
+      steps:
+        op: map_each
+        of: steps
+        value:
+          object:
+            function_id:
+              op: null_if_missing
+              of: $item.function_id
+            input_names:
+              op: keys
+              of: $item.inputs
+      has_app:
+        if:
+          all:
+            - path: app_id
+              present: true
+            - has:
+                type: defs_app_id
+                id: app_id
+        then:
+          const: app
+        else:
+          const: tenant
+    relations:
+      - type: owned_by
+        source: $self
+        target:
+          switch: $vars.has_app
+          cases:
+            app:
+              type: defs_app_id
+              id: app_id
+            tenant: $tenant
+        basis: stated
+    self_identity: object_rule
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+# Profile 상수: knowledge schema/catalog/slack/research.json 의 workflow decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml owned_by.unknown_runner_tenant)이 이 값으로 고른다
+constants:
+  run_as_resolution:
+    const: unknown

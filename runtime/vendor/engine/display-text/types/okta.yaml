@@ -1,0 +1,37 @@
+# 검토된 화면 설명 문구. 사람이 쓰고 고친다. 비어 있는 종류는 npm run display-text 가 AI 로 만들어 캐시하고, 검토를 거쳐 여기로 옮긴다.
+# types 의 키는 object_type 소문자. 「종류 — 꾸밈말」 꼴은 화면에서 「꾸밈말 종류」로 붙인다.
+provider: okta
+format: aegi-display-text/v1
+name: Okta
+profile:
+  role: 신원 관리 (IdP)
+  points:
+    - 회사 계정의 원본
+    - 직원 여부와 앱 로그인 결정
+    - 그룹과 계정을 다른 SaaS로 전달
+    - 잘못 붙은 권한이 연결된 모든 SaaS로 번지는 출발점
+types:
+  org:
+    meaning: Okta 테넌트(조직) 자체
+  user:
+    meaning: 직원의 Okta 로그인 계정
+  group:
+    meaning: Okta 그룹 — 앱 배정과 권한을 그룹 단위로 주는
+  grouprule:
+    meaning: 조건에 맞는 사용자를 그룹에 넣는 규칙
+  policy:
+    meaning: Okta 로그인, 인증 정책
+  policyrule:
+    meaning: Okta 정책 안의 규칙
+  resourceset:
+    meaning: 관리자 역할이 미치는 범위 묶음
+  application:
+    meaning: Okta로 로그인(SSO)하는 앱
+  iamrole:
+    meaning: Okta 관리자 역할
+  oauth2client:
+    meaning: Okta API를 부르는 OAuth 클라이언트
+  oauth2refreshtoken:
+    meaning: 앱이 사용자 대신 계속 접근하게 해 주는 갱신 토큰
+  userfactor:
+    meaning: 사용자의 MFA 인증 수단

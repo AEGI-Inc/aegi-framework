@@ -1,0 +1,12 @@
+# 활동 — 관측 종류와 증거 관계
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  observation_kinds: aegi-dashboard src/model/evidence.ts ObservationKind @ 0ee565f
+  evidence_link_types: aegi-dashboard src/model/evidence.ts EvidenceLinkType @ 0ee565f
+
+observation_kinds: [agent_run, slash_request, audit_event, credential_use, content_change, delivery, request_log, access_snapshot, correlation]
+
+evidence_link_types: [context_used_by, produced, correlates_by, delivered_to, attributed_as, requested_via, observed_as]

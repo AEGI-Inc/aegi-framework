@@ -1,0 +1,24 @@
+[Unit]
+Description=AEGI compliance diagnostic worker
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=aegi-compliance
+Group=aegi-compliance
+WorkingDirectory=/opt/aegi-compliance
+EnvironmentFile=/etc/aegi-compliance/worker.env
+Environment=AEGI_COMPLIANCE_CHECKS_PATH=/opt/aegi-compliance/checks.py
+Environment=AEGI_PYTHON=/usr/bin/python3
+ExecStart=/usr/local/bin/node /opt/aegi-compliance/worker.mjs production --watch
+Restart=always
+RestartSec=10
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

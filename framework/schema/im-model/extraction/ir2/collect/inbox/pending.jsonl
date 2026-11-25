@@ -1,0 +1,2 @@
+{"drop_to": "inbox/salesforce/", "expect": "html", "id": "sf_setup_audit_trail_help", "provider": "salesforce", "url": "https://help.salesforce.com/s/articleView?id=sf.admin_monitorsetup.htm&type=5"}
+{"drop_to": "inbox/salesforce/", "expect": "html", "id": "sf_setup_audit_trail_help", "provider": "salesforce", "url": "https://help.salesforce.com/s/articleView?id=sf.admin_monitorsetup.htm&type=5"}

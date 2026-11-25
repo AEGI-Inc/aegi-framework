@@ -1,0 +1,404 @@
+[
+  {
+    "id": "FND-A-001",
+    "scenarioKey": "A",
+    "ruleId": "AEGI-A-CONTEXT-AUTHORITY-PROPAGATION",
+    "title": "비인가 컨텍스트의 AI 에이전트 경유 보안 민감 코드 변경 전파",
+    "severity": "high",
+    "status": "open",
+    "summary": "저장소 권한이 없는 사용자 B의 Slack 요청이 AI 에이전트를 거쳐 사용자 A의 GitHub 권한으로 실행, 고객 API 개인정보 로깅 범위 확장",
+    "impact": "비인가자의 요구사항이 에이전트 자동화를 통해 프로덕션 리포지토리의 보안 정책 및 로깅 범위를 우회 수정할 위험이 있습니다.",
+    "whatHappened": "IT 지원 채널(#eng-support)에서 사용자 B가 게시한 디버깅 요청 메시지를 사용자 A가 Copilot 에이전트에 입력 컨텍스트로 전달했습니다. 에이전트는 타겟 저장소(customer-api)에 권한이 있는 사용자 A의 권한으로 실행되어 고객 이메일, 전화번호, 문의 본문이 원시 로그에 기록되도록 변경하는 PR #104 및 커밋을 생성했습니다.",
+    "whyDetected": "컨텍스트 작성자(사용자 B)는 target repository(customer-api)에 대한 유효 쓰기 권한이 없으나, 에이전트 실행을 통해 생성된 변경사항이 보안상 민감한 로깅 범위 확장으로 분류되었고, 실제 기록된 GitHub 주체는 사용자 A로 대체되었기 때문입니다.",
+    "involvedObjectKeys": [
+      "SLK-U-UB",
+      "SLK-U-UA",
+      "SLK-CH-ENG-SUPPORT",
+      "SLK-MSG-A-CONTEXT",
+      "GH-U-UA",
+      "GH-TEAM-DEV",
+      "GH-ROLE-WRITE",
+      "GH-REPO-CUSTOMER-API",
+      "GH-PR-A-LOGGING",
+      "GH-COMMIT-A-LOGGING"
+    ],
+    "involvedRelationKeys": [
+      "R-A-MSG-CHANNEL",
+      "R-A-UA-DEVTEAM",
+      "R-A-DEVTEAM-WRITE-REPO",
+      "R-A-REPO-ORG",
+      "R-A-PR-REPO",
+      "R-A-COMMIT-REPO"
+    ],
+    "involvedLinkIds": [
+      "LNK-P-UA",
+      "LNK-P-UB"
+    ],
+    "evidenceObservationIds": [
+      "OBS-A-AGENT-RUN-001",
+      "OBS-A-CODE-CHANGE-001"
+    ],
+    "evidenceLinkIds": [
+      "EVL-A-001",
+      "EVL-A-002",
+      "EVL-A-003",
+      "EVL-A-004"
+    ],
+    "affectedIdentityKeys": [
+      "LNK-P-UB",
+      "LNK-P-UA"
+    ],
+    "providerSet": [
+      "slack",
+      "github"
+    ],
+    "remediation": [
+      {
+        "id": "rem-a-1",
+        "title": "보안 민감 코드 변경 게이트 적용",
+        "description": "로깅 범위 확대 및 인증 관련 변경 시 필수 보안 승인 워크플로를 강제합니다."
+      },
+      {
+        "id": "rem-a-2",
+        "title": "에이전트 전용 격리 실행 주체 설정",
+        "description": "개발자 개인 권한이 아닌 최소 권한의 서비스 에이전트 식별자를 분리 부여합니다."
+      },
+      {
+        "id": "rem-a-3",
+        "title": "컨텍스트 작성자 권한 사전 검증",
+        "description": "입력으로 사용된 외부 비즈니스 메시지 작성자의 타겟 리소스 접근 권한을 확인합니다."
+      },
+      {
+        "id": "rem-a-4",
+        "title": "PR 증적에 컨텍스트 출처 링크 보존",
+        "description": "코드 변경의 근거가 된 슬랙 메시지 및 세션 출처를 PR 메타데이터에 의무 기록합니다."
+      }
+    ],
+    "controls": [
+      {
+        "id": "ctrl-a-1",
+        "title": "보안 변경 게이트",
+        "description": "민감 파일/필드 변경 자동 차단 및 심층 리뷰 요청"
+      },
+      {
+        "id": "ctrl-a-2",
+        "title": "에이전트 권한 경계",
+        "description": "개인 권한 상속 방지 및 에이전트 전용 최소 권한 격리"
+      },
+      {
+        "id": "ctrl-a-3",
+        "title": "컨텍스트 승인",
+        "description": "비인가자의 컨텍스트가 에이전트 실행에 주입될 때 관리자 승인 요구"
+      },
+      {
+        "id": "ctrl-a-4",
+        "title": "컨텍스트-권한-변경 증적 체인",
+        "description": "슬랙 발화부터 PR 머지까지의 단절 없는 엔드투엔드 추적성 제공"
+      }
+    ]
+  },
+  {
+    "id": "FND-B-001",
+    "scenarioKey": "B",
+    "ruleId": "AEGI-B-SHARED-CREDENTIAL-ATTRIBUTION",
+    "title": "공유 Slack 자동화의 단일 개인 GitHub 자격증명 축약 및 귀속 상실",
+    "severity": "high",
+    "status": "open",
+    "summary": "GitHub 계정이 없는 사용자 D의 요청이 공유 봇을 거쳐 사용자 C의 개인 PAT 단독 행위로 기록, 실제 요청자 귀속 상실",
+    "impact": "비인가자나 계정 미보유자가 타인의 자격증명을 통해 감사 추적 없이 소스코드를 임의 수정할 수 있습니다.",
+    "whatHappened": "공유 엔지니어링 채널(#dev-automation)에서 사용자 D가 `/devbot update-script` 슬래시 커맨드를 실행했습니다. 봇은 설정된 사용자 C의 Fine-grained PAT를 사용하여 internal-ops-tools 저장소에 커밋 d89e71을 푸시했습니다. GitHub 감사 로그 상에는 사용자 C가 직접 푸시한 것으로 기록되어 사용자 D의 관여 사실이 완전히 은폐되었습니다.",
+    "whyDetected": "슬랙 자동화 엔드포인트가 여러 슬랙 멤버에게 개방되어 있으나 단일 개인 GitHub 자격증명을 공유 사용하며, 요청자(사용자 D)와 자격증명 소유자(사용자 C)가 불일치하고 사용자 D에게 유효한 GitHub 권한이 없음에도 GitHub 감사 로그가 사용자 C로만 귀속되기 때문입니다.",
+    "involvedObjectKeys": [
+      "SLK-U-UC",
+      "SLK-U-UD",
+      "SLK-CH-DEVBOT",
+      "SLK-APP-DEVBOT",
+      "SLK-BOT-DEVBOT",
+      "SLK-CRED-DEVBOT",
+      "SLK-END-DEVBOT",
+      "GH-U-UC",
+      "GH-GRANT-UC-PAT",
+      "GH-REPO-INTERNAL-TOOLS",
+      "GH-COMMIT-B-UC",
+      "GH-COMMIT-B-UD"
+    ],
+    "involvedRelationKeys": [
+      "R-B-APP-WS",
+      "R-B-ENDPOINT-APP",
+      "R-B-UC-CHANNEL",
+      "R-B-UD-CHANNEL",
+      "R-B-REPO-ORG",
+      "R-B-COMMIT1-REPO",
+      "R-B-COMMIT2-REPO",
+      "R-B-GRANT-ORG"
+    ],
+    "involvedLinkIds": [
+      "LNK-P-UC"
+    ],
+    "evidenceObservationIds": [
+      "OBS-B-REQ-UC",
+      "OBS-B-REQ-UD",
+      "OBS-B-CRED-USE-001"
+    ],
+    "evidenceLinkIds": [
+      "EVL-B-001",
+      "EVL-B-002",
+      "EVL-B-003"
+    ],
+    "affectedIdentityKeys": [
+      "LNK-P-UC",
+      "SLK-U-UD"
+    ],
+    "providerSet": [
+      "slack",
+      "github"
+    ],
+    "remediation": [
+      {
+        "id": "rem-b-1",
+        "title": "공유 자동화 및 보유 자격증명 전수 인벤토리화",
+        "description": "조직 내 모든 챗봇/스크립트가 보유한 타 SaaS 토큰을 전수 조사합니다."
+      },
+      {
+        "id": "rem-b-2",
+        "title": "자동화 요청 로그의 중앙 감사 보관 연동",
+        "description": "봇 로컬 메모리에만 남는 슬래시 커맨드 발화자 로그를 중앙 SIEM에 실시간 전달합니다."
+      },
+      {
+        "id": "rem-b-3",
+        "title": "개인 PAT를 전용 GitHub App 서비스 계정으로 교체",
+        "description": "개인 토큰 사용을 전면 금지하고 전용 서비스 계정(GitHub App)으로 전환합니다."
+      },
+      {
+        "id": "rem-b-4",
+        "title": "호출자 인가 정책 적용",
+        "description": "슬랙 봇 호출 시점에 대상 저장소 권한 보유 여부를 사전 검증합니다."
+      }
+    ],
+    "controls": [
+      {
+        "id": "ctrl-b-1",
+        "title": "자동화 및 자격증명 인벤토리",
+        "description": "Cross-SaaS 자격증명 매핑 및 개인 토큰 오남용 자동 탐지"
+      },
+      {
+        "id": "ctrl-b-2",
+        "title": "요청자 귀속 보존",
+        "description": "중간 자동화 경유 시 최초 발화자 식별자를 엔드포인트 감사에 영구 결합"
+      },
+      {
+        "id": "ctrl-b-3",
+        "title": "전용 서비스 자격증명 경계",
+        "description": "개인 신원과 서비스 워크로드 신원의 엄격한 분리"
+      },
+      {
+        "id": "ctrl-b-4",
+        "title": "호출자 사전 인가 정책",
+        "description": "명령어 실행 전 백엔드 저장소 권한 대조 확인"
+      }
+    ]
+  },
+  {
+    "id": "FND-C-001",
+    "scenarioKey": "C",
+    "ruleId": "AEGI-C-AUTOMATION-AUTHORITY-GAP",
+    "title": "Slack 헬프데스크 채널 멤버십을 통한 Okta 관리 권한 격차 및 우회 실행",
+    "severity": "high",
+    "status": "open",
+    "summary": "Okta 관리자 권한을 회수당한 사용자 A가 남아 있는 Slack 채널 멤버십으로 타 사용자 MFA 임의 초기화 가능",
+    "impact": "SaaS 간 퇴사/역할 변경 시 슬랙 채널 정리가 누락되면 다운스트림 핵심 IdP 관리자 권한이 비인가 상태로 우회 유지됩니다.",
+    "whatHappened": "사용자 A는 역할 변경으로 Okta HelpDesk-Admins 그룹에서 제외되었으나, Slack 비공개 채널인 #helpdesk 멤버십은 그대로 남아있었습니다. 사용자 A가 슬랙에서 `/mfa-reset` 커맨드를 호출하자, Okta Workflows 자동화가 전용 관리자 OAuth 토큰을 이용해 타겟 사용자의 MFA 인증 팩터를 성공적으로 리셋했습니다.",
+    "whyDetected": "슬랙 #helpdesk 채널 입장 멤버 집합(A = {사용자 B, 사용자 A})과 실제 Okta Help Desk 권한 보유 집합(B = {사용자 B}) 사이에 권한 격차(A - B = {사용자 A})가 존재하며, 해당 자동화가 실제 Okta 관리자 권한을 행사할 수 있음이 측정되었기 때문입니다.",
+    "involvedObjectKeys": [
+      "SLK-U-UA",
+      "SLK-U-UB",
+      "SLK-CH-HELPDESK",
+      "SLK-ASN-C-UA-HELPDESK",
+      "SLK-ASN-C-UB-HELPDESK",
+      "SLK-APP-MFARESET",
+      "SLK-END-MFARESET",
+      "OKTA-U-UA",
+      "OKTA-U-UB",
+      "OKTA-U-TESTTARGET",
+      "OKTA-G-HELPDESK",
+      "OKTA-ROLE-HELPDESK",
+      "OKTA-CLIENT-MFARESET",
+      "OKTA-CRED-MFARESET",
+      "OKTA-UF-TESTTARGET"
+    ],
+    "involvedRelationKeys": [
+      "R-C-SLK-UA-HELPDESK",
+      "R-C-SLK-UB-HELPDESK",
+      "R-C-APP-WS",
+      "R-C-ENDPOINT-APP",
+      "R-C-OKTA-UB-GROUP",
+      "R-C-GROUP-ROLE-ORG",
+      "R-C-CLIENT-CRED",
+      "R-C-FACTOR-USER"
+    ],
+    "involvedLinkIds": [
+      "LNK-P-UA",
+      "LNK-P-UB"
+    ],
+    "evidenceObservationIds": [
+      "OBS-C-AUTOMATION-RUN-UA",
+      "OBS-C-AUTOMATION-RUN-UB"
+    ],
+    "evidenceLinkIds": [
+      "EVL-C-001",
+      "EVL-C-002"
+    ],
+    "affectedIdentityKeys": [
+      "LNK-P-UA"
+    ],
+    "providerSet": [
+      "slack",
+      "okta"
+    ],
+    "remediation": [
+      {
+        "id": "rem-c-1",
+        "title": "Slack 헬프데스크 채널 인입 집합과 Okta 권한 집합 동기화",
+        "description": "슬랙 비공개 채널 멤버십을 Okta HelpDesk-Admins 그룹과 자동 동기화합니다."
+      },
+      {
+        "id": "rem-c-2",
+        "title": "잔존 Slack 비공개 채널 멤버십 즉시 회수",
+        "description": "Okta 권한이 없는 사용자 A의 #helpdesk 채널 멤버십을 즉각 회수합니다."
+      },
+      {
+        "id": "rem-c-3",
+        "title": "최소 권한의 세분화된 자동화 자격증명 적용",
+        "description": "전체 관리자 토큰 대신 특정 사용자 그룹 대상 MFA 리셋만 허용되는 Scoped Token을 사용합니다."
+      },
+      {
+        "id": "rem-c-4",
+        "title": "지속적인 SaaS 간 권한 집합 대조 감사",
+        "description": "진입 인터페이스와 실행 백엔드 간의 불일치를 상시 모니터링합니다."
+      }
+    ],
+    "controls": [
+      {
+        "id": "ctrl-c-1",
+        "title": "Cross-SaaS 권한 집합 대조",
+        "description": "Slack 채널 멤버십과 Okta Role 간의 실시간 차집합(A - B) 감시"
+      },
+      {
+        "id": "ctrl-c-2",
+        "title": "자동화 권한 격차 탐지",
+        "description": "트리거 진입 게이트와 백엔드 실행 권한 간의 비대칭 탐지"
+      },
+      {
+        "id": "ctrl-c-3",
+        "title": "전용 최소권한 자동화 자격증명",
+        "description": "단일 마스터 토큰 남용 차단"
+      },
+      {
+        "id": "ctrl-c-4",
+        "title": "요청자 신원 보존",
+        "description": "Okta System Log에 슬랙 최초 요청자 신원 기록 연동"
+      }
+    ]
+  },
+  {
+    "id": "FND-D-001",
+    "scenarioKey": "D",
+    "ruleId": "AEGI-D-CROSS-SAAS-AUTHORIZATION-DRIFT",
+    "title": "Google Workspace 원본 인가 경계의 Slack 채널 복제 우회 (Authorization Drift)",
+    "severity": "high",
+    "status": "open",
+    "summary": "원본 Sheet 접근 권한이 없는 사용자 F가 Apps Script 복제본이 전달되는 Slack 채널에서 고객 개인정보 열람 가능",
+    "impact": "SaaS 간 자동 복제 파이프라인으로 인해 원본의 철저한 접근 통제가 무력화되고 비인가자에게 고객 PII가 노출됩니다.",
+    "whatHappened": "고객 인테이크 폼으로 수집된 고객사, 담당자, 연락처, PoC 인프라 요구사항이 원본 스프레드시트(Customer Intake Responses Sheet)에 저장됩니다. 이 Sheet에는 사용자 E만 권한을 가지고 있으나, 트리거된 Apps Script가 웹훅을 통해 Slack 비공개 채널(#sales-customer-intake)로 원본 데이터를 복제 전송했습니다. 해당 채널 멤버인 사용자 F가 Slack 메시지를 통해 원본 데이터를 제한 없이 열람했습니다.",
+    "whyDetected": "원본 GWS 파일 권한 인가 집합(S_auth = {사용자 E})과 슬랙 채널 수신자 집합(D_actual = {사용자 E, 사용자 F}) 간에 인가 불일치 격차(D_actual - S_auth = {사용자 F})가 존재하고, 실제 데이터 복제 전달이 증명되었기 때문입니다.",
+    "involvedObjectKeys": [
+      "GWS-U-UE",
+      "GWS-U-UF",
+      "GWS-FORM-CUSTOMER-INTAKE",
+      "GWS-FILE-CUSTOMER-RESPONSES",
+      "GWS-PERM-UE-RESPONSES",
+      "GWS-PROJECT-CUSTOMER-SYNC",
+      "SLK-U-UE",
+      "SLK-U-UF",
+      "SLK-APP-CUSTOMER-SYNC",
+      "SLK-END-CUSTOMER-WEBHOOK",
+      "SLK-CH-CUSTOMER-INTAKE",
+      "SLK-ASN-D-UE-CHANNEL",
+      "SLK-ASN-D-UF-CHANNEL",
+      "SLK-MSG-D-CUSTOMER-DATA"
+    ],
+    "involvedRelationKeys": [
+      "R-D-PROJECT-FILE",
+      "R-D-PERM-UE-FILE",
+      "R-D-APP-WS",
+      "R-D-WEBHOOK-APP",
+      "R-D-WEBHOOK-CHANNEL",
+      "R-D-UE-CHANNEL",
+      "R-D-UF-CHANNEL",
+      "R-D-MSG-CHANNEL"
+    ],
+    "involvedLinkIds": [
+      "LNK-P-UE",
+      "LNK-P-UF"
+    ],
+    "evidenceObservationIds": [
+      "OBS-D-DELIVERY-001"
+    ],
+    "evidenceLinkIds": [
+      "EVL-D-001",
+      "EVL-D-002",
+      "EVL-D-003"
+    ],
+    "affectedIdentityKeys": [
+      "LNK-P-UF"
+    ],
+    "providerSet": [
+      "gws",
+      "slack"
+    ],
+    "remediation": [
+      {
+        "id": "rem-d-1",
+        "title": "Cross-SaaS 데이터 전송 파이프라인 전수 등록",
+        "description": "Apps Script, Zapier, Make 등을 통한 외부 복제 파이프라인을 통제 목록에 등록합니다."
+      },
+      {
+        "id": "rem-d-2",
+        "title": "원본 인가자 및 대상 수신자 집합 대조",
+        "description": "원본 Sheet 인가 인원과 Slack 수신 채널 멤버십을 상시 대조합니다."
+      },
+      {
+        "id": "rem-d-3",
+        "title": "비인가 대상 수신자(#sales-customer-intake) 정리",
+        "description": "원본 파일 권한이 없는 사용자 F를 목적지 슬랙 채널에서 제외하거나 정식 파일 권한을 검토합니다."
+      },
+      {
+        "id": "rem-d-4",
+        "title": "민감 데이터 필터링 또는 마스킹 적용",
+        "description": "Slack으로 전송되는 페이로드에서 전화번호, 이메일 등 민감 PII 필드를 사전 마스킹합니다."
+      }
+    ],
+    "controls": [
+      {
+        "id": "ctrl-d-1",
+        "title": "Cross-SaaS 파이프라인 인벤토리",
+        "description": "SaaS 간 데이터 자동 전송 경로 및 엔드포인트 추적"
+      },
+      {
+        "id": "ctrl-d-2",
+        "title": "소스/목적지 수신자 집합 대조",
+        "description": "원본 접근 가능자와 수신 채널 멤버십 간의 실시간 불일치(D - S) 감시"
+      },
+      {
+        "id": "ctrl-d-3",
+        "title": "비인가 수신자 자동 탐지",
+        "description": "복제 경로를 통한 우회 접근자 실시간 식별"
+      },
+      {
+        "id": "ctrl-d-4",
+        "title": "인가 드리프트 모니터링",
+        "description": "시간 경과에 따른 접근 권한 경계 붕괴 방지"
+      }
+    ]
+  }
+]

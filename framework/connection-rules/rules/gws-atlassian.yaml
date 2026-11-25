@@ -1,0 +1,516 @@
+# gws ↔ atlassian 연결 규칙
+# Atlassian 은 Jira Cloud, Confluence Cloud, Bitbucket Cloud 와 조직(admin.atlassian.com). 벤더 문서로만 썼다 (2026-10-14). 시험 테넌트 결과는 ../test-environment/gws-atlassian.yaml 에 채운다
+
+pair:
+- gws
+- atlassian
+written: '2026-10-14'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/gws-atlassian.yaml
+methods:
+- id: google_login
+  type: identity
+  what: Atlassian 계정에 Google 계정으로 로그인 (Log in with Google). 인증 정책의 Third-party login 설정이 Google 같은 제3자 계정 로그인 여부를 나타낸다. Google 로그인을 강제하려면 Atlassian Guard Standard 가 필요하다. Google 로그인은 주 이메일만 되고 별칭은 안 된다
+  identify:
+    api: atlassian 인증 정책 화면 (조회 API 는 문서에 없음)
+    when: Third-party login 허용
+  points_to:
+  - tier: config_name
+    a: gws 토큰 감사 authorize 의 app_name, client_id (Atlassian 로그인용 OAuth 클라이언트. 이름·ID 는 문서에 없어 실제 로그인으로 읽는다)
+    b: atlassian
+    check: a 가 Atlassian 의 클라이언트다
+    if_unreadable: 'Google 관리 콘솔 API controls > Manage App Access (앱 상세에 OAuth2 client ID)'
+  - tier: via_person
+    a: gws user primaryEmail
+    b: atlassian 계정 email
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 authorize 시각과 actor.email
+    b: atlassian 조직 감사 「Logged in to account」 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws token 감사 authorize (app_name, client_id, scope), login 감사
+  - atlassian 조직 감사 「Logged in to account」, 「Enabled requiring Google login」, 「Disabled requiring Google login」
+  sources:
+  - https://support.atlassian.com/provisioning-users/docs/require-users-to-log-in-with-google/ (조직 관리자, Guard Standard, 주 이메일만)
+  - https://support.atlassian.com/security-and-access-policies/docs/understand-authentication-policies/ (Third-party login 정의)
+  - https://support.atlassian.com/jira-cloud-administration/docs/integrate-your-google-account-with-atlassian/ (Log in with Google, 한 번 연동)
+  - https://knowledge.workspace.google.com/admin/apps/control-which-apps-access-google-workspace-data (Manage App Access, client ID)
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize)
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Logged in to account, Enabled/Disabled requiring Google login)
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)
+- id: google_saml_idp
+  type: identity
+  what: Google Workspace 를 SAML IdP 로 Atlassian 로그인 (Google 앱 카탈로그 「Atlassian Cloud」, Atlassian Guard)
+  identify:
+    api: gws Cloud Identity inboundSamlSsoProfiles 는 Google 이 IdP 일 때는 해당 없음. Google 관리 콘솔 Apps > Web and mobile apps 에 Atlassian Cloud (화면). Reports applicationName=saml 의 application_name
+    when: SAML 앱 Atlassian Cloud 가 있음
+  note: Google 은 속성 Primary Email → upn 을 필수로 두고, Atlassian 문서는 upn 을 Azure AD 중첩 그룹용으로 적는다. 두 문서가 어긋나므로 실제 설정에서 확인한다
+  points_to:
+  - tier: config_id
+    a: gws SAML 앱 「Entity ID」(Google 이 발급)
+    b: atlassian 「Identity provider Entity ID」
+    check: a 와 b 가 같다
+    if_unreadable: 'Google 관리 콘솔 (최고 관리자) 「Google Identity Provider details」 화면. Atlassian: Security > User security > Identity providers > 디렉터리 (조직 관리자)'
+  - tier: config_name
+    a: gws SAML 앱 「SSO URL」
+    b: atlassian 「Identity provider SSO URL」
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: gws SAML 앱 「ACS URL」, 「Entity ID」(SP 쪽 입력)
+    b: atlassian 「Service provider assertion consumer service URL」, 「Service provider entity URL」
+    check: a 와 b 가 같다
+  - tier: fingerprint
+    a: gws SAML 앱 Certificate
+    b: atlassian 「Public x509 certificate」
+    check: a 의 sha256 과 b 가 같다
+  - tier: via_person
+    a: gws user primaryEmail (Name ID 기본값)
+    b: atlassian 계정 email (검증 도메인 = Google 주 도메인)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws saml login_success 시각과 actor.email (application_name 이 그 Atlassian 앱)
+    b: atlassian 조직 감사 「Logged in to account」 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws Reports applicationName=saml login_success, login_failure (application_name 은 그 SAML 앱 이름)
+  - atlassian 조직 감사 「Added SAML configuration」, 「Updated SAML configuration」, 「Logged in to account」
+  sources:
+  - https://knowledge.workspace.google.com/admin/apps/integrations/atlassian-cloud-app (Atlassian Cloud 앱, SSO URL·Entity ID·Certificate, 속성 매핑, 도메인 일치)
+  - https://knowledge.workspace.google.com/admin/apps/set-up-your-own-custom-saml-app (ACS URL, Entity ID, Name ID)
+  - https://support.atlassian.com/security-and-access-policies/docs/configure-saml-single-sign-on-with-an-identity-provider/ (Atlassian 쪽 필드 이름)
+  - https://support.atlassian.com/provisioning-users/docs/supported-identity-providers (Google Workspace 가 지원 IdP)
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/saml (login_success, login_failure, application_name, initiated_by)
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (SAML configuration)
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)
+- id: google_workspace_directory_sync
+  type: identity
+  what: Atlassian 조직이 Google Workspace 디렉터리를 연결해 사용자·그룹을 4시간마다 동기화(단방향). 사용자는 Google 로 인증할 수 있고, 이 디렉터리에는 SCIM·SAML 을 쓸 수 없다
+  identify:
+    api: atlassian GET /admin/v2/orgs/{orgId}/directories (read:directories:admin) 의 name; Security > User security > Identity providers 의 Google Workspace 디렉터리 (화면)
+    when: Google Workspace 디렉터리가 있음
+  points_to:
+  - tier: config_name
+    a: gws 토큰 감사 authorize 의 app_name, client_id, scope (Atlassian 이 동의받는 범위는 사용자·그룹·도메인. 앱 이름은 문서에 없음)
+    b: atlassian Google Workspace 디렉터리
+    check: 동의한 Google 계정이 디렉터리를 만든 조직 관리자다
+    if_unreadable: 'Google 관리 콘솔 > 보안 > API 제어 > Manage App Access 의 앱 목록. Atlassian 쪽은 디렉터리 화면'
+  - tier: config_name
+    a: atlassian 검증 도메인 (GET /admin/v1/orgs/{orgId}/domains, claim.status verified)
+    b: gws customer 주 도메인
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: gws user primaryEmail, group email
+    b: atlassian 디렉터리 사용자·그룹
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 activity 시각 (Atlassian 이 동의받은 client_id)
+    b: atlassian 조직 감사 「Invited user after Google Workspace sync」 시각
+    check: 시각이 가깝다 (동기화는 4시간마다)
+  activity:
+  - gws token 감사 authorize (동의), Directory Sync log events 는 Google 쪽 동기화 기록이라 이 연동과 무관할 수 있음 (문서에 Atlassian 언급 없음)
+  - atlassian 조직 감사 「Connected to Google Workspace」, 「Disconnected from Google Workspace」, 「Invited user after Google Workspace sync」
+  sources:
+  - https://support.atlassian.com/provisioning-users/docs/connect-to-g-suite (연결 절차, 동의 범위, 4시간)
+  - https://support.atlassian.com/provisioning-users/docs/set-up-g-suite/ (단방향, 4시간, Sync all / specific groups, 메뉴)
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-directory/ (GET /v2/orgs/{orgId}/directories)
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-domains/ (domains, claim.status)
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Connected/Disconnected Google Workspace)
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)
+- id: jira_cloud_for_sheets
+  type: app_grant
+  what: Google Sheets 부가기능 「Jira Cloud for Sheets」(Google Workspace Marketplace, Atlassian 게시) 가 연결한 Atlassian 계정으로 Jira 데이터를 가져옴. JIRA() 함수는 문서 소유자의 계정으로 조회한다
+  identify:
+    api: gws admin 감사 ADD_APPLICATION (Marketplace 앱 설치), 관리 콘솔 Apps > Google Workspace Marketplace apps (화면), tokens.list displayText
+    when: 앱 이름 Jira Cloud for Sheets
+  points_to:
+  - tier: config_name
+    a: gws 설치 앱 Jira Cloud for Sheets (Marketplace 앱 ID 1065669263016), 토큰 범위 (Sheets 전체, 외부 서비스 연결, 이메일)
+    b: atlassian 사용자 Connected apps 의 항목 (앱 이름은 문서에 없음. 연결해 보고 읽는다)
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: gws 설치한 사용자
+    b: atlassian 연결한 계정 (CONNECT 단계에서 사이트 선택)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: gws admin 감사 ADD_APPLICATION·ADD_APPLICATION_TO_WHITELIST 의 APP_ID
+    b: Marketplace 앱 ID 1065669263016 (Jira Cloud for Sheets)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 activity 시각과 actor.email
+    b: atlassian 조직 감사 「Third-party app Jira API request」 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws token 감사 authorize, admin 감사 ADD_APPLICATION
+  - atlassian 조직 감사 「Third-party app Jira API request」
+  sources:
+  - https://workspace.google.com/marketplace/app/jira_cloud_for_sheets/1065669263016 (Atlassian 게시, 권한 목록)
+  - https://confluence.atlassian.com/jiracore/jira-cloud-for-sheets-1528201589.html (CONNECT, 사이트 선택, 문서 소유자 계정으로 조회)
+  - https://knowledge.workspace.google.com/admin/apps/set-whether-users-can-install-marketplace-apps (Marketplace apps 관리 경로)
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (ADD_APPLICATION)
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)
+- id: jira_cloud_for_gmail
+  type: app_grant
+  what: Gmail 부가기능 「Atlassian」(Jira Cloud for Gmail) 이 사용자의 Atlassian 계정으로 메일에서 Jira 를 다룸
+  identify:
+    api: gws admin 감사 ADD_APPLICATION, Marketplace apps (화면), tokens.list
+    when: 앱 이름 Atlassian
+  points_to:
+  - tier: config_name
+    a: gws 설치 앱 Atlassian (Gmail 부가기능)
+    b: atlassian 사용자 Connected apps
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: gws 설치 사용자
+    b: atlassian 로그인 계정
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 activity 시각과 actor.email
+    b: atlassian 조직 감사 「Third-party app Jira API request」 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws admin 감사 ADD_APPLICATION, token 감사 authorize
+  - atlassian 조직 감사 「Third-party app Jira API request」
+  sources:
+  - https://support.atlassian.com/jira-software-cloud/docs/integrate-jira-cloud-with-gmail/ (Google Workspace Marketplace 에서 설치, 사이드바 Atlassian 아이콘, Atlassian 로그인)
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (ADD_APPLICATION·ADD_APPLICATION_TO_WHITELIST: APP_ID, APPLICATION_NAME. AUTHORIZE_API_CLIENT_ACCESS: API_CLIENT_NAME, API_SCOPES)"
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)
+- id: smart_links_google_drive
+  type: content_ref
+  what: Confluence·Jira 본문의 Google Drive 링크를 Smart Link 로 펼침. 사용자가 OAuth2 로 Google 계정을 연결하고 토큰은 Atlassian 이 보관. Drive 를 임베드하는 제3자 Marketplace 앱(예 Google Drive Connector in Confluence, ikuTeam)도 있다
+  identify:
+    api: gws tokens.list (사용자별 승인 앱), 토큰 감사 authorize
+    when: Atlassian 의 Google OAuth 클라이언트 승인 (앱 이름·client ID 는 문서에 없음)
+  points_to:
+  - tier: config_name
+    a: gws 사용자 토큰 displayText, clientId
+    b: atlassian 사용자 Connected apps 의 Google 연결
+    check: a 와 b 가 같은 사람·시각
+  - tier: config_name
+    a: atlassian 본문의 docs.google.com, drive.google.com 주소
+    b: gws Drive 파일
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: gws token 감사 authorize·activity 의 client_id
+    b: gws tokens.list 의 clientId (Atlassian 의 Google Drive 연결)
+    check: a 와 b 가 같다
+  activity:
+  - gws token 감사 authorize, activity (product_bucket DRIVE)
+  sources:
+  - https://support.atlassian.com/confluence-cloud/docs/what-data-is-sent-and-received-when-pasting-a-smart-link (OAuth2, 토큰 보관, 권한 있는 파일만)
+  - https://marketplace.atlassian.com/apps/1216978/google-drive-and-docs-for-confluence (Google Drive Connector in Confluence, ikuTeam)
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+  - https://developers.google.com/workspace/admin/directory/reference/rest/v1/tokens (clientId, displayText)
+- id: apps_script_to_atlassian_api
+  type: stored_credential
+  what: Apps Script 가 Atlassian API 토큰으로 Jira·Confluence REST 를 부름
+  identify:
+    api: gws Apps Script projects.getContent, tokens.list scopes 에 script.external_request
+    when: 코드의 호출 호스트가 <site>.atlassian.net, api.atlassian.com
+  points_to:
+  - tier: config_name
+    a: gws Apps Script 코드·스크립트 속성의 호출 호스트
+    b: atlassian 사이트 주소
+    check: a 와 b 가 같다
+    if_unreadable: '스크립트 속성은 API 로 못 읽음. 소유자가 편집기 > 프로젝트 설정 > 스크립트 속성'
+  - tier: via_person
+    a: gws 스크립트 소유자
+    b: atlassian API 토큰 소유자 (Insights > API token activity)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws Apps Script 실행 기록 시각
+    b: atlassian 조직 감사 actor.auth.tokenId 가 그 토큰인 이벤트 시각
+    check: 시각이 가깝다
+  activity:
+  - gws Apps Script 실행 기록, token 감사 activity
+  - atlassian 「Created API token」, 사용자 API 토큰 활동
+  sources:
+  - https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/ (토큰 생성, 1년 만료, 스코프)
+  - https://support.atlassian.com/security-and-access-policies/docs/revoke-user-api-tokens/ (Insights > API token activity)
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (actor.auth)
+- id: person_link
+  type: same_person
+  what: 같은 사람 (Google 계정 ↔ Atlassian 계정)
+  identify:
+    api: gws users primaryEmail; atlassian GET /admin/v1/orgs/{orgId}/users
+    when: 항상
+  points_to:
+  - tier: via_person
+    a: gws user primaryEmail
+    b: atlassian data[].email
+    check: a 와 b 가 같다
+  sources:
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/ (data[].email)
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: bitbucket_google_cloud_build
+  type: stored_credential
+  what: Google Cloud Build 가 Bitbucket Cloud 호스트 연결(Workspace, Admin access token, Read access token)로 저장소를 빌드. 토큰은 Bitbucket 에서 저장소·프로젝트·워크스페이스 단위로 만들고, 토큰과 webhook secret 은 Secret Manager 에 보관한다
+  identify:
+    api: gws(Google Cloud) Cloud Build Repositories > 2nd gen 의 host connection (gcloud builds connections create bitbucket-cloud), 저장소 연결 (gcloud builds repositories create --remote-uri). 화면·명령이고 Google Workspace 감사와는 별개
+    when: Bitbucket Cloud 호스트 연결이 있음
+  points_to:
+  - tier: config_id
+    a: gws Cloud Build host connection 의 Workspace
+    b: atlassian Bitbucket 워크스페이스 slug·uuid (GET /2.0/workspaces/{workspace})
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: gws Cloud Build repository 의 remote-uri
+    b: atlassian Bitbucket 저장소 URL
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: atlassian Bitbucket access token (Admin 토큰은 Repositories Read·Admin, Pull Requests Read, Webhooks Read·Write, Read 토큰은 Repositories Read)
+    b: gws Cloud Build 연결의 토큰
+    check: 토큰 이름·범위로만 (값 조회 불가)
+  - tier: config_name
+    a: atlassian Bitbucket 저장소 웹훅 (secret_set, url 호스트가 Google)
+    b: gws Cloud Build webhook secret
+    check: url 호스트로 (Cloud Build 가 웹훅을 등록하는지는 문서에 없음)
+  - tier: log_time
+    a: atlassian Bitbucket 웹훅 요청 기록 시각 (Webhooks > View requests, Enable history 를 켠 뒤부터)
+    b: gws(Google Cloud) Cloud Build 빌드 생성 시각
+    check: 시각이 같다
+  activity:
+  - atlassian Bitbucket 워크스페이스 감사 「Webhook added」
+  sources:
+  - https://docs.cloud.google.com/build/docs/automating-builds/bitbucket/connect-host-bitbucket-cloud (host connection 필드, 토큰 권한, Secret Manager, 만료 시 끊김)
+  - https://docs.cloud.google.com/build/docs/automating-builds/bitbucket/connect-repo-bitbucket-cloud (Link repository, gcloud builds repositories create)
+  - https://support.atlassian.com/bitbucket-cloud/docs/troubleshoot-webhooks/ (Webhooks > View requests > Enable history)
+- id: bitbucket_pipelines_oidc_to_google_cloud
+  type: stored_credential
+  what: Bitbucket Pipelines 의 OIDC 토큰으로 Google Cloud 자원을 씀 (Workload Identity Federation). GCP 전용 절차는 Atlassian 문서에 없고 리소스 서버 예시로만 나온다
+  identify:
+    api: gws(Google Cloud) IAM workloadIdentityPools providers 의 issuerUri 가 Bitbucket Identity provider URL
+    when: 그런 제공자가 있음
+  points_to:
+  - tier: config_id
+    a: gws(Google Cloud) 제공자 issuerUri, 허용 audience
+    b: atlassian Bitbucket 저장소 Settings > OpenID Connect 의 Identity provider URL, Audience
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: google cloud ExchangeToken 감사 로그 protoPayload.authenticationInfo.principalSubject
+    b: atlassian Bitbucket OIDC 토큰 sub (꼴은 문서에서 찾지 못해 실행해 보고 읽는다)
+    check: a 와 b 가 같다
+  activity:
+  - google cloud ExchangeToken 감사 로그
+  sources:
+  - https://support.atlassian.com/bitbucket-cloud/docs/integrate-pipelines-with-resource-servers-using-oidc/ (Identity provider URL, Audience, AWS·GCP·Vault)
+  - https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-google-cloud-platform (Google 쪽 Workload Identity 제공자 설정 꼴. GitHub 용 문서)
+  - https://cloud.google.com/iam/docs/audit-logging/examples-workload-identity (ExchangeToken 감사 로그 protoPayload.authenticationInfo.principalSubject = IdP 토큰의 subject)
+- id: rovo_connector_google_workspace
+  type:
+  - stored_credential
+  - app_grant
+  what: Atlassian Teamwork Graph 의 Google Drive·Gmail·Google Calendar 커넥터가 Google 데이터를 Rovo 검색·채팅에 쓴다. Atlassian 관리자가 커넥터를 추가하면 Atlassian 이 Client ID 와 OAuth scope URL 을 보여 주고, Google 관리자가 관리 콘솔의 Manage Domain Wide Delegation 에 넣어 승인한다. 사용자는 각자 Google 계정을 Atlassian 에 연결해야 본인 권한만큼 결과가 보인다
+  identify:
+    api: gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS (API_CLIENT_NAME, API_SCOPES); atlassian 조직 감사 rovo_ai_3p_connector_connection_created (context 의 connectorType, Drive 는 platform-google-drive-connector)
+    when: gws 도메인 전체 위임의 client ID 가 atlassian 커넥터 설정 화면에 표시된 Client ID
+  points_to:
+  - tier: config_id
+    a: gws 도메인 전체 위임의 client ID
+    b: atlassian 커넥터 설정 화면에 표시된 Client ID
+    check: a 와 b 가 같다
+    if_unreadable: 위임 목록을 읽는 API 는 문서에서 찾지 못했다. gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS 의 API_CLIENT_NAME 으로 본다. Atlassian 쪽은 화면
+  - tier: config_name
+    a: gws 위임에 넣은 OAuth scopes
+    b: atlassian 커넥터가 요구한 scope URL
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS 의 API_CLIENT_NAME
+    b: atlassian 커넥터 설정 화면에 표시된 Client ID
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: gws token authorize 의 actor (사용자가 Atlassian 에서 계정을 연결할 때 남는 행, app_name 「Atlassian」, scope drive.readonly 등)
+    b: atlassian 사용자 이메일
+    check: a 와 b 가 같은 사람
+  - tier: log_time
+    a: atlassian 조직 감사 rovo_ai_3p_connector_connection_created 시각
+    b: gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS 시각
+    check: 시각이 가깝다
+  - tier: config_name
+    a: gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS 의 DOMAIN_NAME 필드 (primary domain)
+    b: atlassian 커넥터를 연결한 Google 도메인 (Atlassian 쪽 필드와 API 문서 없음, 화면)
+    check: a 와 b 가 같다 (rule 의 identify 는 API_CLIENT_NAME 과 API_SCOPES 만 적었다. DOMAIN_NAME 이 있어 위임이 어느 도메인에 붙었는지 감사 로그에서 읽을 수 있다. token 감사 revoke 이벤트 (app_name, client_id, scope, scope_data) 도 문서에 있다. 이 방법의 근거로는 쓰지 않았고 연결 해제 추적 후보로만 남긴다.)
+  - tier: log_id
+    a: gws Reports drive 이벤트의 actor.applicationInfo.oauthClientId (impersonation true)
+    b: gws 도메인 전체 위임 client ID
+    check: a 와 b 가 같다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  activity:
+  - gws admin 감사 AUTHORIZE_API_CLIENT_ACCESS, token 감사 authorize·activity (app_name 이 숫자 client ID, 위임으로 사용자마다 남음), 사용자 연결 때 token 감사 authorize (app_name 「Atlassian」, 위임과 다른 client)
+  - atlassian 조직 감사 rovo_ai_3p_connector_connection_created, rovo_ai_3p_connector_connection_updated, rovo_ai_3p_connector_connection_deleted
+  sources:
+  - 'https://support.atlassian.com/organization-administration/docs/connect-google-drive-to-teamwork-graph/ (Drive: 위임, 색인 대상) [Exa]'
+  - 'https://support.atlassian.com/organization-administration/docs/connect-gmail-to-teamwork-graph/ (Gmail: 직접 호출, 본문 미저장) [Exa]'
+  - 'https://support.atlassian.com/organization-administration/docs/connect-google-calendar-to-teamwork-graph/ (Calendar: 과거·미래 30일) [Exa]'
+  - https://www.atlassian.com/partnerships/google/guide (Rovo 가 질의 시점에 Gmail API 를 사용자 권한으로 호출) [Exa]
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (ADD_APPLICATION, AUTHORIZE_API_CLIENT_ACCESS)
+  - 'https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (event-actions: 조직이 낼 수 있는 action 값 목록. 값 자체는 조직에서 GET /v1/orgs/{orgId}/event-actions 로 읽는다) [Exa]'
+  - 'https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (AUTHORIZE_API_CLIENT_ACCESS: API_CLIENT_NAME, API_SCOPES, DOMAIN_NAME)'
+  note: '기존 smart_links_google_drive(Smart Link)와 다른 방법이다. Gmail 은 Rovo 검색에서만 쓰이고 메일 본문·제목을 Atlassian 에 저장하지 않는다. Google 쪽에서 위임 등록 외의 이 커넥터 전용 이벤트는 문서에 없다. 실측(2026-10-26, CM-16, Drive)에서 본 것: 위임을 승인하고 커넥터를 연결하자 사용자가 계정을 연결하기 전부터 숫자 client ID 로 여러 사용자의 token authorize·activity 가 남았다(위임 대리 호출). 사용자가 연결하면 다른 client(app_name 「Atlassian」)의 authorize 가 따로 남아 같은 Drive 를 두 경로로 읽는다. Atlassian 화면에서 Meet·Drive 라벨을 끄면 화면의 scope 가 7개에서 5개로 줄지만 이미 승인한 위임 행은 7개 그대로였다'
+- id: gemini_enterprise_jira
+  type: app_grant
+  what: Gemini Enterprise 의 Jira Cloud 데이터 저장소가 Jira 를 읽고(검색, 수집) 쓴다(이슈·댓글 만들기와 수정, 담당자 지정, 상태 변경 등). GA. Jira 조직 관리자가 OAuth 2.0 (3LO) 앱을 만들고(콜백 https://vertexaisearch.cloud.google.com/oauth-redirect, 수집은 /console/oauth/jira_oauth.html), User access admin·Product admin 그룹을 만들어 연결 계정을 넣고, User Identity Accessor for Jira Cloud 앱(Forge)을 설치한다
+  identify:
+    api: atlassian developer console 3LO 앱 (화면), atlassian 조직 감사; google Cloud Audit Logs discoveryengine.googleapis.com
+    when: atlassian 에 콜백 URL 이 vertexaisearch.cloud.google.com 인 3LO 앱이 있음
+  points_to:
+  - tier: config_id
+    a: atlassian 3LO 앱의 Client ID
+    b: gemini enterprise Jira 커넥터 설정에 입력한 Client ID
+    check: a 와 b 가 같다
+    if_unreadable: 두 쪽 모두 화면. 읽는 API 이름은 문서에 없다
+  - tier: config_name
+    a: atlassian 3LO 앱의 콜백 URL
+    b: google vertexaisearch.cloud.google.com 주소
+    check: 콜백 URL 이 Google 의 주소다
+    if_unreadable: Atlassian developer console 화면
+  - tier: log_time
+    a: google Cloud 감사 DataConnectorService.SetUpDataConnector 시각
+    b: atlassian 조직 감사 jira_accessed_api 시각과 계정
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - google Cloud 감사 DataConnectorService.SetUpDataConnector, .UpdateDataConnector
+  - atlassian 조직 감사 jira_accessed_api (OAuth 앱·API 토큰으로 한 호출)
+  sources:
+  - https://docs.cloud.google.com/gemini/enterprise/docs/jira-cloud (GA, 액션 목록, 지원 위치)
+  - 'https://docs.cloud.google.com/gemini/enterprise/docs/connectors/jira-cloud/third-party-config (Atlassian 쪽 설정: 3LO 앱, 콜백 URL, 그룹, Forge 앱)'
+  - 'https://docs.cloud.google.com/gemini/enterprise/docs/audit-logging (Cloud Audit Logs 메서드 이름: DataConnectorService.SetUpDataConnector 등)'
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/connect-third-party-data-source (커넥터 목록과 출시 상태)
+  - 'https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (event-actions: 조직이 낼 수 있는 action 값 목록. 값 자체는 조직에서 GET /v1/orgs/{orgId}/event-actions 로 읽는다) [Exa]'
+  note: 전용 서비스 계정을 만들지 않고 그룹 멤버 계정으로 인증한다. read:audit-log:jira 는 변경 추적용 스코프이지 감사 이벤트 이름이 아니다. Atlassian 쪽 앱 설치·동의를 남기는 이벤트 이름은 문서에 없다
+- id: gemini_enterprise_confluence
+  type: app_grant
+  what: Gemini Enterprise 의 Confluence Cloud 데이터 저장소가 Confluence 를 읽고(수집, 페더레이티드 검색) 쓴다(페이지·블로그·공간 만들기, 첨부 올리기·내려받기). GA. Atlassian 사이트 관리자가 OAuth 2.0 (3LO) 앱을 만들고 API 토큰을 쓴다. 수집 모드의 실시간 동기화는 Confluence 웹훅(POST <사이트>/wiki/rest/webhooks/1.0/webhook)을 데이터 저장소를 만든 관리자 계정으로 등록한다
+  identify:
+    api: atlassian developer console 3LO 앱, Confluence 웹훅 (화면); google Cloud Audit Logs discoveryengine.googleapis.com
+    when: atlassian 에 콜백 URL 이 vertexaisearch.cloud.google.com 인 3LO 앱이 있음
+  points_to:
+  - tier: config_id
+    a: atlassian 3LO 앱의 Client ID
+    b: gemini enterprise Confluence 커넥터 설정에 입력한 Client ID
+    check: a 와 b 가 같다
+    if_unreadable: 두 쪽 모두 화면. 읽는 API 이름은 문서에 없다
+  - tier: log_time
+    a: google Cloud 감사 DataConnectorService.SetUpDataConnector 시각
+    b: atlassian 조직 감사 confluence_accessed_api 시각과 계정
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - google Cloud 감사 DataConnectorService.SetUpDataConnector, .UpdateDataConnector
+  - atlassian 조직 감사 confluence_accessed_api
+  sources:
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/confluence-cloud (GA, 스코프, 액션)
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/confluence-cloud/set-up-data-store (웹훅 경로와 구독 이벤트)
+  - 'https://docs.cloud.google.com/gemini/enterprise/docs/audit-logging (Cloud Audit Logs 메서드 이름: DataConnectorService.SetUpDataConnector 등)'
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/connect-third-party-data-source (커넥터 목록과 출시 상태)
+  note: 서비스 계정은 쓸 수 없다고 문서가 쓴다. 구독 이벤트는 space_created·updated, page_created·updated, attachment_created·updated, comment_created·updated, blog_created·updated 이다. read:audit-log 스코프는 이 커넥터의 스코프 목록에 없다. Atlassian 쪽 감사 이벤트 이름은 문서에 없다
+- id: rovo_agent_in_gemini_enterprise
+  type: app_grant
+  what: Gemini Enterprise 에서 Atlassian Rovo 에이전트를 부른다 (Agent-to-Agent, A2A). Google Cloud Marketplace 에서 설치하고 Atlassian 계정으로 OAuth 동의한다. Atlassian 조직 관리자가 A2A 연결을 허용해야 하고 Rovo 가 켜져 있어야 한다. Atlassian 파트너 가이드는 2026-04-22 부터 GA 라고 쓴다
+  identify:
+    api: atlassian 조직 설정의 Agent2Agent 연결 허용 (화면); google Gemini Enterprise 에 설치된 에이전트 (화면)
+    when: gemini enterprise 에 Atlassian Rovo Agent 가 설치되어 있고 atlassian 에서 A2A 연결이 허용됨
+  points_to:
+  - tier: config_name
+    a: gemini enterprise 에 설치된 Atlassian Rovo Agent
+    b: atlassian 조직의 Agent2Agent 연결 허용 설정
+    check: a 와 b 가 같다
+    if_unreadable: '읽는 API 가 문서에 없다. 사람: Atlassian Administration 의 Manage Agent2Agent connections, Gemini Enterprise 에이전트 목록'
+  - tier: via_person
+    a: gemini enterprise 사용자
+    b: atlassian 계정 (OAuth 동의한 사용자)
+    check: 같은 사람
+  activity:
+  - 문서에 없음 (양쪽 모두)
+  sources:
+  - https://support.atlassian.com/atlassian-rovo-mcp-server/docs/connect-rovo-to-gemini-via-google-cloud-marketplace/ (설치, OAuth 동의, 스코프)
+  - https://www.atlassian.com/partnerships/google/guide (GA 2026-04-22) [Exa]
+  note: 요청 스코프는 read:me, offline_access, full_access:chat:rovo 이다. OAuth 클라이언트와 동의 기록의 이름·위치는 문서에 없다. 로그 등급 없음
+- id: gemini_marketplace_atlassian_rovo
+  type: app_grant
+  what: Google Workspace Marketplace 의 「Atlassian Rovo Integration」(앱 ID 668350057935, 같은 ID 로 「Jira Integration」 이름도 나옴)을 Gemini 와 Workspace Studio 에서 쓴다. Jira 이슈 추적과 Confluence 문서 검색·관리를 설명한다
+  identify:
+    api: gws admin 감사 ADD_APPLICATION, tokens.list
+    when: gws 설치 앱 목록에 앱 ID 668350057935 가 있음
+  points_to:
+  - tier: log_id
+    a: gws admin 감사 ADD_APPLICATION 의 APP_ID
+    b: Marketplace 앱 ID 668350057935 (Atlassian Rovo Integration)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 authorize 시각과 actor.email
+    b: atlassian 조직 감사 앱·토큰 사용 행(jira_accessed_api, confluence_accessed_api)의 시각과 사용자
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws admin 감사 ADD_APPLICATION, token 감사 authorize·activity
+  sources:
+  - 'https://workspace.google.com/marketplace/app/atlassian_rovo_integration/668350057935 (Marketplace 앱, 배지: Gemini, Workspace Studio)'
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (ADD_APPLICATION, AUTHORIZE_API_CLIENT_ACCESS)
+  - 'https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (event-actions: 조직이 낼 수 있는 action 값 목록. 값 자체는 조직에서 GET /v1/orgs/{orgId}/event-actions 로 읽는다) [Exa]'
+  note: 목록은 Connect·Disconnect 버튼만 보이고 Atlassian 쪽 설정 안내가 없다. 목록이 보여 주는 권한은 Google 계정 이메일과 공개 개인 정보뿐이다. 관리자 설치인지 사용자 연결인지 문서에 없다. Atlassian 쪽 실제 연결 경로는 rovo_agent_in_gemini_enterprise 를 따른다
+- id: workspace_studio_atlassian
+  type: app_grant
+  what: Google Workspace Studio 흐름의 외부 연동 단계(Third-party integrations, 베타)로 Jira, Confluence 를 부른다. 기본 꺼짐이고 관리자가 연동·Custom steps·Webhook 설정을 따로 켠다. 사용자는 Connect 로 연결한다. 문서가 든 에디션에 Enterprise Standard·Plus 가 들어 있다. 목록은 Asana, Confluence, HubSpot, Jira, Mailchimp, QuickBooks, Salesforce, Slack 을 든다. Marketplace 의 Atlassian Rovo Integration(668350057935)에도 Workspace Studio 배지가 있다.
+  identify:
+    api: gws Reports applicationName=workspace_studio (flow_run 의 start_flow_step·end_flow_step, step_app 「Jira Connector [Beta]」); gws Reports applicationName=token authorize (app_name 이 흐름 이름); gws 관리 콘솔 Workspace Studio > Connector settings (화면); atlassian 조직 감사 audit_log_installation_created
+    when: Studio 흐름에 Jira 또는 Confluence Connector 단계가 있고 그 단계가 실행됨
+  points_to:
+  - tier: config_name
+    a: gws admin 감사 CREATE_APPLICATION_SETTING (APPLICATION_NAME 「Workspace Studio」, SETTING_NAME 「Connector Access Setting Connectors」) 의 NEW_VALUE, 또는 관리 콘솔 Workspace Studio > Connector settings > Connector use in steps
+    b: 'On'
+    check: a 가 On 이다. 서비스별 허용 목록은 이 화면에 없어 이 서비스만 가려내지 못한다
+    if_unreadable: 'CREATE_APPLICATION_SETTING 은 설정을 바꾼 때만 남는다. 현재 값을 읽는 API 는 확인하지 못했다. 사람: 관리 콘솔 Workspace Studio 설정, Studio 흐름 편집기의 단계 목록 (잠겨 있으면 「Workspace 관리자가 해당 단계에 대한 액세스를 제한했습니다」 라고 뜬다)'
+  - tier: via_person
+    a: gws Reports workspace_studio 행의 actor.email (흐름 소유자)
+    b: atlassian 조직 감사 audit_log_installation_created 의 actor.email
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws Reports workspace_studio 의 start_flow_step·end_flow_step (step_app 「Jira Connector [Beta]」, step_name 「Create issue comment」) 시각
+    b: jira 이슈 댓글의 created (작성자는 연결한 Atlassian 계정)
+    check: b 가 start_flow_step 과 end_flow_step 사이에 든다
+  activity:
+  - 'gws Reports workspace_studio: flow_management(create_flow, update_flow, view_flow), flow_run(start_flow_run, start_flow_step, end_flow_step, end_flow_run_success, end_flow_run_error)'
+  - 'gws Reports token authorize: app_name 「Atlassian」(Atlassian 의 「Google로 계속」 로그인, scope openid·userinfo.email·userinfo.profile), 흐름 이름(scope workspace.studio.execution)'
+  - atlassian 조직 감사 user_login, audit_log_installation_created (앱 「Google」), logs_access_granted (Forge logs, 앱 「Google」), jira_issue_viewed
+  - jira 이슈 댓글
+  sources:
+  - https://workspaceupdates.googleblog.com/2026/09/automate-workflows-with-custom-starters-and-steps-third-party-integrations-and-webhooks-in-Workspace-Studio.html (외부 연동 베타 목록, 관리자 설정 위치, 기본 꺼짐)
+  - https://knowledge.workspace.google.com/admin/studio/allow-or-block-ws-integrations-steps (연동 단계 허용·차단)
+  - https://support.google.com/workspace-studio/answer/16658279 (사용자 연결, 해제 위치 myaccount.google.com/connections)
+  - 'https://knowledge.workspace.google.com/admin/reports/workspace-studio-log-events (Workspace Studio 로그 이벤트: Step app 속성)'
+  note: 아래는 실측(2026-10-26, CM-15, Jira 단계)에서 본 것이다. 연결하면 Atlassian 사이트에 앱 「Google」(audit_log_installation_created, 버전 8.0.0, environment DEVELOPMENT)이 설치되고 같은 시각대에 Forge logs 접근이 주어진다. 설치한 계정은 흐름 소유자와 같은 이메일(dev.junsik)로 남았다. 댓글은 연결한 Atlassian 계정 이름으로 달린다. gws 쪽에는 ADD_APPLICATION·AUTHORIZE_API_CLIENT_ACCESS 가 남지 않았고, 앱 id(668350057935)도 나오지 않았다. Atlassian 앱 id 를 담은 gws 로그도 없었다. rovo_ai_3p_connector 류 action 은 남지 않았다. Confluence 단계는 실측하지 않았다. Workspace Studio 로그에는 연동 연결·웹훅 호출 이벤트가 없고 Step app 속성만 있다
+- id: confluence_for_google_chat
+  type:
+  - app_grant
+  what: Google Chat 앱 「Confluence」(Google Workspace Marketplace 앱 「Atlassian」의 Chat 부분)가 사용자가 연결한 Atlassian 계정으로 Confluence 를 읽는다. 사용자가 Chat 에서 /confluence_connect 로 Atlassian 동의 화면(「Atlassian Cloud for Google Workspace」, 사이트 선택)을 지나 연결하고, 이후 개인 알림과 슬래시 명령(도움말, 연결, 해제, 알림 관리, 피드백), Confluence 링크 미리보기를 쓴다. 같은 Marketplace 앱의 Gmail 부분은 jira_cloud_for_gmail 이다
+  identify:
+    api: gws admin 감사 ADD_APPLICATION (APP_ID 331162826608), gws token 감사 authorize (app_name Atlassian, client_id 가 331162826608- 로 시작); atlassian 조직 감사 audit_log_installation_created (앱 이름 「Atlassian Cloud for Google Workspace」); gws Reports applicationName=chat 의 app_invoked, message_posted, history_turned_on, conversation_read (conversation_type USER_TO_APP_DIRECT_MESSAGE; 앱 이름 파라미터는 없고 room_id 가 앱과의 DM 하나를 가른다)
+    when: 도메인에 Marketplace 앱 「Atlassian」이 설치되어 있고 사용자가 Chat 의 Confluence 앱에서 연결함
+  points_to:
+  - tier: config_name
+    a: chat 앱 /confluence_connect 동의 화면의 「Install app on <사이트>」 사이트
+    b: atlassian 사이트 주소
+    check: a 와 b 가 같다
+    if_unreadable: '연결 목록을 읽는 API 는 확인하지 못했다. 사람: Chat 의 Confluence 앱 DM, Atlassian 계정의 연결된 앱'
+  - tier: log_id
+    a: gws admin 감사 ADD_APPLICATION 의 APP_ID, gws token 감사 authorize 의 client_id 앞자리
+    b: Marketplace 앱 ID 331162826608
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: gws token 감사 authorize 의 actor (Chat 사용자)
+    b: atlassian 조직 감사 audit_log_installation_created 의 actor 이메일
+    check: a 와 b 가 같은 사람
+  - tier: log_time
+    a: gws token 감사 authorize (app_name Atlassian) 시각
+    b: atlassian 조직 감사 audit_log_installation_created (앱 이름 Atlassian Cloud for Google Workspace) 시각
+    check: 시각이 가깝다 (a 가 앞선다)
+  activity:
+  - gws admin 감사 ADD_APPLICATION, gws token 감사 authorize (app_name Atlassian)
+  - atlassian 조직 감사 audit_log_installation_created, logs_access_granted (앱 이름 「Atlassian Cloud for Google Workspace」)
+  - gws Reports applicationName=chat 의 app_invoked, message_posted, history_turned_on, conversation_read (conversation_type USER_TO_APP_DIRECT_MESSAGE; 앱 이름 파라미터는 없고 room_id 가 앱과의 DM 하나를 가른다)
+  sources:
+  - 'https://workspace.google.com/marketplace/app/atlassian/331162826608 (Marketplace 앱 「Atlassian」: 게시자 Atlassian, Chat 에서 Confluence 슬래시 명령·알림·링크 미리보기)'
+  note: 실측(2026-10-27)에서 연결하면 Atlassian 에 앱 「Atlassian Cloud for Google Workspace」설치 행이 연결한 사용자 이름으로 남았다. Google 쪽에는 Chat 감사 app_invoked 가 슬래시 명령·버튼을 누를 때마다 남고(앱 DM 의 room_id 로 앱을 가린다), 연결 때의 token authorize·Atlassian 설치 행과 몇 초 안에 이어진다. 슬래시 명령을 쓴 기록과 알림 전달 기록은 Atlassian 감사에서 찾지 못했다. Chat 의 Jira 앱(Atlassian Marketplace 의 Chat Jira plugin, https://support.google.com/chat/answer/9575067)은 다른 방법이고 시험하지 않았다

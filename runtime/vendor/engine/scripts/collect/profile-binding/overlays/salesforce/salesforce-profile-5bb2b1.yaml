@@ -1,0 +1,69 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/salesforce/profiles/profile.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SF-03
+        items: records
+        where:
+          path: attributes.type
+          eq: Profile
+    id_expr: Id
+    vars:
+      id18:
+        op: sf_id18
+        of: Id
+    properties:
+      name: Name
+      # 프로필 소유 권한 세트(SF-04)의 IsCustom. 그 행이 없으면 비운다
+      is_custom:
+        op: index
+        name: profile_is_custom
+        key: $vars.id18
+      user_type: UserType
+      user_license: UserLicenseId
+      ...:
+        op: prefix_fields
+        of: .
+        from: Permissions
+        to: perm_
+    display: "{Name|Id}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: Id
+          stability: catalog_reviewed
+          normalization: &a1
+            - to_18_char
+      scope: tenant
+    key_template: SF-PROF-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: SF-PROF-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+    normalization: *a1
+fields:
+  PermissionsApiEnabled:
+    path: PermissionsApiEnabled
+    source: collected_response
+  PermissionsAuthorApex:
+    path: PermissionsAuthorApex
+    source: collected_response
+  PermissionsManageUsers:
+    path: PermissionsManageUsers
+    source: collected_response
+  PermissionsModifyAllData:
+    path: PermissionsModifyAllData
+    source: collected_response
+  PermissionsViewAllData:
+    path: PermissionsViewAllData
+    source: collected_response
+fields_basis: 설정 판정이 읽는 응답 최상위 키다. Profile 필드 선언에 없어 quarantined_fields 로 빠지던 것을 선언한다(값은 수집 응답 그대로)

@@ -1,0 +1,33 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: Tenant
+interfaces: [Tenant]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-TENANT-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-01
+        items: value
+    id_expr: id
+    properties:
+      organization_id: id
+      displayName: displayName
+      tenantType: tenantType
+      countryLetterCode: countryLetterCode
+      defaultUsageLocation: defaultUsageLocation
+      onPremisesSyncEnabled: onPremisesSyncEnabled
+      verifiedDomains: verifiedDomains
+      createdDateTime: createdDateTime
+    display: "{displayName|id}"
+    relations: []

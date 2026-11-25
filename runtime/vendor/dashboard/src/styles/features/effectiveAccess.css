@@ -1,0 +1,360 @@
+/* 판정 배지. 성립은 Effective Access 선과 같은 파랑, 판정 보류는 주황 */
+.ea-level {
+  display: inline-block;
+  flex: none;
+  padding: 1px 8px;
+  border: 1px solid;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ea-level.computed,
+.ea-level.computed_cross {
+  border-color: var(--color-card-line);
+  background: #fff;
+  color: #0f172a;
+}
+
+.ea-level.indeterminate {
+  border-color: var(--color-card-line);
+  background: #fff;
+  color: #0f172a;
+}
+
+.ea-level.denied {
+  border-color: var(--color-card-line);
+  background: #fff;
+  color: #0f172a;
+}
+
+/* 목록 칸의 경로 두 줄(EaPath.tsx EaBrief): 출발 → 도착, 그 아래 거쳐 가는 곳 */
+.ea-brief {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+
+.ea-brief-ends {
+  overflow-wrap: anywhere;
+}
+
+.ea-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background: #fff;
+  color: #0f172a;
+}
+
+.ea-card + .ea-card {
+  margin-top: 10px;
+}
+
+.ea-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.ea-card-q {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.ea-card-a,
+.ea-card-verdict {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.ea-card-verdict.indeterminate {
+  font-weight: 700;
+  color: #92400e;
+}
+
+.ea-card-sec {
+  display: grid;
+  gap: 8px;
+}
+
+.ea-card-sec > b {
+  font-size: 13px;
+}
+
+.ea-card-sec > b small {
+  margin-left: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* 그래프 선 상세 패널 안에서는 패널이 테두리 몫을 한다. 결론이 여럿이면 가로줄로 나눈다 */
+.sz-ea-inspector .ea-card {
+  padding: 0;
+  border: 0;
+}
+
+/* 제목 칸이 있는 카드(선 하나에 결론이 여럿, 개별 항목의 Effective Access)는 테두리 카드로 나누고,
+   위에 다른 화면 카드와 같은 회색 제목 칸을 둔다 */
+.sz-inspector-float .ea-card.has-head {
+  padding: 0 14px 14px;
+  border: 1px solid var(--color-card-line, #cbd5e1);
+}
+
+.sz-inspector-float .ea-card.has-head + .ea-card.has-head {
+  margin-top: 14px;
+}
+
+/* 개별 항목 상세의 Effective Access 묶음 */
+.szi-ea-sec {
+  display: grid;
+  gap: 10px;
+}
+
+/* 한 줄 목록. 누른 줄 아래에만 카드가 펼쳐진다 */
+.szi-ea-sec { gap: 6px; }
+.szi-ea-item { display: grid; gap: 0; }
+.szi-ea-item.is-open > .szi-sec-row { border-color: var(--color-select); }
+.szi-ea-item > .ea-card { border-top: 0; }
+.szi-ea-where { margin-left: auto; font-weight: var(--font-weight-medium); }
+.szi-ea-chevron { margin-top: 2px; transition: transform .15s; }
+.szi-ea-item.is-open .szi-ea-chevron { transform: rotate(180deg); }
+
+.szi-ea-show {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #bfdbfe;
+  background: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1d4ed8;
+  cursor: pointer;
+}
+
+.szi-ea-show:hover {
+  background: #eff6ff;
+}
+
+.ea-card-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0 -14px;
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--color-card-line, #cbd5e1);
+  background: var(--color-card-head-bg, #eef2f6);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.ea-card-head b {
+  flex: none;
+  font-size: 15px;
+}
+
+/* ---- 경로 그림 ---- */
+.ea-path {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ea-path-node,
+.ea-path-link {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.ea-path-node {
+  align-items: start;
+}
+
+.ea-path-dot {
+  justify-self: center;
+  margin-top: 4px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #2563eb;
+  background: #fff;
+}
+
+.ea-path-node.is-end .ea-path-dot {
+  background: #2563eb;
+}
+
+.ea-path-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.ea-path-obj {
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+
+button.ea-path-obj {
+  cursor: pointer;
+}
+
+button.ea-path-obj:hover {
+  color: var(--color-select);
+  text-decoration: underline;
+}
+
+.ea-path-saas,
+.ea-path-kind {
+  padding: 0 5px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ea-path-kind {
+  background: #f1f5f9;
+  font-weight: 700;
+}
+
+.ea-path-link {
+  min-height: 30px;
+}
+
+.ea-path-bar {
+  justify-self: center;
+  width: 2px;
+  background: #93c5fd;
+}
+
+.ea-path-link.is-gap .ea-path-bar {
+  width: 0;
+  background: none;
+  border-left: 2px dashed #d97706;
+}
+
+.ea-path-rel {
+  display: grid;
+  gap: 4px;
+  align-content: center;
+  padding: 5px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.ea-path-weak {
+  margin-left: 6px;
+  padding: 0 5px;
+  border: 1px solid var(--color-card-line);
+  background: #fff;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.ea-path-warn,
+.ea-path-cut {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-weight: 600;
+}
+
+.ea-path-warn {
+  color: #92400e;
+}
+
+.ea-path-cut {
+  color: #1d4ed8;
+}
+
+.ea-path-warn > svg,
+.ea-path-cut > svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.ea-path-warn small {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.ea-path-cut em {
+  margin-left: 4px;
+  padding: 0 5px;
+  border: 1px solid var(--color-card-line);
+  background: #fff;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  white-space: nowrap;
+  color: #0f172a;
+}
+
+.ea-path-cross {
+  margin: 2px 0 2px 24px;
+  padding: 2px 8px;
+  border-top: 1px solid var(--color-border, #e2e8f0);
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  background: #f8fafc;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* ---- 이 질문을 물은 Finding ---- */
+.ea-finding-link {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  background: #fff;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #0f172a;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ea-finding-link:hover {
+  background: #fef2f2;
+}
+
+.ea-finding-link b {
+  flex: none;
+  color: var(--color-danger-text);
+}
+
+.ea-finding-link > span:nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+.szi-ea-item > .ea-card > .ea-card-top { display: none; }

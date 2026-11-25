@@ -1,0 +1,273 @@
+<meta charset="utf-8">
+<title>세 모델 오브젝트 대조</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #ffffff; --fg: #111418; --fg2: #2b3138; --line: #c9cdd2; --line2: #e3e6e9; --head: #f3f4f6;
+  --hl: #fff4cc; --acc: #1f4fbf; --warn: #9a3412; --ok: #166534;
+  --b-all: #e6f0ff; --b-none: #f6f6f6;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121417; --fg: #eef0f2; --fg2: #d5d9dd; --line: #3c434b; --line2: #2a3036; --head: #1b1f24;
+  --hl: #3b3413; --acc: #8db0ff; --warn: #fdba74; --ok: #86efac; --b-all: #1a2638; --b-none: #1b1f24; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #121417; --fg: #eef0f2; --fg2: #d5d9dd; --line: #3c434b; --line2: #2a3036; --head: #1b1f24;
+  --hl: #3b3413; --acc: #8db0ff; --warn: #fdba74; --ok: #86efac; --b-all: #1a2638; --b-none: #1b1f24; color-scheme: dark }
+* { box-sizing: border-box; border-radius: 0 !important; }
+body { background: var(--bg); color: var(--fg); font-family: "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif; font-size: 14px; line-height: 1.55; }
+.wrap { max-width: 1480px; margin: 0 auto; padding-inline: 20px; padding-block: 28px 64px; }
+h1 { font-size: 24px; margin: 0 0 6px; text-wrap: balance; }
+h2 { font-size: 18px; margin: 36px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+h3 { font-size: 15px; margin: 18px 0 6px; }
+p, li { color: var(--fg); max-width: 92ch; }
+.meta { color: var(--fg2); font-size: 13px; }
+code, .mono { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 12px; }
+ul.tight { margin: 6px 0; padding-left: 20px; }
+ul.tight li { margin: 3px 0; }
+.scroll { overflow-x: auto; border: 1px solid var(--line); }
+table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+th, td { border: 1px solid var(--line2); padding: 6px 8px; vertical-align: top; text-align: left; }
+th { background: var(--head); font-weight: 700; font-size: 13px; position: sticky; top: 0; z-index: 1; }
+td.n, th.n { text-align: right; }
+.matrix td.n { min-width: 64px; }
+.legend { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; margin: 8px 0; }
+.legend b { font-weight: 700; }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin: 10px 0 12px; }
+.controls label { display: flex; gap: 6px; align-items: center; }
+select, input[type=search] { font: inherit; color: var(--fg); background: var(--bg); border: 1px solid var(--line); padding: 4px 8px; }
+input[type=search] { min-width: 240px; }
+.big td { font-size: 13px; }
+.big td.cat { white-space: nowrap; font-weight: 700; }
+.it { padding: 4px 0; border-top: 1px dashed transparent; }
+.it + .it { border-top: 1px solid var(--line2); margin-top: 4px; padding-top: 6px; }
+.nm { font-weight: 700; }
+.ifc { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 12px; }
+.api { font-family: "IBM Plex Mono", Consolas, monospace; font-size: 11.5px; color: var(--fg2); word-break: break-all; margin-top: 2px; }
+.why { font-size: 12px; color: var(--fg2); margin-top: 2px; }
+.ex { color: var(--fg2); }
+.flag { color: var(--warn); font-weight: 700; }
+.badge { display: inline-block; border: 1px solid var(--line); padding: 0 5px; font-size: 11.5px; margin-left: 4px; white-space: nowrap; }
+.empty { color: var(--fg2); }
+.gaps { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+.gap { border: 1px solid var(--line); padding: 10px 12px; min-width: 0; }
+.gap h3 { margin-top: 0; }
+.gap ul { margin: 4px 0 8px; padding-left: 18px; }
+.gap li { margin: 2px 0; font-size: 13px; }
+.count { font-weight: 400; color: var(--fg2); }
+details > summary { cursor: pointer; font-weight: 700; margin: 4px 0; }
+tr.hide { display: none; }
+.c-all { background: var(--b-all); }
+@media (max-width: 640px) { .wrap { padding-inline: 16px; } input[type=search] { min-width: 0; width: 100%; } }
+</style>
+
+<div class="wrap">
+<h1>세 모델 오브젝트 대조</h1>
+<p class="meta">기존 오브젝트 목록(대시보드 v1, v2 시절), Cartography 노드, IM 오브젝트 모델 v1을 SaaS별로 한 줄씩 맞춘 표. 기준일 2026-10-19, IM 쪽은 v2 브랜치 결정 반영본.</p>
+
+<h2>결론</h2>
+<div id="concl"></div>
+
+<h2>SaaS별 대조 수</h2>
+<div class="legend">
+  <b>기존</b><span>aegi-schema <code>AEGI_Object_List_Final_2026-09-20.xlsx</code>의 최종 판정 「포함」 항목. 대시보드 v1, v2 데이터셋이 이 목록 ID(<code>GH-v0.2</code>, <code>OKTA-v1</code>, <code>SLK-v5.1</code>, <code>GWS-v3</code>)를 썼다. GitHub, Okta, Slack, Google Workspace 4개만 있다.</span>
+  <b>Cartography</b><span>cartography-cncf/cartography <code>d994439</code>(2026-10-16)의 노드 선언 70개와 그 수집 API.</span>
+  <b>IM 수집</b><span>IM v1 실행 Profile 75개(<code>runtime-catalog.json</code>). 실제 수집, 정규화하는 타입.</span>
+  <b>IM 연구</b><span>IM v1 연구 Object 타입 1,977개. 수집 Profile을 고르는 후보 카탈로그.</span>
+  <b>맞추는 법</b><span>이름이 아니라 API로 잇는다. 기존 항목은 근거 API, Cartography는 수집 API를 원문 API의 ID 공간에 맞추고, 그 공간을 가진 IM 연구 타입과 수집 Profile로 이었다. 공간이 갈린 경우만 이름으로 합쳤고 행의 비고에 적었다.</span>
+</div>
+<div class="scroll"><table class="matrix" id="matrix"></table></div>
+<p class="meta">행 수는 대조 행(같은 대상 하나) 단위다. 한 행에 기존 항목이나 Cartography 노드가 여럿 들어갈 수 있다. 「IM 연구에만」은 세 출처 중 어디에도 안 닿은 연구 타입 수다.</p>
+
+<h2>어디서 부족하고 어디가 많은가</h2>
+<div class="gaps" id="gaps"></div>
+
+<h2>전체 대조표</h2>
+<div class="controls">
+  <label>SaaS <select id="fP"></select></label>
+  <label>구분 <select id="fC"></select></label>
+  <label><input type="checkbox" id="fI"> interface가 다른 행만</label>
+  <label><input type="checkbox" id="fX"> 기존 「제외」 판정만 있는 행도 보기</label>
+  <input type="search" id="fQ" placeholder="이름, API, 공간 검색">
+  <span id="shown" class="meta"></span>
+</div>
+<div class="scroll"><table class="big">
+  <thead><tr><th>SaaS</th><th>구분</th><th style="min-width:260px">기존 오브젝트 (ID, 이름, interface, 판정, 근거 API)</th><th style="min-width:220px">Cartography 노드 (수집 API)</th><th style="min-width:300px">IM v1 수집 Profile (interface, 수집 호출과 엔드포인트)</th><th style="min-width:260px">IM v1 연구 타입 (공간, interface, 원문 API)</th><th style="min-width:160px">비고</th></tr></thead>
+  <tbody id="tb"></tbody>
+</table></div>
+
+<h2>출처 파일</h2>
+<ul class="tight">
+  <li>기존: <code>candidate-extraction/ir2/out2/object_audit.json</code> (<code>object_audit.py</code>, 2026-10-16)과 대시보드 <code>src/data/aegi_inc_environment_v2</code>, <code>aegi_inc_measured_v2</code>의 <code>catalog_ref</code></li>
+  <li>Cartography: <code>candidate-extraction/ir2/out2/carto_audit.json</code> (<code>carto_audit.py</code>, 2026-10-18)</li>
+  <li>IM 연구: <code>candidate-extraction/ir2/out2/v1/object_types.json</code>, 원문 API는 <code>out2/&lt;provider&gt;/ir/operation.jsonl</code>의 GET 응답 모양</li>
+  <li>IM 수집: <code>docs/spec/model-v1/runtime-catalog.json</code>, 엔드포인트는 <code>scripts/collect/providers/*.ts</code>의 호출 ID 블록</li>
+  <li>생성: <code>candidate-extraction/ir2/v2/profile_triage/map3way_build.py</code>. 실측 값은 넣지 않았다(데이터셋은 타입 존재만 표시).</li>
+</ul>
+</div>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+const D = JSON.parse(document.getElementById('data').textContent);
+const PN = {github:'GitHub', okta:'Okta', slack:'Slack', gws:'Google Workspace', salesforce:'Salesforce', jira:'Jira', confluence:'Confluence', atlassian:'Atlassian', '*':'공통(정규화 합성)'};
+const ORDER = ['github','okta','slack','gws','salesforce','jira','confluence','atlassian','*'];
+const CATS = ['세 곳 모두','기존 + IM 수집','Cartography + IM 수집','기존 + Cartography','기존만','Cartography만','IM 수집만'];
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const inc = o => o.verdict === '포함' || o.verdict === '데이터셋 전용';
+function cat(r) {
+  const o = r.flags.old, c = r.flags.carto, p = r.flags.im_profile;
+  if (!o && !c && !p) return null;
+  if (o && c && p) return CATS[0];
+  if (o && p) return CATS[1];
+  if (c && p) return CATS[2];
+  if (o && c) return CATS[3];
+  if (o) return CATS[4];
+  if (c) return CATS[5];
+  return CATS[6];
+}
+D.rows.forEach(r => { r.cat = cat(r); });
+
+// 항목 단위 상태: 수집 Profile > 연구 타입 > 없음 (공유 항목은 가장 좋은 상태)
+function itemStatus(kind) {
+  const best = {};
+  const rank = {profile: 3, research: 2, none: 1};
+  for (const r of D.rows) {
+    const st = r.profile.length ? 'profile' : (r.im_types.length ? 'research' : 'none');
+    const items = kind === 'old' ? r.old.filter(inc).map(o => [r.provider, o.id])
+               : r.carto.map(c => [r.provider, c.node]);
+    for (const [p, id] of items) {
+      const k = p + '|' + id;
+      if (!best[k] || rank[st] > rank[best[k].st]) best[k] = {p, st};
+    }
+  }
+  return Object.values(best);
+}
+const oldS = itemStatus('old'), carS = itemStatus('carto');
+const cnt = (arr, st, p) => arr.filter(x => x.st === st && (!p || x.p === p)).length;
+const profRows = D.rows.filter(r => r.profile.length);
+const profTotal = profRows.reduce((a, r) => a + r.profile.length, 0);
+const profOnly = profRows.filter(r => !r.flags.old && !r.carto.length).reduce((a, r) => a + r.profile.length, 0);
+const profBoth = profRows.filter(r => r.flags.old && r.carto.length).reduce((a, r) => a + r.profile.length, 0);
+const diffRows = D.rows.filter(r => r.iface_diff && r.profile.length);
+
+document.getElementById('concl').innerHTML = `<ul class="tight">
+<li><b>IM 수집 Profile ${profTotal}개 중 ${profTotal - profOnly}개는 기존 목록이나 Cartography에 짝이 있다.</b> 셋 모두에 있는 것은 ${profBoth}개다. 짝이 없는 ${profOnly}개는 Salesforce, Jira, Confluence처럼 기존 목록이 없던 SaaS이거나 정규화가 합성하는 타입(이름 역할, 라우팅 Endpoint)과 Gmail 위임이다.</li>
+<li><b>기존 「포함」 ${oldS.length}개 중 IM 수집으로 이어진 것은 ${cnt(oldS,'profile')}개뿐이다.</b> ${cnt(oldS,'research')}개는 IM 연구 타입으로는 있지만 수집 Profile이 없다. ${cnt(oldS,'none')}개는 근거 API가 연구 원문에 없거나 Object 공간이 아니어서 IM 연구에도 없다. 가장 많이 빠진 곳은 Okta(${cnt(oldS,'research','okta') + cnt(oldS,'none','okta')}개)다.</li>
+<li><b>Cartography 노드 ${carS.length}개 중 IM 수집과 닿는 것은 ${cnt(carS,'profile')}개다.</b> ${cnt(carS,'research')}개는 IM 연구 타입만 있고, ${cnt(carS,'none')}개는 IM 연구에도 없다. 그중 ${D.rows.filter(r => !r.im_types.length).flatMap(r => r.carto).filter(c => c.status === 'derived').length}개는 API 응답이 아니라 파일이나 설정 값을 파싱해 만든 파생 노드다. GitHub에서 차이가 가장 크다(브랜치, 룰셋 규칙, 환경, Actions 비밀값과 변수, 패키지, 의존성, 컨테이너 이미지, CODEOWNERS).</li>
+<li><b>Salesforce와 Jira의 Cartography 노드는 모두 IM 수집 Profile과 닿는다.</b> 기존 목록에는 두 SaaS가 없다. 반대로 IM 연구 타입은 Salesforce만 1,135개로, 세 출처 어디에도 안 닿은 연구 타입이 대부분 여기 있다.</li>
+<li><b>interface가 기존 판정과 다른 IM 수집 행은 ${diffRows.length}개다.</b> ${diffRows.map(r => esc(PN[r.provider] + ' ' + r.profile[0].object_type)).join(', ')}. 바뀐 이유는 아래 표의 IM 수집 칸에 Profile 근거로 적혀 있다.</li>
+</ul>`;
+
+// 행렬
+const provs = ORDER.filter(p => D.rows.some(r => r.provider === p) || D.research_only[p]);
+let m = '<thead><tr><th>SaaS</th><th class="n">기존 포함 항목</th><th class="n">Cartography 노드</th><th class="n">IM 수집 Profile</th><th class="n">IM 연구 타입</th>' + CATS.map(c => `<th class="n">${c}</th>`).join('') + '<th class="n">IM 연구에만</th></tr></thead><tbody>';
+const researchTotal = {};
+for (const r of D.rows) for (const t of r.im_types) researchTotal[r.provider] = (researchTotal[r.provider] || 0);
+const tot = {old:0, carto:0, prof:0, res:0, ro:0, cats: CATS.map(() => 0)};
+for (const p of provs) {
+  const rs = D.rows.filter(r => r.provider === p);
+  const nOld = new Set(rs.flatMap(r => r.old.filter(inc).map(o => o.id))).size;
+  const nCar = new Set(rs.flatMap(r => r.carto.map(c => c.node))).size;
+  const nProf = rs.reduce((a, r) => a + r.profile.length, 0);
+  const ro = (D.research_only[p] || {}).count || 0;
+  const nRes = new Set(rs.flatMap(r => r.im_types.map(t => t.id))).size + ro;
+  const cs = CATS.map(c => rs.filter(r => r.cat === c).length);
+  tot.old += nOld; tot.carto += nCar; tot.prof += nProf; tot.res += nRes; tot.ro += ro; cs.forEach((v, i) => tot.cats[i] += v);
+  m += `<tr><td>${PN[p]}</td><td class="n">${nOld || '-'}</td><td class="n">${nCar || '-'}</td><td class="n">${nProf || '-'}</td><td class="n">${nRes || '-'}</td>` + cs.map(v => `<td class="n">${v || '-'}</td>`).join('') + `<td class="n">${ro || '-'}</td></tr>`;
+}
+m += `<tr><th>합계</th><th class="n">${tot.old}</th><th class="n">${tot.carto}</th><th class="n">${tot.prof}</th><th class="n">${tot.res}</th>` + tot.cats.map(v => `<th class="n">${v}</th>`).join('') + `<th class="n">${tot.ro}</th></tr></tbody>`;
+document.getElementById('matrix').innerHTML = m;
+
+// 부족, 많음
+function names(rs, f) { return rs.map(f).filter(Boolean); }
+let g = '';
+for (const p of provs) {
+  if (p === '*') continue;
+  const rs = D.rows.filter(r => r.provider === p);
+  // 항목별 가장 좋은 상태. 여러 행에 걸친 항목은 한 행이라도 수집 Profile 이 있으면 빠지지 않은 것으로 본다
+  const best = (kind) => {
+    const m = new Map();
+    const rank = {profile: 3, research: 2, none: 1};
+    for (const r of rs) {
+      const st = r.profile.length ? 'profile' : (r.im_types.length ? 'research' : 'none');
+      const link = r.notes.some(n => n.includes('Link 재료'));
+      const items = kind === 'old' ? r.old.filter(inc).map(o => [o.id, o.name, link ? 'link' : false]) : r.carto.map(c => [c.node, c.node, link ? 'link' : c.status === 'derived']);
+      for (const [id, name, der] of items) {
+        const cur = m.get(id);
+        if (!cur || rank[st] > rank[cur.st]) m.set(id, {id, name, st, der});
+      }
+    }
+    return [...m.values()].filter(x => x.st !== 'profile').sort((a, b) => (a.st === b.st ? a.name.localeCompare(b.name) : (a.st === 'research' ? -1 : 1)));
+  };
+  const badge = x => x.st === 'research' ? ' <span class="badge">IM 연구 있음</span>' : (x.der === 'link' ? ' <span class="badge">IM은 신원 Link 재료로만 씀</span>' : x.der ? ' <span class="badge">파생 노드</span>' : ' <span class="badge">IM 연구 없음</span>');
+  const cartNoProf = best('carto');
+  const oldNoProf = best('old');
+  const imOnly = rs.filter(r => r.cat === 'IM 수집만');
+  const diffs = rs.filter(r => r.iface_diff && r.profile.length);
+  const ro = D.research_only[p];
+  const li = (arr) => arr.length ? '<ul>' + arr.map(x => `<li>${x}</li>`).join('') + '</ul>' : '<p class="empty">없음</p>';
+  const oldList = oldNoProf.map(x => `<span class="mono">${esc(x.id)}</span> ${esc(x.name)}` + badge(x));
+  g += `<div class="gap"><h3>${PN[p]}</h3>
+  <b>Cartography는 수집하는데 IM 수집에 없음 <span class="count">${cartNoProf.length}</span></b>
+  ${li(cartNoProf.map(x => esc(x.name) + badge(x)))}
+  ${p in {github:1, okta:1, slack:1, gws:1} ? `<details ${oldList.length <= 12 ? 'open' : ''}><summary>기존 목록에는 있는데 IM 수집에 없음 <span class="count">${oldList.length}</span></summary>${li(oldList)}</details>` : '<p><b>기존 목록</b>: 이 SaaS는 기존 목록에 없었다.</p>'}
+  <b>IM 수집에만 있음 <span class="count">${imOnly.length}</span></b>
+  ${li(imOnly.map(r => r.profile.map(x => esc(x.object_type)).join(', ')))}
+  <b>interface가 기존 판정과 다름 <span class="count">${diffs.length}</span></b>
+  ${li(diffs.map(r => `${esc(r.profile[0].object_type)}: 기존 ${esc(r.old_ifaces.join(', '))} → IM ${esc(r.im_ifaces.join(', '))}`))}
+  ${ro ? `<p class="meta">IM 연구에만 있는 타입 ${ro.count}개: ${Object.entries(ro.interfaces).sort((a,b)=>b[1]-a[1]).map(([k,v]) => k + ' ' + v).join(', ')}</p>` : ''}
+  </div>`;
+}
+document.getElementById('gaps').innerHTML = g;
+
+// 전체 표
+function oldCell(r) {
+  if (!r.old.length) return '<span class="empty">-</span>';
+  return r.old.map(o => `<div class="it ${inc(o) ? '' : 'ex'}"><span class="mono">${esc(o.id)}</span> <span class="nm">${esc(o.name)}</span> <span class="ifc">[${esc(o.interface)}]</span> <span class="badge">${esc(o.verdict)}</span>${o.dataset && o.dataset.length ? o.dataset.map(t => `<span class="badge">${esc(t)}</span>`).join('') : ''}
+    ${o.api ? `<div class="api">${esc(o.api)}</div>` : ''}${o.why ? `<div class="why">${esc(o.why.replace(/^; /, ''))}</div>` : ''}</div>`).join('');
+}
+function cartoCell(r) {
+  if (!r.carto.length) return '<span class="empty">-</span>';
+  return r.carto.map(c => `<div class="it"><span class="nm">${esc(c.node)}</span> <span class="meta">id ${esc(c.id_field)}, ${esc(c.evidence)}</span>
+    ${c.apis.length ? `<div class="api">${c.apis.map(esc).join('<br>')}</div>` : ''}${c.derived ? `<div class="why">파생: ${esc(c.derived)}</div>` : ''}${c.why && !c.derived ? `<div class="why">${esc(c.why)}</div>` : ''}</div>`).join('');
+}
+function profCell(r) {
+  if (!r.profile.length) return r.im_types.length ? '<span class="empty">수집 Profile 없음</span>' : '<span class="empty">-</span>';
+  return r.profile.map(p => `<div class="it"><span class="nm">${esc(p.object_type)}</span> <span class="ifc">[${esc(p.interfaces.join(', '))}]</span>
+    ${p.calls.length ? `<div class="api">${p.calls.map((c, i) => `<b>${esc(c)}</b> ${esc(D.calls[c] ? D.calls[c].endpoints.join(', ') : '')}`).join('<br>')}</div>` : ''}
+    <div class="why">${esc(p.evidence)}</div>${p.why ? `<div class="why">연결: ${esc(p.why)}</div>` : ''}</div>`).join('');
+}
+function resCell(r) {
+  if (!r.im_types.length) return '<span class="empty">IM 연구에 없음</span>';
+  return r.im_types.map(t => `<div class="it"><span class="mono nm">${esc(t.space)}</span> <span class="ifc">[${esc(t.interfaces.join(', '))}]</span>${t.status !== 'object_type_candidate' ? ' <span class="badge">' + esc(t.status) + '</span>' : ''}
+    ${t.members.length > 1 ? `<div class="why">같은 대상 공간 ${t.members.length}개: ${esc(t.members.slice(0, 6).join(', '))}${t.members.length > 6 ? ' 외' : ''}</div>` : ''}
+    ${t.apis.length ? `<div class="api">${t.apis.slice(0, 4).map(esc).join('<br>')}${t.apis.length > 4 ? `<br>외 ${t.apis.length - 4}개` : ''}</div>` : ''}</div>`).join('');
+}
+function noteCell(r) {
+  const n = [];
+  if (r.iface_diff) n.push(`<span class="flag">interface 다름</span>: 기존 ${esc(r.old_ifaces.join(', '))} → IM ${esc(r.im_ifaces.join(', '))}`);
+  for (const x of r.notes) n.push(esc(x));
+  return n.join('<br>') || '';
+}
+const tb = document.getElementById('tb');
+const rowsSorted = D.rows.slice().sort((a, b) => ORDER.indexOf(a.provider) - ORDER.indexOf(b.provider) || (CATS.indexOf(a.cat) + 99 * (a.cat ? 0 : 1)) - (CATS.indexOf(b.cat) + 99 * (b.cat ? 0 : 1)));
+tb.innerHTML = rowsSorted.map((r, i) => `<tr data-i="${i}" class="${r.cat === CATS[0] ? 'c-all' : ''}"><td>${PN[r.provider]}</td><td class="cat">${r.cat || '기존 제외만'}</td><td>${oldCell(r)}</td><td>${cartoCell(r)}</td><td>${profCell(r)}</td><td>${resCell(r)}</td><td>${noteCell(r)}</td></tr>`).join('');
+const trs = Array.from(tb.children);
+const text = rowsSorted.map(r => JSON.stringify(r).toLowerCase());
+const fP = document.getElementById('fP'), fC = document.getElementById('fC'), fQ = document.getElementById('fQ'), fX = document.getElementById('fX'), fI = document.getElementById('fI');
+fP.innerHTML = '<option value="">전체</option>' + provs.map(p => `<option value="${p}">${PN[p]}</option>`).join('');
+fC.innerHTML = '<option value="">전체</option>' + CATS.map(c => `<option>${c}</option>`).join('');
+function apply() {
+  const q = fQ.value.trim().toLowerCase();
+  let n = 0;
+  rowsSorted.forEach((r, i) => {
+    const ok = (!fP.value || r.provider === fP.value) && (!fC.value || r.cat === fC.value) && (fX.checked || r.cat) && (!fI.checked || r.iface_diff) && (!q || text[i].includes(q));
+    trs[i].classList.toggle('hide', !ok);
+    if (ok) n++;
+  });
+  document.getElementById('shown').textContent = n + '행 표시';
+}
+[fP, fC, fQ, fX, fI].forEach(el => el.addEventListener('input', apply));
+apply();
+</script>

@@ -1,0 +1,1099 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: WorkOrder
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:57dc24fe8c57ca776502525c
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:57dc24fe8c57ca776502525c.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|Id
+  AccountId:
+    path: AccountId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: AccountId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|AccountId
+  Address:
+    path: Address
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: address
+      name: Address
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|Address
+  AssetId:
+    path: AssetId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: AssetId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|AssetId
+  AssetWarrantyId:
+    path: AssetWarrantyId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: AssetWarrantyId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|AssetWarrantyId
+  BusinessHoursId:
+    path: BusinessHoursId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: BusinessHoursId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|BusinessHoursId
+  CaseId:
+    path: CaseId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: CaseId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|CaseId
+  City:
+    path: City
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: string
+      name: City
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|City
+  ContactId:
+    path: ContactId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: ContactId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ContactId
+  Country:
+    path: Country
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: string
+      name: Country
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|Country
+  CurrencyIsoCode:
+    path: CurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: picklist
+      name: CurrencyIsoCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|CurrencyIsoCode
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|Description
+  Discount:
+    path: Discount
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: percent
+      name: Discount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:WorkOrder|Discount
+  Duration:
+    path: Duration
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: double
+      name: Duration
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:WorkOrder|Duration
+  DurationInMinutes:
+    path: DurationInMinutes
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: double
+      name: DurationInMinutes
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:WorkOrder|DurationInMinutes
+  DurationType:
+    path: DurationType
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: picklist
+      name: DurationType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|DurationType
+  EndDate:
+    path: EndDate
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: dateTime
+      name: EndDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|EndDate
+  EntitlementId:
+    path: EntitlementId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: EntitlementId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|EntitlementId
+  GeocodeAccuracy:
+    path: GeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: picklist
+      name: GeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|GeocodeAccuracy
+  GrandTotal:
+    path: GrandTotal
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: currency
+      name: GrandTotal
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:WorkOrder|GrandTotal
+  IsClosed:
+    path: IsClosed
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: boolean
+      name: IsClosed
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:WorkOrder|IsClosed
+  IsGeneratedFromMaintenancePlan:
+    path: IsGeneratedFromMaintenancePlan
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: boolean
+      name: IsGeneratedFromMaintenancePlan
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:WorkOrder|IsGeneratedFromMaintenancePlan
+  IsStopped:
+    path: IsStopped
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: boolean
+      name: IsStopped
+      required: false
+      scalar: boolean
+    map_items:
+      - space:WorkOrder|IsStopped
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|LastViewedDate
+  Latitude:
+    path: Latitude
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: double
+      name: Latitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:WorkOrder|Latitude
+  LineItemCount:
+    path: LineItemCount
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: int
+      name: LineItemCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:WorkOrder|LineItemCount
+  LocationId:
+    path: LocationId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: LocationId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|LocationId
+  Longitude:
+    path: Longitude
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: double
+      name: Longitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:WorkOrder|Longitude
+  MaintenancePlanId:
+    path: MaintenancePlanId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: MaintenancePlanId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|MaintenancePlanId
+  MaintenanceWorkRuleId:
+    path: MaintenanceWorkRuleId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: MaintenanceWorkRuleId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|MaintenanceWorkRuleId
+  MilestoneStatus:
+    path: MilestoneStatus
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: string
+      name: MilestoneStatus
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|MilestoneStatus
+  MinimumCrewSize:
+    path: MinimumCrewSize
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: int
+      name: MinimumCrewSize
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:WorkOrder|MinimumCrewSize
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|OwnerId
+  ParentWorkOrderId:
+    path: ParentWorkOrderId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: ParentWorkOrderId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ParentWorkOrderId
+  PostWorkSummary:
+    path: PostWorkSummary
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: textarea
+      name: PostWorkSummary
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|PostWorkSummary
+  PostalCode:
+    path: PostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: string
+      name: PostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|PostalCode
+  PreWorkBriefPromptTemplate:
+    path: PreWorkBriefPromptTemplate
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: string
+      name: PreWorkBriefPromptTemplate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|PreWorkBriefPromptTemplate
+  Pricebook2Id:
+    path: Pricebook2Id
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: Pricebook2Id
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|Pricebook2Id
+  Priority:
+    path: Priority
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: picklist
+      name: Priority
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|Priority
+  ProductServiceCampaignId:
+    path: ProductServiceCampaignId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: ProductServiceCampaignId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ProductServiceCampaignId
+  ProductServiceCampaignItemId:
+    path: ProductServiceCampaignItemId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: ProductServiceCampaignItemId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ProductServiceCampaignItemId
+  RecommendedCrewSize:
+    path: RecommendedCrewSize
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: int
+      name: RecommendedCrewSize
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:WorkOrder|RecommendedCrewSize
+  ReturnOrderId:
+    path: ReturnOrderId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: ReturnOrderId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ReturnOrderId
+  ReturnOrderLineItemId:
+    path: ReturnOrderLineItemId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: ReturnOrderLineItemId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ReturnOrderLineItemId
+  RootWorkOrderId:
+    path: RootWorkOrderId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: RootWorkOrderId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|RootWorkOrderId
+  ServiceAppointmentCount:
+    path: ServiceAppointmentCount
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: int
+      name: ServiceAppointmentCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:WorkOrder|ServiceAppointmentCount
+  ServiceContractId:
+    path: ServiceContractId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: ServiceContractId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ServiceContractId
+  ServiceDocumentTemplate:
+    path: ServiceDocumentTemplate
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: string
+      name: ServiceDocumentTemplate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ServiceDocumentTemplate
+  ServiceReportLanguage:
+    path: ServiceReportLanguage
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: picklist
+      name: ServiceReportLanguage
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ServiceReportLanguage
+  ServiceReportTemplateId:
+    path: ServiceReportTemplateId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: ServiceReportTemplateId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ServiceReportTemplateId
+  ServiceTerritoryId:
+    path: ServiceTerritoryId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: ServiceTerritoryId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|ServiceTerritoryId
+  SlaExitDate:
+    path: SlaExitDate
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: dateTime
+      name: SlaExitDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|SlaExitDate
+  SlaStartDate:
+    path: SlaStartDate
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: dateTime
+      name: SlaStartDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|SlaStartDate
+  StartDate:
+    path: StartDate
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: dateTime
+      name: StartDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|StartDate
+  State:
+    path: State
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: string
+      name: State
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|State
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: picklist
+      name: Status
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|Status
+  StatusCategory:
+    path: StatusCategory
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: picklist
+      name: StatusCategory
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|StatusCategory
+  StopStartDate:
+    path: StopStartDate
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: dateTime
+      name: StopStartDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|StopStartDate
+  Street:
+    path: Street
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: textarea
+      name: Street
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|Street
+  Subject:
+    path: Subject
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: string
+      name: Subject
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|Subject
+  Subtotal:
+    path: Subtotal
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: currency
+      name: Subtotal
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:WorkOrder|Subtotal
+  SuggestedMaintenanceDate:
+    path: SuggestedMaintenanceDate
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: date
+      name: SuggestedMaintenanceDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|SuggestedMaintenanceDate
+  Tax:
+    path: Tax
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: currency
+      name: Tax
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:WorkOrder|Tax
+  TotalPrice:
+    path: TotalPrice
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: currency
+      name: TotalPrice
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:WorkOrder|TotalPrice
+  WorkOrderNumber:
+    path: WorkOrderNumber
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: string
+      name: WorkOrderNumber
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|WorkOrderNumber
+  WorkTypeId:
+    path: WorkTypeId
+    source: research_shape
+    shape: sh:sf_object_reference:WorkOrder
+    declaration:
+      format: reference
+      name: WorkTypeId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:WorkOrder|WorkTypeId
+references:
+  - name: assetid
+    field: AssetId
+    target: Asset
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:09087e4b7d1d8293bf96771a; relation=no_relation
+  - name: ownerid
+    field: OwnerId
+    target: Group
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0eb8e37411908034d06cc792; relation=no_relation
+  - name: serviceterritoryid
+    field: ServiceTerritoryId
+    target: ServiceTerritory
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:11201a01e8c741f6e3c68bbe; relation=no_relation
+  - name: caseid
+    field: CaseId
+    target: Case
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:67e9b300f39f18024d844d79; relation=no_relation
+  - name: locationid
+    field: LocationId
+    target: Location
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6c45c79e3f843371fdacb9e2; relation=no_relation
+  - name: contactid
+    field: ContactId
+    target: Contact
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6dda68ec165fbd3d5df8214b; relation=no_relation
+  - name: accountid
+    field: AccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:88d5ff03f071bfcfdb0af7a0; relation=no_relation
+  - name: worktypeid
+    field: WorkTypeId
+    target: WorkType
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8a3f750e84a049b992b9c839; relation=no_relation
+  - name: businesshoursid
+    field: BusinessHoursId
+    target: BusinessHours
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c23e851a7fdc140b0ad23dd3; relation=no_relation
+  - name: pricebook2id
+    field: Pricebook2Id
+    target: Pricebook2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:fde8d31b4513f78c9e3f6907; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: WorkOrder
+  interfaces: *a1
+  model:
+    research_type: object-type:57dc24fe8c57ca776502525c
+  extract:
+    key: PILOT-salesforce-WorkOrder-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-02525c
+            endpoint: /
+            items:
+              - records
+        properties:
+          AccountId: AccountId
+          Address: Address
+          AssetId: AssetId
+          AssetWarrantyId: AssetWarrantyId
+          BusinessHoursId: BusinessHoursId
+          CaseId: CaseId
+          City: City
+          ContactId: ContactId
+          Country: Country
+          CurrencyIsoCode: CurrencyIsoCode
+          Description: Description
+          Discount: Discount
+          Duration: Duration
+          DurationInMinutes: DurationInMinutes
+          DurationType: DurationType
+          EndDate: EndDate
+          EntitlementId: EntitlementId
+          GeocodeAccuracy: GeocodeAccuracy
+          GrandTotal: GrandTotal
+          Id: Id
+          IsClosed: IsClosed
+          IsGeneratedFromMaintenancePlan: IsGeneratedFromMaintenancePlan
+          IsStopped: IsStopped
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          Latitude: Latitude
+          LineItemCount: LineItemCount
+          LocationId: LocationId
+          Longitude: Longitude
+          MaintenancePlanId: MaintenancePlanId
+          MaintenanceWorkRuleId: MaintenanceWorkRuleId
+          MilestoneStatus: MilestoneStatus
+          MinimumCrewSize: MinimumCrewSize
+          OwnerId: OwnerId
+          ParentWorkOrderId: ParentWorkOrderId
+          PostWorkSummary: PostWorkSummary
+          PostalCode: PostalCode
+          PreWorkBriefPromptTemplate: PreWorkBriefPromptTemplate
+          Pricebook2Id: Pricebook2Id
+          Priority: Priority
+          ProductServiceCampaignId: ProductServiceCampaignId
+          ProductServiceCampaignItemId: ProductServiceCampaignItemId
+          RecommendedCrewSize: RecommendedCrewSize
+          ReturnOrderId: ReturnOrderId
+          ReturnOrderLineItemId: ReturnOrderLineItemId
+          RootWorkOrderId: RootWorkOrderId
+          ServiceAppointmentCount: ServiceAppointmentCount
+          ServiceContractId: ServiceContractId
+          ServiceDocumentTemplate: ServiceDocumentTemplate
+          ServiceReportLanguage: ServiceReportLanguage
+          ServiceReportTemplateId: ServiceReportTemplateId
+          ServiceTerritoryId: ServiceTerritoryId
+          SlaExitDate: SlaExitDate
+          SlaStartDate: SlaStartDate
+          StartDate: StartDate
+          State: State
+          Status: Status
+          StatusCategory: StatusCategory
+          StopStartDate: StopStartDate
+          Street: Street
+          Subject: Subject
+          Subtotal: Subtotal
+          SuggestedMaintenanceDate: SuggestedMaintenanceDate
+          Tax: Tax
+          TotalPrice: TotalPrice
+          WorkOrderNumber: WorkOrderNumber
+          WorkTypeId: WorkTypeId
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:WorkOrder.query
+  operation: WorkOrder.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: WorkOrder
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:WorkOrder
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:WorkOrder.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/WorkOrder/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - AssetId
+    - OwnerId
+    - ServiceTerritoryId
+    - CaseId
+    - LocationId
+    - ContactId
+    - AccountId
+    - WorkTypeId
+    - BusinessHoursId
+    - Pricebook2Id
+  metadata_paths: *a2
+  remaining_declared_fields: properties

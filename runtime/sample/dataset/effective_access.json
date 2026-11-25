@@ -1,0 +1,341 @@
+{
+  "format": "aegi-effective-access/v1",
+  "schema": "Effective_Access_Schema_v1",
+  "view_version": 1,
+  "inputs_view_version": 1,
+  "computed_at": "2026-09-22T09:00:00Z",
+  "x_rule_inputs": {
+    "runs_as_inherits": 0,
+    "x_member_grant": 44,
+    "x_deputy_invocation": 0,
+    "x_delivery_exposure": 1,
+    "x_dynamic_holder": 0
+  },
+  "rows": [
+    {
+      "id": "EA-2fgd0cbmgc2",
+      "effect": null,
+      "effect_query": "이 계정이 customer-api 에 write 이상을 할 수 있는가",
+      "references": {
+        "source": "GH-U-UA",
+        "target": "GH-REPO-CUSTOMER-API"
+      },
+      "level": "computed",
+      "via": [
+        {
+          "kind": "relation",
+          "ref": "R-A-UA-DEVTEAM",
+          "relation_type": "member_of",
+          "source": "GH-U-UA",
+          "target": "GH-TEAM-DEV",
+          "basis": "stated"
+        },
+        {
+          "kind": "relation",
+          "ref": "R-A-DEVTEAM-WRITE-REPO",
+          "relation_type": "has_role_on",
+          "source": "GH-TEAM-DEV",
+          "target": "GH-REPO-CUSTOMER-API",
+          "role": "GH-ROLE-WRITE",
+          "basis": "stated"
+        }
+      ],
+      "cut": [
+        {
+          "via": 0,
+          "x_scope": {
+            "affects": "source_only",
+            "note": "user-a (GH) 만 잃는다 (Engineering Core Devs 에서 뺀다)"
+          }
+        },
+        {
+          "via": 1,
+          "x_scope": {
+            "affects": "group",
+            "count": 1,
+            "note": "Engineering Core Devs 멤버 1명이 모두 잃는다"
+          }
+        }
+      ],
+      "undecomposed": [],
+      "source": {
+        "rule": "x_member_grant",
+        "view_version": 1,
+        "computed_at": "2026-09-22T09:00:00Z",
+        "inputs_view_version": 1
+      },
+      "x_asked_by": {
+        "rule_id": "AEGI-A-CONTEXT-AUTHORITY-PROPAGATION"
+      }
+    },
+    {
+      "id": "EA-2d8m5d4uo1y",
+      "effect": null,
+      "effect_query": "이 계정이 Okta 역할 Help Desk Administrator Role 을 가지는가",
+      "references": {
+        "source": "OKTA-U-UA",
+        "target": "OKTA-ORG-AEGI"
+      },
+      "level": "denied",
+      "via": [
+        {
+          "kind": "link",
+          "ref": "LNK-P-UA",
+          "a": "SLK-U-UA",
+          "b": "OKTA-U-UA",
+          "level": "resolved",
+          "rule": "manual_fixture"
+        },
+        {
+          "kind": "relation",
+          "ref": "R-C-GROUP-ROLE-ORG",
+          "relation_type": "has_role_on",
+          "source": "OKTA-G-HELPDESK",
+          "target": "OKTA-ORG-AEGI",
+          "role": "OKTA-ROLE-HELPDESK",
+          "basis": "stated"
+        }
+      ],
+      "cut": [],
+      "undecomposed": [],
+      "source": {
+        "rule": "x_member_grant",
+        "view_version": 1,
+        "computed_at": "2026-09-22T09:00:00Z",
+        "inputs_view_version": 1
+      },
+      "x_asked_by": {
+        "rule_id": "AEGI-C-AUTOMATION-AUTHORITY-GAP",
+        "check_id": "c-okta-authorized"
+      }
+    },
+    {
+      "id": "EA-1vlooz84mob",
+      "effect": null,
+      "effect_query": "이 계정이 Okta 역할 Help Desk Administrator Role 을 가지는가",
+      "references": {
+        "source": "OKTA-U-UB",
+        "target": "OKTA-ORG-AEGI"
+      },
+      "level": "computed",
+      "via": [
+        {
+          "kind": "relation",
+          "ref": "R-C-OKTA-UB-GROUP",
+          "relation_type": "member_of",
+          "source": "OKTA-U-UB",
+          "target": "OKTA-G-HELPDESK",
+          "basis": "stated"
+        },
+        {
+          "kind": "relation",
+          "ref": "R-C-GROUP-ROLE-ORG",
+          "relation_type": "has_role_on",
+          "source": "OKTA-G-HELPDESK",
+          "target": "OKTA-ORG-AEGI",
+          "role": "OKTA-ROLE-HELPDESK",
+          "basis": "stated"
+        }
+      ],
+      "cut": [
+        {
+          "via": 1,
+          "x_scope": {
+            "affects": "group",
+            "count": 1,
+            "note": "HelpDesk-Admins 멤버 1명이 모두 잃는다"
+          }
+        }
+      ],
+      "undecomposed": [
+        {
+          "at": "via[0]",
+          "from": "computation",
+          "reason": "enforcement_unknown"
+        }
+      ],
+      "source": {
+        "rule": "x_member_grant",
+        "view_version": 1,
+        "computed_at": "2026-09-22T09:00:00Z",
+        "inputs_view_version": 1
+      },
+      "x_asked_by": {
+        "rule_id": "AEGI-C-AUTOMATION-AUTHORITY-GAP",
+        "check_id": "c-okta-authorized"
+      }
+    },
+    {
+      "id": "EA-24u39bjynk0",
+      "effect": null,
+      "effect_query": "이 사람이 원본 Customer Intake Responses Sheet 내용의 사본을 #sales-customer-intake 에서 볼 수 있는가",
+      "references": {
+        "source": "SLK-U-UE",
+        "target": "GWS-FILE-CUSTOMER-RESPONSES"
+      },
+      "level": "indeterminate",
+      "via": [
+        {
+          "kind": "relation",
+          "ref": "R-D-UE-CHANNEL",
+          "relation_type": "member_of",
+          "source": "SLK-U-UE",
+          "target": "SLK-CH-CUSTOMER-INTAKE",
+          "basis": "stated"
+        },
+        {
+          "kind": "relation",
+          "ref": "R-D-WEBHOOK-CHANNEL",
+          "relation_type": "receives_into",
+          "source": "SLK-END-CUSTOMER-WEBHOOK",
+          "target": "SLK-CH-CUSTOMER-INTAKE",
+          "basis": "stated"
+        },
+        {
+          "kind": "relation",
+          "ref": "R-D-PROJECT-FILE",
+          "relation_type": "contained_in",
+          "source": "GWS-PROJECT-CUSTOMER-SYNC",
+          "target": "GWS-FILE-CUSTOMER-RESPONSES",
+          "basis": "stated"
+        }
+      ],
+      "cut": [],
+      "undecomposed": [
+        {
+          "at": "via[0]",
+          "from": "computation",
+          "reason": "channel_visibility_unknown"
+        },
+        {
+          "at": "x_gap",
+          "x_between": [
+            1,
+            2
+          ],
+          "from": "computation",
+          "reason": "script_webhook_by_url_fingerprint"
+        }
+      ],
+      "source": {
+        "rule": "x_delivery_exposure",
+        "view_version": 1,
+        "computed_at": "2026-09-22T09:00:00Z",
+        "inputs_view_version": 1
+      },
+      "x_asked_by": {
+        "rule_id": "AEGI-D-CROSS-SAAS-AUTHORIZATION-DRIFT",
+        "check_id": "d-audience-gap"
+      },
+      "x_observations": [
+        "OBS-D-DELIVERY-001"
+      ]
+    },
+    {
+      "id": "EA-1vwbuf2wq4f",
+      "effect": null,
+      "effect_query": "이 계정이 원본 Customer Intake Responses Sheet 을 열 수 있는가",
+      "references": {
+        "source": "GWS-U-UF",
+        "target": "GWS-FILE-CUSTOMER-RESPONSES"
+      },
+      "level": "denied",
+      "via": [
+        {
+          "kind": "link",
+          "ref": "LNK-P-UF",
+          "a": "SLK-U-UF",
+          "b": "GWS-U-UF",
+          "level": "resolved",
+          "rule": "manual_fixture"
+        },
+        {
+          "kind": "relation",
+          "ref": "R-D-PERM-UE-FILE",
+          "relation_type": "contained_in",
+          "source": "GWS-PERM-UE-RESPONSES",
+          "target": "GWS-FILE-CUSTOMER-RESPONSES",
+          "basis": "stated"
+        }
+      ],
+      "cut": [],
+      "undecomposed": [],
+      "source": {
+        "rule": "x_member_grant",
+        "view_version": 1,
+        "computed_at": "2026-09-22T09:00:00Z",
+        "inputs_view_version": 1
+      },
+      "x_asked_by": {
+        "rule_id": "AEGI-D-CROSS-SAAS-AUTHORIZATION-DRIFT",
+        "check_id": "d-source-authorized"
+      }
+    },
+    {
+      "id": "EA-1ac56qw9tau",
+      "effect": null,
+      "effect_query": "이 사람이 원본 Customer Intake Responses Sheet 내용의 사본을 #sales-customer-intake 에서 볼 수 있는가",
+      "references": {
+        "source": "SLK-U-UF",
+        "target": "GWS-FILE-CUSTOMER-RESPONSES"
+      },
+      "level": "indeterminate",
+      "via": [
+        {
+          "kind": "relation",
+          "ref": "R-D-UF-CHANNEL",
+          "relation_type": "member_of",
+          "source": "SLK-U-UF",
+          "target": "SLK-CH-CUSTOMER-INTAKE",
+          "basis": "stated"
+        },
+        {
+          "kind": "relation",
+          "ref": "R-D-WEBHOOK-CHANNEL",
+          "relation_type": "receives_into",
+          "source": "SLK-END-CUSTOMER-WEBHOOK",
+          "target": "SLK-CH-CUSTOMER-INTAKE",
+          "basis": "stated"
+        },
+        {
+          "kind": "relation",
+          "ref": "R-D-PROJECT-FILE",
+          "relation_type": "contained_in",
+          "source": "GWS-PROJECT-CUSTOMER-SYNC",
+          "target": "GWS-FILE-CUSTOMER-RESPONSES",
+          "basis": "stated"
+        }
+      ],
+      "cut": [],
+      "undecomposed": [
+        {
+          "at": "via[0]",
+          "from": "computation",
+          "reason": "channel_visibility_unknown"
+        },
+        {
+          "at": "x_gap",
+          "x_between": [
+            1,
+            2
+          ],
+          "from": "computation",
+          "reason": "script_webhook_by_url_fingerprint"
+        }
+      ],
+      "source": {
+        "rule": "x_delivery_exposure",
+        "view_version": 1,
+        "computed_at": "2026-09-22T09:00:00Z",
+        "inputs_view_version": 1
+      },
+      "x_asked_by": {
+        "rule_id": "AEGI-D-CROSS-SAAS-AUTHORIZATION-DRIFT",
+        "check_id": "d-audience-gap"
+      },
+      "x_observations": [
+        "OBS-D-DELIVERY-001"
+      ]
+    }
+  ]
+}

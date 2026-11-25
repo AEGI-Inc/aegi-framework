@@ -1,0 +1,1532 @@
+{
+ "note": "지어낸 값. gen 도구가 Discovery 문서의 스키마 모양으로 만들었다",
+ "pages": [
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "assistants"
+   },
+   "payload": {
+    "assistants": [
+     {
+      "webGroundingType": "v",
+      "defaultWebGroundingToggleOff": false,
+      "disableLocationContext": false,
+      "enabledTools": {},
+      "displayName": "v",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/assistants/default_assistant",
+      "customerPolicy": {},
+      "description": "v",
+      "generationConfig": {},
+      "knowledgeCatalogEnabled": false,
+      "createTime": "2026-10-01T00:00:00Z"
+     }
+    ]
+   },
+   "object_type": "Assistant",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/assistants/default_assistant"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "agents"
+   },
+   "payload": {
+    "agents": [
+     {
+      "observabilityConfig": {},
+      "adkAgentDefinition": {
+       "provisionedReasoningEngine": {
+        "reasoningEngine": "projects/100000000001/locations/us-central1/reasoningEngines/re-1"
+       }
+      },
+      "creationFailureReason": "v",
+      "authorizationConfig": {
+       "toolAuthorizations": [
+        "projects/100000000001/locations/global/authorizations/authz-1"
+       ]
+      },
+      "a2aAgentDefinition": {},
+      "rejectionReason": "v",
+      "createTime": "2026-10-01T00:00:00Z",
+      "managedAgentDefinition": {},
+      "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/assistants/default_assistant/agents/agent-1",
+      "description": "v",
+      "languageCode": "v",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "defaultPinned": false,
+      "state": "v",
+      "starterPrompts": [],
+      "dialogflowAgentDefinition": {},
+      "customPlaceholderText": "v",
+      "displayName": "v",
+      "sharingConfig": {"scope": "RESTRICTED"},
+      "suspensionReason": "v",
+      "icon": {},
+      "deploymentFailureReason": "v"
+     }
+    ]
+   },
+   "object_type": "Agent",
+   "not_carried": [
+    "icon",
+    "managedAgentDefinition"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/assistants/default_assistant/agents/agent-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "authorizations"
+   },
+   "payload": {
+    "authorizations": [
+     {
+      "name": "projects/100000000001/locations/global/authorizations/authz-1",
+      "serverSideOauth2": {
+       "clientId": "client-1",
+       "clientSecret": "should-not-appear",
+       "authorizationUri": "https://idp.example.com/authorize",
+       "tokenUri": "https://idp.example.com/token",
+       "scopes": [
+        "read"
+       ]
+      },
+      "displayName": "v"
+     }
+    ]
+   },
+   "object_type": "Authorization",
+   "not_carried": [
+    "serverSideOauth2"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/authorizations/authz-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "license_configs"
+   },
+   "payload": {
+    "licenseConfigs": [
+     {
+      "autoRenew": false,
+      "endDate": {},
+      "lastUserUpdateTime": "2026-10-01T00:00:00Z",
+      "billingAccountLicenseConfig": "billingAccounts/000000-AAAAAA-000000/billingAccountLicenseConfigs/cfg-1",
+      "earlyTerminationDate": {},
+      "freeTrial": false,
+      "licenseCount": "v",
+      "geminiBundle": false,
+      "earlyTerminated": false,
+      "alertPolicyResourceConfig": {},
+      "state": "ACTIVE",
+      "startDate": {},
+      "subscriptionTier": "v",
+      "subscriptionTerm": "v",
+      "name": "projects/100000000001/locations/global/licenseConfigs/free_trial"
+     }
+    ]
+   },
+   "object_type": "LicenseConfig",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/licenseConfigs/free_trial"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "billing_account_license_configs"
+   },
+   "payload": {
+    "billingAccountLicenseConfigs": [
+     {
+      "earlyTerminationDate": {},
+      "subscriptionName": "v",
+      "name": "billingAccounts/000000-AAAAAA-000000/billingAccountLicenseConfigs/cfg-1",
+      "autoRenew": false,
+      "subscriptionTier": "v",
+      "licenseConfigDistributions": {},
+      "subscriptionTerm": "v",
+      "licenseCount": "v",
+      "geminiBundle": false,
+      "earlyTerminated": false,
+      "startDate": {},
+      "subscriptionDisplayName": "v",
+      "state": "ACTIVE",
+      "endDate": {},
+      "procurementEntitlementId": "v"
+     }
+    ]
+   },
+   "object_type": "BillingAccountLicenseConfig",
+   "not_carried": [],
+   "runtime_id": "billingAccounts/000000-AAAAAA-000000/billingAccountLicenseConfigs/cfg-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "user_licenses",
+    "parent": "projects/100000000001/locations/global/userStores/default_user_store"
+   },
+   "payload": {
+    "userLicenses": [
+     {
+      "lastLoginTime": "2026-10-01T00:00:00Z",
+      "licenseConfig": "projects/100000000001/locations/global/licenseConfigs/free_trial",
+      "userProfile": "v",
+      "licenseAssignmentState": "ASSIGNED",
+      "createTime": "2026-10-01T00:00:00Z",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "userPrincipal": "alice@example.com"
+     }
+    ]
+   },
+   "object_type": "UserLicense",
+   "not_carried": [],
+   "runtime_id": null
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "user_store"
+   },
+   "payload": {
+    "defaultLicenseConfig": "v",
+    "enableLicenseAutoRegister": false,
+    "displayName": "v",
+    "name": "projects/100000000001/locations/global/userStores/default_user_store",
+    "enableExpiredLicenseAutoUpdate": false
+   },
+   "object_type": "UserStore",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/userStores/default_user_store"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "acl_config"
+   },
+   "payload": {
+    "idpConfig": {
+     "idpType": "THIRD_PARTY",
+     "externalIdpConfig": {
+      "workforcePoolName": "locations/global/workforcePools/pool-1"
+     }
+    },
+    "name": "projects/100000000001/locations/global/aclConfig"
+   },
+   "object_type": "AclConfig",
+   "not_carried": [
+    "idpConfig"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/aclConfig"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "identity_mapping_stores"
+   },
+   "payload": {
+    "identityMappingStores": [
+     {
+      "idpConfig": {},
+      "kmsKeyName": "v",
+      "name": "projects/100000000001/locations/global/identityMappingStores/map-1",
+      "cmekConfig": {}
+     }
+    ]
+   },
+   "object_type": "IdentityMappingStore",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/identityMappingStores/map-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "cmek_configs"
+   },
+   "payload": {
+    "cmekConfigs": [
+     {
+      "kmsKey": "v",
+      "notebooklmState": "v",
+      "lastRotationTimestampMicros": "v",
+      "singleRegionKeys": [],
+      "isDefault": false,
+      "state": "ACTIVE",
+      "kmsKeyVersion": "v",
+      "name": "projects/100000000001/locations/global/cmekConfigs/default_cmek_config"
+     }
+    ]
+   },
+   "object_type": "CmekConfig",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/cmekConfigs/default_cmek_config"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "controls"
+   },
+   "payload": {
+    "controls": [
+     {
+      "filterAction": {},
+      "promoteAction": {},
+      "redirectAction": {},
+      "associatedServingConfigIds": [],
+      "conditions": [],
+      "solutionType": "v",
+      "synonymsAction": {},
+      "useCases": [],
+      "boostAction": {},
+      "displayName": "v",
+      "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/controls/control-1"
+     }
+    ]
+   },
+   "object_type": "Control",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/controls/control-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "serving_configs"
+   },
+   "payload": {
+    "servingConfigs": [
+     {
+      "onewaySynonymsControlIds": [],
+      "answerGenerationSpec": {},
+      "replacementControlIds": [],
+      "genericConfig": {},
+      "displayName": "v",
+      "dissociateControlIds": [],
+      "rankingExpression": "v",
+      "guidedSearchSpec": {},
+      "embeddingConfig": {},
+      "updateTime": "2026-10-01T00:00:00Z",
+      "modelId": "v",
+      "redirectControlIds": [],
+      "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/servingConfigs/default_search",
+      "promoteControlIds": [],
+      "diversityLevel": "v",
+      "createTime": "2026-10-01T00:00:00Z",
+      "mediaConfig": {},
+      "synonymsControlIds": [],
+      "boostControlIds": [],
+      "ignoreControlIds": [],
+      "solutionType": "v",
+      "customFineTuningSpec": {},
+      "personalizationSpec": {},
+      "filterControlIds": []
+     }
+    ]
+   },
+   "object_type": "ServingConfig",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/servingConfigs/default_search"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "widget_config"
+   },
+   "payload": {
+    "collectionComponents": [],
+    "enableResultScore": false,
+    "enableQualityFeedback": false,
+    "assistantSettings": {},
+    "enableConversationalSearch": false,
+    "accessSettings": {},
+    "enableSummarization": false,
+    "enablePrivateKnowledgeGraph": false,
+    "displayName": "v",
+    "fieldsUiComponentsMap": {},
+    "geminiBundle": false,
+    "uiBranding": {},
+    "allowlistedDomains": [],
+    "resultDisplayType": "v",
+    "batchAuthStatuses": [],
+    "uiSettings": {},
+    "contentSearchSpec": {},
+    "facetField": [],
+    "configId": "v",
+    "createTime": "2026-10-01T00:00:00Z",
+    "enableSnippetResultSummary": false,
+    "dataStoreUiConfigs": [],
+    "enableWebApp": false,
+    "dataStoreType": "v",
+    "industryVertical": "v",
+    "homepageSetting": {},
+    "defaultSearchRequestOrderBy": "v",
+    "nodes": [],
+    "customerProvidedConfig": {},
+    "updateTime": "2026-10-01T00:00:00Z",
+    "enableSafeSearch": false,
+    "minimumDataTermAccepted": false,
+    "enableAutocomplete": false,
+    "allowPublicAccess": false,
+    "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/widgetConfigs/default_search_widget_config",
+    "solutionType": "v",
+    "llmEnabled": false,
+    "enableSearchAsYouType": false
+   },
+   "object_type": "WidgetConfig",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/widgetConfigs/default_search_widget_config"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "schemas"
+   },
+   "payload": {
+    "schemas": [
+     {
+      "name": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/schemas/default_schema",
+      "structSchema": {},
+      "fieldConfigs": [],
+      "jsonSchema": "v"
+     }
+    ]
+   },
+   "object_type": "Schema",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/schemas/default_schema"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "sessions"
+   },
+   "payload": {
+    "sessions": [
+     {
+      "displayName": "v",
+      "userPseudoId": "v",
+      "labels": [],
+      "startTime": "2026-10-01T00:00:00Z",
+      "pendingAsyncAssistOperationId": "v",
+      "turns": [],
+      "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/sessions/session-1",
+      "state": "v",
+      "isPinned": false,
+      "endTime": "2026-10-01T00:00:00Z"
+     }
+    ]
+   },
+   "object_type": "Session",
+   "not_carried": [
+    "turns"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/sessions/session-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "conversations"
+   },
+   "payload": {
+    "conversations": [
+     {
+      "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/conversations/conv-1",
+      "state": "v",
+      "messages": [],
+      "endTime": "2026-10-01T00:00:00Z",
+      "startTime": "2026-10-01T00:00:00Z",
+      "userPseudoId": "v"
+     }
+    ]
+   },
+   "object_type": "Conversation",
+   "not_carried": [
+    "messages"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/conversations/conv-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "session_files",
+    "parent": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/sessions/session-1"
+   },
+   "payload": {
+    "files": [
+     {
+      "fileOriginType": "v",
+      "originalUri": "v",
+      "mimeType": "v",
+      "lastAddTime": "2026-10-01T00:00:00Z",
+      "metadata": {},
+      "originalSourceType": "v",
+      "uploadTime": "2026-10-01T00:00:00Z",
+      "downloadUri": "v",
+      "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/sessions/session-1/files/file-1",
+      "byteSize": "v",
+      "views": {},
+      "fileId": "v"
+     }
+    ]
+   },
+   "object_type": "FileMetadata",
+   "not_carried": [
+    "downloadUri"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/sessions/session-1/files/file-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "custom_models",
+    "parent": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store"
+   },
+   "payload": {
+    "models": [
+     {
+      "createTime": "2026-10-01T00:00:00Z",
+      "trainingStartTime": "2026-10-01T00:00:00Z",
+      "metrics": {},
+      "modelState": "v",
+      "name": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/customTuningModels/model-1",
+      "displayName": "v",
+      "errorMessage": "v",
+      "modelVersion": "v"
+     }
+    ]
+   },
+   "object_type": "CustomTuningModel",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/customTuningModels/model-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "documents"
+   },
+   "payload": {
+    "documents": [
+     {
+      "aclInfo": {},
+      "structData": {},
+      "indexTime": "2026-10-01T00:00:00Z",
+      "indexStatus": {},
+      "content": {},
+      "derivedStructData": {},
+      "parentDocumentId": "v",
+      "name": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/branches/0/documents/doc-1",
+      "schemaId": "v",
+      "jsonData": "v",
+      "id": "v"
+     }
+    ]
+   },
+   "object_type": "Document",
+   "not_carried": [
+    "content",
+    "derivedStructData",
+    "jsonData",
+    "structData"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/branches/0/documents/doc-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "chunks"
+   },
+   "payload": {
+    "chunks": [
+     {
+      "chunkMetadata": {},
+      "name": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/branches/0/documents/doc-1/chunks/c1",
+      "relevanceScore": 1,
+      "annotationContents": [],
+      "annotationMetadata": [],
+      "content": "v",
+      "derivedStructData": {},
+      "dataUrls": [],
+      "id": "v",
+      "documentMetadata": {},
+      "pageSpan": {}
+     }
+    ]
+   },
+   "object_type": "Chunk",
+   "not_carried": [
+    "annotationContents",
+    "content",
+    "dataUrls",
+    "derivedStructData"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/branches/0/documents/doc-1/chunks/c1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "branches"
+   },
+   "payload": {
+    "branches": [
+     {
+      "lastDocumentImportTime": "2026-10-01T00:00:00Z",
+      "displayName": "v",
+      "branchStats": {},
+      "name": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/branches/0",
+      "isDefault": false
+     }
+    ]
+   },
+   "object_type": "Branch",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/branches/0"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "target_sites"
+   },
+   "payload": {
+    "targetSites": [
+     {
+      "exactMatch": false,
+      "generatedUriPattern": "v",
+      "providedUriPattern": "v",
+      "name": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/siteSearchEngine/targetSites/site-1",
+      "type": "v",
+      "siteVerificationInfo": {},
+      "indexingStatus": "v",
+      "rootDomainUri": "v",
+      "failureReason": {},
+      "updateTime": "2026-10-01T00:00:00Z"
+     }
+    ]
+   },
+   "object_type": "TargetSite",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/dataStores/drive-store/siteSearchEngine/targetSites/site-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "canned_queries"
+   },
+   "payload": {
+    "cannedQueries": [
+     {
+      "requiredCapabilities": [],
+      "displayName": "v",
+      "enabled": false,
+      "googleDefined": false,
+      "localizedTexts": {},
+      "defaultTexts": {},
+      "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/assistants/default_assistant/cannedQueries/q-1"
+     }
+    ]
+   },
+   "object_type": "CannedQuery",
+   "folded_into": "Assistant",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/assistants/default_assistant/cannedQueries/q-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "sample_query_sets"
+   },
+   "payload": {
+    "sampleQuerySets": [
+     {
+      "name": "projects/100000000001/locations/global/sampleQuerySets/set-1",
+      "createTime": "2026-10-01T00:00:00Z",
+      "displayName": "v",
+      "description": "v"
+     }
+    ]
+   },
+   "object_type": "SampleQuerySet",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/sampleQuerySets/set-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "sample_queries"
+   },
+   "payload": {
+    "sampleQueries": [
+     {
+      "queryEntry": {},
+      "createTime": "2026-10-01T00:00:00Z",
+      "name": "projects/100000000001/locations/global/sampleQuerySets/set-1/sampleQueries/q-1"
+     }
+    ]
+   },
+   "object_type": "SampleQuery",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/sampleQuerySets/set-1/sampleQueries/q-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "alpha_evolve_experiments"
+   },
+   "payload": {
+    "alphaEvolveExperiments": [
+     {
+      "createTime": "2026-10-01T00:00:00Z",
+      "stats": {},
+      "initialAlphaEvolveProgram": "v",
+      "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/sessions/session-1/alphaEvolveExperiments/exp-1",
+      "config": {},
+      "state": "v"
+     }
+    ]
+   },
+   "object_type": "AlphaEvolveExperiment",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/sessions/session-1/alphaEvolveExperiments/exp-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "alpha_evolve_programs"
+   },
+   "payload": {
+    "alphaEvolvePrograms": [
+     {
+      "evaluation": {},
+      "name": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/sessions/session-1/alphaEvolveExperiments/exp-1/alphaEvolvePrograms/prog-1",
+      "state": "v",
+      "lockToken": "v",
+      "content": {},
+      "parentPrograms": [],
+      "createTime": "2026-10-01T00:00:00Z"
+     }
+    ]
+   },
+   "object_type": "AlphaEvolveProgram",
+   "not_carried": [
+    "content",
+    "lockToken"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/sessions/session-1/alphaEvolveExperiments/exp-1/alphaEvolvePrograms/prog-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "notebooks"
+   },
+   "payload": {
+    "notebooks": [
+     {
+      "sources": [],
+      "cmekConfig": {},
+      "title": "v",
+      "name": "projects/100000000001/locations/global/notebooks/nb-1",
+      "metadata": {},
+      "notebookId": "v",
+      "emoji": "v"
+     }
+    ]
+   },
+   "object_type": "Notebook",
+   "not_carried": [
+    "sources"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/notebooks/nb-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "notebook_sources"
+   },
+   "payload": {
+    "sources": [
+     {
+      "metadata": {},
+      "settings": {},
+      "sourceId": {},
+      "name": "projects/100000000001/locations/global/notebooks/nb-1/sources/src-1",
+      "title": "v"
+     }
+    ]
+   },
+   "object_type": "Source",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/notebooks/nb-1/sources/src-1"
+  },
+  {
+   "call_id": "GCP-03",
+   "request_params": {
+    "kind": "a2a_push_notification_configs",
+    "tenant": "projects/100000000001/locations/global/collections/default_collection/engines/company-app/assistants/default_assistant/agents/agent-1"
+   },
+   "payload": {
+    "configs": [
+     {
+      "name": "tasks/task-1/pushNotificationConfigs/cfg-1",
+      "pushNotificationConfig": {
+       "id": "cfg-1",
+       "url": "https://hooks.example.com/a2a",
+       "token": "should-not-appear"
+      }
+     }
+    ]
+   },
+   "object_type": "A2aV1TaskPushNotificationConfig",
+   "not_carried": [
+    "pushNotificationConfig"
+   ],
+   "runtime_id": null
+  },
+  {
+   "call_id": "GCP-04",
+   "request_params": {
+    "kind": "ai_applications"
+   },
+   "payload": {
+    "aiApplications": [
+     {
+      "displayName": "v",
+      "name": "projects/100000000001/locations/us-central1/aiApplications/app-1",
+      "applicationProperties": {},
+      "description": "v",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "state": "ACTIVE",
+      "uid": "v",
+      "createTime": "2026-10-01T00:00:00Z",
+      "attributes": {}
+     }
+    ]
+   },
+   "object_type": "AiApplication",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/us-central1/aiApplications/app-1"
+  },
+  {
+   "call_id": "GCP-04",
+   "request_params": {
+    "kind": "agents"
+   },
+   "payload": {
+    "agents": [
+     {
+      "card": {},
+      "location": "v",
+      "uid": "v",
+      "version": "v",
+      "skills": [],
+      "protocols": [],
+      "attributes": {
+       "agentregistry.googleapis.com/system/RuntimeReference": {
+        "uri": "//discoveryengine.googleapis.com/projects/100000000001/locations/global/collections/default_collection/engines/company-app/assistants/default_assistant/agents/agent-1"
+       },
+       "agentregistry.googleapis.com/system/RuntimeIdentity": {
+        "principal": "principal://agents.global.org-100000000000.system.id.goog/resources/discoveryengine/projects/100000000001/locations/global/collections/default_collection/engines/company-app/assistants/default_assistant/agents/agent-1"
+       }
+      },
+      "description": "v",
+      "name": "projects/100000000001/locations/us-central1/agents/agent-1",
+      "agentId": "v",
+      "displayName": "v",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "createTime": "2026-10-01T00:00:00Z"
+     }
+    ]
+   },
+   "object_type": "RegistryAgent",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/us-central1/agents/agent-1"
+  },
+  {
+   "call_id": "GCP-04",
+   "request_params": {
+    "kind": "mcp_servers"
+   },
+   "payload": {
+    "mcpServers": [
+     {
+      "attributes": {
+       "agentregistry.googleapis.com/system/RuntimeReference": {
+        "uri": "//discoveryengine.googleapis.com/projects/100000000001/locations/global/collections/jira-collection/dataConnector"
+       }
+      },
+      "displayName": "v",
+      "createTime": "2026-10-01T00:00:00Z",
+      "interfaces": [],
+      "name": "projects/100000000001/locations/us-central1/mcpServers/mcp-1",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "description": "v",
+      "tools": [],
+      "mcpServerId": "v"
+     }
+    ]
+   },
+   "object_type": "McpServer",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/us-central1/mcpServers/mcp-1"
+  },
+  {
+   "call_id": "GCP-04",
+   "request_params": {
+    "kind": "services"
+   },
+   "payload": {
+    "services": [
+     {
+      "name": "projects/100000000001/locations/us-central1/services/svc-1",
+      "registryResource": "v",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "interfaces": [],
+      "createTime": "2026-10-01T00:00:00Z",
+      "description": "v",
+      "mcpServerSpec": {},
+      "agentSpec": {},
+      "endpointSpec": {},
+      "displayName": "v"
+     }
+    ]
+   },
+   "object_type": "RegistryService",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/us-central1/services/svc-1"
+  },
+  {
+   "call_id": "GCP-04",
+   "request_params": {
+    "kind": "endpoints"
+   },
+   "payload": {
+    "endpoints": [
+     {
+      "description": "v",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "displayName": "v",
+      "interfaces": [],
+      "name": "projects/100000000001/locations/us-central1/endpoints/ep-1",
+      "endpointId": "v",
+      "createTime": "2026-10-01T00:00:00Z",
+      "attributes": {}
+     }
+    ]
+   },
+   "object_type": "RegistryEndpoint",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/us-central1/endpoints/ep-1"
+  },
+  {
+   "call_id": "GCP-04",
+   "request_params": {
+    "kind": "bindings"
+   },
+   "payload": {
+    "bindings": [
+     {
+      "authProviderBinding": {},
+      "createTime": "2026-10-01T00:00:00Z",
+      "name": "projects/100000000001/locations/us-central1/bindings/b-1",
+      "source": {},
+      "updateTime": "2026-10-01T00:00:00Z",
+      "target": {},
+      "description": "v",
+      "displayName": "v"
+     }
+    ]
+   },
+   "object_type": "RegistryBinding",
+   "not_carried": [
+    "authProviderBinding",
+    "source",
+    "target"
+   ],
+   "runtime_id": "projects/100000000001/locations/us-central1/bindings/b-1"
+  },
+  {
+   "call_id": "GCP-04",
+   "request_params": {
+    "kind": "skills"
+   },
+   "payload": {
+    "skills": [
+     {
+      "displayName": "v",
+      "name": "projects/100000000001/locations/us-central1/skills/skill-1",
+      "state": "v",
+      "initialRevision": {},
+      "uid": "v",
+      "description": "v",
+      "type": "v",
+      "scanningConfig": {},
+      "publisher": "v",
+      "skillId": "v",
+      "targetState": "v",
+      "frontmatter": {},
+      "createTime": "2026-10-01T00:00:00Z",
+      "defaultRevision": "v",
+      "updateTime": "2026-10-01T00:00:00Z"
+     }
+    ]
+   },
+   "object_type": "Skill",
+   "not_carried": [
+    "initialRevision"
+   ],
+   "runtime_id": "projects/100000000001/locations/us-central1/skills/skill-1"
+  },
+  {
+   "call_id": "GCP-04",
+   "request_params": {
+    "kind": "skill_revisions"
+   },
+   "payload": {
+    "skillRevisions": [
+     {
+      "archiveUploadSource": {},
+      "sizeBytes": "v",
+      "frontmatter": {},
+      "name": "projects/100000000001/locations/us-central1/skills/skill-1/revisions/1",
+      "sha256Hash": "v",
+      "createTime": "2026-10-01T00:00:00Z",
+      "gcsSource": {},
+      "scanResult": {},
+      "state": "ACTIVE",
+      "uid": "v"
+     }
+    ]
+   },
+   "object_type": "SkillRevision",
+   "not_carried": [
+    "archiveUploadSource"
+   ],
+   "runtime_id": "projects/100000000001/locations/us-central1/skills/skill-1/revisions/1"
+  },
+  {
+   "call_id": "GCP-05",
+   "request_params": {
+    "kind": "auth_providers"
+   },
+   "payload": {
+    "authProviders": [
+     {
+      "expireTime": "2026-10-01T00:00:00Z",
+      "authProviderTypeParams": {},
+      "name": "projects/100000000001/locations/global/authProviders/ap-1",
+      "blockedScopes": [],
+      "labels": {},
+      "createTime": "2026-10-01T00:00:00Z",
+      "deleted": false,
+      "state": "v",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "allowedScopes": [],
+      "description": "v",
+      "workloadIds": []
+     }
+    ]
+   },
+   "object_type": "AuthProvider",
+   "not_carried": [
+    "authProviderTypeParams"
+   ],
+   "runtime_id": "projects/100000000001/locations/global/authProviders/ap-1"
+  },
+  {
+   "call_id": "GCP-05",
+   "request_params": {
+    "kind": "authorizations"
+   },
+   "payload": {
+    "authorizations": [
+     {
+      "scopes": [],
+      "createTime": "2026-10-01T00:00:00Z",
+      "state": "ACTIVE",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "clientUserId": "v",
+      "name": "projects/100000000001/locations/global/authProviders/ap-1/authorizations/az-1"
+     }
+    ]
+   },
+   "object_type": "AgentIdentityAuthorization",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/global/authProviders/ap-1/authorizations/az-1"
+  },
+  {
+   "call_id": "GCP-06",
+   "request_params": {
+    "kind": "reasoning_engines"
+   },
+   "payload": {
+    "reasoningEngines": [
+     {
+      "labels": {},
+      "name": "projects/100000000001/locations/us-central1/reasoningEngines/re-1",
+      "etag": "v",
+      "createTime": "2026-10-01T00:00:00Z",
+      "displayName": "v",
+      "encryptionSpec": {},
+      "updateTime": "2026-10-01T00:00:00Z",
+      "contextSpec": {},
+      "spec": {
+       "identityType": "SERVICE_ACCOUNT",
+       "serviceAccount": "agent@example-project.iam.gserviceaccount.com",
+       "effectiveIdentity": "agent@example-project.iam.gserviceaccount.com",
+       "agentFramework": "google-adk",
+       "deploymentSpec": {
+        "env": [
+         {
+          "name": "API_KEY",
+          "value": "should-not-appear"
+         }
+        ]
+       }
+      },
+      "description": "v"
+     }
+    ]
+   },
+   "object_type": "ReasoningEngine",
+   "not_carried": [
+    "contextSpec",
+    "encryptionSpec",
+    "spec"
+   ],
+   "runtime_id": "projects/100000000001/locations/us-central1/reasoningEngines/re-1"
+  },
+  {
+   "call_id": "GCP-06",
+   "request_params": {
+    "kind": "memories"
+   },
+   "payload": {
+    "memories": [
+     {
+      "displayName": "v",
+      "name": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/memories/m-1",
+      "topics": [],
+      "disableMemoryRevisions": false,
+      "updateTime": "2026-10-01T00:00:00Z",
+      "createTime": "2026-10-01T00:00:00Z",
+      "revisionExpireTime": "2026-10-01T00:00:00Z",
+      "revisionLabels": {},
+      "ttl": "v",
+      "expireTime": "2026-10-01T00:00:00Z",
+      "metadata": {},
+      "description": "v",
+      "scope": {},
+      "context": "v",
+      "fact": "v",
+      "revisionTtl": "v"
+     }
+    ]
+   },
+   "object_type": "Memory",
+   "not_carried": [
+    "fact"
+   ],
+   "runtime_id": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/memories/m-1"
+  },
+  {
+   "call_id": "GCP-06",
+   "request_params": {
+    "kind": "memory_revisions"
+   },
+   "payload": {
+    "memoryRevisions": [
+     {
+      "extractedMemories": [],
+      "fact": "v",
+      "expireTime": "2026-10-01T00:00:00Z",
+      "structuredData": {},
+      "name": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/memories/m-1/revisions/r-1",
+      "labels": {},
+      "context": "v",
+      "createTime": "2026-10-01T00:00:00Z"
+     }
+    ]
+   },
+   "object_type": "MemoryRevision",
+   "not_carried": [
+    "extractedMemories",
+    "fact",
+    "structuredData"
+   ],
+   "runtime_id": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/memories/m-1/revisions/r-1"
+  },
+  {
+   "call_id": "GCP-06",
+   "request_params": {
+    "kind": "sessions"
+   },
+   "payload": {
+    "sessions": [
+     {
+      "updateTime": "2026-10-01T00:00:00Z",
+      "sessionState": {},
+      "name": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/sessions/s-1",
+      "displayName": "v",
+      "labels": {},
+      "expireTime": "2026-10-01T00:00:00Z",
+      "ttl": "v",
+      "createTime": "2026-10-01T00:00:00Z",
+      "userId": "v"
+     }
+    ]
+   },
+   "object_type": "ReasoningEngineSession",
+   "not_carried": [
+    "sessionState"
+   ],
+   "runtime_id": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/sessions/s-1"
+  },
+  {
+   "call_id": "GCP-06",
+   "request_params": {
+    "kind": "sandbox_environments"
+   },
+   "payload": {
+    "sandboxEnvironments": [
+     {
+      "sandboxEnvironmentTemplate": "v",
+      "connectionInfo": {},
+      "updateTime": "2026-10-01T00:00:00Z",
+      "createTime": "2026-10-01T00:00:00Z",
+      "expireTime": "2026-10-01T00:00:00Z",
+      "sandboxEnvironmentSnapshot": "v",
+      "owner": "v",
+      "displayName": "v",
+      "ttl": "v",
+      "spec": {},
+      "name": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/sandboxEnvironments/sb-1",
+      "state": "v",
+      "latestSandboxEnvironmentSnapshot": "v"
+     }
+    ]
+   },
+   "object_type": "SandboxEnvironment",
+   "not_carried": [
+    "connectionInfo",
+    "spec"
+   ],
+   "runtime_id": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/sandboxEnvironments/sb-1"
+  },
+  {
+   "call_id": "GCP-06",
+   "request_params": {
+    "kind": "sandbox_environment_snapshots"
+   },
+   "payload": {
+    "sandboxEnvironmentSnapshots": [
+     {
+      "expireTime": "2026-10-01T00:00:00Z",
+      "postSnapshotAction": "v",
+      "sourceSandboxEnvironment": "v",
+      "createTime": "2026-10-01T00:00:00Z",
+      "updateTime": "2026-10-01T00:00:00Z",
+      "displayName": "v",
+      "ttl": "v",
+      "sizeBytes": "v",
+      "owner": "v",
+      "parentSnapshot": "v",
+      "name": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/sandboxEnvironmentSnapshots/snap-1"
+     }
+    ]
+   },
+   "object_type": "SandboxEnvironmentSnapshot",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/sandboxEnvironmentSnapshots/snap-1"
+  },
+  {
+   "call_id": "GCP-06",
+   "request_params": {
+    "kind": "sandbox_environment_templates"
+   },
+   "payload": {
+    "sandboxEnvironmentTemplates": [
+     {
+      "displayName": "v",
+      "egressControlConfig": {},
+      "updateTime": "2026-10-01T00:00:00Z",
+      "defaultContainerEnvironment": {},
+      "createTime": "2026-10-01T00:00:00Z",
+      "state": "ACTIVE",
+      "customContainerEnvironment": {},
+      "name": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/sandboxEnvironmentTemplates/tpl-1",
+      "ingressControlConfig": {}
+     }
+    ]
+   },
+   "object_type": "SandboxEnvironmentTemplate",
+   "not_carried": [],
+   "runtime_id": "projects/100000000001/locations/us-central1/reasoningEngines/re-1/sandboxEnvironmentTemplates/tpl-1"
+  },
+  {
+   "call_id": "GCP-02",
+   "request_params": {
+    "kind": "service_accounts"
+   },
+   "payload": {
+    "accounts": [
+     {
+      "name": "projects/example-project/serviceAccounts/agent@example-project.iam.gserviceaccount.com",
+      "description": "v",
+      "etag": "v",
+      "disabled": false,
+      "displayName": "v",
+      "oauth2ClientId": "v",
+      "email": "agent@example-project.iam.gserviceaccount.com",
+      "projectId": "example-project",
+      "uniqueId": "v"
+     }
+    ]
+   },
+   "object_type": "ServiceAccount",
+   "not_carried": [],
+   "runtime_id": "projects/example-project/serviceAccounts/agent@example-project.iam.gserviceaccount.com"
+  },
+  {
+   "call_id": "GCP-02",
+   "request_params": {
+    "kind": "service_account_keys"
+   },
+   "payload": {
+    "keys": [
+     {
+      "disabled": false,
+      "validAfterTime": "2026-10-01T00:00:00Z",
+      "validBeforeTime": "2027-10-01T00:00:00Z",
+      "name": "projects/example-project/serviceAccounts/agent@example-project.iam.gserviceaccount.com/keys/key-1",
+      "keyType": "v",
+      "privateKeyType": "v",
+      "publicKeyData": "should-not-appear",
+      "extendedStatus": [],
+      "privateKeyData": "should-not-appear",
+      "keyAlgorithm": "v",
+      "disableReason": "v",
+      "keyOrigin": "v"
+     }
+    ]
+   },
+   "object_type": "ServiceAccountKey",
+   "not_carried": [
+    "privateKeyData",
+    "publicKeyData"
+   ],
+   "runtime_id": "projects/example-project/serviceAccounts/agent@example-project.iam.gserviceaccount.com/keys/key-1"
+  },
+  {
+   "call_id": "GCP-02",
+   "request_params": {
+    "kind": "workforce_pools"
+   },
+   "payload": {
+    "workforcePools": [
+     {
+      "expireTime": "2026-10-01T00:00:00Z",
+      "name": "locations/global/workforcePools/pool-1",
+      "state": "ACTIVE",
+      "sessionDuration": "v",
+      "parent": "v",
+      "accessRestrictions": {},
+      "description": "v",
+      "displayName": "v",
+      "disabled": false
+     }
+    ]
+   },
+   "object_type": "WorkforcePool",
+   "not_carried": [],
+   "runtime_id": "locations/global/workforcePools/pool-1"
+  },
+  {
+   "call_id": "GCP-02",
+   "request_params": {
+    "kind": "workforce_pool_providers"
+   },
+   "payload": {
+    "workforcePoolProviders": [
+     {
+      "description": "v",
+      "detailedAuditLogging": false,
+      "saml": {},
+      "attributeMapping": {},
+      "attributeCondition": "v",
+      "expireTime": "2026-10-01T00:00:00Z",
+      "name": "locations/global/workforcePools/pool-1/providers/okta",
+      "extendedAttributesOauth2Client": {},
+      "extraAttributesOauth2Client": {},
+      "state": "ACTIVE",
+      "attributeSyncInterval": "v",
+      "vendorType": "v",
+      "oidc": {},
+      "scimUsage": "v",
+      "disabled": false,
+      "displayName": "v"
+     }
+    ]
+   },
+   "object_type": "WorkforcePoolProvider",
+   "not_carried": [
+    "extendedAttributesOauth2Client",
+    "extraAttributesOauth2Client",
+    "oidc",
+    "saml"
+   ],
+   "runtime_id": "locations/global/workforcePools/pool-1/providers/okta"
+  },
+  {
+   "call_id": "GCP-02",
+   "request_params": {
+    "kind": "scim_tenants"
+   },
+   "payload": {
+    "workforcePoolProviderScimTenants": [
+     {
+      "displayName": "v",
+      "baseUri": "v",
+      "serviceAgent": "v",
+      "state": "ACTIVE",
+      "name": "locations/global/workforcePools/pool-1/providers/okta/scimTenants/t-1",
+      "description": "v",
+      "claimMapping": {},
+      "purgeTime": "2026-10-01T00:00:00Z"
+     }
+    ]
+   },
+   "object_type": "WorkforcePoolProviderScimTenant",
+   "not_carried": [],
+   "runtime_id": "locations/global/workforcePools/pool-1/providers/okta/scimTenants/t-1"
+  },
+  {
+   "call_id": "GCP-02",
+   "request_params": {
+    "kind": "scim_tokens"
+   },
+   "payload": {
+    "workforcePoolProviderScimTokens": [
+     {
+      "name": "locations/global/workforcePools/pool-1/providers/okta/scimTenants/t-1/tokens/tok-1",
+      "state": "ACTIVE",
+      "securityToken": "should-not-appear",
+      "displayName": "v"
+     }
+    ]
+   },
+   "object_type": "WorkforcePoolProviderScimToken",
+   "not_carried": [
+    "securityToken"
+   ],
+   "runtime_id": "locations/global/workforcePools/pool-1/providers/okta/scimTenants/t-1/tokens/tok-1"
+  },
+  {
+   "call_id": "GCP-02",
+   "request_params": {
+    "kind": "oauth_clients"
+   },
+   "payload": {
+    "oauthClients": [
+     {
+      "expireTime": "2026-10-01T00:00:00Z",
+      "allowedRedirectUris": [],
+      "disabled": false,
+      "displayName": "v",
+      "clientId": "v",
+      "clientType": "v",
+      "allowedGrantTypes": [],
+      "name": "projects/example-project/locations/global/oauthClients/client-1",
+      "allowedScopes": [],
+      "state": "ACTIVE",
+      "description": "v"
+     }
+    ]
+   },
+   "object_type": "OauthClient",
+   "not_carried": [],
+   "runtime_id": "projects/example-project/locations/global/oauthClients/client-1"
+  },
+  {
+   "call_id": "GCP-02",
+   "request_params": {
+    "kind": "oauth_client_credentials"
+   },
+   "payload": {
+    "oauthClientCredentials": [
+     {
+      "clientSecret": "should-not-appear",
+      "displayName": "v",
+      "name": "projects/example-project/locations/global/oauthClients/client-1/credentials/cred-1",
+      "disabled": false
+     }
+    ]
+   },
+   "object_type": "OauthClientCredential",
+   "not_carried": [
+    "clientSecret"
+   ],
+   "runtime_id": "projects/example-project/locations/global/oauthClients/client-1/credentials/cred-1"
+  },
+  {
+   "call_id": "GCP-02",
+   "request_params": {
+    "kind": "workload_identity_pools"
+   },
+   "payload": {
+    "workloadIdentityPools": [
+     {
+      "mode": "v",
+      "description": "v",
+      "inlineTrustConfig": {},
+      "state": "ACTIVE",
+      "inlineCertificateIssuanceConfig": {},
+      "expireTime": "2026-10-01T00:00:00Z",
+      "name": "projects/example-project/locations/global/workloadIdentityPools/gh-pool",
+      "disabled": false,
+      "displayName": "v"
+     }
+    ]
+   },
+   "object_type": "WorkloadIdentityPool",
+   "not_carried": [
+    "inlineCertificateIssuanceConfig",
+    "inlineTrustConfig"
+   ],
+   "runtime_id": "projects/example-project/locations/global/workloadIdentityPools/gh-pool"
+  },
+  {
+   "call_id": "GCP-02",
+   "request_params": {
+    "kind": "workload_identity_pool_providers"
+   },
+   "payload": {
+    "workloadIdentityPoolProviders": [
+     {
+      "disabled": false,
+      "x509": {},
+      "saml": {},
+      "attributeMapping": {},
+      "aws": {},
+      "state": "ACTIVE",
+      "name": "projects/example-project/locations/global/workloadIdentityPools/gh-pool/providers/github",
+      "actorProviders": [],
+      "description": "v",
+      "displayName": "v",
+      "oidc": {},
+      "expireTime": "2026-10-01T00:00:00Z",
+      "attributeCondition": "v"
+     }
+    ]
+   },
+   "object_type": "WorkloadIdentityPoolProvider",
+   "not_carried": [
+    "aws",
+    "oidc",
+    "saml",
+    "x509"
+   ],
+   "runtime_id": "projects/example-project/locations/global/workloadIdentityPools/gh-pool/providers/github"
+  }
+ ]
+}

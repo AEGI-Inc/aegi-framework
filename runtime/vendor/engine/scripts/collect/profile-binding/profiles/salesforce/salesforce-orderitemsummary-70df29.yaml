@@ -1,0 +1,989 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: OrderItemSummary
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:9acde6268eb93bdd0b70df29
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:9acde6268eb93bdd0b70df29.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|Id
+  AdjustedLineAmount:
+    path: AdjustedLineAmount
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: AdjustedLineAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|AdjustedLineAmount
+  AdjustedLineAmtWithTax:
+    path: AdjustedLineAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: AdjustedLineAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|AdjustedLineAmtWithTax
+  AssetId:
+    path: AssetId
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: reference
+      name: AssetId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|AssetId
+  CurrencyIsoCode:
+    path: CurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: picklist
+      name: CurrencyIsoCode
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|CurrencyIsoCode
+  DeliveryEstimationReference:
+    path: DeliveryEstimationReference
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: string
+      name: DeliveryEstimationReference
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|DeliveryEstimationReference
+  DeliveryEstimationTimeZone:
+    path: DeliveryEstimationTimeZone
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: picklist
+      name: DeliveryEstimationTimeZone
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|DeliveryEstimationTimeZone
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: string
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|Description
+  EarliestEstimatedDeliveryDate:
+    path: EarliestEstimatedDeliveryDate
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: date
+      name: EarliestEstimatedDeliveryDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|EarliestEstimatedDeliveryDate
+  EarliestEstimatedDeliveryTime:
+    path: EarliestEstimatedDeliveryTime
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: timeOnly
+      name: EarliestEstimatedDeliveryTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|EarliestEstimatedDeliveryTime
+  EndDate:
+    path: EndDate
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: date
+      name: EndDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|EndDate
+  GrossUnitPrice:
+    path: GrossUnitPrice
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: GrossUnitPrice
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|GrossUnitPrice
+  LastEstimatedDeliveryDate:
+    path: LastEstimatedDeliveryDate
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: date
+      name: LastEstimatedDeliveryDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|LastEstimatedDeliveryDate
+  LastEstimatedDeliveryTime:
+    path: LastEstimatedDeliveryTime
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: timeOnly
+      name: LastEstimatedDeliveryTime
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|LastEstimatedDeliveryTime
+  LineNumber:
+    path: LineNumber
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: int
+      name: LineNumber
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:OrderItemSummary|LineNumber
+  ListPrice:
+    path: ListPrice
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: ListPrice
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|ListPrice
+  MainOrderItemSummaryId:
+    path: MainOrderItemSummaryId
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: reference
+      name: MainOrderItemSummaryId
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|MainOrderItemSummaryId
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: string
+      name: Name
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|Name
+  OrderDeliveryGroup:
+    path: OrderDeliveryGroup
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: reference
+      name: OrderDeliveryGroup
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|OrderDeliveryGroup
+  OrderManagementBillingType:
+    path: OrderManagementBillingType
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: enum
+      name: OrderManagementBillingType
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|OrderManagementBillingType
+  OrderSummaryId:
+    path: OrderSummaryId
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: reference
+      name: OrderSummaryId
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|OrderSummaryId
+  OriginalOrderItemId:
+    path: OriginalOrderItemId
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: reference
+      name: OriginalOrderItemId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|OriginalOrderItemId
+  PricebookEntryId:
+    path: PricebookEntryId
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: reference
+      name: PricebookEntryId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|PricebookEntryId
+  Product2Id:
+    path: Product2Id
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: reference
+      name: Product2Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|Product2Id
+  ProductCode:
+    path: ProductCode
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: string
+      name: ProductCode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|ProductCode
+  Quantity:
+    path: Quantity
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: Quantity
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|Quantity
+  QuantityAllocated:
+    path: QuantityAllocated
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: QuantityAllocated
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|QuantityAllocated
+  QuantityAvailable:
+    path: QuantityAvailable
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: QuantityAvailable
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|QuantityAvailable
+  QuantityCanceled:
+    path: QuantityCanceled
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: QuantityCanceled
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|QuantityCanceled
+  QuantityFulfilled:
+    path: QuantityFulfilled
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: QuantityFulfilled
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|QuantityFulfilled
+  QuantityNetOrdered:
+    path: QuantityNetOrdered
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: QuantityNetOrdered
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|QuantityNetOrdered
+  QuantityOrdered:
+    path: QuantityOrdered
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: QuantityOrdered
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|QuantityOrdered
+  QuantityReshipped:
+    path: QuantityReshipped
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: QuantityReshipped
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|QuantityReshipped
+  QuantityReturned:
+    path: QuantityReturned
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: QuantityReturned
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|QuantityReturned
+  QuantityReturnInitiated:
+    path: QuantityReturnInitiated
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: QuantityReturnInitiated
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|QuantityReturnInitiated
+  QuantityShipped:
+    path: QuantityShipped
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: double
+      name: QuantityShipped
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|QuantityShipped
+  ReferencePrice:
+    path: ReferencePrice
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: ReferencePrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|ReferencePrice
+  ReservedAtLocationId:
+    path: ReservedAtLocationId
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: reference
+      name: ReservedAtLocationId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|ReservedAtLocationId
+  ServiceDate:
+    path: ServiceDate
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: date
+      name: ServiceDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|ServiceDate
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: picklist
+      name: Status
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|Status
+  StockKeepingUnit:
+    path: StockKeepingUnit
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: string
+      name: StockKeepingUnit
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|StockKeepingUnit
+  TaxTreatmentId:
+    path: TaxTreatmentId
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: reference
+      name: TaxTreatmentId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|TaxTreatmentId
+  TotalAdjusted:
+    path: TotalAdjusted
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalAdjusted
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalAdjusted
+  TotalAdjustmentAmount:
+    path: TotalAdjustmentAmount
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalAdjustmentAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalAdjustmentAmount
+  TotalAdjustment:
+    path: TotalAdjustment
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalAdjustment
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalAdjustment
+  TotalAdjustmentDistAmount:
+    path: TotalAdjustmentDistAmount
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalAdjustmentDistAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalAdjustmentDistAmount
+  TotalAdjustmentDist:
+    path: TotalAdjustmentDist
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalAdjustmentDist
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalAdjustmentDist
+  TotalAdjustmentTaxAmount:
+    path: TotalAdjustmentTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalAdjustmentTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalAdjustmentTaxAmount
+  TotalAmtWithTax:
+    path: TotalAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalAmtWithTax
+  TotalLineAdjustmentAmount:
+    path: TotalLineAdjustmentAmount
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalLineAdjustmentAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalLineAdjustmentAmount
+  TotalLineAdjustment:
+    path: TotalLineAdjustment
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalLineAdjustment
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalLineAdjustment
+  TotalLineAmount:
+    path: TotalLineAmount
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalLineAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalLineAmount
+  TotalLineAmountWithTax:
+    path: TotalLineAmountWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalLineAmountWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalLineAmountWithTax
+  TotalLineTaxAmount:
+    path: TotalLineTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalLineTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalLineTaxAmount
+  TotalPrice:
+    path: TotalPrice
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalPrice
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalPrice
+  TotalTaxAmount:
+    path: TotalTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: TotalTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|TotalTaxAmount
+  Type:
+    path: Type
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: picklist
+      name: Type
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|Type
+  TypeCode:
+    path: TypeCode
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: picklist
+      name: TypeCode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:OrderItemSummary|TypeCode
+  UnitPrice:
+    path: UnitPrice
+    source: research_shape
+    shape: sh:sf_object_reference:OrderItemSummary
+    declaration:
+      format: currency
+      name: UnitPrice
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:OrderItemSummary|UnitPrice
+references:
+  - name: originalorderitemid
+    field: OriginalOrderItemId
+    target: OrderItem
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0e9c44622a45de8a11cbaaff; relation=no_relation
+  - name: assetid
+    field: AssetId
+    target: Asset
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:60a9b5635c45f5c9eafaebbb; relation=no_relation
+  - name: ordersummaryid
+    field: OrderSummaryId
+    target: OrderSummary
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:7f7a32d61eddc6e3fd33c532; relation=no_relation
+  - name: product2id
+    field: Product2Id
+    target: Product2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8e32ee3707eda75df99d49cc; relation=no_relation
+  - name: orderdeliverygroup
+    field: OrderDeliveryGroup
+    target: OrderDeliveryGroupSummary
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:b80a14894a3812c1a67be58c; relation=no_relation
+  - name: taxtreatmentid
+    field: TaxTreatmentId
+    target: TaxTreatment
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c9a4cd5841ec171c7a6c50cd; relation=no_relation
+  - name: pricebookentryid
+    field: PricebookEntryId
+    target: PricebookEntry
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:cd990a264ebd3a42cc990d80; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: OrderItemSummary
+  interfaces: *a1
+  model:
+    research_type: object-type:9acde6268eb93bdd0b70df29
+  extract:
+    key: PILOT-salesforce-OrderItemSummary-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-70df29
+            endpoint: /
+            items:
+              - records
+        properties:
+          AdjustedLineAmount: AdjustedLineAmount
+          AdjustedLineAmtWithTax: AdjustedLineAmtWithTax
+          AssetId: AssetId
+          CurrencyIsoCode: CurrencyIsoCode
+          DeliveryEstimationReference: DeliveryEstimationReference
+          DeliveryEstimationTimeZone: DeliveryEstimationTimeZone
+          Description: Description
+          EarliestEstimatedDeliveryDate: EarliestEstimatedDeliveryDate
+          EarliestEstimatedDeliveryTime: EarliestEstimatedDeliveryTime
+          EndDate: EndDate
+          GrossUnitPrice: GrossUnitPrice
+          Id: Id
+          LastEstimatedDeliveryDate: LastEstimatedDeliveryDate
+          LastEstimatedDeliveryTime: LastEstimatedDeliveryTime
+          LineNumber: LineNumber
+          ListPrice: ListPrice
+          MainOrderItemSummaryId: MainOrderItemSummaryId
+          Name: Name
+          OrderDeliveryGroup: OrderDeliveryGroup
+          OrderManagementBillingType: OrderManagementBillingType
+          OrderSummaryId: OrderSummaryId
+          OriginalOrderItemId: OriginalOrderItemId
+          PricebookEntryId: PricebookEntryId
+          Product2Id: Product2Id
+          ProductCode: ProductCode
+          Quantity: Quantity
+          QuantityAllocated: QuantityAllocated
+          QuantityAvailable: QuantityAvailable
+          QuantityCanceled: QuantityCanceled
+          QuantityFulfilled: QuantityFulfilled
+          QuantityNetOrdered: QuantityNetOrdered
+          QuantityOrdered: QuantityOrdered
+          QuantityReshipped: QuantityReshipped
+          QuantityReturnInitiated: QuantityReturnInitiated
+          QuantityReturned: QuantityReturned
+          QuantityShipped: QuantityShipped
+          ReferencePrice: ReferencePrice
+          ReservedAtLocationId: ReservedAtLocationId
+          ServiceDate: ServiceDate
+          Status: Status
+          StockKeepingUnit: StockKeepingUnit
+          TaxTreatmentId: TaxTreatmentId
+          TotalAdjusted: TotalAdjusted
+          TotalAdjustment: TotalAdjustment
+          TotalAdjustmentAmount: TotalAdjustmentAmount
+          TotalAdjustmentDist: TotalAdjustmentDist
+          TotalAdjustmentDistAmount: TotalAdjustmentDistAmount
+          TotalAdjustmentTaxAmount: TotalAdjustmentTaxAmount
+          TotalAmtWithTax: TotalAmtWithTax
+          TotalLineAdjustment: TotalLineAdjustment
+          TotalLineAdjustmentAmount: TotalLineAdjustmentAmount
+          TotalLineAmount: TotalLineAmount
+          TotalLineAmountWithTax: TotalLineAmountWithTax
+          TotalLineTaxAmount: TotalLineTaxAmount
+          TotalPrice: TotalPrice
+          TotalTaxAmount: TotalTaxAmount
+          Type: Type
+          TypeCode: TypeCode
+          UnitPrice: UnitPrice
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:OrderItemSummary.query
+  operation: OrderItemSummary.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: OrderItemSummary
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:OrderItemSummary
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:OrderItemSummary.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/OrderItemSummary/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - OriginalOrderItemId
+    - AssetId
+    - OrderSummaryId
+    - Product2Id
+    - OrderDeliveryGroup
+    - TaxTreatmentId
+    - PricebookEntryId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

@@ -1,0 +1,7 @@
+tenant_binding:
+  type: ServerInformation
+tenant_basis: Confluence 의 tenant 는 Space 가 아니라 같은 Atlassian site 다. V3.2 에서
+  Jira ServerInformation 이 Tenant(V2-T1)
+# 필수 인자를 넣어 부르는 손코드 호출이 읽는다 (2026-11-19 실측)
+binding:
+  call: CF-03

@@ -1,0 +1,281 @@
+{
+  "revision": "r3",
+  "decision": "R1-D05",
+  "code_dir": "workspace/aegi-knowledge/schema/im-model/extraction/ir2",
+  "dup_audit_sha256": "c36336b82b90a4d055e663825ddce560481a40e0d30a37581a01276556c30442",
+  "overrides_sha256": "9025daf165de799a2e15ebbf8c83e23c9528746491cdfdc1a2104e836769020c",
+  "providers": {
+    "okta": {
+      "run": {
+        "provider": "okta",
+        "pairs": 158,
+        "sent": 0,
+        "counts": {
+          "same": 23,
+          "different": 107,
+          "view_or_variant": 28
+        },
+        "groups": 20,
+        "largest": 4
+      },
+      "pinned_sha256": "b0291067cb8637c42c7a42a5bb53c1afe47aaf02fc05ba5132d0cbcf85aac666",
+      "regenerated_sha256": "6abba9fcd8e7df52ec4555ad9b53e18243ed5669850be15da8cdb7ab2b87327c",
+      "changed_pairs": [
+        {
+          "pair": [
+            "UserGetSingleton",
+            "UserResponseSchema"
+          ],
+          "pinned": "same",
+          "regenerated": "different",
+          "basis": "human"
+        }
+      ],
+      "groups_removed": [
+        [
+          "AppUser.userId",
+          "UserGetSingleton",
+          "UserResponseSchema"
+        ]
+      ],
+      "groups_added": [
+        [
+          "AppUser.userId",
+          "UserGetSingleton"
+        ]
+      ],
+      "polymorphic": []
+    },
+    "github": {
+      "run": {
+        "provider": "github",
+        "pairs": 74,
+        "sent": 0,
+        "counts": {
+          "same": 38,
+          "view_or_variant": 19,
+          "different": 17
+        },
+        "groups": 32,
+        "largest": 4
+      },
+      "pinned_sha256": "e775036b20834b791216fda2310448534f3f314f721c645d86897d3df6455d45",
+      "regenerated_sha256": "2ed3acad49f38688da11275c18d1455a67bf90640f3d3205b3c7544edf2661b9",
+      "changed_pairs": [
+        {
+          "pair": [
+            "User",
+            "simple-user"
+          ],
+          "pinned": "same",
+          "regenerated": "different",
+          "basis": "human"
+        },
+        {
+          "pair": [
+            "public-user",
+            "simple-user"
+          ],
+          "pinned": "same",
+          "regenerated": "different",
+          "basis": "human"
+        }
+      ],
+      "groups_removed": [
+        [
+          "User",
+          "public-user",
+          "simple-user",
+          "team-membership.username"
+        ]
+      ],
+      "groups_added": [
+        [
+          "User",
+          "public-user"
+        ],
+        [
+          "simple-user",
+          "team-membership.username"
+        ]
+      ],
+      "polymorphic": [
+        {
+          "cases": {
+            "Bot": "public-user",
+            "Organization": "organization-full",
+            "User": "public-user"
+          },
+          "field": "type",
+          "space": "simple-user",
+          "v2_decision": "V2-S4"
+        }
+      ]
+    },
+    "gws": {
+      "run": {
+        "provider": "gws",
+        "pairs": 7,
+        "sent": 0,
+        "counts": {
+          "same": 4,
+          "external_locator": 2,
+          "different": 1
+        },
+        "groups": 2,
+        "largest": 4
+      },
+      "pinned_sha256": "b3e603686813655fa82430fd8bf779b171f684f40ab7c6d7395897f50a61236d",
+      "regenerated_sha256": "c67a71eb0dffde2bb487376d0b9f659c103370695010820b3e74248c47610b48",
+      "changed_pairs": [
+        {
+          "pair": [
+            "Member.memberKey",
+            "User"
+          ],
+          "pinned": "same",
+          "regenerated": "different",
+          "basis": "human"
+        }
+      ],
+      "groups_removed": [
+        [
+          "Delegate.delegateEmail",
+          "LicenseAssignment.userId",
+          "Member.memberKey",
+          "User",
+          "User_2.usersId"
+        ]
+      ],
+      "groups_added": [
+        [
+          "Delegate.delegateEmail",
+          "LicenseAssignment.userId",
+          "User",
+          "User_2.usersId"
+        ]
+      ],
+      "polymorphic": [
+        {
+          "cases": {
+            "CUSTOMER": "Customer",
+            "GROUP": "Group",
+            "USER": "User"
+          },
+          "field": "type",
+          "space": "Member.memberKey",
+          "v2_decision": "V2-S5"
+        }
+      ]
+    },
+    "jira": {
+      "run": {
+        "provider": "jira",
+        "pairs": 11,
+        "sent": 0,
+        "counts": {
+          "same": 7,
+          "different": 4
+        },
+        "groups": 2,
+        "largest": 4
+      },
+      "pinned_sha256": "2b30a0050cebc987f398ed12a3f5daf49a1df458d5a40012efdbc25965c64062",
+      "regenerated_sha256": "18d4bc31a748da44c9f6560924fc8ff2ee76cad9cd05c6d32ea04322ffe442a3",
+      "changed_pairs": [
+        {
+          "pair": [
+            "RemoteIssueLink",
+            "{}_2"
+          ],
+          "pinned": "same",
+          "regenerated": "different",
+          "basis": "human"
+        }
+      ],
+      "groups_removed": [
+        [
+          "RemoteIssueLink",
+          "{}_2"
+        ]
+      ],
+      "groups_added": [],
+      "polymorphic": []
+    },
+    "confluence": {
+      "run": {
+        "provider": "confluence",
+        "pairs": 4,
+        "sent": 0,
+        "counts": {
+          "different": 1,
+          "view_or_variant": 3
+        },
+        "groups": 0,
+        "largest": 0
+      },
+      "pinned_sha256": "32d25a7af0649822f043a03ca89d6b7cad41e1ecf9155a7a9ade9b01b6dee478",
+      "regenerated_sha256": "32d25a7af0649822f043a03ca89d6b7cad41e1ecf9155a7a9ade9b01b6dee478",
+      "changed_pairs": [],
+      "groups_removed": [],
+      "groups_added": [],
+      "polymorphic": []
+    },
+    "slack": {
+      "run": {
+        "provider": "slack",
+        "pairs": 16,
+        "sent": 0,
+        "counts": {
+          "different": 9,
+          "same": 6,
+          "view_or_variant": 1
+        },
+        "groups": 5,
+        "largest": 3
+      },
+      "pinned_sha256": "adb7b03bea79dea71397b2f0df32ddc5914284bf492ef5568917e4ca825840aa",
+      "regenerated_sha256": "697f15ee9ad8958e32ca220d39073021c2df9f478a739d236df7f0a2ca99f41e",
+      "changed_pairs": [],
+      "groups_removed": [],
+      "groups_added": [],
+      "polymorphic": []
+    },
+    "atlassian": {
+      "run": {
+        "provider": "atlassian",
+        "pairs": 0,
+        "sent": 0,
+        "counts": {},
+        "groups": 0,
+        "largest": 0
+      },
+      "pinned_sha256": "5dab8fed5e5a90de16f6a173c4c04361049f7d43c588d4edc96dda9304fd7022",
+      "regenerated_sha256": "5dab8fed5e5a90de16f6a173c4c04361049f7d43c588d4edc96dda9304fd7022",
+      "changed_pairs": [],
+      "groups_removed": [],
+      "groups_added": [],
+      "polymorphic": []
+    },
+    "salesforce": {
+      "run": {
+        "provider": "salesforce",
+        "pairs": 53,
+        "sent": 0,
+        "counts": {
+          "view_or_variant": 41,
+          "different": 11,
+          "same": 1
+        },
+        "groups": 1,
+        "largest": 2
+      },
+      "pinned_sha256": "a6bf0c53740904a7ed2f161f2a7ad5829932e2d46705ff238c2a425583b89c12",
+      "regenerated_sha256": "a6bf0c53740904a7ed2f161f2a7ad5829932e2d46705ff238c2a425583b89c12",
+      "changed_pairs": [],
+      "groups_removed": [],
+      "groups_added": [],
+      "polymorphic": []
+    }
+  }
+}

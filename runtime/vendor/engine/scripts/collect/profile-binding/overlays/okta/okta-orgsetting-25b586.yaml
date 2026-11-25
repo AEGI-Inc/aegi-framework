@@ -1,0 +1,37 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/org.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-01
+        items: (root)
+    tenant: none
+    mutable_ids:
+      subdomain: subdomain
+    properties:
+      companyName: companyName
+      subdomain: subdomain
+      status: status
+      created: created
+      expiresAt: expiresAt
+    display: "{companyName|subdomain}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-ORG-{id}
+runtime_stub: null
+runtime_key: OKTA-ORG-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  subdomain:
+    stability: mutable

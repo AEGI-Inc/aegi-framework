@@ -1,0 +1,60 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: agentregistry
+object_type: RegistryAgent
+interfaces: [Integration]
+# 근거: Agent Registry v1 Discovery 문서의 Agent 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-04 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# Agent Registry 의 Agent. Gemini Enterprise 의 Agent 와 타입 이름이 겹쳐 RegistryAgent 로 둔다. A2A 에이전트 카드를 등록한 것.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-AR-AGENT-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-04
+        request: {kind: agents}
+        items: agents
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    properties:
+      card: card
+      location: location
+      uid: uid
+      version: version
+      skills: skills
+      protocols: protocols
+      attributes: attributes
+      description: description
+      agentId: agentId
+      displayName: displayName
+      updateTime: updateTime
+      createTime: createTime
+      # 시스템 속성: 돌아가는 곳(RuntimeReference)과 실행 신원(RuntimeIdentity, 에이전트 principal). 3회차 실측 5개 · 4개
+      runtime_reference: {op: first, of: {op: pluck, of: {op: prefix_fields, of: attributes, from: "agentregistry.googleapis.com/system/", to: ""}, field: RuntimeReference.uri}}
+      runtime_identity: {op: first, of: {op: pluck, of: {op: prefix_fields, of: attributes, from: "agentregistry.googleapis.com/system/", to: ""}, field: RuntimeIdentity.principal}}
+      operational_state: {const: unknown}
+    display: "{displayName|title|name}"
+    relations:
+      # Gemini Enterprise 에이전트의 등록본: RuntimeReference 가 에이전트 이름(…/assistants/<a>/agents/<id>)을 가리킨다. 3회차 실측 5개 중 3개가 수집한 에이전트와 같다
+      # (2개는 수집 목록에 없는 기본 에이전트라 이어지지 않는다). 지역마다 하나씩 있는 Google 기본 Workspace Agent 46개는 이 칸이 없다
+      - type: contained_in
+        source: $self
+        target: {type: Agent, id: {op: regex, of: {op: first, of: {op: pluck, of: {op: prefix_fields, of: attributes, from: "agentregistry.googleapis.com/system/", to: ""}, field: RuntimeReference.uri}}, pattern: "^//discoveryengine[.]googleapis[.]com/(projects/.+/agents/[^/]+)$"}}
+        basis: stated
+        require: [target]
+      - type: registered_in
+        source: $self
+        target: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+        basis: stated
+        require: [target]

@@ -1,0 +1,170 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/profile_mapping.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-19
+        request:
+          mapping: absent
+        where:
+          path: id
+          present: true
+    vars:
+      m:
+        any:
+          - op: index
+            name: mapping_detail
+            key: id
+          - .
+      app_side:
+        op: find
+        of:
+          list:
+            - $vars.m.source
+            - $vars.m.target
+        where:
+          all:
+            - path: $item.type
+              eq: appuser
+            - has:
+                type: Application
+                id: $item.id
+    id_expr: $vars.m.id
+    properties:
+      source:
+        if:
+          path: $vars.m.source
+          truthy: true
+        then:
+          object:
+            id: $vars.m.source.id
+            name: $vars.m.source.name
+            type: $vars.m.source.type
+        else: null
+      target:
+        if:
+          path: $vars.m.target
+          truthy: true
+        then:
+          object:
+            id: $vars.m.target.id
+            name: $vars.m.target.name
+            type: $vars.m.target.type
+        else: null
+      expressions:
+        op: entries_map
+        of: $vars.m.properties
+        value:
+          object:
+            expression: $item.expression
+            pushStatus: $item.pushStatus
+    display: 프로필 매핑 {$vars.m.source.name|'?'} → {$vars.m.target.name|'?'}
+    relations:
+      - type: owned_by
+        source: $self
+        target:
+          switch:
+            op: exists
+            of: $vars.app_side
+          cases:
+            "true":
+              type: Application
+              id: $vars.app_side.id
+          default: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: $vars.m.id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-PMAP-{id}
+runtime_stub: null
+runtime_key: OKTA-PMAP-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: ProfileMapping:list
+    sources:
+      - call: OK-19
+        request:
+          mapping: absent
+        where:
+          path: id
+          present: true
+    vars:
+      m:
+        any:
+          - op: index
+            name: mapping_detail
+            key: id
+          - .
+      app_side:
+        op: find
+        of:
+          list:
+            - $vars.m.source
+            - $vars.m.target
+        where:
+          all:
+            - path: $item.type
+              eq: appuser
+            - has:
+                type: Application
+                id: $item.id
+    relations:
+      - type: owned_by
+        source: $self
+        target:
+          switch:
+            op: exists
+            of: $vars.app_side
+          cases:
+            "true":
+              type: Application
+              id: $vars.app_side.id
+          default: $tenant
+        basis: stated
+    self_identity: object_rule
+vars:
+  m:
+    any:
+      - op: index
+        name: mapping_detail
+        key: id
+      - .
+  app_side:
+    op: find
+    of:
+      list:
+        - $vars.m.source
+        - $vars.m.target
+    where:
+      all:
+        - path: $item.type
+          eq: appuser
+        - has:
+            type: Application
+            id: $item.id
+identity:
+  primary:
+    - name: id
+      expr: $vars.m.id
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: OKTA-PMAP-{id}
+    replaced:
+      - id
+# Profile 상수: knowledge schema/catalog/okta/research.json 의 ProfileMapping decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml owned_by.unknown_runner_tenant)이 이 값으로 고른다
+constants:
+  run_as_resolution:
+    const: unknown

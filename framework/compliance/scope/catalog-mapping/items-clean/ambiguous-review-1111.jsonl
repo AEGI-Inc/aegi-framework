@@ -1,0 +1,301 @@
+{"item_key": "PIPA:law-011357:article-34-2:p1", "type_key": "atlassian:SpacePermission", "p": 0.54, "via": ["sharing"], "objects": 44, "decision": "confirm", "reason": "익명, 전체 사용자 접근 클래스가 공간 공개 범위를 정한다"}
+{"item_key": "PIPA:admin-73493:article-7:p5", "type_key": "github:deploy-key", "p": 0.52, "via": ["encryption"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.3-03", "type_key": "github:personal-access-tokens", "p": 0.58, "via": ["admin_access"], "objects": 3, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "github:personal-access-tokens", "p": 0.46, "via": ["integration"], "objects": 3, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.2.5-02", "type_key": "github:public-user", "p": 0.49, "via": ["account"], "objects": 4, "decision": "confirm", "reason": "조직의 GitHub 계정"}
+{"item_key": "ISMS-P:2.3.4-01", "type_key": "github:public-user", "p": 0.57, "via": ["account"], "objects": 4, "decision": "confirm", "reason": "외부 협업자 계정"}
+{"item_key": "ISO27001:5.11", "type_key": "github:public-user", "p": 0.59, "via": ["account"], "objects": 4, "decision": "confirm", "reason": "조직의 GitHub 계정"}
+{"item_key": "PIPA:admin-73493:article-5:p4", "type_key": "github:public-user", "p": 0.46, "via": ["account"], "objects": 4, "decision": "confirm", "reason": "개인 계정"}
+{"item_key": "PIPA:law-011357:article-28:p1", "type_key": "github:public-user", "p": 0.54, "via": ["account"], "objects": 4, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.3.1-01", "type_key": "gws:Policy", "p": 0.58, "via": ["integration"], "objects": 19, "decision": "confirm", "reason": "서드파티 앱 접근 정책(값으로 좁힘)"}
+{"item_key": "ISMS-P:2.3.4-01", "type_key": "gws:Policy", "p": 0.53, "via": ["integration"], "objects": 19, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.11", "type_key": "gws:Policy", "p": 0.59, "via": ["integration"], "objects": 19, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.17", "type_key": "gws:Policy", "p": 0.59, "via": ["authentication", "password_policy"], "objects": 18, "decision": "confirm", "reason": "비밀번호와 인증 정책(값으로 좁힘)"}
+{"item_key": "ISO27001:8.13", "type_key": "gws:Policy", "p": 0.52, "via": ["retention_backup"], "objects": 9, "decision": "confirm", "reason": "보존과 백업 설정(값으로 좁힘)"}
+{"item_key": "PIPA:admin-73493:article-8:p2", "type_key": "gws:Policy", "p": 0.53, "via": ["monitoring"], "objects": 114, "decision": "confirm", "reason": "경보와 기록 설정(값으로 좁힘)"}
+{"item_key": "PIPA:admin-73493:article-8:p3", "type_key": "gws:Policy", "p": 0.4, "via": ["monitoring"], "objects": 114, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011468:article-21:p1", "type_key": "gws:Policy", "p": 0.55, "via": ["encryption"], "objects": 4, "decision": "confirm", "reason": "암호화 설정(값으로 좁힘)"}
+{"item_key": "ISMS-P:2.5.4-03", "type_key": "gws:ScriptProperty", "p": 0.54, "via": ["credential"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.17", "type_key": "gws:ScriptProperty", "p": 0.58, "via": ["credential"], "objects": 1, "decision": "confirm", "reason": "스크립트에 저장된 자격증명"}
+{"item_key": "ISO27001:8.19", "type_key": "gws:Token", "p": 0.59, "via": ["integration"], "objects": 33, "decision": "confirm", "reason": "사용자가 승인한 서드파티 앱"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "gws:User", "p": 0.52, "via": ["admin_access"], "objects": 14, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "okta:Application", "p": 0.43, "via": ["integration"], "objects": 18, "decision": "confirm", "reason": "설치된 앱"}
+{"item_key": "ISMS-P:3.3.1-06", "type_key": "okta:AssignedAppLink", "p": 0.52, "via": ["access_grant"], "objects": 61, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.34", "type_key": "okta:AssignedAppLink", "p": 0.55, "via": ["access_grant"], "objects": 61, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-15:p2", "type_key": "okta:AssignedAppLink", "p": 0.47, "via": ["access_grant"], "objects": 61, "decision": "confirm", "reason": "사용자별 앱 접근 배정"}
+{"item_key": "PIPA:admin-73493:article-5:p1", "type_key": "okta:AssignedAppLink", "p": 0.51, "via": ["access_grant"], "objects": 61, "decision": "confirm", "reason": "사용자별 앱 접근 배정"}
+{"item_key": "PIPA:law-011357:article-29:p0", "type_key": "okta:AssignedAppLink", "p": 0.44, "via": ["access_grant"], "objects": 61, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011468:article-21:p1", "type_key": "okta:AssignedAppLink", "p": 0.41, "via": ["access_grant"], "objects": 61, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "okta:AuthorizationServer", "p": 0.4, "via": ["integration"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-7:p4", "type_key": "okta:AuthorizationServerJsonWebKey", "p": 0.54, "via": ["encryption"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-7:p5", "type_key": "okta:JsonWebKey", "p": 0.41, "via": ["encryption"], "objects": 7, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-7:p4", "type_key": "okta:JsonWebKey_2", "p": 0.56, "via": ["encryption"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-7:p5", "type_key": "okta:JsonWebKey_2", "p": 0.43, "via": ["encryption"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "okta:OAuth2Client", "p": 0.59, "via": ["integration"], "objects": 8, "decision": "confirm", "reason": "등록된 OAuth 앱"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "okta:OAuth2Scope", "p": 0.47, "via": ["integration"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.3.1-01", "type_key": "okta:OAuth2Scope", "p": 0.57, "via": ["integration"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "okta:OAuth2ScopeConsentGrant", "p": 0.59, "via": ["integration"], "objects": 92, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "okta:OAuth2ScopeConsentGrant", "p": 0.4, "via": ["integration"], "objects": 92, "decision": "confirm", "reason": "앱에 준 scope 동의"}
+{"item_key": "ISMS-P:2.3.4-01", "type_key": "okta:ProfileMapping", "p": 0.55, "via": ["integration"], "objects": 29, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.5.1-01", "type_key": "okta:ProfileMapping", "p": 0.46, "via": ["provisioning"], "objects": 29, "decision": "confirm", "reason": "프로비저닝 속성 매핑"}
+{"item_key": "ISO27001:5.11", "type_key": "okta:ProfileMapping", "p": 0.54, "via": ["integration"], "objects": 29, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "okta:ProfileMapping", "p": 0.45, "via": ["integration"], "objects": 29, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-15:p3", "type_key": "okta:ProfileMapping", "p": 0.53, "via": ["provisioning"], "objects": 29, "decision": "confirm", "reason": "프로비저닝 속성 매핑"}
+{"item_key": "PIPA:admin-73493:article-5:p2", "type_key": "okta:ProfileMapping", "p": 0.59, "via": ["provisioning"], "objects": 29, "decision": "confirm", "reason": "프로비저닝 속성 매핑"}
+{"item_key": "ISO27001:8.19", "type_key": "okta:ProvisioningConnectionResponse", "p": 0.48, "via": ["integration"], "objects": 18, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.3-03", "type_key": "okta:UserFactor", "p": 0.5, "via": ["authentication"], "objects": 13, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-5:p6", "type_key": "okta:UserFactor", "p": 0.5, "via": ["authentication"], "objects": 13, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.2.5-02", "type_key": "salesforce:ContentDocumentLink", "p": 0.43, "via": ["access_grant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.3.4-01", "type_key": "salesforce:ContentDocumentLink", "p": 0.4, "via": ["access_grant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.5.6-02", "type_key": "salesforce:ContentDocumentLink", "p": 0.56, "via": ["access_grant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.3-01", "type_key": "salesforce:ContentDocumentLink", "p": 0.52, "via": ["access_grant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.11", "type_key": "salesforce:ContentDocumentLink", "p": 0.53, "via": ["access_grant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-15:p1", "type_key": "salesforce:ContentDocumentLink", "p": 0.45, "via": ["access_grant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-15:p2", "type_key": "salesforce:ContentDocumentLink", "p": 0.48, "via": ["access_grant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-15:p3", "type_key": "salesforce:ContentDocumentLink", "p": 0.43, "via": ["access_grant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011357:article-28:p1", "type_key": "salesforce:ContentDocumentLink", "p": 0.5, "via": ["access_grant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011468:article-21:p1", "type_key": "salesforce:ContentDocumentLink", "p": 0.45, "via": ["access_grant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.2.2-01", "type_key": "salesforce:ExtlClntAppPlcyCnfg", "p": 0.54, "via": ["access_role"], "objects": 5, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.5.1-02", "type_key": "salesforce:ExtlClntAppPlcyCnfg", "p": 0.53, "via": ["access_role"], "objects": 5, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "salesforce:ExtlClntAppPlcyCnfg", "p": 0.53, "via": ["access_role"], "objects": 5, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "salesforce:NamedCredential", "p": 0.48, "via": ["integration"], "objects": 4, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.2-02", "type_key": "salesforce:PackageLicense", "p": 0.52, "via": ["integration"], "objects": 16, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "salesforce:PackageLicense", "p": 0.48, "via": ["integration"], "objects": 16, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.2.5-02", "type_key": "salesforce:PackageLicense", "p": 0.41, "via": ["integration"], "objects": 16, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.3.4-01", "type_key": "salesforce:PackageLicense", "p": 0.5, "via": ["integration"], "objects": 16, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.11", "type_key": "salesforce:PackageLicense", "p": 0.54, "via": ["integration"], "objects": 16, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "salesforce:SamlSsoConfig", "p": 0.49, "via": ["integration"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "salesforce:User", "p": 0.55, "via": ["admin_access"], "objects": 22, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.30", "type_key": "salesforce:User", "p": 0.52, "via": ["account"], "objects": 22, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.2.1-02", "type_key": "slack:200.bot", "p": 0.42, "via": ["account"], "objects": 18, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.5.2-02", "type_key": "slack:200.bot", "p": 0.56, "via": ["account"], "objects": 18, "decision": "confirm", "reason": "사람에 귀속되지 않는 봇 계정"}
+{"item_key": "PIPA:admin-73493:article-5:p4", "type_key": "slack:200.bot", "p": 0.54, "via": ["account"], "objects": 18, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.2.5-02", "type_key": "slack:200.entities[*]", "p": 0.58, "via": ["access_grant"], "objects": 6, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.5.1-01", "type_key": "slack:200.entities[*]", "p": 0.54, "via": ["access_grant"], "objects": 6, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.5.1-02", "type_key": "slack:200.entities[*]", "p": 0.56, "via": ["access_grant"], "objects": 6, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-15:p1", "type_key": "slack:200.entities[*]", "p": 0.59, "via": ["access_grant"], "objects": 6, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-15:p2", "type_key": "slack:200.entities[*]", "p": 0.59, "via": ["access_grant"], "objects": 6, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-15:p3", "type_key": "slack:200.entities[*]", "p": 0.57, "via": ["access_grant"], "objects": 6, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-12:p1", "type_key": "slack:200.entities[*]", "p": 0.59, "via": ["access_grant"], "objects": 6, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-5:p1", "type_key": "slack:200.entities[*]", "p": 0.56, "via": ["access_grant"], "objects": 6, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-5:p2", "type_key": "slack:200.entities[*]", "p": 0.57, "via": ["access_grant"], "objects": 6, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011357:article-28:p1", "type_key": "slack:200.entities[*]", "p": 0.57, "via": ["access_grant"], "objects": 6, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "slack:200.members[*]", "p": 0.5, "via": ["admin_access"], "objects": 37, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "slack:credential-row:oauth:url", "p": 0.58, "via": ["integration"], "objects": 7, "decision": "confirm", "reason": "설치된 수신 웹훅 앱"}
+{"item_key": "ISMS-P:1.2.1-01", "type_key": "slack:defs_app_id", "p": 0.59, "via": ["integration"], "objects": 30, "decision": "confirm", "reason": "연동 앱 자산"}
+{"item_key": "ISMS-P:1.2.2-01", "type_key": "slack:defs_app_id", "p": 0.53, "via": ["integration"], "objects": 30, "decision": "confirm", "reason": "연동 앱"}
+{"item_key": "ISMS-P:1.2.2-02", "type_key": "slack:defs_app_id", "p": 0.49, "via": ["integration"], "objects": 30, "decision": "confirm", "reason": "연동 앱"}
+{"item_key": "ISMS-P:1.2.2-03", "type_key": "slack:defs_app_id", "p": 0.57, "via": ["integration"], "objects": 30, "decision": "confirm", "reason": "연동 앱"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "slack:defs_app_id", "p": 0.5, "via": ["integration"], "objects": 30, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.2.5-02", "type_key": "slack:defs_app_id", "p": 0.51, "via": ["integration"], "objects": 30, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.3.1-01", "type_key": "slack:defs_app_id", "p": 0.58, "via": ["integration"], "objects": 30, "decision": "confirm", "reason": "외부 연동 앱"}
+{"item_key": "ISMS-P:2.3.4-01", "type_key": "slack:defs_app_id", "p": 0.46, "via": ["integration"], "objects": 30, "decision": "confirm", "reason": "외부 연동 앱"}
+{"item_key": "ISMS-P:3.3.1-06", "type_key": "slack:defs_app_id", "p": 0.56, "via": ["integration"], "objects": 30, "decision": "confirm", "reason": "외부 연동 앱"}
+{"item_key": "ISO27001:5.11", "type_key": "slack:defs_app_id", "p": 0.45, "via": ["integration"], "objects": 30, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.1.3-01", "type_key": "atlassian:page", "p": 0.4, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.4.1-02", "type_key": "atlassian:page", "p": 0.42, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.34", "type_key": "atlassian:page", "p": 0.49, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.10", "type_key": "atlassian:page", "p": 0.51, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-10:p1", "type_key": "atlassian:page", "p": 0.4, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.2-02", "type_key": "atlassian:Project", "p": 0.51, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.2-03", "type_key": "atlassian:Project", "p": 0.52, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.4.1-02", "type_key": "atlassian:Project", "p": 0.51, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011357:article-21:p1", "type_key": "atlassian:Project", "p": 0.47, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "atlassian:SecurityScheme", "p": 0.43, "via": ["access_role"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.2-03", "type_key": "atlassian:spaces", "p": 0.56, "via": ["data_resource"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.1.3-01", "type_key": "atlassian:spaces", "p": 0.45, "via": ["data_resource"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.4.1-02", "type_key": "atlassian:spaces", "p": 0.56, "via": ["data_resource"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-10:p1", "type_key": "atlassian:spaces", "p": 0.48, "via": ["data_resource"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011357:article-21:p1", "type_key": "atlassian:spaces", "p": 0.55, "via": ["data_resource"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.2-02", "type_key": "github:Repository", "p": 0.54, "via": ["data_resource"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.3.1-05", "type_key": "github:Repository", "p": 0.49, "via": ["sharing"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.4.1-02", "type_key": "github:Repository", "p": 0.59, "via": ["data_resource"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73464:article-10:p1", "type_key": "github:Repository", "p": 0.45, "via": ["data_resource"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011357:article-21:p1", "type_key": "github:Repository", "p": 0.55, "via": ["data_resource"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.1.3-01", "type_key": "gws:Calendar", "p": 0.41, "via": ["data_resource"], "objects": 7, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.3.1-05", "type_key": "gws:Calendar", "p": 0.59, "via": ["sharing"], "objects": 7, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011357:article-34-2:p1", "type_key": "gws:Calendar", "p": 0.43, "via": ["sharing"], "objects": 7, "decision": "confirm", "reason": "캘린더 공개 범위"}
+{"item_key": "ISMS-P:1.2.2-02", "type_key": "gws:File", "p": 0.51, "via": ["data_resource"], "objects": 13, "decision": "confirm", "reason": "개인정보가 있을 수 있는 파일"}
+{"item_key": "ISMS-P:3.1.3-01", "type_key": "gws:File", "p": 0.57, "via": ["data_resource"], "objects": 13, "decision": "confirm", "reason": "주민등록번호가 있을 수 있는 파일"}
+{"item_key": "PIPA:law-011357:article-24:p3", "type_key": "gws:File", "p": 0.55, "via": ["data_classification"], "objects": 13, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011357:article-34-2:p1", "type_key": "gws:File", "p": 0.45, "via": ["sharing"], "objects": 13, "decision": "confirm", "reason": "파일 공유 범위(링크 공개)"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "gws:Form", "p": 0.46, "via": ["data_flow"], "objects": 1, "decision": "confirm", "reason": "외부 응답을 받는 양식"}
+{"item_key": "ISMS-P:2.10.1-05", "type_key": "salesforce:FieldSecurityClassification", "p": 0.48, "via": ["tenant_policy"], "objects": 5, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.2-04", "type_key": "salesforce:FieldSecurityClassification", "p": 0.58, "via": ["tenant_policy"], "objects": 5, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011357:article-24:p3", "type_key": "salesforce:FieldSecurityClassification", "p": 0.58, "via": ["data_classification"], "objects": 5, "decision": "confirm", "reason": "필드 보안 분류"}
+{"item_key": "ISMS-P:3.1.3-01", "type_key": "salesforce:Lead", "p": 0.48, "via": ["data_resource"], "objects": 1, "decision": "confirm", "reason": "외부에서 들어오는 리드 데이터"}
+{"item_key": "ISMS-P:1.2.1-01", "type_key": "salesforce:Opportunity", "p": 0.56, "via": ["data_resource"], "objects": 4, "decision": "confirm", "reason": "업무 데이터 자산"}
+{"item_key": "ISMS-P:1.2.1-03", "type_key": "salesforce:Opportunity", "p": 0.52, "via": ["data_resource"], "objects": 4, "decision": "confirm", "reason": "업무 데이터 자산"}
+{"item_key": "ISMS-P:1.2.1-01", "type_key": "salesforce:Report", "p": 0.55, "via": ["data_resource"], "objects": 1, "decision": "confirm", "reason": "업무 데이터 자산"}
+{"item_key": "ISMS-P:1.2.1-03", "type_key": "salesforce:Report", "p": 0.45, "via": ["data_resource"], "objects": 1, "decision": "confirm", "reason": "업무 데이터 자산"}
+{"item_key": "ISMS-P:3.1.3-01", "type_key": "salesforce:Report", "p": 0.42, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.9", "type_key": "salesforce:Report", "p": 0.48, "via": ["data_resource"], "objects": 1, "decision": "confirm", "reason": "업무 데이터 자산"}
+{"item_key": "ISO27001:8.10", "type_key": "salesforce:Report", "p": 0.59, "via": ["data_resource"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.1.3-01", "type_key": "slack:conversation", "p": 0.5, "via": ["data_resource"], "objects": 12, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011357:article-34-2:p1", "type_key": "slack:conversation", "p": 0.49, "via": ["sharing"], "objects": 12, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.1-01", "type_key": "slack:Message", "p": 0.46, "via": ["data_resource"], "objects": 72, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.1-03", "type_key": "slack:Message", "p": 0.41, "via": ["data_resource"], "objects": 72, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.2-02", "type_key": "slack:Message", "p": 0.51, "via": ["data_resource"], "objects": 72, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:3.1.3-01", "type_key": "slack:Message", "p": 0.43, "via": ["data_resource"], "objects": 72, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.34", "type_key": "slack:Message", "p": 0.59, "via": ["data_resource"], "objects": 72, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.2-01", "type_key": "external:Host", "p": 0.51, "via": ["data_flow"], "objects": 1, "decision": "confirm", "reason": "사외 수신 호스트"}
+{"item_key": "ISMS-P:1.2.2-02", "type_key": "external:Host", "p": 0.49, "via": ["data_flow"], "objects": 1, "decision": "confirm", "reason": "사외 수신 호스트"}
+{"item_key": "ISMS-P:1.2.2-03", "type_key": "external:Host", "p": 0.52, "via": ["data_flow"], "objects": 1, "decision": "confirm", "reason": "사외 수신 호스트"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "external:Host", "p": 0.51, "via": ["data_flow"], "objects": 1, "decision": "confirm", "reason": "사외 수신 호스트"}
+{"item_key": "ISMS-P:3.3.1-05", "type_key": "external:Host", "p": 0.4, "via": ["data_flow"], "objects": 1, "decision": "confirm", "reason": "사외 수신 호스트"}
+{"item_key": "ISO27001:5.14", "type_key": "external:Host", "p": 0.52, "via": ["data_flow"], "objects": 1, "decision": "confirm", "reason": "사외 수신 호스트"}
+{"item_key": "ISMS-P:1.2.2-01", "type_key": "gws:MailAddress", "p": 0.56, "via": ["data_flow"], "objects": 2, "decision": "confirm", "reason": "외부 수신 경로"}
+{"item_key": "ISMS-P:1.2.2-03", "type_key": "gws:MailAddress", "p": 0.5, "via": ["data_flow"], "objects": 2, "decision": "confirm", "reason": "외부 수신 경로"}
+{"item_key": "ISMS-P:2.10.5-02", "type_key": "gws:MailAddress", "p": 0.4, "via": ["data_flow"], "objects": 2, "decision": "confirm", "reason": "회사 밖에서 메일을 받는 주소"}
+{"item_key": "ISMS-P:3.3.1-05", "type_key": "gws:MailAddress", "p": 0.42, "via": ["data_flow"], "objects": 2, "decision": "confirm", "reason": "외부 전송 경로"}
+{"item_key": "ISO27001:8.19", "type_key": "gws:MailForwarding", "p": 0.59, "via": ["automation"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "gws:MailForwarding", "p": 0.42, "via": ["automation"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.5.6-01", "type_key": "okta:EventHook", "p": 0.51, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "계정, 권한 이벤트 외부 전달"}
+{"item_key": "ISMS-P:2.9.4-03", "type_key": "okta:EventHook", "p": 0.4, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "로그 외부 전달"}
+{"item_key": "PIPA:admin-73493:article-5:p3", "type_key": "okta:EventHook", "p": 0.42, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "권한 변경 이벤트 외부 전달"}
+{"item_key": "PIPA:admin-73493:article-8:p1", "type_key": "okta:EventHook", "p": 0.55, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "접속 기록 외부 전달"}
+{"item_key": "PIPA:admin-73493:article-8:p2", "type_key": "okta:EventHook", "p": 0.49, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "이벤트 외부 전달"}
+{"item_key": "PIPA:admin-73493:article-8:p3", "type_key": "okta:EventHook", "p": 0.57, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "로그를 외부로 전달해 보관"}
+{"item_key": "ISMS-P:2.5.3-02", "type_key": "salesforce:RemoteSiteSetting", "p": 0.51, "via": ["network_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.6-03", "type_key": "salesforce:RemoteSiteSetting", "p": 0.45, "via": ["network_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-6:p1", "type_key": "salesforce:RemoteSiteSetting", "p": 0.53, "via": ["network_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "atlassian:ApplicationRole", "p": 0.48, "via": ["access_role"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "atlassian:Permissions", "p": 0.59, "via": ["access_role"], "objects": 1, "decision": "confirm", "reason": "전역 권한"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "atlassian:PermissionScheme", "p": 0.52, "via": ["access_role"], "objects": 5, "decision": "confirm", "reason": "권한 스킴"}
+{"item_key": "ISMS-P:2.10.1-02", "type_key": "atlassian:ProjectRole", "p": 0.53, "via": ["admin_access"], "objects": 13, "decision": "confirm", "reason": "관리자 프로젝트 역할"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "atlassian:ProjectRole", "p": 0.42, "via": ["access_role"], "objects": 13, "decision": "confirm", "reason": "프로젝트 역할"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "atlassian:space-roles", "p": 0.55, "via": ["access_role"], "objects": 5, "decision": "confirm", "reason": "공간 역할"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "github:enterprise-role", "p": 0.51, "via": ["admin_access"], "objects": 3, "decision": "confirm", "reason": "엔터프라이즈 관리자 역할"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "github:organization-role", "p": 0.48, "via": ["admin_access"], "objects": 9, "decision": "confirm", "reason": "조직 관리자 역할"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "okta:ClientPrivilegesSetting", "p": 0.57, "via": ["access_role"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "okta:CustomRole", "p": 0.49, "via": ["admin_access"], "objects": 11, "decision": "confirm", "reason": "관리자 역할"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "okta:CustomRole", "p": 0.57, "via": ["access_role"], "objects": 11, "decision": "confirm", "reason": "관리자 역할"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "okta:IamRole", "p": 0.51, "via": ["admin_access"], "objects": 3, "decision": "confirm", "reason": "관리자 역할"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "okta:IamRole", "p": 0.55, "via": ["access_role"], "objects": 3, "decision": "confirm", "reason": "관리자 역할"}
+{"item_key": "ISMS-P:2.2.2-01", "type_key": "okta:ResourceSet", "p": 0.56, "via": ["access_role"], "objects": 3, "decision": "confirm", "reason": "관리 권한 범위"}
+{"item_key": "ISMS-P:2.5.1-02", "type_key": "okta:ResourceSet", "p": 0.49, "via": ["access_role"], "objects": 3, "decision": "confirm", "reason": "관리 권한 범위"}
+{"item_key": "ISMS-P:2.6.3-01", "type_key": "okta:ResourceSet", "p": 0.52, "via": ["access_role"], "objects": 3, "decision": "confirm", "reason": "관리 권한 범위"}
+{"item_key": "PIPA:admin-73464:article-15:p2", "type_key": "okta:ResourceSet", "p": 0.53, "via": ["access_role"], "objects": 3, "decision": "confirm", "reason": "관리 권한 범위"}
+{"item_key": "PIPA:admin-73493:article-5:p1", "type_key": "okta:ResourceSet", "p": 0.55, "via": ["access_role"], "objects": 3, "decision": "confirm", "reason": "관리 권한 범위"}
+{"item_key": "ISMS-P:2.5.1-02", "type_key": "okta:ResourceSetResource", "p": 0.58, "via": ["access_role"], "objects": 11, "decision": "confirm", "reason": "관리 권한 범위의 대상"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "okta:ResourceSetResource", "p": 0.51, "via": ["access_role"], "objects": 11, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "salesforce:PermissionSet", "p": 0.52, "via": ["admin_access"], "objects": 113, "decision": "confirm", "reason": "감사 기록 열람 권한을 담는 권한 세트"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "salesforce:PermissionSetGroupComponent", "p": 0.46, "via": ["access_role"], "objects": 7, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "salesforce:Profile", "p": 0.56, "via": ["access_role"], "objects": 22, "decision": "confirm", "reason": "프로필 권한"}
+{"item_key": "PIPA:admin-73493:annex-1:p0", "type_key": "salesforce:UserRole", "p": 0.55, "via": ["access_role"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.5.1-02", "type_key": "gws:OrgUnit", "p": 0.53, "via": ["group"], "objects": 9, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.16", "type_key": "gws:OrgUnit", "p": 0.59, "via": ["group"], "objects": 9, "decision": "confirm", "reason": "사용자 배치 단위"}
+{"item_key": "ISMS-P:2.9.4-03", "type_key": "atlassian:Policy", "p": 0.54, "via": ["tenant_policy"], "objects": 24, "decision": "confirm", "reason": "감사 로그 설정 정책"}
+{"item_key": "ISMS-P:2.5.4-01", "type_key": "okta:AuthenticatorBase", "p": 0.46, "via": ["password_policy"], "objects": 7, "decision": "confirm", "reason": "비밀번호 인증기 설정"}
+{"item_key": "ISMS-P:2.6.3-03", "type_key": "okta:AuthenticatorBase", "p": 0.46, "via": ["authentication"], "objects": 7, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.3-03", "type_key": "okta:AuthenticatorMethodBase", "p": 0.51, "via": ["authentication"], "objects": 10, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-5:p6", "type_key": "okta:AuthenticatorMethodBase", "p": 0.51, "via": ["authentication"], "objects": 10, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.3-03", "type_key": "okta:BehaviorRule", "p": 0.56, "via": ["authentication"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.9.4-01", "type_key": "okta:BehaviorRule", "p": 0.53, "via": ["monitoring"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "okta:BehaviorRule", "p": 0.42, "via": ["monitoring"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.17", "type_key": "okta:BehaviorRule", "p": 0.51, "via": ["authentication"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.33", "type_key": "okta:BehaviorRule", "p": 0.55, "via": ["monitoring"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.15", "type_key": "okta:BehaviorRule", "p": 0.53, "via": ["monitoring"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-5:p3", "type_key": "okta:BehaviorRule", "p": 0.48, "via": ["monitoring"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-8:p1", "type_key": "okta:BehaviorRule", "p": 0.44, "via": ["monitoring"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-8:p3", "type_key": "okta:BehaviorRule", "p": 0.42, "via": ["monitoring"], "objects": 8, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.3-03", "type_key": "okta:Policy", "p": 0.57, "via": ["authentication"], "objects": 12, "decision": "confirm", "reason": "관리 콘솔 로그인 정책"}
+{"item_key": "ISO27001:5.17", "type_key": "okta:Policy", "p": 0.57, "via": ["authentication", "password_policy"], "objects": 13, "decision": "confirm", "reason": "비밀번호와 인증 정책"}
+{"item_key": "ISMS-P:2.5.3-01", "type_key": "okta:PolicyMapping", "p": 0.48, "via": ["authentication"], "objects": 34, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.5.3-02", "type_key": "okta:PolicyMapping", "p": 0.55, "via": ["authentication"], "objects": 34, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.2-02", "type_key": "okta:PolicyMapping", "p": 0.4, "via": ["session_policy"], "objects": 34, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.3-03", "type_key": "okta:PolicyMapping", "p": 0.45, "via": ["authentication"], "objects": 34, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.6-03", "type_key": "okta:PolicyMapping", "p": 0.52, "via": ["authentication", "session_policy"], "objects": 34, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.17", "type_key": "okta:PolicyMapping", "p": 0.46, "via": ["authentication"], "objects": 34, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-5:p5", "type_key": "okta:PolicyMapping", "p": 0.5, "via": ["authentication"], "objects": 34, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-5:p6", "type_key": "okta:PolicyMapping", "p": 0.4, "via": ["authentication"], "objects": 34, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-6:p2", "type_key": "okta:PolicyMapping", "p": 0.58, "via": ["authentication"], "objects": 34, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.3-02", "type_key": "okta:PolicyRule", "p": 0.57, "via": ["session_policy"], "objects": 1, "decision": "confirm", "reason": "세션 규칙"}
+{"item_key": "ISMS-P:2.6.3-03", "type_key": "okta:PolicyRule", "p": 0.55, "via": ["authentication"], "objects": 19, "decision": "confirm", "reason": "관리 콘솔 로그인 규칙"}
+{"item_key": "ISO27001:5.17", "type_key": "okta:PolicyRule", "p": 0.48, "via": ["authentication", "password_policy"], "objects": 20, "decision": "confirm", "reason": "비밀번호와 인증 규칙"}
+{"item_key": "PIPA:admin-73493:article-6:p4", "type_key": "okta:PolicyRule", "p": 0.56, "via": ["session_policy"], "objects": 1, "decision": "confirm", "reason": "세션 규칙"}
+{"item_key": "ISMS-P:2.5.4-01", "type_key": "okta:UserLockoutSettings", "p": 0.49, "via": ["password_policy"], "objects": 1, "decision": "confirm", "reason": "계정 잠금 설정"}
+{"item_key": "ISMS-P:2.6.3-03", "type_key": "okta:UserLockoutSettings", "p": 0.56, "via": ["authentication"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.2-03", "type_key": "slack:Policy", "p": 0.58, "via": ["authentication"], "objects": 1, "decision": "confirm", "reason": "인증 정책"}
+{"item_key": "ISMS-P:2.10.2-04", "type_key": "slack:Policy", "p": 0.58, "via": ["tenant_policy"], "objects": 1, "decision": "confirm", "reason": "테넌트 보안 정책"}
+{"item_key": "ISMS-P:2.6.3-03", "type_key": "slack:Policy", "p": 0.52, "via": ["authentication"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.6-03", "type_key": "slack:Policy", "p": 0.57, "via": ["authentication", "tenant_policy"], "objects": 1, "decision": "confirm", "reason": "인증 정책"}
+{"item_key": "ISMS-P:2.9.4-03", "type_key": "slack:Policy", "p": 0.41, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.17", "type_key": "slack:Policy", "p": 0.51, "via": ["authentication"], "objects": 1, "decision": "confirm", "reason": "인증 방식 정책"}
+{"item_key": "ISO27001:8.9", "type_key": "atlassian:Domain", "p": 0.52, "via": ["tenant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.1-04", "type_key": "atlassian:Org", "p": 0.56, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.9.4-03", "type_key": "atlassian:Org", "p": 0.58, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.1-01", "type_key": "atlassian:ServerInformation", "p": 0.51, "via": ["tenant"], "objects": 1, "decision": "confirm", "reason": "테넌트"}
+{"item_key": "ISMS-P:1.2.1-03", "type_key": "atlassian:ServerInformation", "p": 0.4, "via": ["tenant"], "objects": 1, "decision": "confirm", "reason": "테넌트"}
+{"item_key": "ISMS-P:2.10.2-02", "type_key": "atlassian:ServerInformation", "p": 0.42, "via": ["tenant"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.8", "type_key": "github:branch-with-protection", "p": 0.44, "via": ["code_repo"], "objects": 4, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.1-04", "type_key": "github:organization-full", "p": 0.45, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.2-04", "type_key": "github:organization-full", "p": 0.56, "via": ["tenant_policy"], "objects": 1, "decision": "confirm", "reason": "조직 보안 설정"}
+{"item_key": "ISMS-P:2.6.6-03", "type_key": "github:organization-full", "p": 0.5, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.9", "type_key": "github:organization-full", "p": 0.58, "via": ["tenant", "tenant_policy"], "objects": 1, "decision": "confirm", "reason": "조직 보안 설정"}
+{"item_key": "ISMS-P:2.6.6-03", "type_key": "gws:Customer", "p": 0.4, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.9", "type_key": "gws:Customer", "p": 0.43, "via": ["tenant", "tenant_policy"], "objects": 1, "decision": "confirm", "reason": "테넌트 설정"}
+{"item_key": "ISMS-P:2.10.1-04", "type_key": "okta:NetworkZone", "p": 0.59, "via": ["tenant_policy"], "objects": 4, "decision": "confirm", "reason": "예외 IP 영역(DefaultExemptIpZone 등)"}
+{"item_key": "ISMS-P:2.10.2-04", "type_key": "okta:OrgSetting", "p": 0.47, "via": ["tenant_policy"], "objects": 1, "decision": "confirm", "reason": "조직 설정"}
+{"item_key": "ISMS-P:2.6.6-03", "type_key": "okta:OrgSetting", "p": 0.55, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.9.4-03", "type_key": "okta:OrgSetting", "p": 0.4, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.9.4-01", "type_key": "okta:ThreatInsightConfiguration", "p": 0.46, "via": ["monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "okta:ThreatInsightConfiguration", "p": 0.52, "via": ["monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.33", "type_key": "okta:ThreatInsightConfiguration", "p": 0.49, "via": ["monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.15", "type_key": "okta:ThreatInsightConfiguration", "p": 0.48, "via": ["monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-6:p2", "type_key": "okta:ThreatInsightConfiguration", "p": 0.49, "via": ["network_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-8:p3", "type_key": "okta:ThreatInsightConfiguration", "p": 0.45, "via": ["monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.1-05", "type_key": "salesforce:BrowserPolicyViolation", "p": 0.44, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.2-04", "type_key": "salesforce:BrowserPolicyViolation", "p": 0.43, "via": ["tenant_policy", "monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.11.3-01", "type_key": "salesforce:BrowserPolicyViolation", "p": 0.5, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "브라우저 정책 위반 기록"}
+{"item_key": "ISMS-P:2.9.4-02", "type_key": "salesforce:BrowserPolicyViolation", "p": 0.47, "via": ["monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.23", "type_key": "salesforce:BrowserPolicyViolation", "p": 0.41, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:5.33", "type_key": "salesforce:BrowserPolicyViolation", "p": 0.55, "via": ["monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:6.7", "type_key": "salesforce:BrowserPolicyViolation", "p": 0.45, "via": ["network_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.16", "type_key": "salesforce:BrowserPolicyViolation", "p": 0.49, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "브라우저 정책 위반 기록"}
+{"item_key": "PIPA:admin-73493:article-8:p2", "type_key": "salesforce:BrowserPolicyViolation", "p": 0.46, "via": ["monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-8:p3", "type_key": "salesforce:BrowserPolicyViolation", "p": 0.58, "via": ["monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:6.7", "type_key": "salesforce:CspTrustedSite", "p": 0.55, "via": ["network_policy"], "objects": 3, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.2-02", "type_key": "salesforce:Domain", "p": 0.58, "via": ["tenant"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.6.6-03", "type_key": "salesforce:IframeWhiteListUrl", "p": 0.47, "via": ["network_policy", "tenant_policy"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:6.7", "type_key": "salesforce:IframeWhiteListUrl", "p": 0.56, "via": ["network_policy"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:law-011468:article-30:p1", "type_key": "salesforce:IframeWhiteListUrl", "p": 0.59, "via": ["network_policy"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.1-05", "type_key": "salesforce:Organization", "p": 0.54, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.2-04", "type_key": "slack:200.team", "p": 0.4, "via": ["tenant_policy"], "objects": 1, "decision": "confirm", "reason": "워크스페이스 설정"}
+{"item_key": "ISMS-P:2.6.6-03", "type_key": "slack:200.team", "p": 0.49, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.9", "type_key": "slack:200.team", "p": 0.46, "via": ["tenant", "tenant_policy"], "objects": 1, "decision": "confirm", "reason": "워크스페이스 설정"}
+{"item_key": "ISMS-P:2.10.2-04", "type_key": "slack:200.team_2", "p": 0.54, "via": ["tenant_policy"], "objects": 1, "decision": "confirm", "reason": "워크스페이스 설정"}
+{"item_key": "ISMS-P:2.6.6-03", "type_key": "slack:200.team_2", "p": 0.56, "via": ["tenant_policy"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.9", "type_key": "slack:200.team_2", "p": 0.58, "via": ["tenant", "tenant_policy"], "objects": 1, "decision": "confirm", "reason": "워크스페이스 설정"}
+{"item_key": "ISMS-P:1.2.1-01", "type_key": "slack:defs_enterprise_id", "p": 0.4, "via": ["tenant"], "objects": 1, "decision": "confirm", "reason": "테넌트"}
+{"item_key": "ISMS-P:1.2.1-03", "type_key": "slack:defs_enterprise_id", "p": 0.45, "via": ["tenant"], "objects": 1, "decision": "confirm", "reason": "테넌트"}
+{"item_key": "ISO27001:5.23", "type_key": "slack:defs_enterprise_id", "p": 0.41, "via": ["tenant"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.10.2-04", "type_key": "gws:Alert", "p": 0.41, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "설정 변경 경보"}
+{"item_key": "ISO27001:8.16", "type_key": "gws:Alert", "p": 0.49, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "보안 경보"}
+{"item_key": "PIPA:admin-73493:article-8:p2", "type_key": "gws:Alert", "p": 0.54, "via": ["monitoring"], "objects": 1, "decision": "confirm", "reason": "보안 경보"}
+{"item_key": "PIPA:law-011357:article-29:p0", "type_key": "gws:Alert", "p": 0.4, "via": ["monitoring"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:1.2.1-01", "type_key": "github:commit", "p": 0.41, "via": ["code_repo"], "objects": 2, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.8.5-02", "type_key": "github:workflow", "p": 0.53, "via": ["code_repo"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISMS-P:2.8.5-03", "type_key": "github:workflow", "p": 0.45, "via": ["code_repo"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "PIPA:admin-73493:article-7:p5", "type_key": "gws:GoogleAppsCloudidentityDevicesV1DeviceUser", "p": 0.57, "via": ["device"], "objects": 17, "decision": "confirm", "reason": "관리 기기와 사용자"}
+{"item_key": "PIPA:admin-73493:article-7:p5", "type_key": "okta:DeviceWithProviders", "p": 0.46, "via": ["device"], "objects": 1, "decision": "confirm", "reason": "등록 기기"}
+{"item_key": "ISO27001:8.29", "type_key": "atlassian:AutomationRule", "p": 0.41, "via": ["automation"], "objects": 15, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "github:custom-agents", "p": 0.56, "via": ["automation"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "gws:Project", "p": 0.54, "via": ["automation"], "objects": 11, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "salesforce:BotDefinition", "p": 0.5, "via": ["automation"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "salesforce:BotDefinition", "p": 0.57, "via": ["automation"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "salesforce:BotVersion", "p": 0.45, "via": ["automation"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "salesforce:BotVersion", "p": 0.5, "via": ["automation"], "objects": 1, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "salesforce:CronJobDetail", "p": 0.54, "via": ["automation"], "objects": 3, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "salesforce:CronJobDetail", "p": 0.49, "via": ["automation"], "objects": 3, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "salesforce:CronTrigger", "p": 0.54, "via": ["automation"], "objects": 3, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "salesforce:CronTrigger", "p": 0.44, "via": ["automation"], "objects": 3, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "salesforce:FlowDefinitionView", "p": 0.45, "via": ["automation"], "objects": 108, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "salesforce:FlowDefinitionView", "p": 0.45, "via": ["automation"], "objects": 108, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "salesforce:FlowRecord", "p": 0.46, "via": ["automation"], "objects": 68, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "salesforce:FlowRecord", "p": 0.43, "via": ["automation"], "objects": 68, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.19", "type_key": "salesforce:FlowRecordVersion", "p": 0.43, "via": ["automation"], "objects": 68, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "salesforce:FlowRecordVersion", "p": 0.43, "via": ["automation"], "objects": 68, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "salesforce:GenAiFunctionDefinition", "p": 0.57, "via": ["automation"], "objects": 11, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "salesforce:GenAiPlannerFunctionDef", "p": 0.51, "via": ["automation"], "objects": 4, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}
+{"item_key": "ISO27001:8.29", "type_key": "salesforce:GenAiPluginDefinition", "p": 0.51, "via": ["automation"], "objects": 4, "decision": "drop", "reason": "이 종류는 항목이 요구하는 설정이나 대상을 직접 담지 않는다(느슨한 연관)"}

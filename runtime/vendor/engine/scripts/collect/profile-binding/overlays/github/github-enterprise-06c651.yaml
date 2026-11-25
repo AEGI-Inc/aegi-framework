@@ -1,0 +1,59 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/enterprise.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-23
+        items: data.enterprise
+    id_expr:
+      any:
+        - databaseId
+        - id
+    tenant: none
+    mutable_ids:
+      slug: slug
+      node_id: id
+    properties:
+      name: name
+      slug: slug
+      created_at: createdAt
+    display: "{name|slug}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: &a1
+            any:
+              - databaseId
+              - id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-ENT-{id}
+runtime_stub: null
+runtime_key: GH-ENT-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  node_id:
+    stability: mutable
+  slug:
+    stability: mutable
+identity:
+  primary:
+    - name: id
+      expr: *a1
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-ENT-{id}
+    replaced:
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

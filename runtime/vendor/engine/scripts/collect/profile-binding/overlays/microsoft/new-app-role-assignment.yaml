@@ -1,0 +1,70 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: AppRoleAssignment
+interfaces: [Assignment]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-ARA-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-06
+        request: {kind: appRoleAssignedTo}
+        items: value
+    id_expr: id
+    vars:
+      # 앱 역할 id 는 자원 서비스 주체의 appRoles 에서 이름(value, 예: Directory.Read.All)으로 바꾼다. 0 만 있는 id 는 기본 접근(앱 역할 없이 배정)이다
+      app_role_value:
+        op: pluck
+        field: value
+        of:
+          op: filter
+          of:
+            ref: {type: ServicePrincipal, id: resourceId}
+            prop: appRoles
+          where: {path: $item.id, eq_expr: appRoleId}
+    properties:
+      app_role_id: appRoleId
+      app_role_value: {op: first, of: $vars.app_role_value}
+      principal_id: principalId
+      principal_type: principalType
+      resource_id: resourceId
+      created_date_time: createdDateTime
+    display: "{principalDisplayName|principalId} → {resourceDisplayName|resourceId}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: has_role_on
+        source:
+          switch: principalType
+          cases:
+            User: {type: User, id: principalId}
+            Group: {type: Group, id: principalId}
+            ServicePrincipal: {type: ServicePrincipal, id: principalId}
+        target:
+          type: ServicePrincipal
+          id: resourceId
+        role:
+          name:
+            any:
+              - {op: first, of: $vars.app_role_value}
+              - if: {path: appRoleId, eq: 00000000-0000-0000-0000-000000000000}
+                then: {const: default_access}
+                else: appRoleId
+        basis: stated
+        properties:
+          via_assignment: $self
+          app_role_id: appRoleId
+        require: [source, target]

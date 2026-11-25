@@ -1,0 +1,225 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/salesforce/profiles/oauth_token.yaml
+  engine_commit: d78062d
+  research_agreement: reviewed_override
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SF-07
+        items: records
+        where:
+          path: attributes.type
+          eq: OauthToken
+    id_expr: Id
+    vars:
+      app_name:
+        op: str
+        of: AppName
+      apps:
+        op: filter
+        of:
+          op: objects
+          type: ConnectedApplication
+        where:
+          path:
+            op: str
+            of: $item.properties.name
+          eq_expr: $vars.app_name
+      # 외부 클라이언트 앱(External Client App)으로 승인한 토큰은 AppMenuItemId 가 비어 있고 AppName 이 ECA 의 MasterLabel 이다.
+      # 2026-11-20 3회차: Gemini Enterprise 커넥터 승인 3/3 이 ECA 8개 가운데 하나와 이름이 같았다. 연결된 앱이 먼저다
+      apps_eca:
+        op: filter
+        of:
+          op: objects
+          type: ExternalClientApplication
+        where:
+          path:
+            op: str
+            of: $item.properties.MasterLabel
+          eq_expr: $vars.app_name
+      app:
+        if:
+          path:
+            op: count
+            of: $vars.apps
+          eq: 1
+        then:
+          op: first
+          of:
+            op: pluck
+            of: $vars.apps
+            field: key
+        else:
+          if:
+            path:
+              op: count
+              of: $vars.apps_eca
+            eq: 1
+          then:
+            op: first
+            of:
+              op: pluck
+              of: $vars.apps_eca
+              field: key
+    parent:
+      ref:
+        type: User
+        id: UserId
+    refs:
+      grantee:
+        ref:
+          type: User
+          id: UserId
+      application:
+        - when:
+            path: $vars.app
+            present: true
+          ref:
+            key: $vars.app
+          type: ConnectedApplication
+          value: $vars.app_name
+        - when:
+            path: $vars.app
+            present: false
+          type: ConnectedApplication
+          value: $vars.app_name
+          external: true
+    properties:
+      app_name: AppName
+      last_used: LastUsedDate
+      use_count: UseCount
+      created: CreatedDate
+    display: "{AppName} ← {@grantee.username|UserId}"
+    relations:
+      - type: has_role_on
+        when:
+          path: $vars.app
+          present: true
+        source:
+          type: User
+          id: UserId
+        target:
+          key: $vars.app
+        role:
+          name:
+            const: authorized
+        basis: computed
+        require:
+          - source
+        properties:
+          via_assignment: $self
+          join:
+            if:
+              path:
+                op: count
+                of: $vars.apps
+              eq: 1
+            then:
+              const: AppName = ConnectedApplication.Name
+            else:
+              const: AppName = ExternalClientApplication.MasterLabel
+    identity:
+      primary:
+        - name: id
+          expr: Id
+          stability: catalog_reviewed
+          normalization: &a1
+            - to_18_char
+      scope: tenant
+    key_template: SF-OAT-{id}
+runtime_stub: null
+runtime_key: SF-OAT-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+    normalization: *a1
+relation_rules:
+  - id: OauthToken:list
+    sources:
+      - call: SF-07
+        items: records
+        where:
+          path: attributes.type
+          eq: OauthToken
+    vars:
+      app_name:
+        op: str
+        of: AppName
+      apps:
+        op: filter
+        of:
+          op: objects
+          type: ConnectedApplication
+        where:
+          path:
+            op: str
+            of: $item.properties.name
+          eq_expr: $vars.app_name
+      # 외부 클라이언트 앱(External Client App)으로 승인한 토큰은 AppMenuItemId 가 비어 있고 AppName 이 ECA 의 MasterLabel 이다.
+      # 2026-11-20 3회차: Gemini Enterprise 커넥터 승인 3/3 이 ECA 8개 가운데 하나와 이름이 같았다. 연결된 앱이 먼저다
+      apps_eca:
+        op: filter
+        of:
+          op: objects
+          type: ExternalClientApplication
+        where:
+          path:
+            op: str
+            of: $item.properties.MasterLabel
+          eq_expr: $vars.app_name
+      app:
+        if:
+          path:
+            op: count
+            of: $vars.apps
+          eq: 1
+        then:
+          op: first
+          of:
+            op: pluck
+            of: $vars.apps
+            field: key
+        else:
+          if:
+            path:
+              op: count
+              of: $vars.apps_eca
+            eq: 1
+          then:
+            op: first
+            of:
+              op: pluck
+              of: $vars.apps_eca
+              field: key
+    relations:
+      - type: has_role_on
+        when:
+          path: $vars.app
+          present: true
+        source:
+          type: User
+          id: UserId
+        target:
+          key: $vars.app
+        role:
+          name:
+            const: authorized
+        basis: computed
+        require:
+          - source
+        properties:
+          via_assignment: $self
+          join:
+            if:
+              path:
+                op: count
+                of: $vars.apps
+              eq: 1
+            then:
+              const: AppName = ConnectedApplication.Name
+            else:
+              const: AppName = ExternalClientApplication.MasterLabel
+    self_identity: object_rule

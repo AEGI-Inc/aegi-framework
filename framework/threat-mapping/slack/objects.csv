@@ -1,0 +1,38 @@
+saas,object_category,target_object,aegi_object,collection_status,collection_path,threat_count
+slack,Identity / Access,User (members),200.members[*],수집 중,SL-01; SL-02,8
+slack,Identity / Access,"User (게스트, multi/single-channel)",200.members[*],수집 중,SL-01; SL-02,2
+slack,Identity / Access,Usergroup / 워크스페이스 멤버십,objs_subteam,수집 중,SL-06; SL-15,3
+slack,Identity / Access,워크스페이스·조직 관리자 역할,200.members[*],수집 중,SL-01; SL-16,1
+slack,,조직 역할 (Enterprise Grid 역할),,미수집(API 있음),SL-16 역할 배정만. 역할 이름을 주는 API 없음,0
+slack,Identity / Access,봇 사용자 / 앱 봇 토큰 소유 계정,200.bot,수집 중,SL-07,1
+slack,Identity / Access,"봇·사용자 토큰 (xoxb, xoxp)",credential-row:oauth:xoxb,수집 중,SL-10 (앱 매니페스트의 토큰 종류. 값은 없음),4
+slack,,앱 서명 비밀·클라이언트 비밀,,필드 없음,SL-10 (비밀값 존재 여부만),0
+slack,Identity / Access,2FA / SSO 상태,200.members[*],필드 없음,SL-01 (has_2fa 가 정규화에 없음),2
+slack,Identity / Access,세션,,미수집(API 있음),admin.users.session.list,2
+slack,Policy / Configuration,"워크스페이스 인증 정책(SSO 강제, 2FA 강제, 세션 길이)",200.entities[*],수집 중,RG-SL-admin.auth.policy.getEntities [11-17 출력 0건],1
+slack,Identity / Access,SSO(IdP) 설정,,API 밖,관리 콘솔,1
+slack,Identity / Access,앱 권한 동의(사용자 OAuth),200.approved_apps[*].app,필드 없음,SL-08 (사용자별 동의 정보 없음),7
+slack,Integration / Automation,앱 (App),defs_app_id; 200.approved_apps[*].app,수집 중,SL-08,4
+slack,Integration / Automation,앱 설치 / 승인 앱,200.approved_apps[*].app; defs_app_id,수집 중,SL-08; SL-19,3
+slack,Integration / Automation,Slack AI / 에이전트 앱,,API 밖,관리 콘솔,6
+slack,Integration / Automation,Workflow Builder 워크플로,200.workflows[*],수집 중,SL-17,2
+slack,Integration / Automation,Incoming Webhook / Slash Command Endpoint,Slash Command Request Endpoint; credential-row:oauth:url,수집 중,SL-09; SL-10,5
+slack,Integration / Automation,Workflow 커넥터 단계,200.workflows[*].steps[*]; WorkflowConnectorEndpoint,수집 중,SL-17,3
+slack,Integration / Automation,Workflow 함수 단계 / 앱 함수,200.workflows[*].steps[*]; 200.functions[*],수집 중,SL-17; SL-20,2
+slack,Identity / Access,Workspace / Enterprise,200.team; defs_enterprise_id,수집 중,SL-00,8
+slack,Integration / Automation,Slack Connect 외부 조직,200.organizations[*],수집 중,RG-SL-team.externalTeams.list [11-17 출력 0건],1
+slack,Identity / Access,SSO 미적용 로그인(게스트·예외),200.members[*],필드 없음,SL-01 (SSO 적용 여부 필드 없음),1
+slack,,SCIM/IdP 그룹 동기화,,미수집(API 있음),SCIM API (RG-SL-scim.Groups.list 는 blocked),0
+slack,,SCIM 사용자·그룹,,미수집(API 있음),SCIM API (RG-SL-scim.Users.list 는 blocked),0
+slack,,워크스페이스·조직 설정,200.team_2,수집 중,RG-SL-admin.teams.settings.info [11-17 출력 0건],0
+slack,Policy / Configuration,Slack AI 설정,,API 밖,관리 콘솔,1
+slack,Policy / Configuration,앱 승인 정책,200.approved_apps[*].app; 200.restricted_apps[*].app,수집 중,SL-08,1
+slack,,감사 로그 설정,,API 밖,관리 콘솔,0
+slack,Policy / Configuration,메시지 보존 설정,,미수집(API 있음),admin.conversations.getCustomRetention,1
+slack,,DLP 앱 연동,,API 밖,DLP 파트너,0
+slack,Resource,채널 공개 범위·외부 공유,conversation,수집 중,SL-03,3
+slack,Policy / Configuration,Slack EKM,200.channels[*],수집 중,RG-SL-admin.conversations.ekm.listOriginalConnectedChannelInfo [11-17 출력 0건],1
+slack,,데이터 내보내기(Export),,로그만,SL-11 Audit Logs,0
+slack,Resource,채널 / 파일,conversation; objs_file,수집 중,SL-03,8
+slack,Resource,채널·파일 안 평문 자격증명,conversation,필드 없음,SL-05 (메시지는 지문만),1
+slack,Resource,메시지,Message,수집 중,SL-05 (본문은 지문만),3

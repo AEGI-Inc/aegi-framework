@@ -1,0 +1,273 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/user_account.yaml
+  engine_commit: d78062d
+  research_agreement: same
+# 조직 멤버는 사람이다. 옮겨 온 카탈로그 user_account.yaml 의 interfaces 가 Principal 이었는데 오버레이로 옮길 때 빠졌다.
+# IM 모델 v3.2 는 simple-user 타입을 다형 공간이라 non_object(인터페이스 없음)로 두지만, 이 오버레이는 GH-02 멤버만 읽고
+# type 이 Bot 이면 principal_kind 를 service 로 둔다. 인터페이스가 없으면 접근 격차가 GitHub 권한자를 사람으로 세지 못한다
+interfaces:
+  - Principal
+runtime_rules:
+  - id: members
+    kind: object
+    sources:
+      - call: GH-02
+        request:
+          role: all
+        items: (items)
+      - call: GH-02
+        request:
+          role: admin
+        items: (items)
+    mutable_ids:
+      login: login
+      node_id: node_id
+    properties:
+      login: login
+      type: type
+      site_admin: site_admin
+      principal_kind:
+        if:
+          path: type
+          eq: Bot
+        then:
+          const: service
+        else:
+          const: human
+    display: "{login}"
+    relations:
+      - type: member_of
+        when:
+          path: $req.role
+          eq: all
+        source: $self
+        target: $tenant
+        basis: stated
+      - type: has_role_on
+        when:
+          path: $req.role
+          eq: admin
+        source: $self
+        target: $tenant
+        role:
+          name:
+            const: admin
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-U-{id}
+  - id: account
+    kind: object
+    on_demand: true
+    mutable_ids:
+      login: login
+      node_id: node_id
+    properties:
+      login: login
+      type: type
+      site_admin: site_admin
+      principal_kind:
+        if:
+          path: type
+          eq: Bot
+        then:
+          const: service
+        else:
+          const: human
+    display: "{login}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-U-{id}
+  - id: detail
+    kind: enrich
+    sources:
+      - call: GH-03
+        items: (root)
+    target:
+      type: simple-user
+      lookup: login
+      value: login
+    set:
+      created_at: created_at
+      name:
+        op: nonempty
+        of: name
+    relations: []
+    key_template: GH-U-{id}
+  - id: verified_emails
+    kind: enrich
+    sources:
+      - call: GH-21
+        items: data.organization.membersWithRole.nodes
+    target:
+      type: simple-user
+      lookup: login
+      value: login
+    set:
+      verified_domain_emails:
+        any:
+          - organizationVerifiedDomainEmails
+        empty_as: []
+    relations: []
+    key_template: GH-U-{id}
+  - id: collaborators
+    kind: relations
+    sources:
+      - call: GH-06
+        items: (items)
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    relations:
+      - type: has_role_on
+        source:
+          type: simple-user
+          lookup: login
+          value: login
+          create:
+            rule: account
+        target:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        role:
+          ref:
+            type: organization-custom-repository-role
+            lookup: name
+            value: role_name
+          name:
+            any:
+              - role_name
+            empty_as: unknown
+        basis: computed
+        properties:
+          affiliation:
+            any:
+              - $req.affiliation
+            empty_as: direct
+          decomposable: false
+          undecomposed:
+            const:
+              - org_base
+              - team
+              - enterprise
+    key_template: GH-U-{id}
+runtime_stub: null
+runtime_key: GH-U-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  login:
+    stability: mutable
+  node_id:
+    stability: mutable
+relation_rules:
+  - id: User Account:members
+    sources:
+      - call: GH-02
+        request:
+          role: all
+        items: (items)
+      - call: GH-02
+        request:
+          role: admin
+        items: (items)
+    relations:
+      - type: member_of
+        when:
+          path: $req.role
+          eq: all
+        source: $self
+        target: $tenant
+        basis: stated
+      - type: has_role_on
+        when:
+          path: $req.role
+          eq: admin
+        source: $self
+        target: $tenant
+        role:
+          name:
+            const: admin
+        basis: stated
+    self_identity: object_rule
+  - id: User Account:collaborators
+    sources:
+      - call: GH-06
+        items: (items)
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    relations:
+      - type: has_role_on
+        source:
+          type: simple-user
+          lookup: login
+          value: login
+          create:
+            rule: account
+        target:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        role:
+          ref:
+            type: organization-custom-repository-role
+            lookup: name
+            value: role_name
+          name:
+            any:
+              - role_name
+            empty_as: unknown
+        basis: computed
+        properties:
+          affiliation:
+            any:
+              - $req.affiliation
+            empty_as: direct
+          decomposable: false
+          undecomposed:
+            const:
+              - org_base
+              - team
+              - enterprise
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-U-{id}
+    replaced:
+      - $req.parent_id
+      - id
+binding:
+  status: catalog_call
+  call: GH-02
+  operation_id: op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-members
+  paths:
+    - shape: null
+      path:
+        - "*"
+  basis: catalog spec:5 sources
+  previous_status: non_object
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

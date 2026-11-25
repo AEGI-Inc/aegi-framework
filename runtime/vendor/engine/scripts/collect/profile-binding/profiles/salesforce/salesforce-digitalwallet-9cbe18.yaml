@@ -1,0 +1,632 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: DigitalWallet
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:659a2656a9a0a8edd39cbe18
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:659a2656a9a0a8edd39cbe18.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|Id
+  AccountId:
+    path: AccountId
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: reference
+      name: AccountId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|AccountId
+  AuditEmail:
+    path: AuditEmail
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: email
+      name: AuditEmail
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|AuditEmail
+  BillingName:
+    path: BillingName
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: BillingName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|BillingName
+  Comments:
+    path: Comments
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: textarea
+      name: Comments
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|Comments
+  CompanyName:
+    path: CompanyName
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: CompanyName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|CompanyName
+  Customer:
+    path: Customer
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: Customer
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|Customer
+  DigitalWalletNumber:
+    path: DigitalWalletNumber
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: DigitalWalletNumber
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|DigitalWalletNumber
+  Email:
+    path: Email
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: email
+      name: Email
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|Email
+  ExtendedPaymentMethodType:
+    path: ExtendedPaymentMethodType
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: ExtendedPaymentMethodType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|ExtendedPaymentMethodType
+  GatewayToken:
+    path: GatewayToken
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: GatewayToken
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|GatewayToken
+  GatewayTokenDetails:
+    path: GatewayTokenDetails
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: textarea
+      name: GatewayTokenDetails
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|GatewayTokenDetails
+  GatewayTokenEncrypted:
+    path: GatewayTokenEncrypted
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: encryptedstring
+      name: GatewayTokenEncrypted
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|GatewayTokenEncrypted
+  IpAddress:
+    path: IpAddress
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: IpAddress
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|IpAddress
+  IsAutoPayEnabled:
+    path: IsAutoPayEnabled
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: boolean
+      name: IsAutoPayEnabled
+      required: false
+      scalar: boolean
+    map_items:
+      - space:DigitalWallet|IsAutoPayEnabled
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|LastViewedDate
+  MacAddress:
+    path: MacAddress
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: MacAddress
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|MacAddress
+  NickName:
+    path: NickName
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: NickName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|NickName
+  PaymentGatewayId:
+    path: PaymentGatewayId
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: reference
+      name: PaymentGatewayId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentGatewayId
+  PaymentMethodAddress:
+    path: PaymentMethodAddress
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: address
+      name: PaymentMethodAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentMethodAddress
+  PaymentMethodCity:
+    path: PaymentMethodCity
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: PaymentMethodCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentMethodCity
+  PaymentMethodCountry:
+    path: PaymentMethodCountry
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: PaymentMethodCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentMethodCountry
+  PaymentMethodDetails:
+    path: PaymentMethodDetails
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: PaymentMethodDetails
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentMethodDetails
+  PaymentMethodGeocodeAccuracy:
+    path: PaymentMethodGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: picklist
+      name: PaymentMethodGeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentMethodGeocodeAccuracy
+  PaymentMethodLatitude:
+    path: PaymentMethodLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: double
+      name: PaymentMethodLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:DigitalWallet|PaymentMethodLatitude
+  PaymentMethodLongitude:
+    path: PaymentMethodLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: double
+      name: PaymentMethodLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:DigitalWallet|PaymentMethodLongitude
+  PaymentMethodPostalCode:
+    path: PaymentMethodPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: PaymentMethodPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentMethodPostalCode
+  PaymentMethodState:
+    path: PaymentMethodState
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: PaymentMethodState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentMethodState
+  PaymentMethodStreet:
+    path: PaymentMethodStreet
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: textarea
+      name: PaymentMethodStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentMethodStreet
+  PaymentMethodSubType:
+    path: PaymentMethodSubType
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: string
+      name: PaymentMethodSubType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentMethodSubType
+  PaymentMethodType:
+    path: PaymentMethodType
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: picklist
+      name: PaymentMethodType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|PaymentMethodType
+  Phone:
+    path: Phone
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: phone
+      name: Phone
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|Phone
+  ProcessingMode:
+    path: ProcessingMode
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: picklist
+      name: ProcessingMode
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|ProcessingMode
+  SavedPaymentMethodId:
+    path: SavedPaymentMethodId
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: reference
+      name: SavedPaymentMethodId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|SavedPaymentMethodId
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:DigitalWallet
+    declaration:
+      format: picklist
+      name: Status
+      required: false
+      scalar: string
+    map_items:
+      - space:DigitalWallet|Status
+references:
+  - name: savedpaymentmethodid
+    field: SavedPaymentMethodId
+    target: SavedPaymentMethod
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3a8eac7a7f559728df14b703; relation=no_relation
+  - name: paymentgatewayid
+    field: PaymentGatewayId
+    target: PaymentGateway
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:54cf8f08e279f3f17d933f46; relation=no_relation
+  - name: accountid
+    field: AccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:dc5105cfd6dcb4c1ef1e29e8; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: DigitalWallet
+  interfaces: *a1
+  model:
+    research_type: object-type:659a2656a9a0a8edd39cbe18
+  extract:
+    key: PILOT-salesforce-DigitalWallet-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-9cbe18
+            endpoint: /
+            items:
+              - records
+        properties:
+          AccountId: AccountId
+          AuditEmail: AuditEmail
+          BillingName: BillingName
+          Comments: Comments
+          CompanyName: CompanyName
+          Customer: Customer
+          DigitalWalletNumber: DigitalWalletNumber
+          Email: Email
+          ExtendedPaymentMethodType: ExtendedPaymentMethodType
+          GatewayToken: GatewayToken
+          GatewayTokenDetails: GatewayTokenDetails
+          GatewayTokenEncrypted: GatewayTokenEncrypted
+          Id: Id
+          IpAddress: IpAddress
+          IsAutoPayEnabled: IsAutoPayEnabled
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          MacAddress: MacAddress
+          NickName: NickName
+          PaymentGatewayId: PaymentGatewayId
+          PaymentMethodAddress: PaymentMethodAddress
+          PaymentMethodCity: PaymentMethodCity
+          PaymentMethodCountry: PaymentMethodCountry
+          PaymentMethodDetails: PaymentMethodDetails
+          PaymentMethodGeocodeAccuracy: PaymentMethodGeocodeAccuracy
+          PaymentMethodLatitude: PaymentMethodLatitude
+          PaymentMethodLongitude: PaymentMethodLongitude
+          PaymentMethodPostalCode: PaymentMethodPostalCode
+          PaymentMethodState: PaymentMethodState
+          PaymentMethodStreet: PaymentMethodStreet
+          PaymentMethodSubType: PaymentMethodSubType
+          PaymentMethodType: PaymentMethodType
+          Phone: Phone
+          ProcessingMode: ProcessingMode
+          SavedPaymentMethodId: SavedPaymentMethodId
+          Status: Status
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:DigitalWallet.query
+  operation: DigitalWallet.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: DigitalWallet
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:DigitalWallet
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:DigitalWallet.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/DigitalWallet/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - SavedPaymentMethodId
+    - PaymentGatewayId
+    - AccountId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

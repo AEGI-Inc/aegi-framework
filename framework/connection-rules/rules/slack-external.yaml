@@ -1,0 +1,243 @@
+# Slack 공통 수단 연결 규칙
+# 상대 SaaS 를 가리지 않고 Slack 이 밖과 붙는 수단. 4개 SaaS 사이 쌍은 ../rules/<쌍>.yaml 에 있다
+# 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/slack-external.yaml. 범례는 legend.yaml
+
+anchor: slack
+written: '2026-10-04'
+verified: '2026-10-15'
+kind: rules
+
+methods:
+- id: incoming_webhook
+  type: [stored_credential, event_delivery]
+  what: "Slack 앱의 수신 웹훅 주소를 밖의 시스템이 갖고 채널에 게시"
+  identify:
+    api: "slack team.integrationLogs (admin 사용자 토큰), 감사 app_installed (bot_scopes incoming-webhook), 봇 정보 bots.info"
+    when: "incoming-webhook 범위로 설치된 앱이 있음"
+  points_to:
+  - tier: fingerprint
+    a: "밖의 시스템이 보관한 웹훅 주소"
+    b: "slack 웹훅 주소 sha256"
+    check: "a 의 sha256 과 b 가 같다"
+    if_unreadable: "주소는 Slack 앱 설정 화면(Incoming Webhooks)과 설치 OAuth 응답(incoming_webhook.url)에서만 보인다. 보낸 쪽 저장소에서 주소를 찾아 지문을 비교"
+  - tier: log_id
+    a: "slack 메시지 bot_id"
+    b: "웹훅 configuration_url 끝의 B… (같은 Slack 안)"
+    check: "a 와 b 가 같다"
+  activity: ["slack 봇 메시지 (subtype bot_message)", "slack 감사 app_installed"]
+  sources:
+  - "https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks [Exa]"
+  - "https://docs.slack.dev/reference/methods/team.integrationLogs.md (service_type, channel, app_id, change_type, 범위 admin)"
+
+- id: slash_command
+  type: [event_delivery, external_relay]
+  what: "슬래시 명령을 치면 Slack 이 앱의 주소로 요청을 보냄"
+  identify:
+    api: "slack apps.manifest.export (앱 설정 토큰) features.slash_commands[].url (https://docs.slack.dev/reference/app-manifest.md)"
+    when: "url 이 있음"
+  points_to:
+  - tier: config_name
+    a: "slack manifest features.slash_commands[].url 호스트"
+    b: "받는 서버 (다른 SaaS 의 웹훅 주소 호스트 등)"
+    check: "a 와 b 가 같다"
+    if_unreadable: "앱 설정 토큰이 없으면 Slack 앱 설정 화면 Slash Commands 의 Request URL"
+  - tier: log_id
+    a: "받는 서버 요청 기록의 api_app_id, team_id, user_id"
+    b: "slack 앱 id, 워크스페이스, 사용자"
+    check: "a 와 b 가 같다"
+  activity: ["받는 서버의 요청 기록", "slack 봇 응답 메시지"]
+  sources: ["https://docs.slack.dev/interactivity/implementing-slash-commands [Exa]"]
+
+- id: event_subscription
+  type: event_delivery
+  what: "Events API 가 앱의 Request URL 로 이벤트를 보냄"
+  identify:
+    api: "slack apps.manifest.export settings.event_subscriptions"
+    when: "request_url 이 있음 (Socket Mode 면 주소 없음)"
+  points_to:
+  - tier: config_name
+    a: "slack manifest settings.event_subscriptions.request_url 호스트"
+    b: "받는 서버"
+    check: "a 와 b 가 같다"
+    if_unreadable: "Slack 앱 설정 화면 Event Subscriptions"
+  - tier: log_id
+    a: "받는 서버 요청 기록의 api_app_id, team_id, event_id"
+    b: "slack 앱 id, 워크스페이스 id"
+    check: "a 와 b 가 같다"
+  activity:
+  - 받는 서버의 요청 기록
+  - slack 감사 app_installed
+  sources: ["https://docs.slack.dev/apis/events-api.md", "https://docs.slack.dev/apis/events-api/ (요청 본문 team_id, api_app_id, event_id)"]
+
+- id: interactivity
+  type: event_delivery
+  what: "버튼, 모달 등 상호작용 요청을 앱 주소로 보냄"
+  identify: {api: "slack apps.manifest.export settings.interactivity", when: "request_url 이 있음"}
+  points_to:
+  - {tier: config_name, a: "slack manifest settings.interactivity.request_url 호스트", b: "받는 서버", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "받는 서버 요청 기록의 api_app_id, team.id", b: "slack 앱 id, 워크스페이스 id", check: "a 와 b 가 같다"}
+  activity: ["받는 서버의 요청 기록"]
+  sources: ["https://docs.slack.dev/reference/app-manifest.md (settings.interactivity.request_url, message_menu_options_url)", "https://docs.slack.dev/reference/interaction-payloads/block_actions-payload (본문 api_app_id, team.id)"]
+
+- id: oauth_redirect
+  type: [stored_credential, external_relay]
+  what: "앱 설치 OAuth 가 끝나면 Slack 이 redirect 주소로 코드를 보내고, 받은 서버가 토큰이나 웹훅 주소를 얻음"
+  identify: {api: "slack apps.manifest.export oauth_config.redirect_urls", when: "redirect 주소가 외부 서버"}
+  points_to:
+  - {tier: config_name, a: "slack manifest oauth_config.redirect_urls 호스트", b: "받는 서버", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "받는 서버의 OAuth 콜백 기록 app_id, team_id, channel_id", b: "slack 앱, 워크스페이스, 채널", check: "a 와 b 가 같다"}
+  - {tier: fingerprint, a: "받는 서버가 남긴 웹훅 지문", b: "slack 웹훅 주소 sha256", check: "a 와 b 가 같다"}
+  activity: ["slack 감사 app_installed", "받는 서버의 OAuth 콜백 기록"]
+  sources: ["https://docs.slack.dev/reference/methods/apps.manifest.export.md (oauth_config.redirect_urls, 앱 설정 토큰 필요)", "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"]
+
+- id: third_party_app
+  type: app_grant
+  what: "Slack 밖 업체가 만든 앱을 설치"
+  identify:
+    api: "slack 감사 app_installed (details.is_internal_integration = false), admin.apps.approved.list"
+    when: "외부 앱 설치 기록이 있음"
+  points_to:
+  - tier: config_name
+    a: "slack 감사 entity.app.name, app.id, details.scopes"
+    b: "앱을 만든 업체 (앱 이름으로만)"
+    check: "a 와 b 가 같다"
+    if_unreadable: "Slack 관리 > 앱 관리 화면"
+  - tier: log_id
+    a: "slack 감사 app_installed 의 entity.app.id, details.installer_user_id"
+    b: "slack admin.apps.approved.list 의 앱 id, 설치한 사용자"
+    check: "a 와 b 가 같다"
+  - tier: log_time
+    a: "slack 감사 app_installed 시각"
+    b: "앱 업체 서버의 OAuth 콜백 기록 시각"
+    check: "시각이 같다"
+  activity:
+  - slack 감사 app_installed, app_uninstalled, app_scopes_expanded
+  sources: ["https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference [Exa] (app_installed)", "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"]
+
+- id: slack_connect
+  type: content_ref
+  what: "다른 조직과 채널을 공유 (Slack Connect)"
+  identify: {api: "slack conversations.list is_ext_shared, team.externalTeams.list", when: "외부 공유 채널이 있음"}
+  points_to:
+  - {tier: config_id, a: "slack 채널의 연결된 팀 ID", b: "상대 Slack 조직", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "slack 감사 external_shared_channel_connected·external_shared_channel_invite_accepted 의 details.external_organization_id, target_team", b: "상대 Slack 조직·워크스페이스 id", check: "a 와 b 가 같다. 이 칸 이름은 Slack 공식 SDK 모델에만 있고 action 별로 어느 칸이 오는지는 문서에 없어 실제 항목으로 확인한다"}
+  activity: ["slack 감사 pref.slack_connect_approval_type 등", "slack 감사 external_shared_channel_invite_created, external_shared_channel_invite_accepted, external_shared_channel_connected, external_shared_channel_disconnected, connect_dm_invite_accepted"]
+  sources: ["https://docs.slack.dev/reference/methods/team.externalTeams.list.md (team_id, team_name, connection_status, connected_workspaces. Enterprise 전용, team:read 또는 conversations.connect:manage)", "https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference", "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"]
+
+- id: audit_reader
+  type: stored_credential
+  what: "밖의 시스템이 Audit Logs API 를 읽음 (조직 소유자 사용자 토큰, auditlogs:read)"
+  identify: {api: "slack 감사 app_installed scopes 에 auditlogs:read", when: "그 범위를 가진 앱이 있음"}
+  points_to:
+  - {tier: config_name, a: "slack 앱 범위 auditlogs:read", b: "그 토큰을 쓰는 밖의 시스템 (Slack 쪽에는 주소가 없음)", check: "앱 이름 일치뿐 (약한 근거)"}
+  - {tier: log_id, a: "slack 감사 app_installed 의 entity.app.id, entity.app.name", b: "auditlogs:read 범위를 가진 앱 (entity.app.scopes)", check: "a 와 b 가 같다"}
+  activity: ["slack 감사 app_installed (범위 auditlogs:read)"]
+  sources: ["https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference [Exa] (조직 소유자 토큰, auditlogs:read)", "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"]
+  note: "Audit Logs API 를 읽은 기록이 감사 로그에 남는다는 문서는 없다. 로그 시각 등급은 적지 않는다"
+
+- id: socket_mode
+  type: [event_delivery, stored_credential]
+  what: "외부 앱/봇 프로세스가 공인 엔드포인트(Request URL) 없이 WebSocket(wss://wss.slack.com/link/?ticket=...)으로 Slack 에 연결해 이벤트와 상호작용을 수신. App-level token(xapp-...)을 밖의 시스템이 보관"
+  note: "App-level token 생성이 Slack 감사 로그에 남는지는 문서에 없음 (감사 로그 액션 목록의 토큰 항목은 bot_token_upgraded 등 4개뿐). 따라서 감사 로그는 app_installed 로 앱 설치를 확인하고, 연결은 WSS 호출 시각으로 맞춘다"
+  identify:
+    api: "slack apps.manifest.export settings.socket_mode_enabled"
+    when: "settings.socket_mode_enabled == true (앱 매니페스트 또는 앱 설정 화면의 Socket Mode 가 켜져 있음)"
+  points_to:
+  - tier: config_name
+    a: "slack apps.manifest.export 의 display_information.name 및 settings.socket_mode_enabled"
+    b: "밖의 시스템(소켓 모드 클라이언트)이 실행하는 Slack 봇 프로세스 및 App-level token(xapp-...)"
+    check: "외부 프로세스 설정의 App ID/토큰이 가리키는 Slack 앱과 일치"
+    if_unreadable: "토큰은 앱 관리 콘솔(Basic Information > App-level Tokens)에서만 보임. 외부 시스템 설정 파일의 토큰 접두사 xapp- 및 환경 변수로 확인"
+  - tier: log_time
+    a: "slack 감사 app_installed 시각"
+    b: "외부 서버가 apps.connections.open 을 호출해 WSS 링크를 얻고 연결한 시각"
+    check: "앱 설치 이후 WSS 연결 활동이 이어짐"
+  activity: ["slack 감사 app_installed", "외부 서버 apps.connections.open 호출 기록"]
+  sources:
+  - "https://docs.slack.dev/apis/events-api/using-socket-mode (Socket Mode 개요, WSS 연결, App-level token xapp-)"
+  - "https://docs.slack.dev/reference/methods/apps.connections.open (WebSocket URL wss://wss.slack.com/link/?ticket=... 발급 엔드포인트, No scopes required)"
+  - "https://docs.slack.dev/reference/app-manifest (매니페스트 settings.socket_mode_enabled)"
+  - "https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (감사 로그 액션 목록: app_installed, 토큰 생성 관련 액션 없음)"
+
+
+
+- id: slack_mcp_server_external_ai
+  type: app_grant
+  what: Claude.ai·Claude Code·Perplexity·Cursor 같은 MCP 클라이언트가 Slack MCP 서버(https://mcp.slack.com/mcp, Streamable HTTP, JSON-RPC)에 붙는다. 인증은 앱의 client ID·secret 을 쓰는 confidential OAuth 이고 사용자 동의로 Slack 사용자 토큰이 나온다. 클라이언트는 Slack 디렉터리에 게시된 앱이거나 내부 앱이어야 하고 미등록 앱은 안 된다. SSE 와 Dynamic Client Registration 은 지원하지 않는다
+  identify:
+    api: slack Audit Logs API (앱 설치·사용자 토큰 관련 이벤트. 어느 이벤트인지는 문서에 없다), slack 앱 관리 화면의 앱 OAuth 설정
+    when: Slack 앱이 mcp.slack.com/mcp 를 쓰는 MCP 클라이언트로 설치됨
+  points_to:
+  - tier: config_id
+    a: slack 앱의 client ID
+    b: MCP 클라이언트 쪽 설정의 client ID
+    check: a 와 b 가 같다
+    if_unreadable: client secret 은 비밀이라 못 읽는다. client ID 만 맞춘다
+  - tier: via_person
+    a: slack 사용자 토큰을 낸 OAuth 동의 사용자
+    b: MCP 클라이언트의 로그인 사용자
+    check: 같은 사람
+  - tier: log_time
+    a: slack 감사 로그의 앱 설치·토큰 발급 시각과 사용자
+    b: 클라이언트 쪽 호출 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - slack 감사 로그 (MCP 호출 이벤트 이름은 문서에 없다)
+  sources:
+  - https://docs.slack.dev/ai/slack-mcp-server (서버 주소, 이름이 나온 클라이언트, confidential OAuth, 디렉터리 앱·내부 앱 조건, SSE·DCR 미지원, 출시 단계·플랜 요건 문서에 없음)
+  - https://slack.com/help/articles/48855576908307-Guide-to-Model-Context-Protocol-in-Slack (파트너 목록. 조사 에이전트 요약, 직접 미확인)
+  note: okta-slack:ema_slack_mcp 는 Okta Cross App Access 로 붙는 경우이고 이 방법은 일반 MCP 클라이언트 OAuth 다. 워크스페이스 관리자 승인 필요 여부는 harness 문서에 있다는 요약만 있고 직접 열지 않았다. 실측 없음
+- id: slackbot_mcp_client_external_server
+  type: app_grant
+  what: Slackbot 이 외부 MCP 서버를 부른다. 개발자가 자기 Slack 앱의 App Settings 나 매니페스트에 MCP 서버를 등록하고, 사용자당 활성 서버는 최대 5개다. 제3자 도구는 읽기·쓰기 모두 호출마다 사용자가 한 번 허용, 항상 허용, 거부 중에서 고른다. 서버 쪽 OAuth 클라이언트는 개발자가 먼저 만들어 둔다(Manual OAuth)
+  identify:
+    api: slack 앱 설정(App Settings) 또는 매니페스트의 MCP 서버 항목, Slackbot 의 MCP 설정 대화 상자
+    when: Slack 앱에 MCP 서버가 등록되어 있음
+  points_to:
+  - tier: config_name
+    a: slack 앱 설정·매니페스트의 MCP 서버 주소
+    b: 외부 MCP 서버의 실제 주소
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: slack 앱에 등록한 OAuth client ID (Manual OAuth)
+    b: 서버 제공자 쪽에 만든 OAuth 클라이언트의 client ID
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: 호출을 허용한 Slack 사용자
+    b: 서버 쪽 계정
+    check: 같은 사람
+    if_unreadable: 서버 쪽 계정을 읽는 방법은 서버마다 다르다
+  - tier: log_time
+    a: slack 쪽 MCP 호출 기록 위치는 문서에 없다
+    b: 대응 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - 문서에 없다
+  sources:
+  - https://docs.slack.dev/ai/slackbot-mcp-client (등록 위치, 사용자당 5개, 호출마다 허용, Manual OAuth, 관리자 승인은 별도 페이지로 안내만, 출시 단계 문서에 없음)
+  - https://docs.slack.dev/ai/slackbot-mcp-client/admin-approval/ (관리자 승인 큐. 조사 에이전트가 연 요약, 직접 미확인)
+  note: 이미 있는 slack-atlassian:slackbot_mcp_atlassian_rovo 와 slack-salesforce:slackbot_salesforce_mcp 는 이 방법으로 특정 서버에 붙인 경우이고, 서버가 Okta·GitHub·Google Workspace·Workday 인 경우 문서에 없다. 실측 없음 (Salesforce 와 Rovo 에 붙인 것은 2026-10-29~30 시험)
+- id: rts_api_external_app
+  type: app_grant
+  what: 외부 앱이나 AI 서비스가 Slack 의 Real-time Search API(assistant.search.context)로 메시지·파일·채널·사용자를 검색한다. 비공개 데이터나 Slack 밖에서의 호출에는 사용자 토큰(xoxp-)이 필요하고 search:read.public, search:read.private 같은 세분화 스코프를 쓴다. 디렉터리 게시 앱과 내부 앱만 쓸 수 있고 게스트는 못 쓴다. 의미 검색은 Slack AI Search 가 있는 플랜이 필요하다
+  identify:
+    api: slack 앱 관리 화면의 앱 스코프와 설치 사용자, slack Audit Logs API
+    when: Slack 앱에 search:read.* 스코프가 있고 사용자 토큰이 발급됨
+  points_to:
+  - tier: config_id
+    a: slack 앱의 client ID
+    b: 검색을 호출하는 외부 서비스의 Slack 연결 설정 client ID
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: slack 사용자 토큰을 낸 사용자
+    b: 외부 서비스의 로그인 사용자
+    check: 같은 사람
+  - tier: log_time
+    a: slack 감사 로그의 앱 설치·토큰 발급 시각과 사용자
+    b: 외부 서비스 쪽 호출 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - slack 감사 로그 (검색 호출 이벤트 이름은 문서에 없다)
+  sources:
+  - https://docs.slack.dev/apis/web-api/real-time-search-api/ (이전 이름 Data Access API, 두 메서드, 토큰 종류, 스코프, 디렉터리·내부 앱만, 게스트 불가, 의미 검색 플랜, 출시 단계 문서에 없음)
+  note: 기존 gws-slack:gemini_enterprise_slack_datastore 가 이 API 를 쓰는지는 문서에서 확인하지 못했다. 출시 단계 문서에 없음, 실측 없음

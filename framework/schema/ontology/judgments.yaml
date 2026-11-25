@@ -1,0 +1,33 @@
+# 판정 · 결과 어휘
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  ea_levels: docs/Effective_Access_Schema_v1.md 「단계」
+  answers: aegi-dashboard src/detection/v2/engine/types.ts Verdict @ 0ee565f
+  person_sides: aegi-dashboard src/detection/v2/engine/types.ts PersonSide @ 0ee565f
+  trigger_modes: aegi-dashboard src/detection/v2/engine/types.ts TriggerMode @ 0ee565f
+  grant_sources: aegi-dashboard src/detection/v2/engine/types.ts GrantSource @ 0ee565f
+
+ea_levels:
+- name: computed
+  meaning: 한 provider 안에서 저장 관계만으로 풀었다
+  basis: 위 2홉 3개
+- name: computed_cross
+  meaning: 'strong Link 경로를 탔거나 교차 관계(양 끝 provider가 다르거나 `cross_provider` 표시)를 지났다'
+  basis: 'Link 쪽은 경로에 추정이 섞인다. 교차 관계 쪽은 Link 없이 provider를 건너 `computed`에 담기지 않는다'
+- name: indeterminate
+  meaning: 경로는 찾았는데 성립 여부를 못 정한다
+  basis: '조건이 `kind: expression`이라 행이 없다'
+- name: denied
+  meaning: 안 된다고 판정했다
+  basis: 아래 「안 된다는 기록도 남긴다」
+
+answers: ['yes', unknown, 'no']
+
+person_sides: [gap, gap_inferred, both, native_only]
+
+trigger_modes: [invoke, input, modify]
+
+grant_sources: [config, observed, author, model]

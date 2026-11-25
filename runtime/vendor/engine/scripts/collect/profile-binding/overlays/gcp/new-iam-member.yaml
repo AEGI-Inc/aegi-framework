@@ -1,0 +1,82 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: iam
+object_type: IamMember
+interfaces: [Principal]
+# IAM 명단(Policy.bindings[].members[])의 주체 문자열 하나. 명단에 나올 때만 만든다.
+# 사람·그룹 계정 자체는 Google 디렉터리(gws)나 외부 IdP 에 있다. 여기서는 email 속성만 남기고 다른 provider 객체와 잇지 않는다.
+identity:
+  primary:
+    - {name: id, expr: member, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: GCP-MEMBER-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: make
+    kind: object
+    on_demand: true
+    vars:
+      pool: {op: regex, of: member, pattern: "^(?:deleted:)?principal(?:Set)?://iam[.]googleapis[.]com/((?:projects/[^/]+/)?locations/[^/]+/work(?:force|loadIdentity)Pools/[^/]+)/"}
+    id_expr: member
+    # 사건 행위자 찾기용 식별자. Gemini 로그 행위자는 메일(principalEmail, userIamPrincipal)이고 엔진 사건 찾기는 식별자 이름 email 을 색인한다
+    # (gem-logs 실측: 행위자 풀림 0 → 1,786). 사람 Link 는 crosswalk natural_key 의 properties.email 이 따로 맡는다
+    mutable_ids:
+      email:
+        if: {path: member_type, in: [user, group, serviceAccount]}
+        then: value
+    properties:
+      member: member
+      member_type: member_type
+      email:
+        if: {path: member_type, in: [user, group, serviceAccount]}
+        then: value
+      domain:
+        if: {path: member_type, eq: domain}
+        then: value
+      principal_kind:
+        op: map
+        of: member_type
+        table:
+          user: human
+          group: group
+          serviceAccount: service
+          domain: group
+          special: group
+          principalSet: group
+        default: {const: unknown}
+      account_kind:
+        op: map
+        of: member_type
+        table:
+          user: human
+          serviceAccount: app
+        default: {const: unknown}
+      account_state:
+        if: {path: member_type, eq: deleted}
+        then: {const: deleted}
+        else: {const: unknown}
+      # allUsers·allAuthenticatedUsers·domain: 은 플랫폼이 정한 특수 주체다(Interface_Spec_v3 판단표 G4-Q03)
+      origin:
+        if: {path: member_type, in: [special, domain]}
+        then: {const: platform_builtin}
+      pool: $vars.pool
+    display: "{member}"
+    # principal://·principalSet:// 주체는 Workforce 풀이나 Workload Identity 풀의 일부다. 풀이 수집돼 있으면 잇는다.
+    # 형식: https://cloud.google.com/iam/docs/principal-identifiers (IAM v1 API 표)
+    relations:
+      - type: member_of
+        source: $self
+        target: {type: WorkforcePool, id: $vars.pool}
+        when: {path: $vars.pool, matches: "/workforcePools/"}
+        basis: stated
+        require: [target]
+      - type: member_of
+        source: $self
+        target: {type: WorkloadIdentityPool, id: $vars.pool}
+        when: {path: $vars.pool, matches: "/workloadIdentityPools/"}
+        basis: stated
+        require: [target]

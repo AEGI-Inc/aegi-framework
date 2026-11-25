@@ -1,0 +1,115 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/slack/profiles/workspace.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-00
+        items:
+          - team
+          - teams
+        where:
+          all:
+            - path: id
+              present: true
+            - any:
+                - path: $ctx.slackTeamId
+                  present: false
+                - path: id
+                  eq_expr: $ctx.slackTeamId
+    tenant: none
+    parent:
+      ref: $tenant
+      when: always
+    mutable_ids:
+      domain: domain
+    properties:
+      name: name
+      domain: domain
+      enterprise_id: enterprise_id
+    display: "{name|id}"
+    ctx_set:
+      workspaceKey: $self
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+      - type: has_role_on
+        source:
+          type: 200.members[*]
+          id: primary_owner.user_id
+        target: $self
+        role:
+          name:
+            const: primary_owner
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-WS-{id}
+runtime_stub:
+  tenant: false
+  display: "{id} (목록에 없음)"
+runtime_key: SLK-WS-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  domain:
+    stability: mutable
+relation_rules:
+  - id: workspace:list
+    sources:
+      - call: SL-00
+        items:
+          - team
+          - teams
+        where:
+          all:
+            - path: id
+              present: true
+            - any:
+                - path: $ctx.slackTeamId
+                  present: false
+                - path: id
+                  eq_expr: $ctx.slackTeamId
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+      - type: has_role_on
+        source:
+          type: 200.members[*]
+          id: primary_owner.user_id
+        target: $self
+        role:
+          name:
+            const: primary_owner
+        basis: stated
+    self_identity: object_rule
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+fields:
+  date_create: null
+  is_active: null
+  team: null
+  is_verified:
+    path: is_verified
+    source: collected_response
+  enterprise_domain:
+    path: enterprise_domain
+    source: collected_response
+  discoverability:
+    path: discoverability
+    source: collected_response
+fields_basis: 설정 판정이 읽는 응답 최상위 키와 Enterprise Grid 소속, 공개 범위를 선언하고, objs_conversation.shares[*] 스키마 키(date_create, is_active, team)는 지운다(값은 수집 응답 그대로)

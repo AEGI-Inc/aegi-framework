@@ -1,0 +1,1233 @@
+{
+  "providers": {
+    "atlassian": {
+      "root": {
+        "type": "ServerInformation",
+        "when_any_call": [
+          "AT-01",
+          "JI-02",
+          "JI-04",
+          "CF-01"
+        ]
+      },
+      "indexes": {
+        "scheme_of_project": {
+          "sources": [
+            {
+              "call": "JI-06",
+              "request": {
+                "project": "present"
+              },
+              "items": "(root)",
+              "where": {
+                "path": "id",
+                "present": true
+              }
+            }
+          ],
+          "key": {
+            "op": "str",
+            "of": "$req.project"
+          },
+          "value": {
+            "op": "str",
+            "of": "id"
+          }
+        },
+        "projects_of_scheme": {
+          "sources": [
+            {
+              "call": "JI-06",
+              "request": {
+                "project": "present"
+              },
+              "items": "(root)",
+              "where": {
+                "path": "id",
+                "present": true
+              }
+            }
+          ],
+          "key": {
+            "op": "str",
+            "of": "id"
+          },
+          "value": {
+            "op": "str",
+            "of": "$req.project"
+          },
+          "mode": "list"
+        },
+        "scheme_lines": {
+          "sources": [
+            {
+              "call": "JI-06",
+              "request": {
+                "project": "absent"
+              },
+              "items": "permissionSchemes",
+              "each": "permissions"
+            }
+          ],
+          "key": {
+            "op": "str",
+            "of": "$parent.id"
+          },
+          "mode": "list",
+          "value": {
+            "object": {
+              "permission": {
+                "op": "str",
+                "of": "permission"
+              },
+              "user": {
+                "if": {
+                  "path": "holder.type",
+                  "eq": "user"
+                },
+                "then": {
+                  "op": "nonempty",
+                  "of": {
+                    "any": [
+                      "holder.user.accountId",
+                      "holder.parameter"
+                    ]
+                  }
+                }
+              },
+              "group": {
+                "if": {
+                  "path": "holder.type",
+                  "eq": "group"
+                },
+                "then": {
+                  "op": "nonempty",
+                  "of": {
+                    "any": [
+                      "holder.group.groupId",
+                      "holder.value"
+                    ]
+                  }
+                }
+              },
+              "role": {
+                "if": {
+                  "all": [
+                    {
+                      "path": "holder.type",
+                      "eq": "projectRole"
+                    },
+                    {
+                      "path": {
+                        "any": [
+                          "holder.projectRole.id",
+                          "holder.parameter"
+                        ]
+                      },
+                      "truthy": true
+                    }
+                  ]
+                },
+                "then": {
+                  "op": "str",
+                  "of": {
+                    "any": [
+                      "holder.projectRole.id",
+                      "holder.parameter"
+                    ]
+                  }
+                }
+              },
+              "special": {
+                "if": {
+                  "path": "holder.type",
+                  "eq": "anyone"
+                },
+                "then": {
+                  "const": "ANONYMOUS_USERS"
+                },
+                "else": {
+                  "if": {
+                    "path": "holder.type",
+                    "eq": "applicationRole"
+                  },
+                  "then": {
+                    "if": {
+                      "path": {
+                        "any": [
+                          "holder.parameter",
+                          "holder.value"
+                        ]
+                      },
+                      "truthy": true
+                    },
+                    "then": {
+                      "template": "APPLICATION_ROLE_{holder.parameter|holder.value}"
+                    },
+                    "else": {
+                      "const": "ALL_LICENSED_USERS"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "order": [
+        "site.list",
+        "RovoOrganization.list",
+        "RovoConnector.list",
+        "RovoConnector.gws-authorization",
+        "JiraAutomationRule.list",
+        "ConfluenceAutomationRule.list",
+        "JiraAutomationRequestEndpoint.list",
+        "ConfluenceAutomationRequestEndpoint.list",
+        "User.list",
+        "User.org_users",
+        "Group.list",
+        "Group.members",
+        "Group.org_groups",
+        "User.org_roles",
+        "Project.list",
+        "PermissionScheme.list",
+        "ProjectRole.list",
+        "PermissionScheme.grants",
+        "PermissionScheme.applies",
+        "Filter.list",
+        "SharePermission.view",
+        "SharePermission.edit",
+        "Space.list",
+        "SpacePermission.list",
+        "stubs"
+      ]
+    },
+    "github": {
+      "root": {
+        "type": "organization-full",
+        "required": true,
+        "note": "GitHub: GH-01 조직 원본이 없어 GitHub 객체를 만들지 않았다"
+      },
+      "indexes": {
+        "env_by_name": {
+          "sources": [
+            {
+              "call": "GH-24",
+              "items": "environments",
+              "where": {
+                "has": {
+                  "type": "Repository",
+                  "lookup": "name",
+                  "value": "$req.repo"
+                }
+              }
+            }
+          ],
+          "key": {
+            "template": "{$req.repo}|{name}"
+          },
+          "value": {
+            "ref": {
+              "type": "environment",
+              "id": "id"
+            },
+            "prop": "$key"
+          }
+        },
+        "pat_repos": {
+          "sources": [
+            {
+              "call": "GH-13",
+              "request": {
+                "pat_id": "present"
+              },
+              "items": "(root)"
+            }
+          ],
+          "key": {
+            "op": "str",
+            "of": "$req.pat_id"
+          },
+          "value": {
+            "op": "pluck",
+            "of": {
+              "if": {
+                "path": ".",
+                "is_array": true
+              },
+              "then": ".",
+              "else": {
+                "const": []
+              }
+            },
+            "field": "full_name",
+            "keep_empty": true
+          }
+        },
+        "secret_repos": {
+          "sources": [
+            {
+              "call": "GH-25",
+              "request": {
+                "secret": "present"
+              },
+              "items": "repositories",
+              "where": {
+                "has": {
+                  "type": "Repository",
+                  "lookup": "name",
+                  "value": "name"
+                }
+              }
+            }
+          ],
+          "key": {
+            "template": "{$req.kind}|{$req.secret}"
+          },
+          "value": {
+            "object": {
+              "key": {
+                "ref": {
+                  "type": "Repository",
+                  "lookup": "name",
+                  "value": "name"
+                },
+                "prop": "$key"
+              },
+              "value": {
+                "op": "str",
+                "of": {
+                  "any": [
+                    "full_name",
+                    "name"
+                  ]
+                }
+              }
+            }
+          },
+          "mode": "list"
+        },
+        "group_repos": {
+          "sources": [
+            {
+              "call": "GH-32",
+              "request": {
+                "kind": "repositories"
+              },
+              "items": "(root)"
+            }
+          ],
+          "key": {
+            "op": "str",
+            "of": "$req.runner_group"
+          },
+          "value": {
+            "op": "map_each",
+            "of": {
+              "op": "filter",
+              "of": "repositories",
+              "where": {
+                "has": {
+                  "type": "Repository",
+                  "lookup": "name",
+                  "value": "$item.name"
+                }
+              }
+            },
+            "value": {
+              "object": {
+                "key": {
+                  "ref": {
+                    "type": "Repository",
+                    "lookup": "name",
+                    "value": "$item.name"
+                  },
+                  "prop": "$key"
+                },
+                "value": {
+                  "op": "str",
+                  "of": {
+                    "any": [
+                      "$item.full_name",
+                      "$item.name"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "pr_by_ref": {
+          "sources": [
+            {
+              "call": "GH-12",
+              "request": {
+                "number": "present",
+                "kind": "absent"
+              },
+              "items": "(root)",
+              "where": {
+                "all": [
+                  {
+                    "path": ".",
+                    "is_array": false
+                  },
+                  {
+                    "has": {
+                      "type": "Repository",
+                      "lookup": "name",
+                      "value": "$req.repo"
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "key": {
+            "template": "{$req.repo}#{number}"
+          },
+          "value": {
+            "ref": {
+              "type": "pull-request",
+              "id": "id"
+            },
+            "prop": "$key"
+          }
+        }
+      },
+      "order": [
+        "Enterprise.list",
+        "Organization.list",
+        "Organization.actions_variables",
+        "root_check",
+        "User Account.members",
+        "User Account.detail",
+        "User Account.verified_emails",
+        "Repository.list",
+        "Repository.actions_variables",
+        "Organization Custom Repository Role.list",
+        "Team.list",
+        "Team.members",
+        "User Account.collaborators",
+        "Repository ruleset.list",
+        "Branch Protection Rule.list",
+        "Workflow.list",
+        "Workflow.definition",
+        "WorkflowRequestEndpoint.list",
+        "Commit.list",
+        "Pull Request.list",
+        "Pull Request.timeline",
+        "Pull Request.reviews",
+        "Organization Programmatic Access Grant.list",
+        "GitHub App Installation Registration.list",
+        "Webhook.list",
+        "ExternalIdentity.list",
+        "Credential Authorization.list",
+        "Environment.list",
+        "Organization Actions Secret.list",
+        "Organization Dependabot Secret.list",
+        "Actions Secret.list",
+        "Dependabot Secret.list",
+        "Deploy Key.list",
+        "Organization Role.list",
+        "Organization Role.assignments",
+        "ExternalGroup.list",
+        "Organization Invitation.list",
+        "Deployment branch policy.list",
+        "Deployment protection rule (custom/app).list",
+        "Organization.ip_allow",
+        "IpAllowListEntry.list",
+        "OrganizationIdentityProvider.list",
+        "VerifiableDomain.list",
+        "Runner Group.list",
+        "Self hosted runners.list",
+        "Package.list"
+      ]
+    },
+    "gws": {
+      "root": {
+        "type": "Customer",
+        "required": true,
+        "note": "GWS: GW-01 Customer 원본이 없어 GWS 객체를 만들지 않았다"
+      },
+      "indexes": {
+        "ou_ids": {
+          "sources": [
+            {
+              "call": "GW-20",
+              "items": "organizationUnits"
+            }
+          ],
+          "key": "orgUnitId",
+          "value": true
+        }
+      },
+      "order": [
+        "Customer.list",
+        "root_check",
+        "OrgUnit.list",
+        "User.list",
+        "Group.list",
+        "Group.settings",
+        "Member.list",
+        "Token.list",
+        "LicenseAssignment.list",
+        "Delegate.list",
+        "Role.list",
+        "RoleAssignment.list",
+        "Drive.list",
+        "Permission.drive",
+        "File.list",
+        "Permission.file",
+        "Form.list",
+        "Project.list",
+        "Project.content",
+        "Project.processes",
+        "Project.runs_as",
+        "Project.deployments",
+        "Project.unlisted",
+        "Project.unlisted_runs",
+        "InboundSamlSsoProfile.list",
+        "IdpCredential.list",
+        "InboundOidcSsoProfile.list",
+        "InboundSsoAssignment.list",
+        "Asp.list",
+        "User.admin_fallback",
+        "AclRule.list",
+        "AllowlistedDomain.list",
+        "Policy.list",
+        "stubs"
+      ]
+    },
+    "okta": {
+      "root": {
+        "type": "OrgSetting",
+        "required": true,
+        "note": "Okta: OK-01 org 원본이 없어 Okta 객체를 만들지 않았다"
+      },
+      "indexes": {
+        "mapping_detail": {
+          "sources": [
+            {
+              "call": "OK-19",
+              "request": {
+                "mapping": "present"
+              },
+              "items": "(root)"
+            }
+          ],
+          "key": "$req.mapping",
+          "value": "."
+        },
+        "idp_by_kid": {
+          "sources": [
+            {
+              "call": "OK-18"
+            }
+          ],
+          "key": "protocol.credentials.trust.kid",
+          "value": "id",
+          "mode": "list"
+        }
+      },
+      "order": [
+        "org.list",
+        "root_check",
+        "User.list",
+        "Group.list",
+        "Group.members",
+        "UserFactor.list",
+        "IamRole.list",
+        "IamRole.permissions",
+        "ResourceSet.list",
+        "ResourceSet.detail",
+        "Application.list",
+        "ApplicationGroupAssignment.list",
+        "AppUser.list",
+        "OAuth2Client.list",
+        "OAuth2Client.jwks",
+        "IamRole.assignments",
+        "OAuth2RefreshToken.list",
+        "Policy.list",
+        "PolicyRule.list",
+        "GroupRule.list",
+        "APIServiceIntegrationInstance.list",
+        "APIServiceIntegrationInstanceSecret.list",
+        "ApiToken.list",
+        "EventHook.list",
+        "InlineHook.list",
+        "LogStream.list",
+        "IdentityProvider.list",
+        "ProfileMapping.list",
+        "IdPKeyCredential.list",
+        "SecurityEventsProvider.list",
+        "SsfStream.list",
+        "EmailServer.list",
+        "AuthenticatorBase.list",
+        "TrustedOrigin.list",
+        "device-assurances.list",
+        "zones.list",
+        "AgentPool.list",
+        "stubs"
+      ]
+    },
+    "salesforce": {
+      "display_fields": ["Label", "MasterLabel", "FlowLabel", "Name", "DeveloperName", "ApiName", "FunctionName", "Domain", "Url", "NamespacePrefix"],
+      "root": {
+        "type": "Organization",
+        "required": true,
+        "when_any_call": [
+          "SF-01",
+          "SF-02"
+        ],
+        "note": "Salesforce: SF-01 조직 원본이 없어 Salesforce 객체를 만들지 않았다"
+      },
+      "indexes": {
+        "saml": {
+          "sources": [
+            {
+              "call": "SF-01",
+              "items": "records",
+              "where": {
+                "path": "attributes.type",
+                "eq": "SamlSsoConfig"
+              }
+            }
+          ],
+          "key": {
+            "const": "all"
+          },
+          "mode": "list",
+          "value": {
+            "object": {
+              "developer_name": "DeveloperName",
+              "issuer": "Issuer",
+              "identity_mapping": "IdentityMapping",
+              "identity_location": "IdentityLocation",
+              "login_url": {
+                "op": "null_if_missing",
+                "of": "LoginUrl"
+              }
+            }
+          }
+        },
+        "mfa": {
+          "sources": [
+            {
+              "call": "SF-02",
+              "items": "records",
+              "where": {
+                "path": "attributes.type",
+                "eq": "TwoFactorMethodsInfo"
+              }
+            }
+          ],
+          "key": {
+            "op": "sf_id18",
+            "of": "UserId"
+          },
+          "value": {
+            "op": "true_keys",
+            "of": ".",
+            "prefix": "Has"
+          }
+        },
+        "mfa_seen": {
+          "sources": [
+            {
+              "call": "SF-02",
+              "items": "records",
+              "where": {
+                "path": "attributes.type",
+                "eq": "TwoFactorMethodsInfo"
+              }
+            }
+          ],
+          "key": {
+            "const": "all"
+          },
+          "value": true,
+          "mode": "first"
+        },
+        "federation": {
+          "sources": [
+            {
+              "call": "SF-02",
+              "request": {
+                "part": "federation_id"
+              },
+              "items": "records",
+              "where": {
+                "all": [
+                  {
+                    "path": "attributes.type",
+                    "eq": "User"
+                  },
+                  {
+                    "path": "FederationIdentifier",
+                    "truthy": true
+                  }
+                ]
+              }
+            }
+          ],
+          "key": {
+            "op": "sf_id18",
+            "of": "Id"
+          },
+          "value": {
+            "op": "lower",
+            "of": {
+              "op": "str",
+              "of": "FederationIdentifier"
+            }
+          }
+        },
+        "profile_is_custom": {
+          "note": "Profile Id → 그 프로필 소유 권한 세트의 IsCustom. Profile 조회에는 기본, 사용자 정의를 가르는 칸이 없다",
+          "sources": [
+            {
+              "call": "SF-04",
+              "items": "records",
+              "where": {
+                "all": [
+                  {
+                    "path": "attributes.type",
+                    "eq": "PermissionSet"
+                  },
+                  {
+                    "path": "IsOwnedByProfile",
+                    "truthy": true
+                  }
+                ]
+              }
+            }
+          ],
+          "key": {
+            "op": "sf_id18",
+            "of": "ProfileId"
+          },
+          "value": "IsCustom",
+          "mode": "first"
+        },
+        "ps_owner_profile": {
+          "note": "프로필 소유 권한 세트 Id → Profile Id. 권한 내용 행(ParentId)을 Profile 에 접을 때 쓴다",
+          "sources": [
+            {
+              "call": "SF-04",
+              "items": "records",
+              "where": {
+                "all": [
+                  {
+                    "path": "attributes.type",
+                    "eq": "PermissionSet"
+                  },
+                  {
+                    "path": "IsOwnedByProfile",
+                    "truthy": true
+                  }
+                ]
+              }
+            }
+          ],
+          "key": {
+            "op": "sf_id18",
+            "of": "Id"
+          },
+          "value": {
+            "op": "sf_id18",
+            "of": "ProfileId"
+          },
+          "mode": "first"
+        }
+      },
+      "order": [
+        "Organization.list",
+        "root_check",
+        "User.list",
+        "Profile.list",
+        "PermissionSet.list",
+        "ObjectPermissions.fold",
+        "FieldPermissions.fold",
+        "PermissionSetTabSetting.fold",
+        "SetupEntityAccess.fold",
+        "OrgEmailAddressSecurity.fold",
+        "UserRole.list",
+        "UserRole.hierarchy",
+        "User.roles",
+        "PermissionSetAssignment.list",
+        "Group.list",
+        "GroupMember.list",
+        "ConnectedApplication.list",
+        "OauthToken.list",
+        "FlowDefinitionView.metadata",
+        "FlowDefinitionView.apex-definitions",
+        "FlowDefinitionView.outbound-definitions",
+        "FlowSlackActionEndpoint.list",
+        "stubs"
+      ]
+    },
+    "worker": {
+      "order": [
+        "WorkerScript.list",
+        "WorkerScript.settings"
+      ]
+    },
+    "slack": {
+      "root": {
+        "type": "defs_enterprise_id",
+        "required": false
+      },
+      "order": [
+        "enterprise.list",
+        "workspace.list",
+        "user.admin_list",
+        "user.list",
+        "conversation.list",
+        "conversation.members",
+        "Message.list",
+        "usergroup.list",
+        "usergroup.members",
+        "usergroup.audit_name",
+        "usergroup.audit_idp",
+        "enterprise.role_assignments",
+        "Slack App Installation Registration.list",
+        "bot.list",
+        "Slash Command Request Endpoint.list",
+        "bot-token.list",
+        "incoming-webhook.oauth_callback",
+        "incoming-webhook.integration_logs",
+        "stubs",
+        "workflow.list",
+        "WorkflowConnectorEndpoint.list",
+        "workflow-collaborator.list",
+        "barrier.list"
+      ]
+    },
+    "aws": {
+      "root": {
+        "type": "Account",
+        "required": false
+      },
+      "order": [
+        "Account.list",
+        "IAMUser.list",
+        "IAMUser.user_attached_policies",
+        "IAMUser.user_inline_policies",
+        "IAMUser.user_groups",
+        "IAMRole.list",
+        "IAMRole.role_attached_policies",
+        "IAMRole.role_inline_policies",
+        "AccessKey.list",
+        "VPC.list",
+        "Subnet.list",
+        "SecurityGroup.list",
+        "EC2Instance.list",
+        "EC2Instance.instance_profiles",
+        "RDSInstance.list",
+        "S3Bucket.list",
+        "S3Bucket.public_access_block",
+        "LambdaFunction.list"
+      ]
+    },
+    "gcp": {
+      "root": {
+        "type": "Project",
+        "required": false
+      },
+      "order": [
+        "Project.list",
+        "Role.list",
+        "ServiceAccount.list",
+        "Engine.list",
+        "DataStore.list",
+        "DataConnector.list",
+        "Assistant.list",
+        "Agent.list",
+        "Authorization.list",
+        "LicenseConfig.list",
+        "BillingAccountLicenseConfig.list",
+        "UserLicense.list",
+        "UserStore.list",
+        "AclConfig.list",
+        "IdentityMappingStore.list",
+        "CmekConfig.list",
+        "Control.list",
+        "ServingConfig.list",
+        "WidgetConfig.list",
+        "Schema.list",
+        "Session.list",
+        "Conversation.list",
+        "FileMetadata.list",
+        "CustomTuningModel.list",
+        "Document.list",
+        "Chunk.list",
+        "Branch.list",
+        "TargetSite.list",
+        "Assistant.canned_queries",
+        "SampleQuerySet.list",
+        "SampleQuery.list",
+        "AlphaEvolveExperiment.list",
+        "AlphaEvolveProgram.list",
+        "Notebook.list",
+        "Source.list",
+        "A2aV1TaskPushNotificationConfig.list",
+        "AiApplication.list",
+        "RegistryAgent.list",
+        "McpServer.list",
+        "RegistryService.list",
+        "RegistryEndpoint.list",
+        "RegistryBinding.list",
+        "Skill.list",
+        "SkillRevision.list",
+        "AuthProvider.list",
+        "AgentIdentityAuthorization.list",
+        "ReasoningEngine.list",
+        "Memory.list",
+        "MemoryRevision.list",
+        "ReasoningEngineSession.list",
+        "SandboxEnvironment.list",
+        "SandboxEnvironmentSnapshot.list",
+        "SandboxEnvironmentTemplate.list",
+        "ServiceAccountKey.list",
+        "WorkforcePool.list",
+        "WorkforcePoolProvider.list",
+        "WorkforcePoolProviderScimTenant.list",
+        "WorkforcePoolProviderScimToken.list",
+        "OauthClient.list",
+        "OauthClientCredential.list",
+        "WorkloadIdentityPool.list",
+        "WorkloadIdentityPoolProvider.list",
+        "DataConnector.user_consent",
+        "Project.effective_iam",
+        "Engine.data_stores",
+        "DataConnector.data_stores",
+        "Engine.engine_iam",
+        "Agent.agent_iam"
+      ]
+    },
+    "onepassword": {
+      "root": {
+        "type": "Account",
+        "required": false
+      },
+      "order": [
+        "Account.list",
+        "ServiceAccount.whoami",
+        "User.list",
+        "Group.list",
+        "Vault.list",
+        "Item.list",
+        "User.group_members",
+        "Vault.access"
+      ]
+    },
+    "microsoft": {
+      "root": {
+        "type": "Tenant",
+        "required": false
+      },
+      "order": [
+        "Tenant.list",
+        "Domain.list",
+        "User.list",
+        "User.manager",
+        "Group.list",
+        "Group.team_enrich",
+        "ServicePrincipal.list",
+        "Application.list",
+        "DirectoryRole.list",
+        "DirectoryRole.directory_roles_enrich",
+        "AdministrativeUnit.list",
+        "SubscribedSku.list",
+        "ConditionalAccessPolicy.list",
+        "NamedLocation.list",
+        "Device.list",
+        "Site.list",
+        "Drive.site_drives",
+        "Drive.user_drive",
+        "DriveItem.children",
+        "DriveItem.permissions_links",
+        "Channel.list",
+        "OAuth2PermissionGrant.list",
+        "AppRoleAssignment.list",
+        "DirectoryRoleAssignment.list",
+        "DirectoryRoleAssignment.eligible",
+        "DrivePermission.list",
+        "User.license_details",
+        "Group.members",
+        "Group.team_members",
+        "Group.owners",
+        "Application.owners",
+        "AdministrativeUnit.members"
+      ]
+    }
+  },
+  "aliases": {
+    "atlassian:Filter": "Filter",
+    "atlassian:Group": "FoundGroup",
+    "atlassian:PermissionScheme": "PermissionScheme",
+    "atlassian:Project": "Project",
+    "atlassian:ProjectRole": "ProjectRole",
+    "atlassian:SharePermission": "SharePermission",
+    "atlassian:site": "ServerInformation",
+    "atlassian:Space": "spaces",
+    "atlassian:SpacePermission": "SpacePermission",
+    "atlassian:SpecialPrincipal": "SpecialPrincipal",
+    "atlassian:User": "User",
+    "github:Actions Secret": "actions-secret",
+    "github:Branch Protection Rule": "BranchProtectionRule",
+    "github:Commit": "commit",
+    "github:Credential Authorization": "credential-authorizations",
+    "github:Dependabot Secret": "dependabot-secret",
+    "github:Deployment branch policy": "deployment-branch-policy",
+    "github:Deployment protection rule (custom/app)": "deployment-protection-rule",
+    "github:Deploy Key": "deploy-key",
+    "github:Enterprise": "Enterprise",
+    "github:Environment": "environment",
+    "github:ExternalGroup": "external-group",
+    "github:ExternalIdentity": "ExternalIdentity",
+    "github:GitHub App Installation Registration": "installation",
+    "github:IpAllowListEntry": "IpAllowListEntry",
+    "github:Organization": "organization-full",
+    "github:Organization Actions Secret": "organization-actions-secret",
+    "github:Organization Custom Repository Role": "organization-custom-repository-role",
+    "github:Organization Dependabot Secret": "organization-dependabot-secret",
+    "github:OrganizationIdentityProvider": "OrganizationIdentityProvider",
+    "github:Organization Invitation": "invitations",
+    "github:Organization Programmatic Access Grant": "personal-access-tokens",
+    "github:Organization Role": "organization-role",
+    "github:Package": "package",
+    "github:Pull Request": "pull-request",
+    "github:Repository": "Repository",
+    "github:Repository ruleset": "repository-ruleset",
+    "github:Runner Group": "runner-groups-org",
+    "github:Self hosted runners": "runner",
+    "github:Team": "team-full",
+    "github:User Account": "simple-user",
+    "github:VerifiableDomain": "VerifiableDomain",
+    "github:Webhook": "org-hook",
+    "github:Workflow": "workflow",
+    "gws:AclRule": "AclRule",
+    "gws:AllowlistedDomain": "AllowlistedDomain",
+    "gws:Asp": "Asp",
+    "gws:Customer": "Customer",
+    "gws:Delegate": "Delegate",
+    "gws:Drive": "Drive",
+    "gws:File": "File",
+    "gws:Form": "Form",
+    "gws:Group": "Group",
+    "gws:IdpCredential": "IdpCredential",
+    "gws:InboundOidcSsoProfile": "InboundOidcSsoProfile",
+    "gws:InboundSamlSsoProfile": "InboundSamlSsoProfile",
+    "gws:InboundSsoAssignment": "InboundSsoAssignment",
+    "gws:Member": "Member",
+    "gws:OrgUnit": "OrgUnit",
+    "gws:Permission": "Permission",
+    "gws:Policy": "Policy",
+    "gws:Project": "Project",
+    "gws:Role": "Role",
+    "gws:RoleAssignment": "RoleAssignment",
+    "gws:LicenseAssignment": "LicenseAssignment",
+    "gws:Token": "Token",
+    "gws:User": "User",
+    "okta:AgentPool": "AgentPool",
+    "okta:APIServiceIntegrationInstance": "APIServiceIntegrationInstance",
+    "okta:APIServiceIntegrationInstanceSecret": "OAuth2ClientSecret",
+    "okta:ApiToken": "ApiToken",
+    "okta:Application": "Application",
+    "okta:ApplicationGroupAssignment": "ApplicationGroupAssignment",
+    "okta:AppUser": "AppUser",
+    "okta:AuthenticatorBase": "AuthenticatorBase",
+    "okta:device-assurances": "DeviceAssurance",
+    "okta:EmailServer": "BaseEmailServer",
+    "okta:EventHook": "EventHook",
+    "okta:Group": "Group",
+    "okta:GroupRule": "GroupRule",
+    "okta:IamRole": "IamRole",
+    "okta:IdentityProvider": "IdentityProvider",
+    "okta:IdPKeyCredential": "IdPKeyCredential",
+    "okta:InlineHook": "InlineHook",
+    "okta:LogStream": "LogStream",
+    "okta:OAuth2Client": "OAuth2Client",
+    "okta:OAuth2RefreshToken": "OAuth2RefreshToken",
+    "okta:org": "OrgSetting",
+    "okta:Policy": "Policy",
+    "okta:PolicyRule": "PolicyRule",
+    "okta:ProfileMapping": "ProfileMapping",
+    "okta:ResourceSet": "ResourceSet",
+    "okta:SecurityEventsProvider": "SecurityEventsProviderResponse",
+    "okta:SsfStream": "StreamConfiguration",
+    "okta:TrustedOrigin": "TrustedOrigin",
+    "okta:User": "User",
+    "okta:UserFactor": "UserFactor",
+    "okta:zones": "NetworkZone",
+    "salesforce:ConnectedApplication": "ConnectedApplication",
+    "salesforce:Group": "Group",
+    "salesforce:GroupMember": "GroupMember",
+    "salesforce:OauthToken": "OauthToken",
+    "salesforce:Organization": "Organization",
+    "salesforce:PermissionSet": "PermissionSet",
+    "salesforce:PermissionSetAssignment": "PermissionSetAssignment",
+    "salesforce:Profile": "Profile",
+    "salesforce:User": "User",
+    "salesforce:UserRole": "UserRole",
+    "slack:barrier": "200.barrier",
+    "slack:bot": "200.bot",
+    "slack:bot-token": "credential-row:oauth:xoxb",
+    "slack:conversation": "conversation",
+    "slack:enterprise": "defs_enterprise_id",
+    "slack:incoming-webhook": "credential-row:oauth:url",
+    "slack:Message": "Message",
+    "slack:Slack App Installation Registration": "defs_app_id",
+    "slack:Slash Command Request Endpoint": "Slash Command Request Endpoint",
+    "slack:user": "200.members[*]",
+    "slack:usergroup": "objs_subteam",
+    "slack:workflow": "200.workflows[*]",
+    "slack:workflow-collaborator": "workflow-collaborator",
+    "slack:workspace": "200.team"
+  },
+  "profile_files": {
+    "atlassian:ConfluenceAutomationRequestEndpoint": "confluence/new-automation-request-endpoint.yaml",
+    "atlassian:ConfluenceAutomationRule": "confluence/new-automation-rule.yaml",
+    "atlassian:Filter": "jira/jira-filter-f29b38.yaml",
+    "atlassian:Group": "jira/jira-foundgroup-27dc18.yaml",
+    "atlassian:JiraAutomationRequestEndpoint": "jira/new-automation-request-endpoint.yaml",
+    "atlassian:JiraAutomationRule": "jira/new-automation-rule.yaml",
+    "atlassian:PermissionScheme": "jira/jira-permissionscheme-08671e.yaml",
+    "atlassian:Project": "jira/jira-project-a92712.yaml",
+    "atlassian:ProjectRole": "jira/jira-projectrole-392523.yaml",
+    "atlassian:SharePermission": "jira/jira-sharepermission-e81afa.yaml",
+    "atlassian:site": "jira/jira-serverinformation-be4dbb.yaml",
+    "atlassian:Space": "confluence/confluence-spaces-8400fd.yaml",
+    "atlassian:SpacePermission": "confluence/new-spacepermission.yaml",
+    "atlassian:SpecialPrincipal": "atlassian/new-specialprincipal.yaml",
+    "atlassian:User": "jira/jira-user-79b2e6.yaml",
+    "github:Actions Secret": "github/github-actions-secret-62bb80.yaml",
+    "github:Branch Protection Rule": "github/github-branchprotectionrule-f26cde.yaml",
+    "github:Commit": "github/github-commit-390f6a.yaml",
+    "github:Credential Authorization": "github/github-credential-authorizations-75b3f8.yaml",
+    "github:Dependabot Secret": "github/github-dependabot-secret-5f4a37.yaml",
+    "github:Deploy Key": "github/github-deploy-key-dfa0a1.yaml",
+    "github:Deployment branch policy": "github/github-deployment-branch-policy-450819.yaml",
+    "github:Deployment protection rule (custom/app)": "github/github-deployment-protection-rule-a986f7.yaml",
+    "github:Enterprise": "github/github-enterprise-06c651.yaml",
+    "github:Environment": "github/github-environment-f4d860.yaml",
+    "github:ExternalGroup": "github/github-external-group-05e655.yaml",
+    "github:GitHub App Installation Registration": "github/github-installation-77f2c6.yaml",
+    "github:IpAllowListEntry": "github/github-ipallowlistentry-c85522.yaml",
+    "github:Organization": "github/github-organization-full-6600af.yaml",
+    "github:Organization Actions Secret": "github/github-organization-actions-secret-78d6a6.yaml",
+    "github:Organization Custom Repository Role": "github/github-organization-custom-repository-role-053ae8.yaml",
+    "github:Organization Dependabot Secret": "github/github-organization-dependabot-secret-6f49c8.yaml",
+    "github:Organization Invitation": "github/github-invitations-2af5bf.yaml",
+    "github:Organization Programmatic Access Grant": "github/github-personal-access-tokens-85d8f2.yaml",
+    "github:Organization Role": "github/github-organization-role-b30798.yaml",
+    "github:OrganizationIdentityProvider": "github/github-organizationidentityprovider-686007.yaml",
+    "github:Package": "github/github-package-651bd3.yaml",
+    "github:Pull Request": "github/github-pull-request-faa1b6.yaml",
+    "github:Repository": "github/github-full-repository-ea8e2e.yaml",
+    "github:Repository ruleset": "github/github-repository-ruleset-fdb8a9.yaml",
+    "github:Runner Group": "github/github-runner-groups-org-f3b629.yaml",
+    "github:Self hosted runners": "github/github-runner-8e6336.yaml",
+    "github:Team": "github/github-team-full-cf3a3b.yaml",
+    "github:User Account": "github/github-simple-user-6d4c43.yaml",
+    "github:VerifiableDomain": "github/github-verifiabledomain-572c21.yaml",
+    "github:Webhook": "github/github-org-hook-9b58c5.yaml",
+    "github:Workflow": "github/github-workflow-10203d.yaml",
+    "gws:AclRule": "gws/gws-aclrule-361d73.yaml",
+    "gws:AllowlistedDomain": "gws/gws-allowlisteddomain-05c2a6.yaml",
+    "gws:Asp": "gws/gws-asp-d2d046.yaml",
+    "gws:Customer": "gws/gws-customer-90dbe3.yaml",
+    "gws:Delegate": "gws/new-delegate.yaml",
+    "gws:Drive": "gws/gws-drive-a50eef.yaml",
+    "gws:File": "gws/gws-file-1cba62.yaml",
+    "gws:Form": "gws/gws-form-8ff380.yaml",
+    "gws:Group": "gws/gws-group-02b58d.yaml",
+    "gws:IdpCredential": "gws/gws-idpcredential-f354de.yaml",
+    "gws:InboundOidcSsoProfile": "gws/gws-inboundoidcssoprofile-702184.yaml",
+    "gws:InboundSamlSsoProfile": "gws/gws-inboundsamlssoprofile-ecef32.yaml",
+    "gws:InboundSsoAssignment": "gws/gws-inboundssoassignment-cf0e3d.yaml",
+    "gws:Member": "gws/new-member.yaml",
+    "gws:OrgUnit": "gws/gws-orgunit-ace2c2.yaml",
+    "gws:Permission": "gws/gws-permission-3b1932.yaml",
+    "gws:Policy": "gws/gws-policy-1031c5.yaml",
+    "gws:Project": "gws/gws-project-7fc925.yaml",
+    "gws:Role": "gws/gws-role-18375c.yaml",
+    "gws:RoleAssignment": "gws/gws-roleassignment-3a101e.yaml",
+    "gws:LicenseAssignment": "gws/new-license-assignment.yaml",
+    "gws:Token": "gws/new-token.yaml",
+    "gws:User": "gws/gws-user-5adc16.yaml",
+    "okta:AgentPool": "okta/okta-agentpool-850cc4.yaml",
+    "okta:APIServiceIntegrationInstance": "okta/okta-apiserviceintegrationinstance-1d0fe7.yaml",
+    "okta:APIServiceIntegrationInstanceSecret": "okta/okta-oauth2clientsecret-887163.yaml",
+    "okta:ApiToken": "okta/okta-apitoken-0875e5.yaml",
+    "okta:Application": "okta/okta-application-3ac411.yaml",
+    "okta:ApplicationGroupAssignment": "okta/new-applicationgroupassignment.yaml",
+    "okta:AppUser": "okta/new-appuser.yaml",
+    "okta:AuthenticatorBase": "okta/okta-authenticatorbase-a13330.yaml",
+    "okta:device-assurances": "okta/okta-deviceassurance-c3c5af.yaml",
+    "okta:EmailServer": "okta/okta-baseemailserver-297286.yaml",
+    "okta:EventHook": "okta/okta-eventhook-6121f0.yaml",
+    "okta:Group": "okta/okta-group-5b0ad2.yaml",
+    "okta:GroupRule": "okta/okta-grouprule-29ee23.yaml",
+    "okta:IamRole": "okta/okta-iamrole-cb2b5c.yaml",
+    "okta:IdentityProvider": "okta/okta-identityprovider-bb68f1.yaml",
+    "okta:IdPKeyCredential": "okta/okta-idpkeycredential-680bfe.yaml",
+    "okta:InlineHook": "okta/okta-inlinehook-dbc801.yaml",
+    "okta:LogStream": "okta/okta-logstream-73d2a0.yaml",
+    "okta:OAuth2Client": "okta/okta-oauth2client-65fd9d.yaml",
+    "okta:OAuth2RefreshToken": "okta/okta-oauth2refreshtoken-fa3b1c.yaml",
+    "okta:org": "okta/okta-orgsetting-25b586.yaml",
+    "okta:Policy": "okta/okta-policy-8db850.yaml",
+    "okta:PolicyRule": "okta/okta-policyrule-163813.yaml",
+    "okta:ProfileMapping": "okta/okta-profilemapping-ee8801.yaml",
+    "okta:ResourceSet": "okta/okta-resourceset-397958.yaml",
+    "okta:SecurityEventsProvider": "okta/okta-securityeventsproviderresponse-a17dbb.yaml",
+    "okta:SsfStream": "okta/okta-streamconfiguration-4a17ab.yaml",
+    "okta:TrustedOrigin": "okta/okta-trustedorigin-3817c9.yaml",
+    "okta:User": "okta/okta-usergetsingleton-81bb38.yaml",
+    "okta:UserFactor": "okta/okta-userfactor-683817.yaml",
+    "okta:zones": "okta/okta-networkzone-1e939c.yaml",
+    "salesforce:ConnectedApplication": "salesforce/salesforce-connectedapplication-41f6b0.yaml",
+    "salesforce:FieldPermissions": "salesforce/salesforce-fieldpermissions-b2c085.yaml",
+    "salesforce:Group": "salesforce/salesforce-group-da131d.yaml",
+    "salesforce:GroupMember": "salesforce/salesforce-groupmember-538013.yaml",
+    "salesforce:OauthToken": "salesforce/salesforce-oauthtoken-5d28dc.yaml",
+    "salesforce:ObjectPermissions": "salesforce/salesforce-objectpermissions-22e628.yaml",
+    "salesforce:Organization": "salesforce/salesforce-organization-8a17ae.yaml",
+    "salesforce:OrgEmailAddressSecurity": "salesforce/salesforce-orgemailaddresssecurity-7c7520.yaml",
+    "salesforce:PermissionSet": "salesforce/salesforce-permissionset-cb1f44.yaml",
+    "salesforce:PermissionSetAssignment": "salesforce/salesforce-permissionsetassignment-9d0bae.yaml",
+    "salesforce:PermissionSetTabSetting": "salesforce/salesforce-permissionsettabsetting-14b69e.yaml",
+    "salesforce:Profile": "salesforce/salesforce-profile-5bb2b1.yaml",
+    "salesforce:SetupEntityAccess": "salesforce/salesforce-setupentityaccess-cb12d5.yaml",
+    "salesforce:User": "salesforce/salesforce-user-7caccc.yaml",
+    "salesforce:UserRole": "salesforce/salesforce-userrole-5e0b62.yaml",
+    "slack:barrier": "slack/slack-200_barrier-acd846.yaml",
+    "slack:bot": "slack/slack-200_bot-4812e4.yaml",
+    "slack:bot-token": "slack/slack-credential-row_oauth_xoxb-66d1ab.yaml",
+    "slack:conversation": "slack/slack-200_conversations-9321e4.yaml",
+    "slack:enterprise": "slack/slack-defs_enterprise_id-765544.yaml",
+    "slack:incoming-webhook": "slack/slack-credential-row_oauth_url-ac78f2.yaml",
+    "slack:Message": "slack/new-message.yaml",
+    "slack:Slack App Installation Registration": "slack/slack-defs_app_id-979955.yaml",
+    "slack:Slash Command Request Endpoint": "slack/new-slash-command-request-endpoint.yaml",
+    "slack:user": "slack/slack-200_members-9ac1fd.yaml",
+    "slack:usergroup": "slack/slack-objs_subteam-bb99f2.yaml",
+    "slack:workflow": "slack/slack-200_workflows-a577ec.yaml",
+    "slack:workflow-collaborator": "slack/new-workflow-collaborator.yaml",
+    "slack:workspace": "slack/slack-200_team-324f75.yaml"
+  },
+  "additive_runtime_projection": {
+    "providers": [
+      "atlassian",
+      "salesforce",
+      "worker",
+      "aws",
+      "gcp",
+      "onepassword",
+      "microsoft"
+    ]
+  }
+}

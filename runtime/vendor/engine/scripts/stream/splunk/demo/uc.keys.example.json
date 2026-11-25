@@ -1,0 +1,157 @@
+{
+  "snapshotId": "20261104T172000Z-5e32de67-eb88ed",
+  "uc1": {
+    "report": {
+      "key": "im:salesforce:Report:00ODEMO0000000001A",
+      "providerId": "00ODEMO0000000001A",
+      "name": "3분기 대규모 계약 정리 리포트"
+    },
+    "opportunities": [
+      {
+        "key": "im:salesforce:Opportunity:006DEMO0000000001A",
+        "providerId": "006DEMO0000000001A",
+        "name": "한빛물산 2027 갱신"
+      },
+      {
+        "key": "im:salesforce:Opportunity:006DEMO0000000002A",
+        "providerId": "006DEMO0000000002A",
+        "name": "세운테크 전사 확장"
+      },
+      {
+        "key": "im:salesforce:Opportunity:006DEMO0000000003A",
+        "providerId": "006DEMO0000000003A",
+        "name": "오로라리테일 신규 도입"
+      }
+    ],
+    "permissionSet": {
+      "key": "im:salesforce:PermissionSet:0PSDEMO0000000001A",
+      "providerId": "0PSDEMO0000000001A",
+      "name": "영업팀 파이프라인"
+    },
+    "flow": {
+      "key": "im:salesforce:FlowDefinitionView:300DEMO0000000001A",
+      "providerId": "300DEMO0000000001A",
+      "name": "대규모 계약 단계 변경 알림",
+      "activeVersionId": "301DEMO0000000001A",
+      "apiName": "Large_Deal_Stage_Alert"
+    },
+    "flowSlackAction": {
+      "key": "im:salesforce:FlowSlackActionEndpoint:301DEMO0000000001A|Post_Deal_Alert",
+      "providerId": "301DEMO0000000001A|Post_Deal_Alert",
+      "name": "Flow Slack 동작 Post_Deal_Alert"
+    },
+    "slackApp": {
+      "key": "im:slack:defs_app_id:A0DMSFSLK01",
+      "providerId": "A0DMSFSLK01",
+      "name": "Salesforce for Slack"
+    },
+    "channel": {
+      "key": "im:slack:conversation:C0DMDEALAL1",
+      "providerId": "C0DMDEALAL1",
+      "name": "#deal-alerts",
+      "teamId": "T0DEMOTEAM1"
+    },
+    "leaver": {
+      "okta": {
+        "key": "im:okta:User:00uDEMO00000000004698",
+        "providerId": "00uDEMO00000000004698",
+        "name": "jiho.lee@aegidemo.example"
+      },
+      "salesforce": {
+        "key": "im:salesforce:User:005DEMO0000000004A",
+        "providerId": "005DEMO0000000004A",
+        "name": "jiho.lee@aegidemo.example"
+      },
+      "slack": {
+        "key": "im:slack:200.members[*]:U0DMJIHO001",
+        "providerId": "U0DMJIHO001",
+        "name": "jiho.lee@aegidemo.example"
+      },
+      "gws": {
+        "key": "im:gws:User:109900000000000000004",
+        "providerId": "109900000000000000004",
+        "name": "jiho.lee@aegidemo.example"
+      }
+    },
+    "flowOwner": {
+      "okta": {
+        "key": "im:okta:User:00uDEMO00000000001698",
+        "providerId": "00uDEMO00000000001698",
+        "name": "hana.seo@aegidemo.example"
+      },
+      "salesforce": {
+        "key": "im:salesforce:User:005DEMO0000000001A",
+        "providerId": "005DEMO0000000001A",
+        "name": "hana.seo@aegidemo.example"
+      },
+      "slack": {
+        "key": "im:slack:200.members[*]:U0DMHANA001",
+        "providerId": "U0DMHANA001",
+        "name": "hana.seo@aegidemo.example"
+      },
+      "gws": {
+        "key": "im:gws:User:109900000000000000001",
+        "providerId": "109900000000000000001",
+        "name": "hana.seo@aegidemo.example"
+      }
+    },
+    "salesTeam": [
+      {
+        "okta": {
+          "key": "im:okta:User:00uDEMO00000000002698",
+          "providerId": "00uDEMO00000000002698",
+          "name": "minho.kang@aegidemo.example"
+        },
+        "salesforce": {
+          "key": "im:salesforce:User:005DEMO0000000002A",
+          "providerId": "005DEMO0000000002A",
+          "name": "minho.kang@aegidemo.example"
+        },
+        "slack": {
+          "key": "im:slack:200.members[*]:U0DMMINHO01",
+          "providerId": "U0DMMINHO01",
+          "name": "minho.kang@aegidemo.example"
+        },
+        "gws": {
+          "key": "im:gws:User:109900000000000000002",
+          "providerId": "109900000000000000002",
+          "name": "minho.kang@aegidemo.example"
+        }
+      },
+      {
+        "okta": {
+          "key": "im:okta:User:00uDEMO00000000003698",
+          "providerId": "00uDEMO00000000003698",
+          "name": "yuna.choi@aegidemo.example"
+        },
+        "salesforce": {
+          "key": "im:salesforce:User:005DEMO0000000003A",
+          "providerId": "005DEMO0000000003A",
+          "name": "yuna.choi@aegidemo.example"
+        },
+        "slack": {
+          "key": "im:slack:200.members[*]:U0DMYUNA001",
+          "providerId": "U0DMYUNA001",
+          "name": "yuna.choi@aegidemo.example"
+        },
+        "gws": {
+          "key": "im:gws:User:109900000000000000003",
+          "providerId": "109900000000000000003",
+          "name": "yuna.choi@aegidemo.example"
+        }
+      }
+    ],
+    "personalGmail": {
+      "key": "im:gws:User:109900000000000000004",
+      "providerId": "jiho.lee.home@gmail.example",
+      "name": "jiho.lee.home@gmail.example"
+    },
+    "deliveries": [
+      "OBS-DELIVERY-DEMO-UC1-1",
+      "OBS-DELIVERY-DEMO-UC1-2",
+      "OBS-DELIVERY-DEMO-UC1-3",
+      "OBS-DELIVERY-DEMO-UC1-4",
+      "OBS-DELIVERY-DEMO-UC1-5"
+    ]
+  }
+}

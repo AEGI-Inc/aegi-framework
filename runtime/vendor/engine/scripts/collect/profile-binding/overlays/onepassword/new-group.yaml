@@ -1,0 +1,46 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: onepassword
+service: directory
+object_type: Group
+interfaces: [Principal]
+# 근거: op group list(CLI 2.34.1) 실제 응답(2026-11-20). 필드는 id, name, description, state, created_at.
+# 계정을 만들면 생기는 그룹(Owners, Administrators, Team Members, Recovery 등)과 사람이 만든 그룹을 가르는 칸은 이 응답에 없다.
+# SDK GroupType(owners, administrators, recovery, ...)은 groups.get 으로만 오고 수집기는 부르지 않는다.
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: OP-GROUP-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OP-01
+        request: {kind: groups}
+        items: (items)
+    id_expr: id
+    properties:
+      name: name
+      description: description
+      state: state
+      created_at: created_at
+      principal_kind: {const: group}
+      account_kind: {const: unknown}
+      account_state:
+        op: map
+        of: state
+        table:
+          ACTIVE: active
+        default: {const: unknown}
+    display: "{name|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

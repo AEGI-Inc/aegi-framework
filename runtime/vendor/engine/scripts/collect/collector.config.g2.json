@@ -1,0 +1,131 @@
+{
+  "since": "2026-09-30T00:00:00Z",
+  "github": {
+    "org": "aegi-fresh-start-org",
+    "enterprise": "aegi-fresh-start",
+    "repos": [],
+    "maxCommitDetails": 200
+  },
+  "okta": {
+    "scopes": [
+      "okta.orgs.read",
+      "okta.users.read",
+      "okta.groups.read",
+      "okta.roles.read",
+      "okta.apps.read",
+      "okta.clients.read",
+      "okta.logs.read",
+      "okta.policies.read",
+      "okta.schemas.read"
+    ],
+    "policyTypes": [
+      "OKTA_SIGN_ON",
+      "ACCESS_POLICY",
+      "MFA_ENROLL",
+      "PASSWORD",
+      "IDP_DISCOVERY",
+      "PROFILE_ENROLLMENT",
+      "POST_AUTH_SESSION",
+      "ENTITY_RISK"
+    ]
+  },
+  "slack": {
+    "teamId": "T0C60HSQ34H",
+    "enterpriseId": "E0C60HWMGD7",
+    "extraChannels": [
+      "C0C6T7QPPH6",
+      "C0C5WTS9V46",
+      "C0C60QPJFHP",
+      "C0C5WTRUMU6",
+      "C0C5HFHDSGP"
+    ],
+    "appIds": [
+      "A0C5YNZAXR8",
+      "A0C5HFF9NTZ",
+      "A0C5YMWRL7L",
+      "A0C60QMC3U1",
+      "A0C5XP50ECW"
+    ],
+    "usergroupIds": [],
+    "integrationLogs": true
+  },
+  "gws": {
+    "adminSubject": "svc.collector@aegi.men",
+    "driveUsers": [
+      "admin@aegi.men",
+      "sec.dohyun@aegi.men",
+      "it.hwamin@aegi.men",
+      "dev.junsik@aegi.men",
+      "dev.jiwon@aegi.men",
+      "hr.yaeji@aegi.men",
+      "sales.taewook@aegi.men",
+      "cs.minji@aegi.men",
+      "svc.collector@aegi.men"
+    ],
+    "forms": [
+      {
+        "id": "1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY",
+        "owner": "sales.taewook@aegi.men"
+      }
+    ],
+    "scripts": [
+      {
+        "id": "1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+        "owner": "sales.taewook@aegi.men"
+      },
+      {
+        "id": "1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+        "owner": "dev.junsik@aegi.men"
+      }
+    ],
+    "grantedScopes": [
+      "script.deployments.readonly",
+      "gmail.settings.basic"
+    ],
+    "reportApplications": [
+      "drive",
+      "token:authorize",
+      "login",
+      "admin",
+      "groups"
+    ]
+  },
+  "worker": {
+    "baseUrl": "https://aegi-scenario-bots.haribozyme.workers.dev",
+    "tables": [
+      "slash-requests",
+      "github-webhooks",
+      "oauth-callbacks"
+    ]
+  },
+  "normalize": {
+    "people": {
+      "admin": "admin@aegi.men",
+      "A": "dev.jiwon@aegi.men",
+      "B": "it.hwamin@aegi.men",
+      "C": "dev.junsik@aegi.men",
+      "D": "hr.yaeji@aegi.men",
+      "E": "sales.taewook@aegi.men",
+      "F": "cs.minji@aegi.men",
+      "target": "sales.sumin@aegi.men"
+    },
+    "accounts": {
+      "A": {
+        "github": "aegi-dev-jiwon"
+      },
+      "C": {
+        "github": "aegi-dev-junsik"
+      }
+    },
+    "sensitivePaths": [
+      "scenario-lab/logging/**",
+      "scenario-lab/auth/**"
+    ],
+    "measurementPrincipals": {
+      "slack": [
+        "U0C5TKX0RJ9"
+      ]
+    }
+  },
+  "$comment": "g2 (2026-09-30~, GWS aegi.men, Slack 새 샌드박스). g1 은 collector.config.json + collected/. 실행: npm run collect -- --config scripts/collect/collector.config.g2.json --out collected-g2"
+}

@@ -1,0 +1,50 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: agentregistry
+object_type: Skill
+interfaces: [Resource]
+# 근거: Agent Registry v1 Discovery 문서의 Skill 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-04 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# 처음 판(initialRevision)은 패키지 본문이 들 수 있어 옮기지 않는다. 판은 SkillRevision 으로 따로 읽는다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-AR-SKILL-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-04
+        request: {kind: skills}
+        items: skills
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    properties:
+      displayName: displayName
+      state: state
+      uid: uid
+      description: description
+      type: type
+      scanningConfig: scanningConfig
+      publisher: publisher
+      skillId: skillId
+      targetState: targetState
+      frontmatter: frontmatter
+      createTime: createTime
+      defaultRevision: defaultRevision
+      updateTime: updateTime
+    display: "{displayName|title|name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+        basis: stated
+        require: [target]

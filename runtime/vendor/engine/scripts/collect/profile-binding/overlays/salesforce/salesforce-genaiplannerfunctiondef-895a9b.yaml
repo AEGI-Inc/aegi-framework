@@ -1,0 +1,20 @@
+references:
+- name: plannerid
+  field: PlannerId
+  target: GenAiPlannerDefinition
+  relation: contained_in
+  reviewed_at: '2026-11-01'
+  rationale: 'Agentforce 계층: 플래너 함수 행이 플러그인을 플래너에 붙이고, 플래너는 봇 버전에, 봇 버전은 봇에 속한다(2026-11-01 고립 객체 연결)'
+- name: plugin
+  field: Plugin
+  target: GenAiPluginDefinition
+  relation: contained_in
+  reviewed_at: '2026-11-01'
+  rationale: 'Agentforce 계층: 플래너 함수 행이 플러그인을 플래너에 붙이고, 플래너는 봇 버전에, 봇 버전은 봇에 속한다(2026-11-01 고립 객체 연결)'
+relation_plans:
+- type: contained_in
+  source: $refs.plugin
+  target: $refs.plannerid
+  basis: stated
+  properties:
+    via_assignment: $self

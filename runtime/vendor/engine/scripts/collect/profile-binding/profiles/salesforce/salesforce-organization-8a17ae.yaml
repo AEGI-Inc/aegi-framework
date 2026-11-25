@@ -1,0 +1,1341 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Organization
+interfaces: &a1
+  - Tenant
+model:
+  research_type: object-type:8fc47d9ee2f8d2fa2a8a17ae
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:8fc47d9ee2f8d2fa2a8a17ae.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|Id
+  AllowsSelfServiceLogin:
+    path: AllowsSelfServiceLogin
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: AllowsSelfServiceLogin
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|AllowsSelfServiceLogin
+  City:
+    path: City
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: City
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|City
+  ComplianceBccEmail:
+    path: ComplianceBccEmail
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: email
+      name: ComplianceBccEmail
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|ComplianceBccEmail
+  Country:
+    path: Country
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: Country
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|Country
+  CountryCode:
+    path: CountryCode
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: CountryCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|CountryCode
+  DailyWebToCaseCount:
+    path: DailyWebToCaseCount
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: DailyWebToCaseCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|DailyWebToCaseCount
+  DailyWebToCaseLimit:
+    path: DailyWebToCaseLimit
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: DailyWebToCaseLimit
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|DailyWebToCaseLimit
+  DailyWebToLeadCount:
+    path: DailyWebToLeadCount
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: DailyWebToLeadCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|DailyWebToLeadCount
+  DailyWebToLeadLimit:
+    path: DailyWebToLeadLimit
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: DailyWebToLeadLimit
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|DailyWebToLeadLimit
+  DefaultAccountAccess:
+    path: DefaultAccountAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultAccountAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultAccountAccess
+  DefaultAccountAndContactAccess:
+    path: DefaultAccountAndContactAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultAccountAndContactAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultAccountAndContactAccess
+  DefaultCalendarAccess:
+    path: DefaultCalendarAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultCalendarAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultCalendarAccess
+  DefaultCampaignAccess:
+    path: DefaultCampaignAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultCampaignAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultCampaignAccess
+  DefaultCaseAccess:
+    path: DefaultCaseAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultCaseAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultCaseAccess
+  DefaultContactAccess:
+    path: DefaultContactAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultContactAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultContactAccess
+  DefaultLeadAccess:
+    path: DefaultLeadAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultLeadAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultLeadAccess
+  DefaultLocaleSidKey:
+    path: DefaultLocaleSidKey
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultLocaleSidKey
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultLocaleSidKey
+  DefaultOpportunityAccess:
+    path: DefaultOpportunityAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultOpportunityAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultOpportunityAccess
+  DefaultPricebookAccess:
+    path: DefaultPricebookAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultPricebookAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultPricebookAccess
+  DefaultTerritoryCaseAccess:
+    path: DefaultTerritoryCaseAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultTerritoryCaseAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultTerritoryCaseAccess
+  DefaultTerritoryContactAccess:
+    path: DefaultTerritoryContactAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultTerritoryContactAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultTerritoryContactAccess
+  DefaultTerritoryOppAccess:
+    path: DefaultTerritoryOppAccess
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: DefaultTerritoryOppAccess
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|DefaultTerritoryOppAccess
+  Division:
+    path: Division
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: Division
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|Division
+  Fax:
+    path: Fax
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: phone
+      name: Fax
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|Fax
+  FiscalYearStartMonth:
+    path: FiscalYearStartMonth
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: FiscalYearStartMonth
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|FiscalYearStartMonth
+  HomepageHtml:
+    path: HomepageHtml
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: textarea
+      name: HomepageHtml
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|HomepageHtml
+  InstanceName:
+    path: InstanceName
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: InstanceName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|InstanceName
+  IsSandbox:
+    path: IsSandbox
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: IsSandbox
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|IsSandbox
+  LanguageLocaleKey:
+    path: LanguageLocaleKey
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: LanguageLocaleKey
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|LanguageLocaleKey
+  LastWebToCaseDate:
+    path: LastWebToCaseDate
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: dateTime
+      name: LastWebToCaseDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|LastWebToCaseDate
+  LastWebToLeadDate:
+    path: LastWebToLeadDate
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: dateTime
+      name: LastWebToLeadDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|LastWebToLeadDate
+  Latitude:
+    path: Latitude
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: double
+      name: Latitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Organization|Latitude
+  Longitude:
+    path: Longitude
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: double
+      name: Longitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Organization|Longitude
+  MaxActionsPerRule:
+    path: MaxActionsPerRule
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: MaxActionsPerRule
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|MaxActionsPerRule
+  MaxRulesPerEntity:
+    path: MaxRulesPerEntity
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: MaxRulesPerEntity
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|MaxRulesPerEntity
+  MonthlyPageViewsEntitlement:
+    path: MonthlyPageViewsEntitlement
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: MonthlyPageViewsEntitlement
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|MonthlyPageViewsEntitlement
+  MonthlyPageViewsUsed:
+    path: MonthlyPageViewsUsed
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: MonthlyPageViewsUsed
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|MonthlyPageViewsUsed
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: Name
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|Name
+  NamespacePrefix:
+    path: NamespacePrefix
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: NamespacePrefix
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|NamespacePrefix
+  OrganizationType:
+    path: OrganizationType
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: OrganizationType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|OrganizationType
+  Phone:
+    path: Phone
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: phone
+      name: Phone
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|Phone
+  PostalCode:
+    path: PostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: PostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|PostalCode
+  PreferencesEventScheduler:
+    path: PreferencesEventScheduler
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: PreferencesEventScheduler
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|PreferencesEventScheduler
+  PreferencesPublicSectorTaxRevEnabled:
+    path: PreferencesPublicSectorTaxRevEnabled
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: PreferencesPublicSectorTaxRevEnabled
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|PreferencesPublicSectorTaxRevEnabled
+  PreferencesRequireOpportunityProducts:
+    path: PreferencesRequireOpportunityProducts
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: PreferencesRequireOpportunityProducts
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|PreferencesRequireOpportunityProducts
+  PreferencesS1BrowserEnabled:
+    path: PreferencesS1BrowserEnabled
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: PreferencesS1BrowserEnabled
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|PreferencesS1BrowserEnabled
+  PreferencesTerminateOldestSession:
+    path: PreferencesTerminateOldestSession
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: PreferencesTerminateOldestSession
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|PreferencesTerminateOldestSession
+  PreferencesTransactionSecurityPolicy:
+    path: PreferencesTransactionSecurityPolicy
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: PreferencesTransactionSecurityPolicy
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|PreferencesTransactionSecurityPolicy
+  PrimaryContact:
+    path: PrimaryContact
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: PrimaryContact
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|PrimaryContact
+  ReceivesAdminInfoEmails:
+    path: ReceivesAdminInfoEmails
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: ReceivesAdminInfoEmails
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|ReceivesAdminInfoEmails
+  ReceivesInfoEmails:
+    path: ReceivesInfoEmails
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: ReceivesInfoEmails
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|ReceivesInfoEmails
+  SelfServiceCasePlural:
+    path: SelfServiceCasePlural
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: SelfServiceCasePlural
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceCasePlural
+  SelfServiceCaseSingle:
+    path: SelfServiceCaseSingle
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: SelfServiceCaseSingle
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceCaseSingle
+  SelfServiceCaseSubmitRecordTypeId:
+    path: SelfServiceCaseSubmitRecordTypeId
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: reference
+      name: SelfServiceCaseSubmitRecordTypeId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceCaseSubmitRecordTypeId
+  SelfServicDefaultCaseOrigin:
+    path: SelfServicDefaultCaseOrigin
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: SelfServicDefaultCaseOrigin
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServicDefaultCaseOrigin
+  SelfServiceEmailSenderAddress:
+    path: SelfServiceEmailSenderAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: email
+      name: SelfServiceEmailSenderAddress
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceEmailSenderAddress
+  SelfServiceEmailSenderName:
+    path: SelfServiceEmailSenderName
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: SelfServiceEmailSenderName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceEmailSenderName
+  SelfServiceEmailUserOnCaseCreationTemplateId:
+    path: SelfServiceEmailUserOnCaseCreationTemplateId
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: reference
+      name: SelfServiceEmailUserOnCaseCreationTemplateId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceEmailUserOnCaseCreationTemplateId
+  SelfServiceEnabledForResponseRules:
+    path: SelfServiceEnabledForResponseRules
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: SelfServiceEnabledForResponseRules
+      nullable: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|SelfServiceEnabledForResponseRules
+  SelfServiceFeatureConfig:
+    path: SelfServiceFeatureConfig
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: SelfServiceFeatureConfig
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|SelfServiceFeatureConfig
+  SelfServiceLogoutUrl:
+    path: SelfServiceLogoutUrl
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: url
+      name: SelfServiceLogoutUrl
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceLogoutUrl
+  SelfServiceMaxNumSuggestions:
+    path: SelfServiceMaxNumSuggestions
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: SelfServiceMaxNumSuggestions
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|SelfServiceMaxNumSuggestions
+  SelfServiceNewCommentCheckedByDefault:
+    path: SelfServiceNewCommentCheckedByDefault
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: SelfServiceNewCommentCheckedByDefault
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|SelfServiceNewCommentCheckedByDefault
+  SelfServiceNewCommentTemplateId:
+    path: SelfServiceNewCommentTemplateId
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: reference
+      name: SelfServiceNewCommentTemplateId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceNewCommentTemplateId
+  SelfServiceNewPassTemplateId:
+    path: SelfServiceNewPassTemplateId
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: reference
+      name: SelfServiceNewPassTemplateId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceNewPassTemplateId
+  SelfServiceNewUserTemplateId:
+    path: SelfServiceNewUserTemplateId
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: reference
+      name: SelfServiceNewUserTemplateId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceNewUserTemplateId
+  SelfServicePageHeight:
+    path: SelfServicePageHeight
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: SelfServicePageHeight
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|SelfServicePageHeight
+  SelfServicePageWidth:
+    path: SelfServicePageWidth
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: SelfServicePageWidth
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|SelfServicePageWidth
+  SelfServiceSelfClosedCaseStatus:
+    path: SelfServiceSelfClosedCaseStatus
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: SelfServiceSelfClosedCaseStatus
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceSelfClosedCaseStatus
+  SelfServiceSolutionCategoryAvailable:
+    path: SelfServiceSolutionCategoryAvailable
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: SelfServiceSolutionCategoryAvailable
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|SelfServiceSolutionCategoryAvailable
+  SelfServiceSolutionCategoryStartNodeId:
+    path: SelfServiceSolutionCategoryStartNodeId
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: reference
+      name: SelfServiceSolutionCategoryStartNodeId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceSolutionCategoryStartNodeId
+  SelfServiceSolutionPlural:
+    path: SelfServiceSolutionPlural
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: SelfServiceSolutionPlural
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceSolutionPlural
+  SelfServiceSolutionSingle:
+    path: SelfServiceSolutionSingle
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: SelfServiceSolutionSingle
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceSolutionSingle
+  SelfServiceStyleSheetUrl:
+    path: SelfServiceStyleSheetUrl
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: url
+      name: SelfServiceStyleSheetUrl
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceStyleSheetUrl
+  SelfServiceWelcomePageConfig:
+    path: SelfServiceWelcomePageConfig
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: int
+      name: SelfServiceWelcomePageConfig
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Organization|SelfServiceWelcomePageConfig
+  SelfServiceWelcomeText:
+    path: SelfServiceWelcomeText
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: SelfServiceWelcomeText
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SelfServiceWelcomeText
+  SignupCountryIsoCode:
+    path: SignupCountryIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: SignupCountryIsoCode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|SignupCountryIsoCode
+  State:
+    path: State
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: State
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|State
+  StateCode:
+    path: StateCode
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: StateCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|StateCode
+  Street:
+    path: Street
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: textarea
+      name: Street
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|Street
+  TrialExpirationDate:
+    path: TrialExpirationDate
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: dateTime
+      name: TrialExpirationDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|TrialExpirationDate
+  TimeZoneSidKey:
+    path: TimeZoneSidKey
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: TimeZoneSidKey
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|TimeZoneSidKey
+  UiSkin:
+    path: UiSkin
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: picklist
+      name: UiSkin
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|UiSkin
+  UsesStartDateAsFiscalYearName:
+    path: UsesStartDateAsFiscalYearName
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: UsesStartDateAsFiscalYearName
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|UsesStartDateAsFiscalYearName
+  UsesWebToCase:
+    path: UsesWebToCase
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: UsesWebToCase
+      nullable: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|UsesWebToCase
+  UsesWebToLead:
+    path: UsesWebToLead
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: boolean
+      name: UsesWebToLead
+      nullable: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Organization|UsesWebToLead
+  WebToCaseAssignedEmailTemplateId:
+    path: WebToCaseAssignedEmailTemplateId
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: reference
+      name: WebToCaseAssignedEmailTemplateId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|WebToCaseAssignedEmailTemplateId
+  WebToCaseCreatedEmailTemplateId:
+    path: WebToCaseCreatedEmailTemplateId
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: reference
+      name: WebToCaseCreatedEmailTemplateId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|WebToCaseCreatedEmailTemplateId
+  WebToCaseDefaultCreatorId:
+    path: WebToCaseDefaultCreatorId
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: reference
+      name: WebToCaseDefaultCreatorId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|WebToCaseDefaultCreatorId
+  WebToCaseDefaultOrigin:
+    path: WebToCaseDefaultOrigin
+    source: research_shape
+    shape: sh:sf_object_reference:Organization
+    declaration:
+      format: string
+      name: WebToCaseDefaultOrigin
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Organization|WebToCaseDefaultOrigin
+references: []
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Organization
+  interfaces: *a1
+  model:
+    research_type: object-type:8fc47d9ee2f8d2fa2a8a17ae
+  extract:
+    key: PILOT-salesforce-Organization-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-8a17ae
+            endpoint: /
+            items:
+              - records
+        properties:
+          AllowsSelfServiceLogin: AllowsSelfServiceLogin
+          City: City
+          ComplianceBccEmail: ComplianceBccEmail
+          Country: Country
+          CountryCode: CountryCode
+          DailyWebToCaseCount: DailyWebToCaseCount
+          DailyWebToCaseLimit: DailyWebToCaseLimit
+          DailyWebToLeadCount: DailyWebToLeadCount
+          DailyWebToLeadLimit: DailyWebToLeadLimit
+          DefaultAccountAccess: DefaultAccountAccess
+          DefaultAccountAndContactAccess: DefaultAccountAndContactAccess
+          DefaultCalendarAccess: DefaultCalendarAccess
+          DefaultCampaignAccess: DefaultCampaignAccess
+          DefaultCaseAccess: DefaultCaseAccess
+          DefaultContactAccess: DefaultContactAccess
+          DefaultLeadAccess: DefaultLeadAccess
+          DefaultLocaleSidKey: DefaultLocaleSidKey
+          DefaultOpportunityAccess: DefaultOpportunityAccess
+          DefaultPricebookAccess: DefaultPricebookAccess
+          DefaultTerritoryCaseAccess: DefaultTerritoryCaseAccess
+          DefaultTerritoryContactAccess: DefaultTerritoryContactAccess
+          DefaultTerritoryOppAccess: DefaultTerritoryOppAccess
+          Division: Division
+          Fax: Fax
+          FiscalYearStartMonth: FiscalYearStartMonth
+          HomepageHtml: HomepageHtml
+          Id: Id
+          InstanceName: InstanceName
+          IsSandbox: IsSandbox
+          LanguageLocaleKey: LanguageLocaleKey
+          LastWebToCaseDate: LastWebToCaseDate
+          LastWebToLeadDate: LastWebToLeadDate
+          Latitude: Latitude
+          Longitude: Longitude
+          MaxActionsPerRule: MaxActionsPerRule
+          MaxRulesPerEntity: MaxRulesPerEntity
+          MonthlyPageViewsEntitlement: MonthlyPageViewsEntitlement
+          MonthlyPageViewsUsed: MonthlyPageViewsUsed
+          Name: Name
+          NamespacePrefix: NamespacePrefix
+          OrganizationType: OrganizationType
+          Phone: Phone
+          PostalCode: PostalCode
+          PreferencesEventScheduler: PreferencesEventScheduler
+          PreferencesPublicSectorTaxRevEnabled: PreferencesPublicSectorTaxRevEnabled
+          PreferencesRequireOpportunityProducts: PreferencesRequireOpportunityProducts
+          PreferencesS1BrowserEnabled: PreferencesS1BrowserEnabled
+          PreferencesTerminateOldestSession: PreferencesTerminateOldestSession
+          PreferencesTransactionSecurityPolicy: PreferencesTransactionSecurityPolicy
+          PrimaryContact: PrimaryContact
+          ReceivesAdminInfoEmails: ReceivesAdminInfoEmails
+          ReceivesInfoEmails: ReceivesInfoEmails
+          SelfServicDefaultCaseOrigin: SelfServicDefaultCaseOrigin
+          SelfServiceCasePlural: SelfServiceCasePlural
+          SelfServiceCaseSingle: SelfServiceCaseSingle
+          SelfServiceCaseSubmitRecordTypeId: SelfServiceCaseSubmitRecordTypeId
+          SelfServiceEmailSenderAddress: SelfServiceEmailSenderAddress
+          SelfServiceEmailSenderName: SelfServiceEmailSenderName
+          SelfServiceEmailUserOnCaseCreationTemplateId: SelfServiceEmailUserOnCaseCreationTemplateId
+          SelfServiceEnabledForResponseRules: SelfServiceEnabledForResponseRules
+          SelfServiceFeatureConfig: SelfServiceFeatureConfig
+          SelfServiceLogoutUrl: SelfServiceLogoutUrl
+          SelfServiceMaxNumSuggestions: SelfServiceMaxNumSuggestions
+          SelfServiceNewCommentCheckedByDefault: SelfServiceNewCommentCheckedByDefault
+          SelfServiceNewCommentTemplateId: SelfServiceNewCommentTemplateId
+          SelfServiceNewPassTemplateId: SelfServiceNewPassTemplateId
+          SelfServiceNewUserTemplateId: SelfServiceNewUserTemplateId
+          SelfServicePageHeight: SelfServicePageHeight
+          SelfServicePageWidth: SelfServicePageWidth
+          SelfServiceSelfClosedCaseStatus: SelfServiceSelfClosedCaseStatus
+          SelfServiceSolutionCategoryAvailable: SelfServiceSolutionCategoryAvailable
+          SelfServiceSolutionCategoryStartNodeId: SelfServiceSolutionCategoryStartNodeId
+          SelfServiceSolutionPlural: SelfServiceSolutionPlural
+          SelfServiceSolutionSingle: SelfServiceSolutionSingle
+          SelfServiceStyleSheetUrl: SelfServiceStyleSheetUrl
+          SelfServiceWelcomePageConfig: SelfServiceWelcomePageConfig
+          SelfServiceWelcomeText: SelfServiceWelcomeText
+          SignupCountryIsoCode: SignupCountryIsoCode
+          State: State
+          StateCode: StateCode
+          Street: Street
+          TimeZoneSidKey: TimeZoneSidKey
+          TrialExpirationDate: TrialExpirationDate
+          UiSkin: UiSkin
+          UsesStartDateAsFiscalYearName: UsesStartDateAsFiscalYearName
+          UsesWebToCase: UsesWebToCase
+          UsesWebToLead: UsesWebToLead
+          WebToCaseAssignedEmailTemplateId: WebToCaseAssignedEmailTemplateId
+          WebToCaseCreatedEmailTemplateId: WebToCaseCreatedEmailTemplateId
+          WebToCaseDefaultCreatorId: WebToCaseDefaultCreatorId
+          WebToCaseDefaultOrigin: WebToCaseDefaultOrigin
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_with_records
+  call: SF-01
+  operation_id: op:sf_object_reference:Organization.query
+  operation: Organization.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Organization
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Organization
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Organization.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Organization/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 1
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

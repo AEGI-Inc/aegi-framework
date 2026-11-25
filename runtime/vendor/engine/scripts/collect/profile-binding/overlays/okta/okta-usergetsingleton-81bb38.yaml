@@ -1,0 +1,83 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/user.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-02
+    vars:
+      login:
+        op: lower
+        of:
+          any:
+            - profile.login
+          empty_as: ""
+    mutable_ids:
+      login: $vars.login
+      email:
+        op: lower
+        of: profile.email
+    properties:
+      login: $vars.login
+      status: status
+      account_state:
+        op: map
+        of: status
+        table:
+          ACTIVE: active
+          PROVISIONED: active
+          RECOVERY: active
+          PASSWORD_EXPIRED: active
+          LOCKED_OUT: suspended
+          STAGED: suspended
+          SUSPENDED: suspended
+          DEPROVISIONED: deprovisioned
+        default:
+          const: unknown
+      created: created
+      activated: activated
+      lastLogin: lastLogin
+      passwordChanged: passwordChanged
+      type_id: type.id
+      name:
+        op: nonempty
+        of:
+          op: join
+          sep: " "
+          of:
+            op: filter
+            of:
+              list:
+                - profile.firstName
+                - profile.lastName
+            where:
+              path: $item
+              truthy: true
+      principal_kind:
+        const: unknown
+    display: "{$vars.login}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-U-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: OKTA-U-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  email:
+    stability: mutable
+  login:
+    stability: mutable
+tenant_binding:
+  type: OrgSetting
+tenant_basis: Okta 조직(OrgSetting)은 한 테넌트에 하나다. 조직 관리자 역할(SUPER_ADMIN 등)이 OrgSetting 에 걸리므로, 이 객체가 그 조직에 속한다는 참조가 있어야 관리자 권한이 이 객체까지 내려온다(2026-11-08, /mfa-reset 격차의 원래 권한자 0명)

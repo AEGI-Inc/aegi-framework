@@ -1,0 +1,332 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: IdentityProvider
+interfaces: &a1
+  - Integration
+model:
+  research_type: object-type:7647def62325cde64bbb68f1
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:7647def62325cde64bbb68f1.identity_evidence
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  created:
+    path: created
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: created
+      required: false
+      shape: sh:okta_management_openapi:Created
+    map_items:
+      - space:IdentityProvider|created
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:IdentityProvider|id
+  issuerMode:
+    path: issuerMode
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: issuerMode
+      required: false
+      shape: sh:okta_management_openapi:IdentityProviderIssuerMode
+    map_items:
+      - space:IdentityProvider|issuerMode
+  lastUpdated:
+    path: lastUpdated
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: lastUpdated
+      required: false
+      shape: sh:okta_management_openapi:LastUpdated
+    map_items:
+      - space:IdentityProvider|lastUpdated
+  name:
+    path: name
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:IdentityProvider|name
+  policy:
+    path: policy
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: policy
+      required: false
+      shape: sh:okta_management_openapi:IdentityProviderPolicy
+    map_items: []
+  properties:
+    path: properties
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: properties
+      required: false
+      shape: sh:okta_management_openapi:IdentityProviderProperties
+    map_items: []
+  protocol:
+    path: protocol
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: protocol
+      required: false
+      shape: sh:okta_management_openapi:IdentityProvider.protocol
+    map_items: []
+  status:
+    path: status
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: status
+      required: false
+      shape: sh:okta_management_openapi:LifecycleStatus
+    map_items:
+      - space:IdentityProvider|status
+  type:
+    path: type
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: type
+      required: false
+      shape: sh:okta_management_openapi:IdentityProviderType
+    map_items:
+      - space:IdentityProvider|type
+  _links:
+    path: _links
+    source: research_shape
+    shape: sh:okta_management_openapi:IdentityProvider
+    declaration:
+      name: _links
+      required: false
+      shape: sh:okta_management_openapi:IdentityProvider._links
+    map_items: []
+references:
+  - name: protocol_credentials_trust
+    field: protocol.credentials.trust
+    target: MtlsTrustCredentials
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3487fb71e0a3fb44f1baafc8; relation=no_relation
+  - name: links_keys_href
+    field: _links.keys.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:566ed735d72010c350c8b4d7; relation=no_relation
+  - name: links_activate_href
+    field: _links.activate.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:58705c1b81134bf83e66ee14; relation=no_relation
+  - name: links_clientredirecturi_href
+    field: _links.clientRedirectUri.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:67097bdef50c84013f7cad33; relation=no_relation
+  - name: links_acs_href
+    field: _links.acs.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:7a70dda282c9cd3d04388429; relation=no_relation
+  - name: links_authorize_href
+    field: _links.authorize.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:86b1dda9f10c53c34e839929; relation=no_relation
+  - name: links_self_href
+    field: _links.self.href
+    target: BehaviorRule
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:acfd591b398657a773a29a33; relation=no_relation
+  - name: links_deactivate_href
+    field: _links.deactivate.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:b0c5ff4cfe7f17cc8516b3de; relation=no_relation
+  - name: links_users_href
+    field: _links.users.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d061486e1bcefc2292767d91; relation=no_relation
+  - name: links_metadata_href
+    field: _links.metadata.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:e9bf0817ea8f1a422cd7956b; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: IdentityProvider
+  interfaces: *a1
+  model:
+    research_type: object-type:7647def62325cde64bbb68f1
+  extract:
+    key: PILOT-okta-IdentityProvider-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-OKTA-bb68f1
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          _links: _links
+          created: created
+          id: id
+          issuerMode: issuerMode
+          lastUpdated: lastUpdated
+          name: name
+          policy: policy
+          properties: properties
+          protocol: protocol
+          status: status
+          type: type
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_empty
+  call: OK-18
+  operation_id: op:okta_management_openapi:listIdentityProviders
+  operation: listIdentityProviders
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /api/v1/idps(?:\?|$)
+  endpoint_template: /api/v1/idps
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:okta_management_openapi:IdentityProvider
+      path:
+        - "*"
+  alternatives_total: 2
+  alternatives:
+    - operation_id: op:okta_management_openapi:listUserIdentityProviders
+      method: GET
+      kind: read_many
+      endpoint_template: /api/v1/users/{id}/idps
+      path:
+        - "*"
+    - operation_id: op:okta_management_openapi:getIdentityProvider
+      method: GET
+      kind: read_one
+      endpoint_template: /api/v1/idps/{idpId}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 0
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - protocol.credentials.trust
+    - _links.keys.href
+    - _links.activate.href
+    - _links.clientRedirectUri.href
+    - _links.acs.href
+    - _links.authorize.href
+    - _links.self.href
+    - _links.deactivate.href
+    - _links.users.href
+    - _links.metadata.href
+  metadata_paths: *a2
+  remaining_declared_fields: properties

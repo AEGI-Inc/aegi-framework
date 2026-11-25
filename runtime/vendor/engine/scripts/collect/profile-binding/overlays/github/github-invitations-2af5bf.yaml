@@ -1,0 +1,108 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/organization_invitation.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-29
+        items: (items)
+        where:
+          path: id
+          defined: true
+    vars:
+      email:
+        if:
+          path: email
+          truthy: true
+        then:
+          op: lower
+          of:
+            op: str
+            of: email
+      invitee:
+        if:
+          path: login
+          truthy: true
+        then:
+          ref:
+            type: simple-user
+            lookup: login
+            value: login
+          prop: $key
+      inviter:
+        if:
+          path: inviter.login
+          truthy: true
+        then:
+          ref:
+            type: simple-user
+            lookup: login
+            value: inviter.login
+          prop: $key
+    refs:
+      invitee:
+        - when:
+            path: $vars.invitee
+            present: true
+          ref:
+            key: $vars.invitee
+          type: simple-user
+          value: login
+        - when:
+            path: $vars.invitee
+            present: false
+          type: simple-user
+          value:
+            any:
+              - login
+              - $vars.email
+          external: true
+      inviter:
+        when:
+          path: $vars.inviter
+          present: true
+        ref:
+          key: $vars.inviter
+        type: simple-user
+        value: inviter.login
+    properties:
+      login:
+        op: null_if_missing
+        of: login
+      email:
+        op: null_if_missing
+        of: $vars.email
+      role: role
+      team_count: team_count
+      invitation_source: invitation_source
+      created_at: created_at
+      failed_at:
+        op: null_if_missing
+        of: failed_at
+      failed_reason:
+        op: null_if_missing
+        of: failed_reason
+      inviter_login:
+        op: null_if_missing
+        of: inviter.login
+    display: 조직 초대 {login|$vars.email|id} ({role})
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-INVITE-{id}
+runtime_stub: null
+runtime_key: GH-INVITE-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/AEGI-Inc/aegi-adapter-engine/blob/main/scripts/lineage/schema/AegiFacets.json",
+  "description": "AEGI 전용 OpenLineage facet. 설계: docs/spec/AEGI_LINEAGE_V1.md 5장",
+  "$defs": {
+    "AegiEvidenceFacet": {
+      "allOf": [
+        { "$ref": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/$defs/BaseFacet" },
+        {
+          "type": "object",
+          "properties": {
+            "level": { "enum": ["run_record", "content_match", "correlation", "structural", "unverified"] },
+            "observations": { "type": "array", "items": { "type": "string" } },
+            "reasons": { "type": "array", "items": { "type": "string" } },
+            "fields": { "enum": ["confirmed", "inferred", "unknown"] },
+            "gaps": { "type": "array", "items": { "enum": ["source_unknown", "source_not_confirmed"] } }
+          },
+          "required": ["level", "observations", "reasons", "fields", "gaps"]
+        }
+      ]
+    },
+    "AegiActorFacet": {
+      "allOf": [
+        { "$ref": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/$defs/BaseFacet" },
+        {
+          "type": "object",
+          "properties": {
+            "account": { "type": "string" },
+            "initiatedBy": { "type": "string" }
+          },
+          "anyOf": [{ "required": ["account"] }, { "required": ["initiatedBy"] }]
+        }
+      ]
+    },
+    "AegiJobStepsFacet": {
+      "allOf": [
+        { "$ref": "https://openlineage.io/spec/2-0-2/OpenLineage.json#/$defs/BaseFacet" },
+        {
+          "type": "object",
+          "properties": {
+            "steps": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "properties": { "key": { "type": "string" }, "type": { "type": "string" }, "name": { "type": "string" } },
+                "required": ["key", "type", "name"]
+              }
+            }
+          },
+          "required": ["steps"]
+        }
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "aegi_evidence": { "$ref": "#/$defs/AegiEvidenceFacet" },
+    "aegi_actor": { "$ref": "#/$defs/AegiActorFacet" },
+    "aegi_jobSteps": { "$ref": "#/$defs/AegiJobStepsFacet" }
+  }
+}

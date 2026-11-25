@@ -1,0 +1,26 @@
+{
+  "A": {
+    "context_message": "SLK-MSG-A-CONTEXT",
+    "context_author_slack": "SLK-U-UB",
+    "initiator_slack": "SLK-U-UA",
+    "target_repository": "GH-REPO-CUSTOMER-API"
+  },
+  "B": {
+    "automation_endpoint": "SLK-END-DEVBOT",
+    "request_channel": "SLK-CH-DEVBOT",
+    "target_repository": "GH-REPO-INTERNAL-TOOLS"
+  },
+  "C": {
+    "helpdesk_channel": "SLK-CH-HELPDESK",
+    "okta_helpdesk_role": "OKTA-ROLE-HELPDESK",
+    "okta_tenant": "OKTA-ORG-AEGI",
+    "target_user": "OKTA-U-TESTTARGET",
+    "automation_client": "OKTA-CLIENT-MFARESET"
+  },
+  "D": {
+    "source_file": "GWS-FILE-CUSTOMER-RESPONSES",
+    "destination_channel": "SLK-CH-CUSTOMER-INTAKE",
+    "automation": "GWS-PROJECT-CUSTOMER-SYNC",
+    "destination_endpoint": "SLK-END-CUSTOMER-WEBHOOK"
+  }
+}

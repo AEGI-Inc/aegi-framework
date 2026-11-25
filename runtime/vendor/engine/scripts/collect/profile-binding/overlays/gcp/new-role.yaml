@@ -1,0 +1,42 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: iam
+object_type: Role
+interfaces: [Policy]
+# 근거: IAM v1 Role 스키마(Discovery 문서). 저장된 실제 응답은 없다(명세에만 있음, 우리 환경 미조회).
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: GCP-ROLE-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-02
+        request: {kind: roles}
+        items: roles
+    id_expr: name
+    properties:
+      title: title
+      # 역할 세기는 이름으로 찾는다(aegi-knowledge capabilities.yaml role_name_rank gcp, 엔진 accessModel.ts roleCapability 가 역할 객체의 role_name 을 읽는다)
+      role_name: name
+      description: description
+      stage: stage
+      includedPermissions: includedPermissions
+      deleted: deleted
+      etag: etag
+      activation: {const: standing}
+      # roles/… 는 Google 이 미리 정한 역할, projects/…·organizations/… 아래는 고객이 만든 역할이다
+      origin:
+        if: {path: name, matches: "^roles/"}
+        # 기본 제공 역할(roles/…)은 플랫폼이 깔아 둔 객체다(Interface_Spec_v3 「origin」: platform_builtin 은 모든 사용자 같은 가상 주체, platform_default 는 표준 권한 묶음)
+        then: {const: platform_default}
+        else: {const: tenant_custom}
+    display: "{title|name}"
+    relations: []

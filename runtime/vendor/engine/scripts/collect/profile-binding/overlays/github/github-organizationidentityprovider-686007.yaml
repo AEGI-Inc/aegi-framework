@@ -1,0 +1,56 @@
+overlay_basis:
+  from: aegi-adapter-engine
+    catalog/github/profiles/organization_identity_provider.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-31
+        items: data.organization.samlIdentityProvider
+        where:
+          path: id
+          truthy: true
+    properties:
+      sso_url: ssoUrl
+      issuer: issuer
+      digest_method: digestMethod
+      signature_method: signatureMethod
+    display: 조직 SAML IdP {issuer|id}
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-ORGIDP-{id}
+runtime_stub: null
+runtime_key: GH-ORGIDP-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: OrganizationIdentityProvider:list
+    sources:
+      - call: GH-31
+        items: data.organization.samlIdentityProvider
+        where:
+          path: id
+          truthy: true
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

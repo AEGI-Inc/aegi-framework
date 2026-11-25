@@ -1,0 +1,42 @@
+{
+  "synced_at": "2026-11-25T08:52:54.236Z",
+  "sources": {
+    "knowledge": {
+      "repo": "AEGI-Inc/aegi-knowledge",
+      "ref": "HEAD",
+      "commit": "9f0fb226b93fccfc52ede747f7d5c0a53fcf9f66",
+      "paths": [
+        "schema/README.md",
+        "schema/specs",
+        "schema/ontology",
+        "schema/im-model",
+        "threat-mapping",
+        "compliance",
+        "groundtruth/connection-rules",
+        "groundtruth/docs/methods.md",
+        "groundtruth/docs/connection-map.html",
+        "groundtruth/docs/process.md",
+        "groundtruth/docs/how-to-read.md"
+      ]
+    },
+    "engine_specs": {
+      "repo": "AEGI-Inc/aegi-adapter-engine",
+      "ref": "HEAD",
+      "commit": "305acb99fdc55e7ca9efbc05c963e812e4853111",
+      "paths": [
+        "docs/IM_PROFILE_PIPELINE.md",
+        "docs/TOTAL_COLLECTOR.md",
+        "docs/COLLECTOR_V3_CREDENTIAL_REQUIREMENTS.md",
+        "docs/spec/AEGI_THREAT_JUDGMENT_V2.md",
+        "docs/spec/AEGI_GENERIC_ACCESS_ENGINE_V1.md",
+        "docs/spec/AEGI_BLAST_RADIUS_V1.md",
+        "docs/spec/AEGI_LINEAGE_V1.md"
+      ]
+    },
+    "runtime": {
+      "repo": "AEGI-Inc/aegi-solution",
+      "ref": "HEAD",
+      "commit": "eff8a6f282ee69deba34af25650f1d8d371d59f6"
+    }
+  }
+}

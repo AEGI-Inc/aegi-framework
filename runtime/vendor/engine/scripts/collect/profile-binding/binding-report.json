@@ -1,0 +1,109 @@
+{
+  "by_provider": {
+    "atlassian": {
+      "documented_not_collected": 10,
+      "path_parameter": 4,
+      "no_source_shape": 1
+    },
+    "confluence": {
+      "write_response_only": 2,
+      "documented_not_collected": 30,
+      "path_parameter": 6,
+      "no_source_shape": 1,
+      "collected_with_records": 1
+    },
+    "github": {
+      "documented_not_collected": 192,
+      "collected_with_records": 17,
+      "write_response_only": 1,
+      "collected_empty": 16,
+      "pilot_manual": 1,
+      "embedded_only_collected": 1,
+      "path_parameter": 5,
+      "no_source_shape": 2,
+      "non_object": 1
+    },
+    "gws": {
+      "documented_not_collected": 63,
+      "collected_with_records": 8,
+      "collected_empty": 7,
+      "non_object": 2,
+      "path_parameter": 5,
+      "pilot_manual": 2
+    },
+    "jira": {
+      "documented_not_collected": 76,
+      "non_object": 2,
+      "embedded_only_collected": 6,
+      "write_response_only": 2,
+      "collected_with_records": 8,
+      "path_parameter": 10,
+      "no_source_shape": 2
+    },
+    "okta": {
+      "documented_not_collected": 214,
+      "collected_empty": 10,
+      "collected_with_records": 29,
+      "write_response_only": 6,
+      "embedded_only_collected": 2,
+      "non_object": 3,
+      "no_source_shape": 8,
+      "path_parameter": 10,
+      "pilot_manual": 1
+    },
+    "salesforce": {
+      "documented_not_collected": 1123,
+      "collected_with_records": 7,
+      "no_read_operation": 1,
+      "collected_empty": 3,
+      "pilot_manual": 1
+    },
+    "slack": {
+      "documented_not_collected": 47,
+      "collected_empty": 2,
+      "collected_with_records": 11,
+      "pilot_manual": 1,
+      "write_response_only": 7,
+      "embedded_only_collected": 3,
+      "no_source_shape": 4
+    }
+  },
+  "status": {
+    "documented_not_collected": 1755,
+    "path_parameter": 40,
+    "no_source_shape": 18,
+    "write_response_only": 18,
+    "collected_with_records": 81,
+    "collected_empty": 38,
+    "pilot_manual": 6,
+    "embedded_only_collected": 12,
+    "non_object": 8,
+    "no_read_operation": 1
+  },
+  "pilot_kept": 6,
+  "total": 1977,
+  "selection": {
+    "ranked": 1811,
+    "tie_needs_review": 75,
+    "single_candidate": 212
+  },
+  "collected_types": 125,
+  "model_types_without_profile": [],
+  "distinct_operations_selected": 1794,
+  "inputs": {
+    "full_catalog_manifest": {
+      "path": "im-profile-pilot/next-stage/full-catalog/full-catalog-manifest.json",
+      "sha256": "a0686093aba8ac9669bcabe6d640ba3a041987cfbbb0685af59b673c9a11b912"
+    },
+    "model": "im-object-model-v3.2",
+    "links": {
+      "path": "im-object-model-v3.2/evidence/observation-operation-links.jsonl",
+      "sha256": "d888e176135f81d264df561da812bba9f33d4cd4d89479bdf0064bdd40fd12b5"
+    },
+    "object_types": {
+      "path": "im-object-model-v3.2/objects/object-types.jsonl",
+      "sha256": "7838c2b32e4606335243a65743ca2d2fb38c86fec0964186cd1ad3e78d4c5fa3"
+    },
+    "ir_root": "im-research-originals/materials/aegi-dashboard/candidate-extraction/ir2/out2"
+  }
+}

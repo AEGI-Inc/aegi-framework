@@ -1,0 +1,168 @@
+# item_key	English statement of what the requirement asks to manage (2026-11-09, from the verified Korean summaries)
+ISO27001:5.11	When employees or contractors leave, all organizational assets they hold must be returned: their accounts, access grants, credentials and app authorizations revoked and their owned data transferred.
+ISO27001:5.12	Information must be classified according to confidentiality, integrity, availability and legal requirements.
+ISO27001:5.13	Information must be labelled according to the organization's classification scheme (sensitivity labels and classification markings).
+ISO27001:5.14	Rules and protections must be in place for every means of transferring information inside and outside the organization, to prevent leakage (external sharing, data transfer channels, DLP).
+ISO27001:5.15	Rules to control logical access to information and systems must be established and enforced (role and permission definitions and who is granted them).
+ISO27001:5.16	The full lifecycle of user and service identities (creation, assignment, change, deactivation) must be managed, including groups and automated provisioning.
+ISO27001:5.17	Allocation and lifecycle of authentication information such as passwords, tokens and keys must be controlled.
+ISO27001:5.18	Access rights must be provisioned, periodically reviewed, changed and revoked according to policy.
+ISO27001:5.23	Acquisition, use, security management and exit of cloud services must follow defined processes (the SaaS tenants, their security configuration and connected services).
+ISO27001:5.3	Conflicting duties and areas of responsibility must be segregated so that no one holds conflicting permissions.
+ISO27001:5.33	Business and audit records must be protected from falsification, tampering, unauthorized deletion and disclosure (audit log configuration and retention).
+ISO27001:5.34	Privacy and protection of personal data must be ensured as required by law, regulation and contract (where personal data is stored, who can access it, and leak prevention).
+ISO27001:5.9	An inventory of information and associated assets, with owners, must be developed and maintained (tenants, data stores and tables, repositories, connected applications).
+ISO27001:6.7	Security measures must protect information accessed or processed while working remotely (network restrictions, sign-in security, session limits, device management).
+ISO27001:7.14	Equipment containing storage media must have sensitive data and software securely removed before disposal or re-use.
+ISO27001:7.9	Organizational devices used off-site must be protected against theft and loss.
+ISO27001:8.1	Information stored on, processed by or accessible via user endpoint devices must be protected.
+ISO27001:8.10	Information no longer required or past its retention period must be securely deleted (retention and deletion settings, and the data stores holding the data to be destroyed).
+ISO27001:8.11	Data masking must be applied to sensitive information according to access control policy and law.
+ISO27001:8.12	Data leakage prevention measures must be applied to systems that process or store sensitive information (DLP rules, external sharing restrictions).
+ISO27001:8.13	Backup copies of data and software must be maintained and tested according to an agreed backup policy.
+ISO27001:8.15	Logs recording user activities, exceptions and security events must be produced, stored, protected and analysed (audit log settings).
+ISO27001:8.16	Networks, systems and applications must be monitored for anomalous behaviour (alerting and threat detection configuration).
+ISO27001:8.19	Installation of unauthorized software on operational systems must be restricted (third-party app installation and approval, scripts and add-ons).
+ISO27001:8.2	Allocation and use of privileged access rights such as administrators must be restricted and managed.
+ISO27001:8.22	Groups of users, services and systems must be segregated on the network (network zones and IP restrictions, including tenant settings objects that hold them).
+ISO27001:8.24	Rules for effective use of cryptography, including key management, must be defined and implemented.
+ISO27001:8.25	Secure development rules must be applied throughout the software development lifecycle (repositories, branch protection, code security scanning).
+ISO27001:8.28	Secure coding principles must be applied to prevent vulnerabilities in source code (code security scanning configuration).
+ISO27001:8.29	Security testing must be defined and performed during development and acceptance (code scanning and CI security tests).
+ISO27001:8.3	Access to information and systems must be restricted to what users need, per access control policy (permissions, grants and sharing).
+ISO27001:8.30	Outsourced development must be directed and monitored (external developers' accounts and their access to source repositories).
+ISO27001:8.31	Development, test and production environments must be separated (separate tenants or repositories per environment).
+ISO27001:8.32	Changes to systems must go through formal change control (branch protection, rulesets, required approvals).
+ISO27001:8.33	Test information must be selected, protected and managed so that production data is not exposed in testing.
+ISO27001:8.34	Audit tests on operational systems must be planned and agreed in advance (privileged access granted to auditors or testers).
+ISO27001:8.4	Read and write access to source code, development tools and libraries must be restricted (repository access, deploy keys, branch protection).
+ISO27001:8.5	Secure authentication such as multi-factor authentication must be implemented (sign-on and MFA policies, password and session settings).
+ISO27001:8.7	Protection against malware must be implemented (attachment scanning, link protection, anti-spoofing settings).
+ISO27001:8.8	Information about technical vulnerabilities must be obtained and evaluated and appropriate measures taken (vulnerability and dependency alerts, code scanning, and the repositories they are raised on).
+ISO27001:8.9	Security configurations of hardware, software, networks and cloud services must be defined, implemented and regularly reviewed (tenant-wide security settings).
+ISMS-P:1.2.1-01	All information assets in scope must be identified and kept in an inventory (SaaS tenants, data stores and tables, repositories, connected applications, devices, automations).
+ISMS-P:1.2.1-02	Each identified information asset must be given an importance and security grade based on business impact and legal requirements (data stores and tables, classification).
+ISMS-P:1.2.1-03	The information asset inventory must be surveyed regularly and kept current (SaaS tenants, data stores and tables, repositories, connected applications, devices, automations).
+ISMS-P:1.2.2-01	Information services, business processes and data flows must be identified and documented (data transfer channels, connected applications, automations).
+ISMS-P:1.2.2-02	Personal data processing (collection, storage, transfer) must be identified and drawn as a personal data flow chart (data transfer channels, connected applications, data stores and tables holding personal data).
+ISMS-P:1.2.2-03	Changes in business processes and personal data flows must be reviewed periodically and the flow documentation kept current (data transfer channels, connected applications, data stores and tables holding personal data).
+ISMS-P:2.1.3-01	Handling procedures and protections must be defined per security grade for the whole lifecycle of information assets (classification labels, DLP rules, and the data assets handled).
+ISMS-P:2.1.3-02	An owner and a manager must be designated for every information asset.
+ISMS-P:2.10.1-02	The number of people with administrator rights on security systems must be minimized and unauthorized access to security consoles prevented.
+ISMS-P:2.10.1-04	Exceptions to security policies must be registered through a procedure and exception users given minimal access (security policy settings and their exclusions).
+ISMS-P:2.10.1-05	Security policies and rules registered in security systems must be reviewed periodically and unnecessary rules removed.
+ISMS-P:2.10.2-02	Security configuration baselines and permission controls must be applied to cloud services to prevent unauthorized access and misconfiguration (tenants and their security settings, administrator rights).
+ISMS-P:2.10.2-03	Administrator rights on cloud services must be minimized and protected with multi-factor authentication, encryption and audit logging.
+ISMS-P:2.10.2-04	Security setting changes and operations of cloud services must be monitored and settings reviewed regularly (tenant security settings, audit and alert configuration).
+ISMS-P:2.10.5-02	Data exchanged with external organizations must be protected in transit, for example by encryption (data transfer channels, connected applications, encryption settings).
+ISMS-P:2.11.3-01	SaaS event logs must be collected and anomalous behaviour monitored to detect intrusion attempts and data leaks (audit logging, alerting and detection configuration).
+ISMS-P:2.2.1-02	Employees and outsiders performing key duties (such as administrators) must be designated and the list kept current.
+ISMS-P:2.2.1-03	People who process personal data must be formally designated and the list kept current (accounts with access to personal data).
+ISMS-P:2.2.2-01	Segregation of duties must be defined so that conflicting permissions are not concentrated in one person (role definitions and administrator rights).
+ISMS-P:2.2.5-02	When employees or outsiders leave or change jobs, their access rights must be revoked promptly (accounts, access grants, provisioning, OAuth app authorizations).
+ISMS-P:2.3.1-01	Outsourcing, external services in use and external parties must be identified (connected third-party applications, external or guest accounts).
+ISMS-P:2.3.4-01	When an external party's contract ends, their assets must be returned and their accounts and access removed immediately (external accounts, their grants, connected apps).
+ISMS-P:2.5.1-01	Accounts must have unique identifiers, must not be shared, default accounts must be removed, and rights revoked on job change (accounts, provisioning, access grants).
+ISMS-P:2.5.1-02	When accounts are created or changed, only the minimum access needed for the job must be granted per a role-based permission scheme (roles, grants, groups).
+ISMS-P:2.5.2-01	Every user must have a unique identifier that does not reveal another person or a position (user accounts).
+ISMS-P:2.5.2-02	Shared use of identifiers must be restricted and any shared account must be approved and its use tracked (user accounts).
+ISMS-P:2.5.3-01	Secure authentication must be applied at sign-in and access restricted after repeated failed sign-ins (sign-on policies, password and lockout settings).
+ISMS-P:2.5.3-02	Stronger authentication such as MFA must be required for access from outside networks or to important systems (MFA policies, network zones).
+ISMS-P:2.5.4-01	Password length and complexity rules, periodic change and reuse limits must be enforced (password policy).
+ISMS-P:2.5.4-02	Password rules must be set so that customers and data subjects use safe passwords (password policy for external users).
+ISMS-P:2.5.4-03	Authentication methods (MFA, authenticators) used by personal data handlers and data subjects must be applied and managed securely (MFA policies, authenticators, credentials and keys used to authenticate).
+ISMS-P:2.5.5-01	Special privileges such as administrator rights must be granted only to the minimum necessary people through formal approval.
+ISMS-P:2.5.5-02	Accounts and rights granted for special purposes (administrator or privileged accounts) must be identified and managed separately from ordinary accounts.
+ISMS-P:2.5.6-01	History of creating, granting, changing and revoking user accounts and access rights must be recorded (audit logging configuration).
+ISMS-P:2.5.6-02	Appropriateness of accounts and access rights must be reviewed regularly (accounts, access grants, administrator rights).
+ISMS-P:2.6.2-02	Idle sessions must be disconnected automatically after a period of inactivity (session timeout settings).
+ISMS-P:2.6.3-01	Application access rights must be granted differentially according to job and role (role definitions and grants).
+ISMS-P:2.6.3-02	Idle application sessions must time out and concurrent sessions by the same user be limited (session settings).
+ISMS-P:2.6.3-03	Administrator pages and consoles must be protected against unauthorized access (administrator rights, admin sign-in requirements).
+ISMS-P:2.6.3-05	Unnecessary exposure of important information on screens and queries must be minimized through masking and field protection (field-level security, masking).
+ISMS-P:2.6.6-03	Secure remote access controls must be applied for remote work and collaboration (network restrictions, sign-in security, session limits, device management, tenant settings objects that hold them).
+ISMS-P:2.7.1-02	Personal and important information must be encrypted when stored or transmitted, per the encryption policy (encryption settings and keys).
+ISMS-P:2.7.2-02	Encryption keys must be stored separately for recovery and access to keys minimized (key management, encryption keys).
+ISMS-P:2.8.3-01	Development and test environments must be separated from production (separate tenants or repositories per environment).
+ISMS-P:2.8.3-02	Where separation is not possible, compensating controls such as peer review and change approval must be applied (change control settings, monitoring).
+ISMS-P:2.8.4-01	Use of real production personal or important data in development and testing must be restricted.
+ISMS-P:2.8.4-02	Production data used in tests must be approved and deleted immediately after testing.
+ISMS-P:2.8.5-01	Access control must be applied to source code repositories to prevent unauthorized access and leakage (repository access, deploy keys).
+ISMS-P:2.8.5-02	Source code must be kept in a separate secure remote repository and its integrity maintained (repositories, branch protection).
+ISMS-P:2.8.5-03	Change history and versions of source code must be managed to track tampering (repositories, commits, branch protection).
+ISMS-P:2.9.4-01	Log management procedures must be set up and required audit logs generated and kept for systems and SaaS tenants (audit log settings).
+ISMS-P:2.9.4-02	Logs must be protected from tampering and theft and access to logs minimized (log settings, administrator rights to logs).
+ISMS-P:2.9.4-03	Access records of personal data processing systems must include legally required fields and be kept for the legal retention period (audit log settings and retention, including tenant-level settings objects that hold them).
+ISMS-P:3.1.3-01	Resident registration numbers may only be processed where the law explicitly allows it (where such data is stored, DLP detection).
+ISMS-P:3.2.5-04	Additional information that could re-identify pseudonymized data must be stored separately with access control (data stores and access grants).
+ISMS-P:3.2.5-05	Pseudonymized data must be destroyed without delay after its retention period (retention and deletion settings, and the data stores holding the data to be destroyed).
+ISMS-P:3.3.1-05	When personal data is provided to third parties, safe transfer methods must be used and records of provision kept (external sharing, data transfer channels).
+ISMS-P:3.3.1-06	When third parties are given access to personal data systems, access must be minimal and controlled (external access grants, sharing, connected third-party apps).
+ISMS-P:3.3.4-04	When personal data is transferred abroad, technical and administrative protections must be applied (data region, data transfer channels, connected apps).
+ISMS-P:3.4.1-02	Personal data must be destroyed without delay when its retention period ends or purpose is achieved (retention and deletion settings, and the data stores holding the data to be destroyed).
+ISMS-P:3.4.1-03	Electronic personal data must be destroyed permanently so it cannot be recovered (deletion settings, and the data stores holding the data to be destroyed).
+ISMS-P:3.4.2-01	Personal data kept after its purpose under law must be limited to the legal period and minimum items (retention settings, data stores).
+ISMS-P:3.4.2-02	Personal data kept under law must be stored separately from personal data in normal use (retention settings, data stores).
+ISMS-P:3.4.2-03	Separately kept personal data must only be used for the legally allowed purpose (role definitions and access grants on those data stores).
+ISMS-P:3.4.2-04	Access to separately kept personal data must be limited to designated minimal people (access grants).
+PIPA:admin-73464:article-8:p1	When personal data is provided to a third party for another purpose, limits on purpose and method must be set (external sharing, connected third-party apps).
+PIPA:admin-73464:article-8:p2	When personal data is provided to a third party for another purpose, responsibility for safeguards with the recipient must be made clear (connected apps, data transfer channels).
+PIPA:admin-73464:article-10:p1	Personal data no longer needed must be destroyed within 5 days unless there is a justified reason (retention and deletion settings, and the data stores holding the data to be destroyed).
+PIPA:admin-73464:article-11:p1	Personal data that must be kept under law must be stored separately, physically or technically (retention settings, data stores).
+PIPA:admin-73464:article-15:p1	The number of personal data handlers and their scope of processing must be kept to the minimum needed (accounts and access grants).
+PIPA:admin-73464:article-15:p2	Access rights to personal data processing systems must be granted differentially and minimally by job (role definitions and grants).
+PIPA:admin-73464:article-15:p3	When a handler's job changes, their access rights must be changed or revoked without delay (access grants, provisioning).
+PIPA:admin-73464:article-17:p0	A processor entrusted with personal data must apply the required technical and administrative safeguards (connected processor apps and their access grants).
+PIPA:admin-73493:article-5:p1	Access rights to personal data processing systems must be granted differentially per person to the minimum needed (role definitions and grants).
+PIPA:admin-73493:article-5:p2	When a handler moves or leaves, access rights must be changed or revoked without delay (access grants, provisioning).
+PIPA:admin-73493:article-5:p3	Records of granting, changing and revoking access rights must be kept for at least 3 years (audit log settings and retention).
+PIPA:admin-73493:article-5:p4	Accounts for personal data processing systems must be issued per handler and must not be shared (user accounts).
+PIPA:admin-73493:article-5:p5	Secure authentication such as MFA must be applied when handlers and data subjects access the system (MFA policies, authenticators).
+PIPA:admin-73493:article-5:p6	Access must be restricted after a set number of failed authentication attempts (lockout settings, sign-on policies).
+PIPA:admin-73493:article-6:p1	Access to personal data processing systems must be restricted by IP address and abnormal access analysed (IP restrictions, detection settings).
+PIPA:admin-73493:article-6:p2	Remote access over networks must use VPN or secure MFA (MFA policies, network restrictions).
+PIPA:admin-73493:article-6:p3	Personal data must not be exposed to unauthorized people through websites, file sharing or sharing settings (external and public sharing).
+PIPA:admin-73493:article-6:p4	Sessions must be cut automatically when a handler is idle for a set time (session timeout settings).
+PIPA:admin-73493:article-6:p5	Mobile devices used for work must be protected against loss and theft, for example with screen locks (device management).
+PIPA:admin-73493:article-6-2:p1	Large processors must cut internet access on computers of people who set access rights or can download or destroy data (network restrictions for administrators).
+PIPA:admin-73493:article-7:p2	Unique identifiers, passport, card and account numbers must be encrypted when stored (encryption settings and keys).
+PIPA:admin-73493:article-7:p3	Unique identifiers stored in internet-facing or internal networks must be encrypted based on risk analysis (encryption settings and keys).
+PIPA:admin-73493:article-7:p4	Personal data sent over the internet must be encrypted with secure algorithms (encryption in transit settings).
+PIPA:admin-73493:article-7:p5	Unique identifiers stored on handlers' computers, mobile devices or removable media must be encrypted (device encryption).
+PIPA:admin-73493:article-7:p6	Large processors must follow procedures for generating, using, storing, distributing and destroying encryption keys (key management).
+PIPA:admin-73493:article-8:p1	Access records of personal data processing systems must be kept for at least 1 year (2 years for large or unique-identifier processing) (audit log settings and retention).
+PIPA:admin-73493:article-8:p2	Access records and download history must be reviewed regularly to prevent misuse and leaks (audit logging, alerting).
+PIPA:admin-73493:article-8:p3	Access records must be kept safe from falsification, tampering, theft or loss (audit log protection).
+PIPA:admin-73493:article-11:p0	Backup and recovery plans must protect personal data processing systems against disasters (backup settings).
+PIPA:admin-73493:article-12:p1	When personal data is printed or exported, its purpose must be specified and output items minimized (who can export, access grants and administrator rights).
+PIPA:admin-73493:article-13:p1	Destroyed personal data must be permanently deleted so it cannot be restored (deletion settings, and the data stores holding the data to be destroyed).
+PIPA:admin-73493:article-13:p2	When only part of an electronic file is destroyed, the personal data must be deleted so it cannot be recovered (deletion settings, and the data stores holding the data to be destroyed).
+PIPA:admin-73493:article-13:p3	Where permanent deletion is technically difficult, data must be pseudonymized or anonymized so it cannot be restored (deletion settings).
+PIPA:admin-73493:annex-1:p0	Download and destruction rights for personal data must be minimized with approval and masking (role definitions, masking).
+PIPA:law-011357:article-17:p1	Personal data may be provided to third parties only with consent or a legal basis (external sharing, connected third-party apps, data transfer channels).
+PIPA:law-011357:article-17:p4	Personal data may be provided without consent only within the scope reasonably related to the original purpose, with safeguards (external sharing, connected apps).
+PIPA:law-011357:article-18:p1	Personal data must not be used or provided to third parties beyond the scope of collection (external sharing, connected apps).
+PIPA:law-011357:article-18:p5	When personal data is provided for another purpose, the recipient must be required to limit use and apply safeguards (connected apps, data transfer channels).
+PIPA:law-011357:article-19:p0	A recipient of personal data must not use it for other purposes or provide it again to third parties (connected third-party apps).
+PIPA:law-011357:article-21:p1	Personal data no longer needed must be destroyed without delay (retention and deletion settings, and the data stores holding the data to be destroyed).
+PIPA:law-011357:article-21:p2	Destroyed personal data must not be recoverable (deletion settings, and the data stores holding the data to be destroyed).
+PIPA:law-011357:article-21:p3	Personal data kept under law must be stored and managed separately from other personal data (retention settings, data stores).
+PIPA:law-011357:article-23:p2	Sensitive data must be protected against leaks, for example by encryption (encryption settings, classification).
+PIPA:law-011357:article-24:p3	Unique identifiers must be protected against leaks, for example by encryption (encryption settings, classification).
+PIPA:law-011357:article-24-2:p2	Resident registration numbers must be stored encrypted (encryption settings).
+PIPA:law-011357:article-26:p5	A processor must not process personal data beyond the entrusted scope or provide it to third parties (connected processor apps, sharing).
+PIPA:law-011357:article-28:p1	The scope of personal data handlers must be limited to the minimum and supervised (accounts and access grants).
+PIPA:law-011357:article-28-2:p2	Pseudonymized data provided to third parties must not contain information that identifies individuals (external sharing).
+PIPA:law-011357:article-28-4:p1	Additional information for restoring pseudonymized data must be stored separately with safeguards (data stores and access grants).
+PIPA:law-011357:article-28-5:p2	If identifiable information is produced while processing pseudonymized data, processing must stop and it must be destroyed (deletion settings, and the data stores holding the data to be destroyed).
+PIPA:law-011357:article-28-8:p1	Personal data may be transferred abroad only when legal requirements are met (data region, data transfer channels, connected apps).
+PIPA:law-011357:article-28-8:p4	Safeguards for data subjects must be reflected in contracts when personal data is transferred abroad (data region settings).
+PIPA:law-011357:article-29:p0	Safeguards against leaks must be applied: access control, authentication, encryption and keeping access records.
+PIPA:law-011357:article-34-2:p1	Unique identifiers, account and card information must not be exposed to the public over networks (public sharing, DLP).
+PIPA:law-011468:article-14-2:p1	Additional use or provision of personal data must consider safeguards such as encryption (sharing, encryption).
+PIPA:law-011468:article-16:p1	Electronic personal data must be destroyed permanently by a method that prevents restoration (deletion settings, and the data stores holding the data to be destroyed).
+PIPA:law-011468:article-21:p1	Safeguards for unique identifiers must follow the safety measures of Article 30 (encryption, access grants).
+PIPA:law-011468:article-21-2:p1	Processors keeping resident registration numbers electronically must store them encrypted (encryption settings).
+PIPA:law-011468:article-29-5:p1	Pseudonymized data and its restoration information must be kept separately with separate access rights (data stores and access grants).
+PIPA:law-011468:article-29-10:p1	When personal data is transferred abroad, safeguards and remedies for data subjects must be provided (data region settings).
+PIPA:law-011468:article-30:p1	Technical and administrative safeguards must be applied: access restriction, access control, encryption, keeping access records, session and network controls.

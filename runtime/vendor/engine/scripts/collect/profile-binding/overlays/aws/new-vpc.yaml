@@ -1,0 +1,36 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: aws
+service: ec2
+object_type: VPC
+interfaces: [Resource]
+identity:
+  primary:
+    - {name: id, expr: VpcId, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: AWS-VPC-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AWS-03
+        request: {kind: vpcs}
+        items: (array_or:Vpcs|vpcSet.item)
+    id_expr: VpcId
+    properties:
+      vpc_id: VpcId
+      cidr_block: CidrBlock
+      state: State
+      is_default: IsDefault
+      account_id: OwnerId
+    display: "{VpcId}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Account, id: OwnerId}
+        basis: stated
+        require: [target]

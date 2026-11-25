@@ -1,0 +1,652 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/slack/profiles/user.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: admin_list
+    kind: object
+    sources:
+      - call: SL-01
+        items: users
+    vars:
+      email:
+        op: nonempty
+        of:
+          op: lower
+          of:
+            any:
+              - email
+              - profile.email
+            empty_as: ""
+      is_bot:
+        if:
+          any:
+            - path: is_bot
+              truthy: true
+            - path: id
+              eq: USLACKBOT
+        then: true
+        else: false
+      bot_id: profile.bot_id
+      app_id: profile.api_app_id
+      ws:
+        any:
+          - op: url_param
+            of: $env.endpoint
+            name: team_id
+          - $req.team_id
+    mutable_ids:
+      email: $vars.email
+      name:
+        any:
+          - name
+          - username
+    refs:
+      bot:
+        ref:
+          type: 200.bot
+          id: $vars.bot_id
+        value: $vars.bot_id
+    properties:
+      email: $vars.email
+      name:
+        any:
+          - name
+          - username
+      real_name:
+        any:
+          - real_name
+          - full_name
+          - profile.real_name
+      is_bot: $vars.is_bot
+      is_app_user: is_app_user
+      bot_id: $vars.bot_id
+      app_id: $vars.app_id
+      is_admin: is_admin
+      is_owner: is_owner
+      is_primary_owner: is_primary_owner
+      is_restricted: is_restricted
+      is_ultra_restricted: is_ultra_restricted
+      deleted: deleted
+      # 계정 상태. 관리자 목록(SL-01)은 is_active, users.list 는 deleted 를 준다. Slack 의 비활성(deactivate)은 관리자가 다시 켤 수 있어 해지(deprovisioned)로 본다
+      account_state:
+        op: map
+        of: is_active
+        table:
+          'true': active
+          'false': deprovisioned
+        default:
+          op: map
+          of: deleted
+          table:
+            'true': deprovisioned
+            'false': active
+          default:
+            const: unknown
+      enterprise_user_id: enterprise_user.id
+      principal_kind:
+        if:
+          path: $vars.is_bot
+          truthy: true
+        then:
+          const: service
+        else:
+          const: human
+    display: "{$vars.email|real_name|name|id}"
+    meta:
+      demo_role:
+        if:
+          any:
+            - path: id
+              in_expr: $ctx.measurementSlack
+            - path: $vars.bot_id
+              in_expr: $ctx.measurementSlack
+        then:
+          const: measurement_principal
+    relations:
+      - type: member_of
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        basis: computed
+        properties:
+          via:
+            const: queried_team
+      - type: member_of
+        each: enterprise_user.teams
+        source: $self
+        target:
+          type: 200.team
+          id: $item
+        basis: stated
+      - type: has_role_on
+        when:
+          path: is_owner
+          eq: true
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role:
+          name:
+            const: owner
+        basis: flag
+        properties:
+          flag_field:
+            const: owner
+      - type: has_role_on
+        when:
+          path: is_admin
+          eq: true
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role:
+          name:
+            const: admin
+        basis: flag
+        properties:
+          flag_field:
+            const: admin
+      - type: has_role_on
+        when:
+          path: is_primary_owner
+          eq: true
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role:
+          name:
+            const: primary_owner
+        basis: flag
+        properties:
+          flag_field:
+            const: primary_owner
+      - type: has_role_on
+        when:
+          path: enterprise_user.is_owner
+          eq: true
+        source: $self
+        target: $tenant
+        role:
+          name:
+            const: owner
+        basis: flag
+        properties:
+          flag_field:
+            const: owner
+      - type: has_role_on
+        when:
+          path: enterprise_user.is_admin
+          eq: true
+        source: $self
+        target: $tenant
+        role:
+          name:
+            const: admin
+        basis: flag
+        properties:
+          flag_field:
+            const: admin
+      - type: acts_as
+        source:
+          type: defs_app_id
+          id: $vars.app_id
+        target: $self
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-U-{id}
+  - id: list
+    kind: object
+    sources:
+      - call: SL-02
+        items: members
+    vars:
+      email:
+        op: nonempty
+        of:
+          op: lower
+          of:
+            any:
+              - email
+              - profile.email
+            empty_as: ""
+      is_bot:
+        if:
+          any:
+            - path: is_bot
+              truthy: true
+            - path: id
+              eq: USLACKBOT
+        then: true
+        else: false
+      bot_id: profile.bot_id
+      app_id: profile.api_app_id
+      ws:
+        any:
+          - op: url_param
+            of: $env.endpoint
+            name: team_id
+          - $req.team_id
+    mutable_ids:
+      email: $vars.email
+      name:
+        any:
+          - name
+          - username
+    refs:
+      bot:
+        ref:
+          type: 200.bot
+          id: $vars.bot_id
+        value: $vars.bot_id
+    properties:
+      email: $vars.email
+      name:
+        any:
+          - name
+          - username
+      real_name:
+        any:
+          - real_name
+          - full_name
+          - profile.real_name
+      is_bot: $vars.is_bot
+      is_app_user: is_app_user
+      bot_id: $vars.bot_id
+      app_id: $vars.app_id
+      is_admin: is_admin
+      is_owner: is_owner
+      is_primary_owner: is_primary_owner
+      is_restricted: is_restricted
+      is_ultra_restricted: is_ultra_restricted
+      deleted: deleted
+      # 계정 상태. 관리자 목록(SL-01)은 is_active, users.list 는 deleted 를 준다. Slack 의 비활성(deactivate)은 관리자가 다시 켤 수 있어 해지(deprovisioned)로 본다
+      account_state:
+        op: map
+        of: is_active
+        table:
+          'true': active
+          'false': deprovisioned
+        default:
+          op: map
+          of: deleted
+          table:
+            'true': deprovisioned
+            'false': active
+          default:
+            const: unknown
+      enterprise_user_id: enterprise_user.id
+      principal_kind:
+        if:
+          path: $vars.is_bot
+          truthy: true
+        then:
+          const: service
+        else:
+          const: human
+    display: "{$vars.email|real_name|name|id}"
+    meta:
+      demo_role:
+        if:
+          any:
+            - path: id
+              in_expr: $ctx.measurementSlack
+            - path: $vars.bot_id
+              in_expr: $ctx.measurementSlack
+        then:
+          const: measurement_principal
+    relations:
+      - type: member_of
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        basis: computed
+        properties:
+          via:
+            const: queried_team
+      - type: member_of
+        each: enterprise_user.teams
+        source: $self
+        target:
+          type: 200.team
+          id: $item
+        basis: stated
+      - type: has_role_on
+        when:
+          path: is_owner
+          eq: true
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role:
+          name:
+            const: owner
+        basis: flag
+        properties:
+          flag_field:
+            const: owner
+      - type: has_role_on
+        when:
+          path: is_admin
+          eq: true
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role:
+          name:
+            const: admin
+        basis: flag
+        properties:
+          flag_field:
+            const: admin
+      - type: has_role_on
+        when:
+          path: is_primary_owner
+          eq: true
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role:
+          name:
+            const: primary_owner
+        basis: flag
+        properties:
+          flag_field:
+            const: primary_owner
+      - type: has_role_on
+        when:
+          path: enterprise_user.is_owner
+          eq: true
+        source: $self
+        target: $tenant
+        role:
+          name:
+            const: owner
+        basis: flag
+        properties:
+          flag_field:
+            const: owner
+      - type: has_role_on
+        when:
+          path: enterprise_user.is_admin
+          eq: true
+        source: $self
+        target: $tenant
+        role:
+          name:
+            const: admin
+        basis: flag
+        properties:
+          flag_field:
+            const: admin
+      - type: acts_as
+        source:
+          type: defs_app_id
+          id: $vars.app_id
+        target: $self
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-U-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: SLK-U-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  email:
+    stability: mutable
+  name:
+    stability: mutable
+relation_rules:
+  - id: user:admin_list
+    sources:
+      - call: SL-01
+        items: users
+    vars:
+      email:
+        op: nonempty
+        of:
+          op: lower
+          of:
+            any:
+              - email
+              - profile.email
+            empty_as: ""
+      is_bot:
+        if:
+          any:
+            - path: is_bot
+              truthy: true
+            - path: id
+              eq: USLACKBOT
+        then: true
+        else: false
+      bot_id: profile.bot_id
+      app_id: profile.api_app_id
+      ws:
+        any:
+          - op: url_param
+            of: $env.endpoint
+            name: team_id
+          - $req.team_id
+    relations:
+      - type: member_of
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        basis: computed
+        properties: &a1
+          via:
+            const: queried_team
+      - type: member_of
+        each: enterprise_user.teams
+        source: $self
+        target:
+          type: 200.team
+          id: $item
+        basis: stated
+      - type: has_role_on
+        when: &a2
+          path: is_owner
+          eq: true
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role: &a3
+          name:
+            const: owner
+        basis: flag
+        properties: &a4
+          flag_field:
+            const: owner
+      - type: has_role_on
+        when: &a5
+          path: is_admin
+          eq: true
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role: &a6
+          name:
+            const: admin
+        basis: flag
+        properties: &a7
+          flag_field:
+            const: admin
+      - type: has_role_on
+        when: &a8
+          path: is_primary_owner
+          eq: true
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role: &a9
+          name:
+            const: primary_owner
+        basis: flag
+        properties: &a10
+          flag_field:
+            const: primary_owner
+      - type: has_role_on
+        when: &a11
+          path: enterprise_user.is_owner
+          eq: true
+        source: $self
+        target: $tenant
+        role: &a12
+          name:
+            const: owner
+        basis: flag
+        properties: &a13
+          flag_field:
+            const: owner
+      - type: has_role_on
+        when: &a14
+          path: enterprise_user.is_admin
+          eq: true
+        source: $self
+        target: $tenant
+        role: &a15
+          name:
+            const: admin
+        basis: flag
+        properties: &a16
+          flag_field:
+            const: admin
+      - type: acts_as
+        source:
+          type: defs_app_id
+          id: $vars.app_id
+        target: $self
+        basis: stated
+    self_identity: object_rule
+  - id: user:list
+    sources:
+      - call: SL-02
+        items: members
+    vars:
+      email:
+        op: nonempty
+        of:
+          op: lower
+          of:
+            any:
+              - email
+              - profile.email
+            empty_as: ""
+      is_bot:
+        if:
+          any:
+            - path: is_bot
+              truthy: true
+            - path: id
+              eq: USLACKBOT
+        then: true
+        else: false
+      bot_id: profile.bot_id
+      app_id: profile.api_app_id
+      ws:
+        any:
+          - op: url_param
+            of: $env.endpoint
+            name: team_id
+          - $req.team_id
+    relations:
+      - type: member_of
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        basis: computed
+        properties: *a1
+      - type: member_of
+        each: enterprise_user.teams
+        source: $self
+        target:
+          type: 200.team
+          id: $item
+        basis: stated
+      - type: has_role_on
+        when: *a2
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role: *a3
+        basis: flag
+        properties: *a4
+      - type: has_role_on
+        when: *a5
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role: *a6
+        basis: flag
+        properties: *a7
+      - type: has_role_on
+        when: *a8
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.ws
+        role: *a9
+        basis: flag
+        properties: *a10
+      - type: has_role_on
+        when: *a11
+        source: $self
+        target: $tenant
+        role: *a12
+        basis: flag
+        properties: *a13
+      - type: has_role_on
+        when: *a14
+        source: $self
+        target: $tenant
+        role: *a15
+        basis: flag
+        properties: *a16
+      - type: acts_as
+        source:
+          type: defs_app_id
+          id: $vars.app_id
+        target: $self
+        basis: stated
+    self_identity: object_rule
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+fields:
+  is_email_confirmed:
+    path: is_email_confirmed
+    source: collected_response
+  enterprise_user:
+    path: enterprise_user
+    source: collected_response
+fields_basis: 설정 판정이 읽는 응답 최상위 키다. Profile 필드 선언에 없어 quarantined_fields 로 빠지던 것을 선언한다(값은 수집 응답 그대로)

@@ -1,0 +1,75 @@
+/* Event Timeline (#timeline). Splunk 이벤트의 시간축, 목록, 사슬, 순서 그림 */
+
+.tl-page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-gap, 14px);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-base);
+}
+
+/* 제목 줄은 다른 화면의 카드 제목 줄(Overview, 위협 상세)과 같이 옅은 회색 바탕과 진한 아래 선으로 내용과 가른다 */
+
+.tl-btn {
+  margin-left: auto;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  background: var(--color-surface);
+  font-size: var(--font-size-sm);
+  font-family: var(--font-family-base);
+  color: var(--color-text-primary);
+  cursor: pointer;
+}
+
+.tl-btn:hover { border-color: var(--color-select); }
+
+/* 이벤트 표: 시각, SaaS, 행동, 행위자, 대상, IP, 결과. 상세 패널이 열리면 대상 열을 접는다 */
+
+.tl-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  line-height: 1.2;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.tl-badge.is-failure { border-color: var(--color-danger); color: var(--color-severity-high); }
+.tl-badge.is-suspicious { border-color: var(--color-danger); color: var(--color-severity-high); }
+.tl-badge.is-caused_by { border-color: var(--color-text-primary); }
+.tl-badge.is-sso_handoff { border-color: var(--color-select); }
+.tl-badge.is-session { border-color: var(--color-select); }
+
+.tl-note { margin: 6px 0 0; font-size: var(--font-size-sm); color: var(--color-text-primary); }
+
+/* 목록과 오른쪽 상세 패널. 이벤트를 고르면 패널이 열리고, 사슬 상세는 순서 그림이 넓어 반반으로 나눈다 */
+
+.tl-facts { margin: 0; padding: 10px 14px; display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 8px 12px; font-size: var(--font-size-sm); color: var(--color-text-primary); }
+.tl-facts dt { font-weight: var(--font-weight-bold); }
+.tl-facts dd { margin: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; overflow-wrap: anywhere; }
+.tl-entity { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.tl-mono { font-family: var(--font-family-mono); }
+
+.tl-link { display: inline-flex; align-items: center; gap: 3px; padding: 0; border: 0; background: none; font: inherit; font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-select); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+.tl-link.tl-filter-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; min-height: 20px; padding: 0; color: var(--color-icon); text-decoration: none; }
+.tl-link.tl-filter-btn:focus-visible { outline: 2px solid var(--color-select); outline-offset: 1px; }
+
+.tl-raw { padding: 10px 14px 12px; border-top: 1px solid var(--color-border); font-size: var(--font-size-sm); color: var(--color-text-primary); }
+.tl-raw summary { font-weight: var(--font-weight-bold); cursor: pointer; }
+.tl-raw dl { margin: 8px 0 0; display: grid; grid-template-columns: minmax(96px, max-content) minmax(0, 1fr); gap: 4px 10px; font-family: var(--font-family-mono); font-size: var(--font-size-xs); }
+.tl-raw dt { font-weight: var(--font-weight-bold); }
+.tl-raw dd { margin: 0; overflow-wrap: anywhere; }
+.tl-raw-actions { display: flex; align-items: center; gap: 8px; margin-top: 10px; }
+.tl-raw-actions .tl-btn { margin-left: 0; }
+
+/* 시간축 머리 오른쪽: 수집 기간과 SaaS마다 마지막 수신 시각 */
+

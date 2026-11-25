@@ -1,0 +1,172 @@
+format: im-pilot-profile/1
+scope: catalog_spec5_record_projection
+provider: gws
+service: null
+object_type: Token
+# 사람이 앱에 준 OAuth 토큰. 배정(사람 → 앱 scope)이면서 자격증명이다(src/objectCatalog.ts GWS-v3-0196 「Credential; Assignment」).
+# Credential 이 없으면 사람 → 토큰 authenticates_with 가 관계 틀(Principal>Credential) 밖이 된다(2026-11-19). 차례는 카탈로그와 같게 Credential 먼저(대시보드가 첫 칸을 대표로 쓴다)
+interfaces:
+  - Credential
+  - Assignment
+model:
+  research_type: null
+  runtime_type_id: model-v1:gws:Token
+  decision_refs:
+    - model-v1 runtime record_projection
+vars:
+  user:
+    ref:
+      type: User
+      lookup:
+        - primaryEmail
+        - aliases
+      value: $req.user
+      ci: true
+    prop: $key
+  uid:
+    ref:
+      type: User
+      lookup:
+        - primaryEmail
+        - aliases
+      value: $req.user
+      ci: true
+    prop: $id
+identity:
+  primary:
+    - name: u
+      expr: $vars.uid
+      stability: catalog_reviewed
+    - name: c
+      expr: clientId
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-TOKEN-{u}-{c}
+binding:
+  status: catalog_call
+  call: GW-05
+  operation_id: op:gws_directory:directory.tokens.list
+  paths:
+    - shape: sh:gws_directory:Token
+      path:
+        - items
+        - "*"
+  basis: catalog spec:5 sources
+fields:
+  clientId:
+    expr: clientId
+    source: catalog_spec5
+  displayText:
+    expr: displayText
+    source: catalog_spec5
+  scopes:
+    expr: scopes
+    source: catalog_spec5
+  anonymous:
+    expr: anonymous
+    source: catalog_spec5
+  nativeApp:
+    expr: nativeApp
+    source: catalog_spec5
+references: []
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - password
+    - token
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/token.yaml
+  engine_commit: d78062d
+  research_agreement: no_research_type
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-05
+        items: items
+    vars:
+      user:
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $req.user
+          ci: true
+        prop: $key
+      uid:
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $req.user
+          ci: true
+        prop: $id
+    require:
+      path: $vars.uid
+      present: true
+    id_expr:
+      template: "{$vars.uid}:{clientId}"
+    parts:
+      u: $vars.uid
+      c: clientId
+    parent:
+      ref:
+        key: $vars.user
+      when: always
+    refs:
+      grantee:
+        ref:
+          key: $vars.user
+        type: User
+        value: $vars.uid
+      client:
+        type: OAuthClient
+        value: clientId
+        external: true
+    properties:
+      clientId: clientId
+      displayText: displayText
+      scopes: scopes
+      anonymous: anonymous
+      nativeApp: nativeApp
+    display: "{displayText|clientId} ← {$req.user}"
+    # 사람이 이 앱에 준 토큰(2026-11-15). 사람 → 토큰 authenticates_with 를 낸다(Okta refresh token OK-09 와 같은 모양).
+    # 토큰 → 앱(owned_by)은 GWS 에 OAuth 클라이언트 객체가 없어 아직 내지 않는다. 그래서 x_token, x_token_scoped 행은 생기지 않는다
+    relations:
+      - type: authenticates_with
+        source:
+          type: User
+          id: $vars.uid
+        target: $self
+        basis: stated
+        require:
+          - source
+    identity:
+      primary:
+        - name: u
+          expr: $vars.uid
+          stability: catalog_reviewed
+        - name: c
+          expr: clientId
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-TOKEN-{u}-{c}
+runtime_stub: null
+runtime_key: GWS-TOKEN-{u}-{c}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable

@@ -1,0 +1,590 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: slack
+service: null
+object_type: conversation
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:3a18965b4fa43641539321e4
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: object-type:3a18965b4fa43641539321e4 and map id_roles self_key; object_contract stability
+tenant_binding:
+  type: workspace
+  service: null
+  field: context_team_id
+  prefix: T
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: id
+      required: false
+      scalar: string
+    map_items:
+      - space:200.channel|id
+  name:
+    path: name
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:200.channel|name
+  is_channel:
+    path: is_channel
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_channel
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_channel
+  is_group:
+    path: is_group
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_group
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_group
+  is_im:
+    path: is_im
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_im
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_im
+  created:
+    path: created
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: created
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.channel|created
+  creator:
+    path: creator
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: creator
+      required: false
+      scalar: string
+    map_items:
+      - space:200.channel|creator
+  is_archived:
+    path: is_archived
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_archived
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_archived
+  is_general:
+    path: is_general
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_general
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_general
+  unlinked:
+    path: unlinked
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: unlinked
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.channel|unlinked
+  name_normalized:
+    path: name_normalized
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: name_normalized
+      required: false
+      scalar: string
+    map_items:
+      - space:200.channel|name_normalized
+  is_shared:
+    path: is_shared
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_shared
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_shared
+  is_ext_shared:
+    path: is_ext_shared
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_ext_shared
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_ext_shared
+  is_org_shared:
+    path: is_org_shared
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_org_shared
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_org_shared
+  pending_shared:
+    path: pending_shared
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: pending_shared
+      required: false
+      shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*].pending_shared
+    map_items:
+      - space:200.channel|pending_shared
+  is_pending_ext_shared:
+    path: is_pending_ext_shared
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_pending_ext_shared
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_pending_ext_shared
+  is_member:
+    path: is_member
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_member
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_member
+  is_private:
+    path: is_private
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_private
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_private
+  is_mpim:
+    path: is_mpim
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_mpim
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_mpim
+  updated:
+    path: updated
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: updated
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.channel|updated
+  topic:
+    path: topic
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: topic
+      required: false
+      shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*].topic
+    map_items: []
+  purpose:
+    path: purpose
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: purpose
+      required: false
+      shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*].purpose
+    map_items: []
+  previous_names:
+    path: previous_names
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: previous_names
+      required: false
+      shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*].previous_names
+    map_items:
+      - space:200.channel|previous_names
+  num_members:
+    path: num_members
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: num_members
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.channel|num_members
+  is_open:
+    path: is_open
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_open
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_open
+  priority:
+    path: priority
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: priority
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.channel|priority
+  user:
+    path: user
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: user
+      required: false
+      scalar: string
+    map_items:
+      - space:200.channel|user
+  is_user_deleted:
+    path: is_user_deleted
+    source: research_shape
+    shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+    declaration:
+      name: is_user_deleted
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.channel|is_user_deleted
+  context_team_id:
+    path: context_team_id
+    source: reviewed_source_addition
+    evidence:
+      source: slack_conversation_document
+      locator: "Conversation object: context_team_id"
+  internal_team_ids:
+    path: internal_team_ids
+    source: reviewed_source_addition
+    evidence:
+      source: slack_conversation_document
+      locator: "Conversation object: internal_team_ids"
+  is_moved:
+    path: is_moved
+    source: reviewed_source_addition
+    evidence:
+      source: slack_conversation_document
+      locator: "Conversation object: is_moved"
+  parent_conversation:
+    path: parent_conversation
+    source: reviewed_source_addition
+    evidence:
+      source: slack_conversation_document
+      locator: "Conversation object: parent_conversation"
+  pending_connected_team_ids:
+    path: pending_connected_team_ids
+    source: reviewed_source_addition
+    evidence:
+      source: slack_conversation_document
+      locator: "Conversation object: pending_connected_team_ids"
+  properties:
+    path: properties
+    source: reviewed_source_addition
+    evidence:
+      source: slack_conversation_document
+      locator: "Conversation object: properties"
+  shared_team_ids:
+    path: shared_team_ids
+    source: reviewed_source_addition
+    evidence:
+      source: slack_conversation_document
+      locator: "Conversation object: shared_team_ids"
+references:
+  - name: workspace
+    field: context_team_id
+    target: workspace
+    relation: contained_in
+    source: slack_conversation_document
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source slack_conversation_document; contained_in
+  - name: creator
+    field: creator
+    target: user
+    relation: no_relation
+    source: relation_contract
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source relation_contract; no_relation
+  - name: dm_peer
+    field: user
+    target: user
+    relation: no_relation
+    source: im_types
+    evidence: IM channel.user points to a user; a DM peer pointer alone is not a complete membership/grant list
+    reviewed_at: 2026-10-25
+    rationale: IM channel.user points to a user; a DM peer pointer alone is not a complete membership/grant list
+  - name: topic_creator
+    field: topic.creator
+    target: user
+    relation: no_relation
+    source: slack_conversation_document
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source slack_conversation_document; no_relation
+  - name: purpose_creator
+    field: purpose.creator
+    target: user
+    relation: no_relation
+    source: slack_conversation_document
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source slack_conversation_document; no_relation
+  - name: parent_conversation
+    field: parent_conversation
+    target: conversation
+    relation: no_relation
+    source: slack_conversation_document
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source slack_conversation_document; no_relation
+  - name: shared_workspaces
+    field: shared_team_ids
+    each: true
+    target: workspace
+    relation: shared_with
+    source: slack_conversation_document
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source slack_conversation_document; shared_with
+  - name: internal_workspaces
+    field: internal_team_ids
+    each: true
+    target: workspace
+    relation: no_relation
+    source: slack_conversation_document
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source slack_conversation_document; no_relation
+  - name: pending_workspaces
+    field: pending_shared
+    each: true
+    target: workspace
+    relation: no_relation
+    source: slack_conversation_document
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source slack_conversation_document; no_relation
+  - name: pending_connections
+    field: pending_connected_team_ids
+    each: true
+    target: workspace
+    relation: no_relation
+    source: slack_conversation_document
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source slack_conversation_document; no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.workspace
+    produced_by_reference: workspace
+    basis: stated
+  - type: shared_with
+    source: $self
+    target: $refs.shared_workspaces
+    produced_by_reference: shared_workspaces
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: slack
+  object_type: conversation
+  interfaces: *a1
+  model:
+    research_type: object-type:3a18965b4fa43641539321e4
+  extract:
+    key: PILOT-slack-conversation-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: SL-03
+            endpoint: /conversations\.list(?:\?|$)
+            items:
+              - channels
+        properties:
+          context_team_id: context_team_id
+          created: created
+          creator: creator
+          id: id
+          internal_team_ids: internal_team_ids
+          is_archived: is_archived
+          is_channel: is_channel
+          is_ext_shared: is_ext_shared
+          is_general: is_general
+          is_group: is_group
+          is_im: is_im
+          is_member: is_member
+          is_moved: is_moved
+          is_mpim: is_mpim
+          is_open: is_open
+          is_org_shared: is_org_shared
+          is_pending_ext_shared: is_pending_ext_shared
+          is_private: is_private
+          is_shared: is_shared
+          is_user_deleted: is_user_deleted
+          name: name
+          name_normalized: name_normalized
+          num_members: num_members
+          parent_conversation: parent_conversation
+          pending_connected_team_ids: pending_connected_team_ids
+          pending_shared: pending_shared
+          previous_names: previous_names
+          priority: priority
+          properties: properties
+          purpose: purpose
+          shared_team_ids: shared_team_ids
+          topic: topic
+          unlinked: unlinked
+          updated: updated
+          user: user
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  call: SL-03
+  endpoint: /conversations\.list(?:\?|$)
+  request: {}
+  paths:
+    - shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+      path:
+        - channels
+        - "*"
+  status: pilot_manual
+  operation_id: op:slack_openapi_legacy:admin.conversations.search
+  alternatives_total: 5
+  sources:
+    - shape: sh:slack_docs_methods:op:admin.conversations.search:resp:200.conversations[*]
+      operation_id: op:slack_docs_methods:admin.conversations.search
+      call: SL-03
+      path:
+        - conversations
+        - "*"
+      records: 18
+    - shape: sh:slack_docs_methods:op:conversations.list:resp:200.channels[*]
+      operation_id: op:slack_docs_methods:conversations.list
+      call: SL-03
+      path:
+        - channels
+        - "*"
+      records: 14
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: fe9343e56ffad6f2b0e007b7d616aa5a36dc671b5d93ef108740be1799dc2887
+    ir/shape.jsonl: e0251d3f1d8d7f441387bb9666f63eff7398545254d0b92ccab02c9503bbfbf3
+    ir/operation.jsonl: 5f61d17fe234449c5cd1c291def84c2453e244f73063e1ce5d43b65caf9348cf
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - context_team_id
+    - creator
+    - user
+    - topic.creator
+    - purpose.creator
+    - parent_conversation
+    - shared_team_ids
+    - internal_team_ids
+    - pending_shared
+    - pending_connected_team_ids
+  metadata_paths: *a2
+  remaining_declared_fields: properties

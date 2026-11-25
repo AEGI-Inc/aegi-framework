@@ -1,0 +1,323 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: AuthorizationServer
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:1b534eee4e261c3eec9303d4
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:1b534eee4e261c3eec9303d4.identity_evidence
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  accessTokenEncryptedResponseAlgorithm:
+    path: accessTokenEncryptedResponseAlgorithm
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: accessTokenEncryptedResponseAlgorithm
+      required: false
+      shape: sh:okta_management_openapi:AccessTokenKeyEncryptionAlgorithm
+    map_items:
+      - space:AuthorizationServer|accessTokenEncryptedResponseAlgorithm
+  audiences:
+    path: audiences
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: audiences
+      required: false
+      shape: sh:okta_management_openapi:AuthorizationServer.audiences
+    map_items:
+      - space:AuthorizationServer|audiences
+  created:
+    path: created
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      format: date-time
+      name: created
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthorizationServer|created
+  credentials:
+    path: credentials
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: credentials
+      required: false
+      shape: sh:okta_management_openapi:AuthorizationServerCredentials
+    map_items: []
+  description:
+    path: description
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: description
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthorizationServer|description
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthorizationServer|id
+  issuer:
+    path: issuer
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: issuer
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthorizationServer|issuer
+  issuerMode:
+    path: issuerMode
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: issuerMode
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthorizationServer|issuerMode
+  jwks:
+    path: jwks
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: jwks
+      required: false
+      shape: sh:okta_management_openapi:ResourceServerJsonWebKeys
+    map_items: []
+  jwks_uri:
+    path: jwks_uri
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: jwks_uri
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthorizationServer|jwks_uri
+  lastUpdated:
+    path: lastUpdated
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      format: date-time
+      name: lastUpdated
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthorizationServer|lastUpdated
+  name:
+    path: name
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:AuthorizationServer|name
+  status:
+    path: status
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: status
+      required: false
+      shape: sh:okta_management_openapi:LifecycleStatus
+    map_items:
+      - space:AuthorizationServer|status
+  _links:
+    path: _links
+    source: research_shape
+    shape: sh:okta_management_openapi:AuthorizationServer
+    declaration:
+      name: _links
+      required: false
+      shape: sh:okta_management_openapi:AuthServerLinks
+    map_items: []
+references:
+  - name: jwks_keys
+    field: jwks.keys
+    target: ResourceServerJsonWebKey
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:48c9e64b3ca01c085d99545b; relation=no_relation
+  - name: links_self_href
+    field: _links.self.href
+    target: BehaviorRule
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6ec320af0009de52a0008e78; relation=no_relation
+  - name: links_metadata_href
+    field: _links.metadata.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:7767758a8a0e69155dbcb037; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: AuthorizationServer
+  interfaces: *a1
+  model:
+    research_type: object-type:1b534eee4e261c3eec9303d4
+  extract:
+    key: PILOT-okta-AuthorizationServer-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-OKTA-9303d4
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          _links: _links
+          accessTokenEncryptedResponseAlgorithm: accessTokenEncryptedResponseAlgorithm
+          audiences: audiences
+          created: created
+          credentials: credentials
+          description: description
+          id: id
+          issuer: issuer
+          issuerMode: issuerMode
+          jwks: jwks
+          jwks_uri: jwks_uri
+          lastUpdated: lastUpdated
+          name: name
+          status: status
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_with_records
+  call: OK-90
+  operation_id: op:okta_management_openapi:listAuthorizationServers
+  operation: listAuthorizationServers
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /api/v1/authorizationServers(?:\?|$)
+  endpoint_template: /api/v1/authorizationServers
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:okta_management_openapi:AuthorizationServer
+      path:
+        - "*"
+  alternatives_total: 2
+  alternatives:
+    - operation_id: op:okta_management_openapi:listAssociatedServersByTrustedType
+      method: GET
+      kind: read_many
+      endpoint_template: /api/v1/authorizationServers/{authServerId}/associatedServers
+      path:
+        - "*"
+    - operation_id: op:okta_management_openapi:getAuthorizationServer
+      method: GET
+      kind: read_one
+      endpoint_template: /api/v1/authorizationServers/{authServerId}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 1
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - jwks.keys
+    - _links.self.href
+    - _links.metadata.href
+  metadata_paths: *a2
+  remaining_declared_fields: properties

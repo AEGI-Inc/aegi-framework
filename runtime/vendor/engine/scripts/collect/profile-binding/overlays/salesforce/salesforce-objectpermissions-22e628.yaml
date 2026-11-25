@@ -1,0 +1,75 @@
+overlay_basis:
+  from: aegi-knowledge docs/decisions/SALESFORCE_PERMISSION_ROWS_2026-10-28.md
+  decision: G4-Q02
+  note: 내용 행은 객체로 만들지 않고 부모 권한 세트(프로필 소유면 그 Profile)의 permissions 속성에 접는다
+runtime_rules:
+  - id: fold
+    kind: enrich
+    sources:
+      - call: RG-SF-ObjectPermissions
+        items: records
+        where:
+          path: attributes.type
+          eq: ObjectPermissions
+    group_by:
+      op: sf_id18
+      of: ParentId
+    target:
+      switch:
+        op: exists
+        of:
+          op: index
+          name: ps_owner_profile
+          key:
+            op: sf_id18
+            of: ParentId
+      cases:
+        "true":
+          type: Profile
+          id:
+            op: index
+            name: ps_owner_profile
+            key:
+              op: sf_id18
+              of: ParentId
+      default:
+        type: PermissionSet
+        id: ParentId
+    observe: true
+    merge:
+      permissions:
+        object:
+          object_permission_rows:
+            op: count
+            of: $group
+          objects:
+            op: group
+            of: $group
+            key: $item.r.SobjectType
+            mode: list
+            value:
+              op: true_keys
+              of: $item.r
+              prefix: Permissions
+          view_all_objects:
+            op: uniq_sorted
+            of:
+              op: pluck
+              field: r.SobjectType
+              of:
+                op: filter
+                of: $group
+                where:
+                  path: $item.r.PermissionsViewAllRecords
+                  truthy: true
+          modify_all_objects:
+            op: uniq_sorted
+            of:
+              op: pluck
+              field: r.SobjectType
+              of:
+                op: filter
+                of: $group
+                where:
+                  path: $item.r.PermissionsModifyAllRecords
+                  truthy: true

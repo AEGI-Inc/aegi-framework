@@ -1,0 +1,203 @@
+/* =========================================================================
+   Unified Full Graph & Semantic Zoom Workspace Styles
+   ========================================================================= */
+
+.unified-full-graph-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  background: #f8fafc;
+  overflow: hidden;
+  user-select: none;
+}
+
+.full-graph-top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 10px;
+  padding: 12px 24px;
+  background: var(--color-chrome-bg);
+  border-bottom: 0;
+  z-index: 15;
+}
+
+.fg-header-title-area {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+/* 다른 화면과 같은 자리, 같은 크기의 화면 이름.
+   이 화면만 제목이 없어 어디에 있는지 헤더를 읽어야 알 수 있었다. */
+.fg-page-title {
+  margin: 0;
+  font-size: var(--font-size-xl, 24px);
+  font-weight: var(--font-weight-bold, 700);
+  letter-spacing: -0.01em;
+  color: var(--color-chrome-text);
+}
+
+.fg-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 이름 줄 오른쪽 조작(화면 맞춤, 확대 축소).
+   높이 34px, 글자 12px로 맞춘다. styles.css의 같은 이름 규칙보다 앞서도록 부모를 붙인다. */
+.fg-header-controls > .fg-fit-view-btn,
+.fg-header-controls > .fg-camera-controls {
+  box-sizing: border-box;
+  height: 34px;
+}
+
+.fg-header-controls > .fg-fit-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+}
+
+.fg-header-controls > .fg-camera-controls span {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.fg-fit-view-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 0;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.fg-fit-view-btn:hover {
+  background: #f1f5f9;
+  border-color: var(--color-select);
+}
+
+.unified-graph-canvas {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  background-color: #f8fafc;
+}
+
+.unified-graph-canvas:active {
+  cursor: grabbing;
+}
+
+.unified-graph-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* -------------------------------------------------------------------------
+   상세 단계의 SaaS 묶음 머리글
+
+   L3·L4에서는 칸에 SaaS 표시가 없다. 묶음마다 로고와 이름을 한 번
+   적는 편이, 칸 64개·174개에 색 띠를 반복하는 것보다 잘 읽힌다.
+   ------------------------------------------------------------------------- */
+
+.fg-cluster-head {
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 20px;
+}
+
+.fg-cluster-logo {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+}
+
+.fg-cluster-logo svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.fg-cluster-head b {
+  font-size: 29px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.fg-cluster-head span:last-child {
+  font-size: 22px;
+  font-weight: 500;
+  color: #0f172a;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------------------------------
+   그래프에서 인라인 style로 적던 고정 규칙
+   자리 · 배율 · 투명도처럼 매 프레임 바뀌는 값만 인라인에 남긴다.
+   ------------------------------------------------------------------------- */
+.fg-inline-icon { vertical-align: -2px; }
+.unified-graph-svg .graph-node-group,
+.unified-graph-svg .graph-edge-group { cursor: pointer; }
+.unified-graph-svg foreignObject { overflow: visible; }
+.unified-graph-svg .fg-cluster,
+.unified-graph-svg .fg-nest-frame { pointer-events: none; }
+
+/* 그래프 SVG에는 pointer-events: stroke가 걸려 있어(styles.css, 빈 곳을 눌러 끌 수 있게)
+   칸의 도형도 선에서만 커서 · 누름을 받았다. 흰 동그라미 안쪽을 가리켜도 이름이 뜨지
+   않고 안쪽 그림에만 반응했다. 칸은 칠한 곳 전체에서 받는다. */
+.unified-graph-svg .graph-node-group { pointer-events: visiblePainted; }
+
+/* 커서를 올린 칸은 조금 커지고 그림자가 진다. 어느 칸을 가리키는지 바로 보이게 한다.
+   칸 자리는 바깥 <g>의 transform이 맡으므로, 안쪽 묶음(fg-node-body)을 칸 가운데를 축으로 키운다.
+   제목 줄처럼 넓은 것은 조금만, 점은 작아서 더 키운다. */
+.unified-graph-svg .fg-node-body {
+  transition: transform 0.14s ease, filter 0.14s ease;
+}
+.unified-graph-svg .graph-node-group:hover > .fg-node-body {
+  transform: scale(1.08);
+  filter: drop-shadow(0 3px 8px rgba(15, 23, 42, 0.35));
+}
+.unified-graph-svg .graph-node-group:hover > .fg-node-body.fg-node-dot {
+  transform: scale(1.3);
+}
+.unified-graph-svg .graph-node-group:hover > .fg-node-body.fg-node-header {
+  transform: scale(1.03);
+}
+.unified-graph-svg .graph-node-group:hover > .fg-node-body > rect:first-child[stroke="#c3ccd8"] {
+  stroke: var(--color-select);
+}
+
+/* 선택한 노드와 직접 연결된 이웃 노드 (1-hop 연결 끝점) */
+.unified-graph-svg .graph-node-group.is-neighbor:not(.selected) > .fg-node-body {
+  filter: drop-shadow(0 2px 6px rgba(15, 23, 42, 0.25));
+}
+.unified-graph-svg .graph-node-group.is-neighbor:not(.selected) > .fg-node-body > rect:first-child {
+  stroke: var(--color-text-primary);
+  stroke-width: 2.8px;
+}
+
+/* 객체 단계 SaaS 원 맨 위에 걸친 이름표. 테두리 색은 SaaS 색(인라인) */
+.fg-cluster-head.fg-cluster-legend {
+  border: 2px solid var(--color-card-line);
+  background: #ffffff;
+}

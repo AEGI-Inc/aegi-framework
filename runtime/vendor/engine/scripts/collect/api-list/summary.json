@@ -1,0 +1,68 @@
+{
+  "format": "aegi-collect-registry-summary/v1",
+  "operations": 1701,
+  "profiles": 1825,
+  "by_status": {
+    "approved": 735,
+    "blocked": 322,
+    "rejected": 14,
+    "legacy": 51,
+    "candidate": 579
+  },
+  "by_provider": {
+    "atlassian": {
+      "approved": 42,
+      "blocked": 83,
+      "rejected": 8,
+      "legacy": 3
+    },
+    "github": {
+      "blocked": 45,
+      "approved": 55,
+      "rejected": 1,
+      "legacy": 9
+    },
+    "gws": {
+      "approved": 36,
+      "blocked": 24,
+      "rejected": 1,
+      "legacy": 5
+    },
+    "okta": {
+      "blocked": 108,
+      "approved": 90,
+      "legacy": 18
+    },
+    "salesforce": {
+      "candidate": 579,
+      "approved": 503,
+      "blocked": 35,
+      "legacy": 6,
+      "rejected": 1
+    },
+    "slack": {
+      "blocked": 27,
+      "legacy": 10,
+      "approved": 9,
+      "rejected": 3
+    }
+  },
+  "blocked_reasons": {
+    "required_argument": 1,
+    "unresolved_param": 89,
+    "unscoped_org_key_required": 2,
+    "scim_directory_key_not_configured": 4,
+    "content_bearing_endpoint": 92,
+    "identity_needs_request_param": 7,
+    "graphql_query_document_required": 8,
+    "user_context_api": 14,
+    "gws_scope_unknown": 1,
+    "subscription_owner_context_required": 1,
+    "method_POST": 3,
+    "separate_product_host_not_configured": 66,
+    "end_user_context_api": 19,
+    "legal_hold_admin_scope": 2,
+    "rpc_not_read_method": 10,
+    "scim_api_not_web_api": 3
+  }
+}

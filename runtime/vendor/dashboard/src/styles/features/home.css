@@ -1,0 +1,62 @@
+/* =========================================================================
+   Overview 위쪽 두 칸: 위협, 마지막 수집
+
+   손을 대야 할 것만 센다. 객체, 관계, 계정 매핑, 수집 기록 같은 수집 규모는 Adapters 머리에 있다.
+   칸마다 눌러 그 화면으로 간다. 흰 카드에 상태는 배지로만 단다.
+   숫자는 표처럼 자리가 고정되도록 tabular-nums를 쓴다.
+   ========================================================================= */
+
+.hp-kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-gap);
+  margin-bottom: var(--space-gap);
+}
+
+.hp-kpi {
+  display: grid;
+  align-content: start;
+  justify-items: start;
+  gap: 6px;
+  padding: 14px 18px;
+  font-family: inherit;
+  text-align: left;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.hp-kpi:hover { border-color: var(--color-chrome-bg); }
+
+.hp-kpi-label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.hp-kpi > strong {
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.hp-kpi > strong small {
+  margin-left: 3px;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+}
+
+.hp-kpi-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.hp-kpi-sub {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+

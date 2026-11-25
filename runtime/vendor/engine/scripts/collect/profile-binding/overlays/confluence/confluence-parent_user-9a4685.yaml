@@ -1,0 +1,7 @@
+tenant_binding:
+  type: ServerInformation
+tenant_basis: Confluence 의 tenant 는 Space 가 아니라 같은 Atlassian site 다. V3.2 에서
+  Jira ServerInformation 이 Tenant(V2-T1)
+emit: reference_only
+emit_basis: 타입 이름이 API 경로 조각(parent:user/{})이고 선언 필드가 없다. 레코드는 사용자 속성 API
+  (getUserProperties) 경로의 userId 와 레코드 해시뿐이라 2026-10-30 run 51개 모두 속성이 없었다. 객체로 만들지 않는다

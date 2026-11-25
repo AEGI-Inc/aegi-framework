@@ -1,0 +1,34 @@
+saas,object_category,target_object,aegi_object,collection_status,collection_path,threat_count
+okta,Identity / Access,User,User,수집 중,OK-02,11
+okta,,User (외부·협력사 사용자),User,수집 중,OK-02,0
+okta,Identity / Access,Group,Group,수집 중,OK-03,4
+okta,Identity / Access,GroupRule (그룹 규칙),GroupRule,수집 중,OK-11,1
+okta,Identity / Access,RoleAssignment (관리자 역할 배정),RoleAssignedUser,수집 중,OK-06 [11-17 출력 0건],6
+okta,Identity / Access,IamRole / CustomRole / ResourceSet,IamRole; ResourceSet,수집 중,OK-05 [11-17 출력 0건],1
+okta,Identity / Access,"Application (서비스 앱, OAuth 클라이언트) / API Token 소유 사용자",Application; OAuth2Client,수집 중,OK-07; OK-08,5
+okta,Identity / Access,API Token (SSWS),ApiToken,수집 중,OK-16,3
+okta,Identity / Access,"Application 클라이언트 비밀·키 (OAuth2ClientSecret, JsonWebKey)",JsonWebKey; OAuth2ClientSecret,수집 중,OK-08; OK-15,1
+okta,Identity / Access,User Factor / Authenticator,UserFactor; AuthenticatorMethodBase,수집 중,OK-04; RG-OK-listAuthenticatorMethods,5
+okta,Identity / Access,Session,,로그만,OK-12 System Log,1
+okta,Policy / Configuration,"Policy / PolicyRule (전역 세션, 앱 로그인, 인증자 등록, 비밀번호)",Policy; PolicyRule,수집 중,OK-10,8
+okta,Policy / Configuration,NetworkZone,NetworkZone; ThreatInsightConfiguration,수집 중,OK-22,2
+okta,Identity / Access,IdentityProvider,IdentityProvider; IdPKeyCredential,수집 중,OK-18; OK-20 [11-17 출력 0건],5
+okta,Identity / Access,Domain / EmailDomain,DomainResponse,수집 중,OK-90 (존재 확인),2
+okta,,대신 로그인(위임 관리) 설정,DelegationLinkWithLinks; delegate-appointment,수집 중,RG-OK-listDelegationLinks; RG-OK-listDelegateAppointments [11-17 출력 0건],0
+okta,Identity / Access,Support 접근(impersonation) / 관리자 사용자 세션,cases,수집 중,RG-OK-listOktaSupportCases [11-17 출력 0건],1
+okta,,OAuth 클라이언트 동의 (OAuth2ScopeConsentGrant) / Refresh Token,OAuth2ScopeConsentGrant; OAuth2RefreshToken,수집 중,RG-OK-listScopeConsentGrants; OK-09,0
+okta,Integration / Automation,Application (OIN·커스텀 앱),Application,수집 중,OK-07,3
+okta,Integration / Automation,Application (OIN 앱 설치) / AppUser,Application; AppUser,수집 중,OK-07,2
+okta,Integration / Automation,AI Agent / AgentPool,AIAgent,수집 중,RG-OK-listAIAgents [11-17 출력 0건],2
+okta,,Okta Workflows,,API 밖,Workflows 콘솔,0
+okta,Integration / Automation,EventHook / InlineHook,EventHook; InlineHook,수집 중,OK-17,1
+okta,,Application 프로비저닝 연결 / Workflows 커넥터,ProvisioningConnectionResponse,수집 중,RG-OK-getDefaultProvisioningConnectionForApplication,0
+okta,,InlineHook (외부 서비스 호출),InlineHook,수집 중,OK-17 [11-17 출력 0건],0
+okta,Resource,OrgSetting / Organization,OrgSetting,수집 중,OK-01,1
+okta,Identity / Access,IdentityProvider / 허브 조직 연결,IdentityProvider,수집 중,OK-18 [11-17 출력 0건],1
+okta,Identity / Access,AD 에이전트 / AgentPool (디렉터리 동기화),AgentPool,수집 중,OK-23 [11-17 출력 0건],1
+okta,Identity / Access,Application 프로비저닝 (SCIM),ProvisioningConnectionResponse,수집 중,RG-OK-getDefaultProvisioningConnectionForApplication,1
+okta,Policy / Configuration,OrgSetting / Org security general,OrgSetting; TrustedOrigin,수집 중,OK-01; OK-22,1
+okta,,AI Agent 정책,AIAgent,수집 중,RG-OK-listAIAgents [11-17 출력 0건],0
+okta,Integration / Automation,AuthorizationServer 정책 / 앱 카탈로그 승인,AuthorizationServerPolicy; AuthorizationServerPolicyRule,수집 중,RG-OK-listAuthorizationServerPolicies [11-17 출력 0건],1
+okta,Policy / Configuration,LogStream / System Log 설정,LogStream,수집 중,OK-17 [11-17 출력 0건],2

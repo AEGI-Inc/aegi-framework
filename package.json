@@ -1,0 +1,21 @@
+{
+  "name": "aegi-framework",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "AEGI Enterprise Framework: Cross-SaaS Information Modeling, Object/Relation Ontology, Verification Rules, and Local Runtime",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "sync": "node scripts/sync.mjs",
+    "check:safety": "node scripts/check-public-safety.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "verify:freeze": "node framework/schema/im-model/model/v3.2/verify-freeze.mjs",
+    "verify": "npm run check:safety && npm run check:links && npm run verify:freeze",
+    "runtime:install": "npm --prefix runtime install --omit=dev",
+    "runtime:start": "npm --prefix runtime start",
+    "runtime:doctor": "npm --prefix runtime run aegi -- doctor",
+    "runtime:test": "npm --prefix runtime test"
+  }
+}

@@ -1,0 +1,210 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: gws
+service: null
+object_type: parent:chromemanagement/v1/customers/{}
+interfaces: &a1
+  - Tenant
+model:
+  research_type: object-type:992b9fdf3c55e8636ce662eb
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: record_hash
+      expr: $record_hash
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:992b9fdf3c55e8636ce662eb.identity_evidence
+  parent:
+    type: File
+    expr: $req.parent_id
+tenant_binding:
+  type: Customer
+  service: admin
+  call: GW-01
+  items: (root)
+  id: id
+fields: {}
+references: []
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: gws
+  object_type: parent:chromemanagement/v1/customers/{}
+  interfaces: *a1
+  model:
+    research_type: object-type:992b9fdf3c55e8636ce662eb
+  extract:
+    key: PILOT-gws-parent:chromemanagement/v1/customers/{}-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{$record_hash}"
+        sources:
+          - call: AUTO-GWS-e662eb
+            endpoint: /
+            items: []
+        properties:
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: path_parameter
+  call: null
+  operation_id: op:gws_chromemanagement:chromemanagement.customers.apps.countChromeAppRequests
+  operation: chromemanagement.customers.apps.countChromeAppRequests
+  method: GET
+  kind: action
+  endpoint: /v1/customers/[^/]+/apps:countChromeAppRequests(?:\?|$)
+  endpoint_template: /v1/customers/{customersId}/apps:countChromeAppRequests
+  id_from:
+    in: path
+    param: customersId
+    position: 3
+  paths: []
+  alternatives_total: 47
+  alternatives:
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.apps.fetchDevicesRequestingExtension
+      endpoint_template: /v1/customers/{customersId}/apps:fetchDevicesRequestingExtension
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.apps.fetchUsersRequestingExtension
+      endpoint_template: /v1/customers/{customersId}/apps:fetchUsersRequestingExtension
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.chromeBrowsers.list
+      endpoint_template: /v1/customers/{customersId}/chromeBrowsers
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.connectorConfigs.list
+      endpoint_template: /v1/customers/{customersId}/connectorConfigs
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.enrollmentTokens.list
+      endpoint_template: /v1/customers/{customersId}/enrollmentTokens
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.profiles.list
+      endpoint_template: /v1/customers/{customersId}/profiles
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countActiveDevices
+      endpoint_template: /v1/customers/{customersId}/reports:countActiveDevices
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countChromeBrowsersNeedingAttention
+      endpoint_template: /v1/customers/{customersId}/reports:countChromeBrowsersNeedingAttention
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countChromeCrashEvents
+      endpoint_template: /v1/customers/{customersId}/reports:countChromeCrashEvents
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countChromeDevicesReachingAutoExpirationDate
+      endpoint_template: /v1/customers/{customersId}/reports:countChromeDevicesReachingAutoExpirationDate
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countChromeDevicesThatNeedAttention
+      endpoint_template: /v1/customers/{customersId}/reports:countChromeDevicesThatNeedAttention
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countChromeHardwareFleetDevices
+      endpoint_template: /v1/customers/{customersId}/reports:countChromeHardwareFleetDevices
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countChromeProfileVersions
+      endpoint_template: /v1/customers/{customersId}/reports:countChromeProfileVersions
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countChromeVersions
+      endpoint_template: /v1/customers/{customersId}/reports:countChromeVersions
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countDevicesPerBootType
+      endpoint_template: /v1/customers/{customersId}/reports:countDevicesPerBootType
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countDevicesPerReleaseChannel
+      endpoint_template: /v1/customers/{customersId}/reports:countDevicesPerReleaseChannel
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countInstalledApps
+      endpoint_template: /v1/customers/{customersId}/reports:countInstalledApps
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countPrintJobsByPrinter
+      endpoint_template: /v1/customers/{customersId}/reports:countPrintJobsByPrinter
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.countPrintJobsByUser
+      endpoint_template: /v1/customers/{customersId}/reports:countPrintJobsByUser
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.enumeratePrintJobs
+      endpoint_template: /v1/customers/{customersId}/reports:enumeratePrintJobs
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.findInstalledAppDevices
+      endpoint_template: /v1/customers/{customersId}/reports:findInstalledAppDevices
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.findInstalledAppProfiles
+      endpoint_template: /v1/customers/{customersId}/reports:findInstalledAppProfiles
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.findSaasUsage
+      endpoint_template: /v1/customers/{customersId}/reports:findSaasUsage
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.findSaasUsageBrowsers
+      endpoint_template: /v1/customers/{customersId}/reports:findSaasUsageBrowsers
+      param: customersId
+    - operation_id: op:gws_chromemanagement:chromemanagement.customers.reports.findSaasUsageProfiles
+      endpoint_template: /v1/customers/{customersId}/reports:findSaasUsageProfiles
+      param: customersId
+  basis: ir_path_parameter
+  note: 응답 본문이 아니라 URL 경로 변수로만 나오는 ID 다. 레코드는 ID 하나뿐이다
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 8d48095984113f27a11dc420a752b717df59eae51bc3bbd4797896c8ad4af30d
+    ir/shape.jsonl: 998cf62cfd25e0d4d9d9e705e0e34b0b8c31494250a970686a7d8867e0503fbc
+    ir/operation.jsonl: 14fd7a38425bfeae03709952cd2c90c62f41d51658abd12c249f48def14db67f
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths: []
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

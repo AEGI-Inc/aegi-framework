@@ -1,0 +1,40 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: NamedLocation
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-NLOC-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-11
+        request: {kind: namedLocations}
+        items: value
+    id_expr: id
+    properties:
+      activation: {const: standing}
+      location_id: id
+      displayName: displayName
+      isTrusted: isTrusted
+      ipRanges: ipRanges
+      countriesAndRegions: countriesAndRegions
+      includeUnknownCountriesAndRegions: includeUnknownCountriesAndRegions
+      createdDateTime: createdDateTime
+      modifiedDateTime: modifiedDateTime
+    display: "{displayName|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

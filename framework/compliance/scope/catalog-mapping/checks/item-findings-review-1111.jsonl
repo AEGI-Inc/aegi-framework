@@ -1,0 +1,29 @@
+{"item_key":"ISO27001:5.14","finding_id":"gws-102","finding":"사용자 파일 웹 공개 또는 링크 소지자 누구나 접근 허용","decision":"drop","reason":"공개 링크는 정보 접근 제한(8.3)이다"}
+{"item_key":"ISO27001:5.14","finding_id":"slack-016","finding":"외부 사람 Slack Connect 대신 구성원, 게스트로 참여","decision":"drop","reason":"외부인 계정 참여는 계정 관리다. 정보 전송 규칙이 아니다"}
+{"item_key":"ISO27001:8.15","finding_id":"atlassian-032","finding":"Confluence와 Jira 감사 로그 정기 검토 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다(8.16 에서 본다)"}
+{"item_key":"ISO27001:8.15","finding_id":"github-176","finding":"감사 로그 검토 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다(8.16 에서 본다)"}
+{"item_key":"ISO27001:8.15","finding_id":"gws-082","finding":"관리자 감사 로그 검토 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다(8.16 에서 본다)"}
+{"item_key":"ISO27001:8.15","finding_id":"slack-021","finding":"감사 로그, 이상 이벤트 모니터링 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다(8.16 에서 본다)"}
+{"item_key":"ISMS-P:2.9.4-01","finding_id":"atlassian-032","finding":"Confluence와 Jira 감사 로그 정기 검토 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다(2.11.3 에서 본다)"}
+{"item_key":"ISMS-P:2.9.4-01","finding_id":"github-176","finding":"감사 로그 검토 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다(2.11.3 에서 본다)"}
+{"item_key":"ISMS-P:2.9.4-01","finding_id":"gws-082","finding":"관리자 감사 로그 검토 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다(2.11.3 에서 본다)"}
+{"item_key":"ISMS-P:2.9.4-01","finding_id":"slack-021","finding":"감사 로그, 이상 이벤트 모니터링 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다(2.11.3 에서 본다)"}
+{"item_key":"ISMS-P:2.5.6-01","finding_id":"atlassian-032","finding":"Confluence와 Jira 감사 로그 정기 검토 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다. 이 항목은 권한 변경 이력을 남기는지다"}
+{"item_key":"ISMS-P:2.5.6-01","finding_id":"github-176","finding":"감사 로그 검토 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다. 이 항목은 권한 변경 이력을 남기는지다"}
+{"item_key":"ISMS-P:2.5.6-01","finding_id":"slack-021","finding":"감사 로그, 이상 이벤트 모니터링 없음","decision":"drop","reason":"감사 로그 검토는 모니터링(검토) 활동이다. 로그 생성, 보관 항목의 본뜻이 아니다. 이 항목은 권한 변경 이력을 남기는지다"}
+{"item_key":"ISMS-P:2.9.4-02","finding_id":"gws-080","finding":"Vault 활동 정기 감사 없음","decision":"drop","reason":"정기 감사는 검토 활동이다. 로그 위변조 방지의 본뜻이 아니다"}
+{"item_key":"PIPA:admin-73493:article-8:p3","finding_id":"gws-080","finding":"Vault 활동 정기 감사 없음","decision":"drop","reason":"정기 감사는 검토 활동이다. 접속기록 위변조 방지의 본뜻이 아니다"}
+{"item_key":"ISMS-P:2.10.2-02","finding_id":"gws-242","finding":"데이터 지역 정책 미국 아님","decision":"drop","reason":"미국 정부 기준의 데이터 지역 요구다. 국내 기준에 해당하지 않는다"}
+{"item_key":"ISMS-P:2.10.2-02","finding_id":"gws-243","finding":"보조 데이터 저장소 지역 미국 아님","decision":"drop","reason":"미국 정부 기준의 데이터 지역 요구다. 국내 기준에 해당하지 않는다"}
+{"item_key":"ISMS-P:2.11.3-01","finding_id":"github-045","finding":"시크릿 스캐닝 비활성 저장소 있음","decision":"drop","reason":"시크릿 스캐닝은 유출 방지 설정이다. 이상행위 모니터링이 아니다"}
+{"item_key":"ISMS-P:2.11.3-01","finding_id":"okta-057","finding":"요청별 위험 점수 기반 중간과 높음 위험 시 MFA 미요구","decision":"drop","reason":"위험 기반 MFA 는 인증 설정이다(2.5.3)"}
+{"item_key":"ISMS-P:2.11.3-01","finding_id":"gws-126","finding":"DLP 규칙 심각도 조직 기준 부적합","decision":"drop","reason":"DLP 규칙 설정이다. 이상행위 모니터링이 아니다"}
+{"item_key":"ISMS-P:2.5.1-02","finding_id":"gws-198","finding":"기본 캘린더 내부 공유 수준 조직 기준 불일치","decision":"drop","reason":"공유 기본값은 데이터 공개 범위다. 사용자 권한 부여가 아니다"}
+{"item_key":"ISMS-P:2.5.1-02","finding_id":"gws-199","finding":"보조 캘린더 내부 공유 수준 조직 기준 불일치","decision":"drop","reason":"공유 기본값은 데이터 공개 범위다. 사용자 권한 부여가 아니다"}
+{"item_key":"ISMS-P:2.5.1-02","finding_id":"gws-228","finding":"대화 보기 권한 기본값 기준 이탈","decision":"drop","reason":"공유 기본값은 데이터 공개 범위다. 사용자 권한 부여가 아니다"}
+{"item_key":"ISMS-P:2.5.4-01","finding_id":"gws-258","finding":"Safe Browsing 상시 활성 아님 또는 경고 우회 허용","decision":"drop","reason":"브라우저 보호 설정이다. 비밀번호 규칙이 아니다"}
+{"item_key":"ISMS-P:2.5.4-01","finding_id":"gws-249","finding":"모바일 기기 비밀번호 요구 권장 상태 아님","decision":"drop","reason":"기기 잠금은 단말 보호(ISO 8.1, PIPA 제6조제5항)다"}
+{"item_key":"ISMS-P:2.5.4-01","finding_id":"gws-062","finding":"'User's password changed' 경고 규칙 기준 설정 비활성","decision":"drop","reason":"경보와 알림은 모니터링이다. 비밀번호 작성 규칙이 아니다"}
+{"item_key":"ISMS-P:2.5.4-01","finding_id":"gws-068","finding":"'Leaked password' 경고 규칙 기준 설정 비활성","decision":"drop","reason":"경보와 알림은 모니터링이다. 비밀번호 작성 규칙이 아니다"}
+{"item_key":"ISMS-P:2.5.4-01","finding_id":"okta-048","finding":"비밀번호 변경 이메일 알림 비활성","decision":"drop","reason":"경보와 알림은 모니터링이다. 비밀번호 작성 규칙이 아니다"}
+{"item_key":"ISMS-P:2.5.4-01","finding_id":"gws-041","finding":"슈퍼 관리자 비밀번호 재설정용 계정과 DNS 정보 미확보","decision":"drop","reason":"계정 복구 준비는 인증수단 관리(2.5.4-03)다"}

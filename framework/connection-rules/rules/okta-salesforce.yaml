@@ -1,0 +1,254 @@
+# okta ↔ salesforce 연결 규칙
+# Salesforce 는 Sales Cloud·Platform 조직(<My Domain>.my.salesforce.com). 벤더 문서로만 썼다 (2026-10-14). 시험 테넌트 결과는 ../test-environment/okta-salesforce.yaml 에 채운다
+# Salesforce 공통 감사 표면: SetupAuditTrail(설정 변경, 최소 180일), LoginHistory(LoginType, AuthenticationServiceId, Application, SourceIp), OauthToken(AppName, UserId, LastUsedDate, UseCount), EventLogFile(Event Monitoring 추가 구독)
+
+pair:
+- okta
+- salesforce
+written: '2026-10-14'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/okta-salesforce.yaml
+methods:
+- id: saml_sso
+  type: identity
+  what: Okta 가 Salesforce 로그인을 맡음 (SAML 2.0). OIN 앱 「Salesforce.com」(Federated ID 방식은 Okta 앱의 Use Fed ID for SAML)
+  identify:
+    api: salesforce SOQL SamlSsoConfig (Issuer, Audience, LoginUrl, IdentityMapping, IdentityLocation. View Setup and Configuration 권한), okta GET /api/v1/apps
+    when: SamlSsoConfig 가 있고 okta 앱이 Salesforce.com, signOnMode SAML_2_0
+  points_to:
+  - tier: config_id
+    a: salesforce SamlSsoConfig.Issuer (Entity ID)
+    b: okta 앱 SAML 메타데이터 entityID (Issuer)
+    check: a 와 b 가 같다
+    if_unreadable: 'Salesforce Setup > Identity > Single Sign-On Settings. Okta: GET /api/v1/apps/{appId}/sso/saml/metadata'
+  - tier: config_name
+    a: salesforce SamlSsoConfig.LoginUrl (Identity Provider Login URL)
+    b: okta 앱 SSO 주소 (<조직>.okta.com/app/…/sso/saml)
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: okta 앱의 Login URL, Custom Salesforce domain
+    b: salesforce My Domain, SamlSsoConfig 의 Salesforce Login URL
+    check: a 와 b 가 같다
+  - tier: fingerprint
+    a: salesforce SSO 설정의 Identity Provider Certificate (메타데이터 필드명은 문서에 없음. Setup 화면에서 본다)
+    b: okta 앱 서명 인증서
+    check: a 의 sha256 과 b 가 같다
+  - tier: via_person
+    a: salesforce User.FederationIdentifier (IdentityMapping = FederationId 일 때) 또는 Username
+    b: okta 배정 사용자 login
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: salesforce LoginHistory.AuthenticationServiceId
+    b: salesforce SamlSsoConfig.Id (그 Okta 설정)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta user.authentication.sso 시각과 사용자
+    b: salesforce LoginHistory LoginType Saml (표시명 SAML Idp Initiated SSO) 또는 Saml2 (SAML Sfdc Initiated SSO) 의 LoginTime 과 사용자
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta user.authentication.sso
+  - salesforce LoginHistory (LoginType Saml·Saml2, AuthenticationServiceId), SetupAuditTrail (SSO 설정 변경)
+  sources:
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_samlssoconfig.htm (Issuer, Audience, LoginUrl, IdentityMapping, 접근 권한) [브라우저·Exa]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_loginhistory.htm (LoginType 값, AuthenticationServiceId 가 AuthProvider·SamlSsoConfig 참조) [Exa]
+  - https://saml-doc.okta.com/SAML_Docs/How-to-Configure-SAML-2.0-for-SalesForce-Federated-ID-.html (Federation ID, Login URL, Custom Salesforce domain, Entity ID) [Exa]
+  - https://help.okta.com/en-us/content/topics/provisioning/salesforce/sfdc-enable-sso.htm (OIN 앱 Salesforce.com, SAML 2.0) [Exa]
+  - https://developer.okta.com/docs/reference/api/event-types/ (user.authentication.sso)
+- id: provisioning
+  type: identity
+  what: Okta 가 Salesforce 사용자를 만들고 바꾸고 비활성화함 (Push New Users, Push Profile Updates, Push User Deactivation 등). Okta 는 Salesforce 관리자 계정의 username 과 Password + Token 으로 API 를 부른다 (전용 API 계정 권장)
+  identify:
+    api: okta GET /api/v1/apps
+    when: Salesforce.com 앱 features 에 PUSH_NEW_USERS, PUSH_PROFILE_UPDATES, PUSH_USER_DEACTIVATION
+  points_to:
+  - tier: config_name
+    a: okta 앱 Provisioning 의 API 계정 username (콘솔)
+    b: salesforce 그 User.Username (전용 API 사용자 권장)
+    check: a 와 b 가 같다
+    if_unreadable: Okta 관리 콘솔 > Salesforce 앱 > Provisioning > Integration 의 username (API 로 읽는 방법은 문서에서 찾지 못했다). Salesforce 쪽은 SOQL User 의 Username
+  - tier: config_id
+    a: okta 배정 externalId
+    b: salesforce User.Id
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: okta 배정 userName, FederationIdentifier 매핑
+    b: salesforce User.Username, FederationIdentifier
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta application.provision.user.push 시각
+    b: salesforce LoginHistory 에서 그 API 사용자의 로그인 (ApiType, SourceIp), User.CreatedById·LastModifiedById 가 API 사용자
+    check: 시각이 가깝다
+  activity:
+  - okta application.provision.user.push, .deactivate, .sync
+  - salesforce LoginHistory (API 사용자 로그인), SetupAuditTrail (사용자 생성·비활성화가 남는지는 문서에 없음. 연동을 만들어 본다)
+  sources:
+  - https://saml-doc.okta.com/Provisioning_Docs/Salesforce_Federated_ID_Provisioning.html (기능 목록, Password + Token) [Exa. 2026-10-14 원주소 404, 본문에 폐기 문서 표시]
+  - https://saml-doc.okta.com/Provisioning_Docs/Salesforce_Customer_Portal_Provisioning.html (관리자 계정, 전용 API 계정, 위임 인증 끄기, Profile·Role·Federation ID·Permission Sets) [Exa]
+  - https://help.okta.com/en-us/Content/Topics/Provisioning/Salesforce/sfdc-supported-features.htm (지원 기능 표)
+  - https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (Application.features)
+- id: workflows_salesforce_connector
+  type: app_grant
+  what: Okta Workflows Salesforce 커넥터가 OAuth(scope api, web, refresh_token, offline_access)로 Salesforce 를 부름. 이벤트 카드 3개(New Record, Record Deleted, Record Updated), 액션 30개. 사용자 관리 카드는 System Administrator 프로필 연결이 필요하다
+  identify:
+    api: okta System Log
+    when: workflows.user.connection.create 의 target Connection alternateId 가 Salesforce 커넥터 (값은 연결을 만든 뒤 로그에서 읽는다)
+  points_to:
+  - tier: config_name
+    a: salesforce OauthToken.AppName (Okta Workflows 가 쓰는 connected app 라벨. 이름은 문서에 없음), UserId
+    b: okta Workflows Salesforce 연결
+    check: 연결한 Salesforce 사용자와 시각이 같다
+    if_unreadable: 'Salesforce Setup > Connected Apps OAuth Usage (앱별 사용자·사용 횟수). Okta Workflows 콘솔 > Connections'
+  - tier: log_time
+    a: okta workflows.user.connection.create 시각과 사용자
+    b: salesforce OauthToken 생성 뒤 첫 LastUsedDate, LoginHistory (LoginType Oauth2 「Remote Access 2.0」)
+    check: 시각이 가깝다
+  activity:
+  - okta workflows.user.connection.create, .delete, .reauthorize, .revoke
+  - salesforce OauthToken (UseCount, LastUsedDate), LoginHistory
+  sources:
+  - https://help.okta.com/wf/en-us/Content/Topics/Workflows/connector-reference/salesforce/salesforce.htm (카드 목록)
+  - https://help.okta.com/wf/en-us/Content/Topics/workflows/connector-reference/salesforce/overviews/authorization.htm (OAuth, scope, 계정 5개·토큰 5개, System Administrator) [Exa]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_oauthtoken.htm (AppName, UserId, LastUsedDate, UseCount. Customize Application 이면 전체 토큰) [Exa]
+- id: salesforce_as_idp_for_okta
+  type: identity
+  what: Okta 가 Salesforce 를 외부 IdP(Salesforce IdP 유형, OAuth 2.0)로 써서 Salesforce 계정으로 Okta 에 로그인
+  identify:
+    api: okta GET /api/v1/idps
+    when: type SALESFORCE
+  points_to:
+  - tier: config_id
+    a: okta IdP protocol.credentials.client.client_id
+    b: salesforce connected app·external client app 의 consumerKey (Metadata API ConnectedApp oauthConfig.consumerKey. SOQL ConnectedApplication 에는 키가 없다)
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: salesforce connected app oauthConfig.callbackUrl
+    b: okta 조직 주소 /oauth2/v1/authorize/callback
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: okta user.authentication.auth_via_IDP 의 target (IdP 가 어느 target type 으로 오는지는 문서에 없어 로그인해 보고 읽는다)
+    b: okta GET /api/v1/idps 의 Salesforce IdP id
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: salesforce LoginHistory 시각과 UserId (그 connected app 으로 로그인)
+    b: okta user.authentication.auth_via_IDP 시각과 actor
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta user.authentication.auth_via_IDP
+  - salesforce OauthToken (AppName = 그 앱), LoginHistory
+  sources:
+  - https://developer.okta.com/docs/guides/social-login/salesforce/main/ (Salesforce IdP, Client ID·Secret, 리디렉션 URI) [Exa]
+  - https://developer.salesforce.com/docs/atlas.en-us.api_meta.meta/api_meta/meta_connectedapp.htm (oauthConfig.consumerKey, callbackUrl) [브라우저]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_connectedapplication.htm (모든 필드 읽기 전용, 키·콜백 없음) [브라우저]
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_loginhistory.htm [Exa] (UserId, LoginTime, LoginType, SourceIp, Application, AuthenticationServiceId)
+- id: email_match
+  type: same_person
+  what: 같은 사람의 계정 (Okta login = Salesforce Username·Email·FederationIdentifier)
+  identify:
+    api: okta GET /api/v1/users, salesforce SOQL User (Username, Email, FederationIdentifier, IsActive)
+    when: 항상
+  points_to:
+  - tier: via_person
+    a: okta user.profile.login, email
+    b: salesforce User.Username, Email, FederationIdentifier
+    check: a 와 b 가 같다
+  sources:
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_user.htm (FederationIdentifier) [Exa]
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: agentforce_agent_import
+  type: app_grant
+  what: Okta 가 Salesforce Agentforce 에이전트를 가져와 Okta 에 등록한다 (AI agent import). Salesforce 쪽에 통합 사용자와 외부 클라이언트 앱(client credentials, api scope)을 만들고 Consumer Key·Secret 을 Okta 에 넣는다. 가져온 에이전트는 소유자·클라이언트 등록·접근을 정해야 활성화된다
+  identify:
+    api: okta Salesforce.com 앱 인스턴스의 AI agent import 설정 (화면); salesforce Setup > App manager 의 외부 클라이언트 앱 (OauthToken·LoginHistory 로 확인)
+    when: okta 에 Salesforce.com 앱이 있고 AI agent import 가 켜져 있음, salesforce 에 이름이 「Okta AI Agent Import」 인 외부 클라이언트 앱
+  points_to:
+  - tier: config_id
+    a: okta Salesforce 앱에 입력한 Consumer Key
+    b: salesforce 외부 클라이언트 앱의 Consumer Key
+    check: a 와 b 가 같다
+    if_unreadable: 'Okta 에 입력한 값은 화면에서만 본다. 사람: Okta 앱 > Sign On 의 AI agent import 설정'
+  - tier: config_name
+    a: okta Salesforce 앱 General 탭의 Login URL (My Domain 주소)
+    b: salesforce My Domain 주소
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta System Log app.ai_agent_provider.import.complete 의 시각
+    b: salesforce LoginHistory 의 외부 클라이언트 앱 로그인 시각 (통합 사용자, LoginType Remote Access 2.0)
+    check: 시각이 가깝다
+  activity:
+  - okta System Log app.ai_agent_provider.create, .update, .credential.validate, .activate, .deactivate, .delete, .import.start, .import.complete, .import_staging.confirm, .import_staging.ignore, .profile_mapping.update; 등록되면 workload_principal.register
+  - salesforce LoginHistory, OauthToken (외부 클라이언트 앱 로그인)
+  sources:
+  - https://help.okta.com/oie/en-us/content/topics/ai-agents/ai-agent-configure-salesforce.htm (Salesforce 쪽 설정 순서)
+  - https://help.okta.com/oie/en-us/Content/topics/ai-agents/ai-agent-import-supported-apps.htm (가져오기 지원 앱 목록)
+  - https://help.okta.com/OIE/en-us/content/topics/ai-agents/ai-agent-import-register.htm (가져온 에이전트 등록)
+  - 'https://developer.okta.com/docs/okta-event-types.csv (Okta 이벤트 타입 목록: 이름과 설명)'
+  note: Salesforce 쪽 로그인 기록과의 대응은 Okta 문서에 없다. salesforce-external:external_client_app 이 쓰는 LoginHistory·OauthToken 과 같은 방식으로 본 것이다
+- id: agentforce_agent_discovery
+  type: app_grant
+  what: Okta Identity Security Posture Management(ISPM)가 Salesforce Agentforce 에이전트를 찾아 Discovered agents 페이지에 보인다. 문서가 지원 SaaS 로 명시한 앱은 Agentforce 하나뿐이다. 슈퍼 관리자가 ISPM 에 커넥터를 연결하고 권한을 준다
+  identify:
+    api: okta ISPM Discovered agents 페이지 (화면)
+    when: okta ISPM 에 Salesforce 커넥터가 연결되어 있음
+  points_to:
+  - tier: config_name
+    a: okta ISPM Discovered agents 의 에이전트 이름과 소유자
+    b: salesforce Agentforce 에이전트 이름
+    check: a 와 b 가 같다
+    if_unreadable: '읽는 API 가 문서에 없다. 사람: Okta ISPM > Discovered agents'
+  activity:
+  - 문서에 없음 (ISPM 페이지가 System Log 이벤트 이름을 적지 않는다)
+  sources:
+  - https://help.okta.com/ispm/en-us/content/topics/ispm/ai-agents.htm (Discovered agents)
+  note: ISPM 의 에디션·라이선스 요건과 출시 상태는 원문에 없다. 로그 등급 없음
+- id: data360_okta_connector
+  type: stored_credential
+  what: Salesforce Data 360 의 Okta 커넥터가 Okta Core 의 지표와 정보를 Data 360 에 수집해 Security Mesh 신호 정의에 쓴다. GA, 배치 수집만
+  identify:
+    api: salesforce Data Cloud Setup > Other Connectors 의 Okta 커넥션 (화면)
+    when: salesforce Data 360 에 Okta 커넥션이 있음
+  points_to:
+  - tier: config_name
+    a: salesforce Data 360 Okta 커넥션이 가리키는 Okta 조직 주소
+    b: okta 조직 주소
+    check: a 와 b 가 같다
+    if_unreadable: '인증 방식과 설정 객체를 설명한 설정 문서를 열지 못했다(Set Up Security Mesh Signal Definitions). 사람: Data Cloud Setup > Other Connectors'
+  activity:
+  - 문서에 없음
+  sources:
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-okta-connector.html (GA, 배치) [Exa]
+  note: Okta 쪽에 생기는 것과 인증 방식은 확인하지 못했다. 로그 등급 없음
+- id: agentforce_registry_okta_mcp
+  type:
+  - app_grant
+  - stored_credential
+  what: Salesforce Agentforce 가 Agentforce Registry 에 등록한 Okta MCP 서버로 Okta 관리 API 를 부른다. Okta 가 관리하는 MCP 서버(2026.08.1 에 Production EA)와 자체 호스팅 오픈소스 서버(Device Authorization Grant 또는 Private Key JWT) 두 가지가 있다. 등록 때 서버 이름·URL·인증 방식(No Authentication, OAuth 2.0, Use External Credential)을 정하면 Salesforce 가 Named Credential, External Credential, 「{서버이름} Permission Set」을 만들고, 허용한 도구가 Agentforce Assets > Actions 에 「도구 이름 서버 이름」 꼴로 나온다. 사용자별 인증은 Employee 에이전트에만 된다
+  identify:
+    api: salesforce Setup > Agentforce Registry 의 MCP 서버 (이름, URL, 인증), Named Credential·External Credential·PermissionSet 「{서버이름} Permission Set」, Agentforce Assets > Actions. okta 관리형 MCP 서버(Production EA) 또는 자체 호스팅 오픈소스 MCP 서버에 쓰는 Okta OAuth 앱
+    when: salesforce Agentforce Registry 에 URL 이 Okta 조직 /mcp 이거나 자체 호스팅 서버인 MCP 서버가 있음
+  points_to:
+  - tier: config_name
+    a: salesforce Agentforce Registry 의 MCP 서버 URL
+    b: okta MCP 서버 주소 (관리형 https://<조직>.okta.com/mcp 또는 자체 호스팅 주소)
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: salesforce External Credential 의 OAuth Client ID
+    b: okta OAuth 앱 Client ID
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: salesforce 사용자 (사용자별 인증일 때 본인이 OAuth 동의)
+    b: okta OAuth 동의한 Okta 사용자
+    check: 같은 사람
+  - tier: log_time
+    a: okta System Log (오픈소스 서버 문서는 System Log 연동을 적는다)
+    b: salesforce 쪽 대응 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - okta System Log
+  sources:
+  - https://help.salesforce.com/s/articleView?id=ai.agent_mcp_connect_register.htm&language=en_US (Agentforce Registry > New, 인증 No Authentication·OAuth 2.0·Use External Credential, 사용자별 인증은 Employee 에이전트만, 자동 생성 Named Credential·External Credential·「{서버이름} Permission Set」, 도구 이름 「Tool Name ServerName」, 에디션 Enterprise·Performance·Unlimited·Developer, 권한 Manage AI Agents) [Exa]
+  - https://developer.okta.com/docs/concepts/mcp-server/ (오픈소스 서버, 인증 방식, System Log) [Exa]
+  - https://developer.okta.com/docs/release-notes/2026-okta-mcp-server (관리형 서버 Production EA) [Exa]
+  - https://developer.okta.com/docs/guides/mcp-server/main (설치) [Exa]
+  note: Okta 문서의 예시 클라이언트는 GitHub Copilot·Claude Desktop 이고 Agentforce 는 없다. 관리형 서버 구독 조건은 원문을 열지 못했다. 관리형 서버 주소는 copilot_okta_mcp 규칙에서 가져왔다. 실측 없음

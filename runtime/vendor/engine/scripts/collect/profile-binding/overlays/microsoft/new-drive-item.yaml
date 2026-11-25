@@ -1,0 +1,83 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: sharepoint
+object_type: DriveItem
+interfaces: [Resource]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-ITEM-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: children
+    kind: object
+    sources:
+      - call: M365-15
+        request: {kind: children}
+        items: value
+    id_expr: id
+    properties:
+      grant_target: {const: true}
+      item_id: id
+      name: name
+      webUrl: webUrl
+      size: size
+      folder: folder
+      file: file
+      parentReference: parentReference
+      createdDateTime: createdDateTime
+      lastModifiedDateTime: lastModifiedDateTime
+      sharing_link_scopes: {const: []}
+      has_anonymous_link: {const: false}
+    display: "{name|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          switch:
+            if:
+              all:
+                - path: parentReference.id
+                  present: true
+                - has:
+                    type: DriveItem
+                    id: parentReference.id
+            then: {const: folder}
+            else: {const: drive}
+          cases:
+            folder: {type: DriveItem, id: parentReference.id}
+            drive: {type: Drive, id: $req.drive}
+        basis: stated
+        require: [target]
+  - id: permissions_links
+    kind: enrich
+    sources:
+      - call: M365-15
+        request: {kind: permissions}
+        items: (root)
+    target:
+      type: DriveItem
+      id: $req.item
+    set:
+      sharing_link_scopes:
+        op: uniq_sorted
+        of:
+          op: pluck
+          of:
+            op: filter
+            of: value
+            where:
+              path: $item.link.scope
+              in: [anonymous, organization]
+          field: link.scope
+      has_anonymous_link:
+        op: some
+        of: value
+        where:
+          path: $item.link.scope
+          eq: anonymous

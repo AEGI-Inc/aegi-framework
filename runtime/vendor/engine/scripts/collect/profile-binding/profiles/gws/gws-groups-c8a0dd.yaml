@@ -1,0 +1,835 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: gws
+service: null
+object_type: Groups
+interfaces: &a1
+  - Policy
+model:
+  research_type: object-type:530f8c41d6bf7a0ff2c8a0dd
+identity:
+  primary:
+    - name: name
+      expr: name
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:530f8c41d6bf7a0ff2c8a0dd.identity_evidence
+  aliases:
+    - name: email
+      expr: email
+      stability: mutable
+      classification: self_address
+      evidence:
+        source: gws_directory
+        locator: Groups.email
+tenant_binding:
+  type: Customer
+  service: admin
+  call: GW-01
+  items: (root)
+  id: id
+fields:
+  whoCanPostAnnouncements:
+    path: whoCanPostAnnouncements
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanPostAnnouncements
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanPostAnnouncements
+  whoCanModerateMembers:
+    path: whoCanModerateMembers
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanModerateMembers
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanModerateMembers
+  whoCanAddReferences:
+    path: whoCanAddReferences
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanAddReferences
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanAddReferences
+  whoCanJoin:
+    path: whoCanJoin
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanJoin
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanJoin
+  whoCanMarkNoResponseNeeded:
+    path: whoCanMarkNoResponseNeeded
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanMarkNoResponseNeeded
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanMarkNoResponseNeeded
+  whoCanModifyTagsAndCategories:
+    path: whoCanModifyTagsAndCategories
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanModifyTagsAndCategories
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanModifyTagsAndCategories
+  whoCanEnterFreeFormTags:
+    path: whoCanEnterFreeFormTags
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanEnterFreeFormTags
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanEnterFreeFormTags
+  whoCanViewGroup:
+    path: whoCanViewGroup
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanViewGroup
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanViewGroup
+  membersCanPostAsTheGroup:
+    path: membersCanPostAsTheGroup
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: membersCanPostAsTheGroup
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|membersCanPostAsTheGroup
+  enableCollaborativeInbox:
+    path: enableCollaborativeInbox
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: enableCollaborativeInbox
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|enableCollaborativeInbox
+  messageModerationLevel:
+    path: messageModerationLevel
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: messageModerationLevel
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|messageModerationLevel
+  whoCanLockTopics:
+    path: whoCanLockTopics
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanLockTopics
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanLockTopics
+  includeCustomFooter:
+    path: includeCustomFooter
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: includeCustomFooter
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|includeCustomFooter
+  whoCanApproveMessages:
+    path: whoCanApproveMessages
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanApproveMessages
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanApproveMessages
+  favoriteRepliesOnTop:
+    path: favoriteRepliesOnTop
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: favoriteRepliesOnTop
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|favoriteRepliesOnTop
+  whoCanDiscoverGroup:
+    path: whoCanDiscoverGroup
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanDiscoverGroup
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanDiscoverGroup
+  whoCanAddExternalMembers:
+    path: whoCanAddExternalMembers
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanAddExternalMembers
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanAddExternalMembers
+  whoCanViewMembership:
+    path: whoCanViewMembership
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanViewMembership
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanViewMembership
+  whoCanModifyMembers:
+    path: whoCanModifyMembers
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanModifyMembers
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanModifyMembers
+  whoCanPostMessage:
+    path: whoCanPostMessage
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanPostMessage
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanPostMessage
+  whoCanHideAbuse:
+    path: whoCanHideAbuse
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanHideAbuse
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanHideAbuse
+  whoCanUnmarkFavoriteReplyOnAnyTopic:
+    path: whoCanUnmarkFavoriteReplyOnAnyTopic
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanUnmarkFavoriteReplyOnAnyTopic
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanUnmarkFavoriteReplyOnAnyTopic
+  maxMessageBytes:
+    path: maxMessageBytes
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      format: int32
+      name: maxMessageBytes
+      required: false
+      scalar: integer
+    map_items:
+      - space:Groups|maxMessageBytes
+  isArchived:
+    path: isArchived
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: isArchived
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|isArchived
+  whoCanMarkFavoriteReplyOnOwnTopic:
+    path: whoCanMarkFavoriteReplyOnOwnTopic
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanMarkFavoriteReplyOnOwnTopic
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanMarkFavoriteReplyOnOwnTopic
+  whoCanModerateContent:
+    path: whoCanModerateContent
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanModerateContent
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanModerateContent
+  whoCanAdd:
+    path: whoCanAdd
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanAdd
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanAdd
+  archiveOnly:
+    path: archiveOnly
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: archiveOnly
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|archiveOnly
+  whoCanInvite:
+    path: whoCanInvite
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanInvite
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanInvite
+  allowWebPosting:
+    path: allowWebPosting
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: allowWebPosting
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|allowWebPosting
+  customReplyTo:
+    path: customReplyTo
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: customReplyTo
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|customReplyTo
+  customFooterText:
+    path: customFooterText
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: customFooterText
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|customFooterText
+  sendMessageDenyNotification:
+    path: sendMessageDenyNotification
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: sendMessageDenyNotification
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|sendMessageDenyNotification
+  spamModerationLevel:
+    path: spamModerationLevel
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: spamModerationLevel
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|spamModerationLevel
+  showInGroupDirectory:
+    path: showInGroupDirectory
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: showInGroupDirectory
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|showInGroupDirectory
+  primaryLanguage:
+    path: primaryLanguage
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: primaryLanguage
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|primaryLanguage
+  description:
+    path: description
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: description
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|description
+  whoCanMarkDuplicate:
+    path: whoCanMarkDuplicate
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanMarkDuplicate
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanMarkDuplicate
+  defaultMessageDenyNotificationText:
+    path: defaultMessageDenyNotificationText
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: defaultMessageDenyNotificationText
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|defaultMessageDenyNotificationText
+  whoCanDeleteAnyPost:
+    path: whoCanDeleteAnyPost
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanDeleteAnyPost
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanDeleteAnyPost
+  whoCanMoveTopicsOut:
+    path: whoCanMoveTopicsOut
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanMoveTopicsOut
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanMoveTopicsOut
+  name:
+    path: name
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|name
+  whoCanMakeTopicsSticky:
+    path: whoCanMakeTopicsSticky
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanMakeTopicsSticky
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanMakeTopicsSticky
+  whoCanBanUsers:
+    path: whoCanBanUsers
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanBanUsers
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanBanUsers
+  kind:
+    path: kind
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: kind
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|kind
+  whoCanTakeTopics:
+    path: whoCanTakeTopics
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanTakeTopics
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanTakeTopics
+  allowExternalMembers:
+    path: allowExternalMembers
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: allowExternalMembers
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|allowExternalMembers
+  allowGoogleCommunication:
+    path: allowGoogleCommunication
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: allowGoogleCommunication
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|allowGoogleCommunication
+  whoCanContactOwner:
+    path: whoCanContactOwner
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanContactOwner
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanContactOwner
+  whoCanUnassignTopic:
+    path: whoCanUnassignTopic
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanUnassignTopic
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanUnassignTopic
+  whoCanDeleteTopics:
+    path: whoCanDeleteTopics
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanDeleteTopics
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanDeleteTopics
+  replyTo:
+    path: replyTo
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: replyTo
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|replyTo
+  whoCanAssistContent:
+    path: whoCanAssistContent
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanAssistContent
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanAssistContent
+  whoCanMarkFavoriteReplyOnAnyTopic:
+    path: whoCanMarkFavoriteReplyOnAnyTopic
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanMarkFavoriteReplyOnAnyTopic
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanMarkFavoriteReplyOnAnyTopic
+  whoCanMoveTopicsIn:
+    path: whoCanMoveTopicsIn
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanMoveTopicsIn
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanMoveTopicsIn
+  email:
+    path: email
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: email
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|email
+  default_sender:
+    path: default_sender
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: default_sender
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|default_sender
+  messageDisplayFont:
+    path: messageDisplayFont
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: messageDisplayFont
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|messageDisplayFont
+  whoCanLeaveGroup:
+    path: whoCanLeaveGroup
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanLeaveGroup
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanLeaveGroup
+  whoCanApproveMembers:
+    path: whoCanApproveMembers
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanApproveMembers
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanApproveMembers
+  includeInGlobalAddressList:
+    path: includeInGlobalAddressList
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: includeInGlobalAddressList
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|includeInGlobalAddressList
+  whoCanAssignTopics:
+    path: whoCanAssignTopics
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: whoCanAssignTopics
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|whoCanAssignTopics
+  customRolesEnabledForSettingsToBeMerged:
+    path: customRolesEnabledForSettingsToBeMerged
+    source: research_shape
+    shape: sh:gws_groupssettings:Groups
+    declaration:
+      name: customRolesEnabledForSettingsToBeMerged
+      required: false
+      scalar: string
+    map_items:
+      - space:Groups|customRolesEnabledForSettingsToBeMerged
+references: []
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: gws
+  object_type: Groups
+  interfaces: *a1
+  model:
+    research_type: object-type:530f8c41d6bf7a0ff2c8a0dd
+  extract:
+    key: PILOT-gws-Groups-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: name
+        sources:
+          - call: AUTO-GWS-c8a0dd
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          allowExternalMembers: allowExternalMembers
+          allowGoogleCommunication: allowGoogleCommunication
+          allowWebPosting: allowWebPosting
+          archiveOnly: archiveOnly
+          customFooterText: customFooterText
+          customReplyTo: customReplyTo
+          customRolesEnabledForSettingsToBeMerged: customRolesEnabledForSettingsToBeMerged
+          defaultMessageDenyNotificationText: defaultMessageDenyNotificationText
+          default_sender: default_sender
+          description: description
+          email: email
+          enableCollaborativeInbox: enableCollaborativeInbox
+          favoriteRepliesOnTop: favoriteRepliesOnTop
+          includeCustomFooter: includeCustomFooter
+          includeInGlobalAddressList: includeInGlobalAddressList
+          isArchived: isArchived
+          kind: kind
+          maxMessageBytes: maxMessageBytes
+          membersCanPostAsTheGroup: membersCanPostAsTheGroup
+          messageDisplayFont: messageDisplayFont
+          messageModerationLevel: messageModerationLevel
+          name: name
+          primaryLanguage: primaryLanguage
+          replyTo: replyTo
+          sendMessageDenyNotification: sendMessageDenyNotification
+          showInGroupDirectory: showInGroupDirectory
+          spamModerationLevel: spamModerationLevel
+          whoCanAdd: whoCanAdd
+          whoCanAddExternalMembers: whoCanAddExternalMembers
+          whoCanAddReferences: whoCanAddReferences
+          whoCanApproveMembers: whoCanApproveMembers
+          whoCanApproveMessages: whoCanApproveMessages
+          whoCanAssignTopics: whoCanAssignTopics
+          whoCanAssistContent: whoCanAssistContent
+          whoCanBanUsers: whoCanBanUsers
+          whoCanContactOwner: whoCanContactOwner
+          whoCanDeleteAnyPost: whoCanDeleteAnyPost
+          whoCanDeleteTopics: whoCanDeleteTopics
+          whoCanDiscoverGroup: whoCanDiscoverGroup
+          whoCanEnterFreeFormTags: whoCanEnterFreeFormTags
+          whoCanHideAbuse: whoCanHideAbuse
+          whoCanInvite: whoCanInvite
+          whoCanJoin: whoCanJoin
+          whoCanLeaveGroup: whoCanLeaveGroup
+          whoCanLockTopics: whoCanLockTopics
+          whoCanMakeTopicsSticky: whoCanMakeTopicsSticky
+          whoCanMarkDuplicate: whoCanMarkDuplicate
+          whoCanMarkFavoriteReplyOnAnyTopic: whoCanMarkFavoriteReplyOnAnyTopic
+          whoCanMarkFavoriteReplyOnOwnTopic: whoCanMarkFavoriteReplyOnOwnTopic
+          whoCanMarkNoResponseNeeded: whoCanMarkNoResponseNeeded
+          whoCanModerateContent: whoCanModerateContent
+          whoCanModerateMembers: whoCanModerateMembers
+          whoCanModifyMembers: whoCanModifyMembers
+          whoCanModifyTagsAndCategories: whoCanModifyTagsAndCategories
+          whoCanMoveTopicsIn: whoCanMoveTopicsIn
+          whoCanMoveTopicsOut: whoCanMoveTopicsOut
+          whoCanPostAnnouncements: whoCanPostAnnouncements
+          whoCanPostMessage: whoCanPostMessage
+          whoCanTakeTopics: whoCanTakeTopics
+          whoCanUnassignTopic: whoCanUnassignTopic
+          whoCanUnmarkFavoriteReplyOnAnyTopic: whoCanUnmarkFavoriteReplyOnAnyTopic
+          whoCanViewGroup: whoCanViewGroup
+          whoCanViewMembership: whoCanViewMembership
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:gws_groupssettings:groupsSettings.groups.get
+  operation: groupsSettings.groups.get
+  surface: rest
+  method: GET
+  kind: read_one
+  endpoint: /[^/]+(?:\?|$)
+  endpoint_template: /{groupUniqueId}
+  request: {}
+  required_params:
+    - groupUniqueId
+  paths:
+    - shape: sh:gws_groupssettings:Groups
+      path: []
+  alternatives_total: 0
+  alternatives: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 8d48095984113f27a11dc420a752b717df59eae51bc3bbd4797896c8ad4af30d
+    ir/shape.jsonl: 998cf62cfd25e0d4d9d9e705e0e34b0b8c31494250a970686a7d8867e0503fbc
+    ir/operation.jsonl: 14fd7a38425bfeae03709952cd2c90c62f41d51658abd12c249f48def14db67f
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - name
+    - email
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

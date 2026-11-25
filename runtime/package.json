@@ -1,0 +1,38 @@
+{
+  "name": "aegi-solution",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "AEGI 로컬 설치판: 서버, DB, 클라우드 없이 한 PC 에서 수집, 판정, 대시보드, AI 를 돌린다",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --max-old-space-size=1024 --import tsx bin/aegi.ts start",
+    "aegi": "node --max-old-space-size=1024 --import tsx bin/aegi.ts",
+    "test": "node --import tsx --test test/*.test.ts",
+    "sync": "node scripts/sync.mjs",
+    "release": "node scripts/release.mjs"
+  },
+  "dependencies": {
+    "@1password/sdk": "0.5.0",
+    "@anthropic-ai/sdk": "^1.3.0",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.4",
+    "@vitejs/plugin-react": "^6.1.1",
+    "esbuild": "^0.28.2",
+    "lucide-react": "^1.47.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "thinking-orbs": "0.3.2",
+    "vite": "^8.3.0"
+  }
+}

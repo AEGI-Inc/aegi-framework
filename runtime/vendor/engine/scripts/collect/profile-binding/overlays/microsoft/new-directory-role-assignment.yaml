@@ -1,0 +1,158 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: DirectoryRoleAssignment
+interfaces: [Assignment]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-DRA-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-08
+        request: {kind: roleAssignments}
+        items: value
+    id_expr: id
+    vars:
+      principal_type:
+        if:
+          has: {type: User, id: principalId}
+        then: {const: user}
+        else:
+          if:
+            has: {type: ServicePrincipal, id: principalId}
+          then: {const: sp}
+          else: {const: group}
+      au_id:
+        op: regex
+        of: directoryScopeId
+        pattern: "^/administrativeUnits/([^/?#]+)"
+        group: 1
+      role_name:
+        ref:
+          type: DirectoryRole
+          id: roleDefinitionId
+        prop: displayName
+    properties:
+      role_definition_id: roleDefinitionId
+      directory_scope_id: directoryScopeId
+      principal_id: principalId
+      eligible: {const: false}
+    display: "{$vars.role_name|roleDefinitionId} → {principalId}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: has_role_on
+        source:
+          switch: $vars.principal_type
+          cases:
+            user: {type: User, id: principalId}
+            sp: {type: ServicePrincipal, id: principalId}
+            group: {type: Group, id: principalId}
+        target:
+          switch:
+            if:
+              path: $vars.au_id
+              present: true
+            then: {const: au}
+            else: {const: tenant}
+          cases:
+            au: {type: AdministrativeUnit, id: $vars.au_id}
+            tenant: $tenant
+        role:
+          ref:
+            type: DirectoryRole
+            id: roleDefinitionId
+          name:
+            any:
+              - $vars.role_name
+              - roleDefinitionId
+        basis: stated
+        properties:
+          via_assignment: $self
+          role_definition_id: roleDefinitionId
+          directory_scope_id: directoryScopeId
+          eligible: {const: false}
+        require: [source, target]
+  - id: eligible
+    kind: object
+    sources:
+      - call: M365-08
+        request: {kind: roleEligibilitySchedules}
+        items: value
+    id_expr: id
+    vars:
+      principal_type:
+        if:
+          has: {type: User, id: principalId}
+        then: {const: user}
+        else:
+          if:
+            has: {type: ServicePrincipal, id: principalId}
+          then: {const: sp}
+          else: {const: group}
+      au_id:
+        op: regex
+        of: directoryScopeId
+        pattern: "^/administrativeUnits/([^/?#]+)"
+        group: 1
+      role_name:
+        ref:
+          type: DirectoryRole
+          id: roleDefinitionId
+        prop: displayName
+    properties:
+      role_definition_id: roleDefinitionId
+      directory_scope_id: directoryScopeId
+      principal_id: principalId
+      eligible: {const: true}
+    display: "{$vars.role_name|roleDefinitionId} → {principalId}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: has_role_on
+        source:
+          switch: $vars.principal_type
+          cases:
+            user: {type: User, id: principalId}
+            sp: {type: ServicePrincipal, id: principalId}
+            group: {type: Group, id: principalId}
+        target:
+          switch:
+            if:
+              path: $vars.au_id
+              present: true
+            then: {const: au}
+            else: {const: tenant}
+          cases:
+            au: {type: AdministrativeUnit, id: $vars.au_id}
+            tenant: $tenant
+        role:
+          ref:
+            type: DirectoryRole
+            id: roleDefinitionId
+          name:
+            any:
+              - $vars.role_name
+              - roleDefinitionId
+        basis: stated
+        properties:
+          via_assignment: $self
+          role_definition_id: roleDefinitionId
+          directory_scope_id: directoryScopeId
+          eligible: {const: true}
+        require: [source, target]

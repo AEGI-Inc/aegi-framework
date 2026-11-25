@@ -1,0 +1,5 @@
+fields:
+  default:
+    path: default
+    source: collected_response
+fields_basis: 기본 인가 서버 여부(default)가 선언에 없어 버려지던 것을 선언한다(값은 수집 응답 그대로)

@@ -1,0 +1,77 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: aws
+service: ec2
+object_type: EC2Instance
+interfaces: [Resource, Automation]
+identity:
+  primary:
+    - {name: id, expr: InstanceId, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: AWS-EC2-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AWS-03
+        request: {kind: instances}
+        items: Instances
+    id_expr: InstanceId
+    properties:
+      operational_state: {const: active}
+      run_as_resolution: {const: fixed_principal}
+      instance_id: InstanceId
+      instance_type: InstanceType
+      state_name: State.Name
+      vpc_id: VpcId
+      subnet_id: SubnetId
+      public_ip_address: PublicIpAddress
+      private_ip_address: PrivateIpAddress
+      iam_instance_profile_arn: IamInstanceProfileArn
+      iam_role_name: IamRoleName
+      security_group_ids: SecurityGroupIds
+      security_groups: SecurityGroups
+      iam_instance_profile: IamInstanceProfile
+      state: State
+    display: "{InstanceId}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Subnet, id: SubnetId}
+        basis: stated
+        require: [target]
+      - each: SecurityGroups
+        type: applies_to
+        source: {type: SecurityGroup, id: $item.GroupId}
+        target: $self
+        basis: stated
+        require: [source]
+  - id: instance_profiles
+    kind: relation
+    sources:
+      - call: AWS-03
+        request: {kind: instance_profiles}
+        items: (array_or:InstanceProfiles|instanceProfileSet.item)
+    relations:
+      - each:
+          any:
+            - Roles
+            - Roles.member
+        type: runs_as
+        source:
+          type: EC2Instance
+          lookup: iam_instance_profile_arn
+          value: Arn
+        target:
+          type: IAMRole
+          lookup: role_name
+          value:
+            any:
+              - $item.RoleName
+              - $item
+        basis: stated
+        require: [source, target]

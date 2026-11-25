@@ -1,0 +1,151 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/slack/profiles/usergroup.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-06
+        items: usergroups
+    mutable_ids:
+      handle: handle
+    properties:
+      name: name
+      handle: handle
+      is_external: is_external
+      is_idp_group: is_idp_group
+      date_delete: date_delete
+      default_channels: prefs.channels
+    display: "@{handle|name}"
+    relations:
+      - type: member_of
+        each: users
+        source:
+          type: 200.members[*]
+          id: $item
+        target: $self
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-UG-{id}
+  - id: members
+    kind: object
+    sources:
+      - call: SL-15
+        request:
+          usergroup: present
+        items: (root)
+    id_expr:
+      op: str
+      of: $req.usergroup
+    display: "{$req.usergroup}"
+    relations:
+      - type: member_of
+        each: users
+        source:
+          type: 200.members[*]
+          id: $item
+        target: $self
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr:
+            op: str
+            of: $req.usergroup
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-UG-{id}
+  - id: audit_name
+    kind: enrich
+    sources:
+      - call: SL-11
+        items: entries
+        where:
+          path: entity.type
+          eq: usergroup
+    target:
+      type: objs_subteam
+      id: entity.usergroup.id
+      exists: true
+    require:
+      all:
+        - path: entity.usergroup.name
+          truthy: true
+        - path:
+            ref:
+              type: objs_subteam
+              id: entity.usergroup.id
+            prop: name
+          truthy: false
+    set:
+      name: entity.usergroup.name
+    set_display: entity.usergroup.name
+    relations: []
+    key_template: SLK-UG-{id}
+  - id: audit_idp
+    kind: enrich
+    sources:
+      - call: SL-11
+        items: entries
+        where:
+          all:
+            - path: entity.type
+              eq: usergroup
+            - path: details.idp_group_member_count
+              defined: true
+    target:
+      type: objs_subteam
+      id: entity.usergroup.id
+      exists: true
+    set:
+      is_idp_group: true
+    relations: []
+    key_template: SLK-UG-{id}
+runtime_stub: null
+runtime_key: SLK-UG-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  handle:
+    stability: mutable
+relation_rules:
+  - id: usergroup:list
+    sources:
+      - call: SL-06
+        items: usergroups
+    relations:
+      - type: member_of
+        each: users
+        source:
+          type: 200.members[*]
+          id: $item
+        target: $self
+        basis: stated
+    self_identity: object_rule
+  - id: usergroup:members
+    sources:
+      - call: SL-15
+        request:
+          usergroup: present
+        items: (root)
+    relations:
+      - type: member_of
+        each: users
+        source:
+          type: 200.members[*]
+          id: $item
+        target: $self
+        basis: stated
+    self_identity: object_rule
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다

@@ -1,0 +1,580 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: slack
+service: null
+object_type: 200.list
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:57cfb8de76c53842d25b3514
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:57cfb8de76c53842d25b3514.identity_evidence
+tenant_binding:
+  type: workspace
+  service: null
+  field: context_team_id
+  prefix: T
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: id
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|id
+  created:
+    path: created
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: created
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.list|created
+  timestamp:
+    path: timestamp
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: timestamp
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.list|timestamp
+  name:
+    path: name
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|name
+  title:
+    path: title
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: title
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|title
+  mimetype:
+    path: mimetype
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: mimetype
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|mimetype
+  filetype:
+    path: filetype
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: filetype
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|filetype
+  pretty_type:
+    path: pretty_type
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: pretty_type
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|pretty_type
+  user:
+    path: user
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: user
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|user
+  user_team:
+    path: user_team
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: user_team
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|user_team
+  editable:
+    path: editable
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: editable
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.list|editable
+  size:
+    path: size
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: size
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.list|size
+  mode:
+    path: mode
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: mode
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|mode
+  is_external:
+    path: is_external
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: is_external
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.list|is_external
+  external_type:
+    path: external_type
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: external_type
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|external_type
+  is_public:
+    path: is_public
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: is_public
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.list|is_public
+  public_url_shared:
+    path: public_url_shared
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: public_url_shared
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.list|public_url_shared
+  display_as_bot:
+    path: display_as_bot
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: display_as_bot
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.list|display_as_bot
+  username:
+    path: username
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: username
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|username
+  list_metadata:
+    path: list_metadata
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: list_metadata
+      required: false
+      shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list.list_metadata
+    map_items: []
+  list_limits:
+    path: list_limits
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: list_limits
+      required: false
+      shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list.list_limits
+    map_items: []
+  url_private:
+    path: url_private
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: url_private
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|url_private
+  url_private_download:
+    path: url_private_download
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: url_private_download
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|url_private_download
+  permalink:
+    path: permalink
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: permalink
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|permalink
+  permalink_public:
+    path: permalink_public
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: permalink_public
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|permalink_public
+  last_editor:
+    path: last_editor
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: last_editor
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|last_editor
+  list_csv_download_url:
+    path: list_csv_download_url
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: list_csv_download_url
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|list_csv_download_url
+  updated:
+    path: updated
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: updated
+      required: false
+      scalar: integer
+    map_items:
+      - space:200.list|updated
+  is_starred:
+    path: is_starred
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: is_starred
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.list|is_starred
+  skipped_shares:
+    path: skipped_shares
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: skipped_shares
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.list|skipped_shares
+  teams_shared_with:
+    path: teams_shared_with
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: teams_shared_with
+      required: false
+      shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list.teams_shared_with
+    map_items:
+      - space:200.list|teams_shared_with
+  is_restricted_sharing_enabled:
+    path: is_restricted_sharing_enabled
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: is_restricted_sharing_enabled
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.list|is_restricted_sharing_enabled
+  has_rich_preview:
+    path: has_rich_preview
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: has_rich_preview
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.list|has_rich_preview
+  file_access:
+    path: file_access
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: file_access
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|file_access
+  access:
+    path: access
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: access
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|access
+  org_or_workspace_access:
+    path: org_or_workspace_access
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: org_or_workspace_access
+      required: false
+      scalar: string
+    map_items:
+      - space:200.list|org_or_workspace_access
+  is_ai_suggested:
+    path: is_ai_suggested
+    source: research_shape
+    shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+    declaration:
+      name: is_ai_suggested
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.list|is_ai_suggested
+references:
+  - name: list_metadata_creation_source_reference_id
+    field: list_metadata.creation_source.reference_id
+    target: objs_file
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2863e3a41a4a3a901b476d6f; relation=no_relation
+  - name: list_metadata_schema
+    field: list_metadata.schema
+    target: 200.list.list_metadata.schema[*]
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:785fcc999adaa0eaeceb227e; relation=no_relation
+  - name: list_metadata_subtask_schema_id
+    field: list_metadata.subtask_schema.id
+    target: 200.list.list_metadata.views[*].columns[*]
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8c9d8efe16cde2cffc9c7bf8; relation=no_relation
+  - name: user_team
+    field: user_team
+    target: defs_enterprise_id
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8f2efdf3ad02a36441547744; relation=no_relation
+  - name: teams_shared_with
+    field: teams_shared_with
+    target: defs_enterprise_id
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:961867764cec5e6d16ffbcc4; relation=no_relation
+  - name: list_metadata_views_columns
+    field: list_metadata.views.columns
+    target: 200.list.list_metadata.views[*].columns[*]
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d8f0f35f65d196b74e4b60bc; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: slack
+  object_type: 200.list
+  interfaces: *a1
+  model:
+    research_type: object-type:57cfb8de76c53842d25b3514
+  extract:
+    key: PILOT-slack-200.list-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-SLACK-5b3514
+            endpoint: /
+            items:
+              - list
+        properties:
+          access: access
+          created: created
+          display_as_bot: display_as_bot
+          editable: editable
+          external_type: external_type
+          file_access: file_access
+          filetype: filetype
+          has_rich_preview: has_rich_preview
+          id: id
+          is_ai_suggested: is_ai_suggested
+          is_external: is_external
+          is_public: is_public
+          is_restricted_sharing_enabled: is_restricted_sharing_enabled
+          is_starred: is_starred
+          last_editor: last_editor
+          list_csv_download_url: list_csv_download_url
+          list_limits: list_limits
+          list_metadata: list_metadata
+          mimetype: mimetype
+          mode: mode
+          name: name
+          org_or_workspace_access: org_or_workspace_access
+          permalink: permalink
+          permalink_public: permalink_public
+          pretty_type: pretty_type
+          public_url_shared: public_url_shared
+          size: size
+          skipped_shares: skipped_shares
+          teams_shared_with: teams_shared_with
+          timestamp: timestamp
+          title: title
+          updated: updated
+          url_private: url_private
+          url_private_download: url_private_download
+          user: user
+          user_team: user_team
+          username: username
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:slack_docs_methods:slackLists.items.info
+  operation: slackLists.items.info
+  surface: rpc
+  method: null
+  kind: unknown
+  endpoint: /slackLists\.items\.info(?:\?|$)
+  endpoint_template: slackLists.items.info
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:slack_docs_methods:op:slackLists.items.info:resp:200.list
+      path:
+        - list
+  alternatives_total: 0
+  alternatives: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: fe9343e56ffad6f2b0e007b7d616aa5a36dc671b5d93ef108740be1799dc2887
+    ir/shape.jsonl: e0251d3f1d8d7f441387bb9666f63eff7398545254d0b92ccab02c9503bbfbf3
+    ir/operation.jsonl: 5f61d17fe234449c5cd1c291def84c2453e244f73063e1ce5d43b65caf9348cf
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - list_metadata.creation_source.reference_id
+    - list_metadata.schema
+    - list_metadata.subtask_schema.id
+    - user_team
+    - teams_shared_with
+    - list_metadata.views.columns
+  metadata_paths: *a2
+  remaining_declared_fields: properties

@@ -1,0 +1,3 @@
+emit: reference_only
+manual_basis: "System Log 이벤트의 actor 는 사용자·클라이언트·앱을 가리키는 참조다(rulebook O3: 감사 기록은
+  Object 가 아니다). 겹친 값 User 5, OAuth2Client 2, Application 2"

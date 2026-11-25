@@ -1,0 +1,42 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: onepassword
+service: vaults
+object_type: Item
+interfaces: [Resource]
+# 근거: op item list --vault <id> --include-archive(CLI 2.34.1) 실제 응답(2026-11-20). 메타만 온다(id, title, category, version, vault, urls, 시각).
+# 비밀값은 받지 않는다. additional_information 은 로그인 항목의 사용자 이름이라 옮기지 않는다. 같은 구성을 Cartography 가 OnePasswordItem(Secret)으로 넣는다.
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: OP-ITEM-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OP-02
+        request: {kind: items}
+        items: (items)
+    id_expr: id
+    properties:
+      title: title
+      category: category
+      version: version
+      state: state
+      vault_id: vault.id
+      created_at: created_at
+      updated_at: updated_at
+      url_count: {op: count, of: urls}
+      grant_target: {const: false}
+    display: "{title|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Vault, id: vault.id}
+        basis: stated
+        require: [target]

@@ -1,0 +1,56 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: aiplatform
+object_type: ReasoningEngine
+interfaces: [Automation, Resource]
+# 근거: Agent Platform v1(reasoningEngines) Discovery 문서의 GoogleCloudAiplatformV1ReasoningEngine 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-06 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# ADK 에이전트가 올라가 도는 곳. spec 은 통째로 옮기지 않고 실행 신원 칸만 고른다(배포 설정에 환경 변수가 들 수 있다).
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-RE-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-06
+        request: {kind: reasoning_engines}
+        items: reasoningEngines
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    properties:
+      labels: labels
+      etag: etag
+      createTime: createTime
+      displayName: displayName
+      updateTime: updateTime
+      description: description
+      identity_type: spec.identityType
+      service_account: spec.serviceAccount
+      effective_identity: spec.effectiveIdentity
+      agent_framework: spec.agentFramework
+      kms_key_name: encryptionSpec.kmsKeyName
+      has_context_spec: {op: exists, of: contextSpec}
+      run_as_resolution: {const: static_principal}
+    display: "{displayName|title|name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+        basis: stated
+        require: [target]
+      # 실행 신원. effectiveIdentity 가 수집된 서비스 계정의 메일이면 잇는다. 서비스 에이전트·Agent Identity 주체는 대상 객체가 없어 못 푼 참조로 남는다
+      - type: runs_as
+        source: $self
+        target: {type: ServiceAccount, lookup: email, value: spec.effectiveIdentity}
+        basis: stated
+        require: [target]

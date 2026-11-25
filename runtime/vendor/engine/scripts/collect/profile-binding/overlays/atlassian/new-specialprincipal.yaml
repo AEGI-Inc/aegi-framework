@@ -1,0 +1,117 @@
+format: im-pilot-profile/1
+scope: catalog_spec5_record_projection
+provider: atlassian
+service: null
+object_type: SpecialPrincipal
+interfaces:
+  - Principal
+model:
+  research_type: null
+  runtime_type_id: model-v1:atlassian:SpecialPrincipal
+  decision_refs:
+    - model-v1 runtime record_projection
+    - G4-Q03
+vars:
+  app:
+    op: strip_prefix
+    of: cls
+    prefix: APPLICATION_ROLE_
+identity:
+  primary:
+    - name: host
+      expr: &a1
+        ref: tenant
+        prop: $id
+      stability: catalog_reviewed
+    - name: id
+      expr: cls
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: AT-SP-{host}-{id}
+binding:
+  status: on_demand_or_uncollected
+  call: null
+  operation_id: null
+  paths:
+    - shape: sh:confluence_openapi_v2:SpacePermission
+      path: []
+  basis: catalog spec:5 sources
+fields:
+  access_class:
+    expr: cls
+    source: catalog_spec5
+  principal_kind:
+    expr:
+      const: group
+    source: catalog_spec5
+references: []
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - password
+    - token
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/special_principal.yaml
+  engine_commit: d78062d
+  research_agreement: no_research_type
+runtime_rules:
+  - id: make
+    kind: object
+    on_demand: true
+    vars:
+      app:
+        op: strip_prefix
+        of: cls
+        prefix: APPLICATION_ROLE_
+    id_expr: cls
+    parts:
+      host:
+        ref: $tenant
+        prop: $id
+    properties:
+      access_class: cls
+      principal_kind:
+        const: group
+    display:
+      op: map
+      of: cls
+      table:
+        ALL_LICENSED_USERS: 모든 라이선스 사용자
+        ALL_PRODUCT_ADMINS: 모든 제품 관리자
+        ANONYMOUS_USERS: 익명 사용자
+        ALL_UNLICENSED_USERS: 라이선스 없는 모든 사용자
+      default:
+        if:
+          path: cls
+          matches: ^APPLICATION_ROLE_
+        then:
+          template: "{$vars.app} 사용자"
+        else: cls
+    relations: []
+    identity:
+      primary:
+        - name: host
+          expr: *a1
+          stability: catalog_reviewed
+        - name: id
+          expr: cls
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: AT-SP-{host}-{id}
+runtime_stub: null
+runtime_key: AT-SP-{host}-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable

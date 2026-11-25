@@ -1,0 +1,235 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/project_role.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: JI-05
+        request:
+          role: present
+        items: (root)
+    vars:
+      role_id:
+        op: str
+        of:
+          any:
+            - id
+            - $req.role
+      project_id:
+        op: str
+        of: $req.project
+      scheme:
+        op: index
+        name: scheme_of_project
+        key: $vars.project_id
+      permissions:
+        op: uniq_sorted
+        of:
+          op: pluck
+          of:
+            op: filter
+            of:
+              op: index
+              name: scheme_lines
+              key: $vars.scheme
+            where:
+              path: $item.role
+              eq_expr: $vars.role_id
+          field: permission
+    id_expr: $vars.role_id
+    properties:
+      name: name
+      description: description
+    display: "{name|$req.role}"
+    relations:
+      - type: has_role_on
+        each: actors
+        source:
+          switch:
+            if:
+              path: $item.actorUser.accountId
+              truthy: true
+            then:
+              const: user
+            else:
+              if:
+                path: $item.actorGroup.groupId
+                truthy: true
+              then:
+                const: group
+          cases:
+            user:
+              type: User
+              id: $item.actorUser.accountId
+            group:
+              type: FoundGroup
+              id: $item.actorGroup.groupId
+        target:
+          type: Project
+          id: $vars.project_id
+        role:
+          ref: $self
+        basis: stated
+        properties:
+          actor_type: $item.type
+          permissions: $vars.permissions
+          ...:
+            if:
+              all:
+                - path: $vars.scheme
+                  truthy: true
+                - path:
+                    op: count
+                    of: $vars.permissions
+                  truthy: true
+            then:
+              object:
+                via_scheme:
+                  ref:
+                    type: PermissionScheme
+                    id: $vars.scheme
+                  prop: $key
+            else:
+              object: {}
+    identity:
+      primary:
+        - name: id
+          expr: $vars.role_id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: JIRA-ROLE-{id}
+runtime_stub: null
+runtime_key: JIRA-ROLE-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: ProjectRole:list
+    sources:
+      - call: JI-05
+        request:
+          role: present
+        items: (root)
+    vars:
+      role_id:
+        op: str
+        of:
+          any:
+            - id
+            - $req.role
+      project_id:
+        op: str
+        of: $req.project
+      scheme:
+        op: index
+        name: scheme_of_project
+        key: $vars.project_id
+      permissions:
+        op: uniq_sorted
+        of:
+          op: pluck
+          of:
+            op: filter
+            of:
+              op: index
+              name: scheme_lines
+              key: $vars.scheme
+            where:
+              path: $item.role
+              eq_expr: $vars.role_id
+          field: permission
+    relations:
+      - type: has_role_on
+        each: actors
+        source:
+          switch:
+            if:
+              path: $item.actorUser.accountId
+              truthy: true
+            then:
+              const: user
+            else:
+              if:
+                path: $item.actorGroup.groupId
+                truthy: true
+              then:
+                const: group
+          cases:
+            user:
+              type: User
+              id: $item.actorUser.accountId
+            group:
+              type: FoundGroup
+              id: $item.actorGroup.groupId
+        target:
+          type: Project
+          id: $vars.project_id
+        role:
+          ref: $self
+        basis: stated
+        properties:
+          actor_type: $item.type
+          permissions: $vars.permissions
+          ...:
+            if:
+              all:
+                - path: $vars.scheme
+                  truthy: true
+                - path:
+                    op: count
+                    of: $vars.permissions
+                  truthy: true
+            then:
+              object:
+                via_scheme:
+                  ref:
+                    type: PermissionScheme
+                    id: $vars.scheme
+                  prop: $key
+            else:
+              object: {}
+    self_identity: object_rule
+vars:
+  role_id:
+    op: str
+    of:
+      any:
+        - id
+        - $req.role
+  project_id:
+    op: str
+    of: $req.project
+  scheme:
+    op: index
+    name: scheme_of_project
+    key: $vars.project_id
+  permissions:
+    op: uniq_sorted
+    of:
+      op: pluck
+      of:
+        op: filter
+        of:
+          op: index
+          name: scheme_lines
+          key: $vars.scheme
+        where:
+          path: $item.role
+          eq_expr: $vars.role_id
+      field: permission
+identity:
+  primary:
+    - name: id
+      expr: $vars.role_id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: JIRA-ROLE-{id}
+    replaced:
+      - $req.parent_id
+      - id

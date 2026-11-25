@@ -1,0 +1,55 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/zones.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-22
+        request:
+          kind: zones
+        where:
+          path: id
+          present: true
+    properties:
+      name: name
+      type: type
+      usage: usage
+      status: status
+      system: system
+      gateways:
+        op: null_if_missing
+        of: gateways
+      proxies:
+        op: null_if_missing
+        of: proxies
+      asns:
+        op: null_if_missing
+        of: asns
+      locations:
+        op: null_if_missing
+        of: locations
+      created: created
+      lastUpdated: lastUpdated
+    display: 네트워크 영역 {name}
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-ZONE-{id}
+runtime_stub: null
+runtime_key: OKTA-ZONE-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+fields:
+  ipServiceCategories:
+    path: ipServiceCategories
+    source: collected_response
+fields_basis: 설정 판정이 읽는 응답 최상위 키다. Profile 필드 선언에 없어 quarantined_fields 로 빠지던 것을 선언한다(값은 수집 응답 그대로)

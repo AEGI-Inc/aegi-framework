@@ -1,0 +1,87 @@
+format: im-pilot-profile/1
+provider: salesforce
+object_type: FlowDefinitionView
+interfaces: [Automation]
+runtime_rules:
+  - id: metadata
+    kind: enrich
+    sources:
+      - call: SF-09
+        endpoint: /tooling/sobjects/Flow/
+        items: (root)
+    target:
+      type: FlowDefinitionView
+      lookup: ActiveVersionId
+      value: $req.active_version
+      exists: true
+    set:
+      definition: flow_definition
+      active_version_status: Status
+    observe: true
+    relations: []
+  - id: outbound-definitions
+    kind: enrich
+    sources:
+      - call: SF-09
+        request: {kind: flow_outbound_definition}
+        items: (root)
+    require: {path: matched, eq: true}
+    target:
+      type: FlowDefinitionView
+      lookup: ActiveVersionId
+      value: $req.active_version
+      exists: true
+    append:
+      external_action_definitions: definition
+    observe: true
+    relations: []
+  - id: apex-definitions
+    kind: enrich
+    sources:
+      - call: SF-09
+        request: {kind: flow_apex_definition}
+        items: records
+    target:
+      type: FlowDefinitionView
+      lookup: ActiveVersionId
+      value: $req.active_version
+      exists: true
+    append:
+      external_action_definitions:
+        object:
+          id: Id
+          name: Name
+          namespace: NamespacePrefix
+          source_sha256: source_sha256
+          url_refs: url_refs
+          named_credential_refs: named_credential_refs
+          reference_basis: reference_basis
+    observe: true
+    # Flow 가 부르는 Apex 본문의 callout:<이름> 은 그 Named Credential 로 바깥을 부른다는 뜻이다(이름은 DeveloperName).
+    # 수집기(summarizeApexDefinitions)가 뽑은 이름만 쓴다. 정의에 적힌 참조라 실제로 불렀는지는 모른다(reference_basis)
+    relations:
+      - type: runs_as
+        each: named_credential_refs
+        source: $self
+        target:
+          type: NamedCredential
+          lookup: DeveloperName
+          value: $item
+        basis: stated
+        require: [target]
+        properties:
+          via_apex_class: Id
+          reference_basis: reference_basis
+      - type: runs_as
+        each: named_credential_refs
+        source:
+          type: ApexClass
+          id: Id
+        target:
+          type: NamedCredential
+          lookup: DeveloperName
+          value: $item
+        basis: stated
+        require: [source, target]
+        properties:
+          reference_basis: reference_basis

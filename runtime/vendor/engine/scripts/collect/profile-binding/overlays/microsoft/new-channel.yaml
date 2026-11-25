@@ -1,0 +1,43 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: teams
+object_type: Channel
+interfaces: [Resource]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-CHAN-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-14
+        request: {kind: channels}
+        items: value
+    id_expr: id
+    properties:
+      grant_target: {const: true}
+      channel_id: id
+      displayName: displayName
+      description: description
+      membershipType: membershipType
+      email: email
+      webUrl: webUrl
+      isArchived: isArchived
+      isFavoriteByDefault: isFavoriteByDefault
+      createdDateTime: createdDateTime
+    display: "{displayName|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: Group
+          id: $req.team
+        basis: stated
+        require: [target]

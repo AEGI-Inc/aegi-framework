@@ -1,0 +1,176 @@
+# Okta 공통 수단 연결 규칙
+# 상대 SaaS 를 가리지 않고 Okta 가 밖과 붙는 수단. 4개 SaaS 사이 쌍은 ../rules/<쌍>.yaml 에 있다
+# 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/okta-external.yaml. 범례는 legend.yaml
+
+anchor: okta
+written: '2026-10-04'
+verified: '2026-10-14'
+kind: rules
+
+methods:
+- id: oauth_service_app
+  type: stored_credential
+  what: "밖의 서버가 개인키로 서명해 Okta 토큰을 받고 Okta API 를 부름 (client_credentials, private_key_jwt)"
+  identify: {api: "okta GET /api/v1/apps (OIDC, grant_types client_credentials), GET /oauth2/v1/clients", when: "service 앱이 있음"}
+  points_to:
+  - {tier: fingerprint, a: "okta 앱 등록 공개키 (credentials/jwks kid)", b: "밖의 서버가 가진 개인키의 공개키", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "밖의 서버 기록의 Okta client_id", b: "okta:application:id", check: "a 와 b 가 같다"}
+  - tier: log_id
+    a: okta System Log app.oauth2.token.grant.access_token 의 actor.id (type PublicClientApp) 와 client.ipAddress
+    b: okta:application:id, 밖의 서버 주소
+    check: a 와 b 가 같다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  activity: ["okta app.oauth2.token.grant, 그 클라이언트가 행위자인 이벤트"]
+  sources: ["필드는 우리 수집 원본 응답(수집 호출 OK-07, OK-08)으로 확인"]
+
+- id: user_delegated_client
+  type: app_grant
+  what: "사용자가 OIDC 앱에 동의해 리프레시 토큰을 줌. 그 앱을 쓰는 밖의 서비스가 사용자 권한으로 Okta 를 부름"
+  identify: {api: "okta GET /api/v1/users/{id}/clients, /users/{id}/clients/{clientId}/tokens", when: "토큰이 ACTIVE"}
+  points_to:
+  - {tier: config_name, a: "okta 앱 redirect_uris 호스트", b: "밖의 서비스 (예: oauth.workflows.okta.com)", check: "a 와 b 가 같다"}
+  - {tier: config_name, a: "okta 토큰 scopes, expiresAt", b: "그 서비스가 쓰는 권한", check: "범위 판단"}
+  - {tier: log_id, a: "okta app.oauth2.token.revoke 의 actor (PublicClientApp id)", b: "okta:application:id", check: "a 와 b 가 같다", note: "Workflows 연결을 지울 때 그 연결의 클라이언트가 토큰 폐기 행위자로 같은 초에 남음 (우리 Splunk 로그 2026-09-20T12:33:25 에서 확인, 문서 아님)"}
+  activity:
+  - "okta app.oauth2.token.grant.access_token (org 인가 서버, OIDC access token is granted), app.oauth2.as.token.grant.access_token (사용자 지정 인가 서버) (https://developer.okta.com/docs/reference/api/event-types/, 2026-10-05 원문 확인)"
+  - "Okta Workflows 관리 동작: workflows.user.connection.create, .delete, .reauthorize, .revoke (target Connection: displayName 연결 이름, alternateId 커넥터 종류(okta, slack 등), id 연결 번호), workflows.user.flow.create, .save, .activate, .deactivate, .export, .import, .execution_history.activate (target Flow: 흐름 이름). 상대 SaaS 의 계정, 워크스페이스는 없음 (우리 Splunk 로그, 이벤트 목록 https://developer.okta.com/docs/reference/api/event-types/)"
+  - "Okta Workflows 가 Okta 커넥터로 한 일: 보통 이벤트(user.mfa.factor.reset_all 등)로 남고 actor 는 연결을 승인한 사용자, client.userAgent.rawUserAgent = Azuqua, client.id 없음, debugContext.debugData.requestUri = 부른 API 경로. 흐름 이름, 실행 ID 는 없음 (우리 Splunk 로그로 확인, 문서 아님)"
+  - "흐름 한 번 실행을 뜻하는 이벤트는 System Log 에 없음 (우리 로그 기준). 실행 단위 기록은 Workflows 콘솔 흐름 실행 기록(사람이 화면으로)"
+  sources: ["https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (GET /api/v1/users/{userId}/clients, /users/{userId}/clients/{clientId}/tokens)", "https://developer.okta.com/docs/reference/api/event-types/ (app.oauth2.token.grant.access_token, workflows.user.connection.*)"]
+
+- id: api_token
+  type: stored_credential
+  what: "SSWS API 토큰을 밖의 시스템이 보관"
+  identify: {api: "okta GET /api/v1/api-tokens (okta.apiTokens.read. 2026-10-05 수집 OK-17 200, 토큰 값 없이 이름·소유자·network 만)", when: "토큰이 있음"}
+  points_to:
+  - {tier: config_name, a: "okta 토큰 name, clientName, network", b: "밖의 시스템 (이름으로만)", check: "이름 일치뿐 (약한 근거)", if_unreadable: "Okta 관리 콘솔 보안 > API > Tokens"}
+  - {tier: log_id, a: "okta system.api_token.create 의 토큰 ID (이벤트 설명이 토큰 ID 를 담는다고 적는다. target 인지 debugContext 인지는 문서에 없어 토큰을 만들어 읽는다)", b: "okta GET /api/v1/api-tokens 의 id", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "okta System Log 에서 토큰 소유자가 actor 이고 client.ipAddress 가 밖의 시스템 주소인 이벤트 시각", b: "밖의 시스템의 Okta 호출 기록 시각", check: "시각이 같고 주소가 같다"}
+  activity: ["okta system.api_token.create, .revoke, .enable, .update, .request_outside_allowed_range"]
+  sources: ["https://developer.okta.com/docs/api/openapi/okta-management/management/tag/ApiToken/ (화면만, 본문은 수집기로 안 읽힘)", "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (GET /api/v1/api-tokens, okta.apiTokens.read)", "https://developer.okta.com/docs/reference/api/event-types/ (system.api_token.*)"]
+
+- id: event_hook
+  type: event_delivery
+  what: "Okta 가 지정 주소로 이벤트를 HTTPS 로 보냄"
+  identify: {api: "okta GET /api/v1/eventHooks (okta.eventHooks.read)", when: "훅이 있음"}
+  note: "만들 때 받는 쪽이 x-okta-verification-challenge 를 되돌려 주는 검증을 거치지만 「나중에」로 넘겨 저장할 수 있고, Workflows API 주소는 검증이 필요 없다. 관리 콘솔 문서는 「최고 관리자만 보고 설정」이라 하지만, 2026-10-05 읽기 전용 관리자 + 사용자 지정 역할 서비스 앱으로 GET /eventHooks, /inlineHooks 가 200 (빈 목록) 이었다"
+  points_to:
+  - {tier: config_name, a: "okta event hook 주소 호스트", b: "받는 서버 (Okta Workflows API Endpoint 일 수 있음)", check: "a 와 b 가 같다", if_unreadable: "Okta 관리 콘솔 Workflow > Event Hooks"}
+  - {tier: log_id, a: "받는 서버 요청 기록의 source (…/api/v1/eventHooks/{id}), data.events[].uuid", b: "okta event hook id, okta System Log 이벤트 uuid", check: "a 와 b 가 같다"}
+  - tier: log_id
+    a: okta System Log 이벤트의 debugContext.debugData.targetEventHookIds
+    b: okta event hook id (GET /api/v1/eventHooks 의 id)
+    check: a 와 b 가 같다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  activity: ["okta event_hook.created, event_hook.updated, event_hook.activated, event_hook.deactivated, event_hook.deleted, event_hook.verified. 전달 실패만 event_hook.delivery (성공한 전달은 Okta 쪽에 남지 않는다)"]
+  sources: ["https://developer.okta.com/docs/concepts/event-hooks/ (HTTPS, x-okta-verification-challenge)", "https://support.okta.com/help/s/article/how-to-trigger-an-api-endpoint-flow-from-an-event-hook", "https://help.okta.com/en-us/content/topics/automation-hooks/add-event-hooks.htm (Do it later, Workflows API URLs don't need to be verified, only super admins)", "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (GET /api/v1/eventHooks, okta.eventHooks.read)", "https://developer.okta.com/docs/reference/api/event-types/ (event_hook.*, event_hook.delivery: triggered only when the delivery is unsuccessful)"]
+
+- id: log_stream
+  type: event_delivery
+  what: "System Log 를 Splunk Cloud, AWS EventBridge 로 스트리밍"
+  identify: {api: "okta GET /api/v1/logStreams (okta.logStreams.read)", when: "스트림이 있음"}
+  note: "scope 를 허용해도 관리자 역할이 모자라면 403 「You do not have permission」. 2026-10-05 읽기 전용 관리자 + 사용자 지정 역할 서비스 앱에서 403. 필요한 역할은 벤더 문서(API 명세, 도움말 Log streaming)에 없다. 403 이면 이 방법은 수집으로 판정하지 못하고 콘솔 Reports > Log Streaming(/reports/log-streaming)으로 본다. 공개 API 명세에도 GET 의 scope(okta.logStreams.read)만 있고 역할은 없다 (2026-10-05 명세·콘솔 확인)"
+  points_to:
+  - {tier: config_id, a: "okta log stream settings (AWS accountId, Splunk host)", b: "받는 계정", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "받는 쪽(EventBridge, Splunk)에 들어온 이벤트의 uuid", b: "okta System Log 이벤트 uuid", check: "a 와 b 가 같다"}
+  activity: ["okta system.log_stream.lifecycle.create, .update, .activate, .deactivate, .delete"]
+  sources: ["https://developer.okta.com/docs/api/openapi/okta-management/management/tag/LogStream/ (okta.logStreams.read, splunk_cloud_logstreaming, aws_eventbridge)", "https://help.okta.com/en-us/Content/Topics/Reports/log-streaming/about-log-streams.htm (대상 Amazon EventBridge, Splunk Cloud. 역할 요건 없음)", "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (GET /api/v1/logStreams, okta.logStreams.read)", "https://developer.okta.com/docs/reference/api/event-types/ (system.log_stream.lifecycle.*)"]
+
+- id: identity_provider
+  type: identity
+  what: "밖의 IdP 로 Okta 에 로그인"
+  identify: {api: "okta GET /api/v1/idps", when: "IdP 가 있음"}
+  points_to:
+  - {tier: config_id, a: "okta IdP protocol.credentials.client.client_id, issuer 는 OIDC 면 protocol.issuer.url, SAML 이면 protocol.credentials.trust.issuer (https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (IdentityProvider.protocol: ProtocolOAuth·ProtocolOidc·ProtocolSaml), 2026-10-05 명세 확인)", b: "IdP 쪽 앱", check: "a 와 b 가 같다", if_unreadable: "Okta 관리 콘솔 보안 > Identity Providers"}
+  - {tier: log_id, a: "okta user.authentication.auth_via_IDP 의 target (IdP 가 어느 target type 으로 오는지는 문서에 없어 로그인해 보고 읽는다)", b: "okta GET /api/v1/idps 의 id", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "IdP 쪽 로그인 기록 시각과 사용자", b: "okta user.authentication.auth_via_IDP 시각과 actor", check: "시각이 가깝고 사람이 같다"}
+  activity: ["okta system.idp.lifecycle.create, .update, .activate, .deactivate, .delete, user.authentication.auth_via_IDP"]
+  sources: ["https://developer.okta.com/docs/api/openapi/okta-management/management/tag/IdentityProvider/ (화면만)", "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (GET /api/v1/idps, okta.idps.read)", "https://developer.okta.com/docs/reference/api/event-types/ (system.idp.lifecycle.*, user.authentication.auth_via_IDP)"]
+
+- id: bookmark_app
+  type: content_ref
+  what: "Okta 대시보드에 밖의 주소 링크"
+  identify: {api: "okta GET /api/v1/apps", when: "signOnMode BOOKMARK"}
+  points_to:
+  - {tier: config_name, a: "okta settings.app.url", b: "밖의 사이트", check: "a 와 b 가 같다"}
+  - tier: log_id
+    a: okta System Log user.authentication.sso 의 target[].id (AppInstance) 와 actor
+    b: okta:application:id (북마크 앱), 연 사람
+    check: a 와 b 가 같다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  activity: ["okta application.lifecycle.create, .update, .delete (target AppInstance)"]
+  sources: ["https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (signOnMode BOOKMARK, BookmarkApplicationSettingsApplication.url)", "https://developer.okta.com/docs/reference/api/event-types/ (application.lifecycle.*)"]
+  note: "벤더 문서로는 로그로 잇는 값이 없다(북마크는 링크라 밖의 사이트와 이어 주는 로그 값이 없고, 만들고 바꾼 기록만 남는다고 보았다). 2026-10-29 시험 환경 응답에서 log_id 를 찾아 points_to 끝에 더했다"
+
+- id: trusted_origin
+  type: content_ref
+  what: "Okta Trusted Origins 에 등록한 밖의 주소가 Okta 에 CORS·리다이렉트·iframe 으로 붙음 (Okta 로그인 위젯을 심은 사내 사이트 등)"
+  identify: {api: "okta GET /api/v1/trustedOrigins (okta.trustedOrigins.read)", when: "origin 이 있음"}
+  points_to:
+  - {tier: config_name, a: "okta trusted origin 의 origin 호스트, scopes (CORS, REDIRECT, IFRAME_EMBED)", b: "밖의 사이트", check: "a 와 b 가 같다", if_unreadable: "Okta 관리 콘솔 Security > API > Trusted Origins"}
+  activity: ["okta security.trusted_origin.create, .update, .activate, .deactivate, .delete (create·update 는 changeDetails)"]
+  sources: ["https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (GET /api/v1/trustedOrigins, okta.trustedOrigins.read, scopes CORS·REDIRECT·IFRAME_EMBED)", "https://github.com/cartography-cncf/cartography/tree/master/cartography/models/okta (Cartography 모델 OktaTrustedOrigin: origin, cors_allowed, redirect_allowed, iframe_allowed)", "https://developer.okta.com/docs/reference/api/event-types/ (security.trusted_origin.*)"]
+  note: "로그 등급 없음. 밖의 사이트가 CORS·리다이렉트·iframe 으로 붙을 때 System Log 에 그 origin 이 남는다는 문서가 없다. 등록과 변경 기록만 남는다"
+
+- id: authenticator_provider
+  type: identity
+  what: "밖의 인증 제공자(Duo 등)를 Okta 인증기로 붙임"
+  identify: {api: "okta GET /api/v1/authenticators (okta.authenticators.read)", when: "provider 가 밖의 제공자"}
+  points_to:
+  - {tier: config_id, a: "okta authenticator provider 설정 (host, integration key 등. 필드는 제공자마다 다름)", b: "제공자 쪽 계정", check: "a 와 b 가 같다", if_unreadable: "Okta 관리 콘솔 Security > Authenticators"}
+  - {tier: log_time, a: "okta user.authentication.auth_via_mfa 시각과 actor", b: "제공자 쪽 인증 기록 시각과 사용자", check: "시각이 가깝고 사람이 같다"}
+  activity: ["okta user.authentication.auth_via_mfa (authenticator 종류)", "okta security.authenticator.lifecycle.create, .update, .activate, .deactivate (actor 는 만든 관리자, target 은 인증기 이름과 id)"]
+  sources: ["https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (GET /api/v1/authenticators, okta.authenticators.read)", "https://github.com/cartography-cncf/cartography/tree/master/cartography/models/okta (Cartography 모델 OktaAuthenticator: provider_type, provider_host_name, provider_integration_key)", "https://developer.okta.com/docs/reference/api/event-types/ (security.authenticator.lifecycle.create: target specifies the authenticator name and the id)"]
+- id: okta_ai_agent_import_claude
+  type: app_grant
+  what: Okta 가 Claude 플랫폼의 에이전트 목록을 가져와 Okta 에 등록한다(AI agent import). Claude Console 에서 만든 API 키(읽기 권한이면 되고 전용 Workspace 를 권장)로 Claude 의 /v1/agents 를 부르고, Okta 앱의 Anthropic URL 칸에 기본 주소를 넣는다. 설정 문서는 이 가져오기가 실험적 베타 API 에 기대고 있어 바뀌거나 없어질 수 있다고 적는다
+  identify:
+    api: okta 앱 인스턴스의 AI agent import 설정(화면), claude Console 의 API 키 목록(화면)
+    when: okta 에 Claude 에이전트 가져오기 설정이 있고 Claude Console 에 전용 API 키가 있음
+  points_to:
+  - tier: config_name
+    a: okta 앱 설정의 Anthropic URL
+    b: claude API 기본 주소
+    check: a 와 b 가 같다
+  - tier: fingerprint
+    a: okta 에 넣은 Claude API 키
+    b: claude Console 의 API 키
+    check: 같은 키
+    if_unreadable: '키 값은 비밀이라 못 읽는다. 사람: Claude Console 키 목록의 키 이름·생성 시각과 Okta 설정 시각을 본다'
+  - tier: log_time
+    a: okta System Log app.ai_agent_provider.import.complete 의 시각
+    b: claude 쪽 /v1/agents 호출 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - okta System Log app.ai_agent_provider.create, .update, .credential.validate, .import.start, .import.complete, .import_staging.confirm 등 (기존 agentforce_agent_import 와 같은 이벤트 계열)
+  sources:
+  - https://help.okta.com/oie/en-us/content/topics/ai-agents/ai-agent-configure-claude.htm (Claude API 키, /v1/agents, Anthropic URL 칸, 실험적 베타 API 경고)
+  - https://www.okta.com/blog/product-innovations/?page=15 (2026-06-30 AI Agent Import 새 플랫폼 GA 표기. 조사 에이전트 요약, 직접 미확인)
+  note: Okta 가 외부 AI 플랫폼의 에이전트를 가져오는 기존 방법은 okta-salesforce:agentforce_agent_import 와 okta-gws:gemini_agent_import 다. 이 방법은 Claude 쪽이다. 플랜·비용은 문서에 없다. 실측 없음
+- id: okta_mcp_server_third_party_client
+  type:
+  - app_grant
+  - stored_credential
+  what: Claude Desktop 같은 외부 AI 클라이언트가 Okta MCP 서버로 Okta 를 부른다. 서버는 오픈소스 판과 Okta 관리형 판 두 가지다. 로그인은 브라우저 기반 기기 로그인(대화형·개발용)과 Private Key JWT(CI/CD 같은 무인 자동화) 두 방식이고, 서버가 Okta System Log 와 이어져 있다고 문서가 적는다. 문서가 클라이언트 예시로 든 것은 GitHub Copilot 과 Claude Desktop 이다
+  identify:
+    api: okta 관리자 화면의 서버가 쓰는 OAuth 앱, okta System Log
+    when: okta 에 MCP 서버용 OAuth 앱이 있거나 System Log 에 그 앱의 토큰 발급이 있음
+  points_to:
+  - tier: config_id
+    a: okta MCP 서버용 OAuth 앱의 client ID
+    b: MCP 서버 설정의 client ID
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: okta OAuth 에 동의한 Okta 사용자
+    b: MCP 클라이언트를 쓰는 사람
+    check: 같은 사람
+  - tier: log_time
+    a: okta System Log 의 해당 OAuth 앱 토큰 발급 시각과 사용자
+    b: MCP 클라이언트 쪽 호출 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - okta System Log (오픈소스 서버 문서가 System Log 연동을 적는다)
+  sources:
+  - https://developer.okta.com/docs/concepts/mcp-server/ (오픈소스·관리형 두 판, 이름이 나온 클라이언트, 기기 로그인·Private Key JWT, System Log)
+  - https://developer.okta.com/docs/release-notes/2026-okta-mcp-server (오픈소스 GA 2026-02-04, 관리형 Early Access 2026-08-19. 조사 에이전트 요약, 직접 미확인)
+  note: Copilot 이 Okta MCP 를 쓰는 경우는 okta-github:copilot_okta_mcp, Agentforce 는 okta-salesforce:agentforce_registry_okta_mcp 다. 이 방법은 그 밖의 서드파티 클라이언트다. 플랜·비용은 문서에 없다. 실측 없음

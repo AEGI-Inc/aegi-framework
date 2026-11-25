@@ -1,0 +1,28 @@
+# 위협 제목 규칙
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  title_rules: 이 파일이 정본 (aegi-knowledge PR #24, a6a2e28). 위협 제목 틀을 쓰는 규칙
+  title_check: 이 파일이 정본 (aegi-knowledge#230, a49aa36, 2026-11-04). title_rules 의 끝말 · 글자 규칙을 코드가 읽는 칸으로 뺐다. aegi-adapter-engine src/detection/titleCheck.ts(generated THREAT_TITLE_CHECK)와 scripts/standards 판정 문장 검사, tools/knowledge.test.ts 가 읽는다
+
+# 위협 제목 규칙
+#
+# 위협 제목을 쓸 때 지키는 규칙. {이름} 자리에는 SaaS 이름 없이 객체 이름과 종류만 들어간다(예: Team Directory 웹앱, /devbot 명령, #sales 채널).
+
+title_rules:
+  - 동작이 아니라 위험을 쓴다. 누가 무엇을 하게 되는지 보여야 한다.
+  - 명사형으로 끝낸다. 「~다」, 「~됨」, 「~가능」으로 끝내지 않는다.
+  - SaaS 이름을 자리 앞에 붙이지 않는다. 위협 목록에 SaaS 로고 칸이 따로 있다.
+  - 몇 명이 볼 수 있다 같은 결과는 한 줄 설명에 쓰고 제목에 넣지 않는다.
+  - 자리 뒤에는 조사를 붙이지 않고 「의」나 띄어쓰기만 둔다. 이름 받침에 따라 조사가 틀리지 않게 한다.
+  - 권한 없이 하는 일은 「무단」으로 쓴다.
+  - 나열에 가운뎃점(·)을 쓰지 않는다. 쉼표나 「와/과」로 잇는다.
+
+# 코드가 읽는 제목 검사. 위협 목록에 오르는 모든 제목에 쓴다:
+# Config Findings 판정 문장(위반이면 Threat 목록 제목이 된다. aegi-adapter-engine scripts/standards 의 작성 검사와 게시 검사).
+# 새 출처의 제목을 위협 목록에 올릴 때도 이 검사를 거친다.
+title_check:
+  forbidden_endings: [다, 됨, 가능]
+  forbidden_chars: ['·', '?']

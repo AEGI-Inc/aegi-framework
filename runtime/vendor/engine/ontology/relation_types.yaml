@@ -1,0 +1,839 @@
+# 관계 타입 17종 · 표현 등급 · 엔진에 넣어 본 관계 → 간선
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  relation_types: docs/Relation_Schema_v3.md 「부여 층」 「구조 층」
+  grades: docs/Relation_Schema_v3.md 「표현 등급 > 등급」 (Slack 실측 열은 측정값이라 문서에 남긴다)
+  engine_probe: aegi-dashboard src/detection/v2/engine/edges.ts buildEdges — 엔진에 시험 입력을 넣어 본 결과. 처음은 0ee565f 에서 떴고, 2026-10-20 aegi-dashboard PR #125(수신 웹훅 갈래) 머지 뒤 owned_by.delivery_endpoint 시험을 더해 다시 떴다(다른 칸은 그대로) @ e3889a4
+
+relation_types:
+- number: 1
+  name: has_role_on
+  layer: grant
+  arity: 3
+  role: Policy
+  form: Principal | Policy | Credential | Integration --[Policy]--> Resource | Tenant | Integration | Automation
+  branches:
+  - from: [Principal, Policy, Credential, Integration]
+    to: [Resource, Tenant, Integration, Automation]
+  evidence: Entra `unifiedRoleAssignment`, Snowflake `GRANTS_TO_USERS`, GitHub PAT `permissions`, Okta `ApiServiceIntegration.granted_scopes`
+- number: 2
+  name: permits
+  layer: grant
+  arity: 2
+  role: null
+  form: Policy | Credential --> Resource
+  branches:
+  - {from: [Policy, Credential], to: [Resource]}
+  evidence: Snowflake `GRANTS_TO_ROLES`, GitHub deploy key
+- number: 3
+  name: member_of
+  layer: grant
+  arity: 2
+  role: null
+  form: Principal --> Tenant | Principal | Resource
+  branches:
+  - {from: [Principal], to: [Tenant, Principal, Resource]}
+  evidence: GitHub org members, Graph group members
+- number: 4
+  name: owned_by
+  layer: grant
+  arity: 2
+  role: null
+  form: Endpoint | Automation | Credential --> Integration | Tenant ; Resource --> Principal ; Principal --> Integration
+  branches:
+  - {from: [Endpoint, Automation, Credential], to: [Integration, Tenant]}
+  - {from: [Resource], to: [Principal]}
+  - {from: [Principal], to: [Integration]}
+  evidence: Graph `subscription.applicationId`, Drive `File.owners`, Okta `Group.external_source_app_id`
+- number: 5
+  name: registered_in
+  layer: grant
+  arity: 2
+  role: null
+  form: Integration --> Tenant
+  branches:
+  - {from: [Integration], to: [Tenant]}
+  evidence: Graph `servicePrincipal`, GitHub App installation
+- number: 6
+  name: registered_by
+  layer: grant
+  arity: 2
+  role: null
+  form: Integration --> Principal
+  branches:
+  - {from: [Integration], to: [Principal]}
+  evidence: Graph `createdObjects`
+- number: 7
+  name: acts_as
+  layer: grant
+  arity: 2
+  role: null
+  form: Integration --> Principal
+  branches:
+  - {from: [Integration], to: [Principal]}
+  evidence: Graph `servicePrincipal.appId`
+- number: 8
+  name: authenticates_with
+  layer: grant
+  arity: 2
+  role: null
+  form: Principal | Endpoint | Integration --> Credential
+  branches:
+  - {from: [Principal, Endpoint, Integration], to: [Credential]}
+  evidence: Snowflake PAT, Okta 앱 키, Graph `application.keyCredentials`
+- number: 9
+  name: runs_as
+  layer: grant
+  arity: 2
+  role: null
+  form: Automation --> Principal | Credential
+  branches:
+  - {from: [Automation], to: [Principal, Credential]}
+  evidence: Azure Automation `identity.principalId`
+- number: 10
+  name: triggered_by
+  layer: grant
+  arity: 2
+  role: null
+  form: Automation --> Principal | Endpoint | Resource | Integration
+  branches:
+  - {from: [Automation], to: [Principal, Endpoint, Resource, Integration]}
+  evidence: GitHub `actor`, `repository_dispatch`, ServiceNow Business Rule `table`, Azure Logic Apps `ApiConnection` 트리거
+- number: 11
+  name: receives_into
+  layer: grant
+  arity: 2
+  role: null
+  form: Endpoint --> Tenant | Resource
+  branches:
+  - {from: [Endpoint], to: [Tenant, Resource]}
+  evidence: Azure Monitor DCR `workspaceResourceId`
+- number: 12
+  name: shared_with
+  layer: grant
+  arity: 2
+  role: null
+  form: Resource --> Tenant
+  branches:
+  - {from: [Resource], to: [Tenant]}
+  evidence: Drive `permissions type:domain`
+- number: 13
+  name: applies_to
+  layer: grant
+  arity: 2
+  role: null
+  form: Policy --> Principal | Integration | Resource | Tenant
+  branches:
+  - {from: [Policy], to: [Principal, Integration, Resource, Tenant]}
+  evidence: Okta `conditions.people`, Entra `conditionalAccessUsers`, GitHub ruleset `conditions`
+- number: 14
+  name: excludes
+  layer: grant
+  arity: 2
+  role: null
+  form: Policy --> Principal | Integration | Credential | Policy
+  branches:
+  - {from: [Policy], to: [Principal, Integration, Credential, Policy]}
+  evidence: Okta `conditions.people.*.exclude`, GitHub ruleset `bypass_actors`
+- number: 15
+  name: evaluates
+  layer: grant
+  arity: 2
+  role: null
+  form: Policy --> Policy
+  branches:
+  - {from: [Policy], to: [Policy]}
+  evidence: Entra `conditionalAccessGrantControls.authenticationStrength`, Okta `conditions.network.include`
+- number: 16
+  name: trusts
+  layer: grant
+  arity: 2
+  role: null
+  form: Tenant --> Tenant
+  branches:
+  - {from: [Tenant], to: [Tenant]}
+  evidence: Entra `crossTenantAccessPolicy`, Slack `team.externalTeams.list`
+- number: 17
+  name: contained_in
+  layer: structure
+  arity: 2
+  role: null
+  form: any --> any
+  branches:
+  - {from: [any], to: [any]}
+  evidence: GCP `Project.parent`, Drive `File.parents`, Okta `ApplicationKeyCredential`
+
+grades:
+- name: 구조
+  perspective: Structure
+  relation_types: [contained_in]
+  default: 접힘
+- name: 접근
+  perspective: Authority
+  relation_types: [has_role_on, permits, member_of, owned_by, applies_to, excludes, evaluates]
+  default: 펼침
+- name: 신뢰
+  perspective: Trust
+  relation_types: [authenticates_with, runs_as, triggered_by, acts_as, trusts, registered_in, registered_by, receives_into, shared_with]
+  default: 펼침, 강조
+
+engine_probe:
+  what: 대시보드 엔진에 시험 입력을 넣어 나온 간선이다. 엔진의 규칙 그 자체가 아니다 — inputs 로 시험했고, depends_on_inputs 는 입력에 따라 달라지는 것이다. template 이 받는 칸만 적었고, 받지 않는 칸에서 나온 간선 수는 outside_template 에 센다
+  inputs:
+    provider: probe
+    objects: 출발(source) · 도착(target) 둘. interface 하나씩, properties · judged 없음
+    relation_properties: {basis: stated}
+    role: null
+    subtracted: 관계 없이 같은 객체로 만든 간선을 뺐다
+  depends_on_inputs:
+  - has_role_on 의 rank — 엔진은 역할로 정한다(roleCapability). 시험에는 역할이 없어서 늘 rank 없음 + role_rank_unknown 이다
+  - 'member_of 의 M · G — 도착이 그룹 같은가(isGroupLike: 테넌트, 그룹 타입, principal_kind group, 들어오는 member_of)로 정한다. interface 쌍으로 정하는 것이 아니다'
+  - member_of · shared_with 의 rank — provider · 대상 타입 · 역할로 정한다(membershipRank, roleCapability). 시험 provider 는 probe 라 기본값이 나왔다
+  - provider 마다 갈리는 갈래(Okta resource_set, Slack 채널 멤버 능력 · 공개 여부, 컨테이너 바인딩)는 variants 에서만 시험했다
+  - 객체가 interface 를 여럿 가지면 다른 갈래를 탈 수 있다. 시험은 interface 하나짜리 객체만 썼다
+  - 2026-11-01 위협 간선을 관계 효과 표로 옮기며(A6) has_role_on 네 갈래, shared_with · contained_in 의 Slack 공개 갈래, contained_in.group_tenant · automation_resource 는 운영 엔진(aegi-adapter-engine edges.ts)을 읽어 맞췄다
+  - 2026-11-20 has_role_on.gcp_project_member 는 운영 엔진(aegi-adapter-engine main f134243 + 사본만 바꾼 fix/gcp-log-gaps)에 3회차 실측 원본(r3-20261119-all)을 넣어 떴다. gcp 간선 M IamMember → Project 가 7 → 12, G 는 역할 세기가 갈려 23 → 24(앱 사용자 역할이 [read, create] 라 같은 사람의 보기 역할과 다른 간선), 다른 SaaS 객체 · 관계 · EA · 접근 표 해시는 같았다
+  - 2026-11-20 has_role_on.gcp_public_principal 은 같은 방법(엔진 fix/gcp-profiles-review, #499 시험 원본의 allAuthenticatedUsers)으로 떴다. 누구나 → 프로젝트 G 하나가 생겼다. contained_in.gcp_app_store_caller 는 3회차 실측 원본(r3-20261119-all)에서도 U 저장소 → 앱 10개가 0 이 됐다
+  - 2026-11-19 contained_in.gcp_app_store_caller · gcp_connector_store 는 운영 엔진(aegi-adapter-engine main 47e1eca 에 #499 를 합친 로컬 트리, 효과 표를 읽음)에 #499 의 가짜 원본(runner/gcp-gemini-enterprise.test.mjs)을 정규화해 넣어 떴다. 사전만 바꿔 U 저장소 → 앱 3개, 저장소 → 커넥터 1개가 빠지고 다른 간선은 그대로였다
+  - 2026-11-05 triggered_by.input_carried(시작시킨 자원 → 자동화 F) 는 운영 엔진(aegi-adapter-engine edges.ts, 효과 표를 읽음)과 대시보드 edges.ts 손코드 갈래를 읽어 적었다. 시험 입력은 출발 자동화에 runs_as → Credential 관계 하나를 더한 것이다
+  relations:
+    has_role_on:
+      use: edges
+      edges:
+      - pairs: [Principal>Resource, Principal>Tenant, Principal>Integration, Principal>Automation, Policy>Resource, Policy>Tenant, Policy>Integration, Policy>Automation, Credential>Resource, Credential>Tenant, Credential>Integration, Credential>Automation, Integration>Resource, Integration>Tenant, Integration>Integration, Integration>Automation]
+        emits:
+        - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+      outside_template: {cells: 65, with_edges: 65}
+      variants:
+      # 2026-11-07 aegi-adapter-engine scripts/relationEdges.test.ts 「계정 상태」로 엔진에 넣어 본 결과(engine feat/principal-account-state)
+      - name: has_role_on.inactive_account
+        when: source account_state deleted, deprovisioned, suspended
+        cases:
+        - {pair: Principal>Resource, emits: []}
+        - {pair: Principal>Tenant, emits: []}
+        - {pair: Principal>Integration, emits: []}
+        - {pair: Principal>Automation, emits: []}
+      - name: has_role_on.deleted_assignment
+        when: 'properties.via_assignment 가 지운 배정(properties.deleted: true)'
+        cases:
+        - {pair: Principal>Resource, emits: []}
+        - {pair: Principal>Tenant, emits: []}
+        - {pair: Principal>Integration, emits: []}
+        - {pair: Principal>Automation, emits: []}
+        - {pair: Policy>Resource, emits: []}
+        - {pair: Policy>Tenant, emits: []}
+        - {pair: Policy>Integration, emits: []}
+        - {pair: Policy>Automation, emits: []}
+        - {pair: Credential>Resource, emits: []}
+        - {pair: Credential>Tenant, emits: []}
+        - {pair: Credential>Integration, emits: []}
+        - {pair: Credential>Automation, emits: []}
+        - {pair: Integration>Resource, emits: []}
+        - {pair: Integration>Tenant, emits: []}
+        - {pair: Integration>Integration, emits: []}
+        - {pair: Integration>Automation, emits: []}
+      - name: has_role_on.excluded
+        when: 역할 객체가 excludes 로 출발 주체를 뺐다
+        cases:
+        - {pair: Principal>Resource, emits: []}
+        - {pair: Principal>Tenant, emits: []}
+        - {pair: Principal>Integration, emits: []}
+        - {pair: Principal>Automation, emits: []}
+        - {pair: Policy>Resource, emits: []}
+        - {pair: Policy>Tenant, emits: []}
+        - {pair: Policy>Integration, emits: []}
+        - {pair: Policy>Automation, emits: []}
+        - {pair: Credential>Resource, emits: []}
+        - {pair: Credential>Tenant, emits: []}
+        - {pair: Credential>Integration, emits: []}
+        - {pair: Credential>Automation, emits: []}
+        - {pair: Integration>Resource, emits: []}
+        - {pair: Integration>Tenant, emits: []}
+        - {pair: Integration>Integration, emits: []}
+        - {pair: Integration>Automation, emits: []}
+      - name: has_role_on.via_grant
+        when: properties.via_grant 가 자격증명 객체
+        cases:
+        - pair: Principal>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Principal>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Principal>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Principal>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Policy>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Policy>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Policy>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Policy>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Credential>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Credential>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Credential>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Credential>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Integration>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Integration>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Integration>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Integration>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+          - {kind: G, from: grant, to: target, uncertain: [role_rank_unknown]}
+      # 2026-11-04 aegi-adapter-engine scripts/relationEdges.test.ts 「수집한 리소스 세트 대상으로 범위를 안다」로 엔진에 넣어 본 결과(engine feat/okta-resource-set-scope).
+      # 2026-11-09 같은 시험으로 다시 넣어 본 결과(engine feat/okta-resource-set-expand) — 일부만 덮으면 덮는 대상(resource_set)과 조직(resource_set_partial)
+      - name: has_role_on.okta_resource_set_partial
+        when: provider okta, 계산 칸 resource_set_scope partial(수집한 리소스 세트 대상이 조직 전체를 덮지 않는다)
+        cases:
+        - pair: Principal>Tenant
+          emits:
+          - {kind: G, from: source, to: resource_set, uncertain: [role_rank_unknown]}
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown, resource_set_partial]}
+          - {kind: G, from: source, to: resource_set_unexpanded, uncertain: [role_rank_unknown, resource_set_not_expanded]}
+        - pair: Policy>Tenant
+          emits:
+          - {kind: G, from: source, to: resource_set, uncertain: [role_rank_unknown]}
+          - {kind: G, from: source, to: resource_set_unexpanded, uncertain: [role_rank_unknown, resource_set_not_expanded]}
+        - pair: Credential>Tenant
+          emits:
+          - {kind: G, from: source, to: resource_set, uncertain: [role_rank_unknown]}
+          - {kind: G, from: source, to: resource_set_unexpanded, uncertain: [role_rank_unknown, resource_set_not_expanded]}
+        - pair: Integration>Tenant
+          emits:
+          - {kind: G, from: source, to: resource_set, uncertain: [role_rank_unknown]}
+          - {kind: G, from: source, to: resource_set_unexpanded, uncertain: [role_rank_unknown, resource_set_not_expanded]}
+      - name: has_role_on.okta_resource_set_org
+        when: provider okta, 계산 칸 resource_set_scope org(수집한 리소스 세트 대상에 조직 전체 대상이 있다)
+        cases:
+        - pair: Principal>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Principal>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Principal>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Principal>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Policy>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Policy>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Policy>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Policy>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Credential>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Credential>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Credential>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Credential>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Integration>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Integration>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Integration>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Integration>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+      - name: has_role_on.okta_resource_set
+        when: provider okta, properties.resource_set 가 있고 확인한 목록(overrides.confirmed_resource_sets)에 없다
+        cases:
+        - pair: Principal>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Principal>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Principal>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Principal>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Policy>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Policy>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Policy>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Policy>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Credential>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Credential>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Credential>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Credential>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Integration>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Integration>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Integration>Integration
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+        - pair: Integration>Automation
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [resource_set_not_expanded, role_rank_unknown]}
+      - name: has_role_on.session_active
+        when: 'properties.activation: session, session_active: true'
+        cases:
+        - pair: Principal>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+        - pair: Principal>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+      - name: has_role_on.session_activation
+        when: 'properties.activation: session, 켜진 세션 관측 없음'
+        cases:
+        - pair: Principal>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown, session_activation]}
+        - pair: Principal>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown, session_activation]}
+      - name: has_role_on.gcp_public_principal
+        when: Google Cloud IAM 누구나 주체 allUsers · allAuthenticatedUsers
+        cases:
+        - pair: Principal>Resource
+          emits:
+          - {kind: G, from: everyone, to: target, uncertain: [role_rank_unknown]}
+        - pair: Principal>Tenant
+          emits:
+          - {kind: G, from: everyone, to: target, uncertain: [role_rank_unknown]}
+      - name: has_role_on.gcp_project_member
+        when: Google Cloud IAM 사용자 · 그룹 · 도메인 · 서비스 계정 주체가 프로젝트(테넌트) 명단에 직접 있다
+        cases:
+        - pair: Principal>Tenant
+          emits:
+          - {kind: M, from: source, to: target}
+          - {kind: G, from: source, to: target, uncertain: [role_rank_unknown]}
+      - name: has_role_on.special_principal.public
+        when: Atlassian 특수 주체 ANONYMOUS_USERS
+        cases:
+        - pair: Principal>Resource
+          emits:
+          - {kind: G, from: everyone, to: target, uncertain: [role_rank_unknown]}
+        - pair: Principal>Tenant
+          emits:
+          - {kind: G, from: everyone, to: target, uncertain: [role_rank_unknown]}
+      - name: has_role_on.special_principal.tenant_members
+        when: Atlassian 특수 주체 ALL_LICENSED_USERS
+        cases:
+        - pair: Principal>Resource
+          emits:
+          - {kind: G, from: tenant, to: target, uncertain: [role_rank_unknown]}
+        - pair: Principal>Tenant
+          emits:
+          - {kind: G, from: tenant, to: target, uncertain: [role_rank_unknown]}
+      - name: has_role_on.special_principal.role_bundle
+        when: 그 밖의 Atlassian 특수 주체
+        cases:
+        - pair: Principal>Resource
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [dynamic_holder_unresolved, role_rank_unknown]}
+        - pair: Principal>Tenant
+          emits:
+          - {kind: G, from: source, to: target, uncertain: [dynamic_holder_unresolved, role_rank_unknown]}
+    permits:
+      use: unread
+      edges: []
+      outside_template: {cells: 79, with_edges: 0}
+    member_of:
+      use: edges
+      edges:
+      - pairs: [Principal>Tenant, Principal>Principal]
+        emits:
+        - {kind: M, from: source, to: target}
+      - pairs: [Principal>Resource]
+        emits:
+        - {kind: G, from: source, to: target, rank: 1}
+      outside_template: {cells: 78, with_edges: 78}
+      variants:
+      # 2026-11-07 aegi-adapter-engine scripts/relationEdges.test.ts 「계정 상태」로 엔진에 넣어 본 결과(engine feat/principal-account-state)
+      - name: member_of.inactive_account
+        when: source account_state deleted, deprovisioned, suspended
+        cases:
+        - {pair: Principal>Tenant, emits: []}
+        - {pair: Principal>Principal, emits: []}
+        - {pair: Principal>Resource, emits: []}
+      - name: member_of.measurement_membership
+        when: 'properties.measurement_principal: true'
+        cases:
+        - {pair: Principal>Tenant, emits: []}
+        - {pair: Principal>Resource, emits: []}
+      - name: member_of.measurement_principal
+        when: '출발이 측정 도구 계정(fixture_meta.demo_role: measurement_principal)'
+        cases:
+        - {pair: Principal>Tenant, emits: []}
+      - name: member_of.gws_org_unit
+        when: provider gws, 도착이 OrgUnit(조직 단위)
+        cases:
+        - pair: Principal>Resource
+          emits:
+          - {kind: M, from: source, to: target}
+      # 2026-11-21 엔진은 relationEffects.ts 가 사전 효과 표(생성 RELATION_SEMANTICS)를 그대로 읽어 이 갈래도 같다(엔진 relation/m365-check)
+      - name: member_of.scope_only_target
+        when: 도착이 권한 대상이 아니다(target grant_target false)
+        cases:
+        - pair: Principal>Resource
+          emits:
+          - {kind: M, from: source, to: target}
+      - name: member_of.slack_conversation
+        when: provider slack, 도착이 conversation
+        cases:
+        - pair: Principal>Resource
+          emits:
+          - {kind: G, from: source, to: target, rank: 3}
+    owned_by:
+      use: edges
+      edges:
+      - pairs: [Endpoint>Integration, Endpoint>Tenant, Automation>Integration, Automation>Tenant, Credential>Integration, Credential>Tenant]
+        emits:
+        - {kind: A, from: source, to: target}
+      - pairs: [Resource>Principal]
+        emits:
+        - {kind: G, from: target, to: source, rank: 5}
+      - pairs: [Principal>Integration]
+        emits:
+        - {kind: A, from: target, to: source}
+      outside_template: {cells: 73, with_edges: 26}
+      variants:
+      # 2026-11-07 aegi-adapter-engine scripts/relationEdges.test.ts 「계정 상태」로 엔진에 넣어 본 결과(engine feat/principal-account-state)
+      - name: owned_by.inactive_account
+        when: target account_state deleted, deprovisioned, suspended
+        cases:
+        - {pair: Resource>Principal, emits: []}
+      - name: owned_by.caller
+        when: '출발 자동화가 부른 사람 권한으로 돈다(run_as_resolution: caller)'
+        cases:
+        - {pair: Automation>Integration, emits: []}
+        - {pair: Automation>Tenant, emits: []}
+      - name: owned_by.delivery_endpoint
+        when: 출발이 받는 곳이 정해진 통로다(receives_into 가 있는 Endpoint)
+        cases:
+        - {pair: Endpoint>Integration, emits: []}
+        - {pair: Endpoint>Tenant, emits: []}
+        - {pair: Credential>Integration, emits: []}
+        - {pair: Credential>Tenant, emits: []}
+      - name: owned_by.outbound_endpoint
+        when: 출발이 direction out 인 Endpoint, 도착이 조직
+        cases:
+        - {pair: Endpoint>Tenant, emits: []}
+      - name: owned_by.app_refresh_token
+        when: 출발이 사람이 인증하는 bearer 토큰, 도착이 앱
+        cases:
+        - {pair: Credential>Integration, emits: []}
+      - name: owned_by.org_bearer_token
+        when: 출발이 bearer 토큰, 도착이 조직
+        cases:
+        - {pair: Credential>Tenant, emits: []}
+      - name: owned_by.public_certificate
+        when: 출발이 공개 인증서, 도착이 조직
+        cases:
+        - {pair: Credential>Tenant, emits: []}
+      - name: owned_by.unknown_runner_tenant
+        when: 출발이 실행 신원을 모르는 자동화, 도착이 조직
+        cases:
+        - {pair: Automation>Tenant, emits: []}
+      # 2026-11-17 aegi-adapter-engine c741cd7 scripts/relationEdges.test.ts 「관계 간선: 소유, 수신, …」 dvp(GWS 기기 → 사람 owned_by)가 간선 0. 갈래는 c99558b(2026-11-03)에 사전에 들어갔는데 이 덤프에 안 옮겼다
+      - name: owned_by.registered_device
+        when: 출발이 관리 콘솔에 등록된 GWS 기기, 도착이 사람
+        cases:
+        - {pair: Resource>Principal, emits: []}
+    registered_in:
+      use: edges
+      edges:
+      - pairs: [Integration>Tenant]
+        emits:
+        - {kind: U, from: source, to: target}
+      outside_template: {cells: 80, with_edges: 80}
+    registered_by:
+      use: unread
+      edges: []
+      outside_template: {cells: 80, with_edges: 0}
+    acts_as:
+      use: edges
+      edges:
+      - pairs: [Integration>Principal]
+        emits:
+        - {kind: A, from: source, to: target}
+      outside_template: {cells: 80, with_edges: 80}
+      variants:
+      # 2026-11-07 aegi-adapter-engine scripts/relationEdges.test.ts 「계정 상태」로 엔진에 넣어 본 결과(engine feat/principal-account-state)
+      - name: acts_as.inactive_account
+        when: target account_state deleted, deprovisioned, suspended
+        cases:
+        - {pair: Integration>Principal, emits: []}
+    authenticates_with:
+      use: edges
+      edges: []
+      outside_template: {cells: 78, with_edges: 0}
+      variants:
+      # 2026-11-07 aegi-adapter-engine scripts/relationEdges.test.ts 「계정 상태」로 엔진에 넣어 본 결과(engine feat/principal-account-state)
+      - name: authenticates_with.inactive_account
+        when: source account_state deleted, deprovisioned, suspended
+        cases:
+        - {pair: Principal>Credential, emits: []}
+      - name: authenticates_with.org_bearer_token
+        when: 도착이 조직 소유 bearer 토큰
+        cases:
+        - pair: Principal>Credential
+          emits:
+          - {kind: A, from: target, to: source}
+      - name: authenticates_with.app_refresh_token
+        when: 도착이 앱 소유 bearer 토큰
+        cases:
+        - pair: Principal>Credential
+          emits:
+          - {kind: A, from: target, to: source, uncertain: [token_scope_limited]}
+    runs_as:
+      use: edges
+      edges:
+      - pairs: [Automation>Principal]
+        emits:
+        - {kind: A, from: source, to: target}
+      - pairs: [Automation>Credential]
+        emits:
+        - {kind: A, from: source, to: target}
+        - {kind: F, from: source, to: target, uncertain: [flow_not_observed]}
+      outside_template: {cells: 79, with_edges: 79}
+      variants:
+      # 2026-11-07 aegi-adapter-engine scripts/relationEdges.test.ts 「계정 상태」로 엔진에 넣어 본 결과(engine feat/principal-account-state)
+      - name: runs_as.inactive_account
+        when: target account_state deleted, deprovisioned, suspended
+        cases:
+        - {pair: Automation>Principal, emits: []}
+      - name: runs_as.computed
+        when: 'properties.basis: computed'
+        cases:
+        - pair: Automation>Principal
+          emits:
+          - {kind: A, from: source, to: target, uncertain: [runs_as_computed]}
+        - pair: Automation>Credential
+          emits:
+          - {kind: A, from: source, to: target}
+          - {kind: F, from: source, to: target, uncertain: [flow_not_observed]}
+      - name: runs_as.computed_caller
+        when: 'properties.basis: computed 이고 출발 자동화가 run_as_resolution: caller'
+        cases:
+        - {pair: Automation>Principal, emits: []}
+    triggered_by:
+      use: edges
+      edges:
+      - pairs: [Automation>Principal]
+        emits:
+        - {kind: T, from: target, to: source, mode: invoke}
+      - pairs: [Automation>Endpoint, Automation>Resource, Automation>Integration]
+        emits:
+        - {kind: T, from: target, to: source, mode: input}
+      outside_template: {cells: 77, with_edges: 5}
+      variants:
+      # 2026-11-07 aegi-adapter-engine scripts/relationEdges.test.ts 「계정 상태」로 엔진에 넣어 본 결과(engine feat/principal-account-state)
+      - name: triggered_by.inactive_account
+        when: target account_state deleted, deprovisioned, suspended
+        cases:
+        - {pair: Automation>Principal, emits: []}
+      - name: triggered_by.input_carried
+        when: 출발 자동화에 Credential 로 가는 runs_as 가 있다
+        cases:
+        - pair: Automation>Resource
+          emits:
+          - {kind: T, from: target, to: source, mode: input}
+          - {kind: F, from: target, to: source, uncertain: [flow_not_observed]}
+    receives_into:
+      use: edges
+      edges:
+      - pairs: [Endpoint>Tenant, Endpoint>Resource]
+        emits:
+        - {kind: F, from: source, to: target}
+        - {kind: G, from: source, to: target, rank: 3}
+      outside_template: {cells: 79, with_edges: 79}
+      filters_in: [owned_by.delivery_endpoint]
+    shared_with:
+      use: edges
+      edges:
+      - pairs: [Resource>Tenant]
+        emits:
+        - {kind: G, from: target, to: source, rank: 1}
+      outside_template: {cells: 80, with_edges: 80}
+      variants:
+      - name: shared_with.anyone
+        when: 'properties.permission_type: anyone'
+        cases:
+        - pair: Resource>Tenant
+          emits:
+          - {kind: G, from: everyone, to: source, rank: 1}
+      - name: shared_with.set
+        when: 'properties.target_kind: set'
+        cases:
+        - pair: Resource>Tenant
+          emits:
+          - {kind: G, from: everyone, to: source, rank: 1}
+      - name: shared_with.role
+        when: 'properties.role: writer'
+        cases:
+        - pair: Resource>Tenant
+          emits:
+          - {kind: G, from: target, to: source, rank: 3}
+      - name: shared_with.slack_conversation.is_private_false
+        when: 'slack conversation, is_private: false'
+        cases:
+        - {pair: Resource>Tenant, emits: []}
+      - name: shared_with.slack_conversation.is_private_true
+        when: 'slack conversation, is_private: true'
+        cases:
+        - {pair: Resource>Tenant, emits: []}
+      - name: shared_with.slack_conversation.is_private_unknown
+        when: slack conversation, is_private 없음
+        cases:
+        - {pair: Resource>Tenant, emits: []}
+    applies_to:
+      use: unread
+      edges: []
+      outside_template: {cells: 77, with_edges: 0}
+    excludes:
+      use: filter
+      edges: []
+      outside_template: {cells: 77, with_edges: 0}
+      filters_in: [has_role_on.excluded]
+    evaluates:
+      use: unread
+      edges: []
+      outside_template: {cells: 80, with_edges: 0}
+    trusts:
+      use: unread
+      edges: []
+      outside_template: {cells: 80, with_edges: 0}
+    contained_in:
+      use: edges
+      edges:
+      - pairs: [Tenant>Tenant]
+        emits:
+        - {kind: M, from: source, to: target}
+        - {kind: U, from: source, to: target}
+      - pairs: [Tenant>Principal, Tenant>Integration, Tenant>Credential, Tenant>Assignment, Tenant>Policy, Tenant>Endpoint, Tenant>Resource, Tenant>Automation, Principal>Principal, Principal>Integration, Principal>Credential, Principal>Assignment, Principal>Policy, Principal>Endpoint, Principal>Resource, Principal>Automation, Integration>Tenant, Integration>Principal, Integration>Integration, Integration>Credential, Integration>Assignment, Integration>Policy, Integration>Endpoint, Integration>Resource, Integration>Automation, Credential>Tenant, Credential>Principal, Credential>Integration, Credential>Credential, Credential>Assignment, Credential>Policy, Credential>Endpoint, Credential>Resource, Credential>Automation, Assignment>Tenant, Assignment>Principal, Assignment>Integration, Assignment>Credential, Assignment>Assignment, Assignment>Policy, Assignment>Endpoint, Assignment>Resource, Assignment>Automation, Policy>Tenant, Policy>Principal, Policy>Integration, Policy>Credential, Policy>Assignment, Policy>Policy, Policy>Endpoint, Policy>Resource, Policy>Automation, Endpoint>Tenant, Endpoint>Principal, Endpoint>Credential, Endpoint>Assignment, Endpoint>Policy, Endpoint>Endpoint, Endpoint>Resource, Endpoint>Automation, Resource>Tenant, Resource>Principal, Resource>Integration, Resource>Credential, Resource>Assignment, Resource>Policy, Resource>Endpoint, Resource>Resource, Resource>Automation, Automation>Tenant]
+        emits:
+        - {kind: U, from: source, to: target}
+      - pairs: [Principal>Tenant]
+        emits:
+        - {kind: M, from: source, to: target}
+      - pairs: [Endpoint>Integration]
+        emits:
+        - {kind: A, from: source, to: target}
+      - pairs: [Automation>Principal, Automation>Integration, Automation>Credential, Automation>Assignment, Automation>Policy, Automation>Endpoint, Automation>Resource, Automation>Automation]
+        emits:
+        - {kind: F, from: target, to: source, uncertain: [flow_not_observed]}
+      outside_template: {cells: 0, with_edges: 0}
+      variants:
+      - name: contained_in.group_tenant
+        when: 출발이 그룹 같은 주체(principal_kind group, 그룹 타입 group · usergroup · team, 들어오는 member_of 가 있다)
+        cases:
+        - pair: Principal>Tenant
+          emits:
+          - {kind: U, from: source, to: target}
+      - name: contained_in.automation_resource
+        when: 출발이 자동화이기도 한 자원(interface Resource 와 Automation, 예 GWS Apps Script 프로젝트)이 테넌트 아닌 곳 안에 있다
+        cases:
+        - {pair: Resource>Principal, emits: []}
+        - {pair: Resource>Integration, emits: []}
+        - {pair: Resource>Credential, emits: []}
+        - {pair: Resource>Assignment, emits: []}
+        - {pair: Resource>Policy, emits: []}
+        - {pair: Resource>Endpoint, emits: []}
+        - {pair: Resource>Resource, emits: []}
+        - {pair: Resource>Automation, emits: []}
+      - name: contained_in.slack_conversation.is_private_false
+        when: 'slack conversation, is_private: false'
+        cases:
+        - pair: Resource>Tenant
+          emits:
+          - {kind: U, from: source, to: target}
+      - name: contained_in.gws_project
+        when: 출발이 컨테이너에 묶이는 자동화(gws project, github workflow)
+        cases:
+        - pair: Automation>Resource
+          emits:
+          - {kind: F, from: target, to: source, uncertain: [flow_not_observed]}
+          - {kind: T, from: target, to: source, mode: modify}
+      - name: contained_in.gcp_app_store_caller
+        when: 'Gemini Enterprise 앱(gcp Engine)에 붙은 저장소(gcp DataStore)가 부른 사람 자신의 권한으로만 검색된다 — 원본 권한을 따르거나(aclEnabled: true) FEDERATED 커넥터의 저장소다'
+        cases:
+        - pair: Resource>Resource
+          emits: []
+      - name: contained_in.gcp_connector_store
+        when: Gemini Enterprise 커넥터(gcp DataConnector)가 가리키는 저장소(gcp DataStore)
+        cases:
+        - pair: Resource>Integration
+          emits: []

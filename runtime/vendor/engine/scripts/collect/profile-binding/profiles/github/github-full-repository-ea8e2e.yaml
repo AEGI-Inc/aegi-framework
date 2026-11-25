@@ -1,0 +1,1247 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: Repository
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:6436f00b9453eb3cabea8e2e
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: gh_rest_ghec_next_2026_03_10_latest
+    locator: components.schemas.repository.properties.id; IM type unifies repository/minimal-repository/full-repository
+    statement: Unique identifier of the repository
+  aliases:
+    - name: full_name
+      expr: full_name
+      stability: mutable
+      classification: self_address
+      evidence:
+        source: gh_rest_ghec_next_2026_03_10_latest
+        locator: repository.full_name, repos/get owner/repo path; IM unified repository native id
+        statement: owner/name addresses the same Repository; the IM ref to team-repository is not a separate target object
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: int64
+      name: id
+      required: true
+      scalar: integer
+    map_items:
+      - space:full-repository|id
+  node_id:
+    path: node_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: node_id
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|node_id
+  name:
+    path: name
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: name
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|name
+  full_name:
+    path: full_name
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: full_name
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|full_name
+  owner:
+    path: owner
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: owner
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    map_items:
+      - space:full-repository|owner
+  private:
+    path: private
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: private
+      required: true
+      scalar: boolean
+    map_items:
+      - space:full-repository|private
+  html_url:
+    path: html_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: html_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|html_url
+  description:
+    path: description
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: description
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|description
+  fork:
+    path: fork
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: fork
+      required: true
+      scalar: boolean
+    map_items:
+      - space:full-repository|fork
+  url:
+    path: url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|url
+  archive_url:
+    path: archive_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: archive_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|archive_url
+  assignees_url:
+    path: assignees_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: assignees_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|assignees_url
+  blobs_url:
+    path: blobs_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: blobs_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|blobs_url
+  branches_url:
+    path: branches_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: branches_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|branches_url
+  collaborators_url:
+    path: collaborators_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: collaborators_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|collaborators_url
+  comments_url:
+    path: comments_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: comments_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|comments_url
+  commits_url:
+    path: commits_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: commits_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|commits_url
+  compare_url:
+    path: compare_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: compare_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|compare_url
+  contents_url:
+    path: contents_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: contents_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|contents_url
+  contributors_url:
+    path: contributors_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: contributors_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|contributors_url
+  deployments_url:
+    path: deployments_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: deployments_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|deployments_url
+  downloads_url:
+    path: downloads_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: downloads_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|downloads_url
+  events_url:
+    path: events_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: events_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|events_url
+  forks_url:
+    path: forks_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: forks_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|forks_url
+  git_commits_url:
+    path: git_commits_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: git_commits_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|git_commits_url
+  git_refs_url:
+    path: git_refs_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: git_refs_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|git_refs_url
+  git_tags_url:
+    path: git_tags_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: git_tags_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|git_tags_url
+  git_url:
+    path: git_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: git_url
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|git_url
+  issue_comment_url:
+    path: issue_comment_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: issue_comment_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|issue_comment_url
+  issue_events_url:
+    path: issue_events_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: issue_events_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|issue_events_url
+  issues_url:
+    path: issues_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: issues_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|issues_url
+  keys_url:
+    path: keys_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: keys_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|keys_url
+  labels_url:
+    path: labels_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: labels_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|labels_url
+  languages_url:
+    path: languages_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: languages_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|languages_url
+  merges_url:
+    path: merges_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: merges_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|merges_url
+  milestones_url:
+    path: milestones_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: milestones_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|milestones_url
+  notifications_url:
+    path: notifications_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: notifications_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|notifications_url
+  pulls_url:
+    path: pulls_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: pulls_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|pulls_url
+  releases_url:
+    path: releases_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: releases_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|releases_url
+  ssh_url:
+    path: ssh_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: ssh_url
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|ssh_url
+  stargazers_url:
+    path: stargazers_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: stargazers_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|stargazers_url
+  statuses_url:
+    path: statuses_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: statuses_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|statuses_url
+  subscribers_url:
+    path: subscribers_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: subscribers_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|subscribers_url
+  subscription_url:
+    path: subscription_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: subscription_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|subscription_url
+  tags_url:
+    path: tags_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: tags_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|tags_url
+  teams_url:
+    path: teams_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: teams_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|teams_url
+  trees_url:
+    path: trees_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: trees_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|trees_url
+  clone_url:
+    path: clone_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: clone_url
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|clone_url
+  mirror_url:
+    path: mirror_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: mirror_url
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|mirror_url
+  hooks_url:
+    path: hooks_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: uri
+      name: hooks_url
+      required: true
+      scalar: string
+    map_items:
+      - space:full-repository|hooks_url
+  svn_url:
+    path: svn_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: svn_url
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|svn_url
+  homepage:
+    path: homepage
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: homepage
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|homepage
+  language:
+    path: language
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: language
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|language
+  forks_count:
+    path: forks_count
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: forks_count
+      required: false
+      scalar: integer
+    map_items:
+      - space:full-repository|forks_count
+  stargazers_count:
+    path: stargazers_count
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: stargazers_count
+      required: false
+      scalar: integer
+    map_items:
+      - space:full-repository|stargazers_count
+  watchers_count:
+    path: watchers_count
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: watchers_count
+      required: false
+      scalar: integer
+    map_items:
+      - space:full-repository|watchers_count
+  size:
+    path: size
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: size
+      required: false
+      scalar: integer
+    map_items:
+      - space:full-repository|size
+  default_branch:
+    path: default_branch
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: default_branch
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|default_branch
+  open_issues_count:
+    path: open_issues_count
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: open_issues_count
+      required: false
+      scalar: integer
+    map_items:
+      - space:full-repository|open_issues_count
+  is_template:
+    path: is_template
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: is_template
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|is_template
+  topics:
+    path: topics
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: topics
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository.topics
+    map_items:
+      - space:full-repository|topics
+  has_issues:
+    path: has_issues
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: has_issues
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|has_issues
+  has_projects:
+    path: has_projects
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: has_projects
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|has_projects
+  has_wiki:
+    path: has_wiki
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: has_wiki
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|has_wiki
+  has_pages:
+    path: has_pages
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: has_pages
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|has_pages
+  has_discussions:
+    path: has_discussions
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: has_discussions
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|has_discussions
+  has_pull_requests:
+    path: has_pull_requests
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: has_pull_requests
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|has_pull_requests
+  pull_request_creation_policy:
+    path: pull_request_creation_policy
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      enum:
+        - all
+        - collaborators_only
+      name: pull_request_creation_policy
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|pull_request_creation_policy
+  archived:
+    path: archived
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: archived
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|archived
+  disabled:
+    path: disabled
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: disabled
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|disabled
+  visibility:
+    path: visibility
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: visibility
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|visibility
+  pushed_at:
+    path: pushed_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: date-time
+      name: pushed_at
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|pushed_at
+  created_at:
+    path: created_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: date-time
+      name: created_at
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|created_at
+  updated_at:
+    path: updated_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      format: date-time
+      name: updated_at
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|updated_at
+  permissions:
+    path: permissions
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: permissions
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository.permissions
+    map_items: []
+  role_name:
+    path: role_name
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: role_name
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|role_name
+  temp_clone_token:
+    path: temp_clone_token
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: temp_clone_token
+      required: false
+      scalar: string
+    map_items:
+      - space:full-repository|temp_clone_token
+  delete_branch_on_merge:
+    path: delete_branch_on_merge
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: delete_branch_on_merge
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|delete_branch_on_merge
+  subscribers_count:
+    path: subscribers_count
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: subscribers_count
+      required: false
+      scalar: integer
+    map_items:
+      - space:full-repository|subscribers_count
+  network_count:
+    path: network_count
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: network_count
+      required: false
+      scalar: integer
+    map_items:
+      - space:full-repository|network_count
+  code_of_conduct:
+    path: code_of_conduct
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: code_of_conduct
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:code-of-conduct
+    map_items:
+      - space:full-repository|code_of_conduct
+  license:
+    path: license
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: license
+      nullable: true
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository.license
+    map_items:
+      - space:full-repository|license
+  forks:
+    path: forks
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: forks
+      required: false
+      scalar: integer
+    map_items:
+      - space:full-repository|forks
+  open_issues:
+    path: open_issues
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: open_issues
+      required: false
+      scalar: integer
+    map_items:
+      - space:full-repository|open_issues
+  watchers:
+    path: watchers
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: watchers
+      required: false
+      scalar: integer
+    map_items:
+      - space:full-repository|watchers
+  allow_forking:
+    path: allow_forking
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: allow_forking
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|allow_forking
+  web_commit_signoff_required:
+    path: web_commit_signoff_required
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: web_commit_signoff_required
+      required: false
+      scalar: boolean
+    map_items:
+      - space:full-repository|web_commit_signoff_required
+  security_and_analysis:
+    path: security_and_analysis
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: security_and_analysis
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:security-and-analysis
+    map_items: []
+  custom_properties:
+    path: custom_properties
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+    declaration:
+      name: custom_properties
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository.custom_properties
+    map_items: []
+  has_downloads:
+    path: has_downloads
+    source: reviewed_source_addition
+    evidence:
+      description: Whether downloads are enabled.
+      default: true
+      type: boolean
+      example: true
+      deprecated: true
+      source: gh_rest_ghec_default_2026_10_13
+      locator: components.schemas.repository.properties.has_downloads
+references:
+  - name: owner
+    field: owner.id
+    target_switch: owner.type
+    targets:
+      Organization: Organization
+      User: User Account
+      Bot: User Account
+    relation: no_relation
+    source: gh_rest_ghec_next_2026_03_10_latest
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source gh_rest_ghec_next_2026_03_10_latest; no_relation
+  - name: parent
+    field: parent.id
+    target: Repository
+    relation: no_relation
+    source: gh_rest_ghec_next_2026_03_10_latest
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source gh_rest_ghec_next_2026_03_10_latest; no_relation
+  - name: source_repository
+    field: source.id
+    target: Repository
+    relation: no_relation
+    source: gh_rest_ghec_next_2026_03_10_latest
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source gh_rest_ghec_next_2026_03_10_latest; no_relation
+  - name: template_repository
+    field: template_repository.id
+    target: Repository
+    relation: no_relation
+    source: gh_rest_ghec_next_2026_03_10_latest
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source gh_rest_ghec_next_2026_03_10_latest; no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: Repository
+  interfaces: *a1
+  model:
+    research_type: object-type:6436f00b9453eb3cabea8e2e
+  extract:
+    key: PILOT-github-Repository-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: GH-05
+            endpoint: /orgs/[^/]+/repos(?:\?|$)
+            items:
+              - (items)
+        properties:
+          allow_forking: allow_forking
+          archive_url: archive_url
+          archived: archived
+          assignees_url: assignees_url
+          blobs_url: blobs_url
+          branches_url: branches_url
+          clone_url: clone_url
+          code_of_conduct: code_of_conduct
+          collaborators_url: collaborators_url
+          comments_url: comments_url
+          commits_url: commits_url
+          compare_url: compare_url
+          contents_url: contents_url
+          contributors_url: contributors_url
+          created_at: created_at
+          custom_properties: custom_properties
+          default_branch: default_branch
+          delete_branch_on_merge: delete_branch_on_merge
+          deployments_url: deployments_url
+          description: description
+          disabled: disabled
+          downloads_url: downloads_url
+          events_url: events_url
+          fork: fork
+          forks: forks
+          forks_count: forks_count
+          forks_url: forks_url
+          full_name: full_name
+          git_commits_url: git_commits_url
+          git_refs_url: git_refs_url
+          git_tags_url: git_tags_url
+          git_url: git_url
+          has_discussions: has_discussions
+          has_downloads: has_downloads
+          has_issues: has_issues
+          has_pages: has_pages
+          has_projects: has_projects
+          has_pull_requests: has_pull_requests
+          has_wiki: has_wiki
+          homepage: homepage
+          hooks_url: hooks_url
+          html_url: html_url
+          id: id
+          is_template: is_template
+          issue_comment_url: issue_comment_url
+          issue_events_url: issue_events_url
+          issues_url: issues_url
+          keys_url: keys_url
+          labels_url: labels_url
+          language: language
+          languages_url: languages_url
+          license: license
+          merges_url: merges_url
+          milestones_url: milestones_url
+          mirror_url: mirror_url
+          name: name
+          network_count: network_count
+          node_id: node_id
+          notifications_url: notifications_url
+          open_issues: open_issues
+          open_issues_count: open_issues_count
+          owner: owner
+          permissions: permissions
+          private: private
+          pull_request_creation_policy: pull_request_creation_policy
+          pulls_url: pulls_url
+          pushed_at: pushed_at
+          releases_url: releases_url
+          role_name: role_name
+          security_and_analysis: security_and_analysis
+          size: size
+          ssh_url: ssh_url
+          stargazers_count: stargazers_count
+          stargazers_url: stargazers_url
+          statuses_url: statuses_url
+          subscribers_count: subscribers_count
+          subscribers_url: subscribers_url
+          subscription_url: subscription_url
+          svn_url: svn_url
+          tags_url: tags_url
+          teams_url: teams_url
+          temp_clone_token: temp_clone_token
+          topics: topics
+          trees_url: trees_url
+          updated_at: updated_at
+          url: url
+          visibility: visibility
+          watchers: watchers
+          watchers_count: watchers_count
+          web_commit_signoff_required: web_commit_signoff_required
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  call: GH-05
+  endpoint: /orgs/[^/]+/repos(?:\?|$)
+  request: {}
+  paths:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+      path:
+        - "*"
+  status: pilot_manual
+  operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/list-for-org
+  alternatives_total: 109
+  sources:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+      operation_id: op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-pat-grant-repositories
+      call: GH-13
+      path:
+        - "*"
+      records: 3
+      request_params:
+        - org
+        - pat_id
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:full-repository
+      operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/get
+      call: GH-05
+      path: []
+      records: 2
+      request_params:
+        - owner
+        - repo
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+      operation_id: op:gh_rest_ghec_next_2026_03_10_latest:packages/list-packages-for-organization
+      call: GH-33
+      path:
+        - "*"
+        - repository
+      records: 0
+      request_params:
+        - org
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+      operation_id: op:gh_rest_ghec_next_2026_03_10_latest:actions/list-repo-access-to-self-hosted-runner-group-in-org
+      call: GH-32
+      path:
+        - repositories
+        - "*"
+      records: 0
+      request_params:
+        - org
+        - runner_group_id
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:minimal-repository
+      operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/list-invitations
+      call: GH-90
+      path:
+        - "*"
+        - repository
+      records: 0
+      request_params:
+        - owner
+        - repo
+  observed_sources:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:repository
+      operation_id: op:gh_rest_ghec_next_2026_03_10_latest:pulls/list
+      call: GH-12
+      path:
+        - "*"
+        - base
+        - repo
+      records: 0
+      partial: true
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+    - full_name
+  reference_paths:
+    - owner.id
+    - parent.id
+    - source.id
+    - template_repository.id
+  metadata_paths: *a2
+  remaining_declared_fields: properties

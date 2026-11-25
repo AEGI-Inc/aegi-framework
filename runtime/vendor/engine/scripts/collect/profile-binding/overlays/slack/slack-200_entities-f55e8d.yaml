@@ -1,0 +1,30 @@
+interfaces:
+  - Assignment
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새 Profile 200.team 이다
+references:
+  - name: policy
+    field: $req.policy_name
+    target: Policy
+    relation: applies_to
+    stub: true
+    reviewed_at: 2026-11-03
+    rationale: Slack email_password 인증 정책 스텁
+  - name: user
+    field: entity_id
+    target: 200.members[*]
+    relation: applies_to
+    when:
+      path: entity_type
+      eq: USER
+    reviewed_at: 2026-11-03
+    rationale: email_password 인증 정책의 사용자 대상
+relation_plans:
+  - type: applies_to
+    source: $refs.policy
+    target: $refs.user
+    produced_by_reference: user
+    basis: stated
+    properties:
+      via_assignment: $self

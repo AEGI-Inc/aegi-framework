@@ -1,0 +1,7 @@
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+emit: reference_only
+manual_basis: 감사 로그 항목의 위치는 workspace·enterprise 를 가리키는 참조다. 겹친 값 200.team 1,
+  defs_enterprise_id 1

@@ -1,0 +1,264 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/file.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-07
+        request:
+          file: absent
+        items: files
+    vars:
+      owners:
+        op: map_each
+        of: owners
+        value:
+          op: lower
+          of:
+            op: str
+            of: $item.emailAddress
+      drive_only:
+        if:
+          all:
+            - path:
+                op: count
+                of: parents
+              truthy: false
+            - path: driveId
+              truthy: true
+            - has:
+                type: Drive
+                id: driveId
+        then: true
+        else: false
+      parent_kind:
+        if:
+          path: $vars.drive_only
+          truthy: true
+        then:
+          const: drive_only
+        else:
+          if:
+            path:
+              op: count
+              of: parents
+            eq: 1
+          then:
+            if:
+              has:
+                type: Drive
+                id:
+                  op: first
+                  of: parents
+            then:
+              const: drive
+            else:
+              const: file
+    parent:
+      ref:
+        switch: $vars.parent_kind
+        cases:
+          drive_only:
+            type: Drive
+            id: driveId
+          drive:
+            type: Drive
+            id:
+              op: first
+              of: parents
+          file:
+            type: File
+            id:
+              op: first
+              of: parents
+      when: stub
+    refs:
+      owner:
+        each: $vars.owners
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $item
+          ci: true
+        value: $item
+        type: User
+        external_if_missing: true
+    properties:
+      name: name
+      mimeType: mimeType
+      owners: $vars.owners
+      shared: shared
+      driveId: driveId
+      parents: parents
+      createdTime: createdTime
+      modifiedTime: modifiedTime
+    display: "{name|id}"
+    relations:
+      - type: contained_in
+        when:
+          path: $vars.drive_only
+          truthy: true
+        source: $self
+        target:
+          type: Drive
+          id: driveId
+        basis: stated
+      - type: contained_in
+        when:
+          path: $vars.drive_only
+          truthy: false
+        each: parents
+        source: $self
+        target:
+          switch:
+            if:
+              has:
+                type: Drive
+                id: $item
+            then:
+              const: drive
+            else:
+              const: file
+          cases:
+            drive:
+              type: Drive
+              id: $item
+            file:
+              type: File
+              id: $item
+        basis: stated
+      - type: owned_by
+        each: $vars.owners
+        source: $self
+        target:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $item
+          ci: true
+        basis: stated
+        properties:
+          matched_on:
+            const: owners[].emailAddress = primaryEmail
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-FILE-{id}
+runtime_stub:
+  display: 폴더 {id} (목록에 없음)
+runtime_key: GWS-FILE-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: File:list
+    sources:
+      - call: GW-07
+        request:
+          file: absent
+        items: files
+    vars:
+      owners:
+        op: map_each
+        of: owners
+        value:
+          op: lower
+          of:
+            op: str
+            of: $item.emailAddress
+      drive_only:
+        if:
+          all:
+            - path:
+                op: count
+                of: parents
+              truthy: false
+            - path: driveId
+              truthy: true
+            - has:
+                type: Drive
+                id: driveId
+        then: true
+        else: false
+      parent_kind:
+        if:
+          path: $vars.drive_only
+          truthy: true
+        then:
+          const: drive_only
+        else:
+          if:
+            path:
+              op: count
+              of: parents
+            eq: 1
+          then:
+            if:
+              has:
+                type: Drive
+                id:
+                  op: first
+                  of: parents
+            then:
+              const: drive
+            else:
+              const: file
+    relations:
+      - type: contained_in
+        when:
+          path: $vars.drive_only
+          truthy: true
+        source: $self
+        target:
+          type: Drive
+          id: driveId
+        basis: stated
+      - type: contained_in
+        when:
+          path: $vars.drive_only
+          truthy: false
+        each: parents
+        source: $self
+        target:
+          switch:
+            if:
+              has:
+                type: Drive
+                id: $item
+            then:
+              const: drive
+            else:
+              const: file
+          cases:
+            drive:
+              type: Drive
+              id: $item
+            file:
+              type: File
+              id: $item
+        basis: stated
+      - type: owned_by
+        each: $vars.owners
+        source: $self
+        target:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $item
+          ci: true
+        basis: stated
+        properties:
+          matched_on:
+            const: owners[].emailAddress = primaryEmail
+    self_identity: object_rule

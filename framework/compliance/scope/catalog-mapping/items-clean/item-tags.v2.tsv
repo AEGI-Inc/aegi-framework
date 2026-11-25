@@ -1,0 +1,168 @@
+# item_key	tags (2026-11-09, tags.json 기준)
+ISO27001:5.11	account access_grant ownership credential integration
+ISO27001:5.12	@type=data_resource data_classification data_resource
+ISO27001:5.13	data_classification
+ISO27001:5.14	sharing dlp data_flow
+ISO27001:5.15	access_role access_grant
+ISO27001:5.16	account group provisioning
+ISO27001:5.17	credential authentication password_policy
+ISO27001:5.18	access_grant admin_access provisioning
+ISO27001:5.23	tenant tenant_policy integration
+ISO27001:5.3	access_role admin_access
+ISO27001:5.33	monitoring retention_backup
+ISO27001:5.34	@type=data_resource data_resource data_classification access_grant dlp
+ISO27001:5.9	@type=data_resource tenant data_resource code_repo integration ownership
+ISO27001:6.7	network_policy authentication session_policy device
+ISO27001:7.14	device
+ISO27001:7.9	device
+ISO27001:8.1	device
+ISO27001:8.10	retention_backup data_resource
+ISO27001:8.11	dlp data_classification
+ISO27001:8.12	dlp sharing
+ISO27001:8.13	retention_backup
+ISO27001:8.15	monitoring
+ISO27001:8.16	monitoring
+ISO27001:8.19	integration automation
+ISO27001:8.2	admin_access
+ISO27001:8.22	network_policy tenant_policy
+ISO27001:8.24	encryption
+ISO27001:8.25	code_security change_control code_repo
+ISO27001:8.28	code_security
+ISO27001:8.29	code_security automation
+ISO27001:8.3	access_role access_grant sharing
+ISO27001:8.30	code_access account
+ISO27001:8.31	tenant code_repo
+ISO27001:8.32	change_control
+ISO27001:8.33	data_resource data_classification
+ISO27001:8.34	admin_access access_grant
+ISO27001:8.4	code_access change_control
+ISO27001:8.5	authentication password_policy session_policy
+ISO27001:8.7	malware
+ISO27001:8.8	code_security code_repo
+ISO27001:8.9	tenant tenant_policy
+ISMS-P:1.2.1-01	@obj @type=data_resource tenant data_resource integration code_repo device automation
+ISMS-P:1.2.1-02	@type=data_resource data_resource data_classification
+ISMS-P:1.2.1-03	@obj @type=data_resource tenant data_resource integration code_repo device automation
+ISMS-P:1.2.2-01	data_flow integration automation
+ISMS-P:1.2.2-02	@type=data_resource data_flow integration data_resource
+ISMS-P:1.2.2-03	@type=data_resource data_flow integration data_resource
+ISMS-P:2.1.3-01	data_classification dlp data_resource
+ISMS-P:2.1.3-02	ownership
+ISMS-P:2.10.1-02	admin_access
+ISMS-P:2.10.1-04	tenant_policy
+ISMS-P:2.10.1-05	tenant_policy
+ISMS-P:2.10.2-02	tenant_policy admin_access tenant
+ISMS-P:2.10.2-03	admin_access authentication monitoring
+ISMS-P:2.10.2-04	tenant_policy monitoring
+ISMS-P:2.10.5-02	data_flow encryption integration
+ISMS-P:2.11.3-01	monitoring
+ISMS-P:2.2.1-02	admin_access account
+ISMS-P:2.2.1-03	account access_grant
+ISMS-P:2.2.2-01	access_role admin_access
+ISMS-P:2.2.5-02	account access_grant provisioning integration
+ISMS-P:2.3.1-01	integration account
+ISMS-P:2.3.4-01	account access_grant integration
+ISMS-P:2.5.1-01	account provisioning access_grant
+ISMS-P:2.5.1-02	access_role access_grant group
+ISMS-P:2.5.2-01	account
+ISMS-P:2.5.2-02	account
+ISMS-P:2.5.3-01	authentication password_policy
+ISMS-P:2.5.3-02	authentication network_policy
+ISMS-P:2.5.4-01	password_policy
+ISMS-P:2.5.4-02	password_policy
+ISMS-P:2.5.4-03	authentication credential
+ISMS-P:2.5.5-01	admin_access
+ISMS-P:2.5.5-02	admin_access account
+ISMS-P:2.5.6-01	monitoring
+ISMS-P:2.5.6-02	access_grant admin_access account
+ISMS-P:2.6.2-02	session_policy
+ISMS-P:2.6.3-01	access_role access_grant
+ISMS-P:2.6.3-02	session_policy
+ISMS-P:2.6.3-03	admin_access authentication
+ISMS-P:2.6.3-05	dlp access_role
+ISMS-P:2.6.6-03	network_policy authentication session_policy device tenant_policy
+ISMS-P:2.7.1-02	encryption
+ISMS-P:2.7.2-02	encryption
+ISMS-P:2.8.3-01	tenant code_repo
+ISMS-P:2.8.3-02	change_control monitoring
+ISMS-P:2.8.4-01	data_resource
+ISMS-P:2.8.4-02	data_resource retention_backup
+ISMS-P:2.8.5-01	code_access
+ISMS-P:2.8.5-02	code_repo change_control
+ISMS-P:2.8.5-03	code_repo change_control
+ISMS-P:2.9.4-01	monitoring
+ISMS-P:2.9.4-02	monitoring admin_access
+ISMS-P:2.9.4-03	monitoring retention_backup tenant_policy
+ISMS-P:3.1.3-01	dlp data_resource
+ISMS-P:3.2.5-04	data_resource access_grant
+ISMS-P:3.2.5-05	retention_backup data_resource
+ISMS-P:3.3.1-05	sharing data_flow
+ISMS-P:3.3.1-06	access_grant sharing integration
+ISMS-P:3.3.4-04	data_region data_flow integration
+ISMS-P:3.4.1-02	retention_backup data_resource
+ISMS-P:3.4.1-03	retention_backup data_resource
+ISMS-P:3.4.2-01	retention_backup data_resource
+ISMS-P:3.4.2-02	retention_backup data_resource
+ISMS-P:3.4.2-03	access_role access_grant data_resource
+ISMS-P:3.4.2-04	access_grant
+PIPA:admin-73464:article-8:p1	sharing integration
+PIPA:admin-73464:article-8:p2	integration data_flow
+PIPA:admin-73464:article-10:p1	retention_backup data_resource
+PIPA:admin-73464:article-11:p1	retention_backup data_resource
+PIPA:admin-73464:article-15:p1	access_grant account
+PIPA:admin-73464:article-15:p2	access_role access_grant
+PIPA:admin-73464:article-15:p3	access_grant provisioning
+PIPA:admin-73464:article-17:p0	integration access_grant
+PIPA:admin-73493:article-5:p1	access_role access_grant
+PIPA:admin-73493:article-5:p2	access_grant provisioning
+PIPA:admin-73493:article-5:p3	monitoring retention_backup
+PIPA:admin-73493:article-5:p4	account
+PIPA:admin-73493:article-5:p5	authentication
+PIPA:admin-73493:article-5:p6	password_policy authentication
+PIPA:admin-73493:article-6:p1	network_policy monitoring
+PIPA:admin-73493:article-6:p2	authentication network_policy
+PIPA:admin-73493:article-6:p3	sharing
+PIPA:admin-73493:article-6:p4	session_policy
+PIPA:admin-73493:article-6:p5	device
+PIPA:admin-73493:article-6-2:p1	network_policy admin_access
+PIPA:admin-73493:article-7:p2	encryption
+PIPA:admin-73493:article-7:p3	encryption
+PIPA:admin-73493:article-7:p4	encryption
+PIPA:admin-73493:article-7:p5	device encryption
+PIPA:admin-73493:article-7:p6	encryption
+PIPA:admin-73493:article-8:p1	monitoring retention_backup
+PIPA:admin-73493:article-8:p2	monitoring
+PIPA:admin-73493:article-8:p3	monitoring
+PIPA:admin-73493:article-11:p0	retention_backup
+PIPA:admin-73493:article-12:p1	access_grant admin_access
+PIPA:admin-73493:article-13:p1	retention_backup data_resource
+PIPA:admin-73493:article-13:p2	retention_backup data_resource
+PIPA:admin-73493:article-13:p3	retention_backup
+PIPA:admin-73493:annex-1:p0	access_role dlp
+PIPA:law-011357:article-17:p1	sharing integration data_flow
+PIPA:law-011357:article-17:p4	sharing integration
+PIPA:law-011357:article-18:p1	sharing integration
+PIPA:law-011357:article-18:p5	integration data_flow
+PIPA:law-011357:article-19:p0	integration
+PIPA:law-011357:article-21:p1	retention_backup data_resource
+PIPA:law-011357:article-21:p2	retention_backup data_resource
+PIPA:law-011357:article-21:p3	retention_backup data_resource
+PIPA:law-011357:article-23:p2	encryption data_classification
+PIPA:law-011357:article-24:p3	encryption data_classification
+PIPA:law-011357:article-24-2:p2	encryption
+PIPA:law-011357:article-26:p5	integration sharing
+PIPA:law-011357:article-28:p1	access_grant account
+PIPA:law-011357:article-28-2:p2	sharing
+PIPA:law-011357:article-28-4:p1	data_resource access_grant
+PIPA:law-011357:article-28-5:p2	retention_backup data_resource
+PIPA:law-011357:article-28-8:p1	data_region data_flow integration
+PIPA:law-011357:article-28-8:p4	data_region
+PIPA:law-011357:article-29:p0	access_role access_grant authentication encryption monitoring
+PIPA:law-011357:article-34-2:p1	sharing dlp
+PIPA:law-011468:article-14-2:p1	sharing encryption
+PIPA:law-011468:article-16:p1	retention_backup data_resource
+PIPA:law-011468:article-21:p1	encryption access_grant
+PIPA:law-011468:article-21-2:p1	encryption
+PIPA:law-011468:article-29-5:p1	data_resource access_grant
+PIPA:law-011468:article-29-10:p1	data_region
+PIPA:law-011468:article-30:p1	access_role access_grant authentication encryption monitoring session_policy network_policy

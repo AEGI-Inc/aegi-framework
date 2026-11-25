@@ -1,0 +1,183 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/slack/profiles/conversation.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-03
+        items:
+          - channels
+          - conversations
+    vars:
+      workspace:
+        if:
+          path: context_team_id
+          matches: ^T
+        then: context_team_id
+    parent:
+      ref:
+        type: 200.team
+        id: $vars.workspace
+      when: always
+    mutable_ids:
+      name: name
+    properties:
+      name: name
+      is_private: is_private
+      is_archived: is_archived
+      is_ext_shared: is_ext_shared
+      creator:
+        any:
+          - creator
+          - creator_id
+      created: created
+      member_count: member_count
+    display: "#{name|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.workspace
+        basis: stated
+      - type: shared_with
+        each:
+          if:
+            path: internal_team_ids
+            is_array: true
+          then: internal_team_ids
+        source: $self
+        target:
+          type: 200.team
+          id: $item
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-CH-{id}
+  - id: members
+    kind: relations
+    sources:
+      - call: SL-04
+        items: members
+    relations:
+      - type: member_of
+        source:
+          type: 200.members[*]
+          id: .
+        target:
+          type: conversation
+          id: $req.channel
+        basis: stated
+        props_when:
+          any:
+            - path: .
+              in_expr: $ctx.measurementSlack
+            - path:
+                ref:
+                  type: 200.members[*]
+                  id: .
+                prop: bot_id
+              in_expr: $ctx.measurementSlack
+        properties:
+          measurement_principal: true
+    key_template: SLK-CH-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: SLK-CH-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  name:
+    stability: mutable
+relation_rules:
+  - id: conversation:list
+    sources:
+      - call: SL-03
+        items:
+          - channels
+          - conversations
+    vars:
+      workspace:
+        if:
+          path: context_team_id
+          matches: ^T
+        then: context_team_id
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: 200.team
+          id: $vars.workspace
+        basis: stated
+      - type: shared_with
+        each:
+          if:
+            path: internal_team_ids
+            is_array: true
+          then: internal_team_ids
+        source: $self
+        target:
+          type: 200.team
+          id: $item
+        basis: stated
+    self_identity: object_rule
+  - id: conversation:members
+    sources:
+      - call: SL-04
+        items: members
+    relations:
+      - type: member_of
+        source:
+          type: 200.members[*]
+          id: .
+        target:
+          type: conversation
+          id: $req.channel
+        basis: stated
+        props_when:
+          any:
+            - path: .
+              in_expr: $ctx.measurementSlack
+            - path:
+                ref:
+                  type: user
+                  id: .
+                prop: bot_id
+              in_expr: $ctx.measurementSlack
+        properties:
+          measurement_principal: true
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+fields:
+  connected_team_ids:
+    path: connected_team_ids
+    source: collected_response
+  connected_limited_team_ids:
+    path: connected_limited_team_ids
+    source: collected_response
+  external_user_count:
+    path: external_user_count
+    source: collected_response
+  is_global_shared:
+    path: is_global_shared
+    source: collected_response
+  is_org_default:
+    path: is_org_default
+    source: collected_response
+  is_org_mandatory:
+    path: is_org_mandatory
+    source: collected_response
+  is_frozen:
+    path: is_frozen
+    source: collected_response
+fields_basis: 수집 응답에 있는데 Profile 선언에 없어 정규화에서 버려지던 보안 필드를 선언한다(2026-11-01 필드 대조, 값은 수집 응답 그대로)

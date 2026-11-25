@@ -1,0 +1,172 @@
+format: im-pilot-profile/1
+scope: catalog_spec5_record_projection
+provider: slack
+service: null
+object_type: Slash Command Request Endpoint
+interfaces:
+  - Endpoint
+model:
+  research_type: null
+  runtime_type_id: model-v1:slack:Slash Command Request Endpoint
+  decision_refs:
+    - R1-D03
+    - model-v1 runtime record_projection
+vars:
+  app:
+    op: str
+    of: $req.app_id
+  app_name:
+    any:
+      - $parent.manifest.display_information.name
+      - $req.app_id
+identity:
+  primary:
+    - name: app
+      expr: $vars.app
+      stability: catalog_reviewed
+    - name: cmd
+      expr: &a1
+        op: replace
+        of: command
+        pattern: ^/
+        with: ""
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: SLK-END-{app}-{cmd}
+binding:
+  status: catalog_call
+  call: SL-10
+  operation_id: op:slack_docs_methods:apps.manifest.export
+  each: manifest.features.slash_commands
+  paths:
+    - shape: null
+      path: []
+  basis: catalog spec:5 sources
+fields:
+  command:
+    expr: command
+    source: catalog_spec5
+  app_id:
+    expr: $vars.app
+    source: catalog_spec5
+  url_host:
+    expr:
+      op: url_host
+      of: url
+    source: catalog_spec5
+  url_path:
+    expr:
+      op: url_path
+      of: url
+    source: catalog_spec5
+  description:
+    expr: description
+    source: catalog_spec5
+references: []
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - password
+    - token
+overlay_basis:
+  from: aegi-adapter-engine
+    catalog/slack/profiles/slash_command_request_endpoint.yaml
+  engine_commit: d78062d
+  research_agreement: no_research_type
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-10
+        items: (root)
+        each: manifest.features.slash_commands
+    vars:
+      app:
+        op: str
+        of: $req.app_id
+      app_name:
+        any:
+          - $parent.manifest.display_information.name
+          - $req.app_id
+    id_expr:
+      template: "{$vars.app}:{command}"
+    parts:
+      app: $vars.app
+      cmd:
+        op: replace
+        of: command
+        pattern: ^/
+        with: ""
+    properties:
+      command: command
+      app_id: $vars.app
+      url_sha256: request_url_sha256
+      url_host:
+        op: url_host
+        of: url
+      url_path:
+        op: url_path
+        of: url
+      description: description
+    display: "{command} ({$vars.app_name})"
+    relations:
+      - type: owned_by
+        source: $self
+        target:
+          type: defs_app_id
+          id: $vars.app
+        basis: stated
+    identity:
+      primary:
+        - name: app
+          expr: $vars.app
+          stability: catalog_reviewed
+        - name: cmd
+          expr: *a1
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-END-{app}-{cmd}
+runtime_stub: null
+runtime_key: SLK-END-{app}-{cmd}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Slash Command Request Endpoint:list
+    sources:
+      - call: SL-10
+        items: (root)
+        each: manifest.features.slash_commands
+    vars:
+      app:
+        op: str
+        of: $req.app_id
+      app_name:
+        any:
+          - $parent.manifest.display_information.name
+          - $req.app_id
+    relations:
+      - type: owned_by
+        source: $self
+        target:
+          type: defs_app_id
+          id: $vars.app
+        basis: stated
+    self_identity: object_rule
+# Profile 상수: knowledge schema/catalog/slack/research.json 의 Slash Command Request Endpoint decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml rules.outbound_hooks both_way)이 이 값으로 고른다
+constants:
+  direction:
+    const: both

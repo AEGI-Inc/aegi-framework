@@ -1,0 +1,62 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: jira
+service: jira
+object_type: AutomationRequestEndpoint
+interfaces: [Endpoint]
+model:
+  runtime_type_id: automation-source-bindings/1:atlassian:AutomationRequestEndpoint
+  source: aegi-knowledge/schema/ontology/automation-sources.yaml
+identity:
+  primary:
+    - {name: cloud, expr: $req.cloud, stability: stable}
+    - {name: product, expr: $req.product, stability: stable}
+    - {name: rule, expr: $req.rule, stability: stable}
+    - {name: component, expr: component_id, stability: stable}
+    - {name: target, expr: sha256, stability: stable}
+  scope: parent
+fields: {}
+runtime_key: JI-AUTO-REQ-{cloud}-{rule}-{component}-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: JI-10
+        request: {kind: automation_definition}
+        items: (root)
+        each: rule.request_targets
+    id_expr: sha256
+    parts:
+      cloud: $req.cloud
+      rule: $req.rule
+      component: component_id
+    properties:
+      url_host: host
+      url_sha256: sha256
+      url_github_repo: github.repo
+      url_github_kind: github.kind
+      component_id: component_id
+      component_type: component_type
+      direction: {const: out}
+    parent:
+      ref:
+        type: AutomationRule
+        id: $req.rule
+        parts: {cloud: $req.cloud}
+        key_template: JI-AUTO-{cloud}-{id}
+      when: always
+    display: "{component_type} → {host}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: AutomationRule
+          id: $req.rule
+          parts: {cloud: $req.cloud}
+          key_template: JI-AUTO-{cloud}-{id}
+        basis: stated
+        require: [target]
+

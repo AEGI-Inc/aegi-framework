@@ -1,0 +1,126 @@
+{
+  "_basis": "r1-pilot 충돌 5건에 대한 사용자 결정. 2026-10-25 사용자가 \"다 권고대로 해서 진행해줘\"라고 승인했다. 각 choice 는 그때 제시한 권고안이다. R1-D06~D10 은 2026-10-25 사용자가 \"전부다 차례대로 진행해줘\"라고 남은 작업 전체를 승인한 뒤 이 세션이 권고안대로 정했다(decided_by: agent_under_user_blanket_approval). V3 고정 전 검토 대상이다 R2-D01 은 2026-10-25 사용자가 \"v3 문제점 먼저 고쳐줘\"라고 요청해 V3 오류 수정으로 정했다. R3-D01, R3-D02 는 2026-10-25 사용자가 \"너가 나머지해\"라고 맡긴 Profile 정규화 작업 중 V3.1 누락으로 찾아 정했다.",
+  "decided_by": "user",
+  "decided_on": "2026-10-25",
+  "decisions": [
+    {
+      "code": "R1-D01",
+      "resolves": "conflict:gws-drive-owner-double-relation",
+      "choice": "Drive 권한 행이 role=owner 이고 받는 사람이 같은 파일의 File.owners 에 있으면 has_role_on 을 만들지 않는다. 소유는 owned_by(File -> Principal) 하나로 두고, 그 Permission 은 owned_by 의 via_assignment 근거로 남긴다. role=owner 인데 File.owners 에 없으면(공유 드라이브 등) has_role_on 을 유지한다",
+      "basis": "Relation_Schema_v3: 소유는 부여받은 것이 아니고 회수하려면 소유권을 넘겨야 하므로 has_role_on 과 다른 관계다(654행). owned_by Resource --> Principal 의 근거 사례가 Drive File.owners 다(218행)"
+    },
+    {
+      "code": "R1-D02",
+      "resolves": "identity-evidence:gws-drive-permission-id-is-grantee",
+      "choice": "Drive Permission.id 를 Drive grantee 공간(gws:DriveGrantee, 키 User.permissionId)의 참조로 등록한다. Directory User 와 병합하지 않으며, Directory User 해소는 기존대로 emailAddress 로 한다",
+      "basis": "Google Drive API v3 Permission.id: 받는 사람의 고유 ID이며 User 리소스에 permissionId 로 게시된다. r1-pilot 실측에서 permission.id 와 grantee 가 일대일"
+    },
+    {
+      "code": "R1-D03",
+      "resolves": "runtime_object_without_im_space, existing_decision_without_im_space",
+      "choice": "정규화기에만 있던 두 공간을 IM 에 composite 공간으로 추가한다: slack:SlashCommandRequestEndpoint (app_id, command), confluence:SpacePermission (space, principal.type, principal.id; G4-Q01 묶음)",
+      "basis": "normalize-v2/slack.ts:212-222, normalize-v2/atlassian.ts:184-204, Interface_Spec_v3 G4-Q01"
+    },
+    {
+      "code": "R1-D04",
+      "resolves": "record_without_space_or_judgment (slack admin.apps.approved/restricted.list)",
+      "choice": "Slack 앱 승인·제한 record 는 Object 가 아니라 조직 범위 앱의 속성이다. 부모 key 는 (요청 team_id 또는 enterprise_id, app.id)이고 approval(approved|restricted), date_updated, last_resolved_by, scopes[] 를 속성으로 둔다",
+      "basis": "rulebook O4(다른 대상에 딸린 설정 값). 승인은 조직 단위라 부모 scope 에 요청 team_id/enterprise_id 를 포함한다. normalize-v2/slack.ts:186-196 도 approval, date_updated 를 앱 속성으로 둔다"
+    },
+    {
+      "code": "R1-D05",
+      "resolves": "pinned_output_vs_user_decision",
+      "choice": "pinned out2 를 덮어쓰지 않고, 사본에서 dup_audit.py 를 캐시만으로(--send 없이) 다시 돌려 v2 가 반영된 same_entity 를 r1-pilot/regenerated-same-entity/ 에 둔다. 이후 동일성 입력은 이 재생성본이다",
+      "basis": "dup_audit.apply_v2_same_entity 가 research_overrides_v2.json 을 적용한다. 복원 out2 는 적용 전 결과다"
+    },
+    {
+      "code": "R1-D06",
+      "decided_by": "agent_under_user_blanket_approval",
+      "resolves": "orphan-judgments rule_applied_needs_review 6그룹",
+      "choice": "rulebook O1/O3/O4/O5 적용 판정 6그룹(GWS Activities·Apps Script 실행 이력·Confluence 감사 기록 2종=O3, Slack audit action 목록=O5, Slack 매니페스트·GitHub diff-entry=O4)을 확정한다",
+      "basis": "adopted rulebook 규칙의 문구 그대로 적용. 현행 정규화기도 실행 이력과 매니페스트를 같은 방향으로 쓴다"
+    },
+    {
+      "code": "R1-D07",
+      "decided_by": "agent_under_user_blanket_approval",
+      "resolves": "runtime_attribute_needs_im_binding (manifest.oauth_config.scopes)",
+      "choice": "매니페스트의 oauth_config.scopes(bot/user)는 앱이 요청하도록 설정한 scope 다. 앱(app_id)의 속성으로 둔다(O4). 발급된 토큰(Credential)의 scope 가 아니다",
+      "basis": "apps.manifest.export 는 앱 설정을 내보낸다. 실제 발급 토큰 scope 는 설치·토큰 응답에서 따로 온다"
+    },
+    {
+      "code": "R1-D08",
+      "decided_by": "agent_under_user_blanket_approval",
+      "resolves": "V2-OPEN-19",
+      "choice": "Jira {}_2 는 DELETE/GET /issue/{id}/remotelink?globalId 의 질의 주소 키다. 속성과 shape 가 없다. Object 가 아니며 RemoteIssueLink 의 대체 주소 키(globalId)로 기록한다. V2-S6(다른 공간)은 유지한다",
+      "basis": "pinned map: {}_2 는 positions=issue/{}/remotelink?globalId, shapes 0, 정보 항목 0. rulebook O1(목록·메타 값은 Object 에서 뺀다)"
+    },
+    {
+      "code": "R1-D09",
+      "decided_by": "agent_under_user_blanket_approval",
+      "resolves": "V2-OPEN-20",
+      "choice": "GitHub team-membership.username 을 simple-user 묶음에서 떼고 public-user(User)의 login 참조로 둔다",
+      "basis": "원문 locator paths./orgs/{org}/teams/{team_slug}/memberships/{username}: username 은 GitHub 사용자 login 이다. simple-user 는 V2-S4 로 다형(User/Bot/Organization) 공간이 됐으므로 사용자 전용 키와 같은 묶음에 둘 수 없다"
+    },
+    {
+      "code": "R1-D10",
+      "decided_by": "agent_under_user_blanket_approval",
+      "resolves": "V2-OPEN-21",
+      "choice": "Slack 3쌍의 same 판정을 유지하고 근거를 올린다. 200.file~objs_file: 같은 메서드(files.info .file, files.list .files[*])의 같은 응답 위치를 두 문서 원문이 설명한다(stated_same_operation_slot). 200.channel|1~objs_conversation|0: 양쪽 명시 ID 형식이 포함 관계다(^D 는 ^[CGD] 의 부분집합, stated_format_compatible). 200.channel~objs_channel: 200.channel 에는 명시 형식이 없고 원문 예시 값이 objs_channel 의 명시 형식 ^C 에 맞는다(example_matches_stated_format, 가장 약한 근거로 표시)",
+      "basis": "slack IR id_format: defs_channel_id ^C, defs_dm_id ^D, defs_channel ^[CGD], defs_file_id ^F. bridge 의 RPC 규칙: 메서드 이름이 operation 식별자"
+    },
+    {
+      "code": "R1-D11",
+      "decided_by": "agent_under_user_blanket_approval",
+      "resolves": "관측 없는 고아 정보 4,430항목",
+      "choice": "config/source-rules.json 의 원문 기반 규칙(S-E1, S-E2, S-A, S-V, S-P, S-N, S-T, S-W)으로 귀속한다. 쓰기 응답에만 나오는 정보는 action_result(수집 대상 아님)로 둔다. 규칙이 정하지 못한 항목은 사유와 함께 미결로 둔다",
+      "basis": "rulebook O1~O6 과 pinned IR 의 operation·shape·map 위치. S-P·S-T·S-N 결과는 judgment_status=rule_applied_coarse 로 표시한다(경로 낱말을 쓰지 않아 사건 기록이 부모 속성으로 갈 수 있다)"
+    },
+    {
+      "code": "R1-D12",
+      "decided_by": "agent_under_user_blanket_approval",
+      "resolves": "그래프 고아 1,081개",
+      "choice": "config/graph-orphan-rules.json 의 대응표로 분류한다. 스냅샷은 수정하지 않는다",
+      "basis": "Q04, Q05, Q07, Q08, Q09, Q10, Q11, G4-Q01, G4-Q02"
+    },
+    {
+      "code": "R1-D13",
+      "decided_by": "agent_under_user_blanket_approval",
+      "resolves": "v1 Object 타입의 split 반영",
+      "choice": "split 으로 대표 공간이 non_object 가 되면 남는 Object 멤버를 대표로 옮긴다(GitHub simple-user -> public-user, Jira {}_2 -> RemoteIssueLink). Okta UserResponseSchema 는 rulebook O7(신원 Link 재료)로 non_object, GWS Member.memberKey 는 V2-S5 다형 참조로 non_object 다. Jira PermissionGrant 는 G4-Q02 로 non_object(PermissionScheme 의 Policy 내용)다",
+      "basis": "V2-S3, V2-S4, V2-S5, V2-S6, G4-Q02, rulebook O7, R1-D08, R1-D09",
+      "superseded_in_part_by": "R2-D01",
+      "superseded_part": "대표 공간 이동(anchor). 묶음에 이미 v2 split 타입 ID 가 있어 ID 를 옮기지 않는다"
+    },
+    {
+      "code": "R1-D14",
+      "decided_by": "agent_under_user_blanket_approval",
+      "resolves": "typed reference 5,293개와 어휘 버전",
+      "choice": "승인 결정이 있는 참조만 relation 으로 둔다. v1 이 한쪽 끝을 non-object 로 판정한 참조는 property, 나머지는 object_reference(unreviewed_v1_auto)로 유지한다. GWS permissionId 참조는 DriveGrantee 로 다시 가리킨다(R1-D02). 어휘 템플릿은 현행 Relation_Schema_v3 를 따른다(triggered_by 대상에 Resource, Integration 추가)",
+      "basis": "Relation_Schema_v3 null/no_relation 구분, Q01~Q11, R1-D02"
+    },
+    {
+      "code": "R2-D01",
+      "decided_by": "agent_under_user_request",
+      "decided_on": "2026-10-25",
+      "resolves": "V3 오류: split 타입 ID 이동과 V2-T1 누락",
+      "choice": "타입 기준선을 engine 동결 model-v1 연구 묶음(1,977 타입)으로 바꾸고 묶음의 타입 ID 를 그대로 쓴다. simple-user, {}_2 는 원래 ID 로 non_object 판정을 받고, public-user, RemoteIssueLink, UserResponseSchema, Member.memberKey 는 묶음의 ID 를 쓴다. research_overrides_v2.interfaces(V2-T1)를 적용한다. key_reference 별칭(R1-D09 team-membership.username)은 member 를 public-user 로 옮겨 반영한다",
+      "basis": "V3(r1)는 v1 object_types(1,973)를 기준선으로 split 을 다시 계산해 simple-user, {}_2 의 ID 를 public-user, RemoteIssueLink 로 옮겼고 interfaces override 를 읽지 않았다. 묶음(aegi-adapter-engine docs/spec/model-v1/research-v1.bundle.json)은 같은 v2 결정을 반영한 동결 판이며 full-catalog Profile 1,977개가 이 ID 를 쓴다"
+    },
+    {
+      "code": "R3-D01",
+      "decided_by": "agent_under_user_request",
+      "decided_on": "2026-10-25",
+      "resolves": "V3.1 관측 누락: RPC 메서드의 다른 문서 view",
+      "choice": "bridge link 의 operation.alternates(같은 RPC 메서드의 다른 문서 view)도 같은 페이지를 설명하는 것으로 보고, 그 view 의 record shape 로도 관측 record 를 센다",
+      "basis": "Slack users.list(SL-02) 38건은 legacy view(objs_user, 어떤 타입의 shape 도 아님)가 대표로 뽑혀 docs_methods view(200.members[*] 타입)가 미관측이 됐다. 두 view 의 payload 적합도가 같아(4=4) rank 로 갈렸다"
+    },
+    {
+      "code": "R3-D02",
+      "decided_by": "agent_under_user_request",
+      "decided_on": "2026-10-25",
+      "resolves": "V3.1 누락: model-v1 실행 판정",
+      "choice": "engine docs/spec/model-v1/runtime-catalog.json 의 reviewed_override 6(인터페이스 변경), record_projection 12(연구 타입 없이 레코드로 투영하는 타입), link_only 1(신원 Link 재료)을 Object 판정에 반영한다. V3 에서 더한 confluence:SpacePermission, slack:SlashCommandRequestEndpoint 는 같은 실행 판정 행에 합친다",
+      "basis": "model-v1 은 연구 묶음과 실행 카탈로그 두 판으로 2026-10-19 동결됐다(AEGI_OBJECT_MODEL_V1_RUNTIME.md). V3 는 연구 묶음만 읽었다. 판정 근거 코드(G4-Q01, G4-Q03, V2-P2, V2-R1, GF1)는 실행 판정의 evidence 에 있다"
+    }
+  ]
+}

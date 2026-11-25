@@ -1,0 +1,72 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/security_events_provider.yaml
+  engine_commit: d78062d
+  research_agreement: reviewed_override
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-21
+        request:
+          kind: security_events_providers
+        where:
+          path: id
+          present: true
+    properties:
+      name: name
+      type: type
+      status: status
+      issuer:
+        op: null_if_missing
+        of: settings.issuer
+      well_known_url:
+        op: null_if_missing
+        of: settings.well_known_url
+      jwks_url:
+        op: null_if_missing
+        of: settings.jwks_url
+    display: 보안 이벤트 수신 {name|id}
+    relations:
+      - type: receives_into
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-SEP-{id}
+runtime_stub: null
+runtime_key: OKTA-SEP-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: SecurityEventsProvider:list
+    sources:
+      - call: OK-21
+        request:
+          kind: security_events_providers
+        where:
+          path: id
+          present: true
+    relations:
+      - type: receives_into
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+binding:
+  status: catalog_call
+  call: OK-21
+  operation_id: op:okta_management_openapi:listEmailServers
+  paths:
+    - shape: null
+      path:
+        - "*"
+  basis: catalog spec:5 sources
+  previous_status: documented_not_collected

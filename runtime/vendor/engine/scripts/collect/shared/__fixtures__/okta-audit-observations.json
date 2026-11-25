@@ -1,0 +1,257 @@
+{
+ "observations": [
+  {
+   "id": "OBS-EVENT-ev-01",
+   "kind": "audit_event",
+   "title": "user.account.update_profile",
+   "occurredAt": "2026-10-01T00:00:01.000Z",
+   "objectKeys": [
+    "OKTA-U-00uadmin",
+    "OKTA-U-00uA"
+   ],
+   "attributes": {
+    "event_type": "user.account.update_profile",
+    "actor_id": "00uadmin",
+    "actor_type": "User",
+    "actor_object": "OKTA-U-00uadmin",
+    "result": "SUCCESS",
+    "target_ids": [
+     "00uA"
+    ],
+    "changed_attributes": "department,title"
+   },
+   "provenance": {
+    "record": "measured",
+    "sourceRef": "okta:OK-12#1"
+   }
+  },
+  {
+   "id": "OBS-EVENT-ev-02",
+   "kind": "audit_event",
+   "title": "group.user_membership.add",
+   "occurredAt": "2026-10-01T00:00:02.000Z",
+   "objectKeys": [
+    "OKTA-CLIENT-0oaBOT",
+    "OKTA-U-00uA",
+    "OKTA-G-00gHELP"
+   ],
+   "attributes": {
+    "event_type": "group.user_membership.add",
+    "actor_id": "0oaBOT",
+    "actor_type": "PublicClientApp",
+    "actor_object": "OKTA-CLIENT-0oaBOT",
+    "result": "SUCCESS",
+    "target_ids": [
+     "00uA",
+     "00gHELP"
+    ]
+   },
+   "provenance": {
+    "record": "measured",
+    "sourceRef": "okta:OK-12#1"
+   }
+  },
+  {
+   "id": "OBS-EVENT-ev-03",
+   "kind": "audit_event",
+   "title": "group.user_membership.remove",
+   "occurredAt": "2026-10-01T00:00:03.000Z",
+   "objectKeys": [
+    "OKTA-U-00uadmin",
+    "OKTA-U-00uA",
+    "OKTA-G-00gHELP"
+   ],
+   "attributes": {
+    "event_type": "group.user_membership.remove",
+    "actor_id": "00uadmin",
+    "actor_type": "User",
+    "actor_object": "OKTA-U-00uadmin",
+    "result": "SUCCESS",
+    "target_ids": [
+     "00uA",
+     "00gHELP"
+    ]
+   },
+   "provenance": {
+    "record": "measured",
+    "sourceRef": "okta:OK-12#1"
+   }
+  },
+  {
+   "id": "OBS-EVENT-ev-04",
+   "kind": "audit_event",
+   "title": "application.user_membership.add",
+   "occurredAt": "2026-10-01T00:00:04.000Z",
+   "objectKeys": [
+    "OKTA-U-00uadmin",
+    "OKTA-U-00uA",
+    "OKTA-APP-0oaAPP"
+   ],
+   "attributes": {
+    "event_type": "application.user_membership.add",
+    "actor_id": "00uadmin",
+    "actor_type": "User",
+    "actor_object": "OKTA-U-00uadmin",
+    "result": "SUCCESS",
+    "target_ids": [
+     "00uA",
+     "0oaAPP"
+    ]
+   },
+   "provenance": {
+    "record": "measured",
+    "sourceRef": "okta:OK-12#1"
+   }
+  },
+  {
+   "id": "OBS-EVENT-ev-05",
+   "kind": "audit_event",
+   "title": "application.user_membership.remove",
+   "occurredAt": "2026-10-01T00:00:05.000Z",
+   "objectKeys": [
+    "OKTA-U-00uadmin",
+    "OKTA-U-00uA",
+    "OKTA-APP-0oaAPP"
+   ],
+   "attributes": {
+    "event_type": "application.user_membership.remove",
+    "actor_id": "00uadmin",
+    "actor_type": "User",
+    "actor_object": "OKTA-U-00uadmin",
+    "result": "SUCCESS",
+    "target_ids": [
+     "00uA",
+     "0oaAPP"
+    ]
+   },
+   "provenance": {
+    "record": "measured",
+    "sourceRef": "okta:OK-12#1"
+   }
+  },
+  {
+   "id": "OBS-EVENT-ev-06",
+   "kind": "audit_event",
+   "title": "user.mfa.factor.reset_all",
+   "occurredAt": "2026-10-01T00:00:06.000Z",
+   "objectKeys": [
+    "OKTA-CLIENT-0oaBOT",
+    "OKTA-U-00uA"
+   ],
+   "attributes": {
+    "event_type": "user.mfa.factor.reset_all",
+    "actor_id": "0oaBOT",
+    "actor_type": "PublicClientApp",
+    "actor_object": "OKTA-CLIENT-0oaBOT",
+    "result": "SUCCESS",
+    "target_ids": [
+     "00uA"
+    ]
+   },
+   "provenance": {
+    "record": "measured",
+    "sourceRef": "okta:OK-12#1"
+   }
+  },
+  {
+   "id": "OBS-EVENT-ev-07",
+   "kind": "audit_event",
+   "title": "user.mfa.factor.deactivate",
+   "occurredAt": "2026-10-01T00:00:07.000Z",
+   "objectKeys": [
+    "OKTA-U-00uadmin",
+    "OKTA-U-00uA"
+   ],
+   "attributes": {
+    "event_type": "user.mfa.factor.deactivate",
+    "actor_id": "00uadmin",
+    "actor_type": "User",
+    "actor_object": "OKTA-U-00uadmin",
+    "result": "SUCCESS",
+    "target_ids": [
+     "00uA",
+     "mfa1"
+    ]
+   },
+   "provenance": {
+    "record": "measured",
+    "sourceRef": "okta:OK-12#1"
+   }
+  },
+  {
+   "id": "OBS-EVENT-ev-08",
+   "kind": "audit_event",
+   "title": "user.account.reset_password",
+   "occurredAt": "2026-10-01T00:00:08.000Z",
+   "objectKeys": [
+    "OKTA-U-00uadmin",
+    "OKTA-U-00uA"
+   ],
+   "attributes": {
+    "event_type": "user.account.reset_password",
+    "actor_id": "00uadmin",
+    "actor_type": "User",
+    "actor_object": "OKTA-U-00uadmin",
+    "result": "FAILURE",
+    "target_ids": [
+     "00uA"
+    ]
+   },
+   "provenance": {
+    "record": "measured",
+    "sourceRef": "okta:OK-12#1"
+   }
+  },
+  {
+   "id": "OBS-EVENT-ev-09",
+   "kind": "audit_event",
+   "title": "user.lifecycle.reset_password",
+   "occurredAt": "2026-10-01T00:00:09.000Z",
+   "objectKeys": [
+    "OKTA-U-00uadmin",
+    "OKTA-U-00uA"
+   ],
+   "attributes": {
+    "event_type": "user.lifecycle.reset_password",
+    "actor_id": "00uadmin",
+    "actor_type": "User",
+    "actor_object": "OKTA-U-00uadmin",
+    "result": "SUCCESS",
+    "target_ids": [
+     "00uA"
+    ]
+   },
+   "provenance": {
+    "record": "measured",
+    "sourceRef": "okta:OK-12#1"
+   }
+  },
+  {
+   "id": "OBS-EVENT-ev-11",
+   "kind": "audit_event",
+   "title": "리프레시 토큰 발급",
+   "occurredAt": "2026-10-01T00:00:11.000Z",
+   "objectKeys": [
+    "OKTA-RT-rt1",
+    "OKTA-U-00uA"
+   ],
+   "attributes": {
+    "event_type": "app.oauth2.token.grant.refresh_token",
+    "actor_id": "0oaBOT",
+    "actor_type": "PublicClientApp",
+    "result": "SUCCESS",
+    "target_ids": [
+     "rt1",
+     "00uA"
+    ],
+    "granted_scopes": "okta.users.read",
+    "ip": "192.0.2.10"
+   },
+   "provenance": {
+    "record": "measured",
+    "sourceRef": "okta:OK-12#1"
+   }
+  }
+ ],
+ "evidenceLinks": []
+}

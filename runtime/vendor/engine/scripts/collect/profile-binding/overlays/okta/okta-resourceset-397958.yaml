@@ -1,0 +1,67 @@
+# 2026-11-16 aegi-knowledge#313 결정: 리소스 세트와 세트 대상 행은 설정(Policy). 연구값 Resource 를 덮는다
+interfaces: [Policy]
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/resource_set.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-05
+        items: resource-sets
+    properties:
+      label: label
+      description: description
+      created: created
+    display: "{label}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-RS-{id}
+  - id: detail
+    kind: enrich
+    sources:
+      - call: OK-05
+        request:
+          resource_set: present
+        items: (root)
+    target:
+      type: ResourceSet
+      id: $req.resource_set
+      exists: true
+    set:
+      resources:
+        if:
+          path: resources
+          is_array: true
+        then:
+          op: map_each
+          of: resources
+          value:
+            any:
+              - $item.orn
+              - $item._links.self.href
+              - $item.id
+      bindings:
+        if:
+          path: roles
+          is_array: true
+        then:
+          op: pluck
+          of: roles
+          field: id
+          keep_empty: true
+    relations: []
+    key_template: OKTA-RS-{id}
+runtime_stub: null
+runtime_key: OKTA-RS-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable

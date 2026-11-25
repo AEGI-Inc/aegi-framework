@@ -1,0 +1,330 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: jira
+service: null
+object_type: SharePermission
+interfaces: &a1
+  - Assignment
+model:
+  research_type: object-type:eb388b41aa1e3aca2ce81afa
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:eb388b41aa1e3aca2ce81afa.identity_evidence
+  parent:
+    type: Filter
+    expr: $req.parent_id
+tenant_binding:
+  type: ServerInformation
+  service: null
+  call: JR-01
+  items: (root)
+  id: baseUrl
+fields:
+  group:
+    path: group
+    source: research_shape
+    shape: sh:jira_openapi_v3:SharePermission
+    declaration:
+      name: group
+      required: false
+      shape: sh:jira_openapi_v3:GroupName
+    map_items:
+      - space:SharePermission|group
+  id:
+    path: id
+    source: research_shape
+    shape: sh:jira_openapi_v3:SharePermission
+    declaration:
+      format: int64
+      name: id
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:SharePermission|id
+  project:
+    path: project
+    source: research_shape
+    shape: sh:jira_openapi_v3:SharePermission
+    declaration:
+      name: project
+      required: false
+      shape: sh:jira_openapi_v3:Project
+    map_items:
+      - space:SharePermission|project
+  role:
+    path: role
+    source: research_shape
+    shape: sh:jira_openapi_v3:SharePermission
+    declaration:
+      name: role
+      required: false
+      shape: sh:jira_openapi_v3:ProjectRole
+    map_items:
+      - space:SharePermission|role
+  type:
+    path: type
+    source: research_shape
+    shape: sh:jira_openapi_v3:SharePermission
+    declaration:
+      enum:
+        - user
+        - group
+        - project
+        - projectRole
+        - global
+        - loggedin
+        - authenticated
+        - project-unknown
+      name: type
+      required: true
+      scalar: string
+    map_items:
+      - space:SharePermission|type
+  user:
+    path: user
+    source: research_shape
+    shape: sh:jira_openapi_v3:SharePermission
+    declaration:
+      name: user
+      required: false
+      shape: sh:jira_openapi_v3:UserBean
+    map_items:
+      - space:SharePermission|user
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: Filter
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:4b62389591881749adbd9beb (filter/{}) -> Filter
+  - name: user
+    field: user
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6e4c601cc2095adba56dfd97; relation=no_relation
+  - name: project
+    field: project
+    target: Project
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:94ca0d1dab83df1d0b57250a; relation=no_relation
+  - name: role
+    field: role
+    target: ProjectRole
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c03a65882e9dbc9b3f7b232e; relation=no_relation
+  - name: group
+    field: group
+    target: GroupName
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:efaafd99c171405c54ba2510; relation=no_relation
+constants: {}
+row_contracts:
+  expires_at:
+    const: null
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: jira
+  object_type: SharePermission
+  interfaces: *a1
+  model:
+    research_type: object-type:eb388b41aa1e3aca2ce81afa
+  extract:
+    key: PILOT-jira-SharePermission-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-JIRA-e81afa
+            endpoint: /
+            items:
+              - dashboards.editPermissions
+              - dashboards.sharePermissions
+        properties:
+          group: group
+          id: id
+          project: project
+          role: role
+          type: type
+          user: user
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: embedded_only_collected
+  call: null
+  operation_id: op:jira_openapi_v3:getSharePermissions
+  operation: getSharePermissions
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /rest/api/3/filter/[^/]+/permission(?:\?|$)
+  endpoint_template: /rest/api/3/filter/{id}/permission
+  request: {}
+  required_params:
+    - id
+  paths:
+    - shape: sh:jira_openapi_v3:SharePermission
+      path:
+        - "*"
+  alternatives_total: 8
+  alternatives:
+    - operation_id: op:jira_openapi_v3:getFavouriteFilters
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/favourite
+      path:
+        - "*"
+        - editPermissions
+        - "*"
+    - operation_id: op:jira_openapi_v3:getMyFilters
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/my
+      path:
+        - "*"
+        - editPermissions
+        - "*"
+    - operation_id: op:jira_openapi_v3:getSharePermission
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/filter/{id}/permission/{permissionId}
+      path: []
+    - operation_id: op:jira_openapi_v3:getDashboard
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/dashboard/{id}
+      path:
+        - editPermissions
+        - "*"
+    - operation_id: op:jira_openapi_v3:getFilter
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/filter/{id}
+      path:
+        - editPermissions
+        - "*"
+    - operation_id: op:jira_openapi_v3:getFiltersPaginated
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/search
+      path: &a3
+        - values
+        - "*"
+        - editPermissions
+        - "*"
+      collected_calls:
+        - JI-07
+    - operation_id: op:jira_openapi_v3:getAllDashboards
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/dashboard
+      path:
+        - dashboards
+        - "*"
+        - editPermissions
+        - "*"
+    - operation_id: op:jira_openapi_v3:getDashboardsPaginated
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/dashboard/search
+      path:
+        - values
+        - "*"
+        - editPermissions
+        - "*"
+  basis: ir_read_response_reachability
+  selection: ranked
+  observed_sources:
+    - shape: sh:jira_openapi_v3:SharePermission
+      operation_id: op:jira_openapi_v3:getFiltersPaginated
+      call: JI-07
+      path: *a3
+      records: 1
+      partial: true
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 50149499a641110c6bf94b3e0ee694a3701d3edc48d8b17420580571d73451f8
+    ir/shape.jsonl: 04cf5db894bbfdfc38d902b2036b3e757a28481b16ff75ae2d2c4b7e06b0160e
+    ir/operation.jsonl: bb433b0144fc822588adb64649c5592094ef6f67746759ec57a2e9677bac5a94
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - user
+    - project
+    - role
+    - group
+  metadata_paths: *a2
+  remaining_declared_fields: properties

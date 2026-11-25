@@ -1,0 +1,373 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: branch-protection
+interfaces: &a1
+  - Policy
+model:
+  research_type: object-type:b25f24d98f363a05e973e2af
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: name
+      expr: name
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:b25f24d98f363a05e973e2af.identity_evidence
+  parent:
+    type: branch-with-protection
+    expr: $req.parent_id
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  url:
+    path: url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: url
+      required: false
+      scalar: string
+    map_items:
+      - space:branch-protection|url
+  enabled:
+    path: enabled
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: enabled
+      required: false
+      scalar: boolean
+    map_items:
+      - space:branch-protection|enabled
+  required_status_checks:
+    path: required_status_checks
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: required_status_checks
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:protected-branch-required-status-check
+    map_items:
+      - space:branch-protection|required_status_checks
+  enforce_admins:
+    path: enforce_admins
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: enforce_admins
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:protected-branch-admin-enforced
+    map_items:
+      - space:branch-protection|enforce_admins
+  required_pull_request_reviews:
+    path: required_pull_request_reviews
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: required_pull_request_reviews
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:protected-branch-pull-request-review
+    map_items:
+      - space:branch-protection|required_pull_request_reviews
+  restrictions:
+    path: restrictions
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: restrictions
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-restriction-policy
+    map_items: []
+  required_linear_history:
+    path: required_linear_history
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: required_linear_history
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection.required_linear_history
+    map_items: []
+  allow_force_pushes:
+    path: allow_force_pushes
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: allow_force_pushes
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection.allow_force_pushes
+    map_items: []
+  allow_deletions:
+    path: allow_deletions
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: allow_deletions
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection.allow_deletions
+    map_items: []
+  block_creations:
+    path: block_creations
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: block_creations
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection.block_creations
+    map_items: []
+  required_conversation_resolution:
+    path: required_conversation_resolution
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: required_conversation_resolution
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection.required_conversation_resolution
+    map_items: []
+  name:
+    path: name
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:branch-protection|name
+  protection_url:
+    path: protection_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: protection_url
+      required: false
+      scalar: string
+    map_items:
+      - space:branch-protection|protection_url
+  required_signatures:
+    path: required_signatures
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: required_signatures
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection.required_signatures
+    map_items: []
+  lock_branch:
+    path: lock_branch
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: lock_branch
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection.lock_branch
+    map_items: []
+  allow_fork_syncing:
+    path: allow_fork_syncing
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+    declaration:
+      name: allow_fork_syncing
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection.allow_fork_syncing
+    map_items: []
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: branch-with-protection
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:f30c079fa9c70c10ae9f5084 (repos/{}/{}/branches/{}) -> branch-with-protection
+  - name: restrictions_users
+    field: restrictions.users
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:53a8464504c24f4761c3132d; relation=no_relation
+  - name: required_status_checks
+    field: required_status_checks
+    target: status-check-policy
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:574a60a505d4e3bd917b90dd; relation=no_relation
+  - name: restrictions_teams
+    field: restrictions.teams
+    target: team-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:690a3361ceebf143363f6ed0; relation=no_relation
+  - name: restrictions_apps
+    field: restrictions.apps
+    target: integration
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:77f3c42202788c6f836ed041; relation=no_relation
+  - name: enforce_admins
+    field: enforce_admins
+    target: protected-branch-admin-enforced
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:7c3492257e983442ad199bd1; relation=no_relation
+  - name: required_pull_request_reviews
+    field: required_pull_request_reviews
+    target: protected-branch-pull-request-review
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:bbd2640ecb986c56d8d79796; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: branch-protection
+  interfaces: *a1
+  model:
+    research_type: object-type:b25f24d98f363a05e973e2af
+  extract:
+    key: PILOT-github-branch-protection-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{name}"
+        sources:
+          - call: AUTO-GITHUB-73e2af
+            endpoint: /
+            items:
+              - protection
+        properties:
+          allow_deletions: allow_deletions
+          allow_force_pushes: allow_force_pushes
+          allow_fork_syncing: allow_fork_syncing
+          block_creations: block_creations
+          enabled: enabled
+          enforce_admins: enforce_admins
+          lock_branch: lock_branch
+          name: name
+          protection_url: protection_url
+          required_conversation_resolution: required_conversation_resolution
+          required_linear_history: required_linear_history
+          required_pull_request_reviews: required_pull_request_reviews
+          required_signatures: required_signatures
+          required_status_checks: required_status_checks
+          restrictions: restrictions
+          url: url
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/list-branches
+  operation: repos/list-branches
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /repos/[^/]+/[^/]+/branches(?:\?|$)
+  endpoint_template: /repos/{owner}/{repo}/branches
+  request: {}
+  required_params:
+    - owner
+    - repo
+  paths:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:branch-protection
+      path:
+        - "*"
+        - protection
+  alternatives_total: 2
+  alternatives:
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/get-branch-protection
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/branches/{branch}/protection
+      path: []
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/get-branch
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/branches/{branch}
+      path:
+        - protection
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - name
+  reference_paths:
+    - restrictions.users
+    - required_status_checks
+    - restrictions.teams
+    - restrictions.apps
+    - enforce_admins
+    - required_pull_request_reviews
+  metadata_paths: *a2
+  remaining_declared_fields: properties

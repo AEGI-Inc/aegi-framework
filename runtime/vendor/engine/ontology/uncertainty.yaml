@@ -1,0 +1,187 @@
+# 「모름」 어휘
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  unknowns: docs/Relation_Schema_v3.md 「화면이 구분해야 하는 모름」
+  enums: docs/Object_Schema_v4.1.md 「unresolved_reason」, docs/Profile_Schema_v4.2.md 「completeness」 「enumerable」
+  engine_reasons: aegi-dashboard src/detection/v2/engine/accessModel.ts REASON_LABELS @ 0ee565f
+  reason_levels: 2026-11-03 구조 개편 2단계(aegi-knowledge#210, 2cbcad4). 사유가 단계를 내리나를 사유가 온 곳으로 정한다. specs/Path_Rule_Schema_v1.md 「닿음 핵심 위의 모양 거름」, aegi-adapter-engine scripts/accessRules/executor.ts 가 같은 뜻으로 단계를 내린다
+
+unknowns:
+- token: '`relation_type` 키 없음'
+  defined_in: Relation
+  meaning: 아직 안 봤다
+  resolves: 봐야 한다
+  display: 간선 없음 · 작업 남음
+- token: '`relation_type: null`'
+  defined_in: Relation
+  meaning: 봤는데 어휘에 자리가 없다
+  resolves: 어휘가 늘면 풀린다
+  display: 간선 없음 · 승격 대기열
+- token: '`relation_type: no_relation`'
+  defined_in: Relation
+  meaning: 관계가 아니라고 판정했다
+  resolves: '**안 바뀐다**'
+  display: 간선 없음 · 다시 묻지 않는다
+- token: '`status: inferred`'
+  defined_in: Object
+  meaning: 대상 종류·의미를 추론했다
+  resolves: 근거를 찾으면 확정
+  display: 간선을 그리되 추론 표시
+- token: '`unresolved_reason: unknown_prefix`'
+  defined_in: Object
+  meaning: 값은 있는데 종류를 못 정했다
+  resolves: 해석 규칙을 더하면
+  display: 한쪽 끝이 열린 간선
+- token: '`unresolved_reason: needs_parser`'
+  defined_in: Object
+  meaning: 파서가 있어야 한다
+  resolves: 파서를 만들면
+  display: 한쪽 끝이 열린 간선
+- token: '`unresolved_reason: outside_scope`'
+  defined_in: Object
+  meaning: 대상이 수집 범위 밖이다
+  resolves: 범위를 넓히면
+  display: 끝이 모델 밖
+- token: '`unresolved_reason: value_not_returned`'
+  defined_in: Object
+  meaning: 벤더가 값을 안 준다
+  resolves: '**안 풀린다**'
+  display: 한쪽 끝이 열린 간선 · **재시도 금지**
+- token: '`confidence: inferred`'
+  defined_in: Profile
+  meaning: Profile 자체가 추론이다
+  resolves: 실 응답을 보면
+  display: 그 Profile에서 나온 전부에 표시
+- token: '`enumerable: required_params`'
+  defined_in: Profile
+  meaning: 파라미터를 순회해야 전수다
+  resolves: 순회를 다 하면 전수
+  display: 순회를 마쳤으면 "없음"을 쓸 수 있다
+- token: '`enumerable: parent_fanout`'
+  defined_in: Profile
+  meaning: 부모마다 따로 불러야 전수다
+  resolves: 부모 목록이 완전하면 전수
+  display: 부모 사슬이 끊기면 통째로 빠진다
+- token: '`enumerable: caller_dependent`'
+  defined_in: Profile
+  meaning: 부르는 주체에 따라 결과가 다르다
+  resolves: '**안 풀린다**'
+  display: 토큰을 바꾸면 답이 달라진다
+- token: '`enumerable: none`'
+  defined_in: Profile
+  meaning: 목록 API가 없다
+  resolves: '**안 풀린다**'
+  display: '**"없음"을 결론으로 못 쓴다**'
+- token: '`completeness: provider_partial`'
+  defined_in: Profile
+  meaning: 권한은 실재하는데 행이 어디에도 없다
+  resolves: '**안 풀린다**'
+  display: '**"없음"을 결론으로 못 쓴다**'
+- token: '`completeness: not_collectable`'
+  defined_in: Profile
+  meaning: 식별자를 못 만들어 행을 안 만든다
+  resolves: —
+  display: 노드 자체가 없다
+
+enums:
+  unresolved_reason:
+    source: docs/Object_Schema_v4.1.md 「unresolved_reason」
+    values:
+    - value: unknown_prefix
+      when: 값은 받았는데 대상 종류를 못 정했다
+      resolves: 해석 규칙을 추가하면 풀린다
+    - value: value_not_returned
+      when: 대상 종류는 확실한데 벤더가 값을 안 준다
+      resolves: '**안 풀린다.** 다시 불러도 같다'
+    - value: needs_parser
+      when: '`kind: expression`이라 파서가 있어야 한다'
+      resolves: 파서를 만들면 풀린다
+    - value: outside_scope
+      when: 대상이 수집 범위 밖이다
+      resolves: 범위를 넓히면 풀린다
+  completeness:
+    source: docs/Profile_Schema_v4.2.md 「completeness」
+    values:
+    - {value: full, meaning: 열거하면 다 나온다}
+    - {value: provider_partial, meaning: 벤더가 일부를 저장하지 않는다}
+    - {value: not_collectable, meaning: 식별자를 만들 수 없어 수집하지 않는다}
+  enumerable:
+    source: docs/Profile_Schema_v4.2.md 「enumerable」
+    values:
+    - value: full
+      meaning: 파라미터 없이 전수가 나온다
+      example: Slack `users.list`
+    - value: required_params
+      meaning: 필수 파라미터를 순회해야 전수다
+      example: Okta `GET /api/v1/policies` — `type`이 required이고 enum 13종
+    - value: parent_fanout
+      meaning: 부모마다 따로 불러야 한다
+      example: Okta `/apps/{appId}/users`, GitHub deploy key
+    - value: caller_dependent
+      meaning: 부르는 주체에 따라 결과가 다르다
+      example: Okta `Everyone` 그룹이 group admin에게는 안 보인다
+    - value: none
+      meaning: 목록 API가 없다
+      example: Okta Session, Google 도메인 전체 위임
+
+# 사유가 단계를 내리나 (2026-11-03, 구조 개편 2단계). 사유 이름은 아래 engine_reasons 하나이고, 내리는지는 사유가 어디서 왔나로 정한다.
+# EA 와 위협 질의가 같다. 설명: specs/Path_Rule_Schema_v1.md 「닿음 핵심 위의 모양 거름」
+reason_levels:
+  lowers:
+    where: 관계 효과 표(relation_semantics.yaml effects, conditions 의 uncertain)와 위협 간선이 단 사유(역할 세기를 모르면 role_rank_unknown), 규칙 파일 uncertain_if, 빈 구간(gap, else_gap), 약한 Link, 위협 차집합의 원래 쪽이 사람 0명(native_holders_missing)
+    means: 그 권한이 정말 넘어가는지 모른다. 위협 질의는 비용 1(unknown), EA 는 indeterminate
+  keeps:
+    where: 규칙 파일 undecomposed_if 의 사유(enforcement_unknown, public_channel, channel_visibility_unknown), 벤더가 합친 관계의 펼친 길(EA 행 undecomposed 의 vendor_paths 칸. 사유 이름이 아니다)
+    means: 닿는 것은 안다. 그 단계를 끊으면 막히는지(회수)를 모른다. 회수 지점에서 빠질 뿐 단계는 그대로다
+
+engine_reasons:
+  role_rank_unknown:
+    label: 역할 이름으로 권한 수준을 모름
+    resolve: 역할 권한 목록을 수집하거나(Okta iam_role.permissions) access_engine_overrides.json role_capabilities 에 적는다
+  resource_set_not_expanded:
+    label: Okta 리소스 세트 범위를 펼치지 않음
+    resolve: resource_set.resources 로 대상이 들어 있는지 확인하고 confirmed_resource_sets 에 적는다
+  resource_set_partial:
+    label: Okta 역할이 조직의 일부(리소스 세트가 덮는 대상)만 덮음 — 조직 전체에 대한 권한은 아님
+    resolve: 덮는 대상은 따로 펴서 간선을 냈다(providers.yaml resource_set_coverage). 조직을 건드리는 연동이 실제로 어느 대상을 건드리는지 확인한다
+  input_inferred:
+    label: 자동화의 입력을 트리거 종류와 소유 관계로 추정함
+    resolve: 스크립트 id 를 알면(설정 힌트 gws.scripts) 코드와 parentId 로 확정한다
+  invoker_gate_not_stored:
+    label: 자동화가 호출자를 어떻게 거르는지 저장되지 않음
+    resolve: 입구를 받는 코드(Cloudflare Worker 배포본, WK-01)를 수집하면 정규화가 채널 거름을 읽어 입구의 invoker_gate 에 적는다. 코드가 없거나 모양을 못 읽으면 끊어 보기(시험 계정을 채널에서 빼고 호출) 후 entry_point_gates 에 적는다
+  channel_visibility_unknown: {label: 채널 공개 여부를 모름, resolve: conversations.info 의 is_private 를 수집한다}
+  # 2026-11-09. Worker OAuth 기록(D-21)의 team_id 가 수집한 워크스페이스가 아닌 채널. 이 워크스페이스 멤버가 읽는다고 두지 않는다
+  channel_in_other_workspace: {label: 다른 Slack 워크스페이스의 채널 — 그 워크스페이스 멤버는 수집 범위 밖, resolve: 그 워크스페이스를 수집 대상에 더하거나 연동이 그 채널로 보내지 않게 고친다}
+  flow_not_observed: {label: 구조상 흐름 — 전송 기록 없음, resolve: '전송 관측(delivery, SL-09, D-21)으로 확인한다'}
+  derived_content_unverified: {label: 실행 결과물에 입력 내용이 들어갔는지 확인 못 함, resolve: 결과물 내용 비교(content_change)로 확인한다}
+  automation_behavior_unknown: {label: 자동화가 그 권한을 어디까지 쓰는지 모름 (코드 미확인), resolve: '자동화 코드, 실행 기록으로 실제 동작을 확인한다'}
+  runs_as_computed: {label: 실행 신원이 벤더가 합친 값, resolve: '설치형 트리거 실행, 배포 executeAs 를 수집한다 (GW-09, GW-11)'}
+  identity_link_weak: {label: 자동화 계정 연결이 추정(possibly_same), resolve: 벤더가 준 연결(앱 client_id 등)로 확정한다}
+  form_responders_unknown: {label: 폼 응답자를 알 수 없음 (누구나일 수 있음), resolve: 폼 응답 제한(도메인 한정) 설정을 수집한다}
+  session_activation: {label: 세션에서 켤 때만 효력인 권한인데 켜진 세션이 관측되지 않음, resolve: '지금 켜진 세션 권한(Salesforce SessionPermSetActivation)을 수집한다. 관측이 없어도 사용자가 켤 수 있어 확정은 못 한다'}
+  token_scope_limited: {label: 토큰이 받은 scope 만큼만 그 사람을 대신함 (scope 를 간선에 펴지 않음), resolve: '토큰 scope 표(capabilities.yaml token_scopes)에 그 SaaS 를 더한다. 접근 규칙 x_token_scoped 의 scopes_of 홉이 그 표로 scope 를 펴면 이 사유는 풀린다(2026-11-10). 피해 범위(blastRadius.ts tokenCapability)는 이미 scope 로 센다'}
+  token_scope_unmapped: {label: '토큰 scope 가 scope 표에 없어 무엇에 무엇을 하는지 모름', resolve: '그 scope 의 벤더 문서를 확인해 capabilities.yaml token_scopes 의 resources(자원 마디), abilities(능력 마디), identity 가운데 하나에 더한다'}
+  credential_link_by_scope: {label: '자격증명 사용을 같은 범위, 같은 주인으로만 이음', resolve: '자격증명 사용 기록에 커밋, 요청 id 를 남긴다'}
+  delivery_without_source_data: {label: 전송 기록이 원본 내용을 담았는지 모름, resolve: 전송 관측의 contains_source_data 를 확인한다}
+  identity_weak:
+    label: 같은 사람인지 판단이 약함 (추정 연결뿐 — 로그 상관, 이메일 칸이 아닌 주소 칸(Salesforce Username 등), 공용 주소 의심. 이메일 칸끼리 일치는 확정이다)
+    resolve: IdP(Okta) 기준 강한 링크 — SAML NameID, 앱 배정 userName — 를 만든다
+  group_members_empty: {label: 그룹 멤버를 수집하지 못함, resolve: '그룹 멤버 호출(OK-03, GH-04, GW-04, SL-15)을 확인한다'}
+  grantee_unresolved: {label: 권한 배정의 받는 쪽이 객체가 아님 (외부 이메일 등), resolve: 외부 공유 대상을 목록으로 올린다}
+  ext_shared: {label: 외부 조직과 공유된 채널 — 상대 조직 멤버를 셀 수 없음, resolve: Slack Connect 상대 조직 멤버는 수집 범위 밖이다}
+  coverage: {label: 수집 호출이 완결되지 않음, resolve: 해당 호출을 다시 수집한다 (aegi-adapter-engine 의 npm run collect)}
+  not_collected: {label: 이 사실을 목록으로 가져오는 호출이 수집되지 않음, resolve: 해당 호출을 켜고 수집한다}
+  # 2026-11-13. 설정 조건 표(semantic_mapping.yaml settings)의 설정 칸이 수집본에 없어 벤더 기본값으로 계산한 권한
+  setting_not_collected: {label: 테넌트 설정을 수집하지 않아 벤더 기본값으로 계산함 — 조직이 바꿨으면 틀림, resolve: 'semantic_mapping.yaml settings 줄의 collect 에 적은 설정을 수집하고 그 줄의 property 칸으로 정규화한다'}
+  # 2026-11-08. 위협 차집합의 원래 쪽이 사람 0명이면 「아무도 권한이 없다」가 아니라 권한자 목록이 빈 것이다. 실측에서 GitHub 사용자가
+  # Principal 없이 정규화돼(simple-user) 저장소 쓰기 권한자 0명, Okta 관리자 역할이 사용자 쓰기로 펼쳐지지 않아 0명이 나와 확인 인원을 부풀렸다
+  native_holders_missing: {label: 원래 권한자를 한 명도 찾지 못함 (수집이나 정규화 공백), resolve: '대상의 권한 목록 호출을 확인하고, 권한자 계정이 사람(Principal)으로 정규화됐는지, 관리자 역할이 대상까지 펼쳐졌는지 본다'}
+  # 아래 넷은 Effective Access 행의 못 푼 구간 사유다(aegi-adapter-engine effectiveAccess/types.ts EaComputationReason). 접근 규칙(access_rules.yaml)이 쓴다
+  enforcement_unknown: {label: 이 단계를 끊어도 막히는지 확인되지 않음, resolve: '끊어 보기(시험 계정을 그룹이나 채널에서 빼고 접근)로 확인한다. 그룹이 받은 부여면 그 부여를 만드는 Profile 관계 선언에 membership_enforced 로 적는다'}
+  public_channel: {label: 공개 채널이라 내보내도 다시 들어와 읽을 수 있음, resolve: 채널 멤버십은 회수 지점이 아니다. 채널을 비공개로 바꾸면 풀린다}
+  script_webhook_by_url_fingerprint: {label: 스크립트 코드 속 웹훅 주소로만 이어짐, resolve: '스크립트와 웹훅을 잇는 관계(crosswalk secret_fingerprint)를 만든다'}
+  dynamic_holder_unresolved: {label: '보고자, 담당자처럼 이슈마다 정해지거나 제품 접근으로 정해지는 보유자라 확정할 수 없음', resolve: 제품 접근 그룹을 수집하거나 이슈 단위로 묻는다}

@@ -1,0 +1,1210 @@
+# 관계 17종의 의미 — 이름 · 방향 · 성질 · 효과
+#
+# Relation 재설계 2단계(2026-10-13). 이 파일이 정본이다 — 명세 문서 표에서 옮긴 것이 아니고 bootstrap.py 가 만들지 않는다.
+# relation_types.yaml 이 "무엇을 잇는가"(template)를 쥐고, 이 파일이 "무엇을 만드는가"(effects)를 쥔다.
+#
+# 값은 아직 바꾸지 않았다. effects · conditions · filters · role_in_graph 는 engine_probe(엔진에 넣어 본 결과)를
+# 그대로 옮겼고, validation/check_ontology.py O6 이 둘이 같은지(간선 종류 · 방향) 본다. 고치는 것은 결정마다 PR 하나씩(3단계).
+# 시험 입력 때문에 생긴 값 둘만 규칙으로 적었다 — has_role_on 의 rank(시험에 역할이 없었다)와
+# member_of · shared_with 의 기본 rank 1(시험 provider 가 probe 였다). 이유는 각 관계의 depends_on 에 있다.
+# 2026-10-19 부터 결정 반영(5단계)을 시작했다. 엔진과 일부러 다르게 정한 갈래에는 decided(언제 · 왜) · differs(엔진은 어떤가)를
+# 적고 S3 기준선에 올린다. 엔진이 따라오면 differs 를 지우고 기준선에서 뺀다 — 첫째 owned_by.delivery_endpoint 는 2026-10-20 엔진이 따라와 뺐다
+
+sources:
+  grade_of_kind: 제안 — 엔진 간선 종류를 표현 등급으로 옮기는 기준. ontology/effects.yaml 의 원래 권한(M · U · G) / 연동(T · A · F) 구분을 따른다. 결정 전이다
+  relations: 이 파일이 정본. names · description · inverse 는 새로 적었다. effects · conditions · filters · role_in_graph · depends_on 은 relation_types.yaml engine_probe (aegi-dashboard @ 0ee565f) 에서 옮겼다. characteristics 는 처음에 Slack 회귀 기준선 190행 · 대시보드 합성 150행(aegi-dashboard @ f278107)에 행이 있고 예외가 0 인 것만 적었다. 2026-10-16 검증을 실측으로만 하기로 하고 g2 실측 285행(대시보드 KV dataset/v2, 2026-10-02 판, git 밖)에 다시 걸었다 — 선언한 성질 22개 중 triggered_by 둘을 뺀 20개에 행이 있고 예외 0. 합성은 근거에서 뺐다
+  references: 객체 참조의 뜻(아래 references 블록). aegi-dashboard src/detection/v2/engine/edges.ts @ 1b5481c 「객체 참조 (v2 references)」 절과 up() 이 읽는 칸을 옮겼다. 값은 그대로다
+  references_skip_objects: 같은 엔진 절의 `if (measurement(k)) continue` — 측정 도구 계정은 참조를 읽지 않는다
+  rules: 사전 표 · 속성 규칙의 뜻(아래 rules 블록). aegi-dashboard src/detection/v2/engine/edges.ts @ 1b5481c 의 공개 여부 · 응답자 · 자동화 신원 연결 절과 buildEntryPoints · buildDeploymentEntries · buildOutboundHooks 를 옮겼다. 값은 그대로다
+  rules_outside: 같은 파일에서 이 명세가 일부러 안 옮긴 간선 함수
+  resolvers: 같은 파일의 tenantOf() 와 공개 여부 · 배포 · 웹훅 절이 끝을 찾는 방법
+  decided: open 에 있다가 정해진 것 — 정한 날짜, 정한 사람과 근거를 같이 적는다(crosswalk.yaml decided 와 같은 칸, 남은 일은 then). 2026-11-01 Relation 주담당 결정부터
+  open: >-
+    결정 반영 2호 초안 — 팀이 정할 일이라 적기만 했다(값은 그대로). 2026-11-01 Relation 주담당이 열 가운데 아홉을 정해 조건 갈래와
+    rules 로 옮겼다(decided). 남은 open 은 정하지 않은 것이다. 10종은 aegi-dashboard PR #127(오브젝트 모델 v2) 정규화
+    normalize-v2/okta.ts · gws.ts · slack.ts 의 owned_by → 조직 행, 종류를 고르는 상수는 docs/spec/model-v1/runtime-catalog.json
+    Profile 상수. 벤더 근거는 Okta 개발자 문서 「Create an API token」, Okta 도움말 「Event hooks」 · 「Log streaming」 ·
+    「Use your own email provider」, Okta SSF Transmitter API, Okta Mappings API, Google 도움말 「Sign in with app passwords」
+    (2026-10-21 검색으로 확인, 이 환경에서 문서 사이트는 직접 열지 못했다). 결과 차이는 대시보드 시험 데이터
+    (scripts/collect/model-v1/model.test.ts 의 V2-P1 · V2-P2 수집 기록)를 엔진에 넣어 본 것이다
+
+# 간선 종류 → 표현 등급. 관계의 등급은 effects 가 만드는 간선 종류에서 계산한다 (O5)
+grade_of_kind:
+  M: 접근
+  G: 접근
+  U: 구조
+  T: 신뢰
+  A: 신뢰
+  F: 신뢰
+
+# names       forward = 출발에서 도착을 부르는 이름, reverse = 도착에서 출발을 부르는 이름 (화면 · 보고서 · AI 가 쓴다)
+# inverse     반대 방향 관계의 이름. 저장은 이 관계 한 방향만 한다
+# characteristics  irreflexive(자기 자신과 안 이어짐) · asymmetric(A→B 면 B→A 아님) · functional(출발 하나에 도착 하나). O7 이 데이터에 건다
+# role_in_graph    path(경로에 쓰인다) · ingredient(다른 관계를 거른다 · 합쳐진다) · info(정보로만 둔다)
+# effects     template 칸(pairs)에서 만드는 간선. from · to 는 source(출발) · target(도착) · everyone · grant(via_grant 의 자격증명) ·
+#             tenant(출발의 테넌트. 아래 resolvers.tenant_of 로 찾는다) ·
+#             resource_set(properties.resource_set 의 리소스 세트가 덮는 객체 전부. providers.yaml resource_set_coverage 로 편다. 여럿이면 간선도 여럿)
+#             resource_set_unexpanded(그 세트에 펴지 못한 대상이 있으면 관계 도착, 다 폈으면 없음)
+#             Effective Access 실행기의 관계 홉은 갈래가 resource_set · resource_set_unexpanded 끝을 적었으면 그 끝들을 도착으로 쓴다(관계 도착 대신)
+#             rank 는 능력 순위(capabilities.yaml rank: read 1 · write 3 · admin 5). role = 역할에서(capabilities.yaml role_rank), membership = provider 소속 규칙에서(capabilities.yaml membership_capabilities 의 가장 센 능력)
+# conditions  interface 쌍이 아닌 조건(속성 · provider · 측정 계정)이 붙으면 달라지는 갈래
+#             when 은 사람이 읽는 문장, match 는 같은 뜻을 기계가 읽는 식이다 (문법은 ontology/match.py 머리말). 위에서부터 먼저 맞는 갈래 하나를 쓴다.
+#             relation 자리의 resource_set_scope 는 저장 속성이 아니라 엔진이 판정 때 계산해 넣는 칸이다(providers.yaml resource_set_coverage 머리말)
+#             그래서 더 좁은 갈래(다른 갈래의 식을 다 품은 것)를 위에 둔다 — S8 이 본다
+relations:
+  has_role_on:
+    names: {forward: 역할이 있는 대상, reverse: 역할 보유자}
+    description: A 는 B 에 역할 R 을 가진다
+    inverse: role_held_by
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: path
+    effects:
+    - pairs: [Principal>Resource, Principal>Tenant, Principal>Integration, Principal>Automation, Policy>Resource, Policy>Tenant, Policy>Integration, Policy>Automation, Credential>Resource, Credential>Tenant, Credential>Integration, Credential>Automation, Integration>Resource, Integration>Tenant, Integration>Integration, Integration>Automation]
+      emits:
+      - {kind: G, from: source, to: target, rank: role}
+    conditions:
+    - name: has_role_on.inactive_account
+      when: 출발 계정이 지워졌거나 해지됐거나 정지됐다(source account_state deleted, deprovisioned, suspended)
+      match: {source: {judged_or_property: {account_state: [deleted, deprovisioned, suspended]}}}
+      decided: >-
+        2026-11-07 Relation 주담당 위임(Claude 가 정함). 11-05 총점검에서 Okta DEPROVISIONED, GWS 정지, Slack deleted 로 바꾼 계정의 접근 간선이 그대로였다.
+        지웠거나 해지했거나 정지한 계정은 지금 로그인도 API 호출도 안 되므로 간선을 내지 않는다. 남은 배정은 위생 문제(쓰지 못하는 계정에 권한이 남음)지 접근 경로가 아니다.
+        정지를 판정 보류(간선 + 사유)로 두면, 그 계정의 직접 권한은 보류라 없는 것으로, 같은 보류 권한으로 자동화를 시작시키는 것은 있는 것으로 세어 「연동으로만 닿는 사람」 위협이 새로 생겼다(11-04 수집본, 실행 신원 정지 변형). 다시 켜면 직접 권한과 연동 길이 함께 살아나므로 지금 판정에서는 빼는 쪽이 맞다
+      cases:
+      - {pair: Principal>Resource, emits: []}
+      - {pair: Principal>Tenant, emits: []}
+      - {pair: Principal>Integration, emits: []}
+      - {pair: Principal>Automation, emits: []}
+    - name: has_role_on.deleted_assignment
+      when: 'properties.via_assignment 가 지운 배정(properties.deleted: true)'
+      match: {via_assignment: {property: {deleted: true}}}
+      decided: 2026-11-01 Relation 주담당 — 손코드(edges.ts)는 칸을 가리지 않는다. 그대로 effects 의 칸 전부에 건다 (진단표 Relation_Effects_Diagnosis_v1)
+      cases:
+      - {pair: Principal>Resource, emits: []}
+      - {pair: Principal>Tenant, emits: []}
+      - {pair: Principal>Integration, emits: []}
+      - {pair: Principal>Automation, emits: []}
+      - {pair: Policy>Resource, emits: []}
+      - {pair: Policy>Tenant, emits: []}
+      - {pair: Policy>Integration, emits: []}
+      - {pair: Policy>Automation, emits: []}
+      - {pair: Credential>Resource, emits: []}
+      - {pair: Credential>Tenant, emits: []}
+      - {pair: Credential>Integration, emits: []}
+      - {pair: Credential>Automation, emits: []}
+      - {pair: Integration>Resource, emits: []}
+      - {pair: Integration>Tenant, emits: []}
+      - {pair: Integration>Integration, emits: []}
+      - {pair: Integration>Automation, emits: []}
+    - name: has_role_on.excluded
+      when: 역할 객체가 excludes 로 출발 주체를 뺐다
+      match: {exists_relation: {type: excludes, source: $role, target: $source}}
+      decided: 2026-11-01 Relation 주담당 — 손코드(edges.ts)는 칸을 가리지 않는다. 그대로 effects 의 칸 전부에 건다 (진단표 Relation_Effects_Diagnosis_v1)
+      cases:
+      - {pair: Principal>Resource, emits: []}
+      - {pair: Principal>Tenant, emits: []}
+      - {pair: Principal>Integration, emits: []}
+      - {pair: Principal>Automation, emits: []}
+      - {pair: Policy>Resource, emits: []}
+      - {pair: Policy>Tenant, emits: []}
+      - {pair: Policy>Integration, emits: []}
+      - {pair: Policy>Automation, emits: []}
+      - {pair: Credential>Resource, emits: []}
+      - {pair: Credential>Tenant, emits: []}
+      - {pair: Credential>Integration, emits: []}
+      - {pair: Credential>Automation, emits: []}
+      - {pair: Integration>Resource, emits: []}
+      - {pair: Integration>Tenant, emits: []}
+      - {pair: Integration>Integration, emits: []}
+      - {pair: Integration>Automation, emits: []}
+    - name: has_role_on.via_grant
+      when: properties.via_grant 가 자격증명 객체
+      match: {relation: {property: {via_grant: present}}}
+      decided: 2026-11-01 Relation 주담당 — 손코드(edges.ts)는 칸을 가리지 않는다. 그대로 effects 의 칸 전부에 건다 (진단표 Relation_Effects_Diagnosis_v1)
+      cases:
+      - pair: Principal>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Principal>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Principal>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Principal>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Policy>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Policy>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Policy>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Policy>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Credential>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Credential>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Credential>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Credential>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Integration>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Integration>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Integration>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+      - pair: Integration>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+        - {kind: G, from: grant, to: target, rank: role}
+    - name: has_role_on.okta_resource_set_partial
+      when: provider okta, 리소스 세트를 수집해 보니 조직 전체를 덮는 대상(모든 사용자, 모든 그룹, 모든 앱, IAM 전체)이 없고 그룹 하나 같은 일부만 덮는다(계산 칸 resource_set_scope partial)
+      match: {relation: {provider: okta, property: {resource_set_scope: partial}}}
+      decided: >-
+        2026-11-04 Relation 주담당 위임(Claude 가 정함) — 일부만 덮는 리소스 세트의 역할은 조직 전체에 대한 권한이 아니다. 조직(Tenant) 칸은 간선을 내지 않는다.
+        자원 칸은 아래 okta_resource_set 갈래(펼치지 않음)로 간다. 근거는 수집한 리소스 세트 대상(OK-05 /iam/resource-sets/{id}/resources 의 orn).
+        11-04 운영 테넌트: HelpDesk 역할의 리소스 세트가 그룹 하나(groups:<id>:contained_resources)만 덮어, 조직 전체 관리 위협 하나가 넓게 잡혀 있었다.
+        2026-11-09 Relation 주담당 위임(Claude 가 정함) — 세트가 덮는 대상(resource_set 끝, providers.yaml resource_set_coverage)에 역할 세기 그대로 간선을 낸다.
+        사람(Principal)은 조직 칸에도 resource_set_partial 사유를 단 간선을 하나 낸다. 연동이 조직 전체를 건드린다고만 알 때 그 사람이 원래 일부를 가졌으니
+        「원래 권한 없음」으로 확정하지 않으려는 것이다(11-04 /mfa-reset 격차: HelpDesk 담당자가 리셋 대상 그룹의 MFA 를 원래 초기화할 수 있는데 확실 격차로 셌다).
+        자격증명, 연동, 정책은 조직 칸 간선을 내지 않는다 — 넓게 잡힌 위협이 다시 생기지 않게. 다만 세트에 펴지 못한 대상(표에 없는 orn, 모으지 않은 서비스)이 있으면
+        누구든 조직 칸에 resource_set_not_expanded 사유 간선을 낸다 — 넓게 잡히는 것보다 놓치는 것이 더 나쁘다(검증 세션 2026-11-09).
+        2026-11-12 Relation 주담당 위임(Claude 가 정함) — 범위는 정규화가 적지 않고 엔진이 판정 때 providers.yaml resource_set_coverage(org_wide)로 계산한다
+      cases:
+      - pair: Principal>Tenant
+        emits:
+        - {kind: G, from: source, to: resource_set, rank: role}
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_partial]}
+        - {kind: G, from: source, to: resource_set_unexpanded, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Policy>Tenant
+        emits:
+        - {kind: G, from: source, to: resource_set, rank: role}
+        - {kind: G, from: source, to: resource_set_unexpanded, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Credential>Tenant
+        emits:
+        - {kind: G, from: source, to: resource_set, rank: role}
+        - {kind: G, from: source, to: resource_set_unexpanded, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Integration>Tenant
+        emits:
+        - {kind: G, from: source, to: resource_set, rank: role}
+        - {kind: G, from: source, to: resource_set_unexpanded, rank: role, uncertain: [resource_set_not_expanded]}
+    - name: has_role_on.okta_resource_set_org
+      when: provider okta, 리소스 세트를 수집해 보니 조직 전체를 덮는 대상이 있다(계산 칸 resource_set_scope org)
+      match: {relation: {provider: okta, property: {resource_set_scope: org}}}
+      decided: >-
+        2026-11-04 Relation 주담당 위임(Claude 가 정함) — 수집한 대상에 조직 전체 대상(orn:okta:directory:<org>:users · groups, orn:okta:idp:<org>:apps,
+        orn:okta:iam:<org>:contained_resources)이 있으면 사람이 확인한 것(confirmed_resource_sets)과 같다. 펼치지 않음 사유를 달지 않는다
+      cases:
+      - pair: Principal>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Principal>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Principal>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Principal>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Policy>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Policy>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Policy>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Policy>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Credential>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Credential>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Credential>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Credential>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Integration>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Integration>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Integration>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Integration>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+    - name: has_role_on.okta_resource_set
+      when: provider okta, properties.resource_set 가 있고 확인한 목록(overrides.confirmed_resource_sets)에 없다
+      match: {relation: {provider: okta, property: {resource_set: present}}}
+      override: confirmed_resource_sets   # 사람이 확인한 리소스 세트면 이 갈래가 안 걸린다. 확인값은 명세 밖이라 계산은 「확인값 없음」
+      decided: 2026-11-01 Relation 주담당 — 리소스 세트 배정은 조직(Tenant)에도 걸린다(실측 Okta org, OrgSetting). 손코드처럼 칸을 가리지 않는다 (진단표 3장 2)
+      cases:
+      - pair: Principal>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Principal>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Principal>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Principal>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Policy>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Policy>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Policy>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Policy>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Credential>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Credential>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Credential>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Credential>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Integration>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Integration>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Integration>Integration
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+      - pair: Integration>Automation
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [resource_set_not_expanded]}
+    - name: has_role_on.session_active
+      when: '세션에서 켤 때만 효력인 권한(properties.activation: session)인데 켜진 세션이 관측됐다(session_active: true)'
+      match: {all: [{relation: {property: {activation: session}}}, {relation: {property: {session_active: true}}}]}
+      cases:
+      - pair: Principal>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      - pair: Principal>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(판단표 G4-Q06, 권고 채택). 켜진 관측이 있으면 지금 효력이 있으니 상시 권한과 같이 센다.
+        아래 has_role_on.session_activation 보다 좁아서 위에 둔다
+    - name: has_role_on.session_activation
+      when: 'properties.activation: session 이고 켜진 세션이 관측되지 않았다'
+      match: {relation: {property: {activation: session}}}
+      cases:
+      - pair: Principal>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [session_activation]}
+      - pair: Principal>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [session_activation]}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(판단표 G4-Q06, 권고 채택). 활성화 행(Salesforce SessionPermSetActivation)은 지금 켜진 세션만
+        보여 주므로, 행이 없어도 사용자는 언제든 켤 수 있다. 있다고도 없다고도 못 해 판정 보류(모름)로 둔다.
+        「모름」 어휘는 uncertainty.yaml engine_reasons.session_activation
+    - name: has_role_on.gcp_public_principal
+      when: 출발이 Google Cloud IAM 의 누구나 주체(allUsers 인터넷 누구나, allAuthenticatedUsers Google 계정이 있는 누구나)
+      match: {all: [{source: {provider: gcp, object_type: IamMember}}, {source: {property: {member: [allUsers, allAuthenticatedUsers]}}}]}
+      cases:
+      - pair: Principal>Resource
+        emits:
+        - {kind: G, from: everyone, to: target, rank: role}
+      - pair: Principal>Tenant
+        emits:
+        - {kind: G, from: everyone, to: target, rank: role}
+      decided: >-
+        2026-11-20 Relation 담당(Claude 가 정함). Google Cloud IAM 문서 「Principal identifiers」: allUsers 는 인터넷의 누구나, allAuthenticatedUsers 는 Google 계정으로
+        인증한 누구나다(조직 밖 개인 계정 포함). 둘 다 테넌트 밖 누구나라 Atlassian 익명 주체(special_principal.public)와 같은 누구나(everyone) 간선이다. 3회차 실측 명단에는 없다(#499 시험 원본에만 있다)
+    - name: has_role_on.gcp_project_member
+      when: 출발이 Google Cloud IAM 의 사용자 · 그룹 · 도메인 · 서비스 계정 주체이고, 도착이 테넌트(프로젝트 · 조직)다 — 그 테넌트의 IAM 명단에 직접 든 주체
+      match: {all: [{source: {provider: gcp, object_type: IamMember}}, {source: {property: {member_type: [user, group, domain, serviceAccount]}}}, {target: {interface: Tenant}}]}
+      cases:
+      - pair: Principal>Tenant
+        emits:
+        - {kind: M, from: source, to: target}
+        - {kind: G, from: source, to: target, rank: role}
+      decided: >-
+        2026-11-20 Relation 담당(Claude 가 정함). Google Cloud 에는 「테넌트 구성원」 명단이 따로 없고, 프로젝트에 들어오는 사람은 프로젝트 IAM 허용 정책에
+        역할로 묶인 주체다(IAM 문서 「Allow policies」: 정책은 주체를 역할에 묶는다, 「Resource hierarchy」: 프로젝트는 자원을 묶는 기본 단위).
+        그래서 프로젝트 명단에 직접 든 주체를 프로젝트 소속(M)으로 본다. 소속은 권한을 아래로 내리지 않는다(providers.yaml tenant_scope membership 은 모두 none) —
+        권한은 같은 행의 G(역할 세기) 그대로다. 그룹 · 도메인 주체는 그 구성원(crosswalk directory_principal 의 member_of)이 소속을 물려받는다.
+        누구나 주체(allUsers · allAuthenticatedUsers, member_type special)는 위 갈래가 먼저 받고, 지운 주체(deleted) · 풀 주체(principalSet)는 넣지 않는다.
+        3회차 실측(r3-20261119-all): IamMember 12개 가운데 11개가 프로젝트 명단에 직접 있다(그룹 4 · 도메인 1 · 사용자 4 · 서비스 계정 2). 앱 명단에만 있는 사용자 1개는 소속이 생기지 않는다.
+        로그: 자기 계정 사건(사용자 데이터 고치기 · 커넥터 동의 · 동의 화면 열기) 35건이 「자기 계정인데 테넌트 소속(M) 없음」이었다 — 행위자는 그룹 · 도메인 주체를 거쳐 들어온 GWS 사용자다
+    - name: has_role_on.special_principal.public
+      when: 출발이 Atlassian 특수 주체 익명 사용자(properties.access_class ANONYMOUS_USERS) — 테넌트 밖 누구나
+      match: {all: [{source: {provider: atlassian, object_type: SpecialPrincipal}}, {source: {property: {access_class: ANONYMOUS_USERS}}}]}
+      cases:
+      - pair: Principal>Resource
+        emits:
+        - {kind: G, from: everyone, to: target, rank: role}
+      - pair: Principal>Tenant
+        emits:
+        - {kind: G, from: everyone, to: target, rank: role}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(판단표 G4-Q03, 권고 채택). 익명 공개는 shared_with.anyone 과 같은 누구나(everyone) 간선이다.
+        Jira 권한 스킴의 anyone 보유자도 정규화가 이 특수 주체로 만든다
+    - name: has_role_on.special_principal.tenant_members
+      when: 출발이 Atlassian 특수 주체 모든 라이선스 사용자(ALL_LICENSED_USERS)이고 Jira 권한 스킴을 거치지 않았다(properties.via_scheme 없음) — 그 테넌트 전원
+      match: {all: [{source: {provider: atlassian, object_type: SpecialPrincipal}}, {source: {property: {access_class: ALL_LICENSED_USERS}}}, {relation: {property: {via_scheme: missing}}}]}
+      cases:
+      - pair: Principal>Resource
+        emits:
+        - {kind: G, from: tenant, to: target, rank: role}
+      - pair: Principal>Tenant
+        emits:
+        - {kind: G, from: tenant, to: target, rank: role}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(판단표 G4-Q03, 권고 채택). 테넌트 전원은 shared_with 기본 효과(G 테넌트 → 자원, 「조직 공유」)와 같은
+        뜻이라 간선을 그 특수 주체의 테넌트에서 낸다. 테넌트 소속(M)인 계정이 모두 닿는다. shared_with.set 은 이름과 달리 「링크가 있는
+        누구나」(GWS anyone)라 everyone 이고, 테넌트 전원 어휘는 기본 효과 쪽이다. has_role_on 에서는 테넌트가 관계의 끝이 아니어서
+        간선 끝 tenant(머리말)를 쓴다. 정규화는 Jira 권한 스킴의 보유자 applicationRole 가운데 역할을 적지 않은 것도 이 특수 주체로
+        만든다(catalog/atlassian/review.yaml). 결정은 Jira applicationRole 을 판정 보류로 정했고, 그것이 로그인한 누구나라는 벤더 근거도
+        찾지 못해 Jira 권한 스킴을 거친 행(via_scheme)은 이 갈래에서 빼 아래 역할 묶음(모름)으로 보낸다
+    - name: has_role_on.special_principal.role_bundle
+      when: 출발이 그 밖의 Atlassian 특수 주체 — 모든 제품 관리자(ALL_PRODUCT_ADMINS), 제품 접근 역할(APPLICATION_ROLE_*), 라이선스 없는 사용자, Jira 권한 스킴을 거친 모든 라이선스 사용자
+      match: {source: {provider: atlassian, object_type: SpecialPrincipal}}
+      cases:
+      - pair: Principal>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [dynamic_holder_unresolved]}
+      - pair: Principal>Tenant
+        emits:
+        - {kind: G, from: source, to: target, rank: role, uncertain: [dynamic_holder_unresolved]}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(판단표 G4-Q03, 권고 채택). 어떤 역할을 가진 사람들의 묶음인데 그 보유자(제품 관리자, 제품 접근 그룹
+        회원)를 수집하지 않아 펼 때까지 판정 보류(모름)다. Effective Access 의 Jira 동적 보유자 applicationRole 과 같은 사유
+        dynamic_holder_unresolved 를 쓴다. 라이선스 없는 사용자(ALL_UNLICENSED_USERS)는 결정이 말하지 않아 같이 모름으로 둔다.
+        특수 주체 셋 가운데 가장 넓어 맨 아래에 둔다
+    depends_on:
+    - has_role_on 의 rank — 엔진은 역할로 정한다(roleCapability). 시험에는 역할이 없어서 늘 rank 없음 + role_rank_unknown 이다
+  permits:
+    names: {forward: 허용 대상, reverse: '허용하는 정책, 자격증명'}
+    description: A 가 B 에 대한 접근을 허용한다
+    inverse: permitted_by
+    characteristics: []
+    role_in_graph: info
+    effects: []
+  member_of:
+    names: {forward: 소속, reverse: 멤버}
+    description: A 는 B 의 멤버다
+    inverse: has_member
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: path
+    effects:
+    - pairs: [Principal>Tenant, Principal>Principal]
+      emits:
+      - {kind: M, from: source, to: target}
+    - pairs: [Principal>Resource]
+      emits:
+      - {kind: G, from: source, to: target, rank: membership}
+    conditions:
+    - name: member_of.inactive_account
+      when: 출발 계정이 지워졌거나 해지됐거나 정지됐다(source account_state deleted, deprovisioned, suspended)
+      match: {source: {judged_or_property: {account_state: [deleted, deprovisioned, suspended]}}}
+      decided: >-
+        2026-11-07 Relation 주담당 위임(Claude 가 정함). 11-05 총점검에서 Okta DEPROVISIONED, GWS 정지, Slack deleted 로 바꾼 계정의 접근 간선이 그대로였다.
+        지웠거나 해지했거나 정지한 계정은 지금 로그인도 API 호출도 안 되므로 간선을 내지 않는다. 남은 배정은 위생 문제(쓰지 못하는 계정에 권한이 남음)지 접근 경로가 아니다.
+        정지를 판정 보류(간선 + 사유)로 두면, 그 계정의 직접 권한은 보류라 없는 것으로, 같은 보류 권한으로 자동화를 시작시키는 것은 있는 것으로 세어 「연동으로만 닿는 사람」 위협이 새로 생겼다(11-04 수집본, 실행 신원 정지 변형). 다시 켜면 직접 권한과 연동 길이 함께 살아나므로 지금 판정에서는 빼는 쪽이 맞다
+      cases:
+      - {pair: Principal>Tenant, emits: []}
+      - {pair: Principal>Principal, emits: []}
+      - {pair: Principal>Resource, emits: []}
+    - name: member_of.measurement_membership
+      when: 'properties.measurement_principal: true'
+      match: {relation: {property: {measurement_principal: true}}}
+      cases:
+      - {pair: Principal>Tenant, emits: []}
+      - {pair: Principal>Resource, emits: []}
+    - name: member_of.measurement_principal
+      when: '출발이 측정 도구 계정(fixture_meta.demo_role: measurement_principal)'
+      match: {source: {meta: {demo_role: measurement_principal}}}
+      cases:
+      - {pair: Principal>Tenant, emits: []}
+    - name: member_of.gws_org_unit
+      when: provider gws, 도착이 OrgUnit(조직 단위). 소속만 주는 범위다
+      match: {all: [{relation: {provider: gws}}, {target: {object_type: OrgUnit}}]}
+      decided: '2026-11-01 Relation 주담당 결정(aegi-knowledge#149 4번). 조직 단위는 사용자를 뺄 수 없고 옮기기만 되는 정책 범위라, 멤버라서 그 자원에 능력이 생기지 않는다. 소속(M)으로 보고 EA 회수 지점이 아니다'
+      cases:
+      - pair: Principal>Resource
+        emits:
+        - {kind: M, from: source, to: target}
+    - name: member_of.scope_only_target
+      when: 도착이 권한 대상이 아니다(target grant_target false). 관리 범위를 정하는 단위라 소속만 준다
+      match: {target: {judged_or_property: {grant_target: false}}}
+      decided: >-
+        2026-11-21 Relation 주담당 위임(Claude 가 정함, Microsoft 365 도입 점검). Microsoft Entra 관리 단위(AdministrativeUnit)는 관리 역할을
+        그 단위의 사용자 · 그룹 · 기기에만 걸게 하는 범위다(learn.microsoft.com 「Administrative units in Microsoft Entra ID」). 멤버라서 관리 단위에
+        능력이 생기지 않는다 — gws 조직 단위(member_of.gws_org_unit)와 같은 뜻이다. 기본 갈래(Principal>Resource G, rank membership)로 두면 멤버가
+        관리 단위에 쓰기 이상을 받는 것으로 나온다. Profile 이 grant_target false 로 적은 객체만 걸려 provider 이름을 갈래에 두지 않는다.
+        2026-11-20 M365 수집본에는 관리 단위 멤버가 0 이라 지금 판정은 바뀌지 않는다
+      cases:
+      - pair: Principal>Resource
+        emits:
+        - {kind: M, from: source, to: target}
+    - name: member_of.slack_conversation
+      when: provider slack, 도착이 conversation
+      match: {all: [{relation: {provider: slack}}, {target: {object_type: conversation}}]}
+      cases:
+      - pair: Principal>Resource
+        emits:
+        - {kind: G, from: source, to: target, rank: 3}
+    depends_on:
+    - 'member_of 의 M · G — 도착이 그룹 같은가(isGroupLike: 테넌트, 그룹 타입, principal_kind group, 들어오는 member_of)로 정한다. interface 쌍으로 정하는 것이 아니다'
+    - member_of · shared_with 의 rank — provider · 대상 타입 · 역할로 정한다(membershipRank, roleCapability). 시험 provider 는 probe 라 기본값이 나왔다
+  owned_by:
+    names: {forward: 소유자, reverse: 소유물}
+    description: A 의 주인은 B 다
+    inverse: owns
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: path
+    effects:
+    - pairs: [Endpoint>Integration, Endpoint>Tenant, Automation>Integration, Automation>Tenant, Credential>Integration, Credential>Tenant]
+      emits:
+      - {kind: A, from: source, to: target}
+    - pairs: [Resource>Principal]
+      emits:
+      - {kind: G, from: target, to: source, rank: 5}
+    - pairs: [Principal>Integration]
+      emits:
+      - {kind: A, from: target, to: source}
+    conditions:
+    - name: owned_by.inactive_account
+      when: 도착 계정이 지워졌거나 해지됐거나 정지됐다(target account_state deleted, deprovisioned, suspended)
+      match: {target: {judged_or_property: {account_state: [deleted, deprovisioned, suspended]}}}
+      decided: >-
+        2026-11-07 Relation 주담당 위임(Claude 가 정함). 11-05 총점검에서 Okta DEPROVISIONED, GWS 정지, Slack deleted 로 바꾼 계정의 접근 간선이 그대로였다.
+        지웠거나 해지했거나 정지한 계정은 지금 로그인도 API 호출도 안 되므로 간선을 내지 않는다. 남은 배정은 위생 문제(쓰지 못하는 계정에 권한이 남음)지 접근 경로가 아니다.
+        정지를 판정 보류(간선 + 사유)로 두면, 그 계정의 직접 권한은 보류라 없는 것으로, 같은 보류 권한으로 자동화를 시작시키는 것은 있는 것으로 세어 「연동으로만 닿는 사람」 위협이 새로 생겼다(11-04 수집본, 실행 신원 정지 변형). 다시 켜면 직접 권한과 연동 길이 함께 살아나므로 지금 판정에서는 빼는 쪽이 맞다
+      cases:
+      - {pair: Resource>Principal, emits: []}
+    - name: owned_by.caller
+      when: '출발 자동화가 부른 사람 권한으로 돈다(run_as_resolution: caller)'
+      match: {source: {judged_or_property: {run_as_resolution: caller}}}
+      cases:
+      - {pair: Automation>Integration, emits: []}
+      - {pair: Automation>Tenant, emits: []}
+    - name: owned_by.delivery_endpoint
+      when: 출발이 받는 곳이 정해진 통로다(receives_into 가 있는 Endpoint) — Slack 수신 웹훅처럼 그 자원에 올리는 것 말고는 주인 앱으로 동작하지 않는다
+      match: {all: [{source: {interface: Endpoint}}, {exists_relation: {type: receives_into, source: $source}}]}
+      cases:
+      - {pair: Endpoint>Integration, emits: []}
+      - {pair: Endpoint>Tenant, emits: []}
+      - {pair: Credential>Integration, emits: []}
+      - {pair: Credential>Tenant, emits: []}
+      decided: >-
+        2026-10-19 Relation 담당 결정 — 재설계 5단계의 첫 값 변경. 수신 웹훅 주소를 쥐면 그 채널에 글을 올릴 수 있을 뿐 앱의 bot token
+        권한은 못 쓴다. 그 힘은 receives_into 가 따로 준다(G · F). 대행(A)으로 두면 앱이 테넌트에 역할을 갖는 순간 웹훅을 쥔 쪽이 그 역할을
+        물려받는다 — g2 실측에 앱 → 엔터프라이즈 역할(bot-token)을 넣어 보면 「Apps Script 가 Slack 조직 전체에서 관리 작업」 거짓 탐지가 생겼다
+        (aegi-dashboard 이슈 #123). 대시보드 blastRadius.ts tokenCapability() 도 수신 웹훅을 「아무것도 못 함」으로 본다.
+        엔진(edges.ts owned_by)은 aegi-dashboard PR #125(2026-10-20 머지)부터 같다 — engine_probe 에 이 갈래를 시험해 넣었다
+    - name: owned_by.outbound_endpoint
+      when: 출발이 밖으로 보내기만 하는 통로(direction out 인 Endpoint)이고 도착이 조직 — 주소를 쥔 쪽은 조직이 보낸 내용을 받을 뿐 조직의 힘을 쓰지 못한다
+      match: {all: [{source: {interface: Endpoint}}, {source: {judged_or_property: {direction: out}}}]}
+      cases:
+      - {pair: Endpoint>Tenant, emits: []}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(결정 반영 2호, aegi-knowledge#28 미결 일곱 중 하나), 권고 채택. Okta 이벤트 훅(비동기 한 방향 알림), 로그 스트림(System Log 를 밖으로), SSF 송신 스트림, 메일 서버(Okta 가
+        보내는 메일이 지나는 SMTP)가 걸린다. 흐름은 rules.outbound_hooks 의 F(조직 → 통로)가 그대로 준다. 결정 반영 1호
+        owned_by.delivery_endpoint(받는 통로)와 방향만 다른 같은 모양이다. GitHub 조직 웹훅(direction out)이 조직 소유로 들어와도 같이 걸린다
+    - name: owned_by.app_refresh_token
+      when: 출발이 사람이 앱에 준 bearer 토큰(credential_kind bearer_token, 그 토큰으로 인증하는 사람이 있다)이고 도착이 앱 — 쥐면 앱이 아니라 그 사람이 된다(authenticates_with.app_refresh_token)
+      match: {all: [{source: {judged_or_property: {credential_kind: bearer_token}}}, {exists_relation: {type: authenticates_with, target: $source}}]}
+      cases:
+      - {pair: Credential>Integration, emits: []}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(결정 반영 2호, aegi-knowledge#28 미결 일곱 중 하나). 권고는 「실측 결과가 바뀌어 따로 본다」였고 10-30 실측으로 재고 정했다. Okta 리프레시 토큰은 앱(클라이언트)이 사용자
+        대신 받은 것이라 그 토큰으로 받는 접근 토큰은 그 사용자를 받은 scope 만큼 대신한다. 앱이 클라이언트 자격으로 받은 관리 역할은
+        못 쓴다. 엔진의 피해 범위(blastRadius.ts credentialOwner, tokenCapability)도 이미 그렇게 센다. 10-30 실측의 리프레시 토큰 21개는
+        모두 앱 둘이 받은 것이고 그 앱들은 관계가 하나도 없어, 지금 A(토큰 → 앱)는 아무 데도 닿지 않는다. 그래서 「그대로」는 사람 권한을
+        가진 토큰을 「아무것도 못 함」으로 둔다
+    - name: owned_by.org_bearer_token
+      when: 출발이 사람이 만든 bearer 토큰(credential_kind bearer_token)이고 도착이 조직 — 쥐면 조직이 아니라 만든 사람이 된다(authenticates_with.org_bearer_token)
+      match: {source: {judged_or_property: {credential_kind: bearer_token}}}
+      cases:
+      - {pair: Credential>Tenant, emits: []}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(결정 반영 2호, aegi-knowledge#28 미결 일곱 중 하나), 권고 채택. Okta API 토큰은 만든 관리자 계정의 권한을 그대로 갖고(Okta 개발자 문서 「Create an API token」), Google 앱
+        비밀번호는 그 계정으로 옛 방식 앱에 로그인한다. 조직은 소속만 남는다(참조 tenant 의 contained_in). Google 앱 비밀번호가 사람 권한
+        전부보다 좁다는 표시는 붙이지 않는다 — 10-30 실측에 0개이고, 좁은 범위를 간선에 펴는 칸이 없다
+    - name: owned_by.public_certificate
+      when: 출발이 공개 인증서(credential_kind certificate)이고 도착이 조직 — 개인키는 상대가 가져 쥐어도 무엇으로도 동작하지 못한다
+      match: {source: {judged_or_property: {credential_kind: certificate}}}
+      cases:
+      - {pair: Credential>Tenant, emits: []}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(결정 반영 2호, aegi-knowledge#28 미결 일곱 중 하나), 권고 채택. Okta IdP 서명 키(material_location counterparty_side)가 걸린다. 그 신뢰는 IdP authenticates_with 키와
+        IdP registered_in 조직이 이미 말한다
+    - name: owned_by.unknown_runner_tenant
+      when: 출발이 실행 신원을 모르는 자동화(run_as_resolution unknown)이고 앱 없이 조직 소유 — 「조직으로 동작」은 근거가 없다
+      match: {source: {judged_or_property: {run_as_resolution: unknown}}}
+      cases:
+      - {pair: Automation>Tenant, emits: []}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(결정 반영 2호, aegi-knowledge#28 미결 일곱 중 하나), 권고 채택. 앱이 아닌 IdP, 사용자 종류 사이 Okta 프로필 매핑, 앱 이름이 없는 Slack 워크플로가 걸린다. 누가 고칠 수 있나는
+        관리자(has_role_on), 관리 역할이 따로 말한다. 앱 소유면 앱으로 동작(A)은 그대로다
+    - name: owned_by.registered_device
+      when: 출발이 관리 콘솔에 등록된 기기(GWS Cloud Identity Device)이고 도착이 사람 — 기기에 등록된 사용자일 뿐, 기기 기록을 바꿀 권한이 아니다
+      match: {source: {provider: gws, object_type: GoogleAppsCloudidentityDevicesV1Device}}
+      cases:
+      - {pair: Resource>Principal, emits: []}
+      decided: >-
+        2026-11-03 사용자 지시(관계 0 객체 정리, GWS 기기 연결). Device owned_by User 를 넣자 이 갈래의 G(주인 → 자원, rank 5)가 Apps Script
+        runs_as 주인을 거쳐 「Customer Intake Sync 스크립트 경유 기기 무단 변경」 거짓 탐지 3건과 EA 6행을 냈다. Cloud Identity 의 기기 주인은
+        기기에 등록된 사용자(ownerType BYOD 는 개인 소유 표시)이고, 기기 기록을 바꾸거나 지우는 devices API 는 관리자 역할이 있어야 한다.
+        사용자 신원으로 도는 스크립트는 자기 기기도 바꾸지 못한다. 관계는 그래프에 남기고 닿음만 내지 않는다
+  registered_in:
+    names: {forward: 등록된 테넌트, reverse: 등록된 앱}
+    description: 앱 A 가 테넌트 B 에 등록, 설치돼 있다
+    inverse: has_registered
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: path
+    effects:
+    - pairs: [Integration>Tenant]
+      emits:
+      - {kind: U, from: source, to: target}
+  registered_by:
+    names: {forward: 등록한 주체, reverse: 등록한 앱}
+    description: 앱 A 를 B 가 등록했다
+    inverse: registered
+    characteristics: []
+    role_in_graph: info
+    effects: []
+  acts_as:
+    names: {forward: 동작 신원, reverse: 이 신원으로 동작하는 앱}
+    description: 앱 A 는 B 로서 동작한다
+    inverse: acted_by
+    characteristics: []
+    role_in_graph: path
+    effects:
+    - pairs: [Integration>Principal]
+      emits:
+      - {kind: A, from: source, to: target}
+    conditions:
+    - name: acts_as.inactive_account
+      when: 도착 계정이 지워졌거나 해지됐거나 정지됐다(target account_state deleted, deprovisioned, suspended)
+      match: {target: {judged_or_property: {account_state: [deleted, deprovisioned, suspended]}}}
+      decided: >-
+        2026-11-07 Relation 주담당 위임(Claude 가 정함). 11-05 총점검에서 Okta DEPROVISIONED, GWS 정지, Slack deleted 로 바꾼 계정의 접근 간선이 그대로였다.
+        지웠거나 해지했거나 정지한 계정은 지금 로그인도 API 호출도 안 되므로 간선을 내지 않는다. 남은 배정은 위생 문제(쓰지 못하는 계정에 권한이 남음)지 접근 경로가 아니다.
+        정지를 판정 보류(간선 + 사유)로 두면, 그 계정의 직접 권한은 보류라 없는 것으로, 같은 보류 권한으로 자동화를 시작시키는 것은 있는 것으로 세어 「연동으로만 닿는 사람」 위협이 새로 생겼다(11-04 수집본, 실행 신원 정지 변형). 다시 켜면 직접 권한과 연동 길이 함께 살아나므로 지금 판정에서는 빼는 쪽이 맞다
+      cases:
+      - {pair: Integration>Principal, emits: []}
+  authenticates_with:
+    names: {forward: 자격증명, reverse: 이 자격증명을 쓰는 쪽}
+    description: A 는 B 로 인증한다
+    inverse: authenticates
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: path
+    # 기본 효과는 없고 아래 조건 갈래만 간선을 만든다(사용자 인증 요소처럼 주인이 없는 자격증명, 앱 · 통로의 자격증명은 그대로 정보다).
+    # 칸은 template 셋을 다 적는다 — 엔진이 이 칸들을 효과 표가 아는 칸으로 보고 template 밖 경고(relation_outside_effects)를 내지 않는다
+    effects:
+    - pairs: [Principal>Credential, Integration>Credential, Endpoint>Credential]
+      emits: []
+    conditions:
+    - name: authenticates_with.inactive_account
+      when: 출발 계정이 지워졌거나 해지됐거나 정지됐다(source account_state deleted, deprovisioned, suspended). 그 계정의 토큰 · 키로 그 계정 행세를 하지 못한다(정지 포함)
+      match: {source: {judged_or_property: {account_state: [deleted, deprovisioned, suspended]}}}
+      decided: >-
+        2026-11-07 Relation 주담당 위임(Claude 가 정함). 계정을 해지하면 벤더가 그 계정의 토큰을 끊는다(Okta 해지는 세션과 토큰을 거둔다).
+      cases:
+      - {pair: Principal>Credential, emits: []}
+    - name: authenticates_with.org_bearer_token
+      when: 도착이 조직 소유인 bearer 토큰(owned_by.org_bearer_token) — 그 토큰을 쥐면 출발(만든 사람)로 동작한다
+      match: {all: [{target: {judged_or_property: {credential_kind: bearer_token}}}, {exists_relation: {type: owned_by, source: $target, target_interface: Tenant}}]}
+      cases:
+      - pair: Principal>Credential
+        emits:
+        - {kind: A, from: target, to: source}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(결정 반영 2호, aegi-knowledge#28 미결 일곱 중 하나), 권고 채택(owned_by.org_bearer_token 의 짝). authenticates_with 는 이 결정으로 정보(info)에서 경로(path)가 됐다
+    - name: authenticates_with.app_refresh_token
+      when: 도착이 앱 소유인 bearer 토큰(owned_by.app_refresh_token) — 그 토큰을 쥐면 출발(토큰을 준 사람)로, 받은 scope 만큼 동작한다
+      match: {all: [{target: {judged_or_property: {credential_kind: bearer_token}}}, {exists_relation: {type: owned_by, source: $target, target_interface: Integration}}]}
+      cases:
+      - pair: Principal>Credential
+        emits:
+        - {kind: A, from: target, to: source, uncertain: [token_scope_limited]}
+      decided: >-
+        2026-11-01 Relation 주담당 결정(결정 반영 2호, aegi-knowledge#28 미결 일곱 중 하나)(owned_by.app_refresh_token 의 짝). scope 를 간선에 펴는 칸이 없어 「scope 만큼」은 모름 사유 token_scope_limited 로 남긴다.
+        피해 범위는 scope 를 능력으로 바꿔 센다.
+        2026-11-10 Relation 주담당 위임(Claude 가 정함) — 간선은 그대로 둔다(위협 간선은 길마다 따로 걸지 않아 scope 로 거를 자리가 없다).
+        Effective Access 는 접근 규칙 x_token_scoped 가 scope 표(capabilities.yaml token_scopes)로 사람의 G 를 걸러 낸다. 그 행에서는 token_scope_limited 가 풀린다
+  runs_as:
+    names: {forward: 실행 신원, reverse: 이 신원으로 도는 자동화}
+    description: 자동화 A 는 B 의 권한으로 실행된다
+    inverse: runs
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: path
+    effects:
+    - pairs: [Automation>Principal]
+      emits:
+      - {kind: A, from: source, to: target}
+    - pairs: [Automation>Credential]
+      emits:
+      - {kind: A, from: source, to: target}
+      - {kind: F, from: source, to: target, uncertain: [flow_not_observed]}
+    conditions:
+    - name: runs_as.inactive_account
+      when: 도착 계정이 지워졌거나 해지됐거나 정지됐다(target account_state deleted, deprovisioned, suspended)
+      match: {target: {judged_or_property: {account_state: [deleted, deprovisioned, suspended]}}}
+      decided: >-
+        2026-11-07 Relation 주담당 위임(Claude 가 정함). 11-05 총점검에서 Okta DEPROVISIONED, GWS 정지, Slack deleted 로 바꾼 계정의 접근 간선이 그대로였다.
+        지웠거나 해지했거나 정지한 계정은 지금 로그인도 API 호출도 안 되므로 간선을 내지 않는다. 남은 배정은 위생 문제(쓰지 못하는 계정에 권한이 남음)지 접근 경로가 아니다.
+        정지를 판정 보류(간선 + 사유)로 두면, 그 계정의 직접 권한은 보류라 없는 것으로, 같은 보류 권한으로 자동화를 시작시키는 것은 있는 것으로 세어 「연동으로만 닿는 사람」 위협이 새로 생겼다(11-04 수집본, 실행 신원 정지 변형). 다시 켜면 직접 권한과 연동 길이 함께 살아나므로 지금 판정에서는 빼는 쪽이 맞다
+      cases:
+      - {pair: Automation>Principal, emits: []}
+    - name: runs_as.computed_caller
+      when: 'properties.basis: computed 이고 출발 자동화가 run_as_resolution: caller'
+      match: {all: [{relation: {property: {basis: computed}}}, {source: {judged_or_property: {run_as_resolution: caller}}}]}
+      cases:
+      - {pair: Automation>Principal, emits: []}
+    - name: runs_as.computed
+      when: 'properties.basis: computed'
+      match: {relation: {property: {basis: computed}}}
+      cases:
+      - pair: Automation>Principal
+        emits:
+        - {kind: A, from: source, to: target, uncertain: [runs_as_computed]}
+      - pair: Automation>Credential
+        emits:
+        - {kind: A, from: source, to: target}
+        - {kind: F, from: source, to: target, uncertain: [flow_not_observed]}
+  triggered_by:
+    names: {forward: 시작시키는 것, reverse: 시작되는 자동화}
+    description: 자동화 A 는 B 에 의해 시작된다
+    inverse: triggers
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: path
+    effects:
+    - pairs: [Automation>Principal]
+      emits:
+      - {kind: T, from: target, to: source, mode: invoke}
+    - pairs: [Automation>Endpoint, Automation>Resource, Automation>Integration]
+      emits:
+      - {kind: T, from: target, to: source, mode: input}
+    conditions:
+    - name: triggered_by.inactive_account
+      when: 도착 계정이 지워졌거나 해지됐거나 정지됐다(target account_state deleted, deprovisioned, suspended)
+      match: {target: {judged_or_property: {account_state: [deleted, deprovisioned, suspended]}}}
+      decided: >-
+        2026-11-07 Relation 주담당 위임(Claude 가 정함). 11-05 총점검에서 Okta DEPROVISIONED, GWS 정지, Slack deleted 로 바꾼 계정의 접근 간선이 그대로였다.
+        지웠거나 해지했거나 정지한 계정은 지금 로그인도 API 호출도 안 되므로 간선을 내지 않는다. 남은 배정은 위생 문제(쓰지 못하는 계정에 권한이 남음)지 접근 경로가 아니다.
+        정지를 판정 보류(간선 + 사유)로 두면, 그 계정의 직접 권한은 보류라 없는 것으로, 같은 보류 권한으로 자동화를 시작시키는 것은 있는 것으로 세어 「연동으로만 닿는 사람」 위협이 새로 생겼다(11-04 수집본, 실행 신원 정지 변형). 다시 켜면 직접 권한과 연동 길이 함께 살아나므로 지금 판정에서는 빼는 쪽이 맞다
+      cases:
+      - {pair: Automation>Principal, emits: []}
+    - name: triggered_by.input_carried
+      when: >-
+        출발 자동화가 자격(웹훅 주소 · 토큰)으로 내보낸다(runs_as → Credential). 시작시킨 자원의 내용이 그 자동화를 거쳐 자격 쪽으로 나간다고
+        본다(구조상, 전달은 관측 전). 실행 신원이 사람·앱 계정(runs_as → Principal)뿐인 자동화는 내용을 어디로 옮기는지 설정에서 모르니 걸지 않는다
+      match: {exists_relation: {type: runs_as, source: $source, target_interface: Credential}}
+      cases:
+      - pair: Automation>Resource
+        emits:
+        - {kind: T, from: target, to: source, mode: input}
+        - {kind: F, from: target, to: source, uncertain: [flow_not_observed]}
+      decided: >-
+        2026-11-05 시나리오 E15(Jira 규칙 「SEC 이슈를 Slack 에 알리기」 → 수신 웹훅 → #sales-customer-intake)가 비인가 접근으로 안 잡히던 것.
+        규칙 → 웹훅 → 채널 사본 이동은 runs_as · receives_into 가 이미 만들고, 원본 SEC → 규칙 한 칸만 없었다
+  receives_into:
+    names: {forward: 전달 목적지, reverse: 들어오는 통로}
+    description: 통로 A 로 들어온 데이터가 B 에 쌓인다
+    inverse: receives_from
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: path
+    effects:
+    - pairs: [Endpoint>Tenant, Endpoint>Resource]
+      emits:
+      - {kind: G, from: source, to: target, rank: 3}
+      - {kind: F, from: source, to: target}
+    filters: [owned_by.delivery_endpoint]
+  shared_with:
+    names: {forward: 공유 범위, reverse: 공유받은 자원}
+    description: 자원 A 가 B 전체에 공유돼 있다
+    inverse: has_shared
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: path
+    effects:
+    - pairs: [Resource>Tenant]
+      emits:
+      - {kind: G, from: target, to: source, rank: membership}
+    conditions:
+    - name: shared_with.anyone
+      when: 'properties.permission_type: anyone'
+      match: {relation: {property: {permission_type: anyone}}}
+      cases:
+      - pair: Resource>Tenant
+        emits:
+        - {kind: G, from: everyone, to: source, rank: 1}
+    - name: shared_with.set
+      when: 'properties.target_kind: set'
+      match: {relation: {property: {target_kind: set}}}
+      cases:
+      - pair: Resource>Tenant
+        emits:
+        - {kind: G, from: everyone, to: source, rank: 1}
+    - name: shared_with.role
+      when: 'properties.role: writer'
+      match: {relation: {property: {role: writer}}}
+      cases:
+      - pair: Resource>Tenant
+        emits:
+        - {kind: G, from: target, to: source, rank: 3}
+    - name: shared_with.slack_conversation.is_private_false
+      when: 'slack conversation, is_private: false'
+      match: {source: {provider: slack, object_type: conversation, property: {is_private: false}}}
+      decided: 2026-11-01 Relation 주담당 — 테넌트 → 채널 G 는 공개 여부 규칙(rules.visibility_scoped)이 만든다. 관계 행은 같은 간선을 겹쳐 내지 않는다(손코드 그대로, 진단표 3장 5)
+      cases:
+      - {pair: Resource>Tenant, emits: []}
+    - name: shared_with.slack_conversation.is_private_true
+      when: 'slack conversation, is_private: true'
+      match: {source: {provider: slack, object_type: conversation, property: {is_private: true}}}
+      cases:
+      - {pair: Resource>Tenant, emits: []}
+    - name: shared_with.slack_conversation.is_private_unknown
+      when: slack conversation, is_private 없음
+      match: {source: {provider: slack, object_type: conversation, property: {is_private: missing}}}
+      decided: 2026-11-01 Relation 주담당 — 공개 여부 규칙(rules.visibility_scoped)이 channel_visibility_unknown 으로 만든다. 관계 행은 겹쳐 내지 않는다
+      cases:
+      - {pair: Resource>Tenant, emits: []}
+    depends_on:
+    - member_of · shared_with 의 rank — provider · 대상 타입 · 역할로 정한다(membershipRank, roleCapability). 시험 provider 는 probe 라 기본값이 나왔다
+  applies_to:
+    names: {forward: 적용 대상, reverse: 적용되는 정책}
+    description: 정책 A 가 B 에 적용된다
+    inverse: subject_to
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: info
+    effects: []
+  excludes:
+    names: {forward: 제외 대상, reverse: 제외하는 정책}
+    description: 정책 A 가 B 를 제외한다
+    inverse: excluded_by
+    characteristics: []
+    role_in_graph: ingredient
+    effects: []
+    filters: [has_role_on.excluded]
+  evaluates:
+    names: {forward: 평가하는 조건, reverse: 이 조건을 쓰는 정책}
+    description: 정책 A 가 조건 B 를 평가한다
+    inverse: evaluated_by
+    characteristics: []
+    role_in_graph: info
+    effects: []
+  trusts:
+    names: {forward: 신뢰하는 테넌트, reverse: 신뢰하는 쪽}
+    description: 테넌트 A 가 B 를 신뢰한다
+    inverse: trusted_by
+    characteristics: []
+    role_in_graph: info
+    effects: []
+  contained_in:
+    names: {forward: 상위, reverse: 하위}
+    description: A 는 B 안에 있다
+    inverse: contains
+    characteristics: [irreflexive, asymmetric]
+    role_in_graph: path
+    effects:
+    - pairs: [Tenant>Tenant]
+      emits:
+      - {kind: M, from: source, to: target}
+      - {kind: U, from: source, to: target}
+    - pairs: [Tenant>Principal, Tenant>Integration, Tenant>Credential, Tenant>Assignment, Tenant>Policy, Tenant>Endpoint, Tenant>Resource, Tenant>Automation, Principal>Principal, Principal>Integration, Principal>Credential, Principal>Assignment, Principal>Policy, Principal>Endpoint, Principal>Resource, Principal>Automation, Integration>Tenant, Integration>Principal, Integration>Integration, Integration>Credential, Integration>Assignment, Integration>Policy, Integration>Endpoint, Integration>Resource, Integration>Automation, Credential>Tenant, Credential>Principal, Credential>Integration, Credential>Credential, Credential>Assignment, Credential>Policy, Credential>Endpoint, Credential>Resource, Credential>Automation, Assignment>Tenant, Assignment>Principal, Assignment>Integration, Assignment>Credential, Assignment>Assignment, Assignment>Policy, Assignment>Endpoint, Assignment>Resource, Assignment>Automation, Policy>Tenant, Policy>Principal, Policy>Integration, Policy>Credential, Policy>Assignment, Policy>Policy, Policy>Endpoint, Policy>Resource, Policy>Automation, Endpoint>Tenant, Endpoint>Principal, Endpoint>Credential, Endpoint>Assignment, Endpoint>Policy, Endpoint>Endpoint, Endpoint>Resource, Endpoint>Automation, Resource>Tenant, Resource>Principal, Resource>Integration, Resource>Credential, Resource>Assignment, Resource>Policy, Resource>Endpoint, Resource>Resource, Resource>Automation, Automation>Tenant]
+      emits:
+      - {kind: U, from: source, to: target}
+    - pairs: [Principal>Tenant]
+      emits:
+      - {kind: M, from: source, to: target}
+    - pairs: [Endpoint>Integration]
+      emits:
+      - {kind: A, from: source, to: target}
+    - pairs: [Automation>Principal, Automation>Integration, Automation>Credential, Automation>Assignment, Automation>Policy, Automation>Endpoint, Automation>Resource, Automation>Automation]
+      emits:
+      - {kind: F, from: target, to: source, uncertain: [flow_not_observed]}
+    conditions:
+    - name: contained_in.group_tenant
+      when: 출발이 그룹 같은 주체(principal_kind group, 그룹 타입 group · usergroup · team, 들어오는 member_of 가 있다)
+      match: {any: [{source: {judged_or_property: {principal_kind: group}}}, {source: {object_type: [group, usergroup, team]}}, {exists_relation: {type: member_of, target: $source}}]}
+      decided: 2026-11-01 Relation 주담당 — 그룹은 테넌트에 소속(M)되지 않고 그 아래 범위(U)다. 손코드(edges.ts up, isGroupLike)대로 (진단표 3장 3)
+      cases:
+      - pair: Principal>Tenant
+        emits:
+        - {kind: U, from: source, to: target}
+    - name: contained_in.automation_resource
+      when: 출발이 자동화이기도 한 자원(interface Resource 와 Automation, 예 GWS Apps Script 프로젝트)이 테넌트 아닌 곳 안에 있다
+      match: {source: {interface: Automation}}
+      decided: 2026-11-01 Relation 주담당 — interface 가 둘인 객체는 자동화로만 읽어 한 간선이다(Automation 칸의 F, 묶인 것이면 T). 손코드대로 (진단표 3장 4)
+      cases:
+      - {pair: Resource>Principal, emits: []}
+      - {pair: Resource>Integration, emits: []}
+      - {pair: Resource>Credential, emits: []}
+      - {pair: Resource>Assignment, emits: []}
+      - {pair: Resource>Policy, emits: []}
+      - {pair: Resource>Endpoint, emits: []}
+      - {pair: Resource>Resource, emits: []}
+      - {pair: Resource>Automation, emits: []}
+    - name: contained_in.slack_conversation.is_private_false
+      when: 'slack conversation, is_private: false'
+      match: {source: {provider: slack, object_type: conversation, property: {is_private: false}}}
+      decided: 2026-11-01 Relation 주담당 — 테넌트 → 채널 G 는 공개 여부 규칙(rules.visibility_scoped)이 만든다. 관계 행은 U 만 낸다(손코드 그대로, 진단표 3장 5)
+      cases:
+      - pair: Resource>Tenant
+        emits:
+        - {kind: U, from: source, to: target}
+    - name: contained_in.gws_project
+      when: 출발이 컨테이너에 묶이는 자동화(gws project, github workflow)
+      match: {source: {in_table: container_bound_automations}}
+      cases:
+      - pair: Automation>Resource
+        emits:
+        - {kind: F, from: target, to: source, uncertain: [flow_not_observed]}
+        - {kind: T, from: target, to: source, mode: modify}
+    - name: contained_in.gcp_app_store_caller
+      when: 'Gemini Enterprise 앱(gcp Engine)에 붙은 저장소(gcp DataStore)가 부른 사람 자신의 권한으로만 검색된다 — 원본 권한을 따르거나(aclEnabled: true) FEDERATED 커넥터의 저장소다'
+      match: {all: [{source: {provider: gcp, object_type: DataStore}}, {target: {provider: gcp, object_type: Engine}}, {any: [{source: {property: {aclEnabled: true}}}, {exists_relation: {type: contained_in, source: $source, property: {federated: true}}}]}]}
+      decided: >-
+        2026-11-19 Relation 담당(Claude 가 정함), 2026-11-20 3회차 실측으로 고침. aegi-adapter-engine#499 가 앱 ↔ 저장소 연결(Engine.dataStoreIds)을 contained_in 으로 넣었는데,
+        contained_in 은 「위에 걸린 권한이 내려오는 길」이라 앱 역할(agentspaceUser)만 있는 사람이 그 앱에 붙은 Jira · Drive 저장소 내용에 닿는 것으로 계산됐다.
+        3회차 실측 저장소 9개는 모두 FEDERATED 커넥터 7개의 저장소다. aclEnabled 칸은 Workspace 저장소 3개에만 있고 Jira · Confluence · GitHub · Salesforce 저장소 6개에는 없다.
+        FEDERATED 는 내용을 옮겨 오지 않고 부른 사람 자신의 연결(OAuth, 사람마다 AcquireAndStoreRefreshToken)로 상대 SaaS 에 묻는다 — 11-19 시험에서 공유 에이전트도 실행한 사람 자신의
+        커넥터 연결만 썼다. 그래서 둘 중 하나면 간선을 내지 않는다(의미 층으로는 flows_to + linked_identity 자리). FEDERATED 표시는 엔진 Profile(new-data-connector)이
+        저장소 → 커넥터 관계에 다는 federated 칸이다. 둘 다 아닌 저장소(커넥터가 내용을 옮겨 온 저장소, 웹사이트 · 올린 문서)는 앱을 쓰는 사람이 내용을 그대로 읽으므로 기본 갈래(U)를 쓴다
+      cases:
+      - pair: Resource>Resource
+        emits: []
+    - name: contained_in.gcp_connector_store
+      when: Gemini Enterprise 커넥터(gcp DataConnector)가 가리키는 저장소(gcp DataStore)
+      match: {all: [{source: {provider: gcp, object_type: DataStore}}, {target: {provider: gcp, object_type: DataConnector}}]}
+      decided: >-
+        2026-11-19 Relation 담당(Claude 가 정함). 커넥터는 저장소를 담는 범위가 아니라 저장소를 채우거나(DATA_INGESTION) 상대 SaaS 로 대신 묻는(FEDERATED)
+        연동이다(aegi-adapter-engine#499 Profile 주석 「이름으로는 포함이 아니다」). 커넥터에 걸린 권한은 프로젝트 역할뿐이고 프로젝트 역할은 저장소에 따로 닿는다.
+        권한 간선을 내지 않고 정보로만 둔다(의미 층으로는 flows_to 자리 — 기록 층 17종에 연동 → 자원 흐름 관계가 없다)
+      cases:
+      - pair: Resource>Integration
+        emits: []
+
+# ---------------------------------------------------------------- 팀이 정할 일 — 결정 반영 2호 초안 (2026-10-21)
+#
+# 오브젝트 모델 v2(aegi-dashboard PR #127)가 새로 모은 것 중 10종이 owned_by → 조직(Tenant)으로 들어온다. 위 owned_by effects 는
+# Endpoint · Automation · Credential → Tenant 를 「소유 주체로 동작」(A)으로 읽는다. 벤더 문서로 보면 10종 중 8종은 조직의 힘을
+# 쓰지 않고, 사람이 만든 토큰 둘은 조직이 아니라 만든 사람으로 동작한다. 여기는 적기만 한다 — 정해지면 그 관계의 conditions
+# (규칙이면 rules)로 옮기고 decided 를 단다. 값은 이 블록 때문에 바뀌지 않는다.
+#
+# 2026-11-01 Relation 주담당이 아홉을 정해 옮겼다 — owned_by 의 outbound_endpoint · org_bearer_token · public_certificate ·
+# unknown_runner_tenant · app_refresh_token, authenticates_with 의 짝 둘, rules.outbound_hooks 의 both_way · recovery_mail_path,
+# has_role_on 의 special_principal 셋 · session_active · session_activation. default_unassigned.counting 은 같은 날 아래 decided 로 갔다(G4-Q05). 남은 것은 하나다.
+#
+#   id · question · why · options · recommend   사람이 읽는 것. id 는 정해지면 조건 갈래 이름이 된다
+#   kinds      걸리는 객체 종류. 이름이 아니라 오브젝트 모델 v1 카탈로그의 Profile 상수(direction · credential_kind ·
+#              run_as_resolution)로 고른다 — 같은 상수를 가진 새 종류도 같이 걸린다
+#   draft      정해지면 넣을 조건 갈래 초안 {relation, match, cases} 목록, 규칙이면 {rule, select}.
+#              validation/check_semantics.py S8 이 모양을 보고, 만든 세계 하나에서 어느 행에 걸리는지 맞춰 본다(open 시험)
+#   also       같이 걸리는 다른 종류 (10종 밖)
+open:
+- id: has_role_on.group_manager
+  question: Google 그룹의 소유자, 관리자 역할(OWNER, MANAGER)을 그 그룹에 대한 권한(has_role_on)으로 두나
+  why: >-
+    엔진 overlay(aegi-adapter-engine scripts/collect/profile-binding/overlays/gws/new-member.yaml)는 그룹 멤버(Members.list)마다
+    member_of(멤버 → 그룹)를 내고, 역할이 OWNER, MANAGER 이면 has_role_on(멤버 → 그룹, 역할)도 낸다. 멤버는 사용자나 그룹이고
+    도착은 그룹이라 양 끝이 Principal 이다. relation_types.yaml 의 has_role_on template 도착은 Resource, Tenant, Integration,
+    Automation 이라 이 칸이 없고, 이 파일에도 그 칸의 효과가 없다. 엔진 손코드(src/detection/v2/engine/edges.ts)의 has_role_on 은
+    도착 interface 를 보지 않고 역할로 G 를 내서, 그룹 멤버가 수집되면 「멤버가 그 그룹에 접근」 간선이 된다. Google 은 그룹을
+    다른 그룹의 소유자나 관리자로 두지 못한다(Google Workspace 관리자 도움말 「Assign roles to a group's members」). 그래서 대조표의
+    두 조합 가운데 그룹 → 그룹은 overlay 가 출발 갈래를 member_of 와 같이 써서 생긴 모양뿐이고, 실제로 생기는 것은 사용자 → 그룹이다.
+    access_rules.yaml 의 x_member_grant(member_of 다음 has_role_on)도 이 까닭으로 이 관계를 지나는 행이 생기지 않는다.
+    Profile_Schema_v4.2 의 참조 갈래 예시(field.in)는 그룹 멤버 OWNER 를 has_role_on 으로 적어 명세 문서끼리도 어긋난다.
+    관계 선언 대조표(schema/reports/Relation_Declaration_Table_v1.md)에서 template 밖 선언은 이것 하나다.
+    2026-11-21 Microsoft 365 도 같은 물음이다. Entra 그룹 소유자(Graph group owners)는 멤버를 더하고 빼며 그룹 설정을 바꾼다. 엔진 overlay
+    (overlays/microsoft/new-group.yaml)가 소유자를 GWS 처럼 has_role_on(소유자 → 그룹, 역할 owner)으로 낸다(처음 판은 owned_by 그룹 → 소유자였다 —
+    owned_by 에도 Principal>Principal 칸이 없어 같은 자리다). 2026-11-20 M365 수집본에 5행(사용자 소유자). 역할 배정 가능 그룹
+    (isAssignableToRole)은 소유자도 Privileged Role Administrator 만 바꿀 수 있어(learn.microsoft.com 「Use Microsoft Entra groups to manage role
+    assignments」) 정할 때 같이 본다
+  # 그룹 멤버 행(Member)이다. Member 는 관계의 끝이 아니라 대조표 「명세의 미결에 걸린 조합」에는 안 잡히고, 대조표 「판정」 두 줄이
+  # 이 항목을 가리킨다. gws Group 으로 적으면 그룹이 받은 Drive 권한(Group > File)까지 이 미결로 센다
+  kinds: [gws Member]
+  also: >-
+    대시보드 D1 10-27(지금 정규화 산출): 그룹으로 가는 has_role_on 0행, GWS has_role_on 은 사용자 → 고객 테넌트 6행뿐이다. 그룹
+    멤버 호출은 overlay 의 binding status 가 on_demand_or_uncollected 다. 지금 운영 EA 5행 중 이 관계를 지난 행 0.
+    aegi-knowledge#85 도 같은 것을 후속(「명세, 엔진 중 무엇을 고칠지 팀 결정」)으로 남겼다
+  options: [권한으로 본다 — has_role_on template 도착에 Principal(그룹)을 더한다. 닫힌 어휘의 template 을 바꾸는 일이라 decision 이슈, 권한이 아니다 — 엔진 overlay 의 has_role_on 을 빼고 역할은 member_of 의 속성으로만 둔다]
+  recommend: >-
+    권한으로 본다. Google 도움말에서 소유자는 기본으로 그룹의 모든 권한을 갖고, 관리자는 그룹 지우기, 소유자 만들기, 소유자의 역할
+    바꾸기 말고는 소유자가 하는 일을 기본으로 다 한다(「Assign roles to a group's members」, Directory API 안내 「Manage group
+    members」도 같다). 멤버를 더하고 빼는 권한은 그룹 설정 「Who can manage members」이고, 사용자 정의 역할에는 줄 수 없다(Groups
+    도움말 「Set who can view, post & moderate」). 그래서 소유자, 관리자는 그 그룹이 받은 접근을 남에게 줄 수 있는 자리다. 효과를 「그 그룹에 접근(G)」으로 둘지, 그룹이 받은 것까지 닿게 둘지는 template 을 바꾸는
+    decision 이슈에서 같이 정한다. 멤버를 쿼리로 정하는 동적 그룹은 손으로 멤버를 못 바꾸니 그때 같이 본다. 정하기 전에는 엔진
+    손코드를 그대로 둔다
+
+# 정한 것 — open 에서 옮겨 왔다(2026-11-01 부터). 질문은 그대로 두고 무엇으로 정했는지와 근거를 적는다. 칸은 crosswalk.yaml decided 와 같고,
+# then 은 남은 일이다. 조건 갈래로 옮기면 그 갈래의 decided 칸에 적고 이 목록에서 뺀다 — validation/check_semantics.py S8 이 본다
+decided:
+- id: default_unassigned.counting
+  question: 아무에게도 할당되지 않은 기본 객체(origin platform_default, assignment_count 0)를 기본 보기와 관계 검증 보고서에서 어떻게 세나
+  decision: 기본 객체 할당 0(origin platform_default, assignment_count 0)은 따로 세고, 관계 없는 객체 수에서 뺀다. 보고서에서 숨기지 않는다
+  when: 2026-11-01
+  by: >-
+    Relation 주담당 결정(판단표 G4-Q05, 권고대로). 숨기면 나중에 누가 할당돼도 보고서에서 안 보인다. 기본 보기에서 숨기는 것은 G4-Q05 그대로다.
+    관계 검증 보고서(validation/relation_report.py, aegi-knowledge#166)는 관계 17종과 키 종류 7개를 세고 객체 칸이 없어 지금 바뀌는 수는 없다.
+    Salesforce 프로필처럼 origin 을 정하지 못하는 객체는 이 규칙 밖이라 할당이 없어도 그대로 보인다
+  then: 관계 검증 보고서에 객체 칸(관계 없는 객체 수)을 더할 때 「기본 객체 할당 0」을 따로 두고 이 규칙으로 센다
+
+# ---------------------------------------------------------------- 객체 참조의 뜻 (2026-10-16)
+#
+# 관계 행이 없어도 Object 의 references 칸 몇 개가 간선을 만든다. 예: Okta 사용자 sales.sumin 은
+# 「org 안에 있다」는 관계 행이 없고, 객체 안에 references.tenant = org 만 있다. 엔진은 이 칸을 읽어
+# 「sumin 은 org 소속」 간선을 만들고, 그래야 org 에 걸린 관리자 권한이 sumin 에 닿는다.
+# g2 실측(2026-10-02 판)에서 계산에 쓴 간선 565개 중 302개가 이 칸에서 나오는데 명세에는 뜻이 없었다. 그 뜻을 여기 적는다.
+# (관계 행에서 248개, 사전 표 규칙에서 15개 — 사전 표가 만드는 간선은 아직 명세 밖이다)
+#
+# Object 행은 바꾸지 않는다 — 참조를 관계 행으로 옮겨 적지 않고(안 (나)), 읽는 법만 정한다(안 (가)).
+# Relation_Schema_v3 도 contained_in 을 이 참조의 관계 꼴로 본다(「contained_in 의 target 은 source 의 scope 나
+# references.parent 에 실재한다」). Profile 이 tenant 에 relation_type: contained_in 을 붙여 관계 행도 만드는
+# 곳(slack.team)은 같은 간선이 두 번 나오고 결과는 같다.
+#
+#   as       이 참조를 「그 관계 한 줄이 있는 것처럼」 읽는다. source = 참조를 가진 객체, target = 참조 대상.
+#            효과는 그 관계의 effects · conditions 칸을 그대로 쓴다
+#   effects  as 로 안 되는 것만 직접 적는다. 모양은 관계의 effects 와 같고, 칸(pairs)의 * 는 interface 아무거나.
+#            to: parent 는 같은 객체의 parent 참조 대상이다
+#   except   이 interface 의 객체에서는 이 칸을 읽지 않는다
+#   only     이 interface 의 객체에서만 읽는다
+#   skip     읽지 않는 경우 (말로 적은 조건). skip_if 는 같은 뜻의 식 — 자리 self 는 참조를 가진 객체
+#   differs  as 로 읽은 결과가 엔진과 다른 칸. 엔진은 관계 행과 참조를 다른 함수로 펴서 몇 칸이 갈린다
+references_skip_objects:
+- 측정 도구 계정 — fixture_meta.demo_role 이 measurement_principal 인 객체는 참조를 하나도 읽지 않는다
+references:
+  tenant:
+    names: {forward: 소속 테넌트}
+    as: contained_in
+    except: [Assignment]
+    differs:
+    - 'Principal>Tenant 에서 출발이 그룹 같은 주체(그룹 · 팀 · 들어오는 member_of 가 있는 것)면 엔진은 U(상위 범위), contained_in 은 M(소속)'
+  parent:
+    names: {forward: 부모}
+    as: contained_in
+    except: [Assignment]
+    differs:
+    - 'Automation>Principal 에서 엔진은 U, contained_in 은 F(target→source). 부모가 주체인 자동화는 아직 데이터에 없다'
+    - 'interface 가 둘인 객체(Slack incoming-webhook 은 Endpoint · Credential)가 Integration 을 부모로 가지면 contained_in 은 두 칸(Endpoint>Integration A, Credential>Integration U)이 다 걸린다. 엔진은 A 만'
+    - 'Principal>Tenant 는 tenant 와 같다'
+  parent_file:
+    names: {forward: 묶인 문서}
+    as: contained_in
+    except: [Assignment]
+    note: GWS Apps Script 프로젝트가 묶인 문서. parent 와 같게 읽는다
+  owner:
+    names: {forward: 소유자}
+    effects:
+    - pairs: ['*>Principal']
+      emits:
+      - {kind: G, from: target, to: source, rank: 5}
+    note: owned_by Resource>Principal 과 같은 효과를 출발 종류와 상관없이 준다. 대상이 주체가 아니면 읽지 않는다
+  author:
+    names: {forward: 작성자}
+    effects:
+    - pairs: ['*>*']
+      emits:
+      - {kind: G, from: target, to: source, rank: 3}
+    note: 커밋 · PR · 메시지의 작성자는 그것에 쓰기(3)를 가진 것으로 본다. 엔진은 대상 종류를 보지 않는다
+  grantee:
+    names: {forward: 권한을 받는 쪽}
+    only: [Assignment]
+    effects:
+    - pairs: ['Assignment>*']
+      emits:
+      - {kind: G, from: target, to: parent, rank: role}
+    skip:
+    - 같은 객체에 parent 참조가 없다
+    - 같은 배정을 has_role_on 행이 properties.via_assignment 로 이미 가리킨다 (두 번 펴지 않는다)
+    - 'properties.deleted: true'
+    skip_if:
+      any:
+      - {self: {refs_missing: parent}}
+      - {exists_relation: {type: has_role_on, property: {via_assignment: $self}}}
+      - {self: {property: {deleted: true}}}
+    note: 배정 객체(Assignment) 하나가 「grantee 는 parent 에 역할 properties.role 을 가진다」는 뜻이다. has_role_on 행이 없을 때 그 행 대신이다. rank 는 capabilities.yaml role_rank 로 properties.role 을 바꾼 것
+
+# ---------------------------------------------------------------- 사전 표 · 속성 규칙의 뜻 (2026-10-16)
+#
+# 관계 행도 객체 참조도 아닌데 간선을 만드는 규칙. providers.yaml 표는 「어느 SaaS 의 어느 객체인지」만 쥐고,
+# 그 표가 무슨 간선을 만드는지는 엔진 코드에만 있었다. g2 실측(2026-10-02 판)에서 15개 간선이 여기서 나온다.
+# 예: Slack 슬래시 명령 /mfa-reset 은 「워크스페이스 멤버 누구나 부를 수 있다」 — entry_points 표 + 아래 규칙.
+#
+#   source   무엇을 보고 거는가. table(providers.yaml 표) · property(객체 속성) · link(신원 연결) 중 하나
+#   applies  어느 객체에 거는가
+#   emits    만드는 간선. from · to 는
+#              object   규칙이 걸린 객체          tenant  그 객체의 테넌트 (규칙마다 찾는 법을 tenant 에 적었다)
+#              everyone 누구나                    owner   그 객체의 owned_by 도착 주체
+#              scope    references.parent · tenant 중 첫째   member  같은 Link 의 다른 신원
+#            uncertain 의 row.reason 은 표 행의 reason 칸 값이다
+#   cases    속성 값마다 간선이 다를 때 (match 가 먼저 맞는 갈래 하나)
+#   pattern  access_patterns.yaml 의 어느 방식인가
+#   engine   aegi-dashboard edges.ts 에서 이 규칙이 있는 자리. validation/check_semantics.py S7 이 대조한다
+#   differs  엔진이 이 규칙과 다르게 읽는 곳
+#
+# applies · tenant 는 사람이 읽는 문장이고, 같은 뜻을 기계가 읽는 칸이 따로 있다 (식 문법은 ontology/match.py)
+#   select        규칙을 걸 객체(자리 object) 또는 신원 연결(자리 link)
+#   items         객체 속성의 목록을 원소(자리 item)마다 돈다. where 는 원소 거르기
+#   ends          간선 끝 tenant · owner · scope 를 아래 resolvers 의 어느 것으로 찾나
+#   uncertain_if  이 식이 맞으면 uncertain 에 add 를 더한다
+resolvers:
+  tenant_of: {refs: [tenant, parent], relations: [registered_in, owned_by, contained_in], depth: 5, want: Tenant, take: first}
+  tenants_of: {refs: [parent, tenant], relations: [contained_in, shared_with], depth: 1, want: Tenant, take: all}
+  owner: {relations: [owned_by], depth: 1, want: Principal, take: all}
+  scope: {refs: [parent, tenant], depth: 1, want: any, take: first}
+rules:
+  visibility_scoped:
+    source: {table: visibility_scoped}
+    applies: 표의 provider · objectType 객체 중 property 값이 true 가 아닌 것 (false 또는 없음)
+    select: {object: {in_table: visibility_scoped, table_property: {not: true}}}
+    emits:
+    - {kind: G, from: tenant, to: object, rank: 1}
+    ends: {tenant: tenants_of}
+    uncertain_if:
+    - when: {object: {in_table: visibility_scoped, table_property: missing}}
+      add: [channel_visibility_unknown]
+    tenant: 그 객체의 contained_in · shared_with 관계 도착 중 테넌트, references.parent · tenant 중 테넌트 — 전부
+    pattern: scope_visibility
+    engine: for (const v of VISIBILITY_SCOPED)
+    note: 값이 false 면 확실, 없으면 channel_visibility_unknown. 관계 조건 갈래(shared_with.slack_conversation.* · contained_in.slack_conversation.is_private_false)와 같은 간선이 겹쳐 나온다. 결과는 같다. is_ext_shared 가 true 면 열린 사유 ext_shared 를 남긴다. 찾은 테넌트가 없고 references.tenant 가 못 푼 값(다른 워크스페이스 team id, 정규화의 stub_tenant)뿐이면 간선을 내지 않고 열린 사유 channel_in_other_workspace 를 남긴다 (2026-11-09, 11-04 실측에서 이전 샌드박스 워크스페이스 채널 하나가 이 워크스페이스 전원 열람으로 7쌍을 만들었다)
+  open_respondent_resources:
+    source: {table: open_respondent_resources}
+    applies: 표의 provider · objectType 객체 전부
+    select: {object: {in_table: open_respondent_resources}}
+    emits:
+    - {kind: G, from: everyone, to: object, rank: 3, uncertain: [row.reason]}
+    pattern: scope_visibility
+    engine: for (const r of OPEN_RESPONDENT_RESOURCES)
+    note: 응답자를 모르는 자원(Google 설문)은 누구나 내용을 넣을 수 있는 것으로 본다
+  entry_points:
+    source: {table: entry_points}
+    applies: 표의 provider · objectType 객체 전부
+    select: {object: {in_table: entry_points}}
+    emits:
+    - {kind: T, from: tenant, to: object, mode: invoke, uncertain: [row.reason]}
+    ends: {tenant: tenant_of}
+    tenant: 처음 만나는 테넌트 하나 — references.tenant · parent 를 따라 올라가고, 없으면 registered_in · owned_by · contained_in 관계를 따라 (5단계까지). 못 찾으면 간선 없이 경고
+    gate: >-
+      엔진은 이 입구를 부를 수 있는 사람이 제한(gate)돼 있는지 세 길로 알 수 있다. 앞의 것이 이긴다. ① overrides.entry_point_gates
+      (사람이 확인한 값) ② 코드 — 입구 객체의 properties.invoker_gate (kind channel_membership, basis code, channels 는 채널 객체 키).
+      정규화가 입구 URL 을 받는 Worker 배포 코드(WK-01)에서 슬래시 명령 콜백 맨 앞의 거름 `cmd.channel_id !== env.X` 를 읽고,
+      바인딩 X 의 값이 수집된 채널 하나로 풀릴 때만 적는다(engine scripts/collect/lib/worker-relay.ts summarizeWorkerSlashGates,
+      shared/mediatedServicePaths.ts attachInvokerGates). 서명 확인 없이 콜백을 부르는 wrapper 는 인정하지 않는다(channel_id 를 누구나 꾸민다)
+      ③ 관측 — 다른 채널의 요청이 「채널」 사유로 거부됐고 거부된 채널과 성공한 채널이 안 겹친다. 값이 channel_membership 이면
+      T 를 테넌트가 아니라 그 채널(②는 코드가 거르는 채널, ③은 요청이 성공한 채널)에서 걸고, none 이면 uncertain 없이 테넌트에서 건다.
+      ①은 사람이 적는 값이라 담을 칸이 없고, ③은 관측이다. ②는 객체 속성이지만 아직 이 명세의 select 로 쓰지 않는다. 그래서 명세만으로는
+      언제나 테넌트 전원 + row.reason 이다. g2 실측(2026-10-02 판)에서 /devbot 은 거부 기록이 1건 있어 ③으로 알 수 있고, /mfa-reset 은
+      거부 기록이 없어 엔진도 워크스페이스 전원을 「확인 못 함」으로 뒀다 (aegi-dashboard docs/spec/AEGI_GROUND_TRUTH_GENERIC_DETECTION_V1.md
+      「넓게 봄 1건」). 2026-11-09 부터 Worker 코드가 수집되면 ②로 #helpdesk 멤버만 부른다(정답셋 manual.json R-1 과 같다)
+    pattern: who_can_trigger
+    engine: function buildEntryPoints
+  deployments:
+    source: {property: deployments}
+    applies: Automation 객체의 properties.deployments[] 중 versionNumber 가 있는 것 (버전 없는 @HEAD 시험 주소는 편집자만 부르므로 뺀다)
+    select: {object: {interface: Automation}}
+    items: {property: deployments, where: {item: {property: {versionNumber: present}}}}
+    cases:
+    - when: 'access: ANYONE 또는 ANYONE_ANONYMOUS'
+      match: {item: {property: {access: [ANYONE, ANYONE_ANONYMOUS]}}}
+      emits:
+      - {kind: T, from: everyone, to: object, mode: invoke}
+    - when: 'access: DOMAIN'
+      match: {item: {property: {access: DOMAIN}}}
+      emits:
+      - {kind: T, from: tenant, to: object, mode: invoke}
+    - when: 'access: MYSELF'
+      match: {item: {property: {access: MYSELF}}}
+      emits:
+      - {kind: T, from: owner, to: object, mode: invoke}
+    ends: {tenant: tenant_of, owner: owner}
+    tenant: entry_points 와 같다
+    pattern: who_can_trigger
+    engine: function buildDeploymentEntries
+    note: Google Apps Script 웹앱 · 실행 API 의 배포 설정이다. 벤더가 적어 준 설정이라 uncertain 이 없다
+  outbound_hooks:
+    source: {property: direction}
+    applies: Endpoint 객체 중 properties.direction(없으면 judged.direction, 그것도 없으면 Profile 상수 direction) 이 out 이나 both 이고 active 가 false 가 아닌 것
+    select: {object: {interface: Endpoint, judged_or_property: {direction: [out, both]}, property: {active: {not: false}}}}
+    emits:
+    - {kind: F, from: scope, to: object}
+    ends: {scope: scope}
+    pattern: data_flow
+    engine: function buildOutboundHooks
+    note: 밖으로 보내는 웹훅(GitHub 조직 · 저장소 웹훅). 구독한 이벤트가 담긴 범위의 내용이 웹훅 주소로 나간다
+    decided:
+    - >-
+      outbound_hooks.both_way — 2026-11-01 Relation 주담당 결정(결정 반영 2호, aegi-knowledge#28 미결 일곱 중 하나), 권고 채택. 양방향 통로(direction both)도 고른다. Okta 인라인 훅은 Okta 가 가입, 토큰 발급,
+      비밀번호 가져오기 같은 과정을 멈추고 답을 기다리는 동기 호출이라 그 과정의 내용(사용자 속성, 비밀번호 가져오기라면 입력한 비밀번호)이
+      그 주소로 간다. Slack 슬래시 명령 요청 주소도 사용자가 친 명령 내용이 앱 주소로 간다. 대행(A)은 owned_by 그대로 둔다
+    - >-
+      recovery_mail_path — 2026-11-01 Relation 주담당 결정(결정 반영 2호, aegi-knowledge#28 미결 일곱 중 하나), 권고 채택. 조직의 메일이 지나는 서버(Okta 메일 서버)는 지금 이 규칙의 F(조직 → 메일 서버)만 둔다
+      (owned_by.outbound_endpoint 로 A 는 빠진다). 「재설정 메일을 가로채 계정을 차지한다」는 접근 방식(access_patterns.yaml)은 다음 결정이다.
+      지금보다 잃는 것이 없다 — 지금 A → 조직도 이 위험을 말하지 못했다
+    differs:
+    - '엔진(edges.ts buildOutboundHooks)은 properties.direction 과 judged.direction 만 본다. 오브젝트 모델 v1(대시보드 PR #117)은 direction 을 행에서 빼 Profile 상수로 옮겨서(Object_Schema_v4.1 「judged{}」), v1 묶음에서는 엔진만 이 간선을 놓친다 (g2 실측을 v1 로 옮긴 묶음: GitHub 조직 웹훅 1개)'
+  automation_links:
+    source: {link: automation}
+    applies: meta.kind 가 automation 이고 level 이 different 가 아닌 Link 의 신원 쌍 (양방향)
+    select: {link: {property: {kind: automation, level: {not: different}}}}
+    emits:
+    - {kind: A, from: object, to: member}
+    uncertain_if:
+    - when: {link: {property: {level: {not: [resolved, disclosed_relation]}}}}
+      add: [identity_link_weak]
+      note: 엔진은 쌍마다 meta.edges 의 level 로 등급을 낸다(identity.ts linkPairGrade, identity.yaml engine_level_grades 에서 resolved, disclosed_relation 이 strong. Link_Schema_v3 「두 계정 사이의 단계」). 여기서는 Link 전체 level 로 적었다 — g2 의 자동화 Link 는 간선 하나라 둘이 같다
+    pattern: acts_for_app
+    engine: 자동화끼리의 신원 연결 (automation Identity Link)
+    note: 'Link_Schema_v3 의 자동화 신원 연결이 대행 간선이 된다. g2 의 Slack 봇 ↔ Okta 클라이언트(정답 위협 C 의 사슬)가 이것이다. 사람 Link 는 간선을 만들지 않는다 — 질의가 켜야 넘어간다'
+rules_outside:
+  buildEdges: 관계 행(relations)과 객체 참조(references) — 위 relations · references 블록이 쥔다
+  buildEvidenceEdges: 관측(실행 · 요청 · 전송 기록)으로 만드는 간선(E 와 observed 표시 간선). 설정만 보는 이 명세 밖이다

@@ -1,0 +1,8 @@
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+emit:
+  merge_into: conversation
+manual_basis: 같은 채널 ID(C…). V3.2 same-entity 는 200.channel|1 과
+  objs_conversation|0 을 묶지만 시범 conversation Profile 과는 묶지 않았다. 겹친 값 14

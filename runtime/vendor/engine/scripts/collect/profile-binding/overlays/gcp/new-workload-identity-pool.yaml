@@ -1,0 +1,48 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: iam
+object_type: WorkloadIdentityPool
+interfaces: [Principal]
+# 근거: IAM v1 Discovery 문서의 WorkloadIdentityPool 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-02 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# GCP 밖 작업(GitHub Actions 등)이 서비스 계정을 가장하게 해 주는 풀. Gemini Enterprise 역할을 가진 서비스 계정에 닿을 때만 이 범위에 든다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-WIPOOL-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-02
+        request: {kind: workload_identity_pools}
+        items: workloadIdentityPools
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    properties:
+      mode: mode
+      description: description
+      state: state
+      expireTime: expireTime
+      disabled: disabled
+      displayName: displayName
+      has_inline_trust_config: {op: exists, of: inlineTrustConfig}
+      has_inline_certificate_issuance_config: {op: exists, of: inlineCertificateIssuanceConfig}
+      principal_kind: {const: group}
+      account_kind: {const: unknown}
+      account_state: {op: map, of: state, table: {ACTIVE: active, DELETED: deleted}, default: {const: unknown}}
+    display: "{displayName|title|name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+        basis: stated
+        require: [target]

@@ -1,0 +1,372 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: copilot-space
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:315d445e6cf3a930d1817267
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:315d445e6cf3a930d1817267.identity_evidence
+  parent:
+    type: simple-user
+    expr: $req.parent_id
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      format: int64
+      name: id
+      required: true
+      scalar: integer
+    map_items:
+      - space:copilot-space|id
+  number:
+    path: number
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      name: number
+      required: true
+      scalar: integer
+    map_items:
+      - space:copilot-space|number
+  name:
+    path: name
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      name: name
+      required: true
+      scalar: string
+    map_items:
+      - space:copilot-space|name
+  description:
+    path: description
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      name: description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:copilot-space|description
+  general_instructions:
+    path: general_instructions
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      name: general_instructions
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:copilot-space|general_instructions
+  base_role:
+    path: base_role
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      enum:
+        - reader
+        - writer
+        - admin
+        - no_access
+      name: base_role
+      required: true
+      scalar: string
+    map_items:
+      - space:copilot-space|base_role
+  owner:
+    path: owner
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      name: owner
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space.owner
+    map_items:
+      - space:copilot-space|owner
+  creator:
+    path: creator
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      name: creator
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    map_items:
+      - space:copilot-space|creator
+  created_at:
+    path: created_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      format: date-time
+      name: created_at
+      required: true
+      scalar: string
+    map_items:
+      - space:copilot-space|created_at
+  updated_at:
+    path: updated_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      format: date-time
+      name: updated_at
+      required: true
+      scalar: string
+    map_items:
+      - space:copilot-space|updated_at
+  html_url:
+    path: html_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      format: uri
+      name: html_url
+      required: true
+      scalar: string
+    map_items:
+      - space:copilot-space|html_url
+  api_url:
+    path: api_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      format: uri
+      name: api_url
+      required: true
+      scalar: string
+    map_items:
+      - space:copilot-space|api_url
+  resources_attributes:
+    path: resources_attributes
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+    declaration:
+      name: resources_attributes
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space.resources_attributes
+    map_items:
+      - space:copilot-space|resources_attributes
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: simple-user
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:21b6d856086d3dd7c77c1c4b (users/{}) -> simple-user
+  - name: parent_scope_2
+    field: $req.parent_id
+    target: organization-full
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:a28322db90853d621558c902 (orgs/{}) -> organization-full
+  - name: html_url
+    field: html_url
+    target: team-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:013b33db1cb9d5094cdc28ad; relation=no_relation
+  - name: resources_attributes
+    field: resources_attributes
+    target: copilot-space-resource
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:05c2a043e87719fc552d0d47; relation=no_relation
+  - name: owner
+    field: owner
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:484a24bd5f3103ffbbcf5a55; relation=no_relation
+  - name: creator
+    field: creator
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:74fc09cf2740829d4f016f32; relation=no_relation
+  - name: url
+    field: url
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9cd2e4c673295f10eeafd8d7; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope_2
+    produced_by_reference: parent_scope_2
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: copilot-space
+  interfaces: *a1
+  model:
+    research_type: object-type:315d445e6cf3a930d1817267
+  extract:
+    key: PILOT-github-copilot-space-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-GITHUB-817267
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          api_url: api_url
+          base_role: base_role
+          created_at: created_at
+          creator: creator
+          description: description
+          general_instructions: general_instructions
+          html_url: html_url
+          id: id
+          name: name
+          number: number
+          owner: owner
+          resources_attributes: resources_attributes
+          updated_at: updated_at
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:gh_rest_ghec_next_2026_03_10_latest:copilot-spaces/list-for-org
+  operation: copilot-spaces/list-for-org
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /orgs/[^/]+/copilot-spaces(?:\?|$)
+  endpoint_template: /orgs/{org}/copilot-spaces
+  request: {}
+  required_params:
+    - org
+  paths:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:copilot-space
+      path:
+        - spaces
+        - "*"
+  alternatives_total: 3
+  alternatives:
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:copilot-spaces/list-for-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/copilot-spaces
+      path:
+        - spaces
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:copilot-spaces/get-for-org
+      method: GET
+      kind: read_one
+      endpoint_template: /orgs/{org}/copilot-spaces/{space_number}
+      path: &a3 []
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:copilot-spaces/get-for-user
+      method: GET
+      kind: read_one
+      endpoint_template: /users/{username}/copilot-spaces/{space_number}
+      path: *a3
+  basis: ir_read_response_reachability
+  selection: tie_needs_review
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - html_url
+    - resources_attributes
+    - owner
+    - creator
+    - url
+  metadata_paths: *a2
+  remaining_declared_fields: properties

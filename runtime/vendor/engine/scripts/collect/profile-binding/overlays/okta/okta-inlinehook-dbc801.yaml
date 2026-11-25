@@ -1,0 +1,71 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/inline_hook.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-17
+        request:
+          kind: inline_hooks
+      - call: OK-17
+        request:
+          kind: absent
+        endpoint: /inlineHooks(\?|$)
+    properties:
+      name: name
+      type: type
+      status: status
+      channel:
+        if:
+          path: channel
+          truthy: true
+        then:
+          object:
+            type: channel.type
+            uri: channel.config.uri
+        else: null
+      created: created
+      lastUpdated: lastUpdated
+    display: 인라인 훅 {name|id}
+    relations:
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-INLHOOK-{id}
+runtime_stub: null
+runtime_key: OKTA-INLHOOK-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: InlineHook:list
+    sources:
+      - call: OK-17
+        request:
+          kind: inline_hooks
+      - call: OK-17
+        request:
+          kind: absent
+        endpoint: /inlineHooks(\?|$)
+    relations:
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+# Profile 상수: knowledge schema/catalog/okta/research.json 의 InlineHook decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml rules.outbound_hooks both_way)이 이 값으로 고른다
+constants:
+  direction:
+    const: both

@@ -1,0 +1,346 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: slack
+service: null
+object_type: 200.view_2
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:f678249a1a67863559d99322
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:f678249a1a67863559d99322.identity_evidence
+tenant_binding:
+  type: workspace
+  service: null
+  field: context_team_id
+  prefix: T
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: id
+      required: false
+      scalar: string
+    map_items:
+      - space:200.view_2|id
+  team_id:
+    path: team_id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: team_id
+      required: false
+      scalar: string
+    map_items:
+      - space:200.view_2|team_id
+  type:
+    path: type
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: type
+      required: false
+      scalar: string
+    map_items:
+      - space:200.view_2|type
+  title:
+    path: title
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: title
+      required: false
+      shape: sh:slack_docs_methods:op:views.push:resp:200.view.title
+    map_items: []
+  close:
+    path: close
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: close
+      required: false
+      shape: sh:slack_docs_methods:op:views.push:resp:200.view.close
+    map_items: []
+  submit:
+    path: submit
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: submit
+      required: false
+      shape: sh:slack_docs_methods:op:views.push:resp:200.view.submit
+    map_items: []
+  blocks:
+    path: blocks
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: blocks
+      required: false
+      shape: sh:slack_docs_methods:op:views.push:resp:200.view.blocks
+    map_items: []
+  private_metadata:
+    path: private_metadata
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: private_metadata
+      required: false
+      scalar: string
+    map_items:
+      - space:200.view_2|private_metadata
+  callback_id:
+    path: callback_id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: callback_id
+      required: false
+      scalar: string
+    map_items:
+      - space:200.view_2|callback_id
+  external_id:
+    path: external_id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: external_id
+      required: false
+      scalar: string
+    map_items:
+      - space:200.view_2|external_id
+  state:
+    path: state
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: state
+      required: false
+      shape: sh:slack_docs_methods:op:views.push:resp:200.view.state
+    map_items: []
+  hash:
+    path: hash
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: hash
+      required: false
+      scalar: string
+    map_items:
+      - space:200.view_2|hash
+  clear_on_close:
+    path: clear_on_close
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: clear_on_close
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.view_2|clear_on_close
+  notify_on_close:
+    path: notify_on_close
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: notify_on_close
+      required: false
+      scalar: boolean
+    map_items:
+      - space:200.view_2|notify_on_close
+  root_view_id:
+    path: root_view_id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: root_view_id
+      required: false
+      scalar: string
+    map_items:
+      - space:200.view_2|root_view_id
+  previous_view_id:
+    path: previous_view_id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: previous_view_id
+      required: false
+      scalar: "null"
+    map_items:
+      - space:200.view_2|previous_view_id
+  app_id:
+    path: app_id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: app_id
+      required: false
+      scalar: string
+    map_items:
+      - space:200.view_2|app_id
+  bot_id:
+    path: bot_id
+    source: research_shape
+    shape: sh:slack_docs_methods:op:views.push:resp:200.view
+    declaration:
+      name: bot_id
+      required: false
+      scalar: string
+    map_items:
+      - space:200.view_2|bot_id
+references:
+  - name: bot_id
+    field: bot_id
+    target: 200.bot
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2add0060fb44e8bc36202ac1; relation=no_relation
+  - name: team_id
+    field: team_id
+    target: 200.team
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d2d6578d80f9baea401d0ba7; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: slack
+  object_type: 200.view_2
+  interfaces: *a1
+  model:
+    research_type: object-type:f678249a1a67863559d99322
+  extract:
+    key: PILOT-slack-200.view_2-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-SLACK-d99322
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          app_id: app_id
+          blocks: blocks
+          bot_id: bot_id
+          callback_id: callback_id
+          clear_on_close: clear_on_close
+          close: close
+          external_id: external_id
+          hash: hash
+          id: id
+          notify_on_close: notify_on_close
+          previous_view_id: previous_view_id
+          private_metadata: private_metadata
+          root_view_id: root_view_id
+          state: state
+          submit: submit
+          team_id: team_id
+          title: title
+          type: type
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:slack_docs_methods:views.push
+  operation: views.push
+  surface: rpc
+  method: null
+  kind: unknown
+  endpoint: /views\.push(?:\?|$)
+  endpoint_template: views.push
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:slack_docs_methods:op:views.push:resp:200.view
+      path:
+        - view
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:slack_docs_methods:views.update
+      method: null
+      kind: unknown
+      endpoint_template: views.update
+      path:
+        - view
+  basis: ir_read_response_reachability
+  selection: tie_needs_review
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: fe9343e56ffad6f2b0e007b7d616aa5a36dc671b5d93ef108740be1799dc2887
+    ir/shape.jsonl: e0251d3f1d8d7f441387bb9666f63eff7398545254d0b92ccab02c9503bbfbf3
+    ir/operation.jsonl: 5f61d17fe234449c5cd1c291def84c2453e244f73063e1ce5d43b65caf9348cf
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - bot_id
+    - team_id
+  metadata_paths: *a2
+  remaining_declared_fields: properties

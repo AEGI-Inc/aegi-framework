@@ -1,0 +1,58 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: confluence
+service: confluence
+object_type: AutomationRule
+interfaces: [Automation]
+model:
+  runtime_type_id: automation-source-bindings/1:atlassian:AutomationRule
+  source: aegi-knowledge/schema/ontology/automation-sources.yaml
+identity:
+  primary:
+    - {name: cloud, expr: $req.cloud, stability: stable}
+    - {name: product, expr: $req.product, stability: stable}
+    - name: id
+      expr: {op: lower, of: rule.uuid}
+      stability: stable
+  scope: tenant
+fields: {}
+runtime_key: CF-AUTO-{cloud}-{id}
+runtime_identifiers:
+  primary: [id]
+  id:
+    stability: stable
+    normalization: [lowercase]
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: CF-10
+        request: {kind: automation_definition}
+        items: (root)
+    id_expr: rule.uuid
+    parts:
+      cloud: $req.cloud
+    properties:
+      name: rule.name
+      cloud_id: $req.cloud
+      product: $req.product
+      rule_uuid: {op: lower, of: rule.uuid}
+      state: rule.state
+      components: rule.components
+      request_targets: rule.request_targets
+      request_secret_fingerprints: rule.request_secret_fingerprints
+      definition_sha256: definition_sha256
+      incoming_rule_key:
+        if: {path: rule.incoming_webhook, eq: true}
+        then:
+          op: lower
+          of: {template: "{$req.product}/{rule.uuid}"}
+    parent: {ref: $tenant, when: always}
+    display: "{rule.name|rule.uuid}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+

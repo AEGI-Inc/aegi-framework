@@ -1,0 +1,26 @@
+fields:
+  AuthProviderId: null
+  CustomConfiguration: null
+  Endpoint: null
+  NamedCredentialId: null
+  PrincipalType: null
+  Protocol: null
+  Repository: null
+  Type: null
+  isWritable: null
+  DistributionState:
+    path: DistributionState
+    source: collected_response
+  OrgScopedExternalApp:
+    path: OrgScopedExternalApp
+    source: collected_response
+  ManagedType:
+    path: ManagedType
+    source: collected_response
+  Description:
+    path: Description
+    source: collected_response
+  Version:
+    path: Version
+    source: collected_response
+fields_basis: 응답이 ExternalDataSource 스키마가 아니라 그 스키마 키(Endpoint, Protocol 등)는 지우고, 응답 최상위 키를 선언한다(값은 수집 응답 그대로)

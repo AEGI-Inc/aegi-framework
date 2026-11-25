@@ -1,0 +1,482 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: Server_2
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:50865ca67f5bf7f2eb359586
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:50865ca67f5bf7f2eb359586.identity_evidence
+  parent:
+    type: Project_2
+    expr: $req.parent_id
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  access_address:
+    path: access_address
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: access_address
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|access_address
+  alt_names:
+    path: alt_names
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: alt_names
+      read_only: true
+      required: true
+      shape: sh:okta_opa_openapi:Server.alt_names
+    map_items:
+      - space:Server_2|alt_names
+  bastion:
+    path: bastion
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: bastion
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|bastion
+  broker_host_certs:
+    path: broker_host_certs
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: broker_host_certs
+      read_only: true
+      required: false
+      shape: sh:okta_opa_openapi:Server.broker_host_certs
+    map_items:
+      - space:Server_2|broker_host_certs
+  canonical_name:
+    path: canonical_name
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: canonical_name
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|canonical_name
+  cloud_provider:
+    path: cloud_provider
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: cloud_provider
+      required: false
+      shape: sh:okta_opa_openapi:CloudProviderType
+    map_items:
+      - space:Server_2|cloud_provider
+  deleted_at:
+    path: deleted_at
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      format: date-time
+      name: deleted_at
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|deleted_at
+  hostname:
+    path: hostname
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: hostname
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|hostname
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      format: regex
+      name: id
+      pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|id
+  instance_details:
+    path: instance_details
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: instance_details
+      required: false
+      shape: sh:okta_opa_openapi:Server.instance_details
+    map_items:
+      - space:Server_2|instance_details
+  instance_id:
+    path: instance_id
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      format: regex
+      name: instance_id
+      pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Server_2|instance_id
+  labels:
+    path: labels
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: labels
+      required: true
+      shape: sh:okta_opa_openapi:Server.labels
+    map_items:
+      - space:Server_2|labels
+  last_seen:
+    path: last_seen
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      format: date-time
+      name: last_seen
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|last_seen
+  managed:
+    path: managed
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: managed
+      read_only: true
+      required: true
+      scalar: boolean
+    map_items:
+      - space:Server_2|managed
+  os:
+    path: os
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: os
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|os
+  os_type:
+    path: os_type
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: os_type
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|os_type
+  project_id:
+    path: project_id
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: project_id
+      pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Server_2|project_id
+  project_name:
+    path: project_name
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: project_name
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|project_name
+  registered_at:
+    path: registered_at
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      format: date-time
+      name: registered_at
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|registered_at
+  services:
+    path: services
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: services
+      read_only: true
+      required: true
+      shape: sh:okta_opa_openapi:Server.services
+    map_items:
+      - space:Server_2|services
+  sftd_version:
+    path: sftd_version
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: sftd_version
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|sftd_version
+  ssh_host_keys:
+    path: ssh_host_keys
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: ssh_host_keys
+      read_only: true
+      required: true
+      shape: sh:okta_opa_openapi:Server.ssh_host_keys
+    map_items:
+      - space:Server_2|ssh_host_keys
+  state:
+    path: state
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      name: state
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|state
+  team_name:
+    path: team_name
+    source: research_shape
+    shape: sh:okta_opa_openapi:Server
+    declaration:
+      format: regex
+      name: team_name
+      pattern: ^[\w\-_.]+$
+      read_only: true
+      required: true
+      scalar: string
+    map_items:
+      - space:Server_2|team_name
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: Project_2
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:f6b7263e2442682587d47c38 (v1/teams/{}/resource_groups/{}/projects/{}) -> Project_2
+  - name: instance_details
+    field: instance_details
+    target: aws
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:142adc4e27dd1fe2dcc0c835; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: Server_2
+  interfaces: *a1
+  model:
+    research_type: object-type:50865ca67f5bf7f2eb359586
+  extract:
+    key: PILOT-okta-Server_2-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-OKTA-359586
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          access_address: access_address
+          alt_names: alt_names
+          bastion: bastion
+          broker_host_certs: broker_host_certs
+          canonical_name: canonical_name
+          cloud_provider: cloud_provider
+          deleted_at: deleted_at
+          hostname: hostname
+          id: id
+          instance_details: instance_details
+          instance_id: instance_id
+          labels: labels
+          last_seen: last_seen
+          managed: managed
+          os: os
+          os_type: os_type
+          project_id: project_id
+          project_name: project_name
+          registered_at: registered_at
+          services: services
+          sftd_version: sftd_version
+          ssh_host_keys: ssh_host_keys
+          state: state
+          team_name: team_name
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_opa_openapi:ListAllServersForAdmin
+  operation: ListAllServersForAdmin
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /v1/teams/[^/]+/all_servers(?:\?|$)
+  endpoint_template: /v1/teams/{team_name}/all_servers
+  request: {}
+  required_params:
+    - team_name
+  paths:
+    - shape: sh:okta_opa_openapi:Server
+      path:
+        - list
+        - "*"
+  alternatives_total: 4
+  alternatives:
+    - operation_id: op:okta_opa_openapi:ListServers
+      method: GET
+      kind: read_many
+      endpoint_template: /v1/teams/{team_name}/servers
+      path:
+        - list
+        - "*"
+    - operation_id: op:okta_opa_openapi:ListAllServersForResourceGroup
+      method: GET
+      kind: read_many
+      endpoint_template: /v1/teams/{team_name}/resource_groups/{resource_group_id}/all_servers
+      path:
+        - list
+        - "*"
+    - operation_id: op:okta_opa_openapi:ListResourceGroupProjectServers
+      method: GET
+      kind: read_many
+      endpoint_template: /v1/teams/{team_name}/resource_groups/{resource_group_id}/projects/{project_id}/servers
+      path:
+        - list
+        - "*"
+    - operation_id: op:okta_opa_openapi:GetResourceGroupProjectServer
+      method: GET
+      kind: read_one
+      endpoint_template: /v1/teams/{team_name}/resource_groups/{resource_group_id}/projects/{project_id}/servers/{server_id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: tie_needs_review
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - instance_details
+  metadata_paths: *a2
+  remaining_declared_fields: properties

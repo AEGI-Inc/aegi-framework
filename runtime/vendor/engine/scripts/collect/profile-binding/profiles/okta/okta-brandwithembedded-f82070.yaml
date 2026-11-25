@@ -1,0 +1,396 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: BrandWithEmbedded
+interfaces: &a1
+  - Tenant
+model:
+  research_type: object-type:863e6926480a858acef82070
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:863e6926480a858acef82070.identity_evidence
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  agreeToCustomPrivacyPolicy:
+    path: agreeToCustomPrivacyPolicy
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: agreeToCustomPrivacyPolicy
+      required: false
+      scalar: boolean
+    map_items:
+      - space:BrandWithEmbedded|agreeToCustomPrivacyPolicy
+  customPrivacyPolicyUrl:
+    path: customPrivacyPolicyUrl
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: customPrivacyPolicyUrl
+      required: false
+      scalar: string
+    map_items:
+      - space:BrandWithEmbedded|customPrivacyPolicyUrl
+  defaultApp:
+    path: defaultApp
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: defaultApp
+      required: false
+      shape: sh:okta_management_openapi:DefaultApp
+    map_items: []
+  emailDomainId:
+    path: emailDomainId
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: emailDomainId
+      required: false
+      scalar: string
+    map_items:
+      - space:BrandWithEmbedded|emailDomainId
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BrandWithEmbedded|id
+  isDefault:
+    path: isDefault
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: isDefault
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:BrandWithEmbedded|isDefault
+  locale:
+    path: locale
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: locale
+      required: false
+      shape: sh:okta_management_openapi:Language
+    map_items:
+      - space:BrandWithEmbedded|locale
+  name:
+    path: name
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:BrandWithEmbedded|name
+  removePoweredByOkta:
+    path: removePoweredByOkta
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: removePoweredByOkta
+      required: false
+      scalar: boolean
+    map_items:
+      - space:BrandWithEmbedded|removePoweredByOkta
+  _embedded:
+    path: _embedded
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: _embedded
+      read_only: true
+      required: false
+      shape: sh:okta_management_openapi:BrandWithEmbedded._embedded
+    map_items: []
+  _links:
+    path: _links
+    source: research_shape
+    shape: sh:okta_management_openapi:BrandWithEmbedded
+    declaration:
+      name: _links
+      required: false
+      shape: sh:okta_management_openapi:BrandWithEmbedded._links
+    map_items: []
+references:
+  - name: defaultapp_appinstanceid
+    field: defaultApp.appInstanceId
+    target: LogStream
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:06657234ea2b858b22b2d256; relation=no_relation
+  - name: embedded_preview
+    field: _embedded.preview
+    target: ErrorPage
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:08360d7fb64edc1a792ed732; relation=no_relation
+  - name: embedded_customized
+    field: _embedded.customized
+    target: ErrorPage
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:14d0920da15be290c987c222; relation=no_relation
+  - name: links_customized_href
+    field: _links.customized.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:28f6cca8a308e18f57e8ef32; relation=no_relation
+  - name: embedded_emaildomain
+    field: _embedded.emailDomain
+    target: EmailDomainResponseWithEmbedded
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:392db6953dba19b4a1ab1a08; relation=no_relation
+  - name: links_preview_href
+    field: _links.preview.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:403e0c1d97cdfb1931c3f9d7; relation=no_relation
+  - name: links_self_href
+    field: _links.self.href
+    target: BehaviorRule
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:4d314b7af2b3964ffdef451f; relation=no_relation
+  - name: embedded_themes
+    field: _embedded.themes
+    target: ThemeResponse
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5805d8e8b1b7f4c872fbe68a; relation=no_relation
+  - name: links_default_href
+    field: _links.default.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5f9537ceb7b57aa636f8af5a; relation=no_relation
+  - name: links_themes_href
+    field: _links.themes.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:62fa25a83450181eb82ff509; relation=no_relation
+  - name: links_assetlinks_json_href
+    field: _links.assetlinks.json.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6653417c79ce4566a6ebd9bc; relation=no_relation
+  - name: links_webauthn_href
+    field: _links.webauthn.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:72b3839c7413afbf0f1b2321; relation=no_relation
+  - name: embedded_default
+    field: _embedded.default
+    target: ErrorPage
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8d30359488d28be7e10722d1; relation=no_relation
+  - name: emaildomainid
+    field: emailDomainId
+    target: EmailDomainResponseWithEmbedded
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a31ea412b9b27663d42809f6; relation=no_relation
+  - name: embedded_domains
+    field: _embedded.domains
+    target: DomainResponse
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c210e2a49df74859bb94080f; relation=no_relation
+  - name: links_apple-app-site-association_href
+    field: _links.apple-app-site-association.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f5cdcc4b3bf8d95a92d95249; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: BrandWithEmbedded
+  interfaces: *a1
+  model:
+    research_type: object-type:863e6926480a858acef82070
+  extract:
+    key: PILOT-okta-BrandWithEmbedded-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-OKTA-f82070
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          _embedded: _embedded
+          _links: _links
+          agreeToCustomPrivacyPolicy: agreeToCustomPrivacyPolicy
+          customPrivacyPolicyUrl: customPrivacyPolicyUrl
+          defaultApp: defaultApp
+          emailDomainId: emailDomainId
+          id: id
+          isDefault: isDefault
+          locale: locale
+          name: name
+          removePoweredByOkta: removePoweredByOkta
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: embedded_only_collected
+  call: null
+  operation_id: op:okta_management_openapi:listBrands
+  operation: listBrands
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /api/v1/brands(?:\?|$)
+  endpoint_template: /api/v1/brands
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:okta_management_openapi:BrandWithEmbedded
+      path:
+        - "*"
+  alternatives_total: 3
+  alternatives:
+    - operation_id: op:okta_management_openapi:getBrand
+      method: GET
+      kind: read_one
+      endpoint_template: /api/v1/brands/{brandId}
+      path: []
+    - operation_id: op:okta_management_openapi:listEmailDomains
+      method: GET
+      kind: read_many
+      endpoint_template: /api/v1/email-domains
+      path: &a3
+        - "*"
+        - _embedded
+        - brands
+        - "*"
+      collected_calls:
+        - OK-90
+    - operation_id: op:okta_management_openapi:getEmailDomain
+      method: GET
+      kind: read_one
+      endpoint_template: /api/v1/email-domains/{emailDomainId}
+      path:
+        - _embedded
+        - brands
+        - "*"
+  basis: ir_read_response_reachability
+  selection: ranked
+  observed_sources:
+    - shape: sh:okta_management_openapi:Brand
+      operation_id: op:okta_management_openapi:listEmailDomains
+      call: OK-90
+      path: *a3
+      records: 0
+      partial: true
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - defaultApp.appInstanceId
+    - _embedded.preview
+    - _embedded.customized
+    - _links.customized.href
+    - _embedded.emailDomain
+    - _links.preview.href
+    - _links.self.href
+    - _embedded.themes
+    - _links.default.href
+    - _links.themes.href
+    - _links.assetlinks.json.href
+    - _links.webauthn.href
+    - _embedded.default
+    - emailDomainId
+    - _embedded.domains
+    - _links.apple-app-site-association.href
+  metadata_paths: *a2
+  remaining_declared_fields: properties

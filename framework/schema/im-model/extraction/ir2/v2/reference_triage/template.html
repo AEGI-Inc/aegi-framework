@@ -1,0 +1,82 @@
+<meta charset="utf-8">
+<title>v2 판단표 4차</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: same reading column as 판단표 1~3차; conclusion and decisions first, decision tables, then counts and the correction of the earlier report. */
+:root{
+  --bg:#ffffff; --surface:#f5f6f8; --line:#d3d8df; --line-strong:#8f99a8;
+  --text:#14171c; --accent:#1f4fbf; --ok:#1d7a45; --warn:#9a5b00;
+  --font-body:"IBM Plex Sans KR","Malgun Gothic",system-ui,sans-serif; --font-mono:"IBM Plex Mono",Consolas,monospace;
+  --fs-s:13px; --fs-m:15px; --fs-l:18px; --fs-xl:24px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111418;--surface:#181c22;--line:#2c333d;--line-strong:#56606e;--text:#eef1f5;--accent:#7ea2f0;--ok:#5cc489;--warn:#e3a33b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111418;--surface:#181c22;--line:#2c333d;--line-strong:#56606e;--text:#eef1f5;--accent:#7ea2f0;--ok:#5cc489;--warn:#e3a33b;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:var(--fs-m);line-height:1.6;margin:0}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:20px;padding-block:28px 56px}
+h1{font-size:var(--fs-xl);margin:0 0 6px;text-wrap:balance}
+h2{font-size:var(--fs-l);margin:28px 0 6px;text-wrap:balance}
+p{margin:0 0 8px;max-width:80ch}
+.mono{font-family:var(--font-mono);font-size:.92em}
+.scroll{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:var(--fs-s)}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--surface);font-weight:600}
+td.code{font-family:var(--font-mono);white-space:nowrap;color:var(--accent)}
+td.rec{font-weight:600}
+.badge{display:inline-block;border:1px solid currentColor;padding:0 6px;font-size:12px;font-weight:600;white-space:nowrap}
+.b-keep{color:var(--text)} .b-add{color:var(--ok)} .b-fix{color:var(--warn)}
+.sum,.ask{border:1px solid var(--line-strong);padding:12px 14px;margin-top:16px}
+.sum ul{margin:0;padding-left:18px}
+.ask ol{margin:0;padding-left:20px}
+table.mat{width:auto}
+table.mat td.n,table.mat th.n,td.n{text-align:right;font-variant-numeric:tabular-nums}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.two>div{min-width:0}
+</style>
+<div class="wrap">
+  <h1>v2 판단표 4차: 관계 없는 객체와 객체 참조</h1>
+  <p>v1 실측 데이터셋(객체 __OBJECTS__, 관계 __RELATIONS__)에서 관계에 한 번도 나오지 않는 객체를 세고, 그 객체가 가진 참조를 관계로 올릴지 정합니다. 결정은 v2 대장(<span class="mono">relation_decisions_v2.json</span>)에 기록하고 v1 고정 기록은 바꾸지 않습니다.</p>
+
+  <div class="sum">
+    <ul>
+      <li><b>관계 없는 객체는 __ORPH__개입니다.</b> 관계의 출발, 도착 칸만 세면 __NO_ST__개지만, 그중 역할 객체 __BY_ROLE__개는 has_role_on의 역할 칸에 들어 있어 이미 연결돼 있습니다.</li>
+      <li><b>새로 관계로 올릴 것은 5건입니다(A).</b> Okta 그룹 규칙, Okta 리소스 세트, GitHub 조직과 엔터프라이즈, GitHub 조직 웹훅, Google과 Okta 사용자의 tenant 소속입니다.</li>
+      <li><b>그래프에도 탐지 엔진에도 없는 것이 2종 __CA__ + __TOK__개입니다(B).</b> GitHub 자격 증명 승인과 Google OAuth 토큰입니다. 관계가 아니라 엔진 규칙으로 다루기를 권합니다.</li>
+      <li><b>배정 객체를 2홉으로 바꾸지 않습니다(C).</b> 배정 __ASSIGN__개는 has_role_on이 속성으로 가리키고 있어 사실이 이미 그래프에 있습니다.</li>
+      <li><b>배정되지 않은 역할, 빈 그룹 등 D의 객체는 연결이 없는 것이 맞습니다.</b> 그대로 둡니다.</li>
+    </ul>
+  </div>
+
+  <div class="ask">
+    <p><b>정할 것</b></p>
+    <ol>
+      <li>A의 Q01, Q03, Q04, Q05를 관계로 만들지</li>
+      <li>Q02 리소스 세트: 대상은 org 그대로 두고 범위 참조를 더할지(aegi-schema 제안 필요), 대상을 리소스 세트로 바꿀지</li>
+      <li>B의 Q06, Q07을 관계 없이 엔진 과제로 기록할지</li>
+      <li>C의 배정 객체 2홉 개편을 하지 않는 것으로 기록할지</li>
+    </ol>
+  </div>
+
+  <h2>관계 없는 객체 __ORPH__개의 분류</h2>
+  __MATRIX__
+  __BODY__
+
+  <h2>처음 보고와 다른 점</h2>
+  <p>외부 감사 보고는 고아 113개(38.4%)라고 적었습니다. 이 숫자는 관계의 출발, 도착 칸만 센 값입니다. 역할 칸까지 세면 __ORPH__개입니다. 「NamedRole이 3항 관계의 속성에 갇혀 고아가 됐다」는 주장도 사실과 다릅니다. NamedRole은 관계 템플릿의 역할 칸(<span class="mono">--[Policy]--&gt;</span>)에 객체 키로 들어가고, 탐지 엔진이 <span class="mono">roleKey</span>로 읽습니다. 「Google Token 증발」도 객체가 사라진 것이 아닙니다. 관계 13건을 대장 결정으로 뺐고 객체 13개는 남아 있습니다.</p>
+  <div class="two">
+    <div>
+      <p><b>역할 칸으로 이미 연결된 객체 __BY_ROLE__개</b></p>
+      <div class="scroll"><table class="mat"><thead><tr><th>SaaS</th><th>타입</th><th class="n">객체</th></tr></thead><tbody>__ROLES__</tbody></table></div>
+    </div>
+    <div>
+      <p><b>관계 없는 객체 __ORPH__개</b></p>
+      <div class="scroll"><table class="mat"><thead><tr><th>SaaS</th><th>타입</th><th class="n">객체</th></tr></thead><tbody>__ORPHANS__</tbody></table></div>
+    </div>
+  </div>
+
+  <h2>출처</h2>
+  <p>입력은 <span class="mono">src/data/aegi_inc_measured_model_v1</span>의 <span class="mono">objects.json</span>, <span class="mono">relations.json</span>입니다. 관계 템플릿은 <span class="mono">docs/spec/model-v1/runtime-catalog.json</span>, 엔진 동작은 <span class="mono">src/detection/v2/engine/edges.ts</span>의 객체 참조 절입니다. parent 참조 __PARENT_REFS__건 중 __PARENT_LIFTED__건은 이미 관계로 올라가 있습니다. 나머지는 배정 객체의 parent(C, B)와 Q03입니다. 다시 만드는 방법은 <span class="mono">candidate-extraction/ir2/v2/reference_triage/reference_triage.py</span>입니다.</p>
+</div>

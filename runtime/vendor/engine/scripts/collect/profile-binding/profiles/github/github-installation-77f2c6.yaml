@@ -1,0 +1,472 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: installation
+interfaces: &a1
+  - Integration
+model:
+  research_type: object-type:6f8c59d311dbe8e60277f2c6
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:6f8c59d311dbe8e60277f2c6.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: id
+      required: true
+      scalar: integer
+    map_items:
+      - space:installation|id
+  account:
+    path: account
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: account
+      nullable: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation.account
+    map_items:
+      - space:installation|account
+  repository_selection:
+    path: repository_selection
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      enum:
+        - all
+        - selected
+      name: repository_selection
+      required: true
+      scalar: string
+    map_items:
+      - space:installation|repository_selection
+  access_tokens_url:
+    path: access_tokens_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      format: uri
+      name: access_tokens_url
+      required: true
+      scalar: string
+    map_items:
+      - space:installation|access_tokens_url
+  repositories_url:
+    path: repositories_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      format: uri
+      name: repositories_url
+      required: true
+      scalar: string
+    map_items:
+      - space:installation|repositories_url
+  html_url:
+    path: html_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      format: uri
+      name: html_url
+      required: true
+      scalar: string
+    map_items:
+      - space:installation|html_url
+  app_id:
+    path: app_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: app_id
+      required: true
+      scalar: integer
+    map_items:
+      - space:installation|app_id
+  client_id:
+    path: client_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: client_id
+      required: false
+      scalar: string
+    map_items:
+      - space:installation|client_id
+  target_id:
+    path: target_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: target_id
+      required: true
+      scalar: integer
+    map_items:
+      - space:installation|target_id
+  target_type:
+    path: target_type
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: target_type
+      required: true
+      scalar: string
+    map_items:
+      - space:installation|target_type
+  permissions:
+    path: permissions
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: permissions
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:app-permissions
+    map_items: []
+  events:
+    path: events
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: events
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation.events
+    map_items:
+      - space:installation|events
+  created_at:
+    path: created_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      format: date-time
+      name: created_at
+      required: true
+      scalar: string
+    map_items:
+      - space:installation|created_at
+  updated_at:
+    path: updated_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      format: date-time
+      name: updated_at
+      required: true
+      scalar: string
+    map_items:
+      - space:installation|updated_at
+  single_file_name:
+    path: single_file_name
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: single_file_name
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:installation|single_file_name
+  has_multiple_single_files:
+    path: has_multiple_single_files
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: has_multiple_single_files
+      required: false
+      scalar: boolean
+    map_items:
+      - space:installation|has_multiple_single_files
+  single_file_paths:
+    path: single_file_paths
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: single_file_paths
+      required: false
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation.single_file_paths
+    map_items:
+      - space:installation|single_file_paths
+  app_slug:
+    path: app_slug
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: app_slug
+      required: true
+      scalar: string
+    map_items:
+      - space:installation|app_slug
+  suspended_by:
+    path: suspended_by
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: suspended_by
+      nullable: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    map_items:
+      - space:installation|suspended_by
+  suspended_at:
+    path: suspended_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      format: date-time
+      name: suspended_at
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:installation|suspended_at
+  contact_email:
+    path: contact_email
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+    declaration:
+      name: contact_email
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:installation|contact_email
+references:
+  - name: target_id
+    field: target_id
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:301b657eac2ca1d51c1ee35b; relation=no_relation
+  - name: account
+    field: account
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3040761373007ad4ad714080; relation=no_relation
+  - name: repositories
+    field: repositories
+    target: full-repository
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:66793489034066890f7d4dc4; relation=no_relation
+  - name: app_slug
+    field: app_slug
+    target: integration
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:69278ebb70807c8d3c375dde; relation=no_relation
+  - name: suspended_by
+    field: suspended_by
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:729b236fb6b2652da6d7ccb7; relation=no_relation
+  - name: full_name
+    field: full_name
+    target: team-repository
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:bf37c38f30d693da6820f540; relation=no_relation
+  - name: client_id
+    field: client_id
+    target: integration
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:faf16512a999f62d5f30f4f7; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: installation
+  interfaces: *a1
+  model:
+    research_type: object-type:6f8c59d311dbe8e60277f2c6
+  extract:
+    key: PILOT-github-installation-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-GITHUB-77f2c6
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          access_tokens_url: access_tokens_url
+          account: account
+          app_id: app_id
+          app_slug: app_slug
+          client_id: client_id
+          contact_email: contact_email
+          created_at: created_at
+          events: events
+          has_multiple_single_files: has_multiple_single_files
+          html_url: html_url
+          id: id
+          permissions: permissions
+          repositories_url: repositories_url
+          repository_selection: repository_selection
+          single_file_name: single_file_name
+          single_file_paths: single_file_paths
+          suspended_at: suspended_at
+          suspended_by: suspended_by
+          target_id: target_id
+          target_type: target_type
+          updated_at: updated_at
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_with_records
+  call: GH-14
+  operation_id: op:gh_rest_ghec_next_2026_03_10_latest:orgs/list-app-installations
+  operation: orgs/list-app-installations
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /orgs/[^/]+/installations(?:\?|$)
+  endpoint_template: /orgs/{org}/installations
+  request: {}
+  required_params:
+    - org
+  paths:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:installation
+      path:
+        - installations
+        - "*"
+  alternatives_total: 8
+  alternatives:
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:apps/list-installations
+      method: GET
+      kind: read_many
+      endpoint_template: /app/installations
+      path:
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:enterprise-apps/organization-installations
+      method: GET
+      kind: read_many
+      endpoint_template: /enterprises/{enterprise}/apps/organizations/{org}/installations
+      path:
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:apps/list-installations-for-authenticated-user
+      method: GET
+      kind: read_many
+      endpoint_template: /user/installations
+      path:
+        - installations
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:apps/get-enterprise-installation
+      method: GET
+      kind: read_one
+      endpoint_template: /enterprises/{enterprise}/installation
+      path: &a3 []
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:apps/get-installation
+      method: GET
+      kind: read_one
+      endpoint_template: /app/installations/{installation_id}
+      path: *a3
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:apps/get-org-installation
+      method: GET
+      kind: read_one
+      endpoint_template: /orgs/{org}/installation
+      path: *a3
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:apps/get-user-installation
+      method: GET
+      kind: read_one
+      endpoint_template: /users/{username}/installation
+      path: *a3
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:apps/get-repo-installation
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/installation
+      path: *a3
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 4
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - target_id
+    - account
+    - repositories
+    - app_slug
+    - suspended_by
+    - full_name
+    - client_id
+  metadata_paths: *a2
+  remaining_declared_fields: properties

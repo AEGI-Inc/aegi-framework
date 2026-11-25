@@ -1,0 +1,5359 @@
+{
+  "version": "2026-11-03",
+  "source": "ISMS-P 인증기준 안내서 2023.11",
+  "review": "draft",
+  "requirements": [
+    {
+      "id": "1.2.1-01",
+      "criterion": "1.2.1",
+      "title": "정보자산 식별",
+      "question": "정보자산의 분류기준을 수립하고 정보보호 및 개인정보보호 관리체계 범위 내의 모든 자산을 식별하여 목록으로 관리하고 있는가?",
+      "limitation": "SaaS 목록은 인증범위 전체의 식별과 분류기준 수립을 증명하지 않음"
+    },
+    {
+      "id": "1.2.1-02",
+      "criterion": "1.2.1",
+      "title": "정보자산 식별",
+      "question": "식별된 정보자산에 대하여 법적 요구사항 및 업무에 미치는 영향 등을 고려하여 중요도를 결정하고 보안등급을 부여하고 있는가?",
+      "limitation": "자산의 중요도 판단이나 부여된 등급의 적정성은 알 수 없음"
+    },
+    {
+      "id": "1.2.1-03",
+      "criterion": "1.2.1",
+      "title": "정보자산 식별",
+      "question": "정기적으로 정보자산 현황을 조사하여 정보자산목록을 최신으로 유지하고 있는가?",
+      "limitation": "수집 변화가 정기 실사 및 자산대장 갱신 이행 자체는 아님"
+    },
+    {
+      "id": "1.2.2-01",
+      "criterion": "1.2.2",
+      "title": "현황 및 흐름분석",
+      "question": "관리체계 전 영역에 대한 정보서비스 현황을 식별하고 업무 절차와 흐름을 파악하여 문서화하고 있는가?",
+      "limitation": "기술 연결만으로 업무절차와 공식 흐름도 완전성을 알 수 없음"
+    },
+    {
+      "id": "1.2.2-02",
+      "criterion": "1.2.2",
+      "title": "현황 및 흐름분석",
+      "question": "관리체계 범위 내 개인정보 처리 현황을 식별하고 개인정보의 흐름을 파악하여 개인정보 흐름도 등으로 문서화하고 있는가?",
+      "limitation": "개인정보가 실제 이동했는지와 수집부터 파기까지 전체 흐름은 별도 확인"
+    },
+    {
+      "id": "1.2.2-03",
+      "criterion": "1.2.2",
+      "title": "현황 및 흐름분석",
+      "question": "서비스 및 업무, 정보자산 등의 변화에 따른 업무절차 및 개인정보 흐름을 주기적으로 검토하여 흐름도 등 관련 문서의 최신성을 유지하고 있는가?",
+      "limitation": "변화 탐지만으로 정기 검토 및 공식 문서 최신화 이행은 확인 불가"
+    },
+    {
+      "id": "2.1.3-02",
+      "criterion": "2.1.3",
+      "title": "정보자산 관리",
+      "question": "식별된 정보자산에 대하여 책임자 및 관리자를 지정하고 있는가?",
+      "limitation": "기술상 소유자와 회사가 공식 지정한 자산 책임자가 같은지 미확인"
+    },
+    {
+      "id": "2.2.2-01",
+      "criterion": "2.2.2",
+      "title": "직무 분리",
+      "question": "권한 오·남용 등으로 인한 잠재적인 피해 예방을 위하여 직무 분리 기준을 수립하여 적용하고 있는가?",
+      "limitation": "실제 직무·금지 조합·승인된 보완통제 없이는 적정성 판정 불가"
+    },
+    {
+      "id": "2.2.5-02",
+      "criterion": "2.2.5",
+      "title": "퇴직 및 직무변경 관리",
+      "question": "조직 내 인력(임직원, 임시직원, 외주용역직원 등)의 퇴직 또는 직무변경 시 지체 없는 정보자산 반납, 접근권한 회수·조정, 결과 확인 등의 절차를 수립·이행하고 있는가?",
+      "limitation": "퇴직 사실·시점·직무변경과 다른 접근경로·자산 반납·결과 확인이 필요"
+    },
+    {
+      "id": "2.3.1-01",
+      "criterion": "2.3.1",
+      "title": "외부자 현황 관리",
+      "question": "관리체계 범위 내에서 발생하고 있는 업무 위탁 및 외부 시설·서비스의 이용 현황을 식별하고 있는가?",
+      "limitation": "관측된 서비스가 위탁인지, 계약 범위와 전체 현황은 회사 자료 필요"
+    },
+    {
+      "id": "2.3.4-01",
+      "criterion": "2.3.4",
+      "title": "외부자 계약 변경 및 만료 시 보안",
+      "question": "외부자 계약만료, 업무 종료, 담당자 변경 시 공식적인 절차에 따른 정보자산 반납, 정보시스템 접근계정 삭제, 비밀유지 확약서 징구 등이 이루어질 수 있도록 보안대책을 수립·이행하고 있는가?",
+      "limitation": "계약 종료 사실·자산 반납·비밀유지·파기 절차는 별도 증거 필요"
+    },
+    {
+      "id": "2.5.1-02",
+      "criterion": "2.5.1",
+      "title": "사용자 계정 관리",
+      "question": "정보시스템과 개인정보 및 중요정보에 접근할 수 있는 사용자 계정 및 접근권한 생성· 등록·변경 시 직무별 접근권한 분류 체계에 따라 업무상 필요한 최소한의 권한만을 부여하고 있는가?",
+      "limitation": "직무별 필요 권한·승인·예외와 전체 유효 접근이 확인돼야 적정성 판단 가능"
+    },
+    {
+      "id": "2.5.3-01",
+      "criterion": "2.5.3",
+      "title": "사용자 인증",
+      "question": "정보시스템 및 개인정보처리시스템에 대한 접근은 사용자 인증, 로그인 횟수 제한, 불법 로그인 시도 경고 등 안전한 사용자 인증 절차에 따라 통제하고 있는가?",
+      "limitation": "어떤 설정이 어떤 사용자에 적용되는지와 인증 절차 전체는 별도 확인"
+    },
+    {
+      "id": "2.5.3-02",
+      "criterion": "2.5.3",
+      "title": "사용자 인증",
+      "question": "정보통신망을 통하여 외부에서 개인정보처리시스템에 접속하려는 경우에는 법적 요구사항에 따라 안전한 인증수단 또는 안전한 접속수단을 적용하고 있는가?",
+      "limitation": "대상 시스템 여부·외부 경로 및 적용되는 현행 법적 조건을 확인해야 함"
+    },
+    {
+      "id": "2.5.4-01",
+      "criterion": "2.5.4",
+      "title": "비밀번호 관리",
+      "question": "정보시스템에 대한 안전한 사용자 비밀번호 관리절차 및 작성규칙을 수립·이행하고 있는가?",
+      "limitation": "2023 안내서의 수치 표는 작성규칙 예시이며 회사 절차·대상 적용과 별개; 기준 수치를 ISMS-P 의무 숫자로 전환 금지"
+    },
+    {
+      "id": "2.5.4-03",
+      "criterion": "2.5.4",
+      "title": "비밀번호 관리",
+      "question": "개인정보취급자 또는 정보주체의 인증수단을 안전하게 적용하고 관리하고 있는가?",
+      "limitation": "발급·보관·분실 대응·안전한 관리의 전 과정은 설정값만으로 확인 불가"
+    },
+    {
+      "id": "2.5.5-02",
+      "criterion": "2.5.5",
+      "title": "특수 계정 및 권한 관리",
+      "question": "특수 목적을 위하여 부여한 계정 및 권한을 식별하고 별도 목록으로 관리하는 등 통제절차를 수립·이행하고 있는가?",
+      "limitation": "특수계정 분류·공식 목록·예외 최소화·정기 검토는 회사 사실과 절차 필요"
+    },
+    {
+      "id": "2.5.6-01",
+      "criterion": "2.5.6",
+      "title": "접근권한 검토",
+      "question": "정보시스템과 개인정보 및 중요정보에 대한 사용자 계정 및 접근권한 생성·등록·부여· 이용·변경·말소 등의 이력을 남기고 있는가?",
+      "limitation": "기록 누락·승인 정보·보존기간은 이력 일부만으로 입증 불가"
+    },
+    {
+      "id": "2.5.6-02",
+      "criterion": "2.5.6",
+      "title": "접근권한 검토",
+      "question": "정보시스템과 개인정보 및 중요정보에 대한 사용자 계정 및 접근권한의 적정성 검토 기준, 검토주체, 검토방법, 주기 등을 수립하여 정기적 검토를 이행하고 있는가?",
+      "limitation": "검토자가 실제 검토·승인했는지는 권한 목록으로 증명 불가"
+    },
+    {
+      "id": "2.6.3-01",
+      "criterion": "2.6.3",
+      "title": "응용프로그램 접근",
+      "question": "중요정보 접근을 통제하기 위하여 사용자의 업무에 따라 응용프로그램 접근권한을 차등 부여하고 있는가?",
+      "limitation": "업무상 필요성·권한 승인·실제 유효 접근 전체는 별도"
+    },
+    {
+      "id": "2.6.3-02",
+      "criterion": "2.6.3",
+      "title": "응용프로그램 접근",
+      "question": "일정시간 동안 입력이 없는 세션은 자동 차단하고, 동일 사용자의 동시 세션 수를 제한하고 있는가?",
+      "limitation": "전체 세션 수명·재인증 주기는 유휴 차단과 다름; 적절한 시간·적용 대상도 별도"
+    },
+    {
+      "id": "2.6.3-03",
+      "criterion": "2.6.3",
+      "title": "응용프로그램 접근",
+      "question": "관리자 전용 응용프로그램(관리자 웹페이지, 관리콘솔 등)은 비인가자가 접근할 수 없도록 접근을 통제하고 있는가?",
+      "limitation": "어느 앱과 사용자가 인가 대상인지, 우회 경로는 없는지 확인 필요"
+    },
+    {
+      "id": "2.6.6-03",
+      "criterion": "2.6.6",
+      "title": "원격접근 통제",
+      "question": "재택근무, 원격협업, 스마트워크 등과 같은 원격업무 수행 시 중요정보 유출, 해킹 등 침해사고 예방을 위한 보호대책을 수립·이행하고 있는가?",
+      "limitation": "승인·단말 보안·암호화·모니터링 등 원격업무 대책 전부는 별도"
+    },
+    {
+      "id": "2.8.3-01",
+      "criterion": "2.8.3",
+      "title": "시험과 운영 환경 분리",
+      "question": "정보시스템의 개발 및 시험 시스템을 운영시스템과 분리하고 있는가?",
+      "limitation": "운영 환경 접근 제한 설정만으로 환경 분리·보완통제 입증 불가"
+    },
+    {
+      "id": "2.8.5-01",
+      "criterion": "2.8.5",
+      "title": "소스 프로그램 관리",
+      "question": "비인가자에 의한 소스 프로그램 접근을 통제하기 위한 절차를 수립·이행하고 있는가?",
+      "limitation": "인가 개발자와 접근 경로·승인 절차·실효 권한은 별도"
+    },
+    {
+      "id": "2.8.5-03",
+      "criterion": "2.8.5",
+      "title": "소스 프로그램 관리",
+      "question": "소스 프로그램에 대한 변경이력을 관리하고 있는가?",
+      "limitation": "변경 사유·승인·담당자 및 대상 저장소 전체의 이력 관리·정기 검토는 별도"
+    },
+    {
+      "id": "2.10.1-02",
+      "criterion": "2.10.1",
+      "title": "보안시스템 운영",
+      "question": "보안시스템 관리자 등 접근이 허용된 인원을 최소화하고 비인가자의 접근을 엄격하게 통제하고 있는가?",
+      "limitation": "일반 SaaS 관리자가 반드시 해당 보안시스템 관리자인 것은 아님; 승인·필요 인원 확인"
+    },
+    {
+      "id": "2.10.1-04",
+      "criterion": "2.10.1",
+      "title": "보안시스템 운영",
+      "question": "보안시스템의 예외 정책 등록에 대하여 절차에 따라 관리하고 있으며, 예외 정책 사용자에 대하여 최소한의 권한으로 관리하고 있는가?",
+      "limitation": "예외 신청·승인·기간·업무상 적정성은 설정만으로 알 수 없음"
+    },
+    {
+      "id": "2.10.1-05",
+      "criterion": "2.10.1",
+      "title": "보안시스템 운영",
+      "question": "보안시스템에 설정된 정책의 타당성 여부를 주기적으로 검토하고 있는가?",
+      "limitation": "정기 검토를 실제 수행했는지와 타당성 판단은 별도 기록 필요"
+    },
+    {
+      "id": "2.10.2-02",
+      "criterion": "2.10.2",
+      "title": "클라우드 보안",
+      "question": "클라우드 서비스 이용 시 서비스 유형에 따른 보안위험을 평가하여 비인가 접근, 설정오류 등을 방지할 수 있도록 보안 구성 및 설정 기준, 보안설정 변경 및 승인 절차, 안전한 접속방법, 권한 체계 등 보안 통제 정책을 수립·이행하고 있는가?",
+      "limitation": "서비스별 위험평가·정책 수립·승인 및 실제 이행 전체는 입증 불가"
+    },
+    {
+      "id": "2.10.2-03",
+      "criterion": "2.10.2",
+      "title": "클라우드 보안",
+      "question": "클라우드 서비스 관리자 권한은 역할에 따라 최소화하여 부여하고 관리자 권한에 대한 비인가 접근, 권한 오·남용 등을 방지할 수 있도록 강화된 인증, 암호화, 접근통제, 감사기록 등 보호대책을 적용하고 있는가?",
+      "limitation": "관리자 대상·실효 권한·암호화·감사와 필요 인원 전체는 각자 확인"
+    },
+    {
+      "id": "2.10.2-04",
+      "criterion": "2.10.2",
+      "title": "클라우드 보안",
+      "question": "클라우드 서비스의 보안 설정 변경, 운영 현황 등을 모니터링하고 그 적절성을 정기적으로 검토하고 있는가?",
+      "limitation": "설정 변화 감지와 담당자의 모니터링·적정성 검토 이행은 다름"
+    },
+    {
+      "id": "2.10.5-02",
+      "criterion": "2.10.5",
+      "title": "정보전송 보안",
+      "question": "업무상 조직 간 개인정보 및 중요정보를 상호교환하는 경우 안전한 전송을 위한 협약체결 등 보호대책을 수립·이행하고 있는가?",
+      "limitation": "정보의 성격·상대 조직·전송 협약과 실제 이행을 별도 확인"
+    },
+    {
+      "id": "2.11.3-01",
+      "criterion": "2.11.3",
+      "title": "이상행위 분석 및 모니터링",
+      "question": "내·외부에 의한 침해시도, 개인정보유출 시도, 부정행위 등 이상행위를 탐지할 수 있도록 주요 정보시스템, 응용프로그램, 네트워크, 보안시스템 등에서 발생한 네트워크 트래픽, 데이터 흐름, 이벤트 로그 등을 수집하여 분석 및 모니터링하고 있는가?",
+      "limitation": "로그 존재는 수집 완전성·분석 체계·모니터링 수행을 입증하지 않음"
+    },
+    {
+      "id": "3.2.1-01",
+      "criterion": "3.2.1",
+      "title": "개인정보 현황관리",
+      "question": "수집·보유하고 있는 개인정보의 항목, 보유량, 처리 목적 및 방법, 보유기간 등 현황을 정기적으로 관리하고 있는가?",
+      "limitation": "자원만으로 개인정보 내용·보유량·목적·기간 및 정기 관리 여부는 알 수 없음"
+    },
+    {
+      "id": "3.2.5-04",
+      "criterion": "3.2.5",
+      "title": "가명정보 처리",
+      "question": "가명정보를 처리하는 경우 추가 정보를 삭제 또는 별도로 분리하여 보관·관리, 관련 기록의 작성·보관 등 안전성 확보에 필요한 기술적·관리적 및 물리적 조치를 하고 있는가?",
+      "limitation": "가명정보와 추가정보의 실제 식별·분리·삭제 및 기록은 별도 증거 필요"
+    },
+    {
+      "id": "3.3.1-05",
+      "criterion": "3.3.1",
+      "title": "개인정보 제3자 제공",
+      "question": "개인정보를 제3자에게 제공하는 경우 안전한 절차와 방법을 통해 제공하고 제공 내역을 기록하여 보관하고 있는가?",
+      "limitation": "개인정보 여부·제공받는 자·안전 제공과 대장의 완전성은 별도"
+    },
+    {
+      "id": "3.3.1-06",
+      "criterion": "3.3.1",
+      "title": "개인정보 제3자 제공",
+      "question": "제3자에게 개인정보의 접근을 허용하는 경우 개인정보를 안전하게 보호하기 위한 보호절차에 따라 통제하고 있는가?",
+      "limitation": "대상 정보·제3자·승인과 실제 접근기록·보호절차 적용은 별도"
+    },
+    {
+      "id": "3.4.2-02",
+      "criterion": "3.4.2",
+      "title": "처리목적 달성 후 보유 시 조치",
+      "question": "개인정보의 보유기간 경과 또는 처리목적 달성 후에도 관련 법령 등에 따라 파기하지 않고 보존하는 경우 해당 개인정보 또는 개인정보파일을 다른 개인정보와 분리하여 저장·관리하고 있는가?",
+      "limitation": "보존 의무·대상 정보와 다른 정보의 실제 물리적·논리적 분리는 별도"
+    },
+    {
+      "id": "3.4.2-04",
+      "criterion": "3.4.2",
+      "title": "처리목적 달성 후 보유 시 조치",
+      "question": "분리 보관하고 있는 개인정보에 대하여 접근권한을 최소한의 인원으로 제한하고 있는가?",
+      "limitation": "해당 자원이 분리된 보존 정보인지, 접근 인원이 업무상 필요한지 확인 필요"
+    }
+  ],
+  "links": [
+    {
+      "provider": "okta",
+      "finding": "okta-001",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000020",
+      "field": "actions.signon.session.maxSessionIdleMinutes",
+      "condition": "1순위 규칙이 Default Rule 이 아니고 == 15",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-001",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000020",
+      "field": "actions.signon.session.maxSessionIdleMinutes",
+      "condition": "1순위 규칙이 Default Rule 이 아니고 == 15",
+      "requirement": "2.6.3-02",
+      "limitation": "Default Policy의 첫 규칙만 대상으로 하며 Default Rule이면 값과 관계없이 fail이다. 실제 사용자·다른 정책 적용과 동시 세션 제한은 확인하지 않는다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-004",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000025",
+      "field": "Okta Admin Console 앱 Sign On 탭 'Maximum app session idle time'",
+      "condition": "== 15분",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-004",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000025",
+      "field": "Okta Admin Console 앱 Sign On 탭 'Maximum app session idle time'",
+      "condition": "== 15분",
+      "requirement": "2.6.3-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-006",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000170",
+      "field": "settings.password.lockout.maxAttempts",
+      "condition": "== 3",
+      "requirement": "2.5.3-01",
+      "limitation": "활성 PASSWORD 정책의 maxAttempts가 3인지 본다. 실제 모든 사용자에 적용되는지, 잠금 이후 경고·대응 절차는 확인하지 않는다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-026",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000180",
+      "field": "1순위 규칙 verificationMethod.constraints[].possession.phishingResistant",
+      "condition": "모두 REQUIRED",
+      "requirement": "2.5.3-01",
+      "limitation": "Okta Dashboard 첫 활성 규칙의 피싱 방지 인증 조건이다. 조건 목록이 없으면 fail이며 출력값은 없을 수 있다. 다른 규칙·사용자 적용과 실패 경고는 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-027",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000190",
+      "field": "1순위 규칙 verificationMethod.constraints[].possession.phishingResistant",
+      "condition": "모두 REQUIRED",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-027",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000190",
+      "field": "1순위 규칙 verificationMethod.constraints[].possession.phishingResistant",
+      "condition": "모두 REQUIRED",
+      "requirement": "2.6.3-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-028",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000560",
+      "field": "1순위 규칙 actions.appSignOn.verificationMethod.factorMode",
+      "condition": "== 2FA",
+      "requirement": "2.10.2-03",
+      "limitation": "관리자 콘솔 첫 활성 정책 규칙의 MFA 요구를 본다. 실제 모든 관리자의 적용, 다른 규칙·관리자 권한 최소화는 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-028",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000560",
+      "field": "1순위 규칙 actions.appSignOn.verificationMethod.factorMode",
+      "condition": "== 2FA",
+      "requirement": "2.6.3-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-029",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000570",
+      "field": "1순위 규칙 actions.appSignOn.verificationMethod.factorMode",
+      "condition": "== 2FA",
+      "requirement": "2.5.3-01",
+      "limitation": "지정 앱 정책의 우선순위 첫 활성 규칙만 본다. 실제 적용 사용자, 다른 규칙 및 로그인 실패 제한·경고는 확인하지 않는다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-009",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000650",
+      "field": "settings.password.complexity.minLength",
+      "condition": ">= 15",
+      "requirement": "2.5.4-01",
+      "limitation": "활성 PASSWORD 정책별 설정이다. 사용자가 실제로 적용받는 정책, 조직의 작성규칙과 관리절차 이행은 별도 확인한다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-010",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000670",
+      "field": "settings.password.complexity.minUpperCase",
+      "condition": ">= 1",
+      "requirement": "2.5.4-01",
+      "limitation": "활성 PASSWORD 정책별 설정이다. 사용자가 실제로 적용받는 정책, 조직의 작성규칙과 관리절차 이행은 별도 확인한다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-011",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000680",
+      "field": "settings.password.complexity.minLowerCase",
+      "condition": ">= 1",
+      "requirement": "2.5.4-01",
+      "limitation": "활성 PASSWORD 정책별 설정이다. 사용자가 실제로 적용받는 정책, 조직의 작성규칙과 관리절차 이행은 별도 확인한다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-012",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000690",
+      "field": "settings.password.complexity.minNumber",
+      "condition": ">= 1",
+      "requirement": "2.5.4-01",
+      "limitation": "활성 PASSWORD 정책별 설정이다. 사용자가 실제로 적용받는 정책, 조직의 작성규칙과 관리절차 이행은 별도 확인한다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-013",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000700",
+      "field": "settings.password.complexity.minSymbol",
+      "condition": ">= 1",
+      "requirement": "2.5.4-01",
+      "limitation": "활성 PASSWORD 정책별 설정이다. 사용자가 실제로 적용받는 정책, 조직의 작성규칙과 관리절차 이행은 별도 확인한다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-014",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000740",
+      "field": "settings.password.age.minAgeMinutes",
+      "condition": ">= 1440",
+      "requirement": "2.5.4-01",
+      "limitation": "활성 PASSWORD 정책별 설정이다. 사용자가 실제로 적용받는 정책, 조직의 작성규칙과 관리절차 이행은 별도 확인한다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-015",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-000745",
+      "field": "settings.password.age.maxAgeDays",
+      "condition": "== 60",
+      "requirement": "2.5.4-01",
+      "limitation": "활성 PASSWORD 정책별 설정이다. 사용자가 실제로 적용받는 정책, 조직의 작성규칙과 관리절차 이행은 별도 확인한다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-031",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-001430",
+      "field": "활성 로그 스트림",
+      "condition": "있음, 또는 SIEM 이 API 로 가져감",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-031",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-001430",
+      "field": "활성 로그 스트림",
+      "condition": "있음, 또는 SIEM 이 API 로 가져감",
+      "requirement": "2.5.6-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-032",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-001670",
+      "field": "type·name 이 Smart Card 인 인증자의 status",
+      "condition": "있고 ACTIVE",
+      "requirement": "2.5.3-01",
+      "limitation": "수집 인증자 목록에서 Smart Card 유형 활성 여부를 본다. 대상이 없으면 fail이나 수집 범위·다른 인증 수단은 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-033",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-001700",
+      "field": "okta_verify settings.compliance.fips",
+      "condition": "== REQUIRED",
+      "requirement": "2.5.3-01",
+      "limitation": "Okta Verify의 FIPS 관련 설정을 확인한다. 해당 필드와 콘솔 의미의 해석은 출처 확인이 남았으며 모든 인증수단과 경고를 확인하지 않는다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-034",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-001920",
+      "field": "type 이 Smart Card(X509) 인 IdP 의 status, 인증서 체인",
+      "condition": "ACTIVE 이고 인증서가 승인 CA",
+      "requirement": "2.5.3-01",
+      "limitation": "Smart Card 유형 IdP의 활성 여부를 본다. 해당 IdP가 없으면 fail, 있으면 승인 CA 목록에 조직 판단이 필요하다. 전체 인증 절차는 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-018",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-002980",
+      "field": "settings.password.complexity.dictionary.common.exclude",
+      "condition": "== true",
+      "requirement": "2.5.4-01",
+      "limitation": "활성 PASSWORD 정책별 설정이다. 사용자가 실제로 적용받는 정책, 조직의 작성규칙과 관리절차 이행은 별도 확인한다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-017",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-003010",
+      "field": "settings.password.age.historyCount",
+      "condition": ">= 5",
+      "requirement": "2.5.4-01",
+      "limitation": "활성 PASSWORD 정책별 설정이다. 사용자가 실제로 적용받는 정책, 조직의 작성규칙과 관리절차 이행은 별도 확인한다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-035",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-003240",
+      "field": "network.connection",
+      "condition": "ANYWHERE 가 아님",
+      "requirement": "2.10.2-02",
+      "limitation": "수집된 API 토큰의 network.connection이 ANYWHERE 또는 없으면 fail로 본다. 토큰 전체 수집 여부와 회사의 허용 영역 적정성은 별도다. 회사의 위험평가·구성 기준·변경 승인 이행은 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-036",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-003241",
+      "field": "토큰 주인(userId)",
+      "condition": "토큰 전용으로 새로 만든 계정",
+      "requirement": "2.5.5-02",
+      "limitation": "수집된 API 토큰의 userId 존재만 표시한다. 해당 소유자가 토큰 전용 계정인지, 특수 목적 계정 목록 및 통제 절차 이행은 수동으로 확인해야 한다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-037",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-003242",
+      "field": "1순위 규칙 conditions.network.connection",
+      "condition": "ANYWHERE 가 아님(특정 IP 범위로 허용·차단)",
+      "requirement": "2.10.2-02",
+      "limitation": "Default Policy 첫 규칙의 네트워크 조건이 없거나 ANYWHERE면 fail이다. 사용자별 다른 정책·적용과 허용된 IP가 회사 기준에 맞는지는 별도다. 회사의 위험평가·구성 기준·변경 승인 이행은 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-038",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-003243",
+      "field": "DYNAMIC_V2 차단 영역 status, IP 차단 목록 gateways",
+      "condition": "CSSP 목록이 없으면 Enhanced dynamic zone blocklist 가 ACTIVE",
+      "requirement": "2.10.2-02",
+      "limitation": "동적 영역 활성 여부와 IP 차단 목록의 게이트웨이 존재를 본다. 실제 차단 목록이 회사 또는 특정 보안기관의 승인 목록과 일치하는지는 확인하지 않는다. 회사의 위험평가·구성 기준·변경 승인 이행은 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-039",
+      "standard": "DISA Okta STIG V1R2",
+      "item": "OKTA-APP-003244",
+      "field": "앱의 accessPolicy 규칙 conditions.network.connection",
+      "condition": "활성 규칙 중 하나라도 네트워크 영역 조건이 있음",
+      "requirement": "2.10.2-02",
+      "limitation": "수집된 앱마다 활성 규칙 중 네트워크 조건이 하나라도 있는지 본다. 모든 규칙에 필요한 조건이 적용되는지와 실제 허용·차단 범위의 적정성은 확인하지 않는다. 회사의 위험평가·구성 기준·변경 승인 이행은 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-042",
+      "standard": "Okta HealthInsight",
+      "item": "Limit the number of super admin roles",
+      "field": "SUPER_ADMIN 역할이 부여된 사용자·그룹",
+      "condition": "조직이 정한 허용 인원 이하",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-042",
+      "standard": "Okta HealthInsight",
+      "item": "Limit the number of super admin roles",
+      "field": "SUPER_ADMIN 역할이 부여된 사용자·그룹",
+      "condition": "조직이 정한 허용 인원 이하",
+      "requirement": "2.5.1-02",
+      "limitation": "SUPER_ADMIN 역할이 부여된 수집 사용자·그룹을 표시하며 허용 인원은 조직이 정한다. 실제 필요성·승인 내역은 확인하지 않는다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-041",
+      "standard": "Okta HealthInsight",
+      "item": "Enable Okta ThreatInsight to block suspicious IP addresses",
+      "field": "action",
+      "condition": "== block",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-044",
+      "standard": "Okta HealthInsight",
+      "item": "Enable Suspicious Activity Reporting",
+      "field": "reportSuspiciousActivityEnabled",
+      "condition": "== true",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-045",
+      "standard": "Okta HealthInsight",
+      "item": "Enable new sign-on email notifications",
+      "field": "sendEmailForNewDeviceEnabled",
+      "condition": "== true",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-046",
+      "standard": "Okta HealthInsight",
+      "item": "Enable authenticator enrollment notifications",
+      "field": "sendEmailForFactorEnrollmentEnabled",
+      "condition": "== true",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-047",
+      "standard": "Okta HealthInsight",
+      "item": "Enable authenticator reset notifications",
+      "field": "sendEmailForFactorResetEnabled",
+      "condition": "== true",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-048",
+      "standard": "Okta HealthInsight",
+      "item": "Password changed notification for end users",
+      "field": "sendEmailForPasswordChangedEnabled",
+      "condition": "== true",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-048",
+      "standard": "Okta HealthInsight",
+      "item": "Password changed notification for end users",
+      "field": "sendEmailForPasswordChangedEnabled",
+      "condition": "== true",
+      "requirement": "2.5.4-01",
+      "limitation": "비밀번호 변경 알림 설정은 미수집이다. 해당 설정이나 실제 알림 발송을 확인하지 않으며 작성규칙을 직접 검사하지 않는다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-054",
+      "standard": "Okta HealthInsight",
+      "item": "Use SAML or OIDC authentication for app access",
+      "field": "signOnMode",
+      "condition": "OPENID_CONNECT 또는 SAML_2_0 (ACTIVE 앱, BOOKMARK 제외)",
+      "requirement": "2.5.3-01",
+      "limitation": "수집된 앱의 SAML 또는 OIDC 로그인 모드를 본다. 앱의 실제 사용자 적용·인증 강도와 로그인 실패 제한·경고는 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-056",
+      "standard": "Okta HealthInsight",
+      "item": "Change the authentication frequency",
+      "field": "actions.appSignOn.verificationMethod.reauthenticateIn",
+      "condition": "조직이 정한 재인증 주기 이하",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-056",
+      "standard": "Okta HealthInsight",
+      "item": "Change the authentication frequency",
+      "field": "actions.appSignOn.verificationMethod.reauthenticateIn",
+      "condition": "조직이 정한 재인증 주기 이하",
+      "requirement": "2.5.3-01",
+      "limitation": "앱 로그인 규칙의 재인증 주기를 보며 허용 주기는 조직이 정해야 한다. 실제 모든 사용자 적용과 실패 제한·경고는 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-057",
+      "standard": "Okta HealthInsight",
+      "item": "Evaluate a risk score for each request",
+      "field": "conditions.riskScore.level",
+      "condition": "중간·높음 위험 점수에서 MFA 를 요구하는 규칙이 있음",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-040",
+      "standard": "Okta HealthInsight",
+      "item": "Blocklist Network Zones to deny access to your Okta tenant",
+      "field": "usage == BLOCKLIST 영역의 status 와 gateways·locations·ipServiceCategories·asns",
+      "condition": "활성 차단 영역에 막을 대상이 들어 있음. 무엇을 막을지는 조직이 정함",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-025",
+      "standard": "Okta HealthInsight",
+      "item": "Enable strong password policy settings",
+      "field": "settings.password.lockout.maxAttempts, age.historyCount, age.minAgeMinutes, complexity.minLength",
+      "condition": "조직이 정한 값 이상(잠금은 이하)",
+      "requirement": "2.5.3-01",
+      "limitation": "비밀번호 정책의 잠금·이력·기간·길이를 표시하지만 강한 정책의 구체 수치는 조직 기준이 필요하다. 실패 경고는 확인하지 않는다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-025",
+      "standard": "Okta HealthInsight",
+      "item": "Enable strong password policy settings",
+      "field": "settings.password.lockout.maxAttempts, age.historyCount, age.minAgeMinutes, complexity.minLength",
+      "condition": "조직이 정한 값 이상(잠금은 이하)",
+      "requirement": "2.5.4-01",
+      "limitation": "잠금 횟수·이력·최소 사용 시간·길이 값을 표시하지만 강도 수치는 조직 기준이 필요하다. 회사 기준과 실제 사용자 적용은 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-052",
+      "standard": "Okta HealthInsight",
+      "item": "Set a required authenticator for MFA enrollment policies",
+      "field": "settings.authenticators[].enroll.self == REQUIRED",
+      "condition": "필수(REQUIRED) 인증자가 지정됨",
+      "requirement": "2.5.3-01",
+      "limitation": "MFA 등록 정책에서 필수 인증자 구성을 확인한다. 실제 사용자가 로그인할 때 해당 인증을 수행하는지와 실패 경고는 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-058",
+      "standard": "Okta HealthInsight",
+      "item": "MFA requirements",
+      "field": "규칙 조건과 행동 감지 규칙",
+      "condition": "MFA 요구가 행동 감지와 충돌하지 않음",
+      "requirement": "2.5.3-01",
+      "limitation": "MFA를 요구하는 규칙의 조건과 동작을 살피나 결과가 unknown이다. 적용 대상과 실제 로그인 인증·실패 경고는 별도다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-028",
+      "standard": "Okta HealthInsight",
+      "item": "MFA for the Admin Console",
+      "field": "1순위 활성 규칙 actions.appSignOn.verificationMethod.factorMode",
+      "condition": "== 2FA",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-028",
+      "standard": "Okta HealthInsight",
+      "item": "MFA for the Admin Console",
+      "field": "1순위 활성 규칙 actions.appSignOn.verificationMethod.factorMode",
+      "condition": "== 2FA",
+      "requirement": "2.10.2-03",
+      "limitation": "관리자 콘솔 첫 활성 규칙을 보며 DISA STIG 000560과 같은 값을 사용한다. 두 결과를 독립된 검증 두 건으로 취급하지 않는다."
+    },
+    {
+      "provider": "okta",
+      "finding": "okta-028",
+      "standard": "Okta HealthInsight",
+      "item": "MFA for the Admin Console",
+      "field": "1순위 활성 규칙 actions.appSignOn.verificationMethod.factorMode",
+      "condition": "== 2FA",
+      "requirement": "2.6.3-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-001",
+      "standard": "CIS GWS 1.4.0",
+      "item": "1.1.1",
+      "field": "isAdmin(슈퍼 관리자)",
+      "condition": "2 <= 수 <= 4",
+      "requirement": "2.10.2-03",
+      "limitation": "정지되지 않은 슈퍼 관리자 수와 2~4명 조건을 비교한다. 수치 충족만으로 관리자별 업무 필요성과 권한 최소화는 입증하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-002",
+      "standard": "CIS GWS 1.4.0",
+      "item": "1.1.2",
+      "field": "슈퍼 관리자 계정의 일상 업무 사용",
+      "condition": "",
+      "requirement": "2.5.5-02",
+      "limitation": "슈퍼 관리자 계정을 일상 업무에 쓰는지 확인하는 수동 항목이다. 실제 계정 사용 내역이나 전용 계정의 적정성을 판정하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-195",
+      "standard": "CIS GWS 1.4.0",
+      "item": "1.2.1.1",
+      "field": "외부 디렉터리 공유",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-196",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.1.1.1",
+      "field": "기본 캘린더 외부 공유 수준",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-198",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.1.1.2",
+      "field": "기본 캘린더 내부 공유 수준",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "기본 캘린더의 조직 내부 공유 수준이 미수집이다. 사용자별 직무·권한 부여와 적용은 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-200",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.1.1.3",
+      "field": "외부 초대 경고",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-197",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.1.2.1",
+      "field": "보조 캘린더 외부 공유 수준",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-199",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.1.2.2",
+      "field": "보조 캘린더 내부 공유 수준",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "보조 캘린더의 조직 내부 공유 수준이 미수집이다. 사용자별 직무·권한 부여와 적용은 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-201",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.1.3.1",
+      "field": "Calendar 웹 오프라인",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-099",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.1.1.1",
+      "field": "외부 공유 경고",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-102",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.1.1.2",
+      "field": "웹 게시·공개 공유",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-103",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.1.1.3",
+      "field": "허용 목록 도메인 공유 제한",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-100",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.1.1.4",
+      "field": "허용 도메인 공유 경고",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-106",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.1.1.5",
+      "field": "Access Checker",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-107",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.1.1.6",
+      "field": "외부 배포 권한",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-111",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.1.2.1",
+      "field": "allowSharedDriveCreation",
+      "condition": "== true (생성 금지 체크 해제)",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-112",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.1.2.2",
+      "field": "allowManagersToOverrideSettings",
+      "condition": "== false",
+      "requirement": "2.5.1-02",
+      "limitation": "공유 드라이브 관리자의 설정 재정의 허용 여부를 본다. 관리자의 실제 권한 승인·사용자별 최소 권한은 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-113",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.1.2.3",
+      "field": "allowNonMemberAccess",
+      "condition": "== false",
+      "requirement": "3.3.1-06",
+      "limitation": "비멤버는 드라이브 멤버가 아닌 사용자라는 뜻이며 반드시 조직 외 제3자는 아니다. 실제 개인정보 포함 여부와 승인·접근 절차는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-115",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.1.2.4",
+      "field": "allowedPartiesForDownloadPrintCopy",
+      "condition": "!= ALL",
+      "requirement": "3.3.1-06",
+      "limitation": "대상 범위 설정을 보는 것으로 실제 제3자 또는 개인정보가 포함된 파일인지, 접근 승인·운영은 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-117",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.2.1",
+      "field": "문서 오프라인 접근",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-118",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.2.3.1",
+      "field": "allowDriveForDesktop",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-143",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.1.2",
+      "field": "enabled",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-152",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.3.1",
+      "field": "격리함 관리자 알림",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-154",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.4.1.2",
+      "field": "enableAttachmentWithScriptsProtection",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-155",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.4.1.3",
+      "field": "enableAnomalousAttachmentProtection",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-159",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.4.2.1",
+      "field": "enableShortenerScanning",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-160",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.4.2.2",
+      "field": "enableExternalImageScanning",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-161",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.4.2.3",
+      "field": "enableAggressiveWarningsOnUntrustedLinks",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-164",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.4.3.1",
+      "field": "detectDomainNameSpoofing,domainNameSpoofingConsequence",
+      "condition": "켜짐이고 조치 == SPAM_FOLDER",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-165",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.4.3.2",
+      "field": "detectEmployeeNameSpoofing,employeeNameSpoofingConsequence",
+      "condition": "켜짐이고 조치 == SPAM_FOLDER",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-166",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.4.3.3",
+      "field": "detectDomainSpoofingFromUnauthenticatedSenders,domainSpoofingConsequence",
+      "condition": "켜짐이고 조치 == SPAM_FOLDER",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-167",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.4.3.4",
+      "field": "detectUnauthenticatedEmails",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-168",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.4.3.5",
+      "field": "detectGroupsSpoofing,groupsSpoofingConsequence",
+      "condition": "켜짐이고 조치 == SPAM_FOLDER",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-177",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.6.1",
+      "field": "enableImprovedSuspiciousContentDetection",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-178",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.6.2",
+      "field": "내부 발신자 스팸 필터 우회",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-180",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.3.7.2",
+      "field": "TLS 보안 전송 규정",
+      "condition": "",
+      "requirement": "2.10.5-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-206",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.4.1.2",
+      "field": "internalFileSharing",
+      "condition": "== NO_FILES",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-209",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.4.4.1",
+      "field": "enableApps",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-210",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.4.4.2",
+      "field": "enableWebhooks",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-224",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.6.1",
+      "field": "그룹 외부 접근",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "그룹 외부 접근 설정은 미수집이다. 사용자 계정 생성 및 실제 권한 부여는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-228",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.6.3",
+      "field": "대화 보기 기본 권한",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "그룹 대화 보기 기본 권한 설정은 미수집이다. 실제 사용자별 업무 필요성과 권한 승인은 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-234",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.7.1",
+      "field": "serviceState",
+      "condition": "== DISABLED",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-230",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.8.1",
+      "field": "serviceState",
+      "condition": "== DISABLED",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-060",
+      "standard": "CIS GWS 1.4.0",
+      "item": "3.1.9.1.1",
+      "field": "apps",
+      "condition": "선택한 앱만 설치·실행 허용",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-013",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.1.1",
+      "field": "isEnforcedIn2Sv",
+      "condition": "관리자에게 2SV 강제, 유예 2주, 기기 신뢰 끔, SMS·전화 제외",
+      "requirement": "2.10.2-03",
+      "limitation": "수집된 활성 관리자별 2SV 강제 여부를 보지만 유예 기간·기기 신뢰·인증 방식은 수집하지 않아 조건 전체를 판정하지 못한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-013",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.1.1",
+      "field": "isEnforcedIn2Sv",
+      "condition": "관리자에게 2SV 강제, 유예 2주, 기기 신뢰 끔, SMS·전화 제외",
+      "requirement": "2.5.3-01",
+      "limitation": "수집된 활성 관리자별 2SV 강제 여부를 본다. 유예 기간·기기 신뢰·인증 방식은 수집하지 못하며 실제 실패 제한·경고는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-018",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.1.2",
+      "field": "2SV 방식 '보안 키만'",
+      "condition": "관리자·고가치 계정은 보안 키만",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-018",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.1.2",
+      "field": "2SV 방식 '보안 키만'",
+      "condition": "관리자·고가치 계정은 보안 키만",
+      "requirement": "2.5.3-01",
+      "limitation": "관리자·고가치 계정의 보안 키만 허용하는 설정이 미수집이다. 실제 사용 여부를 확인하지 못한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-014",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.1.3",
+      "field": "isEnforcedIn2Sv",
+      "condition": "모든 사용자에게 2SV 강제, 유예 2주, 기기 신뢰 끔, SMS·전화 제외",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-014",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.1.3",
+      "field": "isEnforcedIn2Sv",
+      "condition": "모든 사용자에게 2SV 강제, 유예 2주, 기기 신뢰 끔, SMS·전화 제외",
+      "requirement": "2.5.3-01",
+      "limitation": "수집된 활성 사용자별 2SV 강제 여부를 본다. 유예 기간·기기 신뢰·인증 방식은 수집하지 못하며 실제 실패 제한·경고는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-033",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.2.1",
+      "field": "enableAccountRecovery",
+      "condition": "== false",
+      "requirement": "2.5.4-03",
+      "limitation": "슈퍼 관리자에 대한 계정 복구 설정의 조직 정책값을 선택한다. 개인정보취급자에 해당하는지와 실제 복구 절차의 안전성은 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-034",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.2.2",
+      "field": "enableAccountRecovery",
+      "condition": "== true",
+      "requirement": "2.5.4-03",
+      "limitation": "일반 사용자 계정 복구 설정값이 true인지 본다. 같은 값을 SCuBA 8.2는 false와 비교한다. 정책 적용 대상과 개인정보취급자·정보주체 해당 여부는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-042",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.3.1",
+      "field": "enableAdvancedProtectionSelfEnrollment,securityCodeOption",
+      "condition": "등록 허용이고 보안 코드 생성 금지(NOT_ALLOWED)",
+      "requirement": "2.5.4-03",
+      "limitation": "자가 등록 허용과 보안 코드 생성 제한을 함께 확인한다. 개인정보취급자·정보주체의 실제 등록 및 전체 인증수단 관리는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-045",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.4.1",
+      "field": "Post-SSO verification",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "Post-SSO 확인 설정이 미수집이다. 다른 로그인 챌린지 필드를 이 설정으로 대체하지 않았으며 실제 인증 절차는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-029",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.5.1",
+      "field": "allowedStrength,minimumLength,enforceRequirementsAtLogin,allowReuse,expirationDuration",
+      "condition": "STRONG, 14자 이상, 다음 로그인 때 적용, 재사용 금지, 만료 365일",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-029",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.1.5.1",
+      "field": "allowedStrength,minimumLength,enforceRequirementsAtLogin,allowReuse,expirationDuration",
+      "condition": "STRONG, 14자 이상, 다음 로그인 때 적용, 재사용 금지, 만료 365일",
+      "requirement": "2.5.4-01",
+      "limitation": "다섯 비밀번호 설정을 합쳐 비교한다. 코드가 선택한 정책의 적용 OU·사용자 범위와 조직의 작성규칙·운영 절차는 별도 확인한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-051",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.2.1.1",
+      "field": "Google 서비스별 앱 접근 제한(Manage Google Services)",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-052",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.2.1.2",
+      "field": "서드파티 앱 정기 검토",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-059",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.2.1.3",
+      "field": "trustInternalApps",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-055",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.2.1.4",
+      "field": "도메인 전체 위임 정기 검토",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-049",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.2.2.1",
+      "field": "컨텍스트 인식 액세스 지역 제한",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-123",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.2.3.1",
+      "field": "triggers, state",
+      "condition": "Drive 트리거가 있는 활성 규칙 1개 이상",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-074",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.3.1",
+      "field": "보고서·대시보드 정기 검토",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-075",
+      "standard": "CIS GWS 1.4.0",
+      "item": "4.3.2",
+      "field": "보고서·대시보드 정기 검토",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-076",
+      "standard": "CIS GWS 1.4.0",
+      "item": "5.1.1.1",
+      "field": "보고서·대시보드 정기 검토",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-077",
+      "standard": "CIS GWS 1.4.0",
+      "item": "5.1.1.2",
+      "field": "보고서·대시보드 정기 검토",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-062",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.1",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 MEDIUM, 전체 슈퍼 관리자에게",
+      "requirement": "2.10.2-04",
+      "limitation": "비밀번호 변경 이벤트에 대한 시스템 경고 규칙 설정이다. 실제 보안 설정 변경 전체나 적정성의 정기 검토 여부를 확인하지 않으며 이메일 알림 활성 여부도 보지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-062",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.1",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 MEDIUM, 전체 슈퍼 관리자에게",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-062",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.1",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 MEDIUM, 전체 슈퍼 관리자에게",
+      "requirement": "2.5.4-01",
+      "limitation": "비밀번호 변경 이벤트 경고 규칙의 상태·심각도·수신 설정이다. 이메일 발송 여부나 비밀번호 작성규칙·운영 절차 전체는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-063",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.2",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 HIGH, 전체 슈퍼 관리자에게",
+      "requirement": "2.10.2-04",
+      "limitation": "정부 지원 공격 관련 시스템 경고 규칙 설정이다. 실제 공격 이벤트·클라우드 설정 변경 및 정기 적정성 검토를 확인하지 않으며 이메일 알림 활성 여부도 보지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-063",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.2",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 HIGH, 전체 슈퍼 관리자에게",
+      "requirement": "2.11.3-01",
+      "limitation": "이는 관련 이벤트에 대한 알림 규칙 설정만 나타낸다. 실제 이벤트 발생·로그 수집·분석·지속 모니터링이나 이메일 알림 활성화 여부는 확인하지 않는다. 관리자 권한 부여 등 개별 이벤트가 실제 이상행위인지는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-064",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.3",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 HIGH, 전체 슈퍼 관리자에게",
+      "requirement": "2.10.2-04",
+      "limitation": "의심 활동에 따른 사용자 정지 경고 규칙 설정이다. 실제 정지 사건의 모니터링과 설정 변경의 정기 검토는 확인하지 않으며 이메일 알림 활성 여부도 보지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-064",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.3",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 HIGH, 전체 슈퍼 관리자에게",
+      "requirement": "2.11.3-01",
+      "limitation": "이는 관련 이벤트에 대한 알림 규칙 설정만 나타낸다. 실제 이벤트 발생·로그 수집·분석·지속 모니터링이나 이메일 알림 활성화 여부는 확인하지 않는다. 관리자 권한 부여 등 개별 이벤트가 실제 이상행위인지는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-065",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.4",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 MEDIUM, 전체 슈퍼 관리자에게",
+      "requirement": "2.10.2-04",
+      "limitation": "관리자 권한 부여 이벤트의 경고 규칙 설정이다. 권한 부여 사건 자체가 설정 변경의 정기 적정성 검토를 의미하지 않으며 실제 알림 발송도 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-065",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.4",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 MEDIUM, 전체 슈퍼 관리자에게",
+      "requirement": "2.11.3-01",
+      "limitation": "이는 관련 이벤트에 대한 알림 규칙 설정만 나타낸다. 실제 이벤트 발생·로그 수집·분석·지속 모니터링이나 이메일 알림 활성화 여부는 확인하지 않는다. 관리자 권한 부여 등 개별 이벤트가 실제 이상행위인지는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-066",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.5",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 LOW, 전체 슈퍼 관리자에게",
+      "requirement": "2.10.2-04",
+      "limitation": "의심 프로그램 로그인에 관한 경고 규칙 설정이다. 실제 로그인 이벤트의 모니터링과 설정 변경의 정기 적정성 검토는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-066",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.5",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 LOW, 전체 슈퍼 관리자에게",
+      "requirement": "2.11.3-01",
+      "limitation": "이는 관련 이벤트에 대한 알림 규칙 설정만 나타낸다. 실제 이벤트 발생·로그 수집·분석·지속 모니터링이나 이메일 알림 활성화 여부는 확인하지 않는다. 관리자 권한 부여 등 개별 이벤트가 실제 이상행위인지는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-067",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.6",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 LOW, 전체 슈퍼 관리자에게",
+      "requirement": "2.10.2-04",
+      "limitation": "의심 로그인에 관한 경고 규칙 설정이다. 실제 로그인 이벤트의 모니터링과 설정 변경의 정기 적정성 검토는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-067",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.6",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 LOW, 전체 슈퍼 관리자에게",
+      "requirement": "2.11.3-01",
+      "limitation": "이는 관련 이벤트에 대한 알림 규칙 설정만 나타낸다. 실제 이벤트 발생·로그 수집·분석·지속 모니터링이나 이메일 알림 활성화 여부는 확인하지 않는다. 관리자 권한 부여 등 개별 이벤트가 실제 이상행위인지는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-068",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.7",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 MEDIUM, 전체 슈퍼 관리자에게",
+      "requirement": "2.10.2-04",
+      "limitation": "유출 비밀번호 관련 경고 규칙 설정이다. 실제 유출 사건의 처리와 클라우드 설정 변경의 정기 검토는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-068",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.7",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 MEDIUM, 전체 슈퍼 관리자에게",
+      "requirement": "2.11.3-01",
+      "limitation": "이는 관련 이벤트에 대한 알림 규칙 설정만 나타낸다. 실제 이벤트 발생·로그 수집·분석·지속 모니터링이나 이메일 알림 활성화 여부는 확인하지 않는다. 관리자 권한 부여 등 개별 이벤트가 실제 이상행위인지는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-068",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.7",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 MEDIUM, 전체 슈퍼 관리자에게",
+      "requirement": "2.5.4-01",
+      "limitation": "유출 비밀번호 관련 경고 규칙의 상태·심각도·수신 설정이다. 실제 유출 탐지·대응 및 작성규칙 전체를 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-069",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.8",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 MEDIUM, 전체 슈퍼 관리자에게",
+      "requirement": "2.10.2-04",
+      "limitation": "직원 사칭 의심 메일 경고 규칙 설정이다. 실제 사칭 사건 분석과 클라우드 설정 변경의 정기 검토는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-069",
+      "standard": "CIS GWS 1.4.0",
+      "item": "6.8",
+      "field": "state, alertCenterConfig.severity, recipients",
+      "condition": "ACTIVE, 심각도 MEDIUM, 전체 슈퍼 관리자에게",
+      "requirement": "2.11.3-01",
+      "limitation": "이는 관련 이벤트에 대한 알림 규칙 설정만 나타낸다. 실제 이벤트 발생·로그 수집·분석·지속 모니터링이나 이메일 알림 활성화 여부는 확인하지 않는다. 관리자 권한 부여 등 개별 이벤트가 실제 이상행위인지는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-003",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Administrator accounts: super admin protection",
+      "field": "슈퍼관리자 계정 보호 조치",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-014",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Require 2-Step Verification",
+      "field": "isEnforcedIn2Sv",
+      "condition": "정지되지 않은 모든 사용자 isEnforcedIn2Sv == true",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-014",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Require 2-Step Verification",
+      "field": "isEnforcedIn2Sv",
+      "condition": "정지되지 않은 모든 사용자 isEnforcedIn2Sv == true",
+      "requirement": "2.5.3-01",
+      "limitation": "정지되지 않은 수집 사용자의 강제 여부를 본다. 실제 등록·인증 방식, 수집 누락 및 로그인 실패 제한·경고는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-018",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Enforce security keys",
+      "field": "2SV 방식을 보안 키만으로 제한",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-050",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Password Alert",
+      "field": "Password Alert",
+      "condition": "켬",
+      "requirement": "2.5.4-01",
+      "limitation": "Password Alert 설정이 미수집이어서 실제 기능 사용과 조직의 비밀번호 관리 이행을 확인하지 못한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-027",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Unique passwords",
+      "field": "allowReuse",
+      "condition": "== false (재사용 금지)",
+      "requirement": "2.5.4-01",
+      "limitation": "재사용 설정을 보는 검사다. 체크리스트는 구체 수치를 주지 않아 엔진이 allowReuse=false로 해석한 점과 적용 범위는 별도 확인한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-078",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Review account activity",
+      "field": "계정 활동 보고서·경고 정기 검토",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-078",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Review account activity",
+      "field": "계정 활동 보고서·경고 정기 검토",
+      "condition": "",
+      "requirement": "2.5.6-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-071",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Admin email alerts",
+      "field": "displayName, state, action.alertCenterAction.recipients",
+      "condition": "의심 로그인·침해된 기기·설정 변경 규칙이 ACTIVE 이고 받는 사람이 있음",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-045",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Login challenges",
+      "field": "Post-SSO verification(로그인 챌린지)",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "Post-SSO 로그인 챌린지 설정이 미수집이다. 실제 사용자 인증·실패 경고 이행은 확인하지 못한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-086",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Departing user access",
+      "field": "suspended, lastLoginTime",
+      "condition": "퇴사 사용자 접근 회수",
+      "requirement": "2.2.5-02",
+      "limitation": "수집 사용자별 suspended·lastLoginTime을 표시한다. 퇴직자·직무변경 명단과 날짜가 없어 해당 계정인지, 지체 없이 권한을 회수했는지 판정하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-086",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Accounts: Departing user access",
+      "field": "suspended, lastLoginTime",
+      "condition": "퇴사 사용자 접근 회수",
+      "requirement": "2.3.4-01",
+      "limitation": "GWS 사용자 계정의 suspended·lastLoginTime을 표시하지만, 대상이 외부자인지와 계약 만료·업무 종료 사실 및 종료 시점을 확인하지 않는다. 계정 삭제·정보자산 반환·비밀유지 확약도 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-053",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Apps: Review third-party apps",
+      "field": "items[].scopes",
+      "condition": "승인된 앱만 Gmail·Drive 접근",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-053",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Apps: Review third-party apps",
+      "field": "items[].scopes",
+      "condition": "승인된 앱만 Gmail·Drive 접근",
+      "requirement": "2.5.1-02",
+      "limitation": "Gmail·Drive scope를 가진 토큰과 앱을 표시한다. 앱 승인 여부는 조직이 정하며 개인 계정의 직무별 권한 적정성을 판정하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-005",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Apps: Block less secure apps",
+      "field": "isLessSecureAppsAccessAllowed",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "보안 수준이 낮은 앱에 대한 접근 허용 설정이 미수집이다. 사용자 인증 방식과 실제 적용 범위는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-061",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Apps: Allowlist of approved third-party apps",
+      "field": "accessLevel, apps",
+      "condition": "승인된 앱 허용 목록",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-061",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Apps: Allowlist of approved third-party apps",
+      "field": "accessLevel, apps",
+      "condition": "승인된 앱 허용 목록",
+      "requirement": "2.5.1-02",
+      "limitation": "승인 앱 허용목록과 접근 수준 설정을 표시하나 승인 대상·개별 사용자 예외 적용과 직무별 권한 적정성은 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-048",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Apps: Context-Aware Access",
+      "field": "컨텍스트 인식 액세스 정책",
+      "condition": "",
+      "requirement": "2.5.3-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-196",
+      "standard": "GWS 체크리스트 (공통)",
+      "item": "Calendar: External sharing free/busy only",
+      "field": "캘린더 외부 공유 수준",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-200",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Calendar: External guest invitation warning",
+      "field": "외부 게스트 초대 경고",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-207",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Google Chat: Limit external chat and rooms",
+      "field": "allowExternalChat, externalChatRestriction, enabled, domainAllowlistMode",
+      "condition": "외부 채팅이 꺼졌거나 허용 도메인만, 외부 스페이스가 꺼졌거나 허용 도메인만",
+      "requirement": "3.3.1-06",
+      "limitation": "채팅·스페이스 정책의 외부 도메인 허용 설정이다. 실제 메시지에 개인정보가 있는지, 상대가 제3자인지와 승인 절차는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-256",
+      "standard": "GWS 체크리스트 (공통)",
+      "item": "Chrome: Auto-updates",
+      "field": "자동 업데이트",
+      "condition": "자동 업데이트 켬",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-257",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Chrome: Relaunch to apply updates",
+      "field": "Chrome 정책",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-258",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Chrome: Basic policies",
+      "field": "Chrome 정책",
+      "condition": "",
+      "requirement": "2.5.4-01",
+      "limitation": "Chrome Policy API를 수집하지 않아 비밀번호 관리자 허용·Safe Browsing 정책을 확인하지 못한다. 작성규칙의 직접 판정은 아니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-259",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Chrome: Advanced policies",
+      "field": "Chrome 정책",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-103",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: Restrict external sharing",
+      "field": "외부 공유 제한(도메인 허용 목록·신뢰 규칙)",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-099",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: Warn on external sharing",
+      "field": "외부 공유 경고",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-102",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: Prevent publishing on the web",
+      "field": "웹 게시",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-109",
+      "standard": "GWS 체크리스트 (공통)",
+      "item": "Drive: Default general access Restricted",
+      "field": "새 파일 기본 일반 액세스",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "새 Drive 파일 기본 일반 접근 설정은 미수집이다. 사용자별 권한 부여·업무 필요성은 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-106",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: Access Checker",
+      "field": "Access Checker",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-110",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: Prevent group membership discovery",
+      "field": "그룹 멤버십 외부 노출",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-105",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: External collaborators sign in",
+      "field": "외부 협업자 Google 로그인 요구",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-108",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: Moving files out of shared drives",
+      "field": "다른 조직으로 공유 드라이브 파일 이동",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-116",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: Shared drive creation and settings",
+      "field": "allowManagersToOverrideSettings, allowNonMemberAccess",
+      "condition": "둘 다 false",
+      "requirement": "2.5.1-02",
+      "limitation": "공유 드라이브 관리자 설정 변경과 비멤버 접근 허용 여부를 함께 본다. 개별 사용자 직무·권한 승인은 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-117",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: Offline access to Docs",
+      "field": "문서 오프라인 접근",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-118",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: Drive for desktop",
+      "field": "allowDriveForDesktop",
+      "condition": "== false (필수 사용자만 예외)",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-122",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: Docs add-ons",
+      "field": "Docs 추가 기능",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-123",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Drive: DLP rules",
+      "field": "triggers, state, action.driveAction",
+      "condition": "Drive 트리거가 있고 Drive 조치(경고·차단)가 있는 활성 규칙 1개 이상",
+      "requirement": "3.3.1-06",
+      "limitation": "Drive 트리거 및 driveAction 객체 존재를 본다. 조치의 구체적 효과나 개인정보 탐지기·대상·제3자 접근의 실제 차단 여부는 확인하지 않는다. 결과의 대상 목록은 최대 50개다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-181",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Gmail: TLS for partner domains",
+      "field": "TLS 보안 전송 규정",
+      "condition": "",
+      "requirement": "2.10.5-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-173",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Gmail: Disable IMAP and POP",
+      "field": "POP·IMAP 접근",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-178",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Gmail: Spam filter bypass for internal senders",
+      "field": "내부 발신자 스팸 필터 우회",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-177",
+      "standard": "GWS 체크리스트 (공통)",
+      "item": "Gmail: Enhanced pre-delivery scanning",
+      "field": "enableImprovedSuspiciousContentDetection",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-158",
+      "standard": "GWS 체크리스트 (공통)",
+      "item": "Gmail: Attachment protection",
+      "field": "enableEncryptedAttachmentProtection,enableAttachmentWithScriptsProtection,enableAnomalousAttachmentProtection",
+      "condition": "세 보호 모두 true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-163",
+      "standard": "GWS 체크리스트 (공통)",
+      "item": "Gmail: Link and external content protection",
+      "field": "enableShortenerScanning,enableExternalImageScanning,enableAggressiveWarningsOnUntrustedLinks",
+      "condition": "세 보호 모두 true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-171",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Gmail: Spoofing protection",
+      "field": "detectDomainNameSpoofing,detectEmployeeNameSpoofing,detectDomainSpoofingFromUnauthenticatedSenders,detectUnauthenticatedEmails,detectGroupsSpoofing",
+      "condition": "다섯 탐지 모두 true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-187",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Gmail: Overriding spam filters",
+      "field": "스팸 필터 우회 규칙",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-188",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Gmail: Approved senders list",
+      "field": "승인된 발신자 목록",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-191",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Gmail: IP allowlist",
+      "field": "Gmail IP 허용 목록",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-124",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Gmail: Outbound sensitive data DLP",
+      "field": "triggers, state, action.gmailAction",
+      "condition": "Gmail 발신 트리거가 있고 Gmail 조치가 경고(warnUser) 이외(차단)인 활성 규칙 1개 이상",
+      "requirement": "3.3.1-06",
+      "limitation": "Gmail 트리거와 warnUser가 아닌 조치 키 존재를 차단으로 해석한다. 코드 주석에 조치 필드 의미 미확인이 남아 있으며 개인정보 탐지기 종류와 실제 외부 발신 여부는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-089",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Google Groups: Security groups",
+      "field": "보안 그룹 사용",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "Google 보안 그룹 사용 권고를 수동 처리한다. 실제 그룹·사용자 권한과 직무별 최소 권한은 판정하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-089",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Google Groups: Security groups",
+      "field": "보안 그룹 사용",
+      "condition": "",
+      "requirement": "2.6.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-088",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Google Groups: Security conditions on admin roles",
+      "field": "관리자 역할 보안 조건",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "Google 그룹 관리자 역할에 보안 조건을 거는 운영을 수동 처리한다. 관리자별 승인·권한 적용은 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-088",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Google Groups: Security conditions on admin roles",
+      "field": "관리자 역할 보안 조건",
+      "condition": "",
+      "requirement": "2.6.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-231",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Google Groups: Set groups to Private",
+      "field": "그룹 공개 범위",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-227",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Google Groups: Limit group creation",
+      "field": "그룹 생성 권한",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "그룹 생성 제한 설정은 미수집이다. 생성된 계정의 직무별 권한 부여를 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-232",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Google Groups: Access settings",
+      "field": "그룹 외부 멤버·메시지·가시성",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-231",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Google Groups: Internal groups no public access",
+      "field": "내부 그룹의 인터넷 공개·게시",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-235",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Sites: Block sharing outside domain",
+      "field": "Sites 외부 공유",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-087",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Vault: Protect Vault-privileged accounts",
+      "field": "Vault 권한 계정 보호",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-080",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Vault: Audit Vault activity",
+      "field": "Vault 활동 정기 감사",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-081",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Next steps: Security center review",
+      "field": "보안 센터 정기 검토",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-082",
+      "standard": "GWS 체크리스트 (중대형)",
+      "item": "Next steps: Admin audit log review",
+      "field": "관리자 감사 로그 정기 검토",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-030",
+      "standard": "GWS 체크리스트 (소규모)",
+      "item": "1. Use unique passwords",
+      "field": "minimumLength, allowReuse",
+      "condition": "긴 비밀번호 + 재사용 금지",
+      "requirement": "2.5.4-01",
+      "limitation": "최소 길이와 재사용 설정을 표시하나 긴 비밀번호의 길이 기준은 회사가 정해야 한다. 비밀번호 관리절차 전체와 모든 사용자 적용은 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-013",
+      "standard": "GWS 체크리스트 (소규모)",
+      "item": "2. Require admins and key users to give extra proof",
+      "field": "isAdmin, isDelegatedAdmin, isEnforcedIn2Sv",
+      "condition": "정지되지 않은 관리자(슈퍼·위임) 전원 isEnforcedIn2Sv == true",
+      "requirement": "2.10.2-03",
+      "limitation": "수집된 슈퍼·위임 관리자를 대상으로 2SV 강제 여부를 본다. 핵심 사용자 전체와 실제 인증 방식·관리자별 권한 최소화는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-013",
+      "standard": "GWS 체크리스트 (소규모)",
+      "item": "2. Require admins and key users to give extra proof",
+      "field": "isAdmin, isDelegatedAdmin, isEnforcedIn2Sv",
+      "condition": "정지되지 않은 관리자(슈퍼·위임) 전원 isEnforcedIn2Sv == true",
+      "requirement": "2.5.3-01",
+      "limitation": "정지되지 않은 슈퍼·위임 관리자만 본다. 원문의 핵심 사용자 전체, 실제 인증 방식 및 실패 제한·경고는 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-037",
+      "standard": "GWS 체크리스트 (소규모)",
+      "item": "3. Admins should add recovery information",
+      "field": "isAdmin, recoveryEmail, recoveryPhone",
+      "condition": "복구 이메일과 복구 전화가 모두 있음",
+      "requirement": "2.5.4-03",
+      "limitation": "슈퍼 관리자만 보며 전화 필드가 내려오지 않아 전화가 없는지 판정할 수 없다. 이메일이나 전화번호 원문은 기록하지 않는다. 실제 개인정보취급자 여부는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-040",
+      "standard": "GWS 체크리스트 (소규모)",
+      "item": "4. Get backup codes ahead of time",
+      "field": "2SV 백업 코드 생성·보관",
+      "condition": "",
+      "requirement": "2.5.4-03",
+      "limitation": "백업 코드 생성·보관은 API로 확인하지 않고 manual이다. 관측된 백업 코드 존재·안전 보관 근거가 없다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-041",
+      "standard": "GWS 체크리스트 (소규모)",
+      "item": "6. Keep information on hand for super admin password reset",
+      "field": "슈퍼관리자 비밀번호 재설정용 계정·DNS 정보 확보",
+      "condition": "",
+      "requirement": "2.5.4-01",
+      "limitation": "계정·DNS 정보의 안전한 준비·보관을 수동으로 확인해야 하며 실제 보관 여부를 관측하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-041",
+      "standard": "GWS 체크리스트 (소규모)",
+      "item": "6. Keep information on hand for super admin password reset",
+      "field": "슈퍼관리자 비밀번호 재설정용 계정·DNS 정보 확보",
+      "condition": "",
+      "requirement": "2.5.4-03",
+      "limitation": "계정·DNS 정보의 준비와 보관은 수동 확인이며 실제 보관 여부·안전성을 관측하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-002",
+      "standard": "GWS 체크리스트 (소규모)",
+      "item": "7. Super admins shouldn't remain signed in",
+      "field": "슈퍼관리자의 일상 업무 로그인",
+      "condition": "",
+      "requirement": "2.5.5-02",
+      "limitation": "슈퍼 관리자의 일상 업무 사용을 피하라는 수동 항목이다. 실제 사용 여부·전용 계정 목록·관리 절차 이행은 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-178",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Gmail: Bypassing spam filters for internal senders",
+      "field": "Bypassing spam filters for internal senders",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-173",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Gmail: POP and IMAP access for users",
+      "field": "POP and IMAP access for users",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-183",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Gmail: Approved senders without authentication",
+      "field": "Approved senders without authentication",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-188",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Gmail: Approved domain senders",
+      "field": "Approved domain senders",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-191",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Gmail: Email whitelist IPs",
+      "field": "Email whitelist IPs",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-185",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Gmail: MTA-STS configuration",
+      "field": "TXT·MX 레코드",
+      "condition": "",
+      "requirement": "2.10.5-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-158",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Gmail: Attachment safety",
+      "field": "enableEncryptedAttachmentProtection,enableAttachmentWithScriptsProtection,enableAnomalousAttachmentProtection",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-163",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Gmail: Links and external images safety",
+      "field": "enableShortenerScanning,enableExternalImageScanning,enableAggressiveWarningsOnUntrustedLinks",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-171",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Gmail: Spoofing and authentication safety",
+      "field": "detectDomainNameSpoofing,detectEmployeeNameSpoofing,detectDomainSpoofingFromUnauthenticatedSenders,detectUnauthenticatedEmails,detectGroupsSpoofing",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-103",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Drive: Drive sharing settings",
+      "field": "Drive sharing settings",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-099",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Drive: Warning for out-of-domain sharing",
+      "field": "Warning for out-of-domain sharing",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-106",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Drive: Access Checker",
+      "field": "Access Checker",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-122",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Drive: Drive add-ons",
+      "field": "Drive add-ons",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-117",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Drive: Access to offline docs",
+      "field": "Access to offline docs",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-118",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Drive: Desktop access to Drive",
+      "field": "allowDriveForDesktop,restrictToAuthorizedDevices",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-102",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Drive: File publishing on the web",
+      "field": "File publishing on the web",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-105",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Drive: Google sign-in requirement for external collaborators",
+      "field": "Google sign-in requirement for external collaborators",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-247",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Device management: Blocking of compromised mobile devices",
+      "field": "모바일 기기 설정·상태",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-248",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Device management: Mobile management",
+      "field": "모바일 기기 설정·상태",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-249",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Device management: Mobile password requirements",
+      "field": "모바일 기기 설정·상태",
+      "condition": "",
+      "requirement": "2.5.4-01",
+      "limitation": "모바일 기기 관련 호출을 수집하지 않아 기기 비밀번호 설정을 확인하지 않는다. 정보시스템 계정 정책과 적용 범위를 별도로 구분해야 한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-250",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Device management: Device encryption",
+      "field": "모바일 기기 설정·상태",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-251",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Device management: Auto account wipe",
+      "field": "모바일 기기 설정·상태",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-252",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Device management: Application verification",
+      "field": "모바일 기기 설정·상태",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-253",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Device management: Installation of mobile applications from unknown sources",
+      "field": "모바일 기기 설정·상태",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-254",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Device management: External media storage",
+      "field": "모바일 기기 설정·상태",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-014",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Security: Two-step verification for users",
+      "field": "isEnforcedIn2Sv, isEnrolledIn2Sv",
+      "condition": "권장값 없음",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-014",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Security: Two-step verification for users",
+      "field": "isEnforcedIn2Sv, isEnrolledIn2Sv",
+      "condition": "권장값 없음",
+      "requirement": "2.5.3-01",
+      "limitation": "수집된 비관리자 2SV 강제·등록 상태를 표시하나 기준이 없어 unknown이다. 실제 인증 강도와 실패 제한·경고는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-013",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Security: Two-step verification for admins",
+      "field": "isEnforcedIn2Sv, isEnrolledIn2Sv",
+      "condition": "권장값 없음",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-013",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Security: Two-step verification for admins",
+      "field": "isEnforcedIn2Sv, isEnrolledIn2Sv",
+      "condition": "권장값 없음",
+      "requirement": "2.5.3-01",
+      "limitation": "수집된 관리자 2SV 강제·등록 상태를 표시하나 기준이 없어 unknown이다. 실제 인증 강도와 실패 제한·경고는 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-018",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Security: Security key enforcement for admins",
+      "field": "Security key enforcement for admins",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-019",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Security: Security key enforcement for users",
+      "field": "Security key enforcement for users",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "일반 사용자의 보안 키 강제 설정이 미수집이다. 실제 사용자의 인증 수단과 적용은 확인하지 못한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-212",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Hangouts: Hangouts out of domain warning",
+      "field": "Hangouts out of domain warning",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-227",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Groups: Groups creation and membership",
+      "field": "Groups creation and membership",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "그룹 생성·멤버십 관련 설정이 미수집이다. 실제 구성원과 직무별 권한은 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-060",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Marketplace apps: Google Workspace Marketplace applications usage",
+      "field": "apps",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-196",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Calendar: Calendar sharing policy",
+      "field": "Calendar sharing policy",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-201",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Calendar: Access to Calendar when offline",
+      "field": "Access to Calendar when offline",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-235",
+      "standard": "GWS 보안 상태 페이지",
+      "item": "Sites: Sites sharing policy",
+      "field": "Sites sharing policy",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-019",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.1.1",
+      "field": "isEnforcedIn2Sv",
+      "condition": "2SV 가 강제되고 그 방식이 피싱 방지(보안 키·패스키)",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-020",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.1.2",
+      "field": "2SV 허용 방식",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-021",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.1.3",
+      "field": "2SV 허용 방식(SMS·음성)",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-022",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.1.4",
+      "field": "2SV 신규 등록 유예 기간",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-023",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.1.5",
+      "field": "2SV 기기 신뢰 허용",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-048",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.2.1",
+      "field": "컨텍스트 인식 액세스(CAA) 정책",
+      "condition": "",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-045",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.3.1",
+      "field": "Post-SSO verification(조직 SSO 프로필)",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "조직 SSO Profile에 대한 Post-SSO 확인 설정이 미수집이다. 실제 로그인 통제는 확인하지 못한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-045",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.3.2",
+      "field": "Post-SSO verification(기타 SSO 프로필)",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "기타 SSO Profile에 대한 Post-SSO 확인 설정이 미수집이다. 실제 로그인 통제는 확인하지 못한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-024",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.1",
+      "field": "allowedStrength",
+      "condition": "== STRONG",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-024",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.1",
+      "field": "allowedStrength",
+      "condition": "== STRONG",
+      "requirement": "2.5.4-01",
+      "limitation": "설정별 SCuBA 수치·조건을 비교한다. 그 수치를 ISMS-P 요구나 회사 기준으로 간주할 수 없으며 정책 적용 대상과 관리절차는 별도 확인한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-025",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.2",
+      "field": "minimumLength",
+      "condition": ">= 12",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-025",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.2",
+      "field": "minimumLength",
+      "condition": ">= 12",
+      "requirement": "2.5.4-01",
+      "limitation": "설정별 SCuBA 수치·조건을 비교한다. 그 수치를 ISMS-P 요구나 회사 기준으로 간주할 수 없으며 정책 적용 대상과 관리절차는 별도 확인한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-025",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.3",
+      "field": "minimumLength",
+      "condition": ">= 15",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-025",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.3",
+      "field": "minimumLength",
+      "condition": ">= 15",
+      "requirement": "2.5.4-01",
+      "limitation": "설정별 SCuBA 수치·조건을 비교한다. 그 수치를 ISMS-P 요구나 회사 기준으로 간주할 수 없으며 정책 적용 대상과 관리절차는 별도 확인한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-026",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.4",
+      "field": "enforceRequirementsAtLogin",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-026",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.4",
+      "field": "enforceRequirementsAtLogin",
+      "condition": "== true",
+      "requirement": "2.5.4-01",
+      "limitation": "설정별 SCuBA 수치·조건을 비교한다. 그 수치를 ISMS-P 요구나 회사 기준으로 간주할 수 없으며 정책 적용 대상과 관리절차는 별도 확인한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-027",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.5",
+      "field": "allowReuse",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-027",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.5",
+      "field": "allowReuse",
+      "condition": "== false",
+      "requirement": "2.5.4-01",
+      "limitation": "설정별 SCuBA 수치·조건을 비교한다. 그 수치를 ISMS-P 요구나 회사 기준으로 간주할 수 없으며 정책 적용 대상과 관리절차는 별도 확인한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-028",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.6",
+      "field": "expirationDuration",
+      "condition": "== 0s (만료 없음)",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-028",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.5.6",
+      "field": "expirationDuration",
+      "condition": "== 0s (만료 없음)",
+      "requirement": "2.5.4-01",
+      "limitation": "설정별 SCuBA 수치·조건을 비교한다. 그 수치를 ISMS-P 요구나 회사 기준으로 간주할 수 없으며 정책 적용 대상과 관리절차는 별도 확인한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-046",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.6.1",
+      "field": "SSO 할당 대상 OU·그룹, 관리자 orgUnitPath",
+      "condition": "관리자가 SSO 할당 대상에 들지 않음",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-001",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.6.2",
+      "field": "isAdmin(슈퍼 관리자)",
+      "condition": "2 <= 수 <= 8",
+      "requirement": "2.10.2-03",
+      "limitation": "정지되지 않은 슈퍼 관리자 수와 2~8명 조건을 비교한다. 수치 충족만으로 관리자별 역할·권한의 최소화는 알 수 없다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-033",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.8.1",
+      "field": "enableAccountRecovery",
+      "condition": "== false",
+      "requirement": "2.5.4-03",
+      "limitation": "슈퍼 관리자 복구 설정을 false와 비교한다. CIS 4.1.2.1과 같은 원본 설정이므로 독립적인 두 관측으로 세지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-035",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.8.2",
+      "field": "enableAccountRecovery",
+      "condition": "== false",
+      "requirement": "2.5.4-03",
+      "limitation": "일반 사용자 복구 설정을 false와 비교한다. CIS 4.1.2.2는 같은 설정을 true와 비교하므로 조건별 결과를 유지한다. 기준별 차이를 ISMS-P 적합 판정으로 바꾸지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-036",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.8.3",
+      "field": "사용자 복구 전화·이메일 추가 허용",
+      "condition": "",
+      "requirement": "2.5.4-03",
+      "limitation": "추가 허용 설정을 수집하지 않아 not_collected다. 실제 복구 수단의 추가 허용 여부나 안전한 관리 여부를 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-043",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.9.1",
+      "field": "사용자별 Advanced Protection 등록 상태",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-044",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.9.2",
+      "field": "민감 사용자 목록, 사용자별 APP 등록 상태",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-044",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.9.2",
+      "field": "민감 사용자 목록, 사용자별 APP 등록 상태",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "고위험 사용자의 Advanced Protection 등록 여부를 보려 하나 민감 사용자 기준과 등록 상태가 없어 org_policy다. 실제 등록·인증은 확인하지 못한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-056",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.10.1",
+      "field": "accessLevel",
+      "condition": "미구성 서드파티 앱 접근 제한",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-057",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.10.2",
+      "field": "최소 접근 요건 미충족 앱 차단",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-058",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.10.3",
+      "field": "부여된 scope",
+      "condition": "고위험 scope 는 명시적으로 신뢰한 앱만",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-058",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.10.3",
+      "field": "부여된 scope",
+      "condition": "고위험 scope 는 명시적으로 신뢰한 앱만",
+      "requirement": "2.5.1-02",
+      "limitation": "서드파티 앱의 고위험 scope 관련 항목이나 코드가 org_policy와 빈 대상 목록을 출력한다. 실제 승인 앱·사용자별 권한을 결과에서 확인하지 못한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-055",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.10.4",
+      "field": "도메인 전체 위임 앱 정기 검토",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-059",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.10.5",
+      "field": "trustInternalApps",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-060",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.11.1",
+      "field": "apps",
+      "condition": "허용 목록 앱만 설치 허용, 내부 앱 예외 없음",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-084",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.12.1",
+      "field": "serviceState, takeoutStatus",
+      "condition": "== DISABLED",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-070",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.13.1",
+      "field": "state, action.alertCenterAction.recipients",
+      "condition": "모두 ACTIVE 이고 받는 사람이 있음",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-072",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.14.1",
+      "field": "SIEM 으로 로그 전송",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-072",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.14.1",
+      "field": "SIEM 으로 로그 전송",
+      "condition": "",
+      "requirement": "2.5.6-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-073",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.14.2",
+      "field": "로그 6개월 이상 보관",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-073",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.14.2",
+      "field": "로그 6개월 이상 보관",
+      "condition": "",
+      "requirement": "2.5.6-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-242",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.15.1",
+      "field": "region",
+      "condition": "== US",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-243",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.15.2",
+      "field": "limitToStorageRegion",
+      "condition": "보조 데이터 저장소 미국",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-244",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.16.1",
+      "field": "serviceState",
+      "condition": "필수가 아닌 추가 서비스는 DISABLED",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-245",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.16.2",
+      "field": "serviceState 와 OU·그룹",
+      "condition": "필수 서비스는 승인된 사용자에게만",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-245",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.16.2",
+      "field": "serviceState 와 OU·그룹",
+      "condition": "필수 서비스는 승인된 사용자에게만",
+      "requirement": "2.5.1-02",
+      "limitation": "필수 서비스의 승인된 사용자 접근 관련 항목이나 코드가 org_policy와 빈 대상 목록을 출력한다. 실제 승인 사용자·적용 서비스는 결과에서 확인하지 못한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-246",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.17.1",
+      "field": "multiPartyApprovalState",
+      "condition": "== ENABLED",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-123",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.18.1",
+      "field": "triggers, state",
+      "condition": "google.workspace.drive.* 트리거가 있는 활성 규칙 1개 이상",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-123",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.18.1",
+      "field": "triggers, state",
+      "condition": "google.workspace.drive.* 트리거가 있는 활성 규칙 1개 이상",
+      "requirement": "3.3.1-06",
+      "limitation": "Drive 트리거를 가진 활성 DLP 규칙이 하나 이상인지 보며, 해당 규칙이 실제 개인정보를 탐지하거나 제3자 접근을 차단하는지 보지 않는다. Google 체크리스트의 Drive DLP 검사와 같은 수집 원본을 사용한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-124",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.18.2",
+      "field": "triggers, state",
+      "condition": "google.workspace.gmail.* 트리거가 있는 활성 규칙 1개 이상",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-124",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.18.2",
+      "field": "triggers, state",
+      "condition": "google.workspace.gmail.* 트리거가 있는 활성 규칙 1개 이상",
+      "requirement": "3.3.1-06",
+      "limitation": "Gmail 트리거를 가진 활성 DLP 규칙의 존재만 보며 차단 조치 또는 개인정보 탐지기의 유무를 판정하지 않는다. 같은 원본의 Gmail 차단 조치 검사와 조건이 다르다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-125",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.18.3",
+      "field": "triggers, state",
+      "condition": "google.workspace.chat.* 트리거가 있는 활성 규칙 1개 이상",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-125",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.18.3",
+      "field": "triggers, state",
+      "condition": "google.workspace.chat.* 트리거가 있는 활성 규칙 1개 이상",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-126",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.COMMONCONTROLS.18.4",
+      "field": "action.alertCenterAction.alertCenterConfig.severity",
+      "condition": "조직에 맞는 심각도",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-154",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.5.2",
+      "field": "enableAttachmentWithScriptsProtection",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-155",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.5.3",
+      "field": "enableAnomalousAttachmentProtection",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-156",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.5.4",
+      "field": "applyFutureRecommendedSettingsAutomatically",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-157",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.5.5",
+      "field": "encryptedAttachmentProtectionConsequence,attachmentWithScriptsProtectionConsequence,anomalousAttachmentProtectionConsequence",
+      "condition": "세 조치 모두 스팸함 또는 격리",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-159",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.6.1",
+      "field": "enableShortenerScanning",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-160",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.6.2",
+      "field": "enableExternalImageScanning",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-161",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.6.3",
+      "field": "enableAggressiveWarningsOnUntrustedLinks",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-162",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.6.4",
+      "field": "applyFutureSettingsAutomatically",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-164",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.7.1",
+      "field": "detectDomainNameSpoofing",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-165",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.7.2",
+      "field": "detectEmployeeNameSpoofing",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-166",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.7.3",
+      "field": "detectDomainSpoofingFromUnauthenticatedSenders",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-167",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.7.4",
+      "field": "detectUnauthenticatedEmails",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-168",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.7.5",
+      "field": "detectGroupsSpoofing",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-169",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.7.6",
+      "field": "domainNameSpoofingConsequence,employeeNameSpoofingConsequence,domainSpoofingConsequence,unauthenticatedEmailConsequence,groupsSpoofingConsequence",
+      "condition": "다섯 조치 모두 스팸함 또는 격리",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-170",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.7.7",
+      "field": "applyFutureSettingsAutomatically",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-192",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.8.1",
+      "field": "enableMailAndContactsImport",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-193",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.10.1",
+      "field": "Google Workspace Sync",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-191",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.14.1",
+      "field": "이메일 허용 목록",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-177",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.15.1",
+      "field": "enableImprovedSuspiciousContentDetection",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-188",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.18.1",
+      "field": "스팸 필터 우회 도메인 목록",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-189",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.18.2",
+      "field": "스팸 우회·경고 숨김 도메인 목록",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-190",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GMAIL.18.3",
+      "field": "내·외부 전체 스팸 우회",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-103",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.1",
+      "field": "외부 공유 허용 도메인 제한",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-104",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.2",
+      "field": "허용 목록 외 파일 수신",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-099",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.3",
+      "field": "허용 목록 외 공유 경고",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-105",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.4",
+      "field": "Google 계정 없는 사용자와 공유",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-102",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.5",
+      "field": "링크 소지자 누구나 공유",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-106",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.6",
+      "field": "Access Checker",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-108",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.7",
+      "field": "다른 조직 공유 드라이브로 이동",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-109",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.8",
+      "field": "새 항목 기본 접근 수준",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-101",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.9",
+      "field": "highlightingEnabled",
+      "condition": "== true",
+      "requirement": "3.3.1-06",
+      "limitation": "도메인 외 파일에 대한 경고 표시 설정을 본다. 경고가 접근을 차단하거나 개인정보가 포함됐음을 의미하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-140",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.10",
+      "field": "외부 링크 응답 양식",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-141",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.1.11",
+      "field": "외부 양식 응답 제출",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-112",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.2.1",
+      "field": "allowManagersToOverrideSettings",
+      "condition": "== false",
+      "requirement": "2.5.1-02",
+      "limitation": "공유 드라이브 관리자의 설정 재정의 허용 여부를 본다. 관리자 개인별 업무 필요성과 부여 권한의 적정성은 별도다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-114",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.2.2",
+      "field": "allowNonMemberAccess",
+      "condition": "== true",
+      "requirement": "2.5.1-02",
+      "limitation": "공유 드라이브 비멤버의 파일 접근 허용 설정을 본다. 비멤버가 곧 조직 외 제3자인 것은 아니며 직무별 개별 권한을 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-114",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.2.2",
+      "field": "allowNonMemberAccess",
+      "condition": "== true",
+      "requirement": "3.3.1-06",
+      "limitation": "공유 드라이브 비멤버의 파일 접근 허용 설정과 조건은 개인정보 접근 통제와 조건부 관련이 있다. 비멤버가 반드시 조직 외 제3자인 것은 아니며 실제 개인정보가 있는지와 승인 절차는 확인하지 않는다. 같은 과거 값 true에 대해 CIS 3.1.2.1.2.3은 false를 요구하여 fail이고 SCuBA GWS.DRIVEDOCS.2.2는 true를 요구하여 pass다. 각각의 출처 조건을 유지해야 한다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-120",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.3.1",
+      "field": "securityUpdate,allowUsersToManageUpdate",
+      "condition": "APPLY_TO_IMPACTED_FILES 이고 사용자 변경 불가",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-121",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.4.1",
+      "field": "enableDriveSdkApiAccess",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-122",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.5.1",
+      "field": "Docs 추가 기능(Add-ons)",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-119",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.DRIVEDOCS.6.1",
+      "field": "allowDriveForDesktop,restrictToAuthorizedDevices",
+      "condition": "꺼져 있거나 승인 기기로 제한",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-196",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.CALENDAR.1.1",
+      "field": "기본 캘린더 외부 공유 수준",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-197",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.CALENDAR.1.2",
+      "field": "보조 캘린더 외부 공유 수준",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-200",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.CALENDAR.2.1",
+      "field": "외부 초대 경고",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-204",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.CALENDAR.4.1",
+      "field": "enablePayments",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-217",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.MEET.1.1",
+      "field": "allowedAudience",
+      "condition": "TRUSTED 또는 RESTRICTED",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-218",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.MEET.2.1",
+      "field": "meetingsAllowedToJoin",
+      "condition": "ALL 이 아님(조직 또는 Workspace 조직 회의만)",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-219",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.MEET.3.1",
+      "field": "enableHostManagement",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-220",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.MEET.4.1",
+      "field": "enableExternalLabel",
+      "condition": "== true",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-221",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.MEET.5.1",
+      "field": "allowedCallers",
+      "condition": "== CONTACTS_AND_ORGANIZATION_ONLY",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-222",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.MEET.6.1",
+      "field": "enabled",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-223",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.MEET.6.2",
+      "field": "enabled",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-224",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GROUPS.1.1",
+      "field": "그룹 외부 접근",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-225",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GROUPS.1.2",
+      "field": "그룹 외부 멤버 추가",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-226",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GROUPS.1.3",
+      "field": "그룹 외부 게시",
+      "condition": "",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-228",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.GROUPS.3.1",
+      "field": "대화 보기 기본 권한",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "Google 그룹 대화 보기 기본 권한 설정은 미수집이다. 실제 사용자별 권한과 승인은 확인하지 않는다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-234",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.SITES.1.1",
+      "field": "serviceState",
+      "condition": "== DISABLED",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-236",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.CLASSROOM.1.1",
+      "field": "whoCanJoinClasses",
+      "condition": "도메인 또는 허용 도메인 사용자",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-237",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.CLASSROOM.1.2",
+      "field": "whichClassesCanUsersJoin",
+      "condition": "도메인 또는 허용 도메인 수업",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-238",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.CLASSROOM.2.1",
+      "field": "enableApiAccess",
+      "condition": "== false",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-239",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.CLASSROOM.3.1",
+      "field": "rosterImportOption",
+      "condition": "== OFF",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-240",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.CLASSROOM.4.1",
+      "field": "whoCanUnenrollStudents",
+      "condition": "== TEACHERS_ONLY",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "gws",
+      "finding": "gws-241",
+      "standard": "CISA SCuBA GWS 0.6",
+      "item": "GWS.CLASSROOM.5.1",
+      "field": "whoCanCreateClasses",
+      "condition": "== VERIFIED_TEACHERS_ONLY",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-001",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.1.1",
+      "field": "모든 코드를 버전 관리 플랫폼에서 관리",
+      "condition": "",
+      "requirement": "2.8.5-03",
+      "limitation": "모든 코드를 버전 관리 플랫폼에서 관리하는지에 관한 수동 항목이다. 실제 소스·커밋 이력의 존재와 보존을 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-002",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.1.2",
+      "field": "코드 변경을 작업 관리 시스템과 연결",
+      "condition": "",
+      "requirement": "2.8.5-03",
+      "limitation": "코드 변경과 작업 관리 항목의 연결에 관한 수동 항목이다. 실제 소스 변경이력·연결의 완전성을 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-013",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.1.13",
+      "field": "required_linear_history 규칙, pull_request.allowed_merge_methods",
+      "condition": "선형 이력 규칙이 있거나 병합 커밋 방식이 빠짐",
+      "requirement": "2.8.5-03",
+      "limitation": "선형 이력 규칙 또는 병합 방식 제한을 확인한다. 이력 형태와 관련되나 실제 변경이력의 존재·완전성·보존을 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-015",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.1.15",
+      "field": "푸시 제한",
+      "condition": "푸시·병합 가능한 사람 제한",
+      "requirement": "2.8.5-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-016",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.1.16",
+      "field": "non_fast_forward 규칙",
+      "condition": "규칙 있음(강제 푸시 차단)",
+      "requirement": "2.8.5-03",
+      "limitation": "강제 푸시를 막는 non_fast_forward 규칙의 존재를 확인한다. 이력 변조 방지에 관련될 수 있으나 실제 이력 보존을 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-017",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.1.17",
+      "field": "deletion 규칙",
+      "condition": "규칙 있음(삭제 차단)",
+      "requirement": "2.8.5-03",
+      "limitation": "브랜치 삭제를 막는 deletion 규칙을 확인한다. 이력 보존과 관련될 수 있으나 실제 변경이력 존재·관리를 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-019",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.1.19",
+      "field": "브랜치 보호 변경 감사",
+      "condition": "",
+      "requirement": "2.10.2-04",
+      "limitation": "브랜치 보호 변경 감사에 관한 수동 항목이다. 감사 로그 수집과 담당자의 실제 검토 이행은 구분해야 한다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-023",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.2.3",
+      "field": "members_can_delete_repositories",
+      "condition": "켜져 있으면 저장소 관리자가, 꺼져 있으면 조직 소유자가 신뢰할 만한지 확인",
+      "requirement": "2.5.1-02",
+      "limitation": "구성원의 저장소 삭제 허용 설정값을 보여 주고 적절한 권한자인지 수동 검토한다. 실제 직무별 최소 권한과 승인은 별도다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-024",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.2.4",
+      "field": "members_can_delete_issues",
+      "condition": "켜져 있으면 저장소 관리자가, 꺼져 있으면 조직 소유자가 신뢰할 만한지 확인",
+      "requirement": "2.5.1-02",
+      "limitation": "구성원의 이슈 삭제 허용 설정값을 보여 주고 권한자가 신뢰할 만한지 수동 검토한다. 정보 중요도와 실제 직무별 권한 적정성은 별도다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-026",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.2.6",
+      "field": "공개 범위 변경 추적",
+      "condition": "",
+      "requirement": "2.10.2-04",
+      "limitation": "저장소 공개 범위 변경 추적에 관한 수동 항목이다. 실제 변경 감시와 적절성의 정기 검토가 실행됐는지 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-030",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.3.3",
+      "field": "소유자 수",
+      "condition": "최소 인원",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-031",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.3.4",
+      "field": "외부 협력자의 2FA",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "GitHub 외부 협력자의 2FA 사용 상태가 미수집이다. 조직 차원의 2FA 설정을 개인별 등록 여부로 대체하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-032",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.3.5",
+      "field": "two_factor_requirement_enabled",
+      "condition": "== true",
+      "requirement": "2.5.3-01",
+      "limitation": "조직 설정 하나만 본다. 외부 협력자·결제 관리자 개별 등록 상태 및 실제 로그인 실패 제한·경고는 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-034",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.3.7",
+      "field": "permissions.admin",
+      "condition": "저장소마다 관리자 2명",
+      "requirement": "2.8.5-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-035",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.3.8",
+      "field": "default_repository_permission",
+      "condition": "read 또는 none",
+      "requirement": "2.5.1-02",
+      "limitation": "GitHub 조직 기본 저장소 권한이 read 또는 none인지 본다. 특정 저장소의 상속·예외와 사용자 업무상 필요성은 별도다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-038",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.3.11",
+      "field": "SSH 인증기관",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "GitHub 조직의 SSH 인증기관 관련 설정이 미수집이다. 사용자별 SSH 인증·키 발급 운영은 확인하지 못한다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-039",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.3.12",
+      "field": "IP 허용 목록",
+      "condition": "",
+      "requirement": "2.8.5-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-040",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.3.13",
+      "field": "코드 이상 징후 추적",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-041",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.4.1",
+      "field": "OAuth 앱 접근 제한",
+      "condition": "",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-043",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.4.3",
+      "field": "permissions, repository_selection",
+      "condition": "필요한 최소 권한",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-043",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.4.3",
+      "field": "permissions, repository_selection",
+      "condition": "필요한 최소 권한",
+      "requirement": "2.5.1-02",
+      "limitation": "GitHub App의 저장소 선택 범위와 쓰기 권한을 보여 주되 최소 권한인지는 수동 판단한다. 앱 용도·승인과 실제 사용자 권한은 별도다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-044",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.4.4",
+      "field": "config.url 스킴, config.insecure_ssl",
+      "condition": "https 이고 SSL 검증 켜짐",
+      "requirement": "2.10.5-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-045",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "1.5.1",
+      "field": "security_and_analysis.secret_scanning.status",
+      "condition": "== enabled",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-055",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "2.1.5",
+      "field": "enabled_repositories, allowed_actions",
+      "condition": "알려진·승인된 사용자만 빌드 환경 접근",
+      "requirement": "2.5.1-02",
+      "limitation": "GitHub Actions 활성 저장소·허용 액션 설정을 보여 주나 승인된 사용자 판단은 조직이 한다. 실제 빌드 환경 사용자 권한을 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-056",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "2.1.6",
+      "field": "빌드 파이프라인 운영",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "빌드 환경 사용자 로그인 요구에 대한 수동 항목이며 실제 로그인 설정과 적용을 수집하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-044",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "2.1.10",
+      "field": "config.url 스킴, config.insecure_ssl",
+      "condition": "https 이고 SSL 검증 켜짐",
+      "requirement": "2.10.5-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-030",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "2.1.11",
+      "field": "소유자 수",
+      "condition": "최소 인원",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-064",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "2.2.5",
+      "field": "빌드 파이프라인 운영",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-071",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "2.3.4",
+      "field": "빌드 파이프라인 운영",
+      "condition": "",
+      "requirement": "2.8.5-03",
+      "limitation": "파이프라인 파일 변경의 추적·검토를 권장하는 수동 항목이다. 파이프라인 파일이 검토 대상 소스에 포함되는지와 실제 변경이력·검토 이행은 별도다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-072",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "2.3.5",
+      "field": "enabled_repositories, can_approve_pull_request_reviews",
+      "condition": "필요한 사람만 파이프라인 실행",
+      "requirement": "2.5.1-02",
+      "limitation": "GitHub Actions 저장소 및 PR 승인 설정을 보여 주나 실제 파이프라인 실행이 업무상 필요한 사람에게만 허용되는지 조직 판단이 필요하다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-045",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "2.3.8",
+      "field": "security_and_analysis.secret_scanning.status",
+      "condition": "== enabled",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-078",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "2.4.5",
+      "field": "빌드 파이프라인 운영",
+      "condition": "",
+      "requirement": "1.2.1-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-079",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "2.4.6",
+      "field": "빌드 파이프라인 운영",
+      "condition": "",
+      "requirement": "1.2.1-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-081",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "3.1.2",
+      "field": "의존성·산출물·배포 운영",
+      "condition": "",
+      "requirement": "1.2.1-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-085",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "3.1.6",
+      "field": "의존성·산출물·배포 운영",
+      "condition": "",
+      "requirement": "1.2.1-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-092",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "4.2.2",
+      "field": "패키지 업로드 권한",
+      "condition": "",
+      "requirement": "2.5.1-02",
+      "limitation": "패키지 업로드 권한은 수집 호출 오류로 미수집이다. 실제 사용자별 업로드 권한은 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-032",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "4.2.3",
+      "field": "two_factor_requirement_enabled",
+      "condition": "== true",
+      "requirement": "2.5.3-01",
+      "limitation": "GitHub 조직의 two_factor_requirement_enabled를 확인한다. 패키지 저장소 사용자별 인증 등록·실제 적용, 로그인 실패 제한은 별도다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-093",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "4.2.4",
+      "field": "SAML SSO",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "GitHub SAML SSO 설정이 미수집이다. 패키지 저장소의 실제 사용자 인증은 확인하지 못한다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-094",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "4.2.5",
+      "field": "visibility",
+      "condition": "접근 통제가 필요한 저장소는 비공개",
+      "requirement": "2.8.5-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-095",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "4.2.6",
+      "field": "패키지 레지스트리 관리자",
+      "condition": "",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-098",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "4.3.3",
+      "field": "패키지 설정 변경 감사",
+      "condition": "",
+      "requirement": "2.10.2-04",
+      "limitation": "패키지 저장소 설정 변경 감사에 관한 수동 항목이다. 실제 감사·변경 모니터링과 적정성의 정기 검토는 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-044",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "4.3.4",
+      "field": "config.url 스킴, config.insecure_ssl",
+      "condition": "https 이고 SSL 검증 켜짐",
+      "requirement": "2.10.5-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-101",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "5.1.2",
+      "field": "의존성·산출물·배포 운영",
+      "condition": "",
+      "requirement": "2.10.2-04",
+      "limitation": "배포 설정 변경 추적·감사에 관한 수동 항목이다. 해당 배포 설정이 검토 대상 클라우드 보안 설정인지와 실제 검토 이행은 별도다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-045",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "5.1.3",
+      "field": "security_and_analysis.secret_scanning.status",
+      "condition": "== enabled",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-102",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "5.1.4",
+      "field": "permissions, role_name",
+      "condition": "신뢰할 만한 사람만 배포 설정 접근",
+      "requirement": "2.5.1-02",
+      "limitation": "저장소 협력자의 권한 관련 조건에 조직 판단이 필요하다. 결과 대상 출력과 배포 설정별 실제 승인자는 별도다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-107",
+      "standard": "CIS GitHub 1.2.0",
+      "item": "5.2.3",
+      "field": "환경 보호 규칙",
+      "condition": "운영 환경은 소수의 신뢰할 만한 사람만",
+      "requirement": "2.5.1-02",
+      "limitation": "운영 환경 보호 규칙의 대상·승인자 적정성은 조직 기준이 필요하다. 과거 시험의 환경 0개 메모를 현재 운영에 일반화하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-093",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Secure accounts / SAML",
+      "field": "organization.samlIdentityProvider",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "GitHub SAML IdP 설정은 호출 권한 실패 등으로 미수집이다. 실제 SSO 적용 여부는 확인하지 못한다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-189",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Secure accounts / SCIM",
+      "field": "GET /scim/v2/organizations/{org}/Users",
+      "condition": "",
+      "requirement": "2.2.5-02",
+      "limitation": "GitHub SCIM 사용자 호출이 미수집이다. 프로비저닝 설정이나 퇴직자 계정 회수 여부를 확인하지 못한다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-032",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Secure accounts / 2FA organization",
+      "field": "two_factor_requirement_enabled",
+      "condition": "== true",
+      "requirement": "2.5.3-01",
+      "limitation": "조직 설정 하나만 본다. 외부 협력자·결제 관리자 개별 등록 상태 및 실제 로그인 실패 제한·경고는 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-031",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Secure accounts / 2FA members and collaborators",
+      "field": "구성원·외부 협력자·결제 관리자의 2FA 사용 여부 (members?filter=2fa_disabled)",
+      "condition": "",
+      "requirement": "2.5.3-01",
+      "limitation": "구성원·외부 협력자·결제 관리자의 2FA 개별 상태가 미수집이다. 조직 2FA 요구 설정과 별개다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-190",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Secure accounts / strong passwords",
+      "field": "사용자 개인 설정·조직 내부 절차",
+      "condition": "",
+      "requirement": "2.5.4-01",
+      "limitation": "사용자에게 강한 비밀번호 사용을 권장하는 수동 항목이다. 실제 정책·설정·교육 이행을 자동 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-109",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Prevent data leaks / disable forking",
+      "field": "members_can_fork_private_repositories",
+      "condition": "== false",
+      "requirement": "2.8.5-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-110",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Prevent data leaks / disable visibility change",
+      "field": "members_can_change_repo_visibility",
+      "condition": "== false",
+      "requirement": "2.8.5-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-023",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Prevent data leaks / disable deletion and transfer",
+      "field": "members_can_delete_repositories",
+      "condition": "== false (이전 허용 설정은 수집 원본에 필드가 없어 삭제 쪽만 본다)",
+      "requirement": "2.5.1-02",
+      "limitation": "구성원의 저장소 삭제 허용 설정을 본다. 이전 허용 설정은 미수집이며 사용자별 직무 필요성과 권한 승인도 확인하지 않는다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-193",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Prevent data leaks / disable deploy keys",
+      "field": "deploy_keys_enabled_for_repositories, 배포 키 enabled",
+      "condition": "조직 설정이 false(배포 키 사용 비활성)",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-194",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Prevent data leaks / scope PATs",
+      "field": "permissions, repository_selection",
+      "condition": "필요한 최소 권한",
+      "requirement": "2.5.1-02",
+      "limitation": "수집된 개인 액세스 토큰의 권한·저장소 범위를 표시한다. 토큰별 실제 용도와 최소 필요 권한·소유자 직무는 조직 판단이 필요하다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-094",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Prevent data leaks / convert public to private",
+      "field": "visibility",
+      "condition": "공개 저장소가 없음(있으면 공개가 적절한지는 조직이 정함)",
+      "requirement": "2.8.5-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-036",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Prevent data leaks / verify domain",
+      "field": "organizationVerifiedDomainEmails",
+      "condition": "인증된 도메인 메일이 있는 구성원이 1명 이상",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-045",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Detect data leaks / secret scanning alerts for users",
+      "field": "security_and_analysis.secret_scanning.status",
+      "condition": "== enabled",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-199",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Detect data leaks / push protection",
+      "field": "security_and_analysis.secret_scanning_push_protection.status",
+      "condition": "== enabled",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-176",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Detect data leaks / audit log",
+      "field": "감사 로그 검토",
+      "condition": "",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "github",
+      "finding": "github-176",
+      "standard": "GitHub Docs 데이터 유출 방지",
+      "item": "Detect data leaks / audit log",
+      "field": "감사 로그 검토",
+      "condition": "",
+      "requirement": "2.5.6-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-001",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.clickjackVisualForceHeaders",
+      "field": "SessionSettings.표준 머리글을 사용하여 고객 Visualforce 페이지에 대해 클릭잭 방어 활성화",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-002",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.clickjackVisualForceNoHeaders",
+      "field": "SessionSettings.머리글이 비활성화된 고객 Visualforce 페이지에 대해 클릭잭 방어를 활성화합니다.",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-003",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.requireHttpOnly",
+      "field": "SessionSettings.HttpOnly 특성 필요",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-004",
+      "standard": "Salesforce Health Check",
+      "item": "Identity.mfaEnabled",
+      "field": "Identity.MFA 활성화됨",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.3-01",
+      "limitation": "Salesforce Health Check 조직 단위 MFA 설정의 OrgValue와 RiskType을 옮긴다. 각 사용자·애플리케이션별 등록과 적용은 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-005",
+      "standard": "Salesforce Health Check",
+      "item": "NetworkSecurity.trustedIpRangesConfigured",
+      "field": "NetworkSecurity.신뢰할 수 있는 IP 범위 수",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-006",
+      "standard": "Salesforce Health Check",
+      "item": "PasswordPolicies.maxLoginAttempts",
+      "field": "PasswordPolicies.잘못된 최대 로그인 시도 횟수",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.3-01",
+      "limitation": "Salesforce Health Check의 최대 로그인 시도 관련 조직값과 RiskType을 옮긴다. 실제 차단·경고 작동 및 사용자별 예외는 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-007",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.lockSessionsToDomain",
+      "field": "SessionSettings.세션을 처음 사용한 도메인에 해당 세션 잠금",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-008",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.enableSmsIdentity",
+      "field": "SessionSettings.사용자가 문자(SMS)로 본인의 ID를 확인할 수 있습니다.",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.3-01",
+      "limitation": "Salesforce SMS 본인확인 허용 설정의 조직 Health Check 값을 옮긴다. SMS 사용이 해당 환경의 안전한 인증에 적합한지와 실제 사용 여부는 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-009",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.clickjackSetup",
+      "field": "SessionSettings.설정 페이지에 클릭잭 방어 활성화",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-010",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.clickjackNonSetup",
+      "field": "SessionSettings.미설정 Salesforce 페이지에 대해 클릭잭 방어를 활성화합니다.",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-011",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.csrfGet",
+      "field": "SessionSettings.미설정 페이지의 GET 요청에 대한 CSRF 방지 활성화",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-012",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.csrfPost",
+      "field": "SessionSettings.미설정 페이지의 POST 요청에 대한 CSRF 방지 활성화",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-013",
+      "standard": "Salesforce Health Check",
+      "item": "CertificateAndKeyManagement.expiredCert",
+      "field": "CertificateAndKeyManagement.만료된 인증서",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-014",
+      "standard": "Salesforce Health Check",
+      "item": "FileUploadAndDownloadSecurity.hybridSecurityRiskFileTypes",
+      "field": "FileUploadAndDownloadSecurity.하이브리드 동작을 사용하는 보안 위험 파일 유형의 수",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-016",
+      "standard": "Salesforce Health Check",
+      "item": "SharingSettings.orgWideDefaults",
+      "field": "SharingSettings.기본 외부 액세스가 공개로 설정된 개체의 수",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "3.3.1-06",
+      "limitation": "Salesforce Health Check가 제공한 조직값과 RiskType을 옮긴다. 실제 객체별 개인정보 여부·외부 주체·조직의 승인 절차를 확인하지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-017",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.enforceLoginIp",
+      "field": "SessionSettings.모든 요청에 대해 로그인 IP 범위 적용",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-018",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.terminateSessionsOnPasswordReset",
+      "field": "SessionSettings.관리자가 해당 사용자의 암호를 재설정하면 모든 사용자 세션 종료",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.4-01",
+      "limitation": "관리자 재설정 후 세션 종료의 조직 단위 Salesforce Health Check 상태를 옮긴다. 비밀번호 작성규칙이나 관리절차 전체를 확인하지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-019",
+      "standard": "Salesforce Health Check",
+      "item": "PasswordPolicies.minOneDayPasswordLifetime",
+      "field": "PasswordPolicies.최소 1일 암호 수명 필요",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.4-01",
+      "limitation": "Salesforce의 조직 단위 최소 비밀번호 사용기간 Health Check 값과 RiskType을 옮긴다. 사용자별 적용과 회사 정책은 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-020",
+      "standard": "Salesforce Health Check",
+      "item": "PasswordPolicies.complexity",
+      "field": "PasswordPolicies.암호 복잡성 요구 사항",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.4-01",
+      "limitation": "Salesforce 조직 단위 비밀번호 복잡성 Health Check 값과 RiskType을 옮긴다. 회사 작성규칙 및 실제 사용자 적용은 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-021",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.forceRelogin",
+      "field": "SessionSettings.사용자로 로그인 후 Force 재로그인",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-022",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.cspOnEmail",
+      "field": "SessionSettings.이메일 템플릿에 대한 콘텐츠 보안 정책 보호 활성화",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-023",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.contentSniffingProtection",
+      "field": "SessionSettings.콘텐츠 스니핑 방지 활성화",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-024",
+      "standard": "Salesforce Health Check",
+      "item": "PasswordPolicies.expiration",
+      "field": "PasswordPolicies.다음 이후 사용자 암호 만료",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.4-01",
+      "limitation": "과거 조직값 90일, 표시된 기준값 30일, RiskType에 따른 pass가 함께 있다. 엔진은 값의 일치 여부를 직접 비교하지 않으므로 값과 Salesforce 판정의 관계를 별도 확인한다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-025",
+      "standard": "Salesforce Health Check",
+      "item": "PasswordPolicies.history",
+      "field": "PasswordPolicies.암호 내역 적용",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.4-01",
+      "limitation": "Salesforce 조직 단위 비밀번호 이력 Health Check 값과 RiskType을 옮긴다. 회사가 요구하는 이력 수와 사용자별 적용은 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-026",
+      "standard": "Salesforce Health Check",
+      "item": "PasswordPolicies.minPasswordLength",
+      "field": "PasswordPolicies.최소 암호 길이",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.4-01",
+      "limitation": "Salesforce 조직 단위 최소 길이 Health Check 값과 RiskType을 옮긴다. 회사 기준 및 실제 사용자 적용은 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-028",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.icOnEmailChange",
+      "field": "SessionSettings.이메일 주소 변경을 위해 ID 확인 필요",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-029",
+      "standard": "Salesforce Health Check",
+      "item": "PasswordPolicies.obscureSecretAnswer",
+      "field": "PasswordPolicies.암호 재설정에 대해 본인 확인 대답 숨기기",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.4-01",
+      "limitation": "재설정에 쓰는 본인확인 답변 표시 관련 조직 단위 Health Check 결과다. 작성규칙 전체나 실제 복구 절차는 확인하지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-029",
+      "standard": "Salesforce Health Check",
+      "item": "PasswordPolicies.obscureSecretAnswer",
+      "field": "PasswordPolicies.암호 재설정에 대해 본인 확인 대답 숨기기",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.4-03",
+      "limitation": "Salesforce 조직 단위 RiskType과 OrgValue를 옮긴다. 개인정보취급자·정보주체의 실제 인증 수단인지와 실제 복구 절차 이행은 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-030",
+      "standard": "Salesforce Health Check",
+      "item": "PasswordPolicies.lockoutInterval",
+      "field": "PasswordPolicies.잠금 유효 기간",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.3-01",
+      "limitation": "Salesforce 로그인 잠금 지속시간 관련 조직 Health Check 값을 옮긴다. 잘못된 로그인 시도 제한과 경고의 실제 이행 전체는 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-031",
+      "standard": "Salesforce Health Check",
+      "item": "RemoteSiteSettings.remoteSiteSettings",
+      "field": "RemoteSiteSettings.원격 사이트 설정",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-032",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.forceLogoutOnTimeout",
+      "field": "SessionSettings.세션 시간 초과 시 강제 로그아웃",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-033",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.icOn2faRegistration",
+      "field": "SessionSettings.다단계 인증(MFA) 등록 시 ID 확인 필요",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.4-03",
+      "limitation": "Salesforce 조직 단위 RiskType과 OrgValue를 옮긴다. 특정 개인정보취급자·정보주체에게 적용되는지, 인증 수단의 전체 안전관리는 확인하지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-034",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.timeout",
+      "field": "SessionSettings.세션 시간 제한",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.6.3-02",
+      "limitation": "과거 조직값 2시간, 공개 기준값 15분, RiskType에 따른 pass의 관계가 미해결이다. 사용자 Profile·연결 앱 우선순위와 JWT 예외도 별도이며 동시 세션 제한을 보지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-035",
+      "standard": "Salesforce Health Check",
+      "item": "PasswordPolicies.questionRestriction",
+      "field": "PasswordPolicies.암호 의문 요청",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.4-01",
+      "limitation": "암호 관련 질문 제한의 조직 단위 Health Check 결과다. 사용자별 적용과 작성규칙·관리절차 전체는 확인하지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-036",
+      "standard": "Salesforce Health Check",
+      "item": "UserPIISettings.enforceNameVisibility",
+      "field": "UserPIISettings.조회 필드에서 레코드 이름을 보기 위해 권한 필요",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-037",
+      "standard": "Salesforce Health Check",
+      "item": "Identity.samlEnabled",
+      "field": "Identity.SAML 활성화됨",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.5.3-01",
+      "limitation": "Salesforce SAML 활성화 관련 조직 Health Check 값을 옮긴다. 실제 사용자별 SSO 적용과 인증 강도·경고는 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-038",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.lockSessionsToIp",
+      "field": "SessionSettings.세션이 시작된 IP 주소로 세션을 잠급니다.",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-039",
+      "standard": "Salesforce Health Check",
+      "item": "GuestUserAccess.guestEditAccess",
+      "field": "GuestUserAccess.편집 액세스 권한이 있는 게스트 사용자 프로필의 개체 수",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "3.3.1-06",
+      "limitation": "Health Check의 조직 단위 OrgValue와 RiskType을 옮긴다. 개별 게스트·객체·개인정보 여부와 권한 승인 절차를 직접 확인하지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-040",
+      "standard": "Salesforce Health Check",
+      "item": "GuestUserAccess.guestReadAccess",
+      "field": "GuestUserAccess.읽기 액세스 권한이 있는 게스트 사용자 프로필의 개체 수",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "3.3.1-06",
+      "limitation": "Health Check의 조직 단위 OrgValue와 RiskType을 옮긴다. 개별 게스트·객체·개인정보 여부와 권한 승인 절차를 직접 확인하지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-041",
+      "standard": "Salesforce Health Check",
+      "item": "SessionSettings.redirectionAllowUntrusted",
+      "field": "SessionSettings.경고 없이 신뢰할 수 없는 외부 URL에 대한 리디렉션 허용",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-042",
+      "standard": "Salesforce Health Check",
+      "item": "AdminUsers.activeSystemAdministratorCount",
+      "field": "AdminUsers.시스템 관리자 프로필이 있는 활성 내부 사용자의 비율",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-043",
+      "standard": "Salesforce Health Check",
+      "item": "CertificateAndKeyManagement.keySize",
+      "field": "CertificateAndKeyManagement.키 크기",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-044",
+      "standard": "Salesforce Health Check",
+      "item": "CertificateAndKeyManagement.certExpiration",
+      "field": "CertificateAndKeyManagement.인증서 만료",
+      "condition": "RiskType == MEETS_STANDARD",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-045",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "3 Assumptions / Internal apps use MFA and SSO",
+      "field": "Identity.mfaEnabled, Identity.samlEnabled 의 RiskType",
+      "condition": "둘 다 MEETS_STANDARD(MFA 활성, SAML 활성)",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-045",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "3 Assumptions / Internal apps use MFA and SSO",
+      "field": "Identity.mfaEnabled, Identity.samlEnabled 의 RiskType",
+      "condition": "둘 다 MEETS_STANDARD(MFA 활성, SAML 활성)",
+      "requirement": "2.5.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-046",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "3 Assumptions / External apps MFA as deemed appropriate by Business Owner and ISSM",
+      "field": "Identity.mfaEnabled",
+      "condition": "비즈니스 오너·ISSM 이 정한 MFA",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-046",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "3 Assumptions / External apps MFA as deemed appropriate by Business Owner and ISSM",
+      "field": "Identity.mfaEnabled",
+      "condition": "비즈니스 오너·ISSM 이 정한 MFA",
+      "requirement": "2.5.3-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-048",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "4.1 Salesforce Organization",
+      "field": "설치된 AppExchange 패키지(InstalledSubscriberPackage 등)",
+      "condition": "GSA CTO 가 승인한 앱만 설치",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-051",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "4.7 Baseline Security Configuration Settings",
+      "field": "-",
+      "condition": "ISSM 이 정한 주기의 설정 점검",
+      "requirement": "2.10.2-04",
+      "limitation": "GSA가 정한 주기의 설정 점검을 요구하는 수동 항목이다. 실제 주기적 모니터링과 적정성 검토가 이행됐는지 관측하지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-052",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "5 Security Configuration Options Parameters",
+      "field": "-",
+      "condition": "편차 BPD 문서화 절차",
+      "requirement": "2.10.2-04",
+      "limitation": "Salesforce 보안 설정 편차의 BPD 문서화에 관한 수동 항목이다. 실제 편차 문서화, 모니터링 또는 정기 적정성 검토는 확인하지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-053",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "6 Access Security",
+      "field": "PermissionsModifyAllData, PermissionsViewAllData",
+      "condition": "최소화. 허용 대상은 조직이 정함",
+      "requirement": "2.10.2-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-053",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "6 Access Security",
+      "field": "PermissionsModifyAllData, PermissionsViewAllData",
+      "condition": "최소화. 허용 대상은 조직이 정함",
+      "requirement": "2.5.1-02",
+      "limitation": "Salesforce Profile·PermissionSet의 View All·Modify All 권한을 표시하며 허용 대상은 조직이 정한다. Profile별 실제 사용자 적용과 승인·직무 적정성은 별도다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-054",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "7 Profile Management / Permission Sets used to grant access to tabs and objects",
+      "field": "-",
+      "condition": "권한 세트로 탭·개체 접근을 부여하는 운영 방식",
+      "requirement": "2.5.1-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-055",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "7 Profile Management / Field-level security, organization-wide defaults, role hierarchy and sharing rules for record access",
+      "field": "SharingSettings.orgWideDefaults",
+      "condition": "필드 수준 보안·OWD·역할 계층·공유 규칙으로 레코드 접근 통제",
+      "requirement": "2.5.1-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-055",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "7 Profile Management / Field-level security, organization-wide defaults, role hierarchy and sharing rules for record access",
+      "field": "SharingSettings.orgWideDefaults",
+      "condition": "필드 수준 보안·OWD·역할 계층·공유 규칙으로 레코드 접근 통제",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-056",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "7.1 Table 7-1",
+      "field": "PasswordPolicies·SessionSettings·NetworkSecurity·Identity·RemoteSiteSettings·CertificateAndKeyManagement 항목",
+      "condition": "GSA 필수 값과 일치",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-056",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "7.1 Table 7-1",
+      "field": "PasswordPolicies·SessionSettings·NetworkSecurity·Identity·RemoteSiteSettings·CertificateAndKeyManagement 항목",
+      "condition": "GSA 필수 값과 일치",
+      "requirement": "2.5.4-01",
+      "limitation": "GSA 필수값은 외부 자료에 있어 알 수 없고 조직 단위 설정군의 Health Check 위험등급 수만 제공한다. 개별 작성규칙의 적합성을 확인하지 않는다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-057",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "9 External Customer Access / External users use GSA-approved MFA via customer portals",
+      "field": "Experience Cloud 사이트·커뮤니티 로그인 흐름의 MFA 설정",
+      "condition": "외부 사용자가 GSA 승인 MFA 사용",
+      "requirement": "2.5.3-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-058",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "9 External Customer Access / Customer Chatter Groups: no documents posted, SF access control used",
+      "field": "-",
+      "condition": "Chatter 고객 그룹에 문서를 올리지 않는 운영",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-059",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "9.1 Customer Community Authentication",
+      "field": "Experience Cloud 사이트·커뮤니티 로그인 흐름의 MFA 설정",
+      "condition": "모든 사용자·관리자가 MFA",
+      "requirement": "2.5.3-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "salesforce",
+      "finding": "salesforce-061",
+      "standard": "GSA 11-62 Rev3 (Salesforce)",
+      "item": "9.3 Processing External Access Accounts",
+      "field": "-",
+      "condition": "외부 계정 발급 티켓 절차",
+      "requirement": "2.5.1-02",
+      "limitation": "외부 계정 발급 티켓 처리 절차에 대한 수동 항목이다. 실제 티켓·승인·직무별 권한 적정성의 이행을 확인하지 않는다."
+    },
+    {
+      "provider": "slack",
+      "finding": "slack-001",
+      "standard": "Slack 보안 팁",
+      "item": "Set up two-factor authentication",
+      "field": "has_2fa",
+      "condition": "모든 사용자 2FA 사용(또는 워크스페이스 2FA 필수)",
+      "requirement": "2.5.3-01",
+      "limitation": "Slack 사용자 2FA 개별 필드와 조직 2FA 강제 설정이 미수집이다. 실제 2FA 사용 여부를 확인하지 못한다."
+    },
+    {
+      "provider": "slack",
+      "finding": "slack-012",
+      "standard": "Slack 보안 팁",
+      "item": "Manage apps with care",
+      "field": "approved_apps, restricted_apps",
+      "condition": "앱 승인 필요 설정이 켜져 있음",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "slack",
+      "finding": "slack-013",
+      "standard": "Slack 보안 팁",
+      "item": "Only invite people you know",
+      "field": "초대 승인 필요 설정",
+      "condition": "초대에 관리자 승인 필요",
+      "requirement": "2.5.1-02",
+      "limitation": "Slack 초대 관리자 승인 설정이 미수집이다. 초대 이후 직무별 자원 권한·최소 권한은 확인하지 않는다."
+    },
+    {
+      "provider": "slack",
+      "finding": "slack-015",
+      "standard": "Slack 보안 팁",
+      "item": "Deactivate members' accounts who no longer need access",
+      "field": "deleted",
+      "condition": "필요 없어진 계정이 비활성화됨",
+      "requirement": "2.2.5-02",
+      "limitation": "Slack 사람 계정의 deleted 상태를 참고하지만 결과는 manual이며 대상별 목록을 출력하지 않는다. 누가 퇴직·직무변경됐는지와 실제 회수 대상은 조직이 정해야 한다."
+    },
+    {
+      "provider": "slack",
+      "finding": "slack-016",
+      "standard": "Slack 보안 팁",
+      "item": "Use Slack Connect to work with external people",
+      "field": "is_ext_shared",
+      "condition": "외부 협업을 Slack Connect 로 함",
+      "requirement": "3.3.1-06",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "slack",
+      "finding": "slack-017",
+      "standard": "Slack 보안 팁",
+      "item": "Use guest accounts and limit the channels they're invited to",
+      "field": "is_restricted, is_ultra_restricted",
+      "condition": "게스트가 필요한 채널에만 있음",
+      "requirement": "3.3.1-06",
+      "limitation": "수집된 게스트가 0명이라 pass다. 게스트가 있을 때 필요한 채널만 접근하는지, 개인정보와 제3자에 해당하는지는 이 결과로 확인하지 못한다."
+    },
+    {
+      "provider": "slack",
+      "finding": "slack-021",
+      "standard": "Slack 보안 팁",
+      "item": "Understand Slack usage - Audit logs and anomaly events",
+      "field": "entries",
+      "condition": "감사 로그·이상 이벤트를 모니터링함",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "slack",
+      "finding": "slack-021",
+      "standard": "Slack 보안 팁",
+      "item": "Understand Slack usage - Audit logs and anomaly events",
+      "field": "entries",
+      "condition": "감사 로그·이상 이벤트를 모니터링함",
+      "requirement": "2.5.6-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "slack",
+      "finding": "slack-022",
+      "standard": "Slack 보안 팁",
+      "item": "Understand Slack usage - SIEM or SOAR tools",
+      "field": "SIEM·SOAR 연동",
+      "condition": "Slack 이벤트를 SIEM·SOAR 로 보냄",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-018",
+      "standard": "Atlassian 보안 가이드",
+      "item": "1",
+      "field": "클라우드 현황 파악",
+      "condition": "어떤 앱·제품·사용자가 있는지 파악함",
+      "requirement": "1.2.1-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-019",
+      "standard": "Atlassian 보안 가이드",
+      "item": "2",
+      "field": "organization",
+      "condition": "조직이 있고 도메인이 인증됨",
+      "requirement": "1.2.1-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-020",
+      "standard": "Atlassian 보안 가이드",
+      "item": "4",
+      "field": "SSO 설정",
+      "condition": "SAML·Google Workspace SSO 구성",
+      "requirement": "2.5.3-01",
+      "limitation": "Atlassian 조직 SSO 정책은 관리 API 미수집으로 확인하지 못한다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-021",
+      "standard": "Atlassian 보안 가이드",
+      "item": "5",
+      "field": "SCIM 설정",
+      "condition": "SCIM 자동 프로비저닝 구성",
+      "requirement": "2.2.5-02",
+      "limitation": "Atlassian 조직 관리 API의 SCIM 설정이 미수집이다. 실제 퇴직자 자동 회수 이행을 확인하지 못한다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-021",
+      "standard": "Atlassian 보안 가이드",
+      "item": "5",
+      "field": "SCIM 설정",
+      "condition": "SCIM 자동 프로비저닝 구성",
+      "requirement": "2.3.4-01",
+      "limitation": "Atlassian 조직 관리 API의 SCIM 프로비저닝·회수 설정은 미수집이다. 대상이 외부자인지, 외부자 계약 종료 시 실제 계정 삭제·정보자산 반환·비밀유지 확약이 이행됐는지 확인하지 않는다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-022",
+      "standard": "Atlassian 보안 가이드",
+      "item": "6",
+      "field": "인증 정책",
+      "condition": "인증 정책 구성",
+      "requirement": "2.5.3-01",
+      "limitation": "Atlassian 인증 정책은 관리 API 미수집으로 확인하지 못한다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-023",
+      "standard": "Atlassian 보안 가이드",
+      "item": "7a",
+      "field": "인증 정책 2단계 인증 강제",
+      "condition": "조직 전체 2단계 인증 강제",
+      "requirement": "2.5.3-01",
+      "limitation": "Atlassian 조직 2단계 인증 강제 정책은 관리 API 미수집으로 확인하지 못한다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-024",
+      "standard": "Atlassian 보안 가이드",
+      "item": "7b",
+      "field": "인증 정책 소셜 로그인",
+      "condition": "Google·Microsoft·Apple·Slack 로그인 차단",
+      "requirement": "2.5.3-01",
+      "limitation": "Atlassian 소셜 로그인 차단 정책은 관리 API 미수집으로 확인하지 못한다. 해당 제한만으로 전체 인증 절차의 안전성을 판단하지 않는다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-025",
+      "standard": "Atlassian 보안 가이드",
+      "item": "7c",
+      "field": "인증 정책 비밀번호",
+      "condition": "비밀번호 강도·만료 규칙",
+      "requirement": "2.5.4-01",
+      "limitation": "Atlassian 조직 관리 API가 미수집이라 비밀번호 강도와 만료 정책값을 확인하지 않는다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-032",
+      "standard": "Atlassian 보안 가이드",
+      "item": "8",
+      "field": "감사 기록",
+      "condition": "정기적으로 검토함",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-032",
+      "standard": "Atlassian 보안 가이드",
+      "item": "8",
+      "field": "감사 기록",
+      "condition": "정기적으로 검토함",
+      "requirement": "2.5.6-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-033",
+      "standard": "Atlassian 보안 가이드",
+      "item": "9",
+      "field": "사용자·그룹 목록",
+      "condition": "정기적으로 계정을 감사하고 관리자 접근을 제한함",
+      "requirement": "2.5.1-02",
+      "limitation": "수집 사용자·그룹 목록을 바탕으로 계정 감사·관리자 접근 제한을 수동 검토한다. 실제 검토 이행과 각 사용자 직무별 최소 권한은 별도다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-033",
+      "standard": "Atlassian 보안 가이드",
+      "item": "9",
+      "field": "사용자·그룹 목록",
+      "condition": "정기적으로 계정을 감사하고 관리자 접근을 제한함",
+      "requirement": "2.5.6-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-026",
+      "standard": "Atlassian 보안 가이드",
+      "item": "11",
+      "field": "모바일 정책",
+      "condition": "MAM·MDM 정책 구성",
+      "requirement": "2.6.6-03",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-028",
+      "standard": "Atlassian 보안 가이드",
+      "item": "13",
+      "field": "데이터 보호 정책",
+      "condition": "데이터 보호 정책 구성",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-029",
+      "standard": "Atlassian 보안 가이드",
+      "item": "14",
+      "field": "위협 탐지 설정",
+      "condition": "의심 활동 탐지·알림 구성",
+      "requirement": "2.11.3-01",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    },
+    {
+      "provider": "atlassian",
+      "finding": "atlassian-030",
+      "standard": "Atlassian 보안 가이드",
+      "item": "15",
+      "field": "분류·보호 정책 조합",
+      "condition": "분류 규칙과 데이터 보호 정책 함께 구성",
+      "requirement": "2.10.2-02",
+      "limitation": "검사 대상의 실제 적용 범위와 절차 이행 여부는 추가 확인이 필요합니다."
+    }
+  ]
+}

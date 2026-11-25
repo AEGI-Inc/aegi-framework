@@ -1,0 +1,905 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: gws
+service: null
+object_type: File
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:f23acd1ab4c68d579f1cba62
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:f23acd1ab4c68d579f1cba62.identity_evidence
+tenant_binding:
+  type: Customer
+  service: admin
+  call: GW-01
+  items: (root)
+  id: id
+fields:
+  labelInfo:
+    path: labelInfo
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: labelInfo
+      required: false
+      shape: sh:gws_drive:File.labelInfo
+    map_items: []
+  sha256Checksum:
+    path: sha256Checksum
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: sha256Checksum
+      required: false
+      scalar: string
+    map_items:
+      - space:File|sha256Checksum
+  description:
+    path: description
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: description
+      required: false
+      scalar: string
+    map_items:
+      - space:File|description
+  driveId:
+    path: driveId
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: driveId
+      required: false
+      scalar: string
+    map_items:
+      - space:File|driveId
+  inheritedPermissionsDisabled:
+    path: inheritedPermissionsDisabled
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: inheritedPermissionsDisabled
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|inheritedPermissionsDisabled
+  originalFilename:
+    path: originalFilename
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: originalFilename
+      required: false
+      scalar: string
+    map_items:
+      - space:File|originalFilename
+  writersCanShare:
+    path: writersCanShare
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: writersCanShare
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|writersCanShare
+  kind:
+    path: kind
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: kind
+      required: false
+      scalar: string
+    map_items:
+      - space:File|kind
+  fileExtension:
+    path: fileExtension
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: fileExtension
+      required: false
+      scalar: string
+    map_items:
+      - space:File|fileExtension
+  version:
+    path: version
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      format: int64
+      name: version
+      required: false
+      scalar: string
+    map_items:
+      - space:File|version
+  headRevisionId:
+    path: headRevisionId
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: headRevisionId
+      required: false
+      scalar: string
+    map_items:
+      - space:File|headRevisionId
+  parents:
+    path: parents
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: parents
+      required: false
+      shape: sh:gws_drive:File.parents
+    map_items:
+      - space:File|parents
+  exportLinks:
+    path: exportLinks
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: exportLinks
+      read_only: true
+      required: false
+      shape: sh:gws_drive:File.exportLinks
+    map_items:
+      - space:File|exportLinks
+  viewedByMe:
+    path: viewedByMe
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: viewedByMe
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|viewedByMe
+  trashedTime:
+    path: trashedTime
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      format: date-time
+      name: trashedTime
+      required: false
+      scalar: string
+    map_items:
+      - space:File|trashedTime
+  mimeType:
+    path: mimeType
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: mimeType
+      required: false
+      scalar: string
+    map_items:
+      - space:File|mimeType
+  modifiedByMeTime:
+    path: modifiedByMeTime
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      format: date-time
+      name: modifiedByMeTime
+      required: false
+      scalar: string
+    map_items:
+      - space:File|modifiedByMeTime
+  capabilities:
+    path: capabilities
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: capabilities
+      required: false
+      shape: sh:gws_drive:File.capabilities
+    map_items: []
+  iconLink:
+    path: iconLink
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: iconLink
+      required: false
+      scalar: string
+    map_items:
+      - space:File|iconLink
+  trashed:
+    path: trashed
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: trashed
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|trashed
+  videoMediaMetadata:
+    path: videoMediaMetadata
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: videoMediaMetadata
+      required: false
+      shape: sh:gws_drive:File.videoMediaMetadata
+    map_items: []
+  downloadRestrictions:
+    path: downloadRestrictions
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: downloadRestrictions
+      required: false
+      shape: sh:gws_drive:DownloadRestrictionsMetadata
+    map_items: []
+  explicitlyTrashed:
+    path: explicitlyTrashed
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: explicitlyTrashed
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|explicitlyTrashed
+  modifiedTime:
+    path: modifiedTime
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      format: date-time
+      name: modifiedTime
+      required: false
+      scalar: string
+    map_items:
+      - space:File|modifiedTime
+  properties:
+    path: properties
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: properties
+      required: false
+      shape: sh:gws_drive:File.properties
+    map_items:
+      - space:File|properties
+  linkShareMetadata:
+    path: linkShareMetadata
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: linkShareMetadata
+      required: false
+      shape: sh:gws_drive:File.linkShareMetadata
+    map_items: []
+  owners:
+    path: owners
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: owners
+      required: false
+      shape: sh:gws_drive:File.owners
+    map_items: []
+  resourceKey:
+    path: resourceKey
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: resourceKey
+      required: false
+      scalar: string
+    map_items:
+      - space:File|resourceKey
+  name:
+    path: name
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:File|name
+  lastModifyingUser:
+    path: lastModifyingUser
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: lastModifyingUser
+      required: false
+      shape: sh:gws_drive:User
+    map_items: []
+  clientEncryptionDetails:
+    path: clientEncryptionDetails
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: clientEncryptionDetails
+      required: false
+      shape: sh:gws_drive:ClientEncryptionDetails
+    map_items: []
+  quotaBytesUsed:
+    path: quotaBytesUsed
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      format: int64
+      name: quotaBytesUsed
+      required: false
+      scalar: string
+    map_items:
+      - space:File|quotaBytesUsed
+  ownedByMe:
+    path: ownedByMe
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: ownedByMe
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|ownedByMe
+  sha1Checksum:
+    path: sha1Checksum
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: sha1Checksum
+      required: false
+      scalar: string
+    map_items:
+      - space:File|sha1Checksum
+  shortcutDetails:
+    path: shortcutDetails
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: shortcutDetails
+      required: false
+      shape: sh:gws_drive:File.shortcutDetails
+    map_items: []
+  fullFileExtension:
+    path: fullFileExtension
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: fullFileExtension
+      required: false
+      scalar: string
+    map_items:
+      - space:File|fullFileExtension
+  spaces:
+    path: spaces
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: spaces
+      required: false
+      shape: sh:gws_drive:File.spaces
+    map_items:
+      - space:File|spaces
+  imageMediaMetadata:
+    path: imageMediaMetadata
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: imageMediaMetadata
+      required: false
+      shape: sh:gws_drive:File.imageMediaMetadata
+    map_items: []
+  modifiedByMe:
+    path: modifiedByMe
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: modifiedByMe
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|modifiedByMe
+  size:
+    path: size
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      format: int64
+      name: size
+      required: false
+      scalar: string
+    map_items:
+      - space:File|size
+  thumbnailVersion:
+    path: thumbnailVersion
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      format: int64
+      name: thumbnailVersion
+      required: false
+      scalar: string
+    map_items:
+      - space:File|thumbnailVersion
+  permissions:
+    path: permissions
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: permissions
+      required: false
+      shape: sh:gws_drive:File.permissions
+    map_items:
+      - space:File|permissions
+  viewersCanCopyContent:
+    path: viewersCanCopyContent
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      deprecated: true
+      name: viewersCanCopyContent
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|viewersCanCopyContent
+  md5Checksum:
+    path: md5Checksum
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: md5Checksum
+      required: false
+      scalar: string
+    map_items:
+      - space:File|md5Checksum
+  copyRequiresWriterPermission:
+    path: copyRequiresWriterPermission
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: copyRequiresWriterPermission
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|copyRequiresWriterPermission
+  hasThumbnail:
+    path: hasThumbnail
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: hasThumbnail
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|hasThumbnail
+  appProperties:
+    path: appProperties
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: appProperties
+      required: false
+      shape: sh:gws_drive:File.appProperties
+    map_items:
+      - space:File|appProperties
+  shared:
+    path: shared
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: shared
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|shared
+  thumbnailLink:
+    path: thumbnailLink
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: thumbnailLink
+      required: false
+      scalar: string
+    map_items:
+      - space:File|thumbnailLink
+  teamDriveId:
+    path: teamDriveId
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      deprecated: true
+      name: teamDriveId
+      required: false
+      scalar: string
+    map_items:
+      - space:File|teamDriveId
+  folderColorRgb:
+    path: folderColorRgb
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: folderColorRgb
+      required: false
+      scalar: string
+    map_items:
+      - space:File|folderColorRgb
+  sharingUser:
+    path: sharingUser
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: sharingUser
+      required: false
+      shape: sh:gws_drive:User
+    map_items: []
+  sharedWithMeTime:
+    path: sharedWithMeTime
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      format: date-time
+      name: sharedWithMeTime
+      required: false
+      scalar: string
+    map_items:
+      - space:File|sharedWithMeTime
+  createdTime:
+    path: createdTime
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      format: date-time
+      name: createdTime
+      required: false
+      scalar: string
+    map_items:
+      - space:File|createdTime
+  starred:
+    path: starred
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: starred
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|starred
+  webViewLink:
+    path: webViewLink
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: webViewLink
+      required: false
+      scalar: string
+    map_items:
+      - space:File|webViewLink
+  permissionIds:
+    path: permissionIds
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: permissionIds
+      required: false
+      shape: sh:gws_drive:File.permissionIds
+    map_items:
+      - space:File|permissionIds
+  trashingUser:
+    path: trashingUser
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: trashingUser
+      required: false
+      shape: sh:gws_drive:User
+    map_items: []
+  isAppAuthorized:
+    path: isAppAuthorized
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: isAppAuthorized
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|isAppAuthorized
+  viewedByMeTime:
+    path: viewedByMeTime
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      format: date-time
+      name: viewedByMeTime
+      required: false
+      scalar: string
+    map_items:
+      - space:File|viewedByMeTime
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: id
+      required: false
+      scalar: string
+    map_items:
+      - space:File|id
+  hasAugmentedPermissions:
+    path: hasAugmentedPermissions
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: hasAugmentedPermissions
+      required: false
+      scalar: boolean
+    map_items:
+      - space:File|hasAugmentedPermissions
+  contentRestrictions:
+    path: contentRestrictions
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: contentRestrictions
+      required: false
+      shape: sh:gws_drive:File.contentRestrictions
+    map_items: []
+  contentHints:
+    path: contentHints
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: contentHints
+      required: false
+      shape: sh:gws_drive:File.contentHints
+    map_items: []
+  webContentLink:
+    path: webContentLink
+    source: research_shape
+    shape: sh:gws_drive:File
+    declaration:
+      name: webContentLink
+      required: false
+      scalar: string
+    map_items:
+      - space:File|webContentLink
+references:
+  - name: sharinguser_permissionid
+    field: sharingUser.permissionId
+    target: Permission
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0831039f5cf9f15da92d5ccb; relation=no_relation
+  - name: permissions
+    field: permissions
+    target: Permission
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3e03c5233460f4784ae1bf68; relation=no_relation
+  - name: contentrestrictions_restrictinguser_permissionid
+    field: contentRestrictions.restrictingUser.permissionId
+    target: Permission
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:49f1cfb56998cb014bcd1e63; relation=no_relation
+  - name: owners_permissionid
+    field: owners.permissionId
+    target: Permission
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:b32a0476f121e55ae9a24c44; relation=no_relation
+  - name: lastmodifyinguser_permissionid
+    field: lastModifyingUser.permissionId
+    target: Permission
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:bef06c7edca85b2f51882fcb; relation=no_relation
+  - name: trashinguser_permissionid
+    field: trashingUser.permissionId
+    target: Permission
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:dd0e8661d3e8515b55ee97b5; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: gws
+  object_type: File
+  interfaces: *a1
+  model:
+    research_type: object-type:f23acd1ab4c68d579f1cba62
+  extract:
+    key: PILOT-gws-File-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-GWS-1cba62
+            endpoint: /
+            items:
+              - changes.file
+        properties:
+          appProperties: appProperties
+          capabilities: capabilities
+          clientEncryptionDetails: clientEncryptionDetails
+          contentHints: contentHints
+          contentRestrictions: contentRestrictions
+          copyRequiresWriterPermission: copyRequiresWriterPermission
+          createdTime: createdTime
+          description: description
+          downloadRestrictions: downloadRestrictions
+          driveId: driveId
+          explicitlyTrashed: explicitlyTrashed
+          exportLinks: exportLinks
+          fileExtension: fileExtension
+          folderColorRgb: folderColorRgb
+          fullFileExtension: fullFileExtension
+          hasAugmentedPermissions: hasAugmentedPermissions
+          hasThumbnail: hasThumbnail
+          headRevisionId: headRevisionId
+          iconLink: iconLink
+          id: id
+          imageMediaMetadata: imageMediaMetadata
+          inheritedPermissionsDisabled: inheritedPermissionsDisabled
+          isAppAuthorized: isAppAuthorized
+          kind: kind
+          labelInfo: labelInfo
+          lastModifyingUser: lastModifyingUser
+          linkShareMetadata: linkShareMetadata
+          md5Checksum: md5Checksum
+          mimeType: mimeType
+          modifiedByMe: modifiedByMe
+          modifiedByMeTime: modifiedByMeTime
+          modifiedTime: modifiedTime
+          name: name
+          originalFilename: originalFilename
+          ownedByMe: ownedByMe
+          owners: owners
+          parents: parents
+          permissionIds: permissionIds
+          permissions: permissions
+          properties: properties
+          quotaBytesUsed: quotaBytesUsed
+          resourceKey: resourceKey
+          sha1Checksum: sha1Checksum
+          sha256Checksum: sha256Checksum
+          shared: shared
+          sharedWithMeTime: sharedWithMeTime
+          sharingUser: sharingUser
+          shortcutDetails: shortcutDetails
+          size: size
+          spaces: spaces
+          starred: starred
+          teamDriveId: teamDriveId
+          thumbnailLink: thumbnailLink
+          thumbnailVersion: thumbnailVersion
+          trashed: trashed
+          trashedTime: trashedTime
+          trashingUser: trashingUser
+          version: version
+          videoMediaMetadata: videoMediaMetadata
+          viewedByMe: viewedByMe
+          viewedByMeTime: viewedByMeTime
+          viewersCanCopyContent: viewersCanCopyContent
+          webContentLink: webContentLink
+          webViewLink: webViewLink
+          writersCanShare: writersCanShare
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_with_records
+  call: GW-07
+  operation_id: op:gws_drive:drive.files.list
+  operation: drive.files.list
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /files(?:\?|$)
+  endpoint_template: /files
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:gws_drive:File
+      path:
+        - files
+        - "*"
+  alternatives_total: 2
+  alternatives:
+    - operation_id: op:gws_drive:drive.files.get
+      method: GET
+      kind: read_one
+      endpoint_template: /files/{fileId}
+      path: []
+    - operation_id: op:gws_drive:drive.changes.list
+      method: GET
+      kind: read_many
+      endpoint_template: /changes
+      path:
+        - changes
+        - "*"
+        - file
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 6
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 8d48095984113f27a11dc420a752b717df59eae51bc3bbd4797896c8ad4af30d
+    ir/shape.jsonl: 998cf62cfd25e0d4d9d9e705e0e34b0b8c31494250a970686a7d8867e0503fbc
+    ir/operation.jsonl: 14fd7a38425bfeae03709952cd2c90c62f41d51658abd12c249f48def14db67f
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - sharingUser.permissionId
+    - permissions
+    - contentRestrictions.restrictingUser.permissionId
+    - owners.permissionId
+    - lastModifyingUser.permissionId
+    - trashingUser.permissionId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

@@ -1,0 +1,10 @@
+identity:
+  primary:
+    - name: kid
+      expr: kid
+      stability: undocumented
+  scope: tenant
+manual_basis: 앱 키 목록(apps/{appId}/credentials/keys)은 여러 앱이 함께 쓰는 서명 키를 앱마다 다시 돌려준다.
+  kid, 공개키(n, e), 인증서(x5c)가 같으면 같은 키다. 키 하나를 kid 로 만들고, 앱별 사용은 기존 contained_in
+  관계(키 -> 앱)로 남긴다. created, lastUpdated 는 앱에 붙은 시각이라 앱마다 다르며 처음 읽은 값이 남는다.
+  2026-10-30 실측 15건, kid 7개

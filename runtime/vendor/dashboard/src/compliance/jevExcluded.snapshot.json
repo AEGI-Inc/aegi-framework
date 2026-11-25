@@ -1,0 +1,207 @@
+{
+  "version": "2026-11-13-confirmed",
+  "source": "direct-review-208 (90 DROP) + v1-goldilocks-agreed-drop (24) = 114 pairs; 0 CF intersection",
+  "totalPairs": 114,
+  "byItem": {
+    "ISMS-P:1.2.1-01": [
+      "github:branches",
+      "okta:oauth2scope",
+      "salesforce:extlclntappoauthplcycnfg",
+      "salesforce:extlclntappplcycnfg",
+      "salesforce:genaiplannerfunctiondef",
+      "salesforce:lead",
+      "salesforce:opportunity",
+      "salesforce:packagelicense"
+    ],
+    "ISMS-P:1.2.1-02": [
+      "atlassian:securityscheme"
+    ],
+    "ISMS-P:1.2.1-03": [
+      "okta:oauth2scope",
+      "salesforce:genaiplannerfunctiondef",
+      "salesforce:lead",
+      "salesforce:opportunity",
+      "salesforce:packagelicense"
+    ],
+    "ISMS-P:1.2.2-01": [
+      "external:host",
+      "github:custom-agents",
+      "gws:mailaddress",
+      "okta:oauth2scope",
+      "salesforce:packagelicense"
+    ],
+    "ISMS-P:1.2.2-02": [
+      "external:host",
+      "github:personal-access-tokens",
+      "gws:mailaddress",
+      "gws:token",
+      "okta:oauth2refreshtoken"
+    ],
+    "ISMS-P:1.2.2-03": [
+      "github:personal-access-tokens",
+      "okta:oauth2refreshtoken",
+      "salesforce:oauthtoken"
+    ],
+    "ISMS-P:2.10.1-02": [
+      "atlassian:projectrole"
+    ],
+    "ISMS-P:2.10.1-04": [
+      "github:branches",
+      "github:check-immutable-releases",
+      "github:code-security-configuration",
+      "github:enterprise",
+      "okta:authenticatorbase",
+      "okta:userlockoutsettings",
+      "salesforce:samlssoconfig"
+    ],
+    "ISMS-P:2.10.1-05": [
+      "github:branches",
+      "github:enterprise"
+    ],
+    "ISMS-P:2.10.2-02": [
+      "atlassian:org",
+      "github:branches",
+      "github:enterprise",
+      "gws:customer",
+      "slack:200.team_2"
+    ],
+    "ISMS-P:2.10.2-03": [
+      "atlassian:projectrole"
+    ],
+    "ISMS-P:2.10.2-04": [
+      "atlassian:org",
+      "github:branches"
+    ],
+    "ISMS-P:2.10.5-02": [
+      "github:credential-authorizations",
+      "github:deploy-key",
+      "github:installation",
+      "github:personal-access-tokens",
+      "gws:token",
+      "okta:authorizationserverjsonwebkey",
+      "okta:jsonencryptionwebkey",
+      "okta:jsonwebkey",
+      "okta:jsonwebkey_2",
+      "okta:oauth2refreshtoken",
+      "salesforce:extlclntappplcycnfg",
+      "salesforce:oauthtoken",
+      "slack:credential-row:oauth:xoxb"
+    ],
+    "ISMS-P:2.2.2-01": [
+      "salesforce:extlclntappoauthplcycnfg"
+    ],
+    "ISMS-P:2.2.5-02": [
+      "github:integration",
+      "okta:authorizationserver",
+      "okta:oauth2scope",
+      "salesforce:authprovider",
+      "salesforce:extlclntappoauthplcycnfg",
+      "salesforce:extlclntappoauthsettings",
+      "salesforce:extlclntappplcycnfg"
+    ],
+    "ISMS-P:2.3.1-01": [
+      "github:public-user",
+      "okta:authorizationserver"
+    ],
+    "ISMS-P:2.3.4-01": [
+      "okta:authorizationserver"
+    ],
+    "ISMS-P:2.5.3-02": [
+      "okta:apitoken",
+      "okta:threatinsightconfiguration",
+      "okta:trustedorigin"
+    ],
+    "ISMS-P:2.5.4-01": [
+      "okta:authenticatorbase",
+      "okta:userlockoutsettings"
+    ],
+    "ISMS-P:2.5.4-02": [
+      "okta:userlockoutsettings"
+    ],
+    "ISMS-P:2.5.4-03": [
+      "github:actions-secret",
+      "github:deploy-key",
+      "okta:authorizationserverjsonwebkey",
+      "okta:jsonencryptionwebkey",
+      "slack:credential-row:oauth:url",
+      "slack:credential-row:oauth:xoxb"
+    ],
+    "ISMS-P:2.5.6-01": [
+      "okta:behaviorrule",
+      "okta:eventhook"
+    ],
+    "ISMS-P:2.7.2-02": [
+      "salesforce:samlssoconfig"
+    ],
+    "ISMS-P:2.8.3-02": [
+      "okta:behaviorrule",
+      "okta:threatinsightconfiguration"
+    ],
+    "ISMS-P:3.2.5-04": [
+      "github:credential-authorizations",
+      "gws:mailbox",
+      "salesforce:permissionsetlicenseassign"
+    ],
+    "ISMS-P:3.3.1-05": [
+      "slack:credential-row:oauth:url",
+      "slack:slash command request endpoint"
+    ],
+    "ISMS-P:3.3.1-06": [
+      "salesforce:packagelicense"
+    ],
+    "ISMS-P:3.3.4-04": [
+      "okta:oauth2scope"
+    ],
+    "ISMS-P:3.4.2-04": [
+      "okta:assignedapplink"
+    ],
+    "ISO27001:5.12": [
+      "atlassian:securityscheme"
+    ],
+    "ISO27001:5.13": [
+      "atlassian:securityscheme"
+    ],
+    "ISO27001:5.3": [
+      "salesforce:extlclntappplcycnfg"
+    ],
+    "ISO27001:5.9": [
+      "okta:oauth2scope",
+      "salesforce:lead"
+    ],
+    "ISO27001:8.11": [
+      "atlassian:securityscheme"
+    ],
+    "ISO27001:8.19": [
+      "gws:token"
+    ],
+    "ISO27001:8.22": [
+      "atlassian:securityscheme",
+      "okta:clientprivilegessetting",
+      "salesforce:samlssoconfig"
+    ],
+    "ISO27001:8.34": [
+      "slack:200.entities[*]"
+    ],
+    "ISO27001:8.9": [
+      "gws:customer"
+    ],
+    "PIPA:admin-73493:article-6-2:p1": [
+      "github:organization-role",
+      "salesforce:remotesitesetting"
+    ],
+    "PIPA:admin-73493:article-7:p2": [
+      "github:deploy-key",
+      "okta:authorizationserver",
+      "salesforce:samlssoconfig"
+    ],
+    "PIPA:admin-73493:article-7:p6": [
+      "salesforce:samlssoconfig"
+    ],
+    "PIPA:law-011357:article-28-4:p1": [
+      "okta:oauth2scopeconsentgrant"
+    ],
+    "PIPA:law-011357:article-28-8:p1": [
+      "salesforce:packagelicense"
+    ]
+  }
+}

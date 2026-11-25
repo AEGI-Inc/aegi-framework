@@ -1,0 +1,44 @@
+overlay_basis:
+  from: aegi-knowledge docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md
+  note: 레지스트리 신규 객체의 관계 후보 채택(aegi-knowledge#93)
+references:
+  - name: userid
+    field: UserId
+    target: User
+    relation: has_role_on
+    reviewed_at: 2026-10-29
+    rationale: aegi-knowledge
+      docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md (IM v1
+      no_relation 을 바꿈)
+  - name: authsessionid
+    field: AuthSessionId
+    target: AuthSession
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:287d04c7c83d1d4ce1a44f63;
+      relation=no_relation
+  - name: permissionsetid
+    field: PermissionSetId
+    target: PermissionSet
+    relation: has_role_on
+    reviewed_at: 2026-10-29
+    rationale: aegi-knowledge
+      docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md (IM v1
+      no_relation 을 바꿈)
+  - name: permissionsetgroupid
+    field: PermissionSetGroupId
+    target: PermissionSetGroup
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:b5c37295c7e05f350022117f;
+      relation=no_relation
+relation_plans:
+  - type: has_role_on
+    source: $refs.userid
+    target: $tenant
+    role: $refs.permissionsetid
+    basis: stated
+    properties:
+      session_active: true
+      session_activation: $self
+    decision: aegi-knowledge#93

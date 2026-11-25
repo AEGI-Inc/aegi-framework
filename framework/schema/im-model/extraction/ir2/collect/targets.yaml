@@ -1,0 +1,385 @@
+# 새로 받을 주소 (2026-10-15). fetch.py 가 사다리(9절)로 받는다. 이미 받은 주소는 건너뛴다.
+# 필드: id, provider, kind, rank, naming, url(사람이 읽는 쪽), machine_alt(같은 내용의 기계용 원본, 0단),
+#       machine_alt_existing(이미 받은 같은 내용 파일, 0단), expect(json|yaml|pdf|html), version, note
+snapshot: snapshot_2026-10-15
+
+targets:
+  - id: okta_iga_openapi
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/iga/openapi/governance-production-reference
+    # Redocly 문서 쪽이 부르는 명세 원본. 쪽 데이터(page-data/...data.json)의 definitionId 로 찾았다
+    machine_alt: [https://developer.okta.com/docs/api/_spec/iga/openapi/governance-production-reference.yaml]
+    expect: yaml
+    note: Okta Identity Governance API (관리자). 1절 범위 Okta Identity Governance
+
+  - id: okta_iga_enduser_openapi
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/iga/openapi/governance-production-enduser-reference
+    machine_alt: [https://developer.okta.com/docs/api/_spec/iga/openapi/governance-production-enduser-reference.yaml]
+    expect: yaml
+    note: Okta Identity Governance API (최종 사용자 My 접근 요청, 검토)
+
+  - id: okta_iga_requests_v1_openapi
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/iga/openapi/governance.requests.admin.v1
+    machine_alt: [https://developer.okta.com/docs/api/_spec/iga/openapi/governance-production-requests-admin-v1-reference.yaml]
+    expect: yaml
+    note: Okta Identity Governance Access Requests v1 (request-types 등). 2026-10-18 1단계 누락 조사 D6
+
+  - id: okta_iga_requests_v2_openapi
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/iga/openapi/governance.requests.admin.v2
+    machine_alt: [https://developer.okta.com/docs/api/_spec/iga/openapi/governance-production-requests-admin-v2-reference.yaml]
+    expect: yaml
+    note: Okta Identity Governance Access Requests v2 (catalogs, request-conditions, request-sequences). D6
+
+  - id: jsm_openapi
+    provider: jira
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.atlassian.com/cloud/jira/service-desk/swagger.v3.json
+    expect: json
+    note: Jira Service Management Cloud REST. 1절 범위 Jira 전체(Service Management 포함)
+
+  - id: jira_software_openapi
+    provider: jira
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.atlassian.com/cloud/jira/software/swagger.v3.json
+    expect: json
+    note: Jira Software Cloud REST (agile, board, sprint). 1절 범위 Jira 전체
+
+  - id: gh_rest_ghec_2026_03_10_latest
+    provider: github
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghec/ghec.2026-03-10.json
+    expect: json
+    version: "API 2026-03-10 (main, 2026-10-15)"
+    note: 최신 GHEC REST. 2026-10-13 에 받은 ghec.json 은 기본 API 판(2022-11-28 계열)이라 최신 날짜판을 따로 받는다
+
+  # 2026-09-03 판(drive)과 같은 계열: descriptions-next 는 OpenAPI 3.1 (webhooks 절, 속성 examples 배열)
+  - id: gh_rest_ghec_next_2026_03_10_latest
+    provider: github
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions-next/ghec/ghec.2026-03-10.json
+    expect: json
+    version: "API 2026-03-10, OpenAPI 3.1 (descriptions-next, main 2026-10-15)"
+    note: 정규화에 쓰는 GHEC REST 와 웹훅. descriptions/ 판은 OpenAPI 3.0.3 이고 웹훅이 x-webhooks 에 있다
+
+  # 사다리 예시: 사람이 읽는 쪽은 봇 차단(403)이고 같은 표가 공식 PDF 에 있다 (0단, 이미 받음)
+  - id: sf_mobile_sdk_scope_html
+    provider: salesforce
+    kind: api_doc
+    rank: 2
+    naming: soql
+    url: https://developer.salesforce.com/docs/platform/mobile-sdk/guide/oauth-scope-parameter-values.html
+    machine_alt_existing: [salesforce_api_list/snapshot_2026-10-13/raw/resources.docs.salesforce.com__latest__latest__en-us__sfdc__pdf__mobile_sdk.pdf]
+    expect: html
+    note: 2026-10-13 에 403. 같은 표가 Mobile SDK 안내서 PDF 「Scope Parameter Values」에 있다
+
+  # SetupAuditTrail Action 값 목록 공백(sources_2026-10-13.md). help.salesforce.com 은 JS 로 그린다
+  - id: sf_setup_audit_trail_help
+    provider: salesforce
+    kind: log_doc
+    rank: 3
+    naming: soql
+    url: https://help.salesforce.com/s/articleView?id=sf.admin_monitorsetup.htm&type=5
+    expect: html
+    note: 설정 감사 기록 도움말. Action 값 목록이 있는지 확인용
+
+# 받아도 되는 공식 벤더 문서 도메인. 이 밖은 받지 않는다
+  # 2026-10-18: 오브젝트 대조(ID 공간 오브젝트 대조.md)에서 드러난 수집 범위 빈틈. Google Workspace Discovery 8종, Okta OPA, Aerial, AI Agents
+  - id: gws_drivelabels
+    provider: gws
+    kind: api_schema
+    rank: 1
+    naming: google_discovery
+    url: https://www.googleapis.com/discovery/v1/apis/drivelabels/v2/rest
+    machine_alt: ["https://drivelabels.googleapis.com/$discovery/rest?version=v2"]
+    expect: json
+    version: "v2"
+    note: Google drivelabels Discovery 문서. 확정 오브젝트 목록의 포함 후보가 이 API 를 근거로 든다
+  - id: gws_gmailpostmastertools
+    provider: gws
+    kind: api_schema
+    rank: 1
+    naming: google_discovery
+    url: https://www.googleapis.com/discovery/v1/apis/gmailpostmastertools/v1/rest
+    machine_alt: ["https://gmailpostmastertools.googleapis.com/$discovery/rest?version=v1"]
+    expect: json
+    version: "v1"
+    note: Google gmailpostmastertools Discovery 문서. 확정 오브젝트 목록의 포함 후보가 이 API 를 근거로 든다
+  - id: gws_vault
+    provider: gws
+    kind: api_schema
+    rank: 1
+    naming: google_discovery
+    url: https://www.googleapis.com/discovery/v1/apis/vault/v1/rest
+    expect: json
+    version: "v1"
+    note: Google vault Discovery 문서. 확정 오브젝트 목록의 포함 후보가 이 API 를 근거로 든다
+  - id: gws_forms
+    provider: gws
+    kind: api_schema
+    rank: 1
+    naming: google_discovery
+    url: https://www.googleapis.com/discovery/v1/apis/forms/v1/rest
+    machine_alt: ["https://forms.googleapis.com/$discovery/rest?version=v1"]
+    expect: json
+    version: "v1"
+    note: Google forms Discovery 문서. 확정 오브젝트 목록의 포함 후보가 이 API 를 근거로 든다
+  - id: gws_people
+    provider: gws
+    kind: api_schema
+    rank: 1
+    naming: google_discovery
+    url: https://www.googleapis.com/discovery/v1/apis/people/v1/rest
+    expect: json
+    version: "v1"
+    note: Google people Discovery 문서. 확정 오브젝트 목록의 포함 후보가 이 API 를 근거로 든다
+  - id: gws_chromemanagement
+    provider: gws
+    kind: api_schema
+    rank: 1
+    naming: google_discovery
+    url: https://www.googleapis.com/discovery/v1/apis/chromemanagement/v1/rest
+    machine_alt: ["https://chromemanagement.googleapis.com/$discovery/rest?version=v1"]
+    expect: json
+    version: "v1"
+    note: Google chromemanagement Discovery 문서. 확정 오브젝트 목록의 포함 후보가 이 API 를 근거로 든다
+  - id: gws_meet
+    provider: gws
+    kind: api_schema
+    rank: 1
+    naming: google_discovery
+    url: https://www.googleapis.com/discovery/v1/apis/meet/v2/rest
+    machine_alt: ["https://meet.googleapis.com/$discovery/rest?version=v2"]
+    expect: json
+    version: "v2"
+    note: Google meet Discovery 문서. 확정 오브젝트 목록의 포함 후보가 이 API 를 근거로 든다
+  - id: gws_script
+    provider: gws
+    kind: api_schema
+    rank: 1
+    naming: google_discovery
+    url: https://www.googleapis.com/discovery/v1/apis/script/v1/rest
+    expect: json
+    version: "v1"
+    note: Google script Discovery 문서. 확정 오브젝트 목록의 포함 후보가 이 API 를 근거로 든다
+  - id: okta_opa_openapi
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/openapi/opa/
+    machine_alt: [https://developer.okta.com/docs/api/_spec/openapi/opa/opa.yaml]
+    expect: yaml
+    note: Okta Privileged Access (/v1/teams/{team_name}/...)
+  - id: okta_aerial_openapi
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/openapi/aerial/
+    machine_alt: [https://developer.okta.com/docs/api/_spec/openapi/aerial/aerial.yaml]
+    expect: yaml
+    note: Okta Aerial 다중 조직 (/{accountId}/api/v1/orgs)
+  - id: okta_ai_resource_servers_a2aserverregistration
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-resource-servers/tags/a2aserverregistration
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/a2aserverregistration.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_resource_servers_apiserverregistration
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-resource-servers/tags/apiserverregistration
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/apiserverregistration.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_resource_servers_mcpserverregistration
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-resource-servers/tags/mcpserverregistration
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/mcpserverregistration.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_resource_servers_resourceserverclientauthsettings
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-resource-servers/tags/resourceserverclientauthsettings
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/resourceserverclientauthsettings.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_resource_servers_stsauthorization
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-resource-servers/tags/stsauthorization
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/stsauthorization.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_resource_servers_virtualmcpserverresource
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-resource-servers/tags/virtualmcpserverresource
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/virtualmcpserverresource.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_workload_principals_agentconnections
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-workload-principals/tags/agentconnections
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/agentconnections.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_workload_principals_agentpotentialconnections
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-workload-principals/tags/agentpotentialconnections
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/agentpotentialconnections.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_workload_principals_agentproviders
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-workload-principals/tags/agentproviders
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/agentproviders.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_workload_principals_agentpublickey
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-workload-principals/tags/agentpublickey
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/agentpublickey.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_workload_principals_agentregistration
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-workload-principals/tags/agentregistration
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/agentregistration.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_workload_principals_agentschema
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-workload-principals/tags/agentschema
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/agentschema.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_workload_principals_delegationlinks
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-workload-principals/tags/delegationlinks
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/delegationlinks.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_workload_principals_virtualmcpconnections
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-workload-principals/tags/virtualmcpconnections
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/virtualmcpconnections.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_workload_principals_virtualmcpregistration
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-workload-principals/tags/virtualmcpregistration
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/virtualmcpregistration.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+  - id: okta_ai_workload_principals_workloadprincipaloperations
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/secures-ai/openapi/secures-ai-workload-principals/tags/workloadprincipaloperations
+    machine_alt: [https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/workloadprincipaloperations.yaml]
+    expect: yaml
+    note: Okta for AI Agents (Beta). 태그마다 명세 파일이 나뉘어 있다 (sitemap 에서 태그 목록)
+
+  - id: okta_asa_openapi
+    provider: okta
+    kind: api_schema
+    rank: 1
+    naming: rest_json
+    url: https://developer.okta.com/docs/api/openapi/asa/
+    machine_alt: [https://developer.okta.com/docs/api/_spec/openapi/asa/asa.yaml]
+    expect: yaml
+    note: Okta Advanced Server Access (/v1/teams/{team_name}/projects/...). 2026-10-18 범위에 넣음
+  - id: gws_gmailpostmastertools_v2
+    provider: gws
+    kind: api_schema
+    rank: 1
+    naming: google_discovery
+    url: https://gmailpostmastertools.googleapis.com/$discovery/rest?version=v2
+    machine_alt: ["https://gmailpostmastertools.googleapis.com/$discovery/rest?version=v2"]
+    expect: json
+    version: "v2"
+    note: Postmaster Tools v2 (포함 후보가 v2 경로를 근거로 든다)
+allowed_hosts:
+  - developer.okta.com
+  - raw.githubusercontent.com/okta/
+  - raw.githubusercontent.com/github/
+  - docs.github.com
+  - developer.atlassian.com
+  - dac-static.atlassian.com
+  - support.atlassian.com
+  - docs.slack.dev
+  - api.slack.com
+  - slack.com/help/
+  - developers.google.com
+  - googleapis.com
+  - support.google.com
+  - resources.docs.salesforce.com
+  - developer.salesforce.com
+  - help.salesforce.com

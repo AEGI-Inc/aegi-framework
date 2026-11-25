@@ -1,0 +1,355 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: request-type-full
+interfaces: &a1
+  - Policy
+model:
+  research_type: object-type:8046981f1fef7be6d9b02c6c
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:8046981f1fef7be6d9b02c6c.identity_evidence
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  name:
+    path: name
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: name
+      required: true
+      scalar: string
+    map_items:
+      - space:request-type-full|name
+  description:
+    path: description
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: description
+      required: true
+      scalar: string
+    map_items:
+      - space:request-type-full|description
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: id
+      required: true
+      scalar: string
+    map_items:
+      - space:request-type-full|id
+  createdBy:
+    path: createdBy
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: createdBy
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:created-by
+    map_items:
+      - space:request-type-full|createdBy
+  created:
+    path: created
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: created
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:created
+    map_items:
+      - space:request-type-full|created
+  lastUpdated:
+    path: lastUpdated
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: lastUpdated
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:last-updated
+    map_items:
+      - space:request-type-full|lastUpdated
+  lastUpdatedBy:
+    path: lastUpdatedBy
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: lastUpdatedBy
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:last-updated-by
+    map_items:
+      - space:request-type-full|lastUpdatedBy
+  _links:
+    path: _links
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: _links
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:request-type-links
+    map_items: []
+  ownerId:
+    path: ownerId
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: ownerId
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:request-type-owner-id
+    map_items:
+      - space:request-type-full|ownerId
+  resourceSettings:
+    path: resourceSettings
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: resourceSettings
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:request-type-resource-settings-readable
+    map_items: []
+  requestSettings:
+    path: requestSettings
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: requestSettings
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:request-type-request-settings-readable
+    map_items: []
+  approvalSettings:
+    path: approvalSettings
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: approvalSettings
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:request-type-approval-settings-readable
+    map_items: []
+  accessDuration:
+    path: accessDuration
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: accessDuration
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:request-duration
+    map_items:
+      - space:request-type-full|accessDuration
+  status:
+    path: status
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: status
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:request-type-status
+    map_items:
+      - space:request-type-full|status
+  lastUpdateSource:
+    path: lastUpdateSource
+    source: research_shape
+    shape: sh:okta_iga_requests_v1_openapi:request-type-full
+    declaration:
+      name: lastUpdateSource
+      required: true
+      shape: sh:okta_iga_requests_v1_openapi:request-type-last-update-source
+    map_items:
+      - space:request-type-full|lastUpdateSource
+references:
+  - name: links_self_href
+    field: _links.self.href
+    target: request-type-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:466a05135f36abe13fa5de89; relation=no_relation
+  - name: createdby
+    field: createdBy
+    target: UserGetSingleton
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:517ef0fd308925f1d7c87ea0; relation=no_relation
+  - name: approvalsettings_approvals_approveruserid
+    field: approvalSettings.approvals.approverUserId
+    target: UserGetSingleton
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:687525288c1bea8af659b268; relation=no_relation
+  - name: resourcesettings_targetresources_resourceid
+    field: resourceSettings.targetResources.resourceId
+    target: Group
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:938047675bd2e622f81741cd; relation=no_relation
+  - name: links_createrequest_href
+    field: _links.createRequest.href
+    target: request-type-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a64133ea99b997df986258bc; relation=no_relation
+  - name: lastupdatedby
+    field: lastUpdatedBy
+    target: UserGetSingleton
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c5eda1e5e50b06eff9db58be; relation=no_relation
+  - name: ownerid
+    field: ownerId
+    target: request-sequence
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c9a6860f90dda831856561c5; relation=no_relation
+  - name: links_requests_href
+    field: _links.requests.href
+    target: request-type-full
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:dfcf6923c0b8f913abb8b7dd; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: request-type-full
+  interfaces: *a1
+  model:
+    research_type: object-type:8046981f1fef7be6d9b02c6c
+  extract:
+    key: PILOT-okta-request-type-full-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-OKTA-b02c6c
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          _links: _links
+          accessDuration: accessDuration
+          approvalSettings: approvalSettings
+          created: created
+          createdBy: createdBy
+          description: description
+          id: id
+          lastUpdateSource: lastUpdateSource
+          lastUpdated: lastUpdated
+          lastUpdatedBy: lastUpdatedBy
+          name: name
+          ownerId: ownerId
+          requestSettings: requestSettings
+          resourceSettings: resourceSettings
+          status: status
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_iga_requests_v1_openapi:listAllRequestTypes
+  operation: listAllRequestTypes
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /governance/api/v1/request-types(?:\?|$)
+  endpoint_template: /governance/api/v1/request-types
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:okta_iga_requests_v1_openapi:request-type-sparse
+      path:
+        - data
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:okta_iga_requests_v1_openapi:getRequestType
+      method: GET
+      kind: read_one
+      endpoint_template: /governance/api/v1/request-types/{requestTypeId}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - _links.self.href
+    - createdBy
+    - approvalSettings.approvals.approverUserId
+    - resourceSettings.targetResources.resourceId
+    - _links.createRequest.href
+    - lastUpdatedBy
+    - ownerId
+    - _links.requests.href
+  metadata_paths: *a2
+  remaining_declared_fields: properties

@@ -1,0 +1,217 @@
+[
+  {
+    "id": "OBS-A-AGENT-RUN-001",
+    "scenarioKey": "A",
+    "kind": "agent_run",
+    "title": "GitHub Copilot Workspace Run",
+    "occurredAt": "2026-09-22T08:30:00Z",
+    "objectKeys": [
+      "SLK-U-UA",
+      "SLK-MSG-A-CONTEXT",
+      "GH-REPO-CUSTOMER-API",
+      "GH-PR-A-LOGGING"
+    ],
+    "attributes": {
+      "agent_product": "GitHub Copilot",
+      "session_id": "copilot-ses-0922-a01",
+      "initiated_by_object": "SLK-U-UA",
+      "context_message_object": "SLK-MSG-A-CONTEXT",
+      "target_repository": "GH-REPO-CUSTOMER-API",
+      "result_pull_request": "GH-PR-A-LOGGING",
+      "result_commit": "GH-COMMIT-A-LOGGING"
+    },
+    "provenance": {
+      "record": "synthetic",
+      "sourceRef": "copilot_session_audit_log"
+    }
+  },
+  {
+    "id": "OBS-A-CODE-CHANGE-001",
+    "scenarioKey": "A",
+    "kind": "content_change",
+    "title": "Customer API Logging Scope Expansion",
+    "occurredAt": "2026-09-22T08:35:00Z",
+    "objectKeys": [
+      "GH-PR-A-LOGGING",
+      "GH-COMMIT-A-LOGGING"
+    ],
+    "attributes": {
+      "changed_paths": [
+        "src/logging/requestContext.ts",
+        "src/logging/customerContext.ts"
+      ],
+      "security_sensitive": true,
+      "change_category": "logging_data_scope_expansion",
+      "new_logged_fields": [
+        "customer_email",
+        "phone",
+        "ticket_body"
+      ]
+    },
+    "provenance": {
+      "record": "synthetic",
+      "sourceRef": "github_diff_parser"
+    }
+  },
+  {
+    "id": "OBS-B-REQ-UC",
+    "scenarioKey": "B",
+    "kind": "slash_request",
+    "title": "Slash Command Request (/devbot) by 사용자 C",
+    "occurredAt": "2026-09-22T07:15:00Z",
+    "objectKeys": [
+      "SLK-U-UC",
+      "SLK-END-DEVBOT"
+    ],
+    "attributes": {
+      "command": "/devbot sync-config",
+      "requester_slack_user": "SLK-U-UC",
+      "request_channel": "SLK-CH-DEVBOT",
+      "correlated_commit": "GH-COMMIT-B-UC"
+    },
+    "provenance": {
+      "record": "synthetic",
+      "sourceRef": "devbot_internal_request_log"
+    }
+  },
+  {
+    "id": "OBS-B-REQ-UD",
+    "scenarioKey": "B",
+    "kind": "slash_request",
+    "title": "Slash Command Request (/devbot) by 사용자 D",
+    "occurredAt": "2026-09-22T08:10:00Z",
+    "objectKeys": [
+      "SLK-U-UD",
+      "SLK-END-DEVBOT"
+    ],
+    "attributes": {
+      "command": "/devbot update-script",
+      "requester_slack_user": "SLK-U-UD",
+      "request_channel": "SLK-CH-DEVBOT",
+      "correlated_commit": "GH-COMMIT-B-UD"
+    },
+    "provenance": {
+      "record": "synthetic",
+      "sourceRef": "devbot_internal_request_log"
+    }
+  },
+  {
+    "id": "OBS-B-CRED-USE-001",
+    "scenarioKey": "B",
+    "kind": "credential_use",
+    "title": "Shared GitHub PAT Token Execution",
+    "occurredAt": "2026-09-22T08:10:05Z",
+    "objectKeys": [
+      "GH-GRANT-UC-PAT",
+      "GH-U-UC",
+      "GH-REPO-INTERNAL-TOOLS"
+    ],
+    "attributes": {
+      "credential_kind": "github_personal_access_token",
+      "credential_fingerprint": "pat-fp-user-c-finegrained-001",
+      "credential_owner_object": "GH-U-UC",
+      "grant_object": "GH-GRANT-UC-PAT",
+      "native_github_actor": "GH-U-UC",
+      "slack_native_audit_contains_slash_requester": false,
+      "github_native_audit_contains_slack_requester": false,
+      "requester_trace_source": "bot_local_log_only"
+    },
+    "provenance": {
+      "record": "synthetic",
+      "sourceRef": "github_audit_log_stream"
+    }
+  },
+  {
+    "id": "OBS-C-AUTOMATION-RUN-UA",
+    "scenarioKey": "C",
+    "kind": "slash_request",
+    "title": "Okta MFA Reset Execution via Slack #helpdesk (사용자 A)",
+    "occurredAt": "2026-09-22T08:45:00Z",
+    "objectKeys": [
+      "SLK-U-UA",
+      "SLK-CH-HELPDESK",
+      "SLK-END-MFARESET",
+      "OKTA-U-TESTTARGET",
+      "OKTA-UF-TESTTARGET"
+    ],
+    "attributes": {
+      "workflow_name": "helpdesk-reset-mfa-slash",
+      "request_channel_id": "SLK-CH-HELPDESK",
+      "request_channel_name": "#helpdesk",
+      "requester_object": "SLK-U-UA",
+      "action": "POST /api/v1/users/{id}/lifecycle/reset_factors",
+      "target_object": "OKTA-U-TESTTARGET",
+      "okta_actor": "admin@aegi.site",
+      "okta_actor_id": "00u17oo1dupojisBy698",
+      "api_token_id": "AT.ngUvTAGYjegPr0FnndWunpIgfbxT4iUL7rglB6VLOSA.oar4jq08eiPJ9ENfs697",
+      "result": "success",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta_system_log_measured"
+    }
+  },
+  {
+    "id": "OBS-C-AUTOMATION-RUN-UB",
+    "scenarioKey": "C",
+    "kind": "slash_request",
+    "title": "Okta MFA Reset Execution via Slack #helpdesk (사용자 B - Baseline)",
+    "occurredAt": "2026-09-22T07:30:00Z",
+    "objectKeys": [
+      "SLK-U-UB",
+      "SLK-CH-HELPDESK",
+      "SLK-END-MFARESET",
+      "OKTA-U-TESTTARGET"
+    ],
+    "attributes": {
+      "workflow_name": "helpdesk-reset-mfa-slash",
+      "request_channel_name": "#helpdesk",
+      "requester_object": "SLK-U-UB",
+      "action": "POST /api/v1/users/{id}/lifecycle/reset_factors",
+      "target_object": "OKTA-U-TESTTARGET",
+      "okta_actor": "admin@aegi.site",
+      "result": "success",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta_system_log_measured"
+    }
+  },
+  {
+    "id": "OBS-D-DELIVERY-001",
+    "scenarioKey": "D",
+    "kind": "delivery",
+    "title": "Apps Script Form Response Auto-Delivery to Slack Webhook",
+    "occurredAt": "2026-09-22T08:50:00Z",
+    "objectKeys": [
+      "GWS-FORM-CUSTOMER-INTAKE",
+      "GWS-FILE-CUSTOMER-RESPONSES",
+      "GWS-PROJECT-CUSTOMER-SYNC",
+      "SLK-END-CUSTOMER-WEBHOOK",
+      "SLK-MSG-D-CUSTOMER-DATA"
+    ],
+    "attributes": {
+      "source_form": "GWS-FORM-CUSTOMER-INTAKE",
+      "source_file": "GWS-FILE-CUSTOMER-RESPONSES",
+      "automation": "GWS-PROJECT-CUSTOMER-SYNC",
+      "destination_endpoint": "SLK-END-CUSTOMER-WEBHOOK",
+      "destination_message": "SLK-MSG-D-CUSTOMER-DATA",
+      "trigger": "form_submit",
+      "contains_source_data": true,
+      "delivered_fields": [
+        "customer_company",
+        "contact_name",
+        "phone",
+        "email",
+        "infrastructure",
+        "poc_requirements"
+      ]
+    },
+    "provenance": {
+      "record": "synthetic",
+      "sourceRef": "gws_apps_script_execution_log"
+    }
+  }
+]

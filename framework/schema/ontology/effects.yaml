@@ -1,0 +1,12 @@
+# 효과(간선) 종류
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  edge_kinds: aegi-dashboard src/detection/v2/engine/types.ts EdgeKind @ 0ee565f
+  native_kinds: aegi-dashboard src/detection/v2/engine/types.ts NATIVE_KINDS @ 0ee565f
+
+edge_kinds: [M, U, G, T, A, F, E]
+
+native_kinds: [M, U, G]

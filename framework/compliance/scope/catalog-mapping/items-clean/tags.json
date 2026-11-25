@@ -1,0 +1,360 @@
+{
+ "version": "2026-11-09",
+ "note": "태그 하나의 어휘. 항목에 붙으면 「이 항목의 대상」, 객체 종류에 붙으면 「이 종류의 성격」. 둘이 겹치면 (항목, 종류)가 이어진다. 항목 쪽 @obj = 관계는 빼고 객체만, @type=<태그> = 그 태그로 걸린 대상은 종류(테이블) 단위.",
+ "tags": [
+  {
+   "tag": "account",
+   "name": "계정",
+   "includes": "사람·서비스·봇 계정 객체",
+   "excludes": "그룹, 권한 부여",
+   "old": [
+    "account"
+   ],
+   "examples": "okta User, gws User, salesforce User, slack member·bot, github user",
+   "items": 16
+  },
+  {
+   "tag": "group",
+   "name": "사용자 묶음",
+   "includes": "그룹, 팀, 조직 단위(OU)",
+   "excludes": "그룹 소속 자체(access_grant)",
+   "old": [
+    "group",
+    "org_structure(OU)"
+   ],
+   "examples": "okta Group, salesforce Group, atlassian Group, gws OrgUnit",
+   "items": 2
+  },
+  {
+   "tag": "provisioning",
+   "name": "계정 자동 생성·삭제 경로",
+   "includes": "SCIM·디렉터리 동기화·JIT, 프로필 매핑, 그룹 자동 배정 규칙",
+   "excludes": "계정 자체",
+   "old": [
+    "provisioning"
+   ],
+   "examples": "okta ProfileMapping·ProvisioningConnection·GroupRule",
+   "items": 6
+  },
+  {
+   "tag": "access_role",
+   "name": "권한 정의",
+   "includes": "역할, 권한 묶음, 권한 체계(무엇을 할 수 있나)",
+   "excludes": "누구에게 줬나(access_grant)",
+   "old": [
+    "access_policy"
+   ],
+   "examples": "salesforce PermissionSet·Profile, gws Role, okta IamRole, atlassian PermissionScheme·ProjectRole, github organization-role",
+   "items": 13
+  },
+  {
+   "tag": "access_grant",
+   "name": "권한 부여",
+   "includes": "역할 배정, 그룹 소속, 앱 배정, 파일·공간 권한(ACL). has_role_on·member_of 관계",
+   "excludes": "권한 정의(access_role)",
+   "old": [
+    "access_grant"
+   ],
+   "examples": "gws RoleAssignment·Permission·AclRule, salesforce PermissionSetAssignment·GroupMember, okta AppUser",
+   "items": 30
+  },
+  {
+   "tag": "admin_access",
+   "name": "관리자 권한",
+   "includes": "관리자 역할 정의와 그 배정, 관리자 API 토큰. access_role·access_grant·credential 중 하나와 같이 붙는다",
+   "excludes": "일반 권한",
+   "old": [
+    "privileged_role",
+    "admin_grant",
+    "admin_credential"
+   ],
+   "examples": "gws Role(ADMIN)·RoleAssignment(admin), okta IamRole·CustomRole·ApiToken, salesforce 관리자 Profile",
+   "items": 16
+  },
+  {
+   "tag": "sharing",
+   "name": "외부·공개 공유",
+   "includes": "조직 밖이나 불특정 다수에게 열린 권한, 링크 공유, 공유 정책 설정",
+   "excludes": "조직 안 권한",
+   "old": [
+    "sharing"
+   ],
+   "examples": "gws Permission·AclRule, gws Policy(drive_and_docs), atlassian SharePermission, salesforce ContentDocumentLink",
+   "items": 14
+  },
+  {
+   "tag": "authentication",
+   "name": "로그인 방법",
+   "includes": "로그인·MFA 정책, 인증기, 사용자 인증 수단 등록, SSO·IdP 설정",
+   "excludes": "비밀번호 규칙(password_policy), 세션(session_policy)",
+   "old": [
+    "auth_policy",
+    "auth_factor"
+   ],
+   "examples": "okta Policy·Authenticator·UserFactor, gws Policy(security.*), salesforce SamlSsoConfig·AuthProvider",
+   "items": 14
+  },
+  {
+   "tag": "password_policy",
+   "name": "비밀번호 규칙",
+   "includes": "비밀번호 길이·복잡도·변경 주기, 로그인 실패 잠금",
+   "excludes": "",
+   "old": [
+    "password_policy"
+   ],
+   "examples": "gws Policy(security.password), okta password Policy·UserLockoutSettings",
+   "items": 6
+  },
+  {
+   "tag": "session_policy",
+   "name": "세션 설정",
+   "includes": "세션 유지 시간, 유휴 종료, 동시 접속 제한",
+   "excludes": "",
+   "old": [
+    "session_policy"
+   ],
+   "examples": "gws Policy(security.session_controls), okta sign-on Policy",
+   "items": 7
+  },
+  {
+   "tag": "network_policy",
+   "name": "접속 위치 제한",
+   "includes": "IP 허용 목록, 네트워크 구역, 신뢰 출처(CORS·CSP)",
+   "excludes": "",
+   "old": [
+    "network_policy"
+   ],
+   "examples": "okta NetworkZone·TrustedOrigin, salesforce CspTrustedSite",
+   "items": 8
+  },
+  {
+   "tag": "device",
+   "name": "단말",
+   "includes": "등록 기기, 기기 관리(MDM) 설정",
+   "excludes": "",
+   "old": [
+    "device"
+   ],
+   "examples": "gws Device, gws Policy(devices.*), okta Device",
+   "items": 9
+  },
+  {
+   "tag": "credential",
+   "name": "비밀값",
+   "includes": "API 토큰, PAT, 시크릿, 배포 키, 이름 있는 자격증명(값은 수집하지 않고 존재만)",
+   "excludes": "사용자가 앱에 준 OAuth 승인(integration)",
+   "old": [
+    "credential",
+    "admin_credential"
+   ],
+   "examples": "github actions-secret·personal-access-tokens·deploy-key, okta ApiToken, salesforce NamedCredential",
+   "items": 3
+  },
+  {
+   "tag": "encryption",
+   "name": "암호화",
+   "includes": "암호화 설정, 암호 키 관리(BYOK·EKM), 서명·암호화 키",
+   "excludes": "",
+   "old": [
+    "encryption_setting",
+    "crypto_key"
+   ],
+   "examples": "gws Policy(gmail S/MIME·confidential_mode), okta JsonWebKey",
+   "items": 17
+  },
+  {
+   "tag": "integration",
+   "name": "연결된 외부 앱",
+   "includes": "설치 앱, 연결 앱, OAuth 클라이언트, 사용자가 허용한 OAuth 토큰, 앱 접근 제어 설정",
+   "excludes": "테넌트 안 자동화(automation)",
+   "old": [
+    "integration",
+    "oauth_grant",
+    "app_identity"
+   ],
+   "examples": "github installation, gws Application·Token, okta Application, salesforce ConnectedApplication·OauthToken, slack app",
+   "items": 25
+  },
+  {
+   "tag": "automation",
+   "name": "테넌트 안 자동화",
+   "includes": "워크플로, 자동화 규칙, 스크립트, 예약 작업, 봇 정의, CI 워크플로",
+   "excludes": "외부 앱(integration)",
+   "old": [
+    "automation"
+   ],
+   "examples": "atlassian AutomationRule, github workflow, gws Apps Script, salesforce Flow·ApexClass·CronTrigger",
+   "items": 5
+  },
+  {
+   "tag": "data_flow",
+   "name": "테넌트 밖과 데이터가 오가는 통로",
+   "includes": "웹훅, 외부 호스트, 메일 전달, 이벤트 훅, 원격 사이트, 수신 주소·폼",
+   "excludes": "",
+   "old": [
+    "data_flow",
+    "external_endpoint",
+    "inbound_endpoint"
+   ],
+   "examples": "github org-hook, okta EventHook, gws MailForwarding, salesforce RemoteSiteSetting·WebToLead",
+   "items": 11
+  },
+  {
+   "tag": "data_resource",
+   "name": "업무 데이터",
+   "includes": "파일, 메일함, 채널·메시지, 페이지·스페이스, 프로젝트, 저장소, CRM 레코드·보고서",
+   "excludes": "데이터에 대한 설정(각 설정 태그)",
+   "old": [
+    "data_resource",
+    "record(메시지)"
+   ],
+   "examples": "gws File·Mailbox, slack conversation·Message, atlassian page·Project, salesforce Lead·Report",
+   "items": 32
+  },
+  {
+   "tag": "data_classification",
+   "name": "데이터 등급·라벨",
+   "includes": "민감도 라벨, 필드 분류, 보안 수준",
+   "excludes": "유출 방지 규칙(dlp)",
+   "old": [
+    "data_classification"
+   ],
+   "examples": "salesforce FieldSecurityClassification, atlassian SecurityScheme",
+   "items": 9
+  },
+  {
+   "tag": "dlp",
+   "name": "유출 방지",
+   "includes": "DLP 규칙, 마스킹·필드 숨김, 다운로드·복사 제한",
+   "excludes": "",
+   "old": [
+    "dlp"
+   ],
+   "examples": "gws Policy(rule.dlp)",
+   "items": 9
+  },
+  {
+   "tag": "data_region",
+   "name": "데이터 저장 위치",
+   "includes": "데이터 지역(residency) 설정",
+   "excludes": "",
+   "old": [
+    "data_region"
+   ],
+   "examples": "gws Policy(data_regions)",
+   "items": 4
+  },
+  {
+   "tag": "retention_backup",
+   "name": "데이터 수명",
+   "includes": "보존 기간, 삭제·파기 설정, 보관(vault·legal hold), 백업·내보내기",
+   "excludes": "",
+   "old": [
+    "retention_backup"
+   ],
+   "examples": "gws Policy(vault·takeout), github check-immutable-releases",
+   "items": 23
+  },
+  {
+   "tag": "monitoring",
+   "name": "기록·감시 설정",
+   "includes": "감사 로그 설정·보관, 알림 규칙과 알림, 이상 행위 탐지, 로그 전달",
+   "excludes": "로그 자체(객체 종류가 아니라 이벤트)",
+   "old": [
+    "monitoring"
+   ],
+   "examples": "gws Alert·Policy(alerts), okta ThreatInsightConfiguration·BehaviorRule",
+   "items": 18
+  },
+  {
+   "tag": "code_repo",
+   "name": "소스 저장소",
+   "includes": "저장소, 브랜치, 커밋",
+   "excludes": "",
+   "old": [
+    "code_repo",
+    "record(커밋)"
+   ],
+   "examples": "github Repository·branches·commit",
+   "items": 9
+  },
+  {
+   "tag": "code_access",
+   "name": "소스 저장소 접근",
+   "includes": "저장소 협업자·팀 권한, 배포 키",
+   "excludes": "",
+   "old": [
+    "code_access"
+   ],
+   "examples": "github deploy-key, 저장소 권한 관계",
+   "items": 3
+  },
+  {
+   "tag": "code_security",
+   "name": "코드 보안 검사",
+   "includes": "코드·시크릿 스캔, 의존성 경고, 보안 구성",
+   "excludes": "",
+   "old": [
+    "code_security"
+   ],
+   "examples": "github code-security-configuration",
+   "items": 4
+  },
+  {
+   "tag": "change_control",
+   "name": "변경 통제",
+   "includes": "브랜치 보호, 룰셋, 다중 승인, 불변 릴리스",
+   "excludes": "",
+   "old": [
+    "change_control"
+   ],
+   "examples": "github repository-ruleset·branch-with-protection, gws Policy(multi_party_approval)",
+   "items": 6
+  },
+  {
+   "tag": "tenant",
+   "name": "테넌트 자체",
+   "includes": "조직·워크스페이스·엔터프라이즈 객체, 도메인",
+   "excludes": "테넌트 설정(tenant_policy)",
+   "old": [
+    "tenant",
+    "org_structure(도메인)"
+   ],
+   "examples": "gws Customer·Domains, okta OrgSetting, salesforce Organization, slack team, github Enterprise",
+   "items": 8
+  },
+  {
+   "tag": "tenant_policy",
+   "name": "테넌트 보안 설정 전체",
+   "includes": "모든 테넌트 설정 객체. 구체 태그(session_policy 등)가 붙은 설정에도 같이 붙는다",
+   "excludes": "",
+   "old": [
+    "tenant_policy"
+   ],
+   "examples": "gws Policy, atlassian Policy, okta OrgSetting, salesforce Organization",
+   "items": 9
+  },
+  {
+   "tag": "malware",
+   "name": "악성코드·피싱 방어",
+   "includes": "첨부 파일 검사, 링크 보호, 스푸핑 방지",
+   "excludes": "",
+   "old": [
+    "malware"
+   ],
+   "examples": "gws Policy(gmail.email_attachment_safety 등)",
+   "items": 1
+  },
+  {
+   "tag": "ownership",
+   "name": "소유·책임",
+   "includes": "owned_by 관계, 소유자 필드",
+   "excludes": "",
+   "old": [
+    "ownership"
+   ],
+   "examples": "owned_by 관계",
+   "items": 3
+  }
+ ]
+}

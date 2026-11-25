@@ -1,0 +1,825 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: BillingScheduleGroup
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:b8bde9f039f1db5e8716d016
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:b8bde9f039f1db5e8716d016.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|Id
+  BillDayOfMonth:
+    path: BillDayOfMonth
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: int
+      name: BillDayOfMonth
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:BillingScheduleGroup|BillDayOfMonth
+  BillToContactId:
+    path: BillToContactId
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: reference
+      name: BillToContactId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillToContactId
+  BillingAccountId:
+    path: BillingAccountId
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: reference
+      name: BillingAccountId
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingAccountId
+  BillingAddress:
+    path: BillingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: address
+      name: BillingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingAddress
+  BillingCity:
+    path: BillingCity
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: string
+      name: BillingCity
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingCity
+  BillingCountry:
+    path: BillingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: string
+      name: BillingCountry
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingCountry
+  BillingGeocodeAccuracy:
+    path: BillingGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: picklist
+      name: BillingGeocodeAccuracy
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingGeocodeAccuracy
+  BillingLatitude:
+    path: BillingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: double
+      name: BillingLatitude
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:BillingScheduleGroup|BillingLatitude
+  BillingLongitude:
+    path: BillingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: double
+      name: BillingLongitude
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:BillingScheduleGroup|BillingLongitude
+  BillingMethod:
+    path: BillingMethod
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: picklist
+      name: BillingMethod
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingMethod
+  BillingPostalCode:
+    path: BillingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: string
+      name: BillingPostalCode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingPostalCode
+  BillingScheduleGroupNumber:
+    path: BillingScheduleGroupNumber
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: string
+      name: BillingScheduleGroupNumber
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingScheduleGroupNumber
+  BillingStartMonth:
+    path: BillingStartMonth
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: picklist
+      name: BillingStartMonth
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingStartMonth
+  BillingState:
+    path: BillingState
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: string
+      name: BillingState
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingState
+  BillingStreet:
+    path: BillingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: textarea
+      name: BillingStreet
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingStreet
+  BillingTerm:
+    path: BillingTerm
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: int
+      name: BillingTerm
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:BillingScheduleGroup|BillingTerm
+  BillingTermUnit:
+    path: BillingTermUnit
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: picklist
+      name: BillingTermUnit
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingTermUnit
+  BillingType:
+    path: BillingType
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: picklist
+      name: BillingType
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|BillingType
+  CancellationDate:
+    path: CancellationDate
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: date
+      name: CancellationDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|CancellationDate
+  Controller:
+    path: Controller
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: picklist
+      name: Controller
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|Controller
+  CurrentBillingPeriodAmount:
+    path: CurrentBillingPeriodAmount
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: currency
+      name: CurrentBillingPeriodAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:BillingScheduleGroup|CurrentBillingPeriodAmount
+  CurrentQuantity:
+    path: CurrentQuantity
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: double
+      name: CurrentQuantity
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:BillingScheduleGroup|CurrentQuantity
+  EffectiveNextBillingDate:
+    path: EffectiveNextBillingDate
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: date
+      name: EffectiveNextBillingDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|EffectiveNextBillingDate
+  EndDate:
+    path: EndDate
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: date
+      name: EndDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|EndDate
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|LastViewedDate
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|OwnerId
+  PaymentTermId:
+    path: PaymentTermId
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: reference
+      name: PaymentTermId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|PaymentTermId
+  PeriodBoundary:
+    path: PeriodBoundary
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: picklist
+      name: PeriodBoundary
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|PeriodBoundary
+  Product2Id:
+    path: Product2Id
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: reference
+      name: Product2Id
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|Product2Id
+  ProductName:
+    path: ProductName
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: string
+      name: ProductName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|ProductName
+  ProrationPolicyId:
+    path: ProrationPolicyId
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: reference
+      name: ProrationPolicyId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|ProrationPolicyId
+  ReferenceEntityId:
+    path: ReferenceEntityId
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: reference
+      name: ReferenceEntityId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|ReferenceEntityId
+  ShippingAddress:
+    path: ShippingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: address
+      name: ShippingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|ShippingAddress
+  ShippingCity:
+    path: ShippingCity
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: string
+      name: ShippingCity
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|ShippingCity
+  ShippingCountry:
+    path: ShippingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: string
+      name: ShippingCountry
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|ShippingCountry
+  ShippingGeocodeAccuracy:
+    path: ShippingGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: picklist
+      name: ShippingGeocodeAccuracy
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|ShippingGeocodeAccuracy
+  ShippingLatitude:
+    path: ShippingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: double
+      name: ShippingLatitude
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:BillingScheduleGroup|ShippingLatitude
+  ShippingLongitude:
+    path: ShippingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: double
+      name: ShippingLongitude
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:BillingScheduleGroup|ShippingLongitude
+  ShippingPostalCode:
+    path: ShippingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: string
+      name: ShippingPostalCode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|ShippingPostalCode
+  ShippingState:
+    path: ShippingState
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: string
+      name: ShippingState
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|ShippingState
+  ShippingStreet:
+    path: ShippingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: textarea
+      name: ShippingStreet
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|ShippingStreet
+  StartDate:
+    path: StartDate
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: date
+      name: StartDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:BillingScheduleGroup|StartDate
+  TotalBilledAmount:
+    path: TotalBilledAmount
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: currency
+      name: TotalBilledAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:BillingScheduleGroup|TotalBilledAmount
+  TotalPendingAmount:
+    path: TotalPendingAmount
+    source: research_shape
+    shape: sh:sf_object_reference:BillingScheduleGroup
+    declaration:
+      format: currency
+      name: TotalPendingAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:BillingScheduleGroup|TotalPendingAmount
+references:
+  - name: product2id
+    field: Product2Id
+    target: Product2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:02e8263a945db83aff9560c9; relation=no_relation
+  - name: ownerid
+    field: OwnerId
+    target: Group
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2ee3bf7caa1dc4ad32f9a586; relation=no_relation
+  - name: paymenttermid
+    field: PaymentTermId
+    target: PaymentTerm
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8a9c677290679579b8d51222; relation=no_relation
+  - name: billtocontactid
+    field: BillToContactId
+    target: Contact
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8d0a5e43a193de1ffc1a56a2; relation=no_relation
+  - name: referenceentityid
+    field: ReferenceEntityId
+    target: Asset
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:96cc82e9d2f358db024c4cdf; relation=no_relation
+  - name: billingaccountid
+    field: BillingAccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a94a1fd353be3a81b3200236; relation=no_relation
+  - name: prorationpolicyid
+    field: ProrationPolicyId
+    target: ProrationPolicy
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d59b0bbce123cf112228a241; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: BillingScheduleGroup
+  interfaces: *a1
+  model:
+    research_type: object-type:b8bde9f039f1db5e8716d016
+  extract:
+    key: PILOT-salesforce-BillingScheduleGroup-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-16d016
+            endpoint: /
+            items:
+              - records
+        properties:
+          BillDayOfMonth: BillDayOfMonth
+          BillToContactId: BillToContactId
+          BillingAccountId: BillingAccountId
+          BillingAddress: BillingAddress
+          BillingCity: BillingCity
+          BillingCountry: BillingCountry
+          BillingGeocodeAccuracy: BillingGeocodeAccuracy
+          BillingLatitude: BillingLatitude
+          BillingLongitude: BillingLongitude
+          BillingMethod: BillingMethod
+          BillingPostalCode: BillingPostalCode
+          BillingScheduleGroupNumber: BillingScheduleGroupNumber
+          BillingStartMonth: BillingStartMonth
+          BillingState: BillingState
+          BillingStreet: BillingStreet
+          BillingTerm: BillingTerm
+          BillingTermUnit: BillingTermUnit
+          BillingType: BillingType
+          CancellationDate: CancellationDate
+          Controller: Controller
+          CurrentBillingPeriodAmount: CurrentBillingPeriodAmount
+          CurrentQuantity: CurrentQuantity
+          EffectiveNextBillingDate: EffectiveNextBillingDate
+          EndDate: EndDate
+          Id: Id
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          OwnerId: OwnerId
+          PaymentTermId: PaymentTermId
+          PeriodBoundary: PeriodBoundary
+          Product2Id: Product2Id
+          ProductName: ProductName
+          ProrationPolicyId: ProrationPolicyId
+          ReferenceEntityId: ReferenceEntityId
+          ShippingAddress: ShippingAddress
+          ShippingCity: ShippingCity
+          ShippingCountry: ShippingCountry
+          ShippingGeocodeAccuracy: ShippingGeocodeAccuracy
+          ShippingLatitude: ShippingLatitude
+          ShippingLongitude: ShippingLongitude
+          ShippingPostalCode: ShippingPostalCode
+          ShippingState: ShippingState
+          ShippingStreet: ShippingStreet
+          StartDate: StartDate
+          TotalBilledAmount: TotalBilledAmount
+          TotalPendingAmount: TotalPendingAmount
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:BillingScheduleGroup.query
+  operation: BillingScheduleGroup.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: BillingScheduleGroup
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:BillingScheduleGroup
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:BillingScheduleGroup.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/BillingScheduleGroup/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - Product2Id
+    - OwnerId
+    - PaymentTermId
+    - BillToContactId
+    - ReferenceEntityId
+    - BillingAccountId
+    - ProrationPolicyId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

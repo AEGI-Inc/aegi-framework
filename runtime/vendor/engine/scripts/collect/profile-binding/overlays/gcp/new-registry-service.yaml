@@ -1,0 +1,47 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: agentregistry
+object_type: RegistryService
+interfaces: [Integration]
+# 근거: Agent Registry v1 Discovery 문서의 Service 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-04 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# Agent Registry 의 Service.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-AR-SERVICE-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-04
+        request: {kind: services}
+        items: services
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    properties:
+      registryResource: registryResource
+      updateTime: updateTime
+      interfaces: interfaces
+      createTime: createTime
+      description: description
+      mcpServerSpec: mcpServerSpec
+      agentSpec: agentSpec
+      endpointSpec: endpointSpec
+      displayName: displayName
+      operational_state: {const: unknown}
+    display: "{displayName|title|name}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+        basis: stated
+        require: [target]

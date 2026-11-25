@@ -1,0 +1,1630 @@
+# 관계 점검 패턴 (AEGI 관계 점검, source_tier 3) — 2026-11-13
+#
+# 컴플라이언스 항목이 반복해서 묻는 통제(최소 권한, 특수 권한, 퇴직자 권한, 외부 접근, 비인간 신원, 인증, 공용 계정)를
+# 정규화 그래프의 interface, 관계, 엔진 간선으로 판정하는 패턴 7개. SaaS 마다 다른 값은 아래 tables 에만 두고
+# 판정기 코드에는 SaaS 이름을 쓰지 않는다(semantic_mapping.yaml 와 같은 원칙).
+#
+# 실행: aegi-adapter-engine scripts/standards/relation_checks.ts 가 이 파일과 정규화 데이터셋(objects, relations, links)을 읽고
+#       범용 접근 엔진 EdgeIndex(src/detection/v2/engine/edges.ts)를 만들어 판정한다. 결과는 다른 기준과 같은 모양
+#       (standard, tier, provider, raw_run, items[].{item_id, title, finding_id, status, threshold, rule, targets, note})으로
+#       SaaS 마다 하나씩 쓰고 build_standard_results.py 가 합친다.
+# 배경과 실측: README.md 「관계 점검(11-13)」, 계획 근거는 미점검 1,363개 중 1,203개가 엔진 간선에 걸린다는 측정.
+
+format: aegi-relation-rules/v1
+version: 2026-11-13
+
+standard:
+  name: "AEGI 관계 점검"          # standard_results 의 standard. SaaS 마다 "AEGI 관계 점검 (<SaaS 이름>)" 로 쓴다
+  source_tier: 3
+  item_id: "AEGI-REL-<패턴>"      # 예: AEGI-REL-R1. SaaS 마다 같은 항목 id 를 쓰고 finding_id 로 가른다
+  finding_id: "<provider>-<number>"
+  providers: [atlassian, github, gws, okta, salesforce, slack]
+
+# ---- 모든 패턴이 같이 쓰는 정의 ----
+common:
+  # 사람 계정: 엔진 EdgeIndex.isPerson(Principal 이고 그룹 성격이 아니고 principalKind 가 service 가 아님, 측정 도구 계정 제외)
+  person: engine.isPerson
+  # 비인간 신원: principalKind 가 service 인 Principal, 그리고 Integration, Automation, Credential interface 객체
+  non_human: [principal_kind_service, Integration, Automation, Credential]
+  # 비활성 계정: properties.account_state(정규화가 SaaS 상태 칸을 옮긴 값)
+  inactive_states: [suspended, deprovisioned, deleted]
+  # 세기: capabilities.yaml rank (read 1, write 3, admin 5). 2, 4 는 문턱 1, 3 으로 접는다. 엔진 간선 rank 가 없으면 모름
+  rank: {read: 1, write: 3, admin: 5}
+  # 같은 사람: 엔진 identity(links.json 의 disclosed_relation, resolved 묶음, 그다음 같은 이메일 소문자)
+  same_person: engine.identity
+  # target 으로 내는 객체: 판정한 간선(또는 관계 행)이 닿는 객체 중 그래프에 있는 것 전부
+  #   from, to, 역할 객체(간선 roleKey), 관계 행 properties.via_assignment, via_scheme
+  # 같은 객체가 한 finding 안에서 여러 번 나오면 가장 나쁜 상태 하나로 합친다(fail > unknown > org_policy > manual > pass)
+  #   간선 roleKey 가 비어도 간선 refs 가 가리키는 관계 행의 references.role 을 역할 객체로 쓴다
+  #   (11-13 그래프: Salesforce 권한 세트 배정 관계 행은 references.role 에 PermissionSet 을 두지만 간선 roleKey 로 잡힌 것은 1개)
+  targets: [from, to, role, relation_role, via_assignment, via_scheme]
+  # finding 상태: target 이 하나라도 fail 이면 fail, 아니면 unknown, org_policy, manual 순, 모두 pass 면 pass.
+  # 그 SaaS 에 대상이 하나도 없으면 not_collected 가 아니라 pass(대상 0) 로 쓰고 note 에 「대상 없음」
+  status_order: [fail, unknown, org_policy, manual, pass]
+
+# 엔진 의미 층은 정지, 삭제된 계정의 사실(간선)을 내지 않는다(semantic_mapping.yaml filters.inactive_principal).
+# 그래서 비활성 계정을 보는 R3 은 엔진 간선이 아니라 기록 층 관계 행(relations.json)을 읽는다.
+layers:
+  edges: [R1, R2, R4, R5, R6]   # EdgeIndex 간선
+  records: [R3, R7]             # relations.json 관계 행과 객체 속성
+
+patterns:
+
+  R1:
+    number: 951
+    name: 관리자 권한 집중
+    finding: 테넌트 관리자 권한이 필요 이상으로 많거나 비인간 신원에 있음
+    question: 테넌트 전체를 관리할 수 있는 신원이 몇이고 누구인가
+    select:
+      layer: edges
+      edge: G
+      to: Tenant              # 도착이 Tenant interface
+      min_rank: 5
+    group_by: provider
+    verdict:                  # 위에서부터 처음 맞는 줄. target 마다 판정
+      - {when: holder_non_human, status: fail, why: "비인간 신원이 테넌트 관리 권한을 가짐"}
+      - {when: human_admins_over_max, status: fail, why: "사람 관리자 수가 문턱을 넘음(그 SaaS 의 사람 관리자 전원을 fail target 으로)"}
+      - {when: else, status: pass}
+    params:
+      max_human_admins: 3     # 2026-11-13 사용자 결정. 조직 입력으로 바꿀 수 있게 이 값을 읽는다
+    # 역할 정의 객체도 판정한다. 관계 행 references.role 에 한 번이라도 나온 객체 종류의 객체 전부가 역할 정의다.
+    # 세기는 엔진 roleCapability(provider, 이름 없음, 객체 키, 객체)로 센다. 아무도 쥐지 않은 역할 정의는 pass(note 「배정 없음」),
+    # 쥔 사람이 있으면 그 역할을 지나는 위 간선 판정 중 가장 나쁜 상태를 따른다
+    role_definitions: true
+    # 관계 행이 role 로 가리키지 않아도 역할 정의인 종류(11-14). 이 실측 회차에는 배정 관계가 없어 위 규칙으로는 안 잡힌다
+    role_types_extra:
+      - atlassian:ApplicationRole
+      - atlassian:space-roles
+      - github:enterprise-role
+      - github:organization-role
+      - okta:CustomRole
+      - okta:ResourceSet
+      - salesforce:PermissionSetGroup
+    threshold: "테넌트 관리자(세기 5) 사람 3명 이하, 비인간 신원 0"
+    unknown_when: "도착이 Tenant 인 G 간선의 rank 가 없으면 그 간선의 target 은 unknown"
+    items:
+      - ISO27001:8.2
+      - ISMS-P:2.5.5-01
+      - ISMS-P:2.5.5-02
+      - ISMS-P:2.10.1-02
+      - ISMS-P:2.10.2-03
+      - ISMS-P:2.6.3-03
+
+  R2:
+    number: 952
+    name: 권한 부여 범위
+    finding: 조직 전체나 누구나에게 쓰기 이상 권한이 열려 있음
+    question: 각 권한 부여가 사람이나 그룹 단위로 좁게 걸렸나, 조직 전체나 누구나에게 열렸나
+    select:
+      layer: edges
+      edge: G
+      to: [Resource, Tenant]
+    verdict:
+      - {when: from_everyone, status: fail, why: "누구나(@everyone, 익명, 공개 링크)에게 부여"}
+      - {when: from_tenant_and_rank_ge_3, status: fail, why: "조직 전체에 쓰기 이상"}
+      - {when: rank_unknown, status: unknown, why: "권한 세기를 모름"}
+      - {when: else, status: pass}
+    threshold: "누구나 대상 부여 0, 조직 전체 대상은 읽기까지"
+    note: "모든 G 간선을 판정해 배정 객체(공유 권한, 스페이스 권한, 앱 배정, 권한 세트 배정)를 target 으로 낸다. 사람, 그룹 단위 부여는 pass"
+    items:
+      - ISMS-P:2.5.1-02
+      - ISMS-P:2.6.3-01
+      - ISO27001:5.15
+      - ISO27001:8.3
+      - PIPA:admin-73493:article-5:p1
+      - PIPA:admin-73493:article-6:p3
+      - ISO27001:8.12
+      - ISMS-P:2.8.5-01
+      - ISO27001:8.4
+
+  R3:
+    number: 953
+    name: 비활성 계정에 남은 접근
+    finding: 정지, 삭제된 계정이나 IdP 에서 정지된 사람의 계정에 권한, 소속, 자격증명이 남아 있음
+    question: 각 사람 계정이 비활성인데(자기 SaaS 상태 또는 같은 사람의 IdP 계정 상태) 권한 관계가 남아 있나
+    select:
+      layer: records
+      principal: person        # 기록 층이라 isPerson 대신 principal_kind 가 service 가 아닌 Principal(그룹 제외)
+      relations:               # 그 계정이 출발(source)인 관계. member_of 의 도착이 Tenant 이면 계정 자체라 뺀다(AEGI-xxx-02 가 본다)
+        - has_role_on
+        - member_of
+        - authenticates_with
+        - acts_as
+      owner_relations: [owned_by]  # 그 계정이 도착(target)인 owned_by: 그 계정이 소유한 자격증명, 연동
+    inactive_when:
+      - self_state_inactive          # 자기 account_state 가 inactive_states
+      - same_person_idp_inactive     # 같은 사람의 IdP 계정(tables.idp_providers)이 inactive_states
+    verdict:
+      - {when: inactive_and_remaining, status: fail, why: "비활성인데 남은 관계 있음"}
+      - {when: inactive_and_none, status: pass}
+      - {when: active, status: pass}
+    threshold: "비활성 계정의 남은 권한, 소속, 자격증명 0"
+    targets: [principal, relation_target, via_assignment]
+    note: "활성 계정도 pass target 으로 내 그 계정의 배정 객체가 점검됨으로 잡히게 한다. 계정 자체의 남음은 AEGI-xxx-02 가 본다"
+    items:
+      - ISMS-P:2.2.5-02
+      - ISMS-P:2.5.1-01
+      - PIPA:admin-73493:article-5:p2
+      - ISO27001:5.16
+      - ISO27001:5.18
+
+  R4:
+    number: 954
+    name: 조직 밖 주체의 접근
+    finding: 조직 밖 계정이 조직 자원에 쓰기 이상 권한을 가짐
+    question: 권한을 받은 주체가 조직 밖(게스트, 외부 워크스페이스, 조직 도메인 밖 이메일)인가
+    select:
+      layer: edges
+      edge: G
+      from: principal
+    outside_when:
+      - engine_outside_accounts        # src/detection/threat/boundary.ts outsideAccounts (게스트, 고객, 외부 워크스페이스)
+      - email_domain_not_in_org        # 사람 계정(isPerson)만. tables.email_fields 칸의 이메일 도메인이 조직 도메인 밖
+    # 조직 도메인 = tables.org_domains 로 모은 값 + IdP(tables.idp_providers) 사람 계정 이메일 도메인 전부.
+    # 11-13 검증: GWS 도메인 하나만 쓰면 Salesforce 사용자 이름(이메일 모양이지만 이메일이 아님), Slack 봇 주소, 2회차 도메인,
+    # 관리자 대체 이메일 도메인까지 조직 밖으로 잡혀 Salesforce 10, Slack 28, Okta 2 오탐이 났다
+    verdict:
+      - {when: outside_and_rank_ge_3, status: fail, why: "조직 밖 주체에 쓰기 이상"}
+      - {when: outside_and_rank_lt_3, status: org_policy, why: "조직 밖 주체의 읽기. 허용 목록이 있어야 위반이 정해짐(2026-11-13 결정)"}
+      - {when: outside_and_rank_unknown, status: unknown}
+      - {when: else, status: pass}
+    threshold: "조직 밖 주체의 쓰기 이상 권한 0, 읽기는 허용 목록 대조"
+    items:
+      - ISMS-P:2.3.1-01
+      - PIPA:admin-73493:article-6:p3
+      - ISO27001:5.14
+      - ISO27001:8.12
+
+  R5:
+    number: 955
+    name: 비인간 신원과 연동 앱의 권한
+    finding: 연동 앱, 봇, 자격증명이 관리 권한을 갖거나 비활성 소유자에 묶여 있음
+    question: 각 비인간 신원이 직접 또는 대신 동작하는 신원을 통해 닿는 가장 센 권한과, 그 소유자, 실행 신원의 상태
+    select:
+      layer: edges
+      holder: non_human
+      reach: [G, A]            # 자기 G 간선, 그리고 A(대신 동작) 간선으로 이어진 신원의 G 간선 중 가장 높은 rank
+    # 세기 상한: holder 에 scope 목록이 있으면(엔진 tokenScopes.scopesOf) A 간선으로 빌린 세기는 scopeReach 최대 세기를 넘지 않는다.
+    # scope 를 세지 못하면 빌린 세기는 모름. 11-13 검증: 읽기 scope 뿐인 Okta 리프레시 토큰 16개가 사용자 관리 권한을 그대로 물려받아 fail 로 나왔다
+    rank_cap: token_scopes
+    verdict:
+      - {when: max_rank_5_and_service_principal, status: org_policy, why: "봇, 앱 계정(Principal)의 관리 권한. 벤더 기본 계정이 많아 허용 목록이 있어야 위반이 정해짐"}
+      - {when: max_rank_5, status: fail, why: "연동 앱, 자동화, 자격증명이 관리 권한에 닿음"}
+      - {when: max_rank_3_and_owner_or_runas_inactive, status: fail, why: "쓰기 권한인데 소유자나 실행 신원이 비활성"}
+      - {when: credential_without_expiry, status: org_policy, why: "만료 없는 자격증명. 허용 목록이 있어야 위반이 정해짐(2026-11-13 결정)"}
+      - {when: rank_unknown, status: unknown}
+      - {when: else, status: pass}
+    # 만료 칸: 위에서부터 처음 값이 있는 것. 11-14 검증: Okta 리프레시 토큰은 judged 가 아니라 properties.expiresAt 에 만료가 있다
+    expiry_from: [judged.expires_at, properties.expiresAt, properties.expires_at, properties.ExpirationDate]
+    # 만료 판정에서 빼는 자격증명: 로그인용 다중 인증 수단(tables.mfa_factors 종류). 비밀값이 아니라 만료 개념이 없다
+    expiry_exclude: mfa_factors
+    threshold: "비인간 신원의 관리 권한 0, 비활성 소유자의 쓰기 신원 0"
+    items:
+      - ISO27001:5.23
+      - ISMS-P:2.3.1-01
+      - ISMS-P:2.10.2-02
+      - ISO27001:5.17
+
+  R6:
+    number: 956
+    name: 사람 계정의 다중 인증
+    finding: 활성 사람 계정에 등록된 다중 인증 수단도, 다중 인증을 요구하는 정책도 없음
+    question: 각 활성 사람 계정이 강한 인증 수단을 가졌거나 다중 인증 정책 아래 있나
+    select:
+      layer: edges
+      principal: person
+      active_only: true
+    evidence:
+      factor_relation: "authenticates_with 로 이어진 Credential 이 tables.mfa_factors 에 맞음"
+      factor_property: "계정 속성이 tables.mfa_properties 에 맞음"
+      mfa_policy: "Policy 가 applies_to 로 그 계정(또는 계정이 속한 그룹, 테넌트)에 닿고 tables.mfa_policies 에 맞음"
+      sso_delegate: "tables.sso_delegation 의 SaaS 는 같은 사람의 IdP 계정 판정을 따른다"
+    verdict:
+      - {when: factor_or_property, status: pass}
+      - {when: mfa_policy_only, status: unknown, why: "정책은 요구하나 등록 수단을 확인 못 함"}
+      - {when: sso_delegate_pass, status: pass}
+      - {when: provider_has_no_mfa_data, status: not_collected, why: "그 SaaS 수집본에 다중 인증 값이 없음"}
+      - {when: else, status: fail, why: "다중 인증 수단과 정책이 모두 없음"}
+    threshold: "활성 사람 계정 전원 다중 인증"
+    items:
+      - ISMS-P:2.5.3-01
+      - ISMS-P:2.5.3-02
+      - ISMS-P:2.5.4-03
+      - ISMS-P:2.10.2-03
+      - ISO27001:8.5
+      - ISO27001:5.17
+      - PIPA:admin-73493:article-5:p5
+      - PIPA:admin-73493:article-6:p2
+
+  R7:
+    number: 957
+    name: 공용 계정
+    finding: 공용으로 보이는 사람 계정이나 여러 신원이 함께 쥔 자격증명이 있음
+    question: 사람 계정 중 같은 사람 연결이 없고 이름이 공용 표지인 것, 여러 주체가 쥔 자격증명이 있나
+    select:
+      layer: records
+      principal: person
+    verdict:
+      - {when: shared_marker_and_no_link, status: manual, why: "공용 계정으로 보임. 책임자 승인과 사용 이력은 사람이 확인"}
+      - {when: credential_held_by_many, status: manual, why: "자격증명 하나를 여러 주체가 씀"}
+      - {when: else, status: pass}
+    threshold: "공용 계정 0 또는 승인과 이력 있음"
+    items:
+      - ISMS-P:2.5.2-02
+      - PIPA:admin-73493:article-5:p4
+      - ISMS-P:2.5.1-01
+
+# ---- 관계 행이 없는 배정 객체 (11-13 추가) ----
+# semantic_mapping.yaml assignments 가 「관계로 바꾸지 않는다」로 둔 배정 객체(끝 객체가 안 풀리거나 사용자 자리가 없음)도
+# 객체 자체의 canonical.references 로 주인(holder)을 알 수 있으면 판정 대상으로 넣는다. 관계 어휘는 바꾸지 않는다.
+# holder 자리의 targets[].value 가 그래프 객체로 풀릴 때만 쓴다(11-13 그래프에서 아래 자리는 모두 풀림을 확인).
+#   R3: holder 를 그 계정의 「남은 관계」 하나로 센다(비활성 holder 면 fail, 활성이면 pass target)
+#   R2: scope 칸이 있는 줄만. 값이 domain 이면 조직 전체, default(공개)면 누구나로 보고 R2 verdict 를 그대로 쓴다. role 은 rank_by_role 로 센다
+#   R5: holder 가 사람이고 client(앱) 자리가 있으면 그 토큰을 앱이 사람 대신 쥔 자격으로 보고, scopes 로 세기를 정한다(capabilities.yaml token_scopes)
+assignment_references:
+  - {provider: gws, object_type: AclRule, holder: calendar_owner, patterns: [R2, R3], scope_path: scope.type, scope_values: {domain: tenant, default: everyone}, role_path: role, rank_by_role: {freeBusyReader: 1, reader: 1, writer: 3, owner: 5}}
+  - {provider: gws, object_type: Token, holder: grantee, client: client, patterns: [R3, R5], scopes_path: scopes}
+  - {provider: salesforce, object_type: WorkAccess, holder: ownerid, patterns: [R3]}
+  - {provider: salesforce, object_type: SessionPermSetActivation, holder: userid, role: permissionsetid, patterns: [R3]}
+  - {provider: salesforce, object_type: OauthToken, holder: grantee, client: application, patterns: [R3, R5]}
+  - {provider: github, object_type: credential-authorizations, holder: grantee, patterns: [R3]}
+  - {provider: okta, object_type: AssignedAppLink, holder: user, patterns: [R3]}
+# okta AssignedAppLink 의 user 참조는 11-14 engine overlay 가 수집 경로의 사용자 id 로 남긴다(그 전 정규화본에는 없다).
+# 사용자 자리가 없어 판정에 못 넣는 것(11-13):
+# salesforce ContentDocumentLink 2, atlassian SharePermission 2(받는 쪽이 객체로 안 풀림)
+
+# ---- SaaS별 설정 규칙 (2026-11-14) ----
+# 관계로 판정되지 않는 설정 객체(정책, 인증 수단, 허용 목록, 브랜치 설정)를 객체 속성 값으로 판정한다.
+# 판정기(engine relation_checks.ts)는 규칙마다, 그 규칙의 targets 에 나오는 SaaS 마다 항목 하나를 낸다:
+#   item_id AEGI-SET-<id>, finding_id <provider>-<number>, title 은 finding, 대상 객체마다 target 하나.
+# 대상 객체의 상태는 cases 를 위에서부터 보고 처음 맞는 줄로 정한다. 맞는 줄이 없으면 unknown(값 「규칙에 없는 값」).
+# status 가 _skip 인 줄에 맞으면 그 객체는 이 규칙의 대상이 아니다(target 을 내지 않는다).
+# 조건 식(when):
+#   {path: <canonical 아래 점 경로>, eq: v | ne: v | in: [..] | not_in: [..] | gte: n | lt: n | exists: true|false}
+#   {count_positive: [<점 경로>..], gte: n}   숫자 값이 0 보다 큰 경로 수
+#   {path: <경로>, eq_ref: {reference: <참조 이름>, path: <참조 대상 객체의 점 경로>}}   참조 대상 객체의 값과 같음
+#   {all: [식..]} 는 모두 맞음, {any: [식..]} 는 하나라도 맞음. when 이 없는 줄은 늘 맞는다
+#   ne 와 not_in 은 값이 없을 때도 맞는다. eq, in, gte, lt 는 값이 없으면 안 맞는다
+# 따르기(follow): 다른 객체의 같은 규칙 판정 상태를 가져온다. 판정기는 follow 없는 대상 종류를 먼저 판정한다.
+#   {follow: {children_by: <자식 쪽 참조 이름>, object_type: <자식 종류>}}   그 참조로 이 객체를 가리키는 자식들의 가장 나쁜 상태
+#   {follow: {reference: <참조 이름>}}   이 객체의 참조 대상의 상태
+#   {follow: {sibling_by: <참조 이름>, object_type: <종류>}}   같은 참조 대상을 가리키는 그 종류 객체들의 가장 나쁜 상태
+#   가져올 판정이 없으면 그 줄은 안 맞고 다음 줄로 간다. 「가장 나쁜」은 판정기 STATUS_RANK 순서다.
+# value 의 {경로} 는 그 객체의 값으로 바꾼다. 값이 없으면 「없음」.
+# items 는 provider 별로 이 finding 을 이을 항목이다(typeScope confirmed 쌍 중 그 설정이 직접 답하는 항목만 골랐다).
+setting_rules:
+  - id: S1
+    number: 961
+    name: 로그인과 앱 접근의 다중 인증 요구
+    finding: 로그인이나 앱 접근 규칙이 한 가지 인증만 요구함
+    targets:
+      - provider: okta
+        object_type: PolicyRule
+        cases:
+          - when: {all: [{path: properties.type, eq: ACCESS_POLICY}, {path: properties.actions.appSignOn.verificationMethod.factorMode, eq: 2FA}]}
+            status: pass
+            value: 앱 접근에 두 가지 인증 요구
+          - when: {path: properties.type, eq: ACCESS_POLICY}
+            status: fail
+            value: "앱 접근 인증 방식 {properties.actions.appSignOn.verificationMethod.factorMode}"
+          - when: {all: [{path: properties.type, eq: SIGN_ON}, {path: properties.actions.signon.access, eq: ALLOW}, {path: properties.actions.signon.requireFactor, eq: false}]}
+            status: fail
+            value: Okta 로그인에 추가 인증을 요구하지 않음
+          - when: {path: properties.type, eq: SIGN_ON}
+            status: pass
+            value: Okta 로그인에 추가 인증 요구 또는 거부 규칙
+          - status: pass
+            value: "인증 단계를 정하지 않는 규칙({properties.type})"
+      - provider: okta
+        object_type: Policy
+        cases:
+          - {follow: {children_by: parent, object_type: PolicyRule}, value: 소속 규칙 판정 중 가장 나쁜 것}
+          - {status: unknown, value: 규칙 없음}
+      - provider: okta
+        object_type: PolicyMapping
+        cases:
+          - {follow: {reference: parent_scope}, value: 앱에 걸린 정책의 판정}
+          - {status: unknown, value: 정책을 찾지 못함}
+    items:
+      okta: [ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISMS-P:2.6.6-03, ISMS-P:2.10.2-03, ISO27001:5.17, ISO27001:6.7, ISO27001:8.5, PIPA:admin-73493:article-6:p2, PIPA:law-011357:article-29:p0, PIPA:law-011468:article-30:p1]
+
+  - id: S2
+    number: 962
+    name: 비밀번호 복잡도
+    finding: 비밀번호 정책이 길이와 문자 종류 기준(10자 이상 2종 또는 8자 이상 3종)보다 약함
+    targets:
+      - provider: okta
+        object_type: Policy
+        cases:
+          - when: {path: properties.type, ne: PASSWORD}
+            status: _skip
+          - when: {any: [{all: [{path: properties.password_settings.complexity.minLength, gte: 10}, {count_positive: [properties.password_settings.complexity.minLowerCase, properties.password_settings.complexity.minUpperCase, properties.password_settings.complexity.minNumber, properties.password_settings.complexity.minSymbol], gte: 2}]}, {all: [{path: properties.password_settings.complexity.minLength, gte: 8}, {count_positive: [properties.password_settings.complexity.minLowerCase, properties.password_settings.complexity.minUpperCase, properties.password_settings.complexity.minNumber, properties.password_settings.complexity.minSymbol], gte: 3}]}]}
+            status: pass
+            value: "최소 {properties.password_settings.complexity.minLength}자, 문자 종류 기준 충족"
+          - when: {path: properties.password_settings.complexity.minLength, exists: true}
+            status: fail
+            value: "최소 {properties.password_settings.complexity.minLength}자, 문자 종류 기준 미달"
+          - {status: unknown, value: 복잡도 값 없음}
+    items:
+      okta: [ISMS-P:2.5.4-01, ISMS-P:2.5.4-02, ISMS-P:2.5.4-03, ISO27001:5.17]
+
+  - id: S3
+    number: 963
+    name: 약한 인증 수단 사용
+    finding: 전화, 보안 질문, 이메일 같은 약한 인증 수단을 로그인에 쓸 수 있음
+    targets:
+      - provider: okta
+        object_type: AuthenticatorBase
+        cases:
+          - when: {path: properties.status, ne: ACTIVE}
+            status: pass
+            value: "사용 안 함({properties.type})"
+          - when: {all: [{path: properties.type, in: [phone, security_question, email]}, {path: properties.settings.allowedFor, in: [any, sso]}]}
+            status: fail
+            value: "약한 수단({properties.type})을 로그인에 쓸 수 있음"
+          - when: {path: properties.type, in: [phone, security_question, email]}
+            status: pass
+            value: "약한 수단({properties.type})을 복구에만 씀"
+          - status: pass
+            value: "인증 수단 {properties.type}"
+    items:
+      okta: [ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISO27001:5.17, ISO27001:8.5]
+
+  - id: S4
+    number: 964
+    name: 접속 허용 목록
+    finding: 접속을 허용하는 망 구역이나 외부 사이트가 조직 기준과 맞는지 사람이 확인해야 함
+    targets:
+      - provider: okta
+        object_type: NetworkZone
+        cases:
+          - when: {path: properties.status, ne: ACTIVE}
+            status: pass
+            value: 사용 안 함
+          - status: org_policy
+            value: "망 구역({properties.type}, 쓰임 {properties.usage})"
+      - provider: salesforce
+        object_type: CspTrustedSite
+        cases:
+          - when: {path: properties.IsActive, eq: false}
+            status: pass
+            value: 사용 안 함
+          - status: org_policy
+            value: "허용 사이트 {properties.EndpointUrl}"
+    items:
+      okta: [ISMS-P:2.6.6-03, ISO27001:8.22, PIPA:admin-73493:article-6:p1, PIPA:admin-73493:article-6-2:p1]
+      salesforce: [ISMS-P:2.10.1-04, ISMS-P:2.10.2-02, ISO27001:8.9]
+
+  - id: S5
+    number: 965
+    name: 외부로 보내는 연결 대상
+    finding: 데이터를 밖으로 보내는 웹훅과 자동화 요청 대상이 조직이 허용한 곳인지 사람이 확인해야 함
+    targets:
+      - provider: github
+        object_type: webhook-config
+        cases:
+          - when: {path: properties.insecure_ssl, in: ["1", 1, true]}
+            status: fail
+            value: "인증서 확인을 끈 웹훅({properties.url.host})"
+          - status: org_policy
+            value: "보내는 곳 {properties.url.host}"
+      - provider: atlassian
+        object_type: AutomationRequestEndpoint
+        cases:
+          - status: org_policy
+            value: "보내는 곳 {properties.url_host}"
+    items:
+      github: [ISMS-P:1.2.2-01, ISMS-P:2.10.5-02, ISMS-P:3.3.1-05, ISMS-P:3.3.4-04, ISO27001:5.14, PIPA:law-011357:article-17:p1, PIPA:law-011357:article-28-8:p1]
+      atlassian: [ISMS-P:1.2.2-01, ISMS-P:2.10.5-02, ISMS-P:3.3.1-05, ISMS-P:3.3.4-04, ISO27001:5.14, PIPA:law-011357:article-17:p1, PIPA:law-011357:article-28-8:p1]
+
+  - id: S6
+    number: 966
+    name: 기본 브랜치 보호
+    finding: 저장소 기본 브랜치에 보호 규칙이 없음
+    targets:
+      - provider: github
+        object_type: branch-with-protection
+        cases:
+          - when: {all: [{path: properties.name, eq_ref: {reference: parent_scope, path: properties.default_branch}}, {path: properties.protected, eq: true}]}
+            status: pass
+            value: 기본 브랜치 보호됨
+          - when: {path: properties.name, eq_ref: {reference: parent_scope, path: properties.default_branch}}
+            status: fail
+            value: 기본 브랜치 보호 없음
+          - status: pass
+            value: 기본 브랜치 아님
+    items:
+      github: [ISMS-P:2.8.5-02, ISMS-P:2.8.5-03, ISMS-P:2.8.3-02, ISO27001:8.4, ISO27001:8.25, ISO27001:8.32, ISO27001:8.9]
+
+  - id: S7
+    number: 967
+    name: 릴리스 변경 막기
+    finding: 저장소 릴리스를 만든 뒤 바꿀 수 있음(불변 릴리스 꺼짐)
+    targets:
+      - provider: github
+        object_type: check-immutable-releases
+        cases:
+          - when: {path: properties.enabled, eq: true}
+            status: pass
+            value: 불변 릴리스 켜짐
+          - when: {path: properties.enabled, eq: false}
+            status: fail
+            value: 불변 릴리스 꺼짐
+    items:
+      github: [ISMS-P:2.8.5-02, ISMS-P:2.8.5-03, ISO27001:8.32, ISO27001:8.9]
+
+  - id: S8
+    number: 968
+    name: 외부 앱 OAuth 정책
+    finding: 외부 앱을 모든 사용자가 스스로 승인해 쓸 수 있거나, IP 제한을 풀었거나, 갱신 토큰이 끝없이 유효함
+    targets:
+      - provider: salesforce
+        object_type: ExtlClntAppOauthPlcyCnfg
+        cases:
+          - when: {path: properties.PermittedUsersPolicyType, eq: AllSelfAuthorized}
+            status: fail
+            value: 모든 사용자가 스스로 승인
+          - when: {path: properties.IpRelaxationPolicyType, ne: Enforce}
+            status: fail
+            value: "IP 제한 완화({properties.IpRelaxationPolicyType})"
+          - when: {path: properties.RefreshTokenPolicyType, eq: Infinite}
+            status: fail
+            value: 갱신 토큰 무기한
+          - status: pass
+            value: "관리자 승인 사용자만, 갱신 토큰 {properties.RefreshTokenPolicyType}"
+      - provider: salesforce
+        object_type: ExtlClntAppPlcyCnfg
+        cases:
+          - {follow: {sibling_by: extapp, object_type: ExtlClntAppOauthPlcyCnfg}, value: 같은 앱 OAuth 정책의 판정}
+          - {status: unknown, value: 같은 앱의 OAuth 정책 없음}
+    items:
+      salesforce: [ISMS-P:2.5.1-02, ISMS-P:2.6.3-01, ISMS-P:2.6.3-05, ISO27001:5.15, ISO27001:8.3, PIPA:admin-73493:article-5:p1, PIPA:law-011357:article-29:p0, PIPA:law-011468:article-30:p1]
+
+  - id: S9
+    number: 969
+    name: 인가 서버 범위
+    finding: 사용자 동의 없이 주는 맞춤 OAuth 범위가 있음
+    targets:
+      - provider: okta
+        object_type: OAuth2Scope
+        cases:
+          - when: {path: properties.system, eq: true}
+            status: pass
+            value: 기본 제공 범위
+          - when: {path: properties.consent, eq: IMPLICIT}
+            status: org_policy
+            value: 동의 없이 주는 맞춤 범위
+          - status: pass
+            value: "맞춤 범위(동의 {properties.consent})"
+    items:
+      okta: [ISMS-P:1.2.2-01, ISMS-P:3.3.1-06, PIPA:law-011357:article-17:p1]
+# 남긴 것(11-14): salesforce PermissionSetGroupComponent 7, okta Group 5(구성원 없는 그룹), gws OrgUnit 4 는 설정 값이 아니라
+# 다른 판정(R1, gws 정책)을 따라야 해서 이 표에 넣지 않았다.
+
+
+  - id: S10
+    number: 970
+    name: "전역 권한 구성"
+    finding: "전역 권한 목록이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: atlassian
+        object_type: Permissions
+        cases:
+          - when: {path: properties.permissions, exists: true}
+            status: org_policy
+            value: "전역 권한 목록 확인"
+          - {status: unknown, value: "전역 권한 목록 없음"}
+    items:
+      atlassian: [ISMS-P:2.5.1-02, ISMS-P:2.6.3-01, ISO27001:5.15, ISO27001:8.3, PIPA:admin-73493:article-5:p1]
+
+  - id: S11
+    number: 971
+    name: "이슈 보안 스킴"
+    finding: "이슈 보안 스킴이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: atlassian
+        object_type: SecurityScheme
+        cases:
+          - when: {path: properties.name, exists: true}
+            status: org_policy
+            value: "이슈 보안 스킴({properties.name})"
+          - {status: unknown, value: "보안 스킴 이름 없음"}
+    items:
+      atlassian: [ISMS-P:2.10.2-02, ISMS-P:2.5.1-02, ISMS-P:2.6.3-01, ISO27001:5.15, ISO27001:5.23, ISO27001:8.3, PIPA:admin-73493:article-5:p1]
+
+  - id: S12
+    number: 972
+    name: "필터 대시보드 공유 권한"
+    finding: "누구나 또는 로그인 사용자 전체에게 필터와 대시보드가 열려 있음"
+    targets:
+      - provider: atlassian
+        object_type: SharePermission
+        cases:
+          - when: {path: properties.type, in: [anyone, global, authenticated]}
+            status: fail
+            value: "전체 공개({properties.type})"
+          - when: {path: properties.share_type, in: [anyone, global, authenticated]}
+            status: fail
+            value: "전체 공개({properties.share_type})"
+          - when: {path: properties.type, exists: true}
+            status: org_policy
+            value: "공유 권한({properties.type}, {properties.access})"
+          - {status: unknown, value: "공유 유형 없음"}
+    items:
+      atlassian: [ISMS-P:2.2.5-02, ISMS-P:2.5.1-01, ISMS-P:2.5.1-02, ISMS-P:2.6.3-01, ISO27001:5.14, ISO27001:5.15, ISO27001:5.18, ISO27001:8.12, ISO27001:8.3, PIPA:admin-73493:article-5:p1, PIPA:admin-73493:article-5:p2, PIPA:admin-73493:article-6:p3]
+
+  - id: S13
+    number: 973
+    name: "스페이스 권한"
+    finding: "스페이스 접근 권한이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: atlassian
+        object_type: SpacePermission
+        cases:
+          - when: {path: properties.principal_type, exists: true}
+            status: org_policy
+            value: "스페이스 권한({properties.principal_type})"
+          - {status: unknown, value: "주체 유형 없음"}
+    items:
+      atlassian: [ISMS-P:2.2.5-02, ISMS-P:2.5.1-01, ISO27001:5.14, PIPA:admin-73493:article-5:p2]
+
+  - id: S14
+    number: 974
+    name: "코드 보안 구성"
+    finding: "비밀 스캔이나 취약점 경고가 꺼져 있거나 미적용 상태임"
+    targets:
+      - provider: github
+        object_type: code-security-configuration
+        cases:
+          - when: {any: [{path: properties.secret_scanning, ne: enabled}, {path: properties.secret_scanning_push_protection, ne: enabled}, {path: properties.dependabot_alerts, ne: enabled}]}
+            status: fail
+            value: "보안 스캔 비활성({properties.name})"
+          - when: {path: properties.enforcement, ne: enforced}
+            status: org_policy
+            value: "코드 보안 구성({properties.name}, 적용 {properties.enforcement})"
+          - {status: pass, value: "코드 보안 구성 강제 적용({properties.name})"}
+    items:
+      github: [ISMS-P:2.10.2-02, ISO27001:5.23]
+
+  - id: S15
+    number: 975
+    name: "저장소 규칙셋"
+    finding: "저장소 규칙셋이 비활성 상태이거나 적용 확인 필요"
+    targets:
+      - provider: github
+        object_type: repository-ruleset
+        cases:
+          - when: {path: properties.enforcement, ne: active}
+            status: fail
+            value: "규칙셋 비활성({properties.name}, {properties.enforcement})"
+          - {status: pass, value: "규칙셋 활성({properties.name})"}
+    items:
+      github: [ISMS-P:2.10.2-02, ISO27001:5.23, ISO27001:8.4]
+
+  - id: S16
+    number: 976
+    name: "배포 키"
+    finding: "검증되지 않았거나 쓰기 가능한 배포 키가 있음"
+    targets:
+      - provider: github
+        object_type: deploy-key
+        cases:
+          - when: {path: properties.enabled, eq: false}
+            status: pass
+            value: "비활성 배포 키"
+          - when: {path: properties.verified, eq: false}
+            status: fail
+            value: "미검증 배포 키"
+          - when: {path: properties.read_only, eq: false}
+            status: org_policy
+            value: "쓰기 허용 배포 키"
+          - when: {path: properties.read_only, eq: true}
+            status: pass
+            value: "읽기 전용 배포 키"
+          - {status: unknown, value: "배포 키 속성 없음"}
+    items:
+      github: [ISMS-P:2.7.1-02, ISO27001:8.24, PIPA:admin-73493:article-7:p4]
+
+  - id: S18
+    number: 978
+    name: "규칙셋 브랜치 보호"
+    finding: "브랜치 규칙에 필수 리뷰 승인이나 오래된 승인 무효화가 없음"
+    targets:
+      - provider: github
+        object_type: branches
+        cases:
+          - when: {any: [{path: properties.parameters.required_approving_review_count, lt: 1}, {path: properties.parameters.dismiss_stale_reviews_on_push, eq: false}]}
+            status: fail
+            value: "리뷰 승인 {properties.parameters.required_approving_review_count}건, 푸시 시 무효화 {properties.parameters.dismiss_stale_reviews_on_push}"
+          - when: {path: properties.parameters.required_approving_review_count, gte: 1}
+            status: pass
+            value: "리뷰 승인 {properties.parameters.required_approving_review_count}건 요구"
+          - {status: unknown, value: "브랜치 규칙 매개변수 없음"}
+    items:
+      github: [ISO27001:5.23, ISO27001:8.4]
+
+  - id: S19
+    number: 979
+    name: "Google 도메인 검증"
+    finding: "검증되지 않은 도메인이 테넌트에 있음"
+    targets:
+      - provider: gws
+        object_type: Domains
+        cases:
+          - when: {path: properties.verified, eq: false}
+            status: fail
+            value: "미검증 도메인"
+          - when: {path: properties.verified, eq: true}
+            status: pass
+            value: "검증된 도메인"
+          - {status: unknown, value: "검증 여부 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISO27001:5.23]
+
+  - id: S20
+    number: 980
+    name: "캘린더 접근 규칙"
+    finding: "캘린더가 누구나 또는 조직 전체 쓰기로 열려 있음"
+    targets:
+      - provider: gws
+        object_type: AclRule
+        cases:
+          - when: {path: properties.scope_type, in: [default, everyone]}
+            status: fail
+            value: "누구나 공개({properties.role})"
+          - when: {all: [{path: properties.scope_type, eq: domain}, {path: properties.role, in: [writer, owner]}]}
+            status: fail
+            value: "조직 전체 쓰기({properties.role})"
+          - when: {path: properties.scope_type, eq: domain}
+            status: org_policy
+            value: "조직 전체 공유({properties.role})"
+          - when: {path: properties.scope_type, exists: true}
+            status: pass
+            value: "개별 공유({properties.scope_type}, {properties.role})"
+          - {status: unknown, value: "공유 범위 값 없음"}
+    items:
+      gws: [ISO27001:5.14]
+
+  - id: S21
+    number: 981
+    name: "드라이브 파일 공유"
+    finding: "드라이브 파일의 조직 밖 계정 공유 또는 링크 공개"
+    targets:
+      # 11-17 기본 기준(사용자 결정): 링크 공개와 조직 밖 계정·도메인 공유는 위반, 조직 도메인 안 공유는 충족.
+      # 조직 도메인은 tables.org_domains 와 IdP 사람 계정 이메일 도메인(R4 와 같은 목록)
+      - provider: gws
+        object_type: Permission
+        emit: false
+        cases:
+          - when: {path: properties.deleted, eq: true}
+            status: pass
+          - when: {path: properties.type, eq: anyone}
+            status: fail
+          - when: {all: [{path: properties.type, eq: domain}, {path: properties.domain, org_domain: true}]}
+            status: pass
+          - when: {path: properties.type, eq: domain}
+            status: fail
+          - when: {all: [{path: properties.type, in: [user, group]}, {path: properties.emailAddress, org_domain: true}]}
+            status: pass
+          - when: {all: [{path: properties.type, in: [user, group]}, {path: properties.emailAddress, exists: true}]}
+            status: fail
+          - when: {path: properties.type, exists: true}
+            status: org_policy
+      - provider: gws
+        object_type: File
+        cases:
+          - when: {path: properties.shared, eq: true}
+            follow: {children_by: parent, object_type: Permission}
+            value: "공유된 파일({properties.mimeType}), 조직 밖·링크 공개 공유가 있으면 위반"
+          - when: {path: properties.shared, eq: true}
+            status: org_policy
+            value: "공유된 파일({properties.mimeType}), 권한 정보 없음"
+          - when: {path: properties.shared, eq: false}
+            status: pass
+            value: "비공유 파일"
+          - when: {path: properties.driveId, exists: true}
+            follow: {children_by: parent, object_type: Permission}
+            value: "공유 드라이브 파일(권한 확인 필요)"
+          - when: {path: properties.driveId, exists: true}
+            status: org_policy
+            value: "공유 드라이브 구성원 접근"
+          - when: {path: properties.id, exists: false}
+            status: _skip
+          - {status: unknown, value: "공유 여부 값 없음"}
+    items:
+      gws: [ISO27001:5.14, ISO27001:8.12, ISO27001:8.3, PIPA:admin-73493:article-6:p3]
+
+  - id: S22
+    number: 982
+    name: "비인가 기기 잠금 설정"
+    finding: "알 수 없는 기기의 잠금 방지 설정이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: okta
+        object_type: UserLockoutSettings
+        cases:
+          - when: {path: properties.preventBruteForceLockoutFromUnknownDevices, eq: false}
+            status: org_policy
+            value: "알 수 없는 기기 잠금 비활성"
+          - when: {path: properties.preventBruteForceLockoutFromUnknownDevices, eq: true}
+            status: pass
+            value: "알 수 없는 기기 잠금 활성"
+          - {status: unknown, value: "잠금 설정 값 없음"}
+    items:
+      okta: [ISMS-P:2.10.2-02, ISMS-P:2.10.2-03, ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISMS-P:2.5.4-03, ISO27001:5.17, ISO27001:5.23, ISO27001:8.5, PIPA:admin-73493:article-5:p5, PIPA:admin-73493:article-5:p6, PIPA:admin-73493:article-6:p2]
+
+  - id: S23
+    number: 983
+    name: "Okta 도메인 검증"
+    finding: "Okta 사용자 지정 도메인 검증이 완료되지 않음"
+    targets:
+      - provider: okta
+        object_type: DomainResponse
+        cases:
+          - when: {path: properties.validationStatus, ne: COMPLETED}
+            status: fail
+            value: "도메인 미검증({properties.validationStatus})"
+          - {status: pass, value: "도메인 검증 완료({properties.certificateSourceType})"}
+    items:
+      okta: [ISMS-P:2.10.2-02, ISO27001:5.23]
+
+  - id: S24
+    number: 984
+    name: "신뢰 출처 목록"
+    finding: "활성 신뢰 출처가 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: okta
+        object_type: TrustedOrigin
+        cases:
+          - when: {path: properties.status, ne: ACTIVE}
+            status: pass
+            value: "사용 안 함"
+          - {status: org_policy, value: "활성 신뢰 출처({properties.status})"}
+    items:
+      okta: [ISMS-P:2.10.2-02, ISO27001:5.23, PIPA:admin-73493:article-6:p1, PIPA:admin-73493:article-6:p2]
+
+  - id: S25
+    number: 985
+    name: "인증 수단 세부 설정"
+    finding: "약한 인증 수단(전화, 보안 질문, 이메일)을 로그인에 쓸 수 있음"
+    targets:
+      - provider: okta
+        object_type: AuthenticatorMethodBase
+        cases:
+          - when: {path: properties.status, ne: ACTIVE}
+            status: pass
+            value: "사용 안 함({properties.type})"
+          - when: {all: [{path: properties.type, in: [phone, security_question, email, sms, voice]}, {path: properties.settings.allowedFor, in: [any, sso]}]}
+            status: fail
+            value: "약한 수단({properties.type}) 로그인 허용"
+          - when: {path: properties.type, in: [phone, security_question, email, sms, voice]}
+            status: pass
+            value: "약한 수단({properties.type}) 복구용 또는 제한"
+          - when: {path: properties.type, exists: true}
+            status: pass
+            value: "인증 수단({properties.type})"
+          - {status: unknown, value: "인증 수단 유형 없음"}
+    items:
+      okta: [ISMS-P:2.10.2-03, ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISMS-P:2.5.4-03, ISO27001:8.5, PIPA:admin-73493:article-5:p5, PIPA:admin-73493:article-6:p2]
+
+  - id: S26
+    number: 986
+    name: "인가 서버 설정"
+    finding: "인가 서버가 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: okta
+        object_type: AuthorizationServer
+        cases:
+          - when: {path: properties.status, ne: ACTIVE}
+            status: pass
+            value: "사용 안 함"
+          - {status: org_policy, value: "인가 서버({properties.name}, 발급자 {properties.issuerMode})"}
+    items:
+      okta: [ISMS-P:2.10.5-02, ISMS-P:2.7.1-02, ISMS-P:2.7.2-02, ISO27001:5.23, ISO27001:8.24, PIPA:admin-73493:article-7:p4]
+
+  - id: S27
+    number: 987
+    name: "이벤트 훅 검증"
+    finding: "검증되지 않은 이벤트 훅이 있거나 전송 대상 확인 필요"
+    targets:
+      - provider: okta
+        object_type: EventHook
+        cases:
+          - when: {path: properties.status, ne: ACTIVE}
+            status: pass
+            value: "사용 안 함"
+          - when: {path: properties.verificationStatus, ne: VERIFIED}
+            status: fail
+            value: "미검증 이벤트 훅({properties.verificationStatus})"
+          - {status: org_policy, value: "활성 이벤트 훅({properties.events})"}
+    items:
+      okta: [ISMS-P:2.10.5-02, ISO27001:5.14]
+
+  - id: S28
+    number: 988
+    name: "등록된 사용자 인증 요소"
+    finding: "약한 인증 요소(SMS, 전화, 보안 질문, 이메일)가 있음"
+    targets:
+      - provider: okta
+        object_type: UserFactor
+        cases:
+          - when: {path: properties.status, ne: ACTIVE}
+            status: pass
+            value: "비활성 요소({properties.factorType})"
+          - when: {path: properties.factorType, in: [sms, call, question, email]}
+            status: fail
+            value: "약한 인증 요소({properties.factorType})"
+          - when: {path: properties.factorType, exists: true}
+            status: pass
+            value: "인증 요소({properties.factorType})"
+          - {status: unknown, value: "인증 요소 유형 없음"}
+    items:
+      okta: [ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISMS-P:2.5.4-03, ISO27001:8.5, PIPA:admin-73493:article-5:p5, PIPA:admin-73493:article-6:p2]
+
+  - id: S29
+    number: 989
+    name: "인가 서버 서명 키"
+    finding: "인가 서버 서명 키에 취약한 SHA-1 알고리즘이 쓰임"
+    targets:
+      - provider: okta
+        object_type: AuthorizationServerJsonWebKey
+        cases:
+          - when: {path: properties.status, in: [INACTIVE, EXPIRED]}
+            status: pass
+            value: "비활성 키"
+          - when: {path: properties.alg, in: [RS1, HS1, SHA1]}
+            status: fail
+            value: "취약 서명 알고리즘({properties.alg})"
+          - when: {path: properties.alg, exists: true}
+            status: pass
+            value: "서명 키({properties.kty}, {properties.alg})"
+          - {status: unknown, value: "서명 알고리즘 없음"}
+      - provider: okta
+        object_type: JsonWebKey_2
+        cases:
+          - when: {path: properties.alg, in: [RS1, HS1, SHA1]}
+            status: fail
+            value: "취약 서명 알고리즘({properties.alg})"
+          - when: {path: properties.alg, exists: true}
+            status: pass
+            value: "서명 키({properties.kty}, {properties.alg})"
+          - {status: unknown, value: "서명 알고리즘 없음"}
+    items:
+      okta: [ISMS-P:2.7.1-02, ISMS-P:2.7.2-02, ISO27001:8.24]
+
+  - id: S30
+    number: 990
+    name: "앱과 OIDC 서명 암호화 키"
+    finding: "앱과 OIDC 키에 취약한 SHA-1 알고리즘이 쓰임"
+    targets:
+      - provider: okta
+        object_type: JsonEncryptionWebKey
+        cases:
+          - when: {path: properties.alg, in: [RS1, HS1, SHA1]}
+            status: fail
+            value: "취약 알고리즘({properties.alg})"
+          - when: {path: properties.alg, exists: true}
+            status: pass
+            value: "암호화 키({properties.kty}, {properties.alg})"
+          - {status: unknown, value: "키 알고리즘 없음"}
+      - provider: okta
+        object_type: JsonWebKey
+        cases:
+          - when: {path: properties.kty, eq: RSA}
+            status: pass
+            value: "RSA 서명 키({properties.use})"
+          - when: {path: properties.kty, exists: true}
+            status: pass
+            value: "서명 키({properties.kty}, {properties.use})"
+          - {status: unknown, value: "키 유형 없음"}
+    items:
+      okta: [ISMS-P:2.7.1-02, ISMS-P:2.7.2-02, ISO27001:8.24, PIPA:admin-73493:article-7:p4]
+
+  - id: S31
+    number: 991
+    name: "등록 기기 보안 상태"
+    finding: "디스크 암호화가 꺼져 있거나 기기 보안 상태 확인 필요"
+    targets:
+      - provider: okta
+        object_type: DeviceWithProviders
+        cases:
+          - when: {path: properties.status, ne: ACTIVE}
+            status: pass
+            value: "비활성 기기"
+          - when: {path: properties.profile.diskEncryptionType, eq: NONE}
+            status: fail
+            value: "디스크 암호화 안 됨"
+          - when: {path: properties.profile.diskEncryptionType, exists: true}
+            status: pass
+            value: "디스크 암호화({properties.profile.diskEncryptionType})"
+          - when: {path: properties.profile.platform, exists: true}
+            status: org_policy
+            value: "등록 기기({properties.profile.platform}, 등록 {properties.profile.registered})"
+          - {status: unknown, value: "기기 프로필 없음"}
+    items:
+      okta: [ISO27001:8.1, PIPA:admin-73493:article-6:p5, PIPA:admin-73493:article-7:p5]
+
+  - id: S32
+    number: 992
+    name: "Salesforce SAML SSO 구성"
+    finding: "SAML SSO 매핑 설정이 없거나 구성 확인 필요"
+    targets:
+      - provider: salesforce
+        object_type: SamlSsoConfig
+        cases:
+          - when: {all: [{path: properties.IdentityLocation, exists: true}, {path: properties.IdentityMapping, exists: true}]}
+            status: org_policy
+            value: "SAML SSO 구성({properties.IdentityLocation}, {properties.IdentityMapping})"
+          - {status: unknown, value: "SAML 매핑 값 없음"}
+    items:
+      salesforce: [ISMS-P:2.10.2-02, ISMS-P:2.10.2-03, ISMS-P:2.10.5-02, ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISMS-P:2.5.4-03, ISMS-P:2.6.3-03, ISMS-P:2.7.1-02, ISO27001:5.17, ISO27001:5.23, ISO27001:8.24, ISO27001:8.5, PIPA:admin-73493:article-5:p5, PIPA:admin-73493:article-5:p6, PIPA:admin-73493:article-6:p2, PIPA:admin-73493:article-7:p4]
+
+  - id: S33
+    number: 993
+    name: "보안 등급과 프레임 허용"
+    finding: "필드 보안 등급과 프레임 허용 목록 확인 필요"
+    targets:
+      - provider: salesforce
+        object_type: FieldSecurityClassification
+        cases:
+          - when: {path: properties.ApiName, exists: true}
+            status: org_policy
+            value: "필드 보안 등급({properties.ApiName})"
+          - {status: unknown, value: "보안 등급 이름 없음"}
+      - provider: salesforce
+        object_type: IframeWhiteListUrl
+        cases:
+          - when: {path: properties.Context, exists: true}
+            status: org_policy
+            value: "프레임 허용({properties.Context})"
+          - {status: unknown, value: "허용 컨텍스트 없음"}
+    items:
+      salesforce: [ISMS-P:2.10.2-02, ISO27001:5.23]
+
+  - id: S34
+    number: 994
+    name: "외부 인증 공급자"
+    finding: "외부 인증 공급자 설정이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: salesforce
+        object_type: AuthProvider
+        cases:
+          - when: {path: properties.ProviderType, exists: true}
+            status: org_policy
+            value: "인증 공급자({properties.ProviderType})"
+          - {status: unknown, value: "공급자 유형 없음"}
+    items:
+      salesforce: [ISMS-P:2.10.2-03, ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISMS-P:2.5.4-03, ISO27001:8.5, PIPA:admin-73493:article-5:p5, PIPA:admin-73493:article-5:p6, PIPA:admin-73493:article-6:p2]
+
+  - id: S35
+    number: 995
+    name: "외부 이름 자격증명"
+    finding: "외부 자격증명 대상이 조직이 허용한 곳인지 사람 확인 필요"
+    targets:
+      - provider: salesforce
+        object_type: NamedCredential
+        cases:
+          - when: {path: properties.DeveloperName, exists: true}
+            status: org_policy
+            value: "외부 자격증명({properties.DeveloperName})"
+          - {status: unknown, value: "자격증명 이름 없음"}
+    items:
+      salesforce: [ISMS-P:2.10.5-02]
+
+  - id: S36
+    number: 996
+    name: "이메일 서비스와 Slack 플로우 연동"
+    finding: "이메일 서비스가 TLS 또는 인증을 요구하지 않음"
+    targets:
+      - provider: salesforce
+        object_type: EmailServicesFunction
+        cases:
+          - when: {path: properties.IsActive, eq: false}
+            status: pass
+            value: "사용 안 함"
+          - when: {any: [{path: properties.IsTlsRequired, eq: false}, {path: properties.IsAuthenticationRequired, eq: false}]}
+            status: fail
+            value: "TLS({properties.IsTlsRequired}) 또는 인증({properties.IsAuthenticationRequired}) 미요구"
+          - {status: org_policy, value: "활성 이메일 서비스({properties.FunctionName})"}
+      - provider: salesforce
+        object_type: FlowSlackActionEndpoint
+        cases:
+          - when: {path: properties.action_type, exists: true}
+            status: org_policy
+            value: "Slack 연동 플로우({properties.action_type})"
+          - {status: unknown, value: "플로우 작업 유형 없음"}
+    items:
+      salesforce: [ISMS-P:2.10.5-02, ISO27001:5.14]
+
+  - id: S37
+    number: 997
+    name: "사용자 권한 접근 요약"
+    finding: "사용자 권한 요약이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: salesforce
+        object_type: UserPermissionAccess
+        cases:
+          - when: {path: properties.enabled_permissions, exists: true}
+            status: org_policy
+            value: "활성 권한 목록 확인"
+          - {status: unknown, value: "권한 목록 없음"}
+    items:
+      salesforce: [ISMS-P:2.2.5-02, ISMS-P:2.5.1-01, ISMS-P:2.5.1-02, ISMS-P:2.6.3-01, ISO27001:5.15, ISO27001:5.18, ISO27001:8.3, PIPA:admin-73493:article-5:p1, PIPA:admin-73493:article-5:p2]
+
+  - id: S39
+    number: 999
+    name: "문서 공유 범위"
+    finding: "Salesforce 문서가 레코드나 라이브러리에 모든 사용자 공개로 연결됨(사람 확인)"
+    targets:
+      - provider: salesforce
+        object_type: ContentDocumentLink
+        # 11-17 기본 기준(사용자 결정): 사용자(Id 005)에 연결된 링크와 내부 사용자 공개는 조직 안 공유라 충족.
+        # 레코드, 라이브러리에 모든 사용자(AllUsers) 공개로 연결된 것은 커뮤니티 사용자에게 보일 수 있어 사람 확인으로 둔다.
+        # linkedentityid 참조는 정규화에서 아직 풀리지 않아(target_type_not_collected) 사용자 종류(UserType)는 보지 못한다
+        cases:
+          - when: {path: properties.LinkedEntityId, starts_with: "005"}
+            status: pass
+            value: "사용자 연결 문서({properties.ShareType}, {properties.Visibility})"
+          - when: {path: properties.Visibility, eq: InternalUsers}
+            status: pass
+            value: "내부 사용자 공개 문서({properties.ShareType})"
+          - when: {path: properties.Visibility, exists: true}
+            status: org_policy
+            value: "문서 공유({properties.ShareType}, {properties.Visibility})"
+          - {status: unknown, value: "공유 범위 값 없음"}
+    items:
+      salesforce: [ISO27001:5.14, ISO27001:5.15, ISO27001:5.18, ISO27001:8.12, ISO27001:8.3, PIPA:admin-73493:article-5:p2, PIPA:admin-73493:article-6:p3]
+
+  - id: S40
+    number: 1000
+    name: "Salesforce 도메인 HTTPS"
+    finding: "Salesforce 도메인 HTTPS와 HSTS 설정 확인 필요"
+    targets:
+      - provider: salesforce
+        object_type: Domain
+        cases:
+          - when: {path: properties.OptionsHstsPreload, eq: false}
+            status: org_policy
+            value: "HSTS 미적용({properties.HttpsOption})"
+          - when: {path: properties.OptionsHstsPreload, eq: true}
+            status: pass
+            value: "HTTPS와 HSTS 적용({properties.HttpsOption})"
+          - {status: unknown, value: "도메인 HTTPS 값 없음"}
+    items:
+      salesforce: [ISO27001:5.23]
+
+  - id: S41
+    number: 1001
+    name: "Slack 채널 외부 공유"
+    finding: "외부 공유 채널이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: slack
+        object_type: conversation
+        cases:
+          - when: {path: properties.is_archived, eq: true}
+            status: pass
+            value: "보관된 채널"
+          - when: {path: properties.is_ext_shared, eq: true}
+            status: org_policy
+            value: "외부 공유 채널"
+          - when: {path: properties.is_shared, eq: true}
+            status: org_policy
+            value: "공유 채널"
+          - when: {any: [{path: properties.is_channel, exists: true}, {path: properties.is_ext_shared, exists: true}]}
+            status: pass
+            value: "내부 채널"
+          - when: {path: properties.id, exists: false}
+            status: _skip
+          - {status: unknown, value: "채널 속성 값 없음"}
+    items:
+      slack: [ISO27001:5.14]
+
+  - id: S43
+    number: 1003
+    name: "GWS 테넌트 운영 기준선"
+    finding: "테넌트 운영 설정(데이터 리전, 공유 드라이브, 녹화, 반출 등) 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/api_controls.internal_apps, settings/chat.content_reporting, settings/chat.space_history, settings/data_regions.data_at_rest_region, settings/data_regions.data_processing_region, settings/drive_and_docs.file_security_update, settings/drive_and_docs.shared_drive_creation, settings/gmail.web_offline, settings/meet.video_recording, settings/multi_party_approval.domains_actions, settings/youtube.user_takeout]}
+            status: _skip
+          - when: {all: [{path: properties.setting_type, eq: settings/api_controls.internal_apps}, {path: properties.setting_value.trustInternalApps, eq: true}]}
+            status: org_policy
+            value: "내부 앱 자동 신뢰 켜짐"
+          - when: {path: properties.setting_type, eq: settings/api_controls.internal_apps}
+            status: pass
+            value: "내부 앱 자동 신뢰 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/chat.content_reporting}
+            status: org_policy
+            value: "Chat 콘텐츠 신고({properties.setting_value.spacesReporting})"
+          - when: {all: [{path: properties.setting_type, eq: settings/chat.space_history}, {path: properties.setting_value.historyState, eq: DEFAULT_HISTORY_ON}]}
+            status: pass
+            value: "스페이스 기록 기본 켜짐"
+          - when: {path: properties.setting_type, eq: settings/chat.space_history}
+            status: org_policy
+            value: "스페이스 기록({properties.setting_value.historyState})"
+          - when: {all: [{path: properties.setting_type, eq: settings/data_regions.data_at_rest_region}, {path: properties.setting_value.region, eq: ANY_REGION}]}
+            status: org_policy
+            value: "저장 데이터 리전 미제한"
+          - when: {path: properties.setting_type, eq: settings/data_regions.data_at_rest_region}
+            status: pass
+            value: "저장 데이터 리전({properties.setting_value.region})"
+          - when: {all: [{path: properties.setting_type, eq: settings/data_regions.data_processing_region}, {path: properties.setting_value.limitToStorageRegion, eq: false}]}
+            status: org_policy
+            value: "처리 리전 제한 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/data_regions.data_processing_region}
+            status: pass
+            value: "처리 리전 제한 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/drive_and_docs.file_security_update}, {path: properties.setting_value.allowUsersToManageUpdate, eq: true}]}
+            status: org_policy
+            value: "사용자 보안 업데이트 해제 허용"
+          - when: {path: properties.setting_type, eq: settings/drive_and_docs.file_security_update}
+            status: pass
+            value: "파일 보안 업데이트 적용"
+          - when: {all: [{path: properties.setting_type, eq: settings/drive_and_docs.shared_drive_creation}, {path: properties.setting_value.allowSharedDriveCreation, eq: false}]}
+            status: pass
+            value: "공유 드라이브 생성 꺼짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/drive_and_docs.shared_drive_creation}, {any: [{path: properties.setting_value.allowExternalUserAccess, eq: true}, {path: properties.setting_value.allowNonMemberAccess, eq: true}]}]}
+            status: org_policy
+            value: "공유 드라이브 외부 또는 비구성원 접근 허용"
+          - when: {path: properties.setting_type, eq: settings/drive_and_docs.shared_drive_creation}
+            status: pass
+            value: "공유 드라이브 외부 접근 제한"
+          - when: {all: [{path: properties.setting_type, eq: settings/gmail.web_offline}, {path: properties.setting_value.enabled, eq: false}]}
+            status: pass
+            value: "웹 오프라인 메일 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/gmail.web_offline}
+            status: org_policy
+            value: "웹 오프라인 메일 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/meet.video_recording}, {path: properties.setting_value.enableRecording, eq: false}]}
+            status: pass
+            value: "Meet 녹화 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/meet.video_recording}
+            status: org_policy
+            value: "Meet 녹화 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/multi_party_approval.domains_actions}, {path: properties.setting_value.domainsApiMultiPartyApprovalState, ne: ENABLED}]}
+            status: org_policy
+            value: "도메인 작업 다중 승인 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/multi_party_approval.domains_actions}
+            status: pass
+            value: "도메인 작업 다중 승인 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/youtube.user_takeout}, {path: properties.setting_value.takeoutStatus, eq: DISABLED}]}
+            status: pass
+            value: "YouTube 테이크아웃 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/youtube.user_takeout}
+            status: org_policy
+            value: "YouTube 테이크아웃 켜짐"
+          - {status: unknown, value: "운영 기준선 설정 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISO27001:5.23]
+
+  - id: S44
+    number: 1004
+    name: "GWS 외부 공유와 협업 안전"
+    finding: "외부 Chat 스페이스, 파일 공유, Meet 전체 참여 또는 경고 미설정이 있음"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/chat.chat_and_space_restrictions, settings/chat.chat_external_spaces, settings/chat.chat_file_sharing, settings/chat.chat_space_access_default, settings/cloud_sharing_options.cloud_data_sharing, settings/drive_and_docs.external_file_warning, settings/gmail.external_recipient_warning, settings/meet.safety_domain, settings/multi_party_approval.calendar_actions, settings/multi_party_approval.groups_actions]}
+            status: _skip
+          - when: {all: [{path: properties.setting_type, eq: settings/chat.chat_external_spaces}, {path: properties.setting_value.enabled, eq: true}, {path: properties.setting_value.domainAllowlistMode, eq: ALL_DOMAINS}]}
+            status: fail
+            value: "모든 외부 도메인 Chat 스페이스 허용"
+          - when: {all: [{path: properties.setting_type, eq: settings/chat.chat_external_spaces}, {path: properties.setting_value.enabled, eq: false}]}
+            status: pass
+            value: "외부 Chat 스페이스 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/chat.chat_external_spaces}
+            status: org_policy
+            value: "외부 Chat 스페이스({properties.setting_value.domainAllowlistMode})"
+          - when: {all: [{path: properties.setting_type, eq: settings/chat.chat_file_sharing}, {path: properties.setting_value.externalFileSharing, eq: ALL_FILES}]}
+            status: fail
+            value: "Chat 외부 파일 전체 공유 허용"
+          - when: {all: [{path: properties.setting_type, eq: settings/chat.chat_file_sharing}, {path: properties.setting_value.externalFileSharing, eq: NO_FILES}]}
+            status: pass
+            value: "Chat 외부 파일 공유 차단"
+          - when: {path: properties.setting_type, eq: settings/chat.chat_file_sharing}
+            status: org_policy
+            value: "Chat 파일 공유({properties.setting_value.externalFileSharing})"
+          - when: {all: [{path: properties.setting_type, eq: settings/drive_and_docs.external_file_warning}, {path: properties.setting_value.highlightingEnabled, eq: false}]}
+            status: fail
+            value: "드라이브 외부 공유 경고 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/drive_and_docs.external_file_warning}
+            status: pass
+            value: "드라이브 외부 공유 경고 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/gmail.external_recipient_warning}, {path: properties.setting_value.enabled, eq: false}]}
+            status: fail
+            value: "Gmail 외부 수신자 경고 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/gmail.external_recipient_warning}
+            status: pass
+            value: "Gmail 외부 수신자 경고 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/meet.safety_domain}, {path: properties.setting_value.usersAllowedToJoin, eq: ALL}]}
+            status: fail
+            value: "Meet 누구나 참여 허용"
+          - when: {path: properties.setting_type, eq: settings/meet.safety_domain}
+            status: org_policy
+            value: "Meet 참여 대상({properties.setting_value.usersAllowedToJoin})"
+          - when: {all: [{path: properties.setting_type, eq: settings/multi_party_approval.calendar_actions}, {path: properties.setting_value.calendarSharingMultiPartyApprovalState, ne: ENABLED}]}
+            status: org_policy
+            value: "캘린더 공유 다중 승인 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/multi_party_approval.calendar_actions}
+            status: pass
+            value: "캘린더 공유 다중 승인 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/multi_party_approval.groups_actions}, {path: properties.setting_value.groupsSharingMultiPartyApprovalState, ne: ENABLED}]}
+            status: org_policy
+            value: "그룹 공유 다중 승인 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/multi_party_approval.groups_actions}
+            status: pass
+            value: "그룹 공유 다중 승인 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/chat.chat_and_space_restrictions}, {path: properties.setting_value.restrictionLevel, eq: UNRESTRICTED}]}
+            status: org_policy
+            value: "Chat 스페이스 제한 없음"
+          - when: {path: properties.setting_type, eq: settings/chat.chat_and_space_restrictions}
+            status: pass
+            value: "Chat 스페이스 제한({properties.setting_value.restrictionLevel})"
+          - when: {all: [{path: properties.setting_type, eq: settings/chat.chat_space_access_default}, {path: properties.setting_value.accessType, eq: RESTRICTED}]}
+            status: pass
+            value: "스페이스 기본 접근 제한"
+          - when: {path: properties.setting_type, eq: settings/chat.chat_space_access_default}
+            status: org_policy
+            value: "스페이스 기본 접근({properties.setting_value.accessType})"
+          - when: {all: [{path: properties.setting_type, eq: settings/cloud_sharing_options.cloud_data_sharing}, {path: properties.setting_value.sharingOptions, eq: DISABLED}]}
+            status: pass
+            value: "클라우드 데이터 공유 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/cloud_sharing_options.cloud_data_sharing}
+            status: org_policy
+            value: "클라우드 데이터 공유({properties.setting_value.sharingOptions})"
+          - {status: unknown, value: "외부 공유 설정 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISO27001:5.14, ISO27001:5.23, ISO27001:8.12, ISO27001:8.3, PIPA:admin-73493:article-6:p3]
+
+  - id: S45
+    number: 1005
+    name: "GWS 서드파티 앱과 Chat 연동"
+    finding: "서드파티 앱과 Chat 앱 연동이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/api_controls.app_approval_requests, settings/api_controls.unconfigured_third_party_apps, settings/chat.chat_apps_access, settings/chat.chat_third_party_archiving]}
+            status: _skip
+          - when: {all: [{path: properties.setting_type, eq: settings/api_controls.app_approval_requests}, {path: properties.setting_value.allowedForAll, eq: ENABLED}]}
+            status: org_policy
+            value: "모든 사용자 앱 승인 요청 허용"
+          - when: {path: properties.setting_type, eq: settings/api_controls.app_approval_requests}
+            status: pass
+            value: "앱 승인 요청 제한"
+          - when: {path: properties.setting_type, eq: settings/api_controls.unconfigured_third_party_apps}
+            status: org_policy
+            value: "미구성 서드파티 앱({properties.setting_value.accessLevel})"
+          - when: {all: [{path: properties.setting_type, eq: settings/chat.chat_apps_access}, {path: properties.setting_value.enableApps, eq: false}, {path: properties.setting_value.enableWebhooks, eq: false}]}
+            status: pass
+            value: "Chat 앱과 웹훅 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/chat.chat_apps_access}
+            status: org_policy
+            value: "Chat 앱({properties.setting_value.enableApps}) 또는 웹훅({properties.setting_value.enableWebhooks}) 허용"
+          - when: {all: [{path: properties.setting_type, eq: settings/chat.chat_third_party_archiving}, {path: properties.setting_value.enabled, eq: false}]}
+            status: pass
+            value: "Chat 외부 보관 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/chat.chat_third_party_archiving}
+            status: org_policy
+            value: "Chat 외부 보관 켜짐"
+          - {status: unknown, value: "앱 연동 설정 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISMS-P:2.3.1-01, ISO27001:5.23]
+
+  - id: S46
+    number: 1006
+    name: "GWS Gmail 악성코드와 스푸핑 방어"
+    finding: "Gmail 첨부파일, 링크, 스푸핑 보호 기능이 꺼져 있음"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/gmail.email_attachment_safety, settings/gmail.enhanced_pre_delivery_message_scanning, settings/gmail.links_and_external_images, settings/gmail.spoofing_and_authentication]}
+            status: _skip
+          - when: {all: [{path: properties.setting_type, eq: settings/gmail.email_attachment_safety}, {any: [{path: properties.setting_value.enableEncryptedAttachmentProtection, eq: false}, {path: properties.setting_value.enableAttachmentWithScriptsProtection, eq: false}, {path: properties.setting_value.enableAnomalousAttachmentProtection, eq: false}]}]}
+            status: fail
+            value: "첨부파일 안전 보호 일부 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/gmail.email_attachment_safety}
+            status: pass
+            value: "첨부파일 안전 보호 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/gmail.enhanced_pre_delivery_message_scanning}, {path: properties.setting_value.enableImprovedSuspiciousContentDetection, eq: false}]}
+            status: fail
+            value: "전송 전 향상된 스캔 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/gmail.enhanced_pre_delivery_message_scanning}
+            status: pass
+            value: "전송 전 향상된 스캔 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/gmail.links_and_external_images}, {any: [{path: properties.setting_value.enableShortenerScanning, eq: false}, {path: properties.setting_value.enableExternalImageScanning, eq: false}, {path: properties.setting_value.enableAggressiveWarningsOnUntrustedLinks, eq: false}]}]}
+            status: fail
+            value: "링크와 외부 이미지 보호 일부 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/gmail.links_and_external_images}
+            status: pass
+            value: "링크와 외부 이미지 보호 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/gmail.spoofing_and_authentication}, {any: [{path: properties.setting_value.detectDomainNameSpoofing, eq: false}, {path: properties.setting_value.detectEmployeeNameSpoofing, eq: false}, {path: properties.setting_value.detectDomainSpoofingFromUnauthenticatedSenders, eq: false}]}]}
+            status: fail
+            value: "스푸핑 탐지 일부 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/gmail.spoofing_and_authentication}
+            status: pass
+            value: "스푸핑 탐지 켜짐"
+          - {status: unknown, value: "메일 보안 설정 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISO27001:5.23, ISO27001:8.7]
+
+  - id: S47
+    number: 1007
+    name: "GWS 보안 다중 승인과 로그인 보호"
+    finding: "보안 작업 다중 승인, 로그인 확인, 고급 보호 설정이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/multi_party_approval.security_actions, settings/security.advanced_protection_program, settings/security.login_challenges]}
+            status: _skip
+          - when: {all: [{path: properties.setting_type, eq: settings/multi_party_approval.security_actions}, {path: properties.setting_value.twoStepVerificationMultiPartyApprovalState, ne: ENABLED}]}
+            status: org_policy
+            value: "2단계 인증 다중 승인 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/multi_party_approval.security_actions}
+            status: pass
+            value: "보안 작업 다중 승인 켜짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/security.login_challenges}, {path: properties.setting_value.enableEmployeeIdChallenge, eq: true}]}
+            status: pass
+            value: "직원 ID 로그인 확인 켜짐"
+          - when: {path: properties.setting_type, eq: settings/security.login_challenges}
+            status: org_policy
+            value: "직원 ID 로그인 확인 꺼짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/security.advanced_protection_program}, {path: properties.setting_value.enableAdvancedProtectionSelfEnrollment, eq: false}]}
+            status: org_policy
+            value: "고급 보호 자체 등록 꺼짐"
+          - when: {path: properties.setting_type, eq: settings/security.advanced_protection_program}
+            status: pass
+            value: "고급 보호 자체 등록 켜짐"
+          - {status: unknown, value: "보안 설정 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISMS-P:2.10.2-03, ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISMS-P:2.5.4-03, ISMS-P:2.6.3-03, ISO27001:5.17, ISO27001:5.23, ISO27001:8.5, PIPA:admin-73493:article-5:p5, PIPA:admin-73493:article-5:p6, PIPA:admin-73493:article-6:p2]
+
+  - id: S48
+    number: 1008
+    name: "GWS 메일 비밀 모드와 S/MIME"
+    finding: "Gmail 비밀 모드 또는 S/MIME 인증서 설정 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/gmail.confidential_mode, settings/gmail.enhanced_smime_encryption]}
+            status: _skip
+          - when: {all: [{path: properties.setting_type, eq: settings/gmail.confidential_mode}, {path: properties.setting_value.enableConfidentialMode, eq: true}]}
+            status: pass
+            value: "비밀 모드 켜짐"
+          - when: {path: properties.setting_type, eq: settings/gmail.confidential_mode}
+            status: org_policy
+            value: "비밀 모드 꺼짐"
+          - when: {all: [{path: properties.setting_type, eq: settings/gmail.enhanced_smime_encryption}, {path: properties.setting_value.allowUserToUploadCertificates, eq: true}]}
+            status: pass
+            value: "S/MIME 인증서 업로드 허용"
+          - when: {path: properties.setting_type, eq: settings/gmail.enhanced_smime_encryption}
+            status: org_policy
+            value: "S/MIME 인증서 업로드 제한"
+          - {status: unknown, value: "메일 암호화 설정 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISMS-P:2.10.5-02, ISMS-P:2.7.1-02, ISO27001:5.23, ISO27001:8.24, PIPA:admin-73493:article-7:p4]
+
+  - id: S49
+    number: 1009
+    name: "GWS 비밀번호와 최고 관리자 복구"
+    finding: "비밀번호 길이가 기준(14자)보다 짧거나 관리자 복구 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/security.password, settings/security.super_admin_account_recovery]}
+            status: _skip
+          - when: {all: [{path: properties.setting_type, eq: settings/security.password}, {any: [{path: properties.setting_value.minimumLength, lt: 14}, {path: properties.setting_value.allowedStrength, ne: STRONG}]}]}
+            status: fail
+            value: "비밀번호 최소 {properties.setting_value.minimumLength}자, 강도 {properties.setting_value.allowedStrength}"
+          - when: {path: properties.setting_type, eq: settings/security.password}
+            status: pass
+            value: "비밀번호 기준 충족({properties.setting_value.minimumLength}자)"
+          - when: {all: [{path: properties.setting_type, eq: settings/security.super_admin_account_recovery}, {path: properties.setting_value.enableAccountRecovery, eq: true}]}
+            status: org_policy
+            value: "최고 관리자 계정 복구 허용"
+          - when: {path: properties.setting_type, eq: settings/security.super_admin_account_recovery}
+            status: pass
+            value: "최고 관리자 계정 복구 꺼짐"
+          - {status: unknown, value: "비밀번호 설정 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISMS-P:2.5.3-01, ISMS-P:2.5.4-01, ISO27001:5.17, ISO27001:5.23, ISO27001:8.5, PIPA:admin-73493:article-5:p6]
+
+  - id: S50
+    number: 1010
+    name: "GWS 기기 파일과 데스크톱 드라이브"
+    finding: "iOS 외부 드라이브 또는 비인가 기기 드라이브 동기화 허용"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/devices.ios_files_app, settings/drive_and_docs.drive_for_desktop]}
+            status: _skip
+          - when: {all: [{path: properties.setting_type, eq: settings/devices.ios_files_app}, {any: [{path: properties.setting_value.usbDrivesConnectionAllowed, eq: true}, {path: properties.setting_value.networkDrivesConnectionAllowed, eq: true}]}]}
+            status: org_policy
+            value: "iOS USB 또는 네트워크 드라이브 연결 허용"
+          - when: {path: properties.setting_type, eq: settings/devices.ios_files_app}
+            status: pass
+            value: "iOS 외부 드라이브 차단"
+          - when: {all: [{path: properties.setting_type, eq: settings/drive_and_docs.drive_for_desktop}, {path: properties.setting_value.allowDriveForDesktop, eq: false}]}
+            status: pass
+            value: "데스크톱용 드라이브 사용 안 함"
+          - when: {all: [{path: properties.setting_type, eq: settings/drive_and_docs.drive_for_desktop}, {path: properties.setting_value.restrictToAuthorizedDevices, eq: false}]}
+            status: org_policy
+            value: "비인가 기기 드라이브 동기화 허용"
+          - when: {path: properties.setting_type, eq: settings/drive_and_docs.drive_for_desktop}
+            status: pass
+            value: "인가 기기만 드라이브 동기화"
+          - {status: unknown, value: "단말 파일 설정 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISO27001:5.23, ISO27001:8.1, PIPA:admin-73493:article-6:p5]
+
+  - id: S51
+    number: 1011
+    name: "GWS 실험적 앱과 백업 연동"
+    finding: "실험적 앱이나 서드파티 백업 허용 여부 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/experimental_apps.service_status, settings/third_party_app_backups.service_status]}
+            status: _skip
+          - when: {path: properties.setting_value.serviceState, ne: ENABLED}
+            status: pass
+            value: "사용 안 함"
+          - {status: org_policy, value: "허용됨({properties.setting_type})"}
+    items:
+      gws: [ISMS-P:2.3.1-01]
+
+  - id: S52
+    number: 1012
+    name: "GWS 보안 API 다중 승인"
+    finding: "보안 작업 API 접근 다중 승인 설정이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/multi_party_approval.security_actions_api_access]}
+            status: _skip
+          - when: {path: properties.setting_value.ssoWithThirdPartyIdpsMultiPartyApprovalState, ne: ENABLED}
+            status: org_policy
+            value: "다중 승인 꺼짐"
+          - {status: pass, value: "다중 승인 켜짐"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISMS-P:2.10.2-03, ISMS-P:2.3.1-01, ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISMS-P:2.5.4-03, ISMS-P:2.6.3-03, ISO27001:5.17, ISO27001:5.23, ISO27001:8.5, PIPA:admin-73493:article-5:p5, PIPA:admin-73493:article-5:p6, PIPA:admin-73493:article-6:p2]
+
+  - id: S53
+    number: 1013
+    name: "GWS Android 주기적 보안 인증"
+    finding: "Android 기기 주기적 보안 인증 설정이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/devices.android_periodic_secure_authentication]}
+            status: _skip
+          - when: {path: properties.setting_value.required, eq: false}
+            status: org_policy
+            value: "주기적 보안 인증 미요구"
+          - when: {path: properties.setting_value.required, eq: true}
+            status: pass
+            value: "주기적 보안 인증 요구({properties.setting_value.expirationPeriod})"
+          - {status: unknown, value: "보안 인증 요구 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISMS-P:2.10.2-03, ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISMS-P:2.5.4-03, ISMS-P:2.6.2-02, ISMS-P:2.6.3-02, ISMS-P:2.6.3-03, ISO27001:5.17, ISO27001:5.23, ISO27001:8.1, ISO27001:8.5, PIPA:admin-73493:article-5:p5, PIPA:admin-73493:article-5:p6, PIPA:admin-73493:article-6:p2, PIPA:admin-73493:article-6:p4, PIPA:admin-73493:article-6:p5]
+
+  - id: S54
+    number: 1014
+    name: "GWS 패스키 제한"
+    finding: "패스키 허용 범위가 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/security.passkeys_restriction]}
+            status: _skip
+          - when: {path: properties.setting_value.allowedPasskeysType, eq: ANY_DEVICE_OR_PLATFORM}
+            status: org_policy
+            value: "모든 기기 패스키 허용"
+          - when: {path: properties.setting_value.allowedPasskeysType, exists: true}
+            status: pass
+            value: "패스키 제한({properties.setting_value.allowedPasskeysType})"
+          - {status: unknown, value: "패스키 설정 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISMS-P:2.10.2-03, ISMS-P:2.5.3-01, ISMS-P:2.5.3-02, ISMS-P:2.5.4-03, ISMS-P:2.6.3-03, ISO27001:5.17, ISO27001:5.23, ISO27001:8.1, ISO27001:8.5, PIPA:admin-73493:article-5:p5, PIPA:admin-73493:article-5:p6, PIPA:admin-73493:article-6:p2, PIPA:admin-73493:article-6:p5]
+
+  - id: S55
+    number: 1015
+    name: "GWS 웹 세션 제어"
+    finding: "웹 세션 유지 시간이 조직 기준과 맞는지 사람 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/security.session_controls]}
+            status: _skip
+          - when: {path: properties.setting_value.webSessionDuration, exists: true}
+            status: org_policy
+            value: "웹 세션 유지({properties.setting_value.webSessionDuration})"
+          - {status: unknown, value: "세션 시간 값 없음"}
+    items:
+      gws: [ISMS-P:2.10.2-02, ISMS-P:2.6.2-02, ISMS-P:2.6.3-02, ISO27001:5.23, ISO27001:8.5, PIPA:admin-73493:article-6:p4]
+
+  - id: S56
+    number: 1016
+    name: "GWS 보안 알림 서비스"
+    finding: "경고 알림 서비스가 꺼져 있음"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/alerts.service_status]}
+            status: _skip
+          - when: {path: properties.setting_value.serviceState, ne: ENABLED}
+            status: fail
+            value: "알림 서비스 꺼짐({properties.setting_value.serviceState})"
+          - {status: pass, value: "알림 서비스 켜짐"}
+    items:
+      gws: [ISMS-P:2.10.2-03, ISMS-P:2.11.3-01, ISMS-P:2.9.4-01, ISMS-P:2.9.4-02, ISO27001:8.16, PIPA:admin-73493:article-6:p1, PIPA:admin-73493:article-8:p1]
+
+  - id: S57
+    number: 1017
+    name: "GWS 원격 데스크톱 서비스"
+    finding: "Chrome 원격 데스크톱 허용 여부 확인 필요"
+    targets:
+      - provider: gws
+        object_type: Policy
+        cases:
+          - when: {path: properties.setting_type, not_in: [settings/chrome_remote_desktop.service_status]}
+            status: _skip
+          - when: {path: properties.setting_value.serviceState, ne: ENABLED}
+            status: pass
+            value: "원격 데스크톱 꺼짐"
+          - {status: org_policy, value: "원격 데스크톱 켜짐"}
+    items:
+      gws: [ISO27001:8.1, PIPA:admin-73493:article-6:p5]
+# ---- 사람 확인 항목 (2026-11-13 결정: 대상 객체를 manual target 으로 낸다) ----
+# 절차, 보관 기간, 정기 점검 같은 운영 사실이라 API 값으로 위반이 정해지지 않는 항목. 판정기는 그 항목의 typeScope 대상 객체를
+# status manual 로 낸다(finding <provider>-958, 「사람 확인: <항목 제목>」). 대상 목록은 dashboard typeScope 와 같은 원본
+# (items-clean/item-type-scope.jsonl, confirmed 쌍)을 읽는다.
+manual_items:
+  number: 958
+  name: 사람 확인 항목의 대상
+  # 11-17 사용자 결정으로 모두 끊었다. ISO 8.10, 8.15, ISMS-P 2.5.6-01, PIPA 5-3, 8-3 은 같은 날 범위에서 제외됐고(knowledge#320),
+  # 남은 ISMS-P 2.9.4-03, PIPA 8-2 는 자동 점검만으로 판정하며 대상 종류도 자동 점검이 보는 것만 남겼다
+  # (items-clean/scope-review-1117.jsonl). 항목 연결과 근거 카드에서도 뺐다(checks/apply_unlink_958_1117.py)
+  items: []
+
+# ---- SaaS 별 값 표 (판정기 코드 대신 여기에만 SaaS 이름) ----
+tables:
+  # IdP: 같은 사람의 이 SaaS 계정이 비활성이면 다른 SaaS 계정도 비활성으로 본다(R3). IdP 사람 계정의 이메일 도메인은 조직 도메인(R4)
+  idp_providers: [okta, gws]
+  # 이메일로 쓰는 칸(R4 도메인 판정). login, Username 은 이메일 모양이어도 계정 이름이라 쓰지 않는다(Salesforce Username 은 조직 접미사가 붙는다)
+  email_fields: [email, primaryEmail, Email, emailAddress, profile.email]
+  # 조직 도메인을 모으는 곳(R4). 값이 이메일 도메인 모양인 것만 쓴다
+  # 11-13 운영 그래프에서 칸 이름과 값을 확인했다(gws Domains.domainName, Customer.customerDomain)
+  org_domains:
+    - {provider: gws, object_type: Domains, path: domainName}
+    - {provider: gws, object_type: Customer, path: customerDomain}
+  # 다중 인증 수단 객체(R6). status 가 있으면 ACTIVE 만. 11-13 그래프: UserFactor 12(ACTIVE 12), AuthenticatorMethodBase 10(ACTIVE 7)
+  mfa_factors:
+    - {provider: okta, object_type: UserFactor, status_path: status, status_ok: [ACTIVE]}
+    - {provider: okta, object_type: AuthenticatorMethodBase, status_path: status, status_ok: [ACTIVE]}
+  # 계정 속성으로 아는 다중 인증(R6). 11-13 그래프: gws User isEnrolledIn2Sv 10명 모두 false
+  mfa_properties:
+    - {provider: gws, object_type: User, path: isEnrolledIn2Sv, values: [true]}
+  # 다중 인증을 요구하는 정책(R6). 11-13 그래프: okta Policy type MFA_ENROLL 1개. GWS 2단계 인증 강제 설정은 정책 원본에 없다
+  mfa_policies:
+    - {provider: okta, object_type: Policy, path: type, values: [MFA_ENROLL]}
+  # SSO 로 로그인해 인증을 IdP 에 맡기는 SaaS(R6). 테넌트에 SSO 설정 객체가 있을 때만 맡긴다
+  sso_delegation:
+    - {provider: salesforce, sso_object: SamlSsoConfig, idp: okta}
+  # 다중 인증 값이 수집본에 없는 SaaS(R6 → not_collected). GitHub simple-user 의 two_factor_authentication 은 비어 있다
+  no_mfa_data: [slack, atlassian, github]
+  # 공용 계정 표지(R7). 로그인, 이메일 앞부분, 표시 이름을 소문자로 보고 낱말 경계로 맞춘다
+  shared_markers: [admin, administrator, test, shared, common, team, ops, service, support, info, root, master, guest, temp]

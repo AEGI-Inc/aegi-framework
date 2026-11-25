@@ -1,0 +1,49 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: discoveryengine
+object_type: DataStore
+interfaces: [Resource]
+# 근거: 2026-11-18 dataStores.list 실제 응답(v1alpha)과 Discovery 문서 DataStore 스키마.
+# 컬렉션은 객체로 만들지 않는다. 저장소는 Project 에 바로 속한다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: GCP-GE-DS-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-03
+        request: {kind: data_stores}
+        items: dataStores
+    vars:
+      project: {op: regex, of: name, pattern: "^(projects/[^/]+)"}
+    tenant: {type: Project, id: $vars.project}
+    id_expr: name
+    properties:
+      displayName: displayName
+      industryVertical: industryVertical
+      createTime: createTime
+      solutionTypes: solutionTypes
+      contentConfig: contentConfig
+      defaultSchemaId: defaultSchemaId
+      idp_type: idpConfig.idpType
+      aclEnabled: aclEnabled
+      workspace_type: workspaceConfig.type
+      # Workspace 고객 id. Google Workspace 테넌트와 잇는 단서다
+      workspace_customer_id: workspaceConfig.dasherCustomerId
+      natural_language_query_mode: naturalLanguageQueryUnderstandingConfig.mode
+      servingConfigDataStore: servingConfigDataStore
+    display: "{displayName|name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Project, id: $vars.project}
+        basis: stated
+        require: [target]

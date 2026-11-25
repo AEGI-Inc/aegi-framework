@@ -1,0 +1,374 @@
+# github ↔ gws 연결 규칙
+# 연동 방법마다 「a 와 b 가 같아야 이어진 것」을 적는다. 읽는 법은 legend.yaml, ../README.md
+
+pair:
+- github
+- gws
+written: '2026-10-04'
+verified: '2026-10-15'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/github-gws.yaml
+methods:
+- id: google_saml_idp
+  type: identity
+  what: GWS 를 SAML IdP 로 GitHub 엔터프라이즈, 조직 로그인
+  identify:
+    api: github GraphQL enterprise/organization samlIdentityProvider
+    when: issuer, ssoUrl 이 Google 주소
+  points_to:
+  - tier: config_id
+    a: github samlIdentityProvider.issuer, ssoUrl (Google 관리 콘솔 사용자 지정 SAML 앱의 「Google Identity Provider details」 화면이 주는 Entity ID, SSO URL. 주소 꼴은 문서에 없음)
+    b: gws SAML 앱 (관리 콘솔 웹 및 모바일 앱)
+    check: a 와 b 가 같다
+    if_unreadable: Google 관리 콘솔 Apps > Web and mobile apps > 그 SAML 앱의 「Google Identity Provider details」 (최고 관리자)
+  - tier: via_person
+    a: github samlIdentity.nameId
+    b: gws:user:primaryEmail
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: github org.sso_response·business.sso_response 의 issuer
+    b: gws SAML 앱 「Entity ID」 (Google 이 발급)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws saml login_success 시각과 actor.email (application_name 이 그 GitHub 앱)
+    b: github sso_response 시각과 actor
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws Reports applicationName=saml login_success, login_failure (application_name, initiated_by)
+  - github business.sso_response, org.sso_response
+  sources:
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/saml [Exa] (application_name = SAML SP 앱 이름, initiated_by idp/sp)
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/managing-iam/using-saml-for-enterprise-iam/configuring-saml-single-sign-on-for-your-enterprise (공식 지원 IdP 6곳에 Google 없음. SAML 2.0 표준 IdP 는 지원)
+  - https://knowledge.workspace.google.com/admin/apps/set-up-your-own-custom-saml-app (Google Identity Provider details 화면의 SSO URL, Entity ID, 인증서. 최고 관리자)
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (org.sso_response)
+  - https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise (business.sso_response)
+- id: github_oidc_to_google_cloud
+  type: stored_credential
+  what: GitHub Actions OIDC 토큰으로 Google Cloud 서비스 계정을 씀 (Workload Identity Federation)
+  identify:
+    api: Google Cloud IAM workloadIdentityPools.providers
+    when: oidc.issuerUri == https://token.actions.githubusercontent.com
+  points_to:
+  - tier: config_name
+    a: google cloud provider attributeCondition, attributeMapping (repository, repository_owner)
+    b: github:repository, github:organization
+    check: a 와 b 가 같다
+    if_unreadable: 'Google Cloud IAM workloadIdentityPools API (GCP 권한). 사람: Google Cloud 콘솔 IAM > 워크로드 아이덴티티 제휴'
+  - tier: log_id
+    a: google cloud ExchangeToken 감사 로그 protoPayload.authenticationInfo.principalSubject
+    b: github OIDC 토큰 sub (repo:<조직>/<저장소>:…)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: github workflows.completed_workflow_run 의 started_at·completed_at
+    b: google cloud ExchangeToken 시각
+    check: 시각이 실행 구간 안이다
+  activity:
+  - google cloud 감사 로그 (STS 토큰 교환)
+  - github 워크플로 실행
+  sources:
+  - https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-google-cloud-platform [Exa] (Issuer URL https://token.actions.githubusercontent.com)
+  - https://cloud.google.com/iam/docs/audit-logging/examples-workload-identity (ExchangeToken 감사 로그 protoPayload.authenticationInfo.principalSubject = IdP 토큰의 subject)
+  - https://docs.github.com/en/actions/concepts/security/openid-connect (토큰 클레임 sub, repository, repository_id, run_id, job_workflow_ref)
+  - "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (workflows.completed_workflow_run: started_at, completed_at)"
+  note: GWS 가 아니라 같은 조직의 Google Cloud 쪽 설정. 수집기는 Google Cloud IAM 을 부르지 않음
+- id: secret_in_actions
+  type: stored_credential
+  what: Google 서비스 계정 키를 GitHub Actions 비밀에 넣음
+  identify:
+    api: github GET /orgs/{org}/actions/secrets, /repos/{o}/{r}/actions/secrets
+    when: 비밀 이름에 GOOGLE, GCP, GWS 등
+  points_to:
+  - tier: config_name
+    a: github 비밀 이름 (값은 볼 수 없음)
+    b: google 서비스 계정 (어느 것인지 알 수 없음)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: github workflows.completed_workflow_run 의 started_at·completed_at
+    b: gws token 감사 activity 시각 (app_name 이 숫자 client ID 인 서비스 계정)
+    check: 시각이 실행 구간 안이다
+  activity:
+  - gws token 감사 activity (서비스 계정 client_id), admin 감사 AUTHORIZE_API_CLIENT_ACCESS
+  - github org.create_actions_secret, repo.create_actions_secret (key)
+  sources:
+  - 'https://docs.github.com/en/rest/actions/secrets (비밀은 이름만, 값은 주지 않음)'
+  - 'https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (activity 의 client_id)'
+  - 'https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (AUTHORIZE_API_CLIENT_ACCESS)'
+  - "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (*.create_actions_secret: key)"
+- id: apps_script_calls_github
+  type:
+  - stored_credential
+  - event_delivery
+  what: Apps Script 가 GitHub 토큰으로 api.github.com 을 부름
+  identify:
+    api: gws Apps Script projects.getContent (GW-09)
+    when: 코드에 api.github.com, 또는 script.external_request 범위
+  points_to:
+  - tier: config_name
+    a: Apps Script 코드의 호출 호스트
+    b: github api
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws Apps Script 실행 기록 시각 (GW-13)
+    b: github 감사 로그에서 그 토큰(hashed_token, token_id)으로 한 동작 시각
+    check: 시각이 같다
+  activity:
+  - github 토큰 사용 감사 (programmatic_access_type, hashed_token)
+  sources:
+  - https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app [Exa] (script.external_request 범위 필요)
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization
+- id: github_webhook_to_apps_script
+  type: event_delivery
+  what: GitHub 웹훅이 Apps Script 웹앱 주소로 보냄
+  identify:
+    api: github GET /orgs/{org}/hooks, /repos/{o}/{r}/hooks
+    when: config.url 호스트가 script.google.com
+  points_to:
+  - tier: config_id
+    a: github webhook config.url 의 배포 ID
+    b: gws Apps Script 배포 (GW-11 deploymentId)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: github 배달 기록 delivered_at
+    b: gws Apps Script 실행 기록 doPost 시각 (GW-13)
+    check: 시각이 같다
+    note: Apps Script doPost 이벤트 객체에는 요청 헤더가 없어 X-GitHub-Hook-ID 로는 맞출 수 없다
+  activity:
+  - github hook.create
+  - gws Apps Script 실행 기록 doPost (GW-13)
+  sources:
+  - 'https://docs.github.com/en/rest/orgs/webhooks#list-organization-webhooks (config.url)'
+  - 'https://developers.google.com/apps-script/guides/web (웹앱 주소 /exec, doPost)'
+  - 'https://developers.google.com/apps-script/api/reference/rest/v1/projects.deployments (배포 entryPoints webApp)'
+  - 'https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (hook.create, integration_installation.create, org_credential_authorization.grant)'
+  - https://docs.github.com/en/webhooks/webhook-events-and-payloads (배달 헤더 X-GitHub-Hook-ID, X-GitHub-Delivery, X-GitHub-Hook-Installation-Target-ID)
+- id: person_link
+  type: same_person
+  what: 같은 사람의 GitHub 계정과 GWS 계정
+  points_to:
+  - tier: via_person
+    a: github 커밋 author.email
+    b: gws:user:primaryEmail
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: github organizationVerifiedDomainEmails (GH-21)
+    b: gws:user:primaryEmail
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: github SAML nameId → okta login → okta 배정 externalId (두 단계)
+    b: gws:user:id
+    check: a 와 b 가 같다
+  identify:
+    api: github 커밋 author.email, GraphQL organizationVerifiedDomainEmails·externalIdentities; gws Directory users.list primaryEmail
+    when: 항상
+  sources:
+  - https://docs.github.com/en/rest/commits/commits (commit.author.email)
+  - https://raw.githubusercontent.com/octokit/graphql-schema/main/schema.graphql (externalIdentities.samlIdentity.nameId, organizationVerifiedDomainEmails)
+  - https://developers.google.com/workspace/admin/directory/reference/rest/v1/users (primaryEmail)
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: content_ref
+  type: content_ref
+  what: GitHub 이슈, 커밋 속 Drive 주소. Drive 문서 속 GitHub 주소
+  note: 수집기는 GitHub 이슈 본문, Drive 문서 본문을 보지 않음 로그 등급 없음. 본문 속 주소라 연결이 동작한 기록이 없다
+  if_unreadable: 수집기는 본문을 지문만 남긴다. conversations.history 의 text 를 수집하거나 사람이 채널에서 본다
+  identify:
+    api: github 이슈·커밋 본문, gws Drive 문서 본문 (수집하면)
+    when: 본문에 drive.google.com, docs.google.com, github.com 주소
+  points_to:
+  - tier: config_name
+    a: github 본문의 Drive 주소 (파일 ID)
+    b: gws:file:id
+    check: a 와 b 가 같다
+# ── 2026-10-05 연동 조합 표(../연동 조합 표.md)로 더함
+  sources:
+  - https://developers.google.com/workspace/drive/api/reference/rest/v3/files (id)
+- id: actions_to_apps_script
+  type: event_delivery
+  what: GitHub Actions 워크플로가 Apps Script 웹앱 주소를 부름
+  identify:
+    api: github 워크플로 파일
+    when: 파일의 호출 주소 호스트가 script.google.com
+  points_to:
+  - tier: config_id
+    a: github 워크플로 파일의 호출 주소 (sha256)
+    b: gws Apps Script 웹앱 배포 주소 (GW-11 deploymentId 로 만든 주소의 sha256)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: github Actions 실행 시각
+    b: gws Apps Script 실행 기록 (WEBAPP, GW-13)
+    check: 시각이 같다
+  activity:
+  - gws Apps Script 실행 기록 (processType WEBAPP)
+  sources:
+  - https://developers.google.com/apps-script/guides/web (웹앱 주소, doGet·doPost)
+- id: github_for_google_chat
+  type: app_grant
+  what: Google Workspace Marketplace 앱 「GitHub for Google Chat」(게시자 표기 Google) 이 Chat 스페이스에서 저장소를 구독하고 이슈를 다룸 (/github_subscribe 등). 사용자가 GitHub 계정을 연결한다
+  identify:
+    api: gws admin 감사 ADD_APPLICATION, 관리 콘솔 Apps > Google Workspace Marketplace apps (화면), tokens.list; gws Reports applicationName=chat 의 app_invoked, message_posted, history_turned_on, conversation_read (conversation_type USER_TO_APP_DIRECT_MESSAGE; 앱 이름 파라미터는 없고 room_id 가 앱과의 DM 하나를 가른다)
+    when: 앱 이름 GitHub for Google Chat
+  points_to:
+  - tier: config_name
+    a: gws 설치 앱 GitHub for Google Chat (Marketplace 앱 ID 536184076190)
+    b: github 사용자의 승인 OAuth 앱 (이름은 문서에 없음. 연결해 보고 credential-authorizations application_name 과 사용자 보안 로그 oauth_authorization.create 에서 읽는다)
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: gws Chat 스페이스의 구독 저장소 (/github_subscribe)
+    b: github 저장소
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: gws 사용자
+    b: github 로그인 (/github_logout 으로 끊음)
+    check: 같은 사람
+  - tier: log_id
+    a: gws admin 감사 ADD_APPLICATION 의 APP_ID
+    b: Marketplace 앱 ID 536184076190 (GitHub for Google Chat)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 authorize 시각과 actor.email
+    b: github 사용자 보안 로그 oauth_authorization.create 시각과 사용자
+    check: 시각이 가깝고 사람이 같다
+  - tier: config_name
+    a: github 조직 감사 org_credential_authorization.grant 의 application_name 필드 (SAML 또는 OIDC SSO 조직에서 자격 승인 시)
+    b: gws admin 감사 ADD_APPLICATION 의 APPLICATION_NAME (Marketplace 앱 GitHub for Google Chat)
+    check: a 와 b 가 같다 (org_credential_authorization.grant 는 SAML 또는 OIDC SSO 조직에서만 남는 것으로 읽힌다. application_name 값이 'GitHub for Google Chat' 으로 찍히는지는 문서에 없다. oauth_application.create 에는 이름 필드가 없고 oauth_application, oauth_application_id 만 있어서, rule 의 'OAuth 앱 이름 미상' 상태는 그대로 남는다. 필드 값 형식은 실측 확인 필요.)
+  - tier: log_time
+    a: gws Reports chat 의 app_invoked 시각 (room_id 가 GitHub 앱 DM)
+    b: github 이슈·댓글 created_at 과 작성자 (/github_openIssue 등)
+    check: 시각이 가깝고 사람이 같다
+    note: 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  activity:
+  - gws admin 감사 ADD_APPLICATION, token 감사 authorize
+  - github 사용자 보안 로그 oauth_authorization.create, 조직 감사 org_credential_authorization.grant (SAML 조직)
+  - gws Reports applicationName=chat 의 app_invoked, message_posted, history_turned_on, conversation_read (conversation_type USER_TO_APP_DIRECT_MESSAGE; 앱 이름 파라미터는 없고 room_id 가 앱과의 DM 하나를 가른다)
+  sources:
+  - https://workspace.google.com/marketplace/app/github_for_google_chat/536184076190 (기능, 슬래시 명령)
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (ADD_APPLICATION)
+  - https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/security-log-events (oauth_authorization.create)
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (org_credential_authorization.grant)
+  - 'https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)'
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (org_credential_authorization.grant 설명과 필드)
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (ADD_APPLICATION APPLICATION_NAME: The application's name.)"
+- id: google_chat_incoming_webhook
+  type: event_delivery
+  what: "GitHub Actions 워크플로가 Google Chat 스페이스의 인커밍 웹훅(chat.googleapis.com/v1/spaces/.../messages) 규격에 맞추어 카드/텍스트 알림 메시지를 게시 (GitHub 리포지토리 웹훅은 페이로드 규격 차이로 미지원, Actions 워크플로 스텝 호출만 해당)"
+  note: "GitHub Actions 시크릿 목록 API 는 시크릿 이름만 반환하고 값은 주지 않으므로, 지문 비교(fingerprint)는 워크플로 파일에 웹훅 URL 이 직접 적힌 경우만 성립한다. 시크릿에 둔 경우는 시크릿 이름(config_name)으로 본다. Google Chat 감사 로그(Reports API: Chat)의 이벤트는 message_posted 이며, 웹훅이 게시한 메시지가 이 이벤트로 남는지는 문서에 없다 (actor_type 은 ADMIN, NON_ADMIN 뿐)"
+  identify:
+    api: "github GET /repos/{owner}/{repo}/actions/secrets"
+    when: "저장소 또는 조직 Actions 시크릿에 GOOGLE_CHAT_WEBHOOK 등 Chat 웹훅 URL이 등록되어 있거나 워크플로 파일에 chat.googleapis.com 호출 단계가 있음"
+  points_to:
+  - tier: fingerprint
+    a: "github 워크플로 파일에 적힌 Google Chat 웹훅 URL"
+    b: "gws Google Chat 스페이스 인커밍 웹훅 URL (chat.googleapis.com/v1/spaces/{space}/messages?key=...&token=...)"
+    check: "a 의 sha256 과 b 가 같다 (워크플로 파일에 URL 이 직접 적힌 경우)"
+    if_unreadable: "Google Chat 스페이스 설정 > 앱 및 통합 > 웹훅 관리 화면에서 웹훅 URL 확인 후 sha256 비교"
+  - tier: config_id
+    a: "github 워크플로 호출 URL 의 스페이스 ID (경로 /spaces/{space}/)"
+    b: "gws Google Chat 스페이스 ID"
+    check: "a 와 b 가 같다"
+  - tier: config_name
+    a: "github Actions 시크릿 이름 (예: GOOGLE_CHAT_WEBHOOK, CHAT_WEBHOOK_URL)"
+    b: "gws Google Chat 스페이스 인커밍 웹훅"
+    check: "시크릿 이름 일치 (약한 근거, 시크릿 값은 API 로 읽을 수 없음)"
+  - tier: log_time
+    a: "github workflows.completed_workflow_run 의 started_at·completed_at"
+    b: "gws Chat 스페이스 메시지 createTime (spaces.messages.list, 보낸 쪽이 그 웹훅)"
+    check: "시각이 실행 구간 안이다"
+  activity:
+  - "github 감사 workflows.completed_workflow_run"
+  - "gws Admin Reports API Chat 감사 message_posted (웹훅 게시가 남는지는 문서에 없음)"
+  sources:
+  - "https://developers.google.com/workspace/chat/quickstart/webhooks (Google Chat 인커밍 웹훅 생성 및 메시지 전송 규격)"
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/chat (GWS Admin SDK Reports API Chat 활동 감사 이벤트: message_posted)"
+  - "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (GitHub 감사 로그 workflows.completed_workflow_run)"
+  - "https://docs.github.com/en/rest/actions/secrets (GitHub Actions 시크릿 목록 API: 값 미반환)"
+  - "https://developers.google.com/workspace/chat/api/reference/rest/v1/spaces.messages (Message: sender, createTime)"
+- id: gemini_github_integration
+  type: app_grant
+  what: Gemini 가 GitHub 저장소를 읽고 쓴다. Google Workspace Marketplace 「GitHub Integration」(앱 ID 556146275714, 게시자 Google)과 GitHub 도우미 앱 「Google Integrations」(app_slug google-integrations)가 한 쌍이다. 도우미 앱을 사용자가 설치하거나 조직 소유자가 승인해 설치하고, 사용자가 GitHub 계정을 Google 에 연결한다. Gemini 커넥터 화면의 「GitHub 연결」이 이 앱 설치로 이어진다
+  identify:
+    api: github GET /orgs/{org}/installations (app_slug google-integrations); gws admin 감사 ADD_APPLICATION, tokens.list
+    when: github 조직에 google-integrations 앱이 설치되어 있음
+  points_to:
+  - tier: config_name
+    a: github 조직 설치 앱 app_slug google-integrations (Google Integrations)
+    b: gws 설치 앱 GitHub Integration (Marketplace 앱 ID 556146275714)
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: gws 사용자
+    b: github 로그인 (연결 화면에서 승인한 GitHub 계정)
+    check: 같은 사람
+  - tier: log_id
+    a: gws admin 감사 ADD_APPLICATION 의 APP_ID
+    b: Marketplace 앱 ID 556146275714 (GitHub Integration)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: github 감사 integration_installation.create 시각과 행위자
+    b: github 사용자 보안 로그 oauth_access.create 시각과 사용자 (Google Integrations GitHub App 토큰 발급)
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - github 조직 감사 integration_installation_request.create, .close, integration_installation.create; 사용자 보안 로그 oauth_access.create, oauth_authorization.create
+  - gws admin 감사 ADD_APPLICATION, token 감사 authorize
+  sources:
+  - https://workspace.google.com/marketplace/app/github_integration/556146275714 (Marketplace 앱, 도우미 앱 설치 안내)
+  - https://github.com/apps/google-integrations (GitHub 도우미 앱)
+  - https://support.google.com/gemini/answer/16176929 (Gemini 에서 GitHub 저장소 가져오기, 계정 연결)
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (GitHub 조직 감사 이벤트 이름)
+  - https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/security-log-events (GitHub 사용자 보안 로그 이벤트 이름)
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (ADD_APPLICATION)
+  - 'https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id)'
+  note: 시험 환경에서는 GitHub 쪽 설치까지 되고 Gemini 쪽 연결이 끝나지 않았다 (../test-environment/v3/github-gws.yaml). Google 도움말은 입력창의 「코드 가져오기」를 말하지만 시험 계정에는 그 메뉴가 없었고 커넥터 화면의 「GitHub 연결」만 있었다
+- id: gemini_enterprise_github
+  type: app_grant
+  what: Gemini Enterprise(구 Agentspace)의 GitHub 데이터 저장소가 GitHub 를 읽고(검색) 쓴다(Create branch, Merge pull request, Write issue 등 액션). 고객이 GitHub 앱을 직접 만들고(콜백 URL https://vertexaisearch.cloud.google.com/oauth-redirect) Client ID·Secret 과 Organization Name 을 Gemini Enterprise 에 입력한다. GA. Business 에디션은 Settings > Manage team > Connectors 로 같은 커넥터를 켠다
+  identify:
+    api: github 개발자 설정의 GitHub 앱 (화면), github GET /orgs/{org}/installations; google Cloud Audit Logs discoveryengine.googleapis.com
+    when: github 에 콜백 URL 이 vertexaisearch.cloud.google.com/oauth-redirect 인 GitHub 앱이 있음
+  points_to:
+  - tier: config_name
+    a: gemini enterprise GitHub 데이터 저장소의 Organization Name
+    b: github 조직 로그인 이름
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: github 앱의 Client ID
+    b: gemini enterprise 커넥터 설정에 입력한 Client ID
+    check: a 와 b 가 같다
+    if_unreadable: 커넥터 설정은 화면(데이터 저장소 만들기). 읽는 API 이름은 문서에 없다
+  - tier: log_time
+    a: google Cloud 감사 google.cloud.discoveryengine.v1.DataConnectorService.SetUpDataConnector 시각
+    b: github 감사 integration_installation.create 시각 (조직에 앱 설치)
+    check: 시각이 가깝다
+  activity:
+  - google Cloud 감사 google.cloud.discoveryengine.v1.DataConnectorService.SetUpDataConnector, .UpdateDataConnector, DataStoreService.CreateDataStore
+  - github 조직 감사 integration_installation.create
+  sources:
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/github (GA, 액션)
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/github/github-configuration (GitHub 앱 만들기, 권한, 콜백 URL)
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/github/set-up-data-store (Organization Name)
+  - https://docs.cloud.google.com/gemini/enterprise/docs/audit-logging (Cloud Audit Logs 메서드 이름)
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/connect-third-party-data-source (커넥터 출시 상태)
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (GitHub 조직 감사 이벤트 이름)
+  note: GitHub 쪽 감사 이벤트 이름은 Gemini Enterprise 문서에 없다. 조직(Organization)에 설치하는 경로는 Gemini Enterprise 문서에서 확인하지 못했다(설치 범위가 「Only on this account」 로 적힘)
+- id: clasp_credentials_in_actions
+  type: stored_credential
+  what: clasp 로 Apps Script 를 배포하는 GitHub Actions 워크플로가, Google 사용자의 OAuth 갱신 토큰이 든 ~/.clasprc.json 내용을 Actions 비밀 CLASPRC_JSON 에 넣고, .clasp.json(스크립트 ID)을 CLASP_JSON 에 넣어 쓴다. 서비스 계정 키가 아니라 사람의 Google 계정 권한이다. 문서 예시 워크플로는 clasp push --force 와 clasp version 을 실행한다.
+  identify:
+    api: github GET /orgs/{org}/actions/secrets, /repos/{o}/{r}/actions/secrets (이름만, 값은 안 보임). 워크플로 파일의 secrets 참조
+    when: 비밀 이름이 CLASPRC_JSON 또는 CLASP_JSON 이거나 (문서 예시 이름, 실제 이름은 다를 수 있음), 워크플로에서 clasp 명령을 실행함
+  points_to:
+  - tier: via_person
+    a: github 감사 org.create_actions_secret 또는 repo.create_actions_secret 의 actor (비밀을 넣은 사람) [기존 인용]
+    b: gws token 감사 authorize 행의 actor.email (clasp login 한 Google 사용자. app_name 은 clasp 이름이 문서에 없음)
+    check: 같은 사람이다. 두 사람이 다르면 연결로 보지 않는다
+  - tier: log_time
+    a: github workflows.completed_workflow_run 의 started_at, completed_at (deploy 워크플로) [기존 인용]
+    b: gws Apps Script 프로젝트의 버전 생성 (clasp version 실행 결과. 이 버전이 남기는 감사 기록은 문서에 없음)
+    check: 버전 생성 시각이 실행 구간 안이다
+  activity:
+  - github org.create_actions_secret, repo.create_actions_secret [기존 인용]
+  - gws token 감사 authorize (clasp login 시 동의. clasp 가 이 기록을 남기는지는 문서에 없음)
+  sources:
+  - https://developers.google.com/apps-script/guides/clasp (clasp login 은 Apps Script 프로젝트 관리 권한을 준다, .clasprc.json 은 민감 자격, CLASPRC_JSON·CLASP_JSON 비밀, clasp push --force, clasp version) [WebFetch] [Exa]
+  - https://docs.github.com/en/rest/actions/secrets (비밀은 이름만 조회, 값은 안 줌) [기존 인용, 원문 미열람]
+  - https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (org.create_actions_secret) [기존 인용, 원문 미열람]
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token [기존 인용, 원문 미열람]
+  note: '비밀 값은 볼 수 없어 config_id 와 fingerprint 를 만들 수 없다. 시각과 사람만 잇는다. 기존 secret_in_actions 와 다르다. 그건 Google 서비스 계정 키이고, 이건 사용자 OAuth 갱신 토큰이다. 문서에 없음: clasp 가 남기는 Google 쪽 감사 이름, Apps Script 프로젝트 버전과 배포를 읽는 감사 기록. clasp deploy 는 예시 워크플로에 없다. 배포해 생긴 웹앱 주소가 있으면 기존 actions_to_apps_script 와 이어진다. 권장 비밀 이름 CLASPRC_JSON, CLASP_JSON 은 문서 예시다.'

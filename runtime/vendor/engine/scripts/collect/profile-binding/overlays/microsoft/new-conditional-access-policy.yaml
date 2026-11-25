@@ -1,0 +1,88 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: ConditionalAccessPolicy
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-CA-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-11
+        request: {kind: policies}
+        items: value
+    id_expr: id
+    properties:
+      activation: {const: session}
+      policy_id: id
+      displayName: displayName
+      state: state
+      conditions: conditions
+      grantControls: grantControls
+      sessionControls: sessionControls
+      createdDateTime: createdDateTime
+      modifiedDateTime: modifiedDateTime
+    display: "{displayName|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: applies_to
+        each: conditions.users.includeUsers
+        when:
+          path: $item
+          not_in: [All, None, GuestsOrExternalUsers]
+        source: $self
+        target: {type: User, id: $item}
+        basis: stated
+        require: [target]
+      - type: applies_to
+        each: conditions.users.includeGroups
+        source: $self
+        target: {type: Group, id: $item}
+        basis: stated
+        require: [target]
+      - type: applies_to
+        each: conditions.applications.includeApplications
+        when:
+          path: $item
+          not_in: [All, None, Office365, MicrosoftAdminPortals]
+        source: $self
+        target: {type: ServicePrincipal, lookup: appId, value: $item}
+        basis: stated
+        require: [target]
+      - type: excludes
+        each: conditions.users.excludeUsers
+        when:
+          path: $item
+          not_in: [All, None, GuestsOrExternalUsers]
+        source: $self
+        target: {type: User, id: $item}
+        basis: stated
+        require: [target]
+      - type: excludes
+        each: conditions.users.excludeGroups
+        source: $self
+        target: {type: Group, id: $item}
+        basis: stated
+        require: [target]
+      - type: excludes
+        each: conditions.applications.excludeApplications
+        when:
+          path: $item
+          not_in: [All, None, Office365, MicrosoftAdminPortals]
+        source: $self
+        target: {type: ServicePrincipal, lookup: appId, value: $item}
+        basis: stated
+        require: [target]

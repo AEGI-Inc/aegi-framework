@@ -1,0 +1,120 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/org_unit.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-20
+        items: organizationUnits
+    id_expr: orgUnitId
+    vars:
+      has_parent:
+        if:
+          all:
+            - path: parentOrgUnitId
+              truthy: true
+            - any:
+                - path:
+                    op: index
+                    name: ou_ids
+                    key: parentOrgUnitId
+                  truthy: true
+                - has:
+                    type: OrgUnit
+                    id: parentOrgUnitId
+        then:
+          const: ou
+        else:
+          const: customer
+    parent:
+      ref:
+        switch: $vars.has_parent
+        cases:
+          ou:
+            type: OrgUnit
+            id: parentOrgUnitId
+          customer: $tenant
+      when: always
+    properties:
+      name: name
+      orgUnitPath: orgUnitPath
+      parentOrgUnitId: parentOrgUnitId
+      parentOrgUnitPath: parentOrgUnitPath
+      description: description
+      blockInheritance: blockInheritance
+    display: "{name|orgUnitPath|orgUnitId}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          switch: $vars.has_parent
+          cases:
+            ou:
+              type: OrgUnit
+              id: parentOrgUnitId
+            customer: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: orgUnitId
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-OU-{id}
+runtime_stub: null
+runtime_key: GWS-OU-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: OrgUnit:list
+    sources:
+      - call: GW-20
+        items: organizationUnits
+    vars:
+      has_parent:
+        if:
+          all:
+            - path: parentOrgUnitId
+              truthy: true
+            - any:
+                - path:
+                    op: index
+                    name: ou_ids
+                    key: parentOrgUnitId
+                  truthy: true
+                - has:
+                    type: OrgUnit
+                    id: parentOrgUnitId
+        then:
+          const: ou
+        else:
+          const: customer
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          switch: $vars.has_parent
+          cases:
+            ou:
+              type: OrgUnit
+              id: parentOrgUnitId
+            customer: $tenant
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: orgUnitId
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-OU-{id}
+    replaced:
+      - $req.parent_id
+      - name

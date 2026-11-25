@@ -1,0 +1,78 @@
+# atlassian ↔ workday 연결 규칙
+# 벤더 문서로만 썼다 (2026-10-16). 시험 테넌트 결과는 ../test-environment/atlassian-workday.yaml 에 채운다. Workday 공통 확인 표면은 okta-workday.yaml 머리말
+# Atlassian 지원 IdP 목록(SCIM·SAML)에 Workday 는 없다 (https://support.atlassian.com/provisioning-users/docs/supported-identity-providers/). Atlassian Marketplace 「workday」 검색 26건 중 열어 본 18건에 Workday 가 게시한 앱은 없었다 (2026-10-16)
+
+pair:
+- atlassian
+- workday
+written: '2026-10-16'
+verified: '2026-10-16'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/atlassian-workday.yaml
+methods:
+- id: workato_hris_to_jsm
+  type: external_relay
+  what: Workday 에 입사자를 등록하면 자동화 플랫폼(Atlassian 사례는 Workato 레시피)이 Jira Service Management 에 온보딩 티켓을 만듦. Workday 와 Atlassian 은 직접 잇지 않고 중간 플랫폼이 양쪽 자격을 쥔다
+  identify:
+    api: workday View API Clients (Workato 의 API 클라이언트. 화면); atlassian JSM 티켓의 생성 계정
+    when: Workday API 클라이언트의 Redirection URL 이 https://www.workato.com/oauth/callback, JSM 티켓을 자동화 계정이 만듦
+  points_to:
+  - tier: config_name
+    a: workday API 클라이언트의 Redirection URL
+    b: 중간 플랫폼 콜백 주소 (Workato 는 https://www.workato.com/oauth/callback)
+    check: a 와 b 가 같다
+    if_unreadable: 'Workday 쪽: View API Clients 리포트 (화면). Atlassian 쪽: 그 티켓의 생성자와 조직 감사 actor.auth (API 토큰)'
+  - tier: config_name
+    a: atlassian JSM 티켓 생성 계정, 조직 감사 actor.auth.tokenLabel
+    b: 중간 플랫폼의 Atlassian 연결 (이름으로만)
+    check: 이름 일치뿐 (약한 근거)
+  - tier: log_time
+    a: workday 입사 업무 프로세스 완료 시각, Get_Workday_Account_Signons 의 API_Client_ID (그 클라이언트)
+    b: atlassian JSM 티켓 생성 시각
+    check: 시각이 가깝다
+  activity:
+  - workday Get_Workday_Account_Signons (API_Client_ID)
+  - atlassian JSM 티켓 생성, 조직 감사 「Third-party app Jira API request」 또는 API 토큰 활동
+  sources:
+  - https://www.atlassian.com/blog/it-service-management/using-jira-service-management-to-improve-hr (Workday 를 HRIS 로, Workato 레시피가 JSM 티켓 생성)
+  - https://docs.workato.com/connectors/workday-rest/connection-setup.html (Client ID·Secret, View API Clients, Redirect URL https://www.workato.com/oauth/callback, Non-Expiring Refresh Tokens)
+  - https://community.workday.com/sites/default/files/file-hosting/productionapi/Identity_Management/v47.0/Get_Workday_Account_Signons.html (API_Client_ID)
+- id: person_link
+  type: same_person
+  what: 같은 사람 (Atlassian 계정 ↔ Workday 계정)
+  identify:
+    api: atlassian GET /admin/v1/orgs/{orgId}/users; workday Get_Workers
+    when: 항상
+  points_to:
+  - tier: via_person
+    a: atlassian data[].email
+    b: workday 업무 이메일
+    check: a 와 b 가 같다
+  sources:
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/ (data[].email)
+  - https://community.workday.com/sites/default/files/file-hosting/productionapi/Human_Resources/v47.0/Get_Workers.html (Email_Address)
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: rovo_connector_workday
+  type: stored_credential
+  what: Atlassian Teamwork Graph 가 Workday 데이터를 가져온다. Workday 관리자가 보기 전용 Integration System User(ISU)와 보안 그룹을 만들고, 조직·직위·구성원 보고서 세 개를 웹 서비스로 켠 뒤 보고서마다 JSON 주소를 Atlassian 에 준다. Atlassian 조직 관리자가 Atlassian Administration 에서 연결을 끝낸다. 데이터는 설정 뒤 24시간까지 걸려 나타난다
+  identify:
+    api: atlassian Administration 의 Teamwork Graph 커넥터 목록, workday 의 ISU와 보고서 웹 서비스 설정
+    when: Atlassian 에 Workday 커넥터가 있음
+  points_to:
+  - tier: config_name
+    a: atlassian 커넥터 설정에 넣은 보고서 JSON 주소(세 개)
+    b: workday 보고서 웹 서비스 주소
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: atlassian 커넥터를 설정한 조직 관리자
+    b: workday ISU 를 만든 Workday 관리자
+    check: 다른 사람일 수 있다. 연결 주체는 ISU 다
+  - tier: log_time
+    a: atlassian 조직 감사의 커넥터 생성 시각
+    b: workday ISU 로그인 기록
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - workday ISU 로그인 기록, atlassian 조직 감사 (커넥터 이벤트 이름은 문서에 없다)
+  sources:
+  - https://support.atlassian.com/organization-administration/docs/add-connector-for-workday/ (ISU, 세 보고서, JSON 주소, 설정 주체, 24시간)
+  note: 출시 단계와 플랜은 문서에 없다(Talent 가 Strategy Collection 에 들어간다는 언급만 있다). 실측 없음

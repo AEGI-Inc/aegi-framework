@@ -1,0 +1,788 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: gws
+service: null
+object_type: ChromeOsDevice
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:58d3105b9e37633d7426b4f3
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: etag
+      expr: etag
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:58d3105b9e37633d7426b4f3.identity_evidence
+  parent:
+    type: parent:admin/admin/directory/v1/customer/{}
+    expr: $req.parent_id
+tenant_binding:
+  type: Customer
+  service: admin
+  call: GW-01
+  items: (root)
+  id: id
+fields:
+  diskVolumeReports:
+    path: diskVolumeReports
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: diskVolumeReports
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.diskVolumeReports
+    map_items: []
+  orgUnitPath:
+    path: orgUnitPath
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: orgUnitPath
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|orgUnitPath
+  notes:
+    path: notes
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: notes
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|notes
+  lastKnownNetwork:
+    path: lastKnownNetwork
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: lastKnownNetwork
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.lastKnownNetwork
+    map_items: []
+  deprovisionReason:
+    path: deprovisionReason
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      enum:
+        - DEPROVISION_REASON_UNSPECIFIED
+        - DEPROVISION_REASON_SAME_MODEL_REPLACEMENT
+        - DEPROVISION_REASON_UPGRADE
+        - DEPROVISION_REASON_DOMAIN_MOVE
+        - DEPROVISION_REASON_SERVICE_EXPIRATION
+        - DEPROVISION_REASON_OTHER
+        - DEPROVISION_REASON_DIFFERENT_MODEL_REPLACEMENT
+        - DEPROVISION_REASON_RETIRING_DEVICE
+        - DEPROVISION_REASON_UPGRADE_TRANSFER
+        - DEPROVISION_REASON_NOT_REQUIRED
+        - DEPROVISION_REASON_REPAIR_CENTER
+      name: deprovisionReason
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|deprovisionReason
+  firmwareVersion:
+    path: firmwareVersion
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: firmwareVersion
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|firmwareVersion
+  systemRamTotal:
+    path: systemRamTotal
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      format: int64
+      name: systemRamTotal
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|systemRamTotal
+  ethernetMacAddress0:
+    path: ethernetMacAddress0
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: ethernetMacAddress0
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|ethernetMacAddress0
+  osVersion:
+    path: osVersion
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: osVersion
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|osVersion
+  annotatedUser:
+    path: annotatedUser
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: annotatedUser
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|annotatedUser
+  willAutoRenew:
+    path: willAutoRenew
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: willAutoRenew
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ChromeOsDevice|willAutoRenew
+  dockMacAddress:
+    path: dockMacAddress
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: dockMacAddress
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|dockMacAddress
+  cpuStatusReports:
+    path: cpuStatusReports
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: cpuStatusReports
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.cpuStatusReports
+    map_items: []
+  osUpdateStatus:
+    path: osUpdateStatus
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: osUpdateStatus
+      required: false
+      shape: sh:gws_directory:OsUpdateStatus
+    map_items: []
+  autoUpdateThrough:
+    path: autoUpdateThrough
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: autoUpdateThrough
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|autoUpdateThrough
+  diskSpaceUsage:
+    path: diskSpaceUsage
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: diskSpaceUsage
+      read_only: true
+      required: false
+      shape: sh:gws_directory:ByteUsage
+    map_items: []
+  recentUsers:
+    path: recentUsers
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: recentUsers
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.recentUsers
+    map_items: []
+  etag:
+    path: etag
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: etag
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|etag
+  meid:
+    path: meid
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: meid
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|meid
+  bluetoothAdapterInfo:
+    path: bluetoothAdapterInfo
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: bluetoothAdapterInfo
+      read_only: true
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.bluetoothAdapterInfo
+    map_items: []
+  supportEndDate:
+    path: supportEndDate
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      format: date-time
+      name: supportEndDate
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|supportEndDate
+  deviceId:
+    path: deviceId
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: deviceId
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|deviceId
+  extendedSupportStart:
+    path: extendedSupportStart
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: extendedSupportStart
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|extendedSupportStart
+  kind:
+    path: kind
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: kind
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|kind
+  extendedSupportEligible:
+    path: extendedSupportEligible
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: extendedSupportEligible
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ChromeOsDevice|extendedSupportEligible
+  manufactureDate:
+    path: manufactureDate
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: manufactureDate
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|manufactureDate
+  fanInfo:
+    path: fanInfo
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: fanInfo
+      read_only: true
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.fanInfo
+    map_items: []
+  chromeOsType:
+    path: chromeOsType
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      enum:
+        - chromeOsTypeUnspecified
+        - chromeOsFlex
+        - chromeOs
+      name: chromeOsType
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|chromeOsType
+  model:
+    path: model
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: model
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|model
+  macAddress:
+    path: macAddress
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: macAddress
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|macAddress
+  systemRamFreeReports:
+    path: systemRamFreeReports
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: systemRamFreeReports
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.systemRamFreeReports
+    map_items: []
+  annotatedAssetId:
+    path: annotatedAssetId
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: annotatedAssetId
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|annotatedAssetId
+  tpmVersionInfo:
+    path: tpmVersionInfo
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: tpmVersionInfo
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.tpmVersionInfo
+    map_items: []
+  bootMode:
+    path: bootMode
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: bootMode
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|bootMode
+  platformVersion:
+    path: platformVersion
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: platformVersion
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|platformVersion
+  extendedSupportEnabled:
+    path: extendedSupportEnabled
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: extendedSupportEnabled
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ChromeOsDevice|extendedSupportEnabled
+  screenshotFiles:
+    path: screenshotFiles
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: screenshotFiles
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.screenshotFiles
+    map_items: []
+  osVersionCompliance:
+    path: osVersionCompliance
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      enum:
+        - complianceUnspecified
+        - compliant
+        - pending
+        - notCompliant
+      name: osVersionCompliance
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|osVersionCompliance
+  orgUnitId:
+    path: orgUnitId
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: orgUnitId
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|orgUnitId
+  serialNumber:
+    path: serialNumber
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: serialNumber
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|serialNumber
+  backlightInfo:
+    path: backlightInfo
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: backlightInfo
+      read_only: true
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.backlightInfo
+    map_items: []
+  lastEnrollmentTime:
+    path: lastEnrollmentTime
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      format: date-time
+      name: lastEnrollmentTime
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|lastEnrollmentTime
+  ethernetMacAddress:
+    path: ethernetMacAddress
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: ethernetMacAddress
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|ethernetMacAddress
+  deviceFiles:
+    path: deviceFiles
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: deviceFiles
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.deviceFiles
+    map_items: []
+  lastDeprovisionTimestamp:
+    path: lastDeprovisionTimestamp
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: lastDeprovisionTimestamp
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|lastDeprovisionTimestamp
+  status:
+    path: status
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: status
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|status
+  lastSync:
+    path: lastSync
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      format: date-time
+      name: lastSync
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|lastSync
+  annotatedLocation:
+    path: annotatedLocation
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: annotatedLocation
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|annotatedLocation
+  orderNumber:
+    path: orderNumber
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: orderNumber
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|orderNumber
+  deviceLicenseType:
+    path: deviceLicenseType
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      enum:
+        - deviceLicenseTypeUnspecified
+        - enterprise
+        - enterpriseUpgrade
+        - educationUpgrade
+        - education
+        - kioskUpgrade
+        - enterpriseUpgradePerpetual
+        - enterpriseUpgradeFixedTerm
+        - educationUpgradePerpetual
+        - educationUpgradeFixedTerm
+      name: deviceLicenseType
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|deviceLicenseType
+  autoUpdateExpiration:
+    path: autoUpdateExpiration
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      deprecated: true
+      format: int64
+      name: autoUpdateExpiration
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|autoUpdateExpiration
+  activeTimeRanges:
+    path: activeTimeRanges
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: activeTimeRanges
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.activeTimeRanges
+    map_items: []
+  cpuInfo:
+    path: cpuInfo
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: cpuInfo
+      required: false
+      shape: sh:gws_directory:ChromeOsDevice.cpuInfo
+    map_items: []
+  firstEnrollmentTime:
+    path: firstEnrollmentTime
+    source: research_shape
+    shape: sh:gws_directory:ChromeOsDevice
+    declaration:
+      name: firstEnrollmentTime
+      required: false
+      scalar: string
+    map_items:
+      - space:ChromeOsDevice|firstEnrollmentTime
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: parent:admin/admin/directory/v1/customer/{}
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:1fa5490c3cc92e52ae2e9ad2 (admin/admin/directory/v1/customer/{}) -> parent:admin/admin/directory/v1/customer/{}
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: gws
+  object_type: ChromeOsDevice
+  interfaces: *a1
+  model:
+    research_type: object-type:58d3105b9e37633d7426b4f3
+  extract:
+    key: PILOT-gws-ChromeOsDevice-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{etag}"
+        sources:
+          - call: AUTO-GWS-26b4f3
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          activeTimeRanges: activeTimeRanges
+          annotatedAssetId: annotatedAssetId
+          annotatedLocation: annotatedLocation
+          annotatedUser: annotatedUser
+          autoUpdateExpiration: autoUpdateExpiration
+          autoUpdateThrough: autoUpdateThrough
+          backlightInfo: backlightInfo
+          bluetoothAdapterInfo: bluetoothAdapterInfo
+          bootMode: bootMode
+          chromeOsType: chromeOsType
+          cpuInfo: cpuInfo
+          cpuStatusReports: cpuStatusReports
+          deprovisionReason: deprovisionReason
+          deviceFiles: deviceFiles
+          deviceId: deviceId
+          deviceLicenseType: deviceLicenseType
+          diskSpaceUsage: diskSpaceUsage
+          diskVolumeReports: diskVolumeReports
+          dockMacAddress: dockMacAddress
+          etag: etag
+          ethernetMacAddress: ethernetMacAddress
+          ethernetMacAddress0: ethernetMacAddress0
+          extendedSupportEligible: extendedSupportEligible
+          extendedSupportEnabled: extendedSupportEnabled
+          extendedSupportStart: extendedSupportStart
+          fanInfo: fanInfo
+          firmwareVersion: firmwareVersion
+          firstEnrollmentTime: firstEnrollmentTime
+          kind: kind
+          lastDeprovisionTimestamp: lastDeprovisionTimestamp
+          lastEnrollmentTime: lastEnrollmentTime
+          lastKnownNetwork: lastKnownNetwork
+          lastSync: lastSync
+          macAddress: macAddress
+          manufactureDate: manufactureDate
+          meid: meid
+          model: model
+          notes: notes
+          orderNumber: orderNumber
+          orgUnitId: orgUnitId
+          orgUnitPath: orgUnitPath
+          osUpdateStatus: osUpdateStatus
+          osVersion: osVersion
+          osVersionCompliance: osVersionCompliance
+          platformVersion: platformVersion
+          recentUsers: recentUsers
+          screenshotFiles: screenshotFiles
+          serialNumber: serialNumber
+          status: status
+          supportEndDate: supportEndDate
+          systemRamFreeReports: systemRamFreeReports
+          systemRamTotal: systemRamTotal
+          tpmVersionInfo: tpmVersionInfo
+          willAutoRenew: willAutoRenew
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_empty
+  call: GW-90
+  operation_id: op:gws_directory:directory.chromeosdevices.list
+  operation: directory.chromeosdevices.list
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /admin/directory/v1/customer/[^/]+/devices/chromeos(?:\?|$)
+  endpoint_template: /admin/directory/v1/customer/{customerId}/devices/chromeos
+  request: {}
+  required_params:
+    - customerId
+  paths:
+    - shape: sh:gws_directory:ChromeOsDevice
+      path:
+        - chromeosdevices
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:gws_directory:directory.chromeosdevices.get
+      method: GET
+      kind: read_one
+      endpoint_template: /admin/directory/v1/customer/{customerId}/devices/chromeos/{deviceId}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 0
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 8d48095984113f27a11dc420a752b717df59eae51bc3bbd4797896c8ad4af30d
+    ir/shape.jsonl: 998cf62cfd25e0d4d9d9e705e0e34b0b8c31494250a970686a7d8867e0503fbc
+    ir/operation.jsonl: 14fd7a38425bfeae03709952cd2c90c62f41d51658abd12c249f48def14db67f
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - etag
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

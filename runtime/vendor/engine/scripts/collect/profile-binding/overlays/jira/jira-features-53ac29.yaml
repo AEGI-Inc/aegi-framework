@@ -1,0 +1,18 @@
+overlay_basis:
+  from: Jira Cloud REST getFeaturesForProject 응답(ContainerForProjectFeatures.features[])
+  note: 추출 경로가 응답 전체([])라 identity(feature)를 찾지 못했다(2026-10-27 실측 identity 거부 3건). 기능 이름은 프로젝트마다 반복되므로 프로젝트 id 를 identity 에 넣는다
+emit: reference_only
+emit_basis: 선언 필드가 응답 묶음 칸(features) 하나뿐이라 원소마다 속성이 비었다(2026-10-30 run 50개 모두 속성 없음).
+  원소는 프로젝트 기능 켜짐 상태(state, toggleLocked)라 접근 부여 대상이 아니다. 객체로 만들지 않는다. 프로젝트 속성으로 둘지는 aegi-knowledge 가 정한다
+identity:
+  primary:
+    - name: project_id
+      expr: projectId
+      stability: undocumented
+    - name: feature
+      expr: feature
+      stability: undocumented
+binding:
+  paths:
+    - shape: sh:jira_openapi_v3:ContainerForProjectFeatures
+      path: [features, "*"]

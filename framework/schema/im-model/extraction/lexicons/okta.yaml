@@ -1,0 +1,74 @@
+# Okta 사전 v0 (2026-10-14)
+# 자료: okta_api_list/snapshot_2026-10-13 (Management OpenAPI 2026.09.2, System Log 이벤트 유형 JSON, 관리자 권한과 역할 안내)
+
+sources:
+  openapi:
+    - {id: okta_management_openapi, path: okta_api_list/snapshot_2026-10-13/raw/raw.githubusercontent.com__okta__okta-management-openapi-spec__master__dist__current__management-minimal.yaml,
+       strip_prefixes: [/api/v1]}
+  system_log:
+    - {id: okta_event_types, path: okta_api_list/snapshot_2026-10-13/raw/raw.githubusercontent.com__okta__okta-developer-docs__master__packages__okta__vuepress-site__data__event-types.json}
+  permission_docs:
+    - {id: okta_admin_permissions, path: okta_api_list/snapshot_2026-10-13/raw/developer.okta.com__docs__api__openapi__okta-management__guides__permissions,
+       pattern: '\b(okta\.[a-zA-Z]+(?:\.[a-zA-Z]+)+)\b', kind: admin_permission}
+    - {id: okta_standard_roles, path: okta_api_list/snapshot_2026-10-13/raw/developer.okta.com__docs__api__openapi__okta-management__guides__roles,
+       pattern: '\b([A-Z][A-Z_]{2,}_ADMIN)\b', kind: admin_role}
+
+param_suffixes: [Id, OrKey]
+
+# 경로 파라미터 이름 -> 공간 (꼬리를 떼도 안 맞는 것만)
+param_space:
+  appId: app
+  appInstanceId: app
+  idpId: idp
+  authServerId: authserver
+  userId: user
+  groupId: group
+  policyId: policy
+  ruleId: rule
+  factorId: factor
+  roleId: role
+  roleIdOrEncodedRoleId: role
+  targetId: "@resolve"
+
+field_space:
+  userId: user
+  groupId: group
+  appId: app
+
+scope_spaces: []
+vendor_hosts: [okta.com, oktapreview.com, okta-emea.com]
+collect_tiers:
+  - {scope_prefix: "okta.", tier: admin_token, note: "Okta 관리 API scope"}
+default_tier: admin_token
+
+# System Log 이벤트 이름의 첫 조각 -> 공간 (user.lifecycle.create -> user)
+audit_alias:
+  user: user
+  group: group
+  application: app
+  app: app
+  policy: policy
+  idp: idp
+  zone: networkzone
+  device: device
+  network_zone: networkzone
+  event_hook: eventhook
+  inline_hook: inlinehook
+  system: org
+
+# 스키마 계열 우선 공간 (2026-10-14, extract.py schema_spaces). 결과 out/okta/space_rebuild.json
+space_from_schema: true
+record_key_fields: [id, kid]   # kid: JSON Web Key 의 키 (RFC 7517). Okta 키 경로 …/keys/{kid} 가 돌려준다
+schema_affixes: [list, response, request, links, embedded, profile]
+schema_cut_words: [with, for]
+schema_space:
+  Application: app           # 앱 공간의 바탕 스키마 (경로 이름은 app)
+  IdentityProvider: idp
+  AuthorizationServer: authserver
+
+action_token_alias:
+  user_membership: [group]
+  membership: [group]
+record_key_alias: {}
+setting_action_prefixes: []
+space_notes: {}

@@ -1,0 +1,87 @@
+<meta charset="utf-8">
+<title>오브젝트 모델 규칙집</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: same reading column as the 판단표 pages; conclusion and decisions first, then one table per stage in the order rules are applied. */
+:root{
+  --bg:#ffffff; --surface:#f5f6f8; --line:#d3d8df; --line-strong:#8f99a8;
+  --text:#14171c; --accent:#1f4fbf; --ok:#1d7a45; --warn:#9a5b00;
+  --font-body:"IBM Plex Sans KR","Malgun Gothic",system-ui,sans-serif; --font-mono:"IBM Plex Mono",Consolas,monospace;
+  --fs-s:13px; --fs-m:15px; --fs-l:18px; --fs-xl:24px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111418;--surface:#181c22;--line:#2c333d;--line-strong:#56606e;--text:#eef1f5;--accent:#7ea2f0;--ok:#5cc489;--warn:#e3a33b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111418;--surface:#181c22;--line:#2c333d;--line-strong:#56606e;--text:#eef1f5;--accent:#7ea2f0;--ok:#5cc489;--warn:#e3a33b;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:var(--fs-m);line-height:1.6;margin:0}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:20px;padding-block:28px 56px}
+h1{font-size:var(--fs-xl);margin:0 0 6px;text-wrap:balance}
+h2{font-size:var(--fs-l);margin:28px 0 6px;text-wrap:balance}
+p{margin:0 0 8px;max-width:80ch}
+.mono{font-family:var(--font-mono);font-size:.92em}
+.scroll{overflow-x:auto;margin:10px 0}
+table{border-collapse:collapse;width:100%;font-size:var(--fs-s)}
+th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+th{background:var(--surface);font-weight:600}
+td.code{font-family:var(--font-mono);white-space:nowrap;color:var(--accent)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.badge{display:inline-block;border:1px solid currentColor;padding:0 6px;font-size:12px;font-weight:600;white-space:nowrap}
+.b-keep{color:var(--text)} .b-add{color:var(--ok)} .b-fix{color:var(--warn)}
+.sum,.ask{border:1px solid var(--line-strong);padding:12px 14px;margin-top:16px}
+.sum ul{margin:0;padding-left:18px}
+.ask ol{margin:0;padding-left:20px}
+.cnt{font-weight:400;font-size:var(--fs-m)}
+.sub{margin-top:4px;font-size:12px}
+table.mat{width:auto}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.two>div{min-width:0}
+</style>
+<div class="wrap">
+  <h1>오브젝트 모델 규칙집</h1>
+  <p>v1 1단계, 4단계와 v2 판단표 1~4차에서 사람이 정한 결정을 다시 쓸 수 있는 규칙으로 옮겼습니다. 새 SaaS를 더할 때 후보마다 규칙의 질문에 순서대로 답하고, 규칙이 정하지 못하거나 두 규칙이 부딪치는 것만 판단표에 올립니다.</p>
+
+  <div class="sum">
+    <ul>
+      <li><b>규칙 __RULES__개가 지난 판단 결정 __JUDG__건 중 __EXPL__건을 설명합니다.</b> 결정마다 기록된 이유를 규칙에 대응시켰습니다. 규칙이 지난 결정과 어긋나지 않는다는 확인이고, 새 후보를 맞힌다는 증명은 아닙니다. 다음 단계로 넘긴 절차 결정 __PROCESS__건은 뺐습니다.</li>
+      <li><b>사람 답 없이 정해지는 규칙은 __AUTO__개입니다.</b> 관계 템플릿, 역할 칸, 부모 근거, 계약값, 비밀값 처리처럼 수집과 투영 코드가 이미 검사합니다. 일부만 자동인 규칙은 __PARTIAL__개입니다.</li>
+      <li><b>제품 계열 표(S2)만으로 판단표 3차 223개 중 __E_OK__개를 맞혔고 __E_BAD__개가 부딪쳤습니다.</b> 부딪친 것은 Codespaces 비밀값입니다. 제품 계열이면서 원문 스펙도 없어서, 규칙대로라면 판단표에 올라갑니다.</li>
+      <li><b>나머지 __HUMAN__개는 질문에 답해야 정해집니다.</b> 판단이 사라지지는 않지만, 매번 새로 따지던 일이 정해진 질문 몇 개에 답하는 일로 바뀝니다.</li>
+    </ul>
+  </div>
+
+  <div class="ask">
+    <p><b>정할 것</b></p>
+    <ol>
+      <li>이 규칙집을 v2 모델 판단의 기준으로 둘지</li>
+      <li>다음 SaaS(7단계 Salesforce, Jira, Confluence 실측)부터 판단표를 「규칙 적용 결과와 예외만」 보여 주는 방식으로 바꿀지</li>
+      <li>규칙 문구 중 고칠 것. 특히 S6(A, B를 가르는 기준)은 우선순위 판단이라 사람 몫으로 남겼습니다</li>
+    </ol>
+  </div>
+
+  <h2>되짚기 결과</h2>
+  <div class="two">
+    <div>
+      <div class="scroll"><table class="mat"><thead><tr><th>출처</th><th class="n">설명됨</th><th class="n">규칙 없음</th><th class="n">절차</th></tr></thead><tbody>__SOURCES__</tbody></table></div>
+      <p class="sub">지난 결정에 한 번도 쓰이지 않은 규칙: __UNUSED__. 모두 코드가 강제해서 판단표까지 올라온 적이 없는 규칙입니다.</p>
+    </div>
+    <div>
+      <p><b>판단표 3차 223개에 자동 규칙만 돌린 결과</b></p>
+      <div class="scroll"><table class="mat"><tbody>
+        <tr><td>제품 계열(S2)로 맞힘</td><td class="n">__E_OK__</td></tr>
+        <tr><td>규칙끼리 부딪침</td><td class="n">__E_BAD__</td></tr>
+        <tr><td>원문 없음(S1) 후보, S3 ~ S5 답 뒤 확정</td><td class="n">__G_WAIT__</td></tr>
+        <tr><td>사람 답 필요</td><td class="n">__HUMAN__</td></tr>
+      </tbody></table></div>
+    </div>
+  </div>
+
+  __BODY__
+
+  <h2>제품 계열 표 (S2)</h2>
+  <p>이 경로의 API는 해당 제품이나 라이선스를 쓰는 테넌트에서만 생깁니다. 새 SaaS를 연구할 때 이 표에 계열을 더하면 S2가 자동으로 걸립니다.</p>
+  <div class="scroll"><table class="mat"><thead><tr><th>SaaS</th><th>계열</th><th>API 경로</th></tr></thead><tbody>__FAMILIES__</tbody></table></div>
+
+  <h2>출처</h2>
+  <p>규칙은 <span class="mono">candidate-extraction/ir2/v2/rulebook/rules.json</span>, 되짚기는 같은 폴더의 <span class="mono">backtest.py</span>입니다. 입력은 <span class="mono">decisions_step1.json</span>, <span class="mono">relation_decisions_step4.json</span>, <span class="mono">v2/relation_decisions_v2.json</span>, 판단표 3차 결정(<span class="mono">out2/profile_triage/decisions.json</span>)입니다.</p>
+</div>

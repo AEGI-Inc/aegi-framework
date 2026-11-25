@@ -1,0 +1,381 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: jira
+service: null
+object_type: RoleActor
+interfaces: &a1
+  - Principal
+model:
+  research_type: object-type:fa3a745fb2a1a193916f3d90
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:fa3a745fb2a1a193916f3d90.identity_evidence
+tenant_binding:
+  type: ServerInformation
+  service: null
+  call: JR-01
+  items: (root)
+  id: baseUrl
+fields:
+  actorGroup:
+    path: actorGroup
+    source: research_shape
+    shape: sh:jira_openapi_v3:RoleActor
+    declaration:
+      name: actorGroup
+      read_only: true
+      required: false
+      shape: sh:jira_openapi_v3:ProjectRoleGroup
+    map_items: []
+  actorUser:
+    path: actorUser
+    source: research_shape
+    shape: sh:jira_openapi_v3:RoleActor
+    declaration:
+      name: actorUser
+      read_only: true
+      required: false
+      shape: sh:jira_openapi_v3:ProjectRoleUser
+    map_items: []
+  avatarUrl:
+    path: avatarUrl
+    source: research_shape
+    shape: sh:jira_openapi_v3:RoleActor
+    declaration:
+      format: uri
+      name: avatarUrl
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:RoleActor|avatarUrl
+  displayName:
+    path: displayName
+    source: research_shape
+    shape: sh:jira_openapi_v3:RoleActor
+    declaration:
+      name: displayName
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:RoleActor|displayName
+  id:
+    path: id
+    source: research_shape
+    shape: sh:jira_openapi_v3:RoleActor
+    declaration:
+      format: int64
+      name: id
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:RoleActor|id
+  name:
+    path: name
+    source: research_shape
+    shape: sh:jira_openapi_v3:RoleActor
+    declaration:
+      name: name
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:RoleActor|name
+  type:
+    path: type
+    source: research_shape
+    shape: sh:jira_openapi_v3:RoleActor
+    declaration:
+      enum:
+        - atlassian-group-role-actor
+        - atlassian-user-role-actor
+      name: type
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:RoleActor|type
+references:
+  - name: actoruser_accountid
+    field: actorUser.accountId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:166f001923684fc44f4039e0; relation=no_relation
+  - name: actorgroup_groupid
+    field: actorGroup.groupId
+    target: Group
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:da54c47f508368a49a09155b; relation=no_relation
+constants: {}
+row_contracts:
+  principal_kind:
+    const: group
+  account_kind:
+    const: unknown
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: jira
+  object_type: RoleActor
+  interfaces: *a1
+  model:
+    research_type: object-type:fa3a745fb2a1a193916f3d90
+  extract:
+    key: PILOT-jira-RoleActor-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-JIRA-6f3d90
+            endpoint: /
+            items:
+              - dashboards.editPermissions.role.actors
+              - dashboards.sharePermissions.role.actors
+        properties:
+          actorGroup: actorGroup
+          actorUser: actorUser
+          avatarUrl: avatarUrl
+          displayName: displayName
+          id: id
+          name: name
+          type: type
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_with_records
+  call: JI-05
+  operation_id: op:jira_openapi_v3:getProjectRole
+  operation: getProjectRole
+  surface: rest
+  method: GET
+  kind: read_one
+  endpoint: /rest/api/3/project/[^/]+/role/[^/]+(?:\?|$)
+  endpoint_template: /rest/api/3/project/{projectIdOrKey}/role/{id}
+  request: {}
+  required_params:
+    - id
+    - projectIdOrKey
+  paths:
+    - shape: sh:jira_openapi_v3:RoleActor
+      path: &a3
+        - actors
+        - "*"
+  alternatives_total: 14
+  alternatives:
+    - operation_id: op:jira_openapi_v3:getProjectRoleActorsForRole
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/role/{id}/actors
+      path: *a3
+    - operation_id: op:jira_openapi_v3:getAllProjectRoles
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/role
+      path:
+        - "*"
+        - actors
+        - "*"
+    - operation_id: op:jira_openapi_v3:getProjectRoleById
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/role/{id}
+      path: *a3
+    - operation_id: op:jira_openapi_v3:getFiltersPaginated
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/search
+      path: &a5
+        - values
+        - "*"
+        - editPermissions
+        - "*"
+        - role
+        - actors
+        - "*"
+      collected_calls:
+        - JI-07
+    - operation_id: op:jira_openapi_v3:getSharePermissions
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/{id}/permission
+      path:
+        - "*"
+        - role
+        - actors
+        - "*"
+    - operation_id: op:jira_openapi_v3:getFavouriteFilters
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/favourite
+      path:
+        - "*"
+        - editPermissions
+        - "*"
+        - role
+        - actors
+        - "*"
+    - operation_id: op:jira_openapi_v3:getMyFilters
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/filter/my
+      path:
+        - "*"
+        - editPermissions
+        - "*"
+        - role
+        - actors
+        - "*"
+    - operation_id: op:jira_openapi_v3:getAllDashboards
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/dashboard
+      path:
+        - dashboards
+        - "*"
+        - editPermissions
+        - "*"
+        - role
+        - actors
+        - "*"
+    - operation_id: op:jira_openapi_v3:getDashboardsPaginated
+      method: GET
+      kind: read_many
+      endpoint_template: /rest/api/3/dashboard/search
+      path:
+        - values
+        - "*"
+        - editPermissions
+        - "*"
+        - role
+        - actors
+        - "*"
+    - operation_id: op:jira_openapi_v3:getSharePermission
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/filter/{id}/permission/{permissionId}
+      path:
+        - role
+        - actors
+        - "*"
+    - operation_id: op:jira_openapi_v3:getDashboard
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/dashboard/{id}
+      path:
+        - editPermissions
+        - "*"
+        - role
+        - actors
+        - "*"
+    - operation_id: op:jira_openapi_v3:getFilter
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/filter/{id}
+      path:
+        - editPermissions
+        - "*"
+        - role
+        - actors
+        - "*"
+    - operation_id: op:jira_openapi_v3:getNotificationScheme
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/notificationscheme/{id}
+      path: &a4
+        - notificationSchemeEvents
+        - "*"
+        - notifications
+        - "*"
+        - projectRole
+        - actors
+        - "*"
+    - operation_id: op:jira_openapi_v3:getNotificationSchemeForProject
+      method: GET
+      kind: read_one
+      endpoint_template: /rest/api/3/project/{projectKeyOrId}/notificationscheme
+      path: *a4
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 13
+  observed_sources:
+    - shape: sh:jira_openapi_v3:RoleActor
+      operation_id: op:jira_openapi_v3:getFiltersPaginated
+      call: JI-07
+      path: *a5
+      records: 1
+      partial: true
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 50149499a641110c6bf94b3e0ee694a3701d3edc48d8b17420580571d73451f8
+    ir/shape.jsonl: 04cf5db894bbfdfc38d902b2036b3e757a28481b16ff75ae2d2c4b7e06b0160e
+    ir/operation.jsonl: bb433b0144fc822588adb64649c5592094ef6f67746759ec57a2e9677bac5a94
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - actorUser.accountId
+    - actorGroup.groupId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

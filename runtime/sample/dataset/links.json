@@ -1,0 +1,199 @@
+[
+  {
+    "link_id": "LNK-P-UA",
+    "set": [
+      {
+        "provider": "slack",
+        "object_key": "SLK-U-UA"
+      },
+      {
+        "provider": "okta",
+        "object_key": "OKTA-U-UA"
+      },
+      {
+        "provider": "github",
+        "object_key": "GH-U-UA"
+      }
+    ],
+    "level": "resolved",
+    "source": {
+      "method": "manual_fixture",
+      "view_version": 1,
+      "basis": "synthetic AEGI-Inc ground truth"
+    },
+    "meta": {
+      "person_name": "user-a",
+      "display_name": "user-a@aegi.site"
+    }
+  },
+  {
+    "link_id": "LNK-P-UB",
+    "set": [
+      {
+        "provider": "slack",
+        "object_key": "SLK-U-UB"
+      },
+      {
+        "provider": "okta",
+        "object_key": "OKTA-U-UB"
+      }
+    ],
+    "level": "resolved",
+    "source": {
+      "method": "manual_fixture",
+      "view_version": 1,
+      "basis": "synthetic AEGI-Inc ground truth"
+    },
+    "meta": {
+      "person_name": "user-b",
+      "display_name": "user-b@aegi.site"
+    }
+  },
+  {
+    "link_id": "LNK-P-UC",
+    "set": [
+      {
+        "provider": "slack",
+        "object_key": "SLK-U-UC"
+      },
+      {
+        "provider": "github",
+        "object_key": "GH-U-UC"
+      }
+    ],
+    "level": "resolved",
+    "source": {
+      "method": "manual_fixture",
+      "view_version": 1,
+      "basis": "synthetic AEGI-Inc ground truth"
+    },
+    "meta": {
+      "person_name": "user-c",
+      "display_name": "user-c@aegi.site"
+    }
+  },
+  {
+    "link_id": "LNK-P-UF",
+    "set": [
+      {
+        "provider": "slack",
+        "object_key": "SLK-U-UF"
+      },
+      {
+        "provider": "gws",
+        "object_key": "GWS-U-UF"
+      }
+    ],
+    "level": "resolved",
+    "source": {
+      "method": "manual_fixture",
+      "view_version": 1,
+      "basis": "synthetic AEGI-Inc ground truth"
+    },
+    "meta": {
+      "person_name": "user-f",
+      "display_name": "user-f@aegi.site"
+    }
+  },
+  {
+    "link_id": "LNK-P-UE",
+    "set": [
+      {
+        "provider": "slack",
+        "object_key": "SLK-U-UE"
+      },
+      {
+        "provider": "gws",
+        "object_key": "GWS-U-UE"
+      }
+    ],
+    "level": "resolved",
+    "source": {
+      "method": "manual_fixture",
+      "view_version": 1,
+      "basis": "synthetic AEGI-Inc ground truth"
+    },
+    "meta": {
+      "person_name": "user-e",
+      "display_name": "user-e@aegi.site"
+    }
+  },
+  {
+    "link_id": "LNK-P-NORM-01",
+    "set": [
+      {
+        "provider": "slack",
+        "object_key": "SLK-U-N001"
+      },
+      {
+        "provider": "okta",
+        "object_key": "OKTA-U-N001"
+      },
+      {
+        "provider": "github",
+        "object_key": "GH-U-N001"
+      },
+      {
+        "provider": "gws",
+        "object_key": "GWS-U-N001"
+      }
+    ],
+    "level": "resolved",
+    "source": {
+      "method": "manual_fixture",
+      "view_version": 1,
+      "basis": "synthetic normal cluster 1"
+    },
+    "meta": {
+      "person_name": "Normal Person 1"
+    }
+  },
+  {
+    "link_id": "LNK-P-NORM-02",
+    "set": [
+      {
+        "provider": "slack",
+        "object_key": "SLK-U-N002"
+      },
+      {
+        "provider": "okta",
+        "object_key": "OKTA-U-N002"
+      },
+      {
+        "provider": "github",
+        "object_key": "GH-U-N002"
+      }
+    ],
+    "level": "resolved",
+    "source": {
+      "method": "manual_fixture",
+      "view_version": 1,
+      "basis": "synthetic normal cluster 2"
+    },
+    "meta": {
+      "person_name": "Normal Person 2"
+    }
+  },
+  {
+    "link_id": "LNK-P-NORM-03",
+    "set": [
+      {
+        "provider": "slack",
+        "object_key": "SLK-U-N003"
+      },
+      {
+        "provider": "okta",
+        "object_key": "OKTA-U-N003"
+      }
+    ],
+    "level": "resolved",
+    "source": {
+      "method": "manual_fixture",
+      "view_version": 1,
+      "basis": "synthetic normal cluster 3"
+    },
+    "meta": {
+      "person_name": "Normal Person 3"
+    }
+  }
+]

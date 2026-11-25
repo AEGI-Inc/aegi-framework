@@ -1,0 +1,149 @@
+/* Scenario Builder (PoC). 흰 바탕, 얇은 무채색 테두리, 각진 모서리. 그래프 칸은 Credentials 피해범위 그림(br-*)을 같이 쓴다 */
+.scb-page { padding-bottom: 32px; --br-line: var(--color-card-line); }
+.scb-inset { margin: 0; }
+.scb-empty { margin: 4px 0; font-size: var(--font-size-sm); color: var(--color-text-primary); font-style: italic; }
+.scb-logo { display: inline-flex; width: 14px; height: 14px; margin-right: 2px; vertical-align: middle; }
+.scb-logo svg, .scb-logo img { width: 14px; height: 14px; }
+.scb-type { font-size: var(--font-size-xs); font-weight: var(--font-weight-regular); color: var(--color-text-primary); }
+
+
+/* 경로 만들기: 경로 줄은 흰 칸(lst-actionbar), 단추는 .ex-btn */
+.scb-bar-label { font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+.scb-path { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; list-style: none; margin: 0; padding: 0; font-size: var(--font-size-sm); }
+.scb-path li { display: inline-flex; align-items: center; gap: 6px; color: var(--color-text-primary); }
+.scb-path code, .scb-analysis code { font-family: var(--font-family-mono); font-size: var(--font-size-xs); color: var(--color-text-primary); }
+.scb-score { font-size: var(--font-size-sm); }
+.scb-link { padding: 0; border: 0; background: none; color: var(--color-text-primary); text-decoration: underline; cursor: pointer; text-align: left; font-size: var(--font-size-sm); }
+
+/* 그래프 아래: 분석, 담은 경로 */
+.scb-below { display: flex; flex-direction: column; gap: var(--space-gap); margin-top: var(--space-gap); }
+.scb-saved, .scb-analysis { border: 1px solid var(--color-border); background: var(--color-surface); padding: 12px; color: var(--color-text-primary); }
+.scb-below .scb-analysis, .scb-below .scb-saved { border-color: var(--color-card-line); padding: 12px 16px; }
+.scb-below .scb-analysis h2 .ex-btn { margin-left: 8px; }
+.scb-below .scb-saved li { gap: 10px; }
+.scb-tag { margin-left: 6px; }
+.scb-note { margin: 8px 0 0; font-size: var(--font-size-sm); }
+.scb-analysis h2 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 8px; font-size: var(--font-size-md); font-weight: var(--font-weight-bold); }
+.scb-analysis h3 { margin: 12px 0 4px; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+.scb-analysis .lst-seg { margin-bottom: 8px; }
+.scb-saved h2 { margin: 0 0 4px; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+.scb-side h4 { margin: 8px 0 4px; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+.scb-saved ul, .scb-side ul { list-style: none; margin: 0; padding: 0; }
+.scb-saved li, .scb-side li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 2px 0; font-size: var(--font-size-sm); }
+.scb-props > summary { cursor: pointer; margin-top: 8px; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+.scb-facts { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; margin: 4px 0; font-size: var(--font-size-xs); }
+.scb-facts div { display: contents; }
+.scb-facts dt { font-weight: var(--font-weight-bold); }
+.scb-facts dd { margin: 0; word-break: break-all; font-family: var(--font-family-mono); }
+.scb-edges { margin: 0; padding-left: 16px; font-size: var(--font-size-xs); }
+.scb-badge {
+  display: inline-block; margin-left: 6px; padding: 1px 6px; border: 1px solid var(--color-border); border-radius: 0;
+  font-size: var(--font-size-xs); color: var(--color-text-primary);
+}
+.scb-badge.is-warn { border-color: var(--color-danger-border); color: var(--color-danger-text); }
+
+/* SaaS 쌍 */
+.scb-pair { display: flex; flex-direction: column; gap: 10px; }
+.scb-badge.is-on { border-color: var(--color-select); font-weight: var(--font-weight-bold); }
+
+/* 경로 만들기 미리보기 위험: 후보 테두리 색과 등급 표, 고른 홉의 신원 바뀜, 도착 점수 */
+.scb-risk-tag {
+  margin-left: auto; padding: 0 6px; border: 1px solid var(--color-border); border-radius: 0;
+  font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); color: var(--color-text-primary);
+}
+.scb-risk-High .scb-risk-tag { border-color: var(--color-danger); color: var(--color-danger-text); }
+.scb-risk-Medium .scb-risk-tag { border-color: var(--color-warning); color: var(--color-caution); }
+.scb-effect-who { margin: 2px 0; font-size: var(--font-size-sm); color: var(--color-text-primary); overflow-wrap: anywhere; }
+
+/* SaaS 연결: 처음엔 SaaS 로고 원을 둥글게 두고, 고른 원이 가운데로 옮겨 가며 오른쪽으로 가지를 펼친다. 지나온 원은 왼쪽 */
+.scb-tree-toggle { display: flex; align-items: center; gap: 6px; font-size: var(--font-size-sm); color: var(--color-text-primary); }
+.scb-tree-trail { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; font-size: var(--font-size-sm); }
+.scb-tree-trail button + button::before { content: '›'; margin-right: 6px; color: var(--color-text-secondary); }
+.scb-tree-trail button[aria-current] { font-weight: var(--font-weight-bold); }
+.scb-tree-wrap { position: relative; overflow: hidden; }
+.scb-tree-back { position: absolute; top: 8px; left: 8px; z-index: 2; display: flex; gap: 6px; }
+.scb-tree { position: relative; transform-origin: top left; border: 1px solid var(--color-border); background: var(--color-surface); transition: height 0.3s ease; }
+.scb-tree-lines { position: absolute; inset: 0; animation: scb-tree-fade 0.3s ease 0.3s both; }
+.scb-tree-lines line { stroke: var(--color-border); stroke-width: 2; }
+.scb-tree-lines line.is-empty { stroke-dasharray: 4 4; }
+/* 원 노드: 단추는 원 중심에 놓인 크기 0 기준점이고, 원과 글은 그 둘레에 붙는다 */
+.scb-orb {
+  position: absolute; z-index: 2; width: 0; height: 0; padding: 0; border: 0; background: none; cursor: pointer;
+  color: var(--color-text-primary); transition: left 0.4s ease, top 0.4s ease, opacity 0.3s ease;
+}
+.scb-orb-dot {
+  position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--color-border); border-radius: 50%; background: var(--color-surface);
+  transition: width 0.4s ease, height 0.4s ease, border-color 0.2s ease;
+}
+.scb-orb-dot svg, .scb-orb-dot img { width: 46%; height: 46%; }
+.scb-orb-glyph { font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
+.scb-orb:hover .scb-orb-dot, .scb-orb:focus-visible .scb-orb-dot { border-color: var(--color-select); }
+.scb-orb.is-focus { cursor: default; }
+.scb-orb.is-focus[title*='분석'] { cursor: pointer; }
+.scb-orb.is-focus .scb-orb-dot { border: 3px solid var(--color-select); }
+.scb-orb-text { position: absolute; display: flex; flex-direction: column; line-height: 1.25; white-space: nowrap; pointer-events: auto; }
+.scb-orb.is-below .scb-orb-text { left: 0; transform: translateX(-50%); align-items: center; text-align: center; }
+.scb-orb.is-right .scb-orb-text { top: 0; transform: translateY(-50%); align-items: flex-start; text-align: left; max-width: 260px; }
+.scb-orb-name { max-width: 260px; overflow: hidden; text-overflow: ellipsis; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+.scb-orb.is-past .scb-orb-name { font-size: var(--font-size-xs); font-weight: var(--font-weight-regular); color: var(--color-text-secondary); max-width: 110px; }
+.scb-orb.is-empty { opacity: 0.45; }
+.scb-orb.is-focus.is-on .scb-orb-dot { outline: 2px solid var(--color-select); outline-offset: 3px; }
+.scb-orb.scb-risk-High .scb-orb-dot { border-color: var(--color-danger); }
+.scb-orb.scb-risk-Medium .scb-orb-dot { border-color: var(--color-warning); }
+.scb-orb-badge {
+  position: absolute; top: -6px; right: -10px; padding: 0 4px; border: 1px solid var(--color-border); background: var(--color-surface);
+  font-size: var(--font-size-xs); font-weight: var(--font-weight-bold); color: var(--color-text-primary);
+}
+.scb-orb.scb-risk-High .scb-orb-badge { border-color: var(--color-danger); color: var(--color-danger-text); }
+.scb-orb.scb-risk-Medium .scb-orb-badge { border-color: var(--color-warning); color: var(--color-caution); }
+.scb-orb.is-child { animation: scb-tree-in 0.3s ease both; }
+@keyframes scb-tree-in { from { opacity: 0; translate: -24px 0; } to { translate: 0 0; } }
+@keyframes scb-tree-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .scb-tree, .scb-orb, .scb-orb-dot { transition: none; }
+  .scb-tree-lines, .scb-orb.is-child { animation: none; }
+}
+.scb-links-search { flex: none; }
+/* 자산 탭은 아직 검색 단추가 경로 줄 안에 있다 */
+.scb-tree-trail .scb-links-search { margin-left: auto; }
+.scb-tree-trail .scb-links-search::before { content: none; }
+.scb-links-bar { display: grid; gap: 10px; padding: 12px 14px; border: 1px solid var(--color-card-line); background: var(--color-surface); }
+.scb-links-bar-row { display: flex; align-items: center; gap: 8px; }
+.scb-links-bar-label { flex: none; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+.scb-links-query { flex: 1 1 auto; min-width: 0; padding: 7px 10px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-primary); font: inherit; }
+.scb-links-results { display: flex; flex-direction: column; gap: 6px; }
+.scb-links-results h2 { margin: 0; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
+.scb-links-results h2 small { margin-left: 6px; font-size: var(--font-size-xs); font-weight: var(--font-weight-regular); color: var(--color-text-secondary); }
+.scb-links-results ul { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.scb-links-row {
+  display: flex; flex-direction: row; align-items: center; gap: 16px; width: 100%; min-height: 72px;
+  padding: 16px 20px; border: 1px solid var(--color-card-line); background: var(--color-surface); text-align: left; cursor: pointer;
+  color: var(--color-text-primary); font-size: var(--font-size-sm); transition: background 0.12s ease, border-color 0.12s ease;
+}
+.scb-links-row:hover { border-color: var(--color-select); background: var(--color-bg-app); }
+.scb-links-row { position: relative; }
+.scb-links-row.is-on { border-color: var(--color-select); background: var(--color-bg-app); box-shadow: inset 4px 0 0 var(--color-select); }
+.scb-links-group { display: flex; flex-direction: column; gap: 10px; margin-top: 22px; }
+.scb-links-group h3 {
+  display: flex; align-items: center; gap: 6px; margin: 0; padding: 6px 0 8px; border-bottom: 1px solid var(--color-border);
+  font-size: var(--font-size-md); font-weight: var(--font-weight-bold); color: var(--color-text-primary);
+}
+.scb-links-group h3 small { margin-left: 4px; font-weight: var(--font-weight-regular); color: var(--color-text-secondary); }
+/* 한 줄의 객체 상자는 같은 폭(기준 200px)이고, 칸이 모자라면 모두 같은 비율로 줄어 한 줄을 지킨다. 긴 이름은 말줄임 */
+.scb-links-chain { display: flex; flex: 1 1 auto; flex-wrap: nowrap; align-items: center; gap: 10px; min-width: 0; font-size: var(--font-size-sm); }
+.scb-links-step { display: contents; }
+.scb-links-node { display: inline-grid; grid-template-columns: 20px minmax(0, 1fr); column-gap: 8px; row-gap: 2px; align-items: center; flex: 0 1 200px; min-width: 0; }
+.scb-links-node b { grid-column: 2; overflow: hidden; text-overflow: ellipsis; font-size: var(--font-size-md); white-space: nowrap; }
+.scb-links-node small { grid-column: 2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--font-size-xs); color: var(--color-text-secondary); }
+.scb-links-node .scb-logo { grid-row: span 2; }
+.scb-links-node .scb-logo, .scb-links-node .scb-logo svg, .scb-links-node .scb-logo img { width: 20px; height: 20px; }
+.scb-links-fold { font-style: normal; font-weight: var(--font-weight-regular); color: var(--color-text-secondary); }
+.scb-links-edge { display: inline-flex; flex: none; flex-direction: column; align-items: center; width: 48px; color: var(--color-text-secondary); line-height: 1.1; }
+.scb-links-edge small { font-size: var(--font-size-xs); white-space: nowrap; }
+.scb-links-edge i { font-style: normal; font-size: var(--font-size-md); }
+.scb-links-dup { flex: none; padding: 0 6px; background: var(--color-border); font-size: var(--font-size-xs); color: var(--color-text-primary); }
+.scb-found-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-bottom: 16px; }
+.scb-found-actions .ex-btn { justify-content: center; height: 38px; width: 100%; }
+.scb-found-detail { margin-top: -1px; padding: 18px 20px; border: 1px solid var(--color-select); border-top: 0; background: var(--color-surface); box-shadow: inset 4px 0 0 var(--color-select); }
+.scb-effect-line { margin: 4px 0; font-size: var(--font-size-sm); color: var(--color-text-primary); overflow-wrap: anywhere; }

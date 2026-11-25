@@ -1,0 +1,169 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: parent:{}
+interfaces: &a1
+  - Principal
+model:
+  research_type: object-type:b930fb86935749ef8e7f8751
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: $record_hash
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:b930fb86935749ef8e7f8751.identity_evidence
+  parent:
+    type: parent_resource
+    expr: $req.parent_id
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields: {}
+references: []
+constants: {}
+row_contracts:
+  principal_kind:
+    const: unknown
+  account_kind:
+    const: unknown
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: parent:{}
+  interfaces: *a1
+  model:
+    research_type: object-type:b930fb86935749ef8e7f8751
+  extract:
+    key: PILOT-okta-parent:{}-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{$record_hash}"
+        sources:
+          - call: AUTO-OKTA-7f8751
+            endpoint: /
+            items: []
+        properties:
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: path_parameter
+  call: null
+  operation_id: op:okta_aerial_openapi:getAccount
+  operation: getAccount
+  method: GET
+  kind: read_one
+  endpoint: /[^/]+/api/v1/accounts(?:\?|$)
+  endpoint_template: /{accountId}/api/v1/accounts
+  id_from:
+    in: path
+    param: accountId
+    position: 0
+  paths: []
+  alternatives_total: 10
+  alternatives:
+    - operation_id: op:okta_aerial_openapi:getOrgGroups
+      endpoint_template: /{accountId}/api/v1/orgGroups
+      param: accountId
+    - operation_id: op:okta_aerial_openapi:getOrgs
+      endpoint_template: /{accountId}/api/v1/orgs
+      param: accountId
+    - operation_id: op:okta_aerial_openapi:getSubscribedProducts
+      endpoint_template: /{accountId}/api/v1/products
+      param: accountId
+    - operation_id: op:okta_aerial_openapi:getAssociatedOrgs
+      endpoint_template: /{accountId}/api/v1/reports/associatedOrgs
+      param: accountId
+    - operation_id: op:okta_aerial_openapi:getOrg
+      endpoint_template: /{accountId}/api/v1/orgs/{orgId}
+      param: accountId
+    - operation_id: op:okta_aerial_openapi:getOrgGroup
+      endpoint_template: /{accountId}/api/v1/orgGroups/{groupId}
+      param: accountId
+    - operation_id: op:okta_aerial_openapi:getRequestConditionTemplates
+      endpoint_template: /{accountId}/governance/api/v1/request-condition-templates
+      param: accountId
+    - operation_id: op:okta_aerial_openapi:getEnabledProducts
+      endpoint_template: /{accountId}/api/v1/orgs/{orgId}/products
+      param: accountId
+    - operation_id: op:okta_aerial_openapi:getOrgGroupOrgMembers
+      endpoint_template: /{accountId}/api/v1/orgGroups/{groupId}/orgs
+      param: accountId
+    - operation_id: op:okta_aerial_openapi:getRequestConditionTemplate
+      endpoint_template: /{accountId}/governance/api/v1/request-condition-templates/{templateId}
+      param: accountId
+  basis: ir_path_parameter
+  note: 응답 본문이 아니라 URL 경로 변수로만 나오는 ID 다. 레코드는 ID 하나뿐이다
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths: []
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

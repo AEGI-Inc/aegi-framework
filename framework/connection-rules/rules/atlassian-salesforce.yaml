@@ -1,0 +1,333 @@
+# atlassian ↔ salesforce 연결 규칙
+# Atlassian 은 Jira Cloud, Confluence Cloud, Bitbucket Cloud. Atlassian 이 만든 Salesforce 연동 앱은 검색에서 찾지 못했고 나온 것은 제3자 Marketplace 앱이다 (2026-10-14 검색). Salesforce 는 Atlassian 의 SAML·SCIM 지원 IdP 목록에 없다
+# 벤더 문서로만 썼다. 시험 테넌트 결과는 ../test-environment/atlassian-salesforce.yaml 에 채운다
+# 2026-10-29 named_credential_atlassian_token, sync_via_server 를 더했다. v3 시험 환경(시나리오 M, L)에 있는데 맞는 방법이 없던 연결이다 (../docs/measure-v3.md 1절 2)
+
+pair:
+- atlassian
+- salesforce
+written: '2026-10-14'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/atlassian-salesforce.yaml
+methods:
+- id: marketplace_connector_apps
+  type: app_grant
+  what: 제3자 Marketplace 앱(예 Appfire 「Connector for Salesforce & Jira」, Korvex 「Salesforce Bridge for Jira」)이 Jira 와 Salesforce 를 잇는다. Appfire 앱은 Salesforce 쪽에도 앱을 설치하고, Korvex 앱은 Salesforce 에 OAuth 2.0 client credentials 로 붙는다
+  identify:
+    api: atlassian Connected apps (admin.atlassian.com > Apps > Atlassian apps > 사이트 > Connected apps); salesforce Tooling InstalledSubscriberPackage, SOQL OauthToken
+    when: 그런 앱이 양쪽에 있음
+  points_to:
+  - tier: config_name
+    a: atlassian 설치 앱 이름·게시자
+    b: salesforce 설치 패키지 이름 또는 OauthToken.AppName
+    check: 같은 업체의 앱이 양쪽에 있다
+  - tier: config_id
+    a: salesforce connected app·external client app 의 consumerKey (Metadata API)
+    b: atlassian 앱 설정의 Salesforce client id (앱 화면)
+    check: a 와 b 가 같다 (client credentials 를 쓰는 앱일 때. Salesforce 쪽 설정 이름은 앱 문서에 없음)
+  - tier: log_id
+    a: atlassian 조직 감사 「Third-party app Jira API request」 의 actor.app.id
+    b: 그 커넥터 앱
+    check: a 가 그 앱이다
+  - tier: log_time
+    a: atlassian 조직 감사 「App successful installation」 시각
+    b: salesforce OauthToken.CreatedDate 또는 LoginHistory.LoginTime (그 앱의 사용자)
+    check: 시각이 가깝다
+  activity:
+  - atlassian 조직 감사 「App successful installation」, 「Third-party app Jira API request」
+  - salesforce OauthToken, LoginHistory (그 앱의 사용자·IP)
+  sources:
+  - https://marketplace.atlassian.com/apps/1214214 (Appfire, Salesforce 쪽 앱 설치 필요) [Exa]
+  - https://marketplace.atlassian.com/apps/4065452263/salesforce-bridge-for-jira (OAuth 2.0 client credentials, 5분 대조) [Exa]
+  - https://confluence.atlassian.com/cloud/manage-connected-apps-1018777759.html (Connected apps 경로) [Exa]
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (attributes.time, action, actor.id·email·auth.tokenId·tokenLabel·app.id, context[].id·type, location.ip)
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_oauthtoken.htm [Exa] (AppName, UserId, CreatedDate, LastUsedDate, UseCount)
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_loginhistory.htm [Exa] (UserId, LoginTime, LoginType, SourceIp, Application, AuthenticationServiceId)
+- id: auth_provider_atlassian
+  type: app_grant
+  what: Salesforce 의 Auth. Provider(ProviderType Bitbucket 또는 Confluence3LO)로 Salesforce 앱이 사용자의 Bitbucket·Confluence 토큰을 받아 API 를 부름. 이 제공자로 Salesforce 에 로그인하는 SSO 는 아니다(Bitbucket 은 문서에 명시)
+  identify:
+    api: salesforce SOQL AuthProvider (ProviderType, ConsumerKey)
+    when: ProviderType = Bitbucket 또는 Confluence3LO
+  points_to:
+  - tier: config_id
+    a: salesforce AuthProvider.ConsumerKey
+    b: atlassian Bitbucket OAuth consumer key 또는 developer console 3LO 앱 Client ID
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: atlassian 앱의 Callback URL
+    b: salesforce Setup > Auth. Providers 상세 화면의 Callback URL (AuthProvider 객체 필드에는 없음)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: atlassian Bitbucket 사용자 감사 「User account access granted to an application」 시각과 사용자
+    b: salesforce SetupAuditTrail 의 Auth. Provider 생성 시각 (사용자가 토큰을 받은 기록 위치는 문서에 없음)
+    check: 시각이 가깝다
+  activity:
+  - atlassian Bitbucket 사용자 감사 「User account access granted to an application」, 사용자 Connected apps
+  sources:
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_authprovider.htm (ProviderType Bitbucket API 61.0+, Confluence3LO API 67.0+) [브라우저]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_setupaudittrail.htm [Exa] (Action, Section, Display, CreatedById, CreatedDate)
+- id: smart_links_salesforce
+  type: content_ref
+  what: Jira·Confluence 본문의 Salesforce 링크를 Smart Link 로 펼침. 미리보기는 보는 사람이 Salesforce 에 로그인해야 한다
+  identify:
+    api: atlassian 본문 (REST)
+    when: 본문에 Salesforce 조직 주소 (My Domain 호스트)
+  points_to:
+  - tier: config_name
+    a: atlassian 본문의 Salesforce 주소 호스트
+    b: salesforce My Domain
+    check: a 와 b 가 같다
+  sources:
+  - https://support.atlassian.com/platform-experiences/docs/smart-links-from-jira-and-other-products/ (Non-Atlassian apps 에 Salesforce) [Exa]
+  note: 로그 등급 없음. 본문 속 주소라 연결이 동작한 기록이 없다. 미리보기를 위해 보는 사람이 Salesforce 에 로그인한 기록은 그 사람의 LoginHistory 에 남지만 어느 링크인지는 없다
+- id: person_link
+  type: same_person
+  what: 같은 사람 (Atlassian 계정 ↔ Salesforce 사용자)
+  identify:
+    api: atlassian GET /admin/v1/orgs/{orgId}/users; salesforce SOQL User
+    when: 항상
+  points_to:
+  - tier: via_person
+    a: atlassian data[].email
+    b: salesforce User.Email
+    check: a 와 b 가 같다
+  sources:
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-users/ (data[].email)
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: rovo_connector_salesforce_synced
+  type: app_grant
+  what: Atlassian Teamwork Graph 의 Salesforce 커넥터(Synced 형)가 Account·Opportunity·Contacts·Cases·Campaigns 를 색인해 Rovo 에 쓴다. Atlassian 조직 관리자가 커넥터를 추가하고 Salesforce 관리자가 로그인해 허용한 뒤 Salesforce 의 Connected Apps OAuth Usage 에서 「Atlassian Links」 앱을 설치한다. 통합 계정은 API 접근과 View All Users·View All Profiles·View All Data 권한이 필요하다
+  identify:
+    api: atlassian 조직 감사 rovo_ai_3p_connector_connection_created; salesforce OauthToken·LoginHistory (앱 이름 Atlassian Links)
+    when: salesforce 연결 앱 목록에 Atlassian Links 가 있고 atlassian 에 Salesforce 커넥터 연결이 있음
+  points_to:
+  - tier: config_name
+    a: salesforce Connected Apps OAuth Usage 의 앱 이름 Atlassian Links
+    b: atlassian Salesforce 커넥터(Synced) 연결
+    check: a 와 b 가 같다
+    if_unreadable: 커넥터 연결 목록은 화면. Atlassian Administration > Connectors
+  - tier: log_id
+    a: salesforce OauthToken.AppName 또는 LoginHistory.Application = Atlassian Links
+    b: atlassian Salesforce 커넥터(Synced) 연결의 통합 계정
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: atlassian 조직 감사 rovo_ai_3p_connector_connection_created 시각
+    b: salesforce LoginHistory 의 Atlassian Links 로그인 시각
+    check: 시각이 가깝다
+  activity:
+  - atlassian 조직 감사 rovo_ai_3p_connector_connection_created, .updated, .deleted
+  - salesforce OauthToken, LoginHistory (Atlassian Links)
+  sources:
+  - https://support.atlassian.com/organization-administration/docs/connect-salesforce-to-teamwork-graph/ (Synced·Direct 설정, Atlassian Links, 권한) [Exa]
+  - 'https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (event-actions: 조직이 낼 수 있는 action 값 목록. 값 자체는 조직에서 GET /v1/orgs/{orgId}/event-actions 로 읽는다) [Exa]'
+  note: Synced 형은 실측하지 못했다. 커넥터 추가 목록의 Salesforce 항목은 하나이고, 한 커넥터 안에서 Index in Teamwork Graph 와 Query as needed 를 고르며, 하나를 만든 뒤에는 같은 종류가 비활성이라 두 번째를 만들지 못했다. Query as needed 방식에서 Salesforce 에 남은 앱 이름은 「Atlassian Links」였다(rovo_connector_salesforce_direct). Salesforce API 할당량이 50% 아래로 떨어지면 Rovo 는 색인을 멈춘다. 기존 marketplace_connector_apps(제3자 Marketplace 앱)와 smart_links_salesforce(Smart Link)와는 다른 방법이다
+- id: rovo_connector_salesforce_direct
+  type: app_grant
+  what: Atlassian Teamwork Graph 의 Salesforce 커넥터(Direct 형)가 색인 없이 Salesforce 의 MCP 를 실시간으로 부른다. Rovo Chat 과 에이전트에서만 쓰이고 검색은 안 된다. Atlassian 조직 관리자가 Salesforce 도메인 URL 을 넣어 저장하고 Salesforce 관리자 승인은 필요 없다. 사용자가 처음 쓸 때 자기 Salesforce 권한으로 인증한다
+  identify:
+    api: atlassian 조직 감사 rovo_ai_3p_connector_connection_created; salesforce OauthToken (사용자 인증 뒤)
+    when: atlassian 에 Salesforce 커넥터(Direct) 연결이 있음
+  points_to:
+  - tier: config_name
+    a: atlassian Direct 커넥터에 입력한 Salesforce 도메인 URL
+    b: salesforce My Domain 주소
+    check: a 와 b 가 같다
+    if_unreadable: 커넥터 연결은 화면. Atlassian Administration > Connectors
+  - tier: via_person
+    a: atlassian 사용자
+    b: salesforce 사용자 (처음 쓸 때 본인 권한으로 인증)
+    check: 같은 사람
+  - tier: log_time
+    a: atlassian 조직 감사 rovo_chat_invoked (toolsInvoked 에 salesforce 도구) 시각
+    b: salesforce LoginHistory 의 Application 「Atlassian Links」(Remote Access 2.0) 로그인 시각
+    check: b 가 a 보다 조금 앞선다
+  activity:
+  - atlassian 조직 감사 rovo_ai_3p_connector_connection_created, .updated, .deleted
+  - salesforce OauthToken (AppName 「Atlassian Links」), LoginHistory (Application 「Atlassian Links」, Remote Access 2.0)
+  - atlassian 조직 감사 rovo_chat_invoked 의 toolsInvoked (salesforce_atlassian_query_get_soql_query)
+  sources:
+  - 'https://support.atlassian.com/organization-administration/docs/connect-salesforce-to-teamwork-graph/ (Direct 형: 도메인 URL, 사용자 인증) [Exa]'
+  - 'https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (event-actions: 조직이 낼 수 있는 action 값 목록. 값 자체는 조직에서 GET /v1/orgs/{orgId}/event-actions 로 읽는다) [Exa]'
+  note: 아래는 실측(2026-10-26, CM-16 D, Query as needed)에서 본 것이다. 도메인 URL 저장만으로 커넥터가 만들어지고 Salesforce 승인 창은 뜨지 않았다. 저장 시각(Atlassian 감사 12:52:57Z) 뒤 Salesforce 에는 SetupAuditTrail·OauthToken·로그인 흔적이 생기지 않았다. 사용자가 처음 Rovo 로 Salesforce 를 쓸 때 승인하면 OauthToken 「Atlassian Links」(14:15:23Z)와 LoginHistory 「Atlassian Links」(14:15:24Z, 14:32:16Z)가 남는다. 승인한 Salesforce 계정은 admin_e1hq5@aegi.site 로 Rovo 를 쓴 Atlassian 사용자(dev.junsik)와 이메일이 달랐다. 한 커넥터 안에서 Index in Teamwork Graph 와 Query as needed 를 고르고, 같은 종류를 두 번 만들 수 없어 Synced 형은 만들지 못했다
+- id: data360_confluence_connector
+  type:
+  - stored_credential
+  - app_grant
+  what: Salesforce Data 360 의 Confluence 커넥터가 Confluence 내용을 수집한다. 비정형 커넥터(GA, 상업 리전)는 Cloud ID, Atlassian 관리자 API 토큰, Org ID 와 Named Credential 「Confluence 3LO」 를 쓰고 Confluence 사용자로 3LO 인증을 한다. 정형 커넥터(Beta)는 사용자 이름·API 토큰·연결 URL 을 쓴다
+  identify:
+    api: salesforce Data Cloud Setup > Other Connectors 의 Confluence 커넥션 (화면); atlassian 관리자 API 키·API 토큰 (화면)
+    when: salesforce Data 360 에 Confluence 커넥션이 있음
+  points_to:
+  - tier: config_id
+    a: salesforce Data 360 Confluence 커넥션에 입력한 Cloud ID
+    b: atlassian cloudId (https://<사이트>.atlassian.net/_edge/tenant_info)
+    check: a 와 b 가 같다
+    if_unreadable: 커넥션은 화면. 읽는 API 이름은 문서에 없다
+  - tier: via_person
+    a: salesforce 커넥션을 만든 관리자
+    b: atlassian API 토큰을 발급한 계정, 3LO 로 인증한 Confluence 사용자
+    check: 같은 사람
+  activity:
+  - 문서에 없음 (양쪽 모두)
+  sources:
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-confluence-unstructured-connector.html (GA) [Exa]
+  - 'https://developer.sf.tumee.com/docs/data/data-cloud-int/guide/c360-a-set-up-confluence-unstructured-connection.html (비정형 설정: Cloud ID, 관리자 API 토큰, Org ID, 3LO. 같은 경로의 공식 주소는 developer.salesforce.com 이며 미러로 읽음) [Exa]'
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-set-up-confluence-connection.html (정형 설정, Beta) [Exa]
+  note: 비정형 설정 페이지는 미러(developer.sf.tumee.com) 본문으로 읽었다. 감사 이벤트는 양쪽 문서에 없어 로그 등급이 없다
+- id: data360_jira_connector
+  type: stored_credential
+  what: Salesforce Data 360 의 Jira 커넥터가 Jira 내용을 수집한다. 비정형 커넥터는 Jira 사용자 이메일, Jira URL(도메인), Atlassian API 토큰, 프로젝트 키로 연결한다. 커넥터 페이지는 GA 라고 쓰고 설정 페이지 제목은 Beta 라고 써서 문서가 서로 맞지 않는다. 정형 커넥터(GA 배치, Zero Copy 는 Beta)와 Jira Service Desk 커넥터(Beta)도 목록에 있다
+  identify:
+    api: salesforce Data Cloud Setup > Other Connectors 의 Jira 커넥션 (화면); atlassian API 토큰 (화면)
+    when: salesforce Data 360 에 Jira 커넥션이 있음
+  points_to:
+  - tier: config_name
+    a: salesforce Data 360 Jira 커넥션의 Jira URL (도메인)
+    b: atlassian 사이트 도메인
+    check: a 와 b 가 같다
+    if_unreadable: 커넥션은 화면. 읽는 API 이름은 문서에 없다
+  - tier: via_person
+    a: salesforce 커넥션의 Jira 사용자 이메일
+    b: atlassian 사용자 (API 토큰 소유 계정)
+    check: 같은 사람
+  activity:
+  - 문서에 없음 (양쪽 모두)
+  sources:
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-jira-unstructured-connector.html (GA 표기) [Exa]
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-setup-jira-unstructured-connection.html (설정, Beta 표기) [Exa]
+  - https://developer.salesforce.com/docs/data/data-cloud-int/guide/c360-a-jira-connector.html (정형 커넥터) [Exa]
+  note: 정형 커넥터와 Jira Service Desk 커넥터의 인증·객체는 설정 페이지를 열지 못해 모른다. 로그 등급 없음
+- id: jsm_salesforce_service_cloud_integration
+  type: event_delivery
+  what: Jira Service Management 의 「Salesforce Service Cloud」 통합. Salesforce 케이스가 생기면 JSM 알림이 생기고, 케이스 상태가 Working·Closed 로 바뀌면 알림이 확인·종료된다. 양방향이라 Send Alert Updates Back 을 켜면 JSM 작업이 Salesforce 케이스에 반영된다. Salesforce 쪽은 패키지나 연결 앱 설치가 아니라, 문서가 주는 Apex 클래스·트리거 파일을 개발자 콘솔에 붙여 넣고 원격 사이트를 등록하는 수동 설치다. 플랜은 Service Collection Premium 또는 Enterprise
+  identify:
+    api: 'atlassian JSM 화면: 운영(Operations) 사이드바 More actions > General configuration > Integrations (팀 수준), 또는 Settings > Products > Operations (사이트 수준). 통합 이름은 사용자가 정한다. JSM 쪽 목록 API 는 문서에 없다. salesforce Setup > Security > Remote Site Settings 의 JSM 항목 (화면). Apex 파일은 jsmClass.apxc, jsmTrigger.apxt 이고 클래스 이름은 문서에 없다'
+    when: JSM 에 Salesforce Service Cloud 유형 통합이 있고 Turn on integration 으로 켜져 있음. 또는 Salesforce 원격 사이트 이름이 JSM 이고 URL 이 JSM API URL 과 같음
+  points_to:
+  - tier: config_name
+    a: JSM 통합 설정의 API URL (Steps to configure 에서 복사하는 값)
+    b: Salesforce Remote Site Settings 의 JSM 항목 Remote Site URL. 같은 URL 을 jsmTrigger 의 endpoint 필드에도 넣는다
+    check: a 와 b 가 같다
+    if_unreadable: 둘 다 화면. 읽는 API 이름은 문서에 없다
+  - tier: log_time
+    a: JSM 알림 생성 시각 (케이스 생성으로 생긴 알림)
+    b: Salesforce 케이스 생성 시각. 문서는 알림과 케이스를 잇는 필드 이름을 적지 않는다
+    check: 시각이 가깝다. 짝 지을 값은 문서에 없다
+  activity:
+  - 문서에 없음 (JSM 알림 생성·확인·종료와 케이스 상태 변화는 동작 설명에 있으나 감사 이벤트 이름이 없다)
+  sources:
+  - https://support.atlassian.com/jira-service-management-cloud/docs/integrate-with-salesforce-service-cloud (플랜, 설정 경로, Apex 파일과 원격 사이트 단계) [Exa]
+  note: '문서에 없는 것: 인증 방식, Salesforce 쪽 연결 앱·패키지·사용자, Send Alert Updates Back 방향의 인증, 감사 이벤트. 실측 없음. Salesforce 쪽 Apex 클래스 이름은 파일 안 내용이라 확인 못 했다. type 을 stored_credential 로 볼 수도 있다 (Salesforce 가 JSM 웹훅 주소를 보관). 이벤트 흐름을 기준으로 event_delivery 를 골랐다'
+- id: agentforce_registry_atlassian_mcp
+  type:
+  - app_grant
+  - stored_credential
+  what: Salesforce Agentforce 가 Agentforce Registry 에 등록한 외부 MCP 서버로 Atlassian Rovo MCP 서버(https://mcp.atlassian.com/v2/mcp)를 부른다. 등록 때 엔드포인트와 인증 방식을 정하고, Salesforce 는 OAuth 2.0 을 요구한다. 사용자별 인증(Per-User Principal, 각 Salesforce 사용자가 한 번 OAuth 동의)이나 서비스 계정(client_credentials)을 고른다. Atlassian 은 OAuth 2.1 사용자 동의가 기본이고 API 토큰은 관리자가 켠 경우에만 된다. 플랜 조건은 문서에 없다
+  identify:
+    api: 'salesforce Setup > Agentforce Registry > MCP Servers (화면: Connection Status, Authentication Details, Tools 탭). 메타데이터 이름은 ExternalCredential, ExternalServiceRegistration, NamedCredential, PermissionSet(이름 {서버이름}_Perm_Set) 으로 CLI 예시에 나온다. atlassian Atlassian Administration 의 Connected apps 목록 (화면, 자동 설치되는 Atlassian MCP 앱) 과 조직 감사 Rovo MCP User Actions'
+    when: salesforce Agentforce Registry 에 엔드포인트가 mcp.atlassian.com 인 MCP 서버가 있음. 메타데이터 예시는 client_credentials 흐름 기준이라 인증 방식에 따라 설정이 다르다
+  points_to:
+  - tier: config_name
+    a: salesforce Agentforce Registry 의 MCP 서버 엔드포인트 (필드 이름은 문서에 없다)
+    b: atlassian MCP 서버 주소 https://mcp.atlassian.com/v2/mcp
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: salesforce ExternalCredential 의 OAuth Client ID (Principal 편집 화면 또는 메타데이터)
+    b: atlassian 쪽 OAuth 앱 Client ID. 이 값을 Atlassian 이 발급하는지, 어디서 받는지 문서에 없다
+    check: a 와 b 가 같다. Atlassian 발급 경로를 문서로 확인하지 못해 확신이 낮다
+  - tier: via_person
+    a: salesforce 사용자 (Per-User Principal 로 본인이 OAuth 동의)
+    b: atlassian 동의한 사용자 계정. 문서는 각 Salesforce 사용자에 대응하는 외부 계정이 있어야 한다고 적는다
+    check: 같은 사람
+  - tier: log_time
+    a: atlassian 조직 감사 Rovo MCP User Actions 의 Invoked tool 시각과 사용자
+    b: salesforce 쪽 대응 기록 위치는 문서에 없다 (OauthToken, LoginHistory 에서 짝을 찾는 방법을 확인 못 함)
+    check: 시각이 가깝고 사용자가 같다. 짝 확인은 못 했다
+  activity:
+  - atlassian 조직 감사 Rovo MCP User Actions 의 Invoked tool (도구 이름, 액션, 사용자)
+  - atlassian Insights > Audit log 의 「An OAuth app is installed for the first time」 (문서 표기이며 이벤트 이름이 아님. Guard Standard 필요, 추가 승인 사용자는 안 남음)
+  sources:
+  - https://www.salesforce.com/blog/connect-agentforce-external-mcp-servers/ (Agentforce Registry 등록, OAuth 2.0 요구, Per-User 와 client_credentials 두 방식)
+  - https://developer.salesforce.com/docs/atlas.en-us.pkg2_dev.meta/pkg2_dev/dev2gp_package_mcp_agentforce.htm (메타데이터 이름, Setup 에서 Principal Client ID 입력 순서) [Exa 검색 발췌, 원문 미열람]
+  - https://developer.salesforce.com/docs/platform/salesforce-cli-reference/guide/cli_reference_agent_mcp_create.html (--auth-type NO_AUTH 또는 OAUTH, 개발자 프리뷰, API Catalog 명칭) [Exa 검색 발췌, 원문 미열람]
+  - https://developer.atlassian.com/cloud/rovo-mcp/ (서버 주소, OAuth 2.1 주 방식, API 토큰 선택)
+  - https://developer.atlassian.com/cloud/rovo-mcp/guides/authentication-and-authorization/ (OAuth 2.1 기본, API 토큰은 관리자 활성화, JSM 도구 설명) [Exa 검색 발췌, 원문 미열람]
+  - https://support.atlassian.com/security-and-access-policies/docs/control-atlassian-rovo-mcp-server-settings/ (Rovo > Rovo MCP server, API 토큰 토글) [Exa 검색 발췌, 원문 미열람]
+  - https://support.atlassian.com/security-and-access-policies/docs/audit-log-activities-database/ (Rovo MCP User Actions 의 Invoked tool 표) [Exa 검색 발췌, 원문 미열람]
+  note: '인증 방식 적합성: Atlassian 문서에 있는 방식은 OAuth 2.1 사용자 동의와 API 토큰(관리자가 켠 경우, Basic 또는 Bearer 헤더)이다. Salesforce 문서에 있는 방식은 OAuth 2.0 뿐이다(사용자별 authorization_code, client_credentials). 맞물릴 여지는 있으나 문서로 확인되지 않은 것: (1) Atlassian 문서에 client_credentials 흐름이 없다, (2) Atlassian 이 Salesforce 용 client ID 를 발급하는 경로와 Salesforce 가 요구하는 discovery 메타데이터 지원 여부가 없다. Salesforce 가 API 토큰을 쓰는 방법은 문서에 없다 (CLI 는 NO_AUTH 또는 OAUTH 만 받는다). 문서상 JSM 도구는 API 토큰으로만 쓸 수 있어 OAuth 로 등록하면 JSM 도구가 빠질 수 있다. Salesforce 도움말 등록 페이지 본문은 열지 못했다. 실측 없음'
+- id: named_credential_atlassian_token
+  type: stored_credential
+  what: Salesforce Named Credential 이 Atlassian 사이트 주소를 가리키고, 거기 붙은 External Credential 에 Atlassian 계정 이메일과 API 토큰을 넣어 Basic 인증으로 Jira 나 Confluence REST 를 부른다. Apex callout(callout:<이름>)이나 External Services 가 부르고, Flow 는 그 Apex 나 External Services 동작을 부른다. Atlassian 쪽 동작은 토큰 주인의 권한으로 돈다
+  identify:
+    api: salesforce SOQL NamedCredential (DeveloperName, MasterLabel), Tooling ExternalCredential, SetupAuditTrail (Named Credential 변경); atlassian GET /admin/api-access/v1/orgs/{orgId}/api-tokens (토큰 이름, 소유자, 마지막 사용)
+    when: Named Credential URL 호스트가 Atlassian 사이트(<사이트>.atlassian.net)다. 범위(scope)를 정한 API 토큰이면 호스트가 api.atlassian.com 이고 경로가 /ex/jira/{cloudId} 나 /ex/confluence/{cloudId} 다
+  points_to:
+  - tier: config_name
+    a: salesforce Named Credential URL 호스트 (범위를 정한 토큰이면 api.atlassian.com 과 경로의 cloudId). 새 꼴은 SOQL NamedCredential.Endpoint 가 비어 있어 SetupAuditTrail namedCredentialParameterInsert 의 Url 매개 변수나 Metadata API 로 읽는다
+    b: atlassian 사이트 호스트 또는 cloudId
+    check: a 와 b 가 같다
+    note: 새 꼴의 Endpoint 가 비고 SetupAuditTrail 에 Url 이 남는 것은 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+  - tier: via_person
+    a: salesforce External Credential 주체에 넣은 Atlassian 계정 이메일 (Basic 인증의 사용자 이름)
+    b: atlassian 그 API 토큰을 가진 계정
+    check: 같은 사람
+    if_unreadable: 주체에 넣은 값은 암호화되어 API 로 못 읽는다. 아래 log_time 의 Atlassian 감사 행이 토큰 id 와 이름, 행위자를 준다
+  - tier: log_id
+    a: salesforce EventLogFile ApexCallout 의 호출 엔드포인트 URL 호스트
+    b: atlassian 사이트 호스트
+    check: a 와 b 가 같다 (EventLogFile 은 Event Monitoring 이 있어야 읽는다)
+  - tier: log_time
+    a: atlassian 조직 감사에서 그 토큰(actor.auth.tokenId, tokenLabel 또는 tokenName)으로 한 동작의 시각 (예 이슈 생성)
+    b: salesforce ApexCallout TIMESTAMP_DERIVED, 또는 호출을 일으킨 레코드의 생성 시각
+    check: 시각이 가깝다
+    note: 벤더 문서의 칸 이름은 tokenLabel 이고, 2026-10-29 시험 환경 응답에는 tokenName 으로 나왔다 (test-environment/v3 checks). 리드 생성 시각과 jira_issue_created 시각을 견준 것도 그 응답에서 확인
+  activity:
+  - salesforce SetupAuditTrail (Named Credential, External Credential 변경), EventLogFile ApexCallout (URL, METHOD, STATUS_CODE, USER_ID)
+  - atlassian 조직 감사의 그 토큰 동작 (actor.auth.tokenId, tokenLabel 또는 tokenName, location.ip), 「Created API token」
+  sources:
+  - https://developer.salesforce.com/docs/platform/named-credentials/guide/get-started.html (Named Credential 은 엔드포인트, External Credential 은 인증 방식과 사용자 자격, Apex callout, External Services 에서 씀) [브라우저]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_namedcredential.htm [Exa]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_eventlogfile_apexcallout.htm [Exa] (호출 엔드포인트 URL, METHOD, USER_ID, TIMESTAMP_DERIVED)
+  - https://developer.atlassian.com/cloud/jira/platform/basic-auth-for-rest-apis/ (Atlassian 계정 이메일과 API 토큰으로 Basic 인증)
+  - https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/ (범위를 정한 토큰은 api.atlassian.com/ex/jira/{cloudId}, /ex/confluence/{cloudId} 로 부름)
+  - https://developer.atlassian.com/cloud/admin/api-access/rest/api-group-api-token/
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (actor.auth 의 authType, tokenId, tokenLabel, location.ip)
+  note: 2026-10-29 더함. v3 시험 환경 시나리오 M(Salesforce Flow 가 Named Credential 로 Jira 이슈를 만듦)이 이 꼴인데 이 쌍에 맞는 방법이 없어 salesforce-external named_credential 에만 적었다 (docs/measure-v3.md 1절 2, test-environment/v3/atlassian-salesforce.yaml review). 이 방법은 Salesforce 가 Atlassian 자격을 들고 바로 부르는 연결이다. 부르는 쪽 Salesforce 사용자(External Credential 주체를 쓸 권한을 받은 사용자)와 Atlassian 쪽에서 동작하는 사람(토큰 주인)이 다를 수 있다
+- id: sync_via_server
+  type: external_relay
+  what: 밖의 서버(직접 만든 서버, 서버리스 함수)가 Salesforce 연결 앱의 서버용 자격(예 client credentials 흐름)과 Atlassian 계정의 API 토큰을 함께 들고, 한쪽에서 읽은 내용을 다른 쪽에 쓴다. client credentials 흐름이면 Salesforce 토큰은 연결 앱에 정한 Run As 사용자의 권한이고, Atlassian 쪽 동작은 토큰 주인의 권한이다. 두 SaaS 설정에는 서로를 가리키는 값이 없다
+  identify:
+    api: salesforce Metadata ExternalClientApplication 또는 ConnectedApp (client credentials 흐름이면 Run As 사용자), SOQL LoginHistory, OauthToken (그 앱); atlassian GET /admin/api-access/v1/orgs/{orgId}/api-tokens, 조직 감사
+    when: Salesforce 에 서버가 쓰는 연결 앱이 있고, 같은 서버가 쓰는 Atlassian API 토큰이 있음. 두 자격이 한 서버에 있다는 것은 SaaS 설정만으로는 모르고 서버 설정이나 기록으로 안다. 여기 적은 근거는 client credentials 흐름(v3 시나리오 L)으로만 확인했다
+  points_to:
+  - tier: config_name
+    a: salesforce 연결 앱 이름
+    b: 밖의 서버 (Salesforce 설정에는 서버 주소가 없음)
+    check: 이름 일치뿐 (약한 근거)
+  - tier: config_name
+    a: atlassian API 토큰 이름(label)
+    b: 같은 밖의 서버 (Atlassian 설정에는 서버 주소가 없음)
+    check: 이름 일치뿐 (약한 근거)
+  - tier: log_id
+    a: 밖의 서버 실행 기록에 남은 Salesforce 레코드 id 와 Atlassian 내용 id (페이지 id, 이슈 키)
+    b: salesforce 레코드 id, atlassian 페이지 id 또는 이슈 키
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: salesforce LoginHistory 에서 그 연결 앱(Application)으로 Run As 사용자가 로그인한 시각
+    b: atlassian 조직 감사에서 그 토큰(actor.auth.tokenId, tokenLabel 또는 tokenName)으로 한 동작의 시각
+    check: 시각이 가깝다
+    note: 벤더 문서의 칸 이름은 tokenLabel 이고, 2026-10-29 시험 환경 응답에는 tokenName 으로 나왔다 (test-environment/v3 checks)
+  activity:
+  - salesforce LoginHistory (Application, LoginType, SourceIp), OauthToken (AppName, UserId, LastUsedDate)
+  - atlassian 조직 감사의 그 토큰 동작 (actor.auth.tokenId, tokenLabel 또는 tokenName, location.ip)
+  - 밖의 서버 실행 기록
+  sources:
+  - https://developer.salesforce.com/blogs/2023/03/using-the-client-credentials-flow-for-easier-api-authentication (consumer key 와 secret 만으로 토큰을 받고, 토큰은 Run As 사용자로 발급) [브라우저]
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_loginhistory.htm [Exa] (UserId, LoginTime, LoginType, SourceIp, Application)
+  - https://developer.salesforce.com/docs/atlas.en-us.object_reference.meta/object_reference/sforce_api_objects_oauthtoken.htm [Exa] (AppName, UserId, CreatedDate, LastUsedDate, UseCount)
+  - https://developer.atlassian.com/cloud/confluence/basic-auth-for-rest-apis/ (Atlassian 계정 이메일과 API 토큰으로 Basic 인증)
+  - https://developer.atlassian.com/cloud/admin/api-access/rest/api-group-api-token/
+  - https://developer.atlassian.com/cloud/admin/organization/rest/api-group-events/ (actor.auth 의 tokenId, tokenLabel, location.ip)
+  note: 2026-10-29 더함. v3 시험 환경 시나리오 L(Worker 가 Salesforce Opportunity 를 읽어 Confluence 위키에 씀)이 이 꼴인데 이 쌍에 맞는 방법이 없어 salesforce-external external_client_app 과 atlassian-external user_api_token 에 나눠 적었다 (docs/measure-v3.md 1절 2). 다른 쌍의 slash_command_via_server 와 달리 서버 주소가 어느 SaaS 설정에도 없어, 설정 근거는 이름뿐이고 잇는 값은 서버 기록과 두 쪽 로그다

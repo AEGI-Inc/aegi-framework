@@ -1,0 +1,284 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: ActiveDirectoryAccountRuleResponse
+interfaces: &a1
+  - Policy
+model:
+  research_type: object-type:294eb4792d97710eb5bd9b40
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:294eb4792d97710eb5bd9b40.identity_evidence
+  parent:
+    type: parent:v1/teams/{}/resource_assignment/active_directory/{}
+    expr: $req.parent_id
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  enable_import_okta_users:
+    path: enable_import_okta_users
+    source: research_shape
+    shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+    declaration:
+      name: enable_import_okta_users
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ActiveDirectoryAccountRuleResponse|enable_import_okta_users
+  enable_initial_password_rotation:
+    path: enable_initial_password_rotation
+    source: research_shape
+    shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+    declaration:
+      name: enable_initial_password_rotation
+      required: false
+      scalar: boolean
+    map_items:
+      - space:ActiveDirectoryAccountRuleResponse|enable_initial_password_rotation
+  enhanced_filters:
+    path: enhanced_filters
+    source: research_shape
+    shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+    declaration:
+      name: enhanced_filters
+      required: false
+      shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse.enhanced_filters
+    map_items: []
+  id:
+    path: id
+    source: research_shape
+    shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+    declaration:
+      name: id
+      read_only: true
+      required: false
+      shape: sh:okta_opa_openapi:schemas-UUID
+    map_items:
+      - space:ActiveDirectoryAccountRuleResponse|id
+  name:
+    path: name
+    source: research_shape
+    shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+    declaration:
+      name: name
+      required: false
+      scalar: string
+    map_items:
+      - space:ActiveDirectoryAccountRuleResponse|name
+  organizational_units:
+    path: organizational_units
+    source: research_shape
+    shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+    declaration:
+      name: organizational_units
+      required: false
+      shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse.organizational_units
+    map_items:
+      - space:ActiveDirectoryAccountRuleResponse|organizational_units
+  priority:
+    path: priority
+    source: research_shape
+    shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+    declaration:
+      name: priority
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:ActiveDirectoryAccountRuleResponse|priority
+  project:
+    path: project
+    source: research_shape
+    shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+    declaration:
+      name: project
+      required: false
+      shape: sh:okta_opa_openapi:NamedObject
+    map_items: []
+  resource_group:
+    path: resource_group
+    source: research_shape
+    shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+    declaration:
+      name: resource_group
+      required: false
+      shape: sh:okta_opa_openapi:NamedObject
+    map_items: []
+  rule_type:
+    path: rule_type
+    source: research_shape
+    shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+    declaration:
+      enum:
+        - SHARED
+        - INDIVIDUAL
+      name: rule_type
+      required: false
+      scalar: string
+    map_items:
+      - space:ActiveDirectoryAccountRuleResponse|rule_type
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: parent:v1/teams/{}/resource_assignment/active_directory/{}
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:01cb8a1eeb45af1f0fe4a477 (v1/teams/{}/resource_assignment/active_directory/{}) -> parent:v1/teams/{}/resource_assignment/active_directory/{}
+  - name: project_id
+    field: project.id
+    target: SudoCommandBundle
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:04cbd729db1a8551bb7c083b; relation=no_relation
+  - name: resource_group_id
+    field: resource_group.id
+    target: InfrastructureOrchestratorReference
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:16686b636cead9fdd90452fd; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: ActiveDirectoryAccountRuleResponse
+  interfaces: *a1
+  model:
+    research_type: object-type:294eb4792d97710eb5bd9b40
+  extract:
+    key: PILOT-okta-ActiveDirectoryAccountRuleResponse-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-OKTA-bd9b40
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          enable_import_okta_users: enable_import_okta_users
+          enable_initial_password_rotation: enable_initial_password_rotation
+          enhanced_filters: enhanced_filters
+          id: id
+          name: name
+          organizational_units: organizational_units
+          priority: priority
+          project: project
+          resource_group: resource_group
+          rule_type: rule_type
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_opa_openapi:listActiveDirectoryAccountRules
+  operation: listActiveDirectoryAccountRules
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /v1/teams/[^/]+/resource_assignment/active_directory/[^/]+/rules(?:\?|$)
+  endpoint_template: /v1/teams/{team_name}/resource_assignment/active_directory/{ad_connection_id}/rules
+  request: {}
+  required_params:
+    - ad_connection_id
+    - team_name
+  paths:
+    - shape: sh:okta_opa_openapi:ActiveDirectoryAccountRuleResponse
+      path:
+        - list
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:okta_opa_openapi:GetActiveDirectoryAccountRule
+      method: GET
+      kind: read_one
+      endpoint_template: /v1/teams/{team_name}/resource_assignment/active_directory/{ad_connection_id}/rules/{ad_account_rule_id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - project.id
+    - resource_group.id
+  metadata_paths: *a2
+  remaining_declared_fields: properties

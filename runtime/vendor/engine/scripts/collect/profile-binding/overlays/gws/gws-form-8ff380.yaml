@@ -1,0 +1,60 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/form.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-08
+        items: (root)
+        where:
+          path: formId
+          truthy: true
+    id_expr: formId
+    refs:
+      linked_sheet:
+        when:
+          path: linkedSheetId
+          truthy: true
+        ref:
+          type: File
+          id: linkedSheetId
+        value: linkedSheetId
+        key_if_exists: true
+    properties:
+      title: info.title
+      documentTitle: info.documentTitle
+      linkedSheetId: linkedSheetId
+      question_titles:
+        op: pluck
+        of: items
+        field: title
+      owner: $req.owner
+    display: "{info.title|formId}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: formId
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-FORM-{id}
+runtime_stub: null
+runtime_key: GWS-FORM-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+identity:
+  primary:
+    - name: id
+      expr: formId
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-FORM-{id}
+    replaced:
+      - $record_hash

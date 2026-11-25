@@ -1,0 +1,89 @@
+# Atlassian 조직 사전 v0 (2026-10-14)
+# Jira, Confluence 위의 조직 층: 조직 관리 API(조직, 사용자 관리, SCIM 프로비저닝, API 접근)와 조직 감사 활동 목록 중 조직 범주.
+# Jira, Confluence 제품 감사 활동은 jira.yaml, confluence.yaml 이 가져간다.
+# Bitbucket, Compass, Focus, Goals, Home, Loom, Operations(Opsgenie), Talent, Analytics 범주는 다른 제품이라 넣지 않는다.
+
+sources:
+  openapi:
+    - {id: atlassian_admin_organization, path: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__admin__organization__swagger.v3.json,
+       strip_prefixes: [/v1, /v2]}
+    - {id: atlassian_admin_user_management, path: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__admin__user-management__swagger.v3.json}
+    - {id: atlassian_admin_user_provisioning, path: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__admin__user-provisioning__swagger.v3.json,
+       strip_prefixes: [/admin/user-provisioning/v1],
+       # /scim/ 아래 userId, {id} 는 SCIM 사용자, 그룹 ID 다. 조직 API 의 userId(계정 ID)와 이름이 같아 바꾼다
+       param_rename: [{prefix: "/scim/directory/{directoryId}/Users", from: userId, to: scimUserId},
+                      {prefix: "/scim/directory/{directoryId}/Groups", from: id, to: scimGroupId}]}
+    - {id: atlassian_admin_api_access, path: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__admin__api-access__swagger.v3.json}
+  audit_db:
+    - {id: atlassian_audit_db, path: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__security-and-access-policies__docs__audit-log-activities-database,
+       categories: ["Atlassian accounts", "App actions", "Connected sources", "Custom domains", "Encryption Actions", "Organizations",
+                    "Portal-only customers", "Products", "Rovo admin actions", "Rovo MCP User Actions", "Rovo user actions",
+                    "Security policies", "Service Account Actions", "Settings", "Team Management", "User-access settings",
+                    "User management", "User provisioning"]}
+
+param_suffixes: [Id, _id]
+
+param_space:
+  orgId: org
+  accountId: user          # Atlassian 계정 ID
+  account_id: user
+  AAID: user               # Atlassian Account ID
+  aaId: user
+  userId: user             # 조직 API 의 userId 는 계정 ID 다 (SCIM 경로는 scimUserId 로 바꿨다)
+  scimUserId: scimuser
+  scimGroupId: scimgroup
+  groupId: group
+  directoryId: directory
+  scimDirectoryId: directory
+  serviceAccountId: serviceaccount
+  clientId: oauthclient
+  apiKeyId: apikey
+  tokenId: apitoken
+  domainId: domain
+  policyId: policy
+  eventId: event
+
+field_space:
+  accountId: user
+  account_id: user
+  orgId: org
+
+scope_spaces: [org]
+vendor_hosts: [atlassian.net, atlassian.com, atl-paas.net]
+collect_tiers: []
+default_tier: admin_token
+
+# 감사 활동은 범주가 대상이 아니다(「User management」). 이름의 명사로 공간을 정한다 (info_map.py audit_space_from_name)
+audit_space_from_name: true
+# 응답 최상위 래퍼. 조직 API 는 {data: {...}, links, meta} 로 돌려준다
+response_wrappers: [data]
+audit_alias: {}
+# 표시 이름에서 명사로 보지 않는 제품 이름, 수식어
+action_stop_extra: [jira, confluence, atlassian, organization, org, new, a, the, for, product, products]
+action_token_alias:
+  account: [user]
+  accounts: [user]
+  users: [user]
+  groups: [group]
+  members: [user]
+  member: [user]
+  admin: [user]
+  token: [apitoken]
+  tokens: [apitoken]
+  domains: [domain]
+  policies: [policy]
+
+record_key_alias: {}
+setting_action_prefixes: []
+space_notes:
+  user: "Atlassian Cloud 계정 사용자 (Atlassian Account ID) | 대상"
+  group: "Atlassian 조직 사용자 그룹 | 대상"
+  directory: "SCIM 사용자 프로비저닝 디렉터리 (외부 IdP 연동) | 대상"
+  scimuser: "SCIM 디렉터리 내 프로비저닝 사용자 | 대상"
+  scimgroup: "SCIM 디렉터리 내 프로비저닝 그룹 | 대상"
+  serviceaccount: "자동화 및 시스템 연동용 서비스 계정 | 대상"
+  oauthclient: "조직에 등록된 OAuth 2.0 클라이언트 앱 | 대상"
+  policy: "조직 보안 및 인증 정책 (Authentication Policy, Session Policy 등) | 대상"
+  domain: "조직이 소유권을 인증한 도메인 (SSO 및 계정 캡처용) | 대상"
+  event: "조직 감사 로그 이벤트 레코드. 사건 기록이지 영속 객체가 아님 | 의심"
+

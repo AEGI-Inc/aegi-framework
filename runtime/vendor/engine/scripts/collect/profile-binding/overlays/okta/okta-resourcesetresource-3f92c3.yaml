@@ -1,0 +1,17 @@
+# 2026-11-16 aegi-knowledge#313 결정: 리소스 세트와 세트 대상 행은 설정(Policy). 연구값 Resource 를 덮는다
+interfaces: [Policy]
+identity:
+  primary:
+    - name: resource_set
+      expr: $req.parent_id
+      stability: parent_scoped
+    - name: resource
+      expr:
+        any:
+          - id
+          - orn
+      stability: parent_scoped
+  scope: parent
+manual_basis: The collected resource-set entry may have a null id but retains an
+  ORN; keep that vendor locator under its resource set instead of discarding the
+  row.

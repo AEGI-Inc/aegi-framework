@@ -1,0 +1,59 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: OAuth2PermissionGrant
+interfaces: [Assignment]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-OAUTH2-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-07
+        items: value
+    id_expr: id
+    properties:
+      consent_type: consentType
+      scope: scope
+      client_id: clientId
+      resource_id: resourceId
+      principal_id: principalId
+    display: "{scope|consentType|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: has_role_on
+        source:
+          type: ServicePrincipal
+          id: clientId
+        target:
+          type: ServicePrincipal
+          id: resourceId
+        role:
+          name:
+            any:
+              - scope
+              - {const: delegated_consent}
+        basis: stated
+        properties:
+          via_assignment: $self
+          consent_type: consentType
+          principal_id: principalId
+          scope: scope
+          # 위임 scope 는 빈칸으로 가른 목록이다(앞에 빈칸이 오기도 한다). 세기는 키마다 세서 가장 센 것(capabilities.yaml role_rank_order permissions)
+          permissions:
+            op: filter
+            of: {op: split, of: scope, sep: ' ', trim: true}
+            where: {path: $item, present: true}
+        require: [source, target]

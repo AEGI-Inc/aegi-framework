@@ -1,0 +1,6 @@
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full
+emit: reference_only
+emit_basis: 타입 이름이 API 경로 조각(parent:scim/v2/organizations/{})이고 선언 필드가 없다. 레코드는 경로의
+  조직 이름과 레코드 해시뿐이다. 조직은 organization-full 객체로 이미 있다(tenant 참조 대상). 객체로 만들지 않는다

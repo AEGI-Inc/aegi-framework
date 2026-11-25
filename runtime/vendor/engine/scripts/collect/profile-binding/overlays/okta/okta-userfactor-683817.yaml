@@ -1,0 +1,83 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/user_factor.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-04
+    vars:
+      user_login:
+        ref:
+          type: User
+          id: $req.user
+        prop: login
+    parent:
+      ref:
+        type: User
+        id: $req.user
+    properties:
+      factorType: factorType
+      provider: provider
+      vendorName: vendorName
+      status: status
+      created: created
+      lastUpdated: lastUpdated
+    display: "{factorType} ({$vars.user_login|$req.user})"
+    relations:
+      - type: authenticates_with
+        source:
+          type: User
+          id: $req.user
+        target: $self
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-UF-{id}
+runtime_stub: null
+runtime_key: OKTA-UF-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: UserFactor:list
+    sources:
+      - call: OK-04
+    vars:
+      user_login:
+        ref:
+          type: User
+          id: $req.user
+        prop: login
+    relations:
+      - type: authenticates_with
+        source:
+          type: User
+          id: $req.user
+        target: $self
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: OKTA-UF-{id}
+    replaced:
+      - $req.parent_id
+      - id
+fields:
+  lastVerified:
+    path: lastVerified
+    source: collected_response
+fields_basis: MFA 요소의 마지막 검증 시각(lastVerified)이 UserFactor 기본 스키마에 없어 버려지던 것을 선언한다(값은 수집 응답 그대로)

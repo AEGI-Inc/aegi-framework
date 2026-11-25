@@ -1,0 +1,60 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: DirectoryRole
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-ROLE-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-08
+        request: {kind: roleDefinitions}
+        items: value
+    id_expr: id
+    properties:
+      activation: {const: standing}
+      role_definition_id: id
+      displayName: displayName
+      description: description
+      isBuiltIn: isBuiltIn
+      isEnabled: isEnabled
+      templateId: templateId
+      version: version
+      resourceScopes: resourceScopes
+      rolePermissions: rolePermissions
+      # 역할이 허용하는 동작 이름 목록(microsoft.directory/users/standard/read 등). 세기는 knowledge capabilities.yaml privilege_rank microsoft 가 정한다
+      privileges:
+        op: flatten
+        of: {op: pluck, field: allowedResourceActions, of: rolePermissions}
+    display: "{displayName|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+  - id: directory_roles_enrich
+    kind: enrich
+    sources:
+      - call: M365-08
+        request: {kind: directoryRoles}
+        items: value
+    require:
+      path: roleTemplateId
+      present: true
+    target:
+      type: DirectoryRole
+      id: roleTemplateId
+    set:
+      directory_role_id: id
+      active_in_directory: {const: true}

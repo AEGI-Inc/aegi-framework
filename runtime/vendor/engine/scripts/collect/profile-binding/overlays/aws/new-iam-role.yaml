@@ -1,0 +1,78 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: aws
+service: iam
+object_type: IAMRole
+interfaces: [Principal]
+identity:
+  primary:
+    - {name: id, expr: RoleId, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: AWS-ROLE-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AWS-02
+        request: {kind: roles}
+        items: Roles
+    id_expr: RoleId
+    properties:
+      principal_kind: {const: service}
+      account_kind: {const: app}
+      operational_state: {const: active}
+      role_id: RoleId
+      role_name: RoleName
+      arn: Arn
+      path: Path
+      create_date: CreateDate
+      account_id: AccountId
+      assume_role_policy_document: AssumeRolePolicyDocument
+      attached_policies: AttachedPolicies
+      attached_policy_names: AttachedPolicyNames
+      role_policy_names: {const: []}
+      trusted_services: TrustedServices
+      trusted_aws_principals: TrustedAwsPrincipals
+      trusted_federated: TrustedFederated
+      trusted_oidc_repos: TrustedOidcRepos
+    display: "{RoleName}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Account, id: AccountId}
+        basis: stated
+        require: [target]
+  - id: role_attached_policies
+    kind: relation
+    sources:
+      - call: AWS-02
+        request: {kind: role_attached_policies}
+        items: AttachedPolicies
+    relations:
+      - type: has_role_on
+        source: {type: IAMRole, lookup: role_name, value: $req.role_name}
+        target: $tenant
+        role:
+          name: PolicyName
+        basis: stated
+        membership_enforced: true
+        properties:
+          role: PolicyName
+          policy_arn: PolicyArn
+        require: [source, target]
+  - id: role_inline_policies
+    kind: enrich
+    sources:
+      - call: AWS-02
+        request: {kind: role_inline_policies}
+        items: (root)
+    target:
+      type: IAMRole
+      lookup: role_name
+      value: $req.role_name
+    set:
+      role_policy_names: PolicyNames

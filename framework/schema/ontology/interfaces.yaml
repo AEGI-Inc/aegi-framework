@@ -1,0 +1,86 @@
+# Interface 9종과 계약
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  interfaces: docs/Interface_Spec_v3.md 「아홉 개」 「각 interface의 계약」
+  common_contract: docs/Interface_Spec_v3.md 「모든 interface 공통 값」 (판단표 G4-Q03 ~ Q05, 2026-10-21)
+
+interfaces:
+- name: Tenant
+  what: 다른 Object가 소속되는 조직 경계
+  criterion: 이게 사라지면 소속 Object의 식별자가 의미를 잃는가
+  contract: []
+- name: Principal
+  what: 권한을 들 수 있는 신원
+  criterion: '"___가 X 권한을 가진다"의 빈칸에 들어가는가'
+  contract:
+  - {field: principal_kind, values: [human, service, group, unknown], where: 행}
+  # system: 테넌트 사용자 목록에 없고 감사 로그 행위자로만 나오는 플랫폼 행위자(2026-11-10, crosswalk.yaml decided.audit_only_actor_system)
+  - {field: account_kind, values: [human, app, system, unknown], where: 행}
+  # 계정 상태. 지웠거나 해지했거나 정지한 계정(deleted, deprovisioned, suspended)은 지금 쓸 수 없어 권한 간선을 내지 않는다(relation_semantics *.inactive_account). Profile 이 원본 상태 칸을 이 값으로 옮긴다
+  - {field: account_state, values: [active, suspended, deprovisioned, deleted, unknown], where: 행}
+- name: Integration
+  what: 벤더 소프트웨어가 우리 테넌트에 등록·설치돼 있다는 사실
+  criterion: 테넌트 스코프가 있는가
+  contract:
+  - field: operational_state
+    values: [active, suspended, inactive, unknown]
+    where: 행
+- name: Credential
+  what: 자격증명 레코드
+  criterion: 유출되면 사칭이 성립하는가
+  contract:
+  - field: material_location
+    values: [tenant_side, counterparty_side, both, third_party, none]
+    where: 행
+  - field: credential_kind
+    values: [bearer_token, bearer_url, key_pair, certificate, federation]
+    where: Profile
+  - field: rotation
+    values: [api, console, counterparty, none]
+    where: Profile
+  - field: expires_at
+    values: ISO 8601 시각 또는 null
+    where: 행
+- name: Assignment
+  what: 주체와 권한을 잇는 개별 배정
+  criterion: 이것만 지우면 권한만 사라지고 주체·대상은 남는가
+  contract:
+  - {field: expires_at, values: ISO 8601 시각 또는 null, where: 행}
+- name: Policy
+  what: 접근·보안·동작 조건의 정의. 역할과 권한 묶음 포함
+  criterion: 규칙이 독립적으로 CRUD 되는가
+  contract:
+  - {field: activation, values: [standing, session], where: 행}
+- name: Endpoint
+  what: 테넌트 경계를 넘어 데이터가 오가는 통로
+  criterion: 경계를 넘는 주소인가
+  contract:
+  - field: endpoint_owner
+    values: [provider_hosted, customer_hosted, third_party_hosted]
+    where: 행
+  - field: blocking
+    values: [none, blocking_fail_open, blocking_fail_closed]
+    where: 행
+  - field: direction
+    values: [in, out, both]
+    where: Profile
+- name: Resource
+  what: 사람이 만들고 열고 고치는 업무 대상
+  criterion: '"X에 대한 권한"이 자연스러운가'
+  contract:
+  - {field: grant_target, values: ['true', 'false'], where: Profile}
+- name: Automation
+  what: 테넌트 안에서 실행되어 다른 Object를 바꾸는 로직 정의
+  criterion: 실행 가능한 로직이고 그 실행이 다른 Object를 바꾸는가
+  contract:
+  - field: run_as_resolution
+    values: [static_principal, caller, platform_superuser, per_step, unknown]
+    where: 행
+
+# 모든 interface 에 같은 이름으로 두는 판정값 (판단표 G4, 2026-10-21)
+common_contract:
+- {field: origin, values: [platform_builtin, platform_default, tenant_custom], where: 행}
+- {field: assignment_count, values: 0 이상의 정수, where: 행}

@@ -1,0 +1,34 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/customer.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-01
+        items: (root)
+    tenant: none
+    mutable_ids:
+      customerDomain: customerDomain
+    properties:
+      customerDomain: customerDomain
+      customerCreationTime: customerCreationTime
+    display: "{customerDomain|id}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-CUST-{id}
+runtime_stub: null
+runtime_key: GWS-CUST-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  customerDomain:
+    stability: mutable

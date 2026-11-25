@@ -1,0 +1,14 @@
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full
+emit:
+  merge_into: org-hook
+manual_basis: Repository hooks and organization hooks are both read by the
+  reviewed Webhook extraction rule; preserve their native hook ID and emit one
+  endpoint per ID.
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: tenant

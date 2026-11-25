@@ -1,0 +1,178 @@
+format: im-pilot-profile/1
+scope: catalog_spec5_record_projection
+provider: okta
+service: null
+object_type: ApplicationGroupAssignment
+interfaces:
+  - Assignment
+model:
+  research_type: null
+  runtime_type_id: model-v1:okta:ApplicationGroupAssignment
+  decision_refs:
+    - model-v1 runtime record_projection
+vars:
+  app_label:
+    ref:
+      type: Application
+      id: $req.app
+    prop: label
+  group_name:
+    ref:
+      type: Group
+      id: id
+    prop: name
+identity:
+  primary:
+    - name: app
+      expr: $req.app
+      stability: catalog_reviewed
+    - name: gid
+      expr: id
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: OKTA-AGA-{app}-{gid}
+binding:
+  status: catalog_call
+  call: OK-07
+  operation_id: op:okta_management_openapi:listApplicationGroupAssignments
+  paths:
+    - shape: sh:okta_management_openapi:ApplicationGroupAssignment
+      path:
+        - "*"
+  basis: catalog spec:5 sources
+fields:
+  priority:
+    expr: priority
+    source: catalog_spec5
+  lastUpdated:
+    expr: lastUpdated
+    source: catalog_spec5
+references: []
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - password
+    - token
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/application_group_assignment.yaml
+  engine_commit: d78062d
+  research_agreement: no_research_type
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-07
+        request:
+          app: present
+        endpoint: /groups(\?|$)
+    id_expr:
+      template: "{$req.app}:{id}"
+    parts:
+      app: $req.app
+      gid: id
+    vars:
+      app_label:
+        ref:
+          type: Application
+          id: $req.app
+        prop: label
+      group_name:
+        ref:
+          type: Group
+          id: id
+        prop: name
+    parent:
+      ref:
+        type: Application
+        id: $req.app
+      when: always
+    refs:
+      grantee:
+        ref:
+          type: Group
+          id: id
+        value: id
+    properties:
+      priority: priority
+      lastUpdated: lastUpdated
+    display: "{$vars.app_label|$req.app} ← {$vars.group_name|id}"
+    relations:
+      - type: has_role_on
+        template: assignment
+        source:
+          type: Group
+          id: id
+        target:
+          type: Application
+          id: $req.app
+        role:
+          name:
+            const: assigned
+        basis: stated
+        # 집행(aegi-knowledge Profile_Schema_v4.2 「membership_enforced」). 끊어 본 기록 aegi-knowledge reports/EA_Validation_Report_v2.md §7.1(2026-09-27): 그룹에서 빼자 15초 안에 그 사람의 AppUser 가 404, 다시 넣자 복귀
+        membership_enforced: true
+        properties:
+          via_assignment: $self
+    identity:
+      primary:
+        - name: app
+          expr: $req.app
+          stability: catalog_reviewed
+        - name: gid
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-AGA-{app}-{gid}
+runtime_stub: null
+runtime_key: OKTA-AGA-{app}-{gid}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: ApplicationGroupAssignment:list
+    sources:
+      - call: OK-07
+        request:
+          app: present
+        endpoint: /groups(\?|$)
+    vars:
+      app_label:
+        ref:
+          type: Application
+          id: $req.app
+        prop: label
+      group_name:
+        ref:
+          type: Group
+          id: id
+        prop: name
+    relations:
+      - type: has_role_on
+        template: assignment
+        source:
+          type: Group
+          id: id
+        target:
+          type: Application
+          id: $req.app
+        role:
+          name:
+            const: assigned
+        basis: stated
+        # 집행(aegi-knowledge Profile_Schema_v4.2 「membership_enforced」). 끊어 본 기록 aegi-knowledge reports/EA_Validation_Report_v2.md §7.1(2026-09-27): 그룹에서 빼자 15초 안에 그 사람의 AppUser 가 404, 다시 넣자 복귀
+        membership_enforced: true
+        properties:
+          via_assignment: $self
+    self_identity: object_rule

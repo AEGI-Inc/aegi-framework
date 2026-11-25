@@ -1,0 +1,2 @@
+emit: reference_only
+emit_basis: 타입 이름이 API 경로 조각(parent:chromemanagement/v1/customers/{})이다. Chrome 앱 요청 수 집계 응답이다. 2026-11-03 수집에서 빈 응답({})이다. 고객은 Customer 객체로 이미 있다. 객체로 만들지 않는다

@@ -1,0 +1,498 @@
+{
+  "format": "aegi-coverage/v1",
+  "generated_at": "2026-10-02T05:57:11Z",
+  "calls": [
+    {
+      "provider": "worker",
+      "call_id": "D-21",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-01",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-02",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-03",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-04",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-05",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-06",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-07",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-08",
+      "completeness": "partial",
+      "reasons": [
+        "org_rulesets:http_403"
+      ],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-09",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-10",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-11",
+      "completeness": "partial",
+      "reasons": [
+        "commits:xst25-atlas-oauth:http_409"
+      ],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-12",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-13",
+      "completeness": "partial",
+      "reasons": [
+        "pat_requests:http_403"
+      ],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-14",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-15",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-17",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "worker",
+      "call_id": "GH-18",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-19",
+      "completeness": "skipped",
+      "reasons": [
+        "credential_missing:CRED-GH-01-ENT (GITHUB_APP_ENTERPRISE_INSTALLATION_ID)"
+      ],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-20",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-21",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-22",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "github",
+      "call_id": "GH-23",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-01",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-02",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-03",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-04",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-05",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-06",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-07",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-08",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-09",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-10",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-11",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-12",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-13",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-14",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "gws",
+      "call_id": "GW-15",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-01",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-02",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-03",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-04",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-05",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-06",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-07",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-08",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-09",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-10",
+      "completeness": "partial",
+      "reasons": [
+        "policies:POST_AUTH_SESSION:http_400",
+        "policies:ENTITY_RISK:http_400"
+      ],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-11",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-12",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-13",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "okta",
+      "call_id": "OK-14",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055711Z-cb69"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-00",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-01",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-02",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-03",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-04",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-05",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-06",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-07",
+      "completeness": "partial",
+      "reasons": [
+        "bots_info:B0C5YSP7YHG:slack_bot_not_found",
+        "bots_info:B0C6TGNR3GQ:slack_bot_not_found",
+        "bots_info:B0C60VDCSBT:slack_bot_not_found",
+        "bots_info:B0C5TJJCC5R:slack_bot_not_found",
+        "bots_info:B01:slack_bot_not_found"
+      ],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-08",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-09",
+      "completeness": "partial",
+      "reasons": [
+        "integration_logs:slack_missing_scope"
+      ],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-10",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-11",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "worker",
+      "call_id": "SL-12",
+      "completeness": "full",
+      "reasons": [],
+      "run_id": "20261002T055428Z-cf9b"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-13",
+      "completeness": "skipped",
+      "reasons": [
+        "depends_on:SL-06 (사용자 그룹 없음)"
+      ],
+      "run_id": "20261002T055042Z-5ee4"
+    },
+    {
+      "provider": "slack",
+      "call_id": "SL-15",
+      "completeness": "skipped",
+      "reasons": [
+        "depends_on:SL-06/SL-11 (사용자 그룹 id 없음)"
+      ],
+      "run_id": "20261002T055042Z-5ee4"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/group.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: JI-03
+        request:
+          group: absent
+        items: (array_or:values|results)
+        where:
+          path: groupId
+          truthy: true
+    id_expr: groupId
+    mutable_ids:
+      name: name
+    properties:
+      name: name
+      principal_kind:
+        const: group
+    display: "{name|groupId}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: groupId
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: AT-G-{id}
+  - id: members
+    kind: relations
+    sources:
+      - call: JI-03
+        request:
+          group: present
+        items: (array_or:values|results)
+        where:
+          path: accountId
+          truthy: true
+    relations:
+      - type: member_of
+        source:
+          type: User
+          id: accountId
+        target:
+          type: FoundGroup
+          id:
+            op: str
+            of: $req.group
+        basis: stated
+    key_template: AT-G-{id}
+  # 조직 그룹 (AT-04, 2026-11-15 수집 빈 곳). 그룹 id 는 사이트 그룹 목록(JI-03 groupId)과 같은 플랫폼 그룹 id 라 같은 객체로 합친다.
+  # 필드는 developer.atlassian.com Organizations REST API 「Groups」(id, name, description, directoryId, managedBy, externalSynced)
+  - id: org_groups
+    kind: object
+    sources:
+      - call: AT-04
+        request:
+          kind: groups
+        items: data
+        where:
+          path: id
+          truthy: true
+    id_expr: id
+    mutable_ids:
+      name: name
+    properties:
+      name: name
+      principal_kind:
+        const: group
+      external_synced: externalSynced
+      managed_by: managedBy
+    display: "{name|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: Org
+          id:
+            op: str
+            of: $req.org
+        basis: stated
+        properties:
+          directory_id: $req.directory
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: AT-G-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: AT-G-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  name:
+    stability: mutable
+relation_rules:
+  - id: Group:members
+    sources:
+      - call: JI-03
+        request:
+          group: present
+        items: (array_or:values|results)
+        where:
+          path: accountId
+          truthy: true
+    relations:
+      - type: member_of
+        source:
+          type: User
+          id: accountId
+        target:
+          type: FoundGroup
+          id:
+            op: str
+            of: $req.group
+        basis: stated

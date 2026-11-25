@@ -1,0 +1,314 @@
+# okta ↔ slack 연결 규칙
+# 연동 방법마다 「a 와 b 가 같아야 이어진 것」을 적는다. 읽는 법은 legend.yaml, ../README.md
+
+pair:
+- okta
+- slack
+written: '2026-10-04'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/okta-slack.yaml
+methods:
+- id: saml_sso
+  type: identity
+  what: Okta가 Slack 로그인을 맡음 (SAML). Slack Business+·Enterprise (Salesforce 조직을 연결한 Free·Pro 도 가능)
+  identify:
+    api: okta GET /api/v1/apps
+    when: name == slack and signOnMode == SAML_2_0
+  points_to:
+  - tier: config_name
+    a: okta settings.app.domain (<domain>.enterprise 꼴이면 .enterprise 를 뗀다)
+    b: slack:enterprise:domain 또는 slack:workspace:domain
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: slack SSO 설정 IdP Issuer (관리 화면만. API 확인 못 함)
+    b: okta SAML 메타데이터 entityID
+    check: a 와 b 가 같다
+    if_unreadable: API 없음. Slack 조직 설정 > 보안 > SSO 설정 화면 (Org Owner)
+  - tier: fingerprint
+    a: slack SSO 설정 인증서 (관리 화면만)
+    b: okta 메타데이터 인증서
+    check: a 의 sha256 과 b 가 같다
+    if_unreadable: API 없음. Slack 조직 설정 > 보안 > SSO 설정 화면의 x.509 인증서 (Org Owner)
+  - tier: log_id
+    a: okta user.authentication.sso 의 target 중 type AppInstance 의 id
+    b: okta:application:id (Slack 앱)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: slack 감사 idp_configuration_added·idp_prod_configuration_updated 의 details.idp_entity_id_hash
+    b: okta SAML 메타데이터 entityID 의 해시
+    check: 해시 방식이 문서에 없다. 설정을 한 번 바꿔 보고 같은 방식으로 맞는지 확인한 뒤에만 쓴다
+  - tier: log_time
+    a: okta user.authentication.sso 시각과 actor.alternateId
+    b: slack 감사 user_login 시각과 actor.user.email
+    check: 시각이 가깝고 사람이 같다
+  - tier: log_id
+    a: okta System Log application.lifecycle.create 와 application.lifecycle.activate 의 target 중 id (target 형식은 이벤트 목록 페이지에 없음)
+    b: okta:application:id (Slack 앱)
+    check: a 와 b 가 같다 (이벤트 목록은 이름과 한 줄 설명만 준다. target 타입과 id 필드는 목록에 없어 실로그에서 확인해야 한다. 앱 생성과 활성화 시점을 SAML 설정 시점 근거로 쓰는 용도다.)
+  activity:
+  - okta user.authentication.sso (target AppInstance.id)
+  - slack 감사 idp_configuration_added, idp_configuration_deleted, idp_prod_configuration_updated, idp_test_configuration_updated, pref.sso_setting_changed, user_login
+  sources:
+  - https://slack.com/help/articles/203772216 [Exa]
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference [Exa]
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+  - "https://docs.slack.dev/admins/audit-logs-api (항목: action, actor.user, entity, context.location·ua·ip_address·app)"
+  - https://developer.okta.com/docs/reference/api/event-types/ (application.lifecycle.create, application.lifecycle.activate 이름과 설명)
+- id: swa_sign_on
+  type: identity
+  what: Okta가 보관한 Slack 비밀번호를 브라우저 플러그인이 대신 넣음
+  identify:
+    api: okta GET /api/v1/apps
+    when: name == slack and signOnMode == BROWSER_PLUGIN
+  points_to:
+  - tier: config_name
+    a: okta settings.app.domain
+    b: slack:enterprise:domain
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: okta user.authentication.sso 의 target 중 type AppInstance 의 id
+    b: okta:application:id (Slack SWA 앱)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta user.authentication.sso 시각과 actor.alternateId
+    b: slack 감사 user_login 시각과 actor.user.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta user.authentication.sso
+  - slack user_login
+  sources:
+  - 'https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (signOnMode BROWSER_PLUGIN = Secure Web Authentication with Okta Browser Plugin)'
+  - 'https://www.okta.com/integrations/slack/ (OIN Slack 앱 SWA)'
+  - 'https://developer.okta.com/docs/reference/api/event-types/ (user.authentication.sso)'
+  - "https://docs.slack.dev/admins/audit-logs-api (항목: action, actor.user, entity, context.location·ua·ip_address·app)"
+- id: scim_provisioning
+  type: identity
+  what: Okta가 Slack 계정, 그룹을 만들고 맞춤 (SCIM, 그룹 푸시)
+  identify:
+    api: okta GET /api/v1/apps
+    when: Slack 앱 features 에 PUSH_NEW_USERS 또는 GROUP_PUSH (Application.features 열거값. https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml)
+  points_to:
+  - tier: config_id
+    a: okta 배정 externalId
+    b: slack:user:id
+    check: a 와 b 가 같다
+  - tier: config_id
+    a: okta 그룹 푸시 매핑 (OK-13)
+    b: slack 사용자 그룹 id (SCIM /Groups)
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: okta settings.app.domain
+    b: slack:enterprise:domain
+    check: a 와 b 가 같다
+  - tier: config_name
+    a: slack 승인 앱 목록에 Okta (admin.apps.approved.list 문서는 앱의 id, name, developer_type 만 적고 SCIM 연동 앱이 나오는지는 적지 않는다. 시험 환경 결과는 빈 목록)
+    b: okta 앱
+    check: a 와 b 가 같다
+    if_unreadable: 'slack admin.apps.approved.list (Enterprise, admin.apps:read). 사람: Slack 관리 > 앱 관리'
+  - tier: log_id
+    a: okta application.provision.user.push·.sync 의 target 중 type AppInstance 의 id
+    b: okta:application:id (Slack 앱)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: okta application.provision.user.push 시각과 대상 사용자
+    b: slack 감사 user_created 시각과 entity.user.email
+    check: 시각이 가깝고 사람이 같다
+  - tier: log_time
+    a: okta application.user_membership.add 시각과 대상 사용자 (Okta 쪽 앱 할당, target 형식은 문서에 없음)
+    b: slack 감사 user_created 시각과 entity.user.email
+    check: 시각이 가깝고 사람이 같다 (문서는 이 이벤트가 수동 할당인지 SCIM push 로 생긴 할당인지 구분하지 않는다. rule 의 application.provision.user.push 와 같이 보되 실로그로 가른다.)
+  activity:
+  - okta application.provision.user.push, user.sync, group_push.pushed, group_push.push_memberships
+  - slack user_created, user_deactivated. 문서는 user_created 를 「A team member was created」로만 설명하고 SCIM 으로 만든 것인지 가르는 필드를 적지 않는다 (https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference, 2026-10-05 문서 확인). 행위자(actor)·user_agent 로 가르는 것은 실데이터로 확인해야 함
+  sources:
+  - https://developer.okta.com/docs/api/openapi/okta-management/management/tag/ApplicationConnections/ (프로비저닝 연결 지원 앱 목록에 slack. 연결 종류는 안 적음)
+  - https://docs.slack.dev/reference/methods/admin.apps.approved.list.md (admin.apps:read, 응답 app.id, name, developer_type)
+  - https://docs.slack.dev/reference/scim-api [Exa]
+  - "https://docs.slack.dev/admins/audit-logs-api (항목: action, actor.user, entity, context.location·ua·ip_address·app)"
+  - "https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (LogEvent: uuid, published, eventType, actor, client.id, target[].id·type·alternateId)"
+  - https://developer.okta.com/docs/reference/api/event-types/ (application.user_membership.add 설명)
+- id: import
+  type: identity
+  what: Slack 사용자를 Okta로 가져옴
+  identify:
+    api: okta GET /api/v1/apps
+    when: Slack 앱 features 에 IMPORT_NEW_USERS
+  points_to:
+  - tier: config_id
+    a: okta 배정 externalId
+    b: slack:user:id
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: okta system.import.* 의 target 중 type AppInstance 의 id
+    b: okta:application:id (Slack 앱)
+    check: a 와 b 가 같다
+  activity:
+  - okta system.import.* (target Slack 앱)
+  sources:
+  - 'https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (Application.features IMPORT_NEW_USERS)'
+  - 'https://developer.okta.com/docs/reference/api/event-types/ (system.import.start, .complete, user.create 등)'
+- id: workflows_slack_connector
+  type: app_grant
+  what: Okta Workflows Slack 커넥터. Slack 메시지, 슬래시 명령을 트리거로 받고 메시지를 보냄
+  identify:
+    api: okta System Log
+    when: workflows.user.connection.create 의 target Connection alternateId == slack (우리 Splunk 로그에서 확인)
+  points_to:
+  - tier: config_name
+    a: slack 설치 앱 (bot, 승인 앱 목록에 Okta Workflows)
+    b: okta Workflows
+    check: a 와 b 가 같다
+    if_unreadable: 'slack admin.apps.approved.list (Enterprise, admin.apps:read). 사람: Slack 관리 > 앱 관리, Okta Workflows 콘솔 > Connections 의 연결 정보'
+  - tier: log_time
+    a: okta workflows.user.connection.create 시각과 승인한 Okta 사용자
+    b: slack 감사 app_installed (Okta Workflows) 시각과 설치한 Slack 사용자
+    check: 시각이 가깝고 사람이 같다
+    note: Okta 연결 이벤트에는 상대 Slack 워크스페이스가 없어 이 비교로 짝을 짓는다
+  - tier: log_time
+    a: okta workflows.user.connection.reauthorize 시각과 재승인한 Okta 사용자
+    b: slack 감사 app_installed 시각과 설치한 Slack 사용자 (앱 Okta Workflows)
+    check: 시각이 가깝고 사람이 같다. 후보 (okta-gws 항목과 같은 이벤트다. 두 번째 짝의 Slack 쪽 재승인 기록이 있는지는 문서에 없다. 실측 필요.)
+  activity:
+  - okta workflows.user.connection.create, .delete, .revoke (target Connection 이름, alternateId slack, 연결 번호. 상대 워크스페이스 없음)
+  - okta workflows.user.flow.create, .save, .activate, .deactivate, .execution_history.activate (target Flow 이름)
+  - 흐름이 Okta 커넥터로 Okta 에 한 일은 actor 사용자 + userAgent Azuqua 로 남음 (../connection-rules/okta-external.yaml user_delegated_client). 흐름이 Slack 에 보낸 메시지가 어느 bot_id·app_id 로 남는지는 실제 연동을 만들어 확인한다
+  - slack app_installed, app_scopes_expanded
+  sources:
+  - https://help.okta.com/wf/en-us/content/topics/workflows/connector-reference/slack/slack.htm [Exa] (이벤트 카드에 Slash Command, New Message in Channel 등)
+  - https://developer.okta.com/docs/reference/api/event-types/ (workflows.user.connection.reauthorize 설명)
+- id: slash_command_to_workflows
+  type: event_delivery
+  what: Slack 슬래시 명령의 요청 주소가 Okta Workflows 흐름의 API Endpoint 라서 Slack 이 흐름을 직접 부름 (중간 서버 없음)
+  identify:
+    api: slack apps.manifest.export (SL-10) features.slash_commands[].url
+    when: url 호스트가 <okta 조직>.workflows.okta.com 이고 경로가 /api/flo/<흐름 id>/invoke. settings.event_subscriptions.request_url, settings.interactivity.request_url 도 같다 (이벤트 구독은 등록 때 challenge 를 흐름이 되돌려야 함, 2026-10-05 연동 조합 표로 넓힘)
+  points_to:
+  - tier: config_name
+    a: slack manifest slash_commands[].url 호스트
+    b: okta:org (subdomain).workflows.okta.com
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: Okta Workflows 흐름 실행 기록 요청의 team_id, api_app_id, command (user-agent Slackbot)
+    b: slack:workspace:id, slack 앱 id
+    check: a 와 b 가 같다
+    if_unreadable: '흐름 실행 기록을 주는 공개 API 는 없다 (Okta 개발자 포럼 직원 답변 2025-11-19). 사람: Okta Workflows 콘솔 > 흐름 > Execution History 의 요청 헤더·본문 (토큰 값은 옮기지 않는다). 요청 내용은 「Save all data that passes through the flow」를 켠 흐름만 남는다'
+  - tier: log_time
+    a: 흐름 실행 시각과 대상(text)
+    b: okta System Log userAgent Azuqua 이벤트(예 user.mfa.factor.reset_all) 시각과 대상
+    check: 시각이 같고 대상이 같다
+  activity:
+  - okta Workflows 흐름 실행 기록 (콘솔)
+  - okta System Log 의 흐름이 한 일 (actor 연결 승인 사용자, userAgent Azuqua)
+  sources:
+  - 'https://help.okta.com/wf/en-us/content/topics/workflows/function-reference/http/http_accept.htm (API Endpoint 카드) [Exa 검색 요약]'
+  - 요청 모양(Slackbot user-agent, x-slack-signature, 슬래시 명령 본문)은 시험 환경 흐름 실행 기록에서 2026-10-05 확인 (문서 아님)
+- id: slash_command_via_server
+  type: external_relay
+  what: Slack 슬래시 명령이 외부 서버로 가고, 그 서버가 Okta 서비스 앱 키로 Okta API를 부름
+  identify:
+    api: slack apps.manifest.export (SL-10)
+    when: slash_commands url 이 외부 호스트이고, Okta 에 client_credentials 앱이 있음
+  points_to:
+  - tier: config_name
+    a: slack manifest slash_commands[].url 호스트
+    b: 외부 서버 (Okta 설정에는 서버 주소가 없음)
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: 외부 서버 요청 기록의 okta_client_id, target_id
+    b: okta:application:id, okta:user:id
+    check: a 와 b 가 같다
+  activity:
+  - 외부 서버 요청 기록 (Worker SL-12)
+  - okta app.oauth2.token.grant, user.mfa.factor.reset_all (행위자 = 서비스 앱)
+  sources:
+  - 'https://docs.slack.dev/interactivity/implementing-slash-commands (Slack 이 지정한 Request URL 로 HTTP POST)'
+  - 'https://docs.slack.dev/reference/methods/apps.manifest.export.md (매니페스트 내보내기, 앱 설정 토큰)'
+  - 'https://developer.okta.com/docs/guides/implement-oauth-for-okta-serviceapp/main/ (API Services 앱, client_credentials, private_key_jwt, 공개키 등록, Okta scope)'
+- id: email_match
+  type: same_person
+  what: Slack 사용자 이메일과 Okta 로그인이 같음 (팀이 같은 사람 판단의 근거로 정한 것)
+  identify:
+    api: slack admin.users.list (SL-01)
+    when: email 이 있음
+  points_to:
+  - tier: via_person
+    a: slack user email
+    b: okta:user:login
+    check: a 와 b 가 같다
+# ── 2026-10-05 연동 조합 표(../연동 조합 표.md)로 더함
+  sources:
+  - https://docs.slack.dev/reference/methods/users.list (profile.email)
+  - https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml (User.profile.login)
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: workflows_http_to_slack_webhook
+  type: [stored_credential, event_delivery]
+  what: Okta Workflows 흐름의 HTTP 카드가 Slack 수신 웹훅이나 Slack 워크플로 웹훅 트리거 주소로 보냄 (Slack 커넥터 없이)
+  identify:
+    api: Okta Workflows 흐름 정의 (콘솔)
+    when: HTTP 카드의 URL 호스트가 hooks.slack.com
+  points_to:
+  - tier: fingerprint
+    a: Okta Workflows HTTP 카드 URL 의 sha256
+    b: slack:incoming-webhook:webhook_url_sha256 (또는 워크플로 트리거 주소)
+    check: a 와 b 가 같다
+    if_unreadable: "사람: Okta Workflows 콘솔에서 흐름의 HTTP 카드 URL 을 보고 sha256 비교 (주소는 옮기지 않는다)"
+  - tier: log_time
+    a: Okta Workflows 흐름 실행 시각
+    b: slack 그 웹훅 봇의 메시지 시각
+    check: 시각이 같다
+  activity:
+  - Okta Workflows 실행 기록, slack 웹훅 봇 메시지
+  sources:
+  - https://help.okta.com/wf/en-us/Content/Topics/workflows/function-reference/http/http_raw.htm [Exa]
+- id: workflows_slack_admin_connector
+  type: app_grant
+  what: Okta Workflows 「Slack Admin」 커넥터. Slack 사용자를 만들고 읽고 바꾸고 비활성화하며, 그룹 구성원을 넣고 뺀다. Business+ 는 Owner 나 Admin, Enterprise Grid 는 Org Owner 가 연결을 만들고 Okta OAuth 앱을 조직 수준에 설치해야 한다
+  identify:
+    api: okta System Log
+    when: workflows.user.connection.create 의 target Connection alternateId 가 Slack Admin 커넥터 (값은 연결을 만든 뒤 로그에서 읽는다. Slack 커넥터는 slack)
+  points_to:
+  - tier: config_name
+    a: slack 설치 앱 (Okta 의 OAuth 앱, 조직 수준 설치)
+    b: okta Workflows 연결
+    check: a 와 b 가 같다
+    if_unreadable: 'slack admin.apps.approved.list, 감사 app_installed·org_app_workspace_added. Okta Workflows 콘솔 > Connections'
+  - tier: log_time
+    a: okta workflows.user.connection.create 시각과 사용자
+    b: slack 감사 app_installed 시각과 설치자 (Owner·Admin)
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta workflows.user.connection.create, .delete, .reauthorize, .revoke
+  - slack 감사 user_created, user_deactivated 등 (행위자가 연결을 만든 Owner·Admin 으로 남는지는 실제 연동으로 확인)
+  sources:
+  - https://help.okta.com/wf/en-us/Content/Topics/Workflows/connector-reference/slackadmin/slackadmin.htm (액션 11)
+  - https://help.okta.com/wf/en-us/Content/Topics/Workflows/connector-reference/slackadmin/overviews/authorization.htm (Owner·Admin, Org Owner, 조직 수준 OAuth 앱 설치, 역할 유지)
+- id: ema_slack_mcp
+  type:
+  - identity
+  - app_grant
+  what: Okta 를 IdP 로 두고 AI 클라이언트(문서는 Claude 만 명시)가 Slack MCP 서버에 접근하는 권한을 관리자가 정한다 (Enterprise-managed authorization = Cross App Access, ID-JAG). Slack 도움말은 Okta 가 현재 유일한 IdP 라고 쓴다. Enterprise+ 필요
+  identify:
+    api: slack Organization settings > Security > SSO settings 의 엔터프라이즈 관리 인증 (화면); okta 앱의 Cross App Access, Directory > AI Agents 의 resource connection (화면)
+    when: slack 에서 엔터프라이즈 관리 인증이 켜져 있고 ID-JAG issuer URL 이 Okta 조직 주소
+  points_to:
+  - tier: config_name
+    a: slack 조직 설정의 ID-JAG issuer URL
+    b: okta 조직 주소
+    check: a 와 b 가 같다
+    if_unreadable: '읽는 API 이름이 문서에 없다. 사람: Slack 조직 설정 > Security > SSO settings'
+  - tier: log_time
+    a: okta System Log app.oauth2.token.grant.id_jag 의 시각과 사용자
+    b: 'slack 감사 mcp_slack_*_tool_called (예: mcp_slack_search_public_tool_called, mcp_slack_send_message_tool_called) 의 시각과 사용자'
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - okta System Log app.cross_app_access.connection.create, .update, .delete, app.oauth2.token.grant.id_jag
+  - slack 감사 mcp_slack_*_tool_called (MCP 도구 호출마다)
+  sources:
+  - https://slack.com/help/articles/54548358406419-Manage-access-to-the-Slack-MCP-server-through-your-identity-provider (Slack 쪽 설정, Okta 가 유일한 IdP)
+  - 'https://developer.okta.com/docs/guides/xaa-agent-to-app/main/ (Okta XAA 설정: 호출자 앱, Issuer URL, Audience, resource connection) [Exa]'
+  - 'https://developer.okta.com/docs/okta-event-types.csv (Okta 이벤트 타입 목록: 이름과 설명)'
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (Slack 감사 로그 action 이름)
+  - https://docs.slack.dev/ai/slack-mcp-server (Slack MCP 서버 주소와 OAuth)
+  note: Slack 쪽 EMA 전용 감사 이벤트는 문서에 없다. Okta 쪽에 Slack 을 가리키는 XAA 리소스 앱이 생긴다는 설명은 제3자 글에만 있어 쓰지 않았다

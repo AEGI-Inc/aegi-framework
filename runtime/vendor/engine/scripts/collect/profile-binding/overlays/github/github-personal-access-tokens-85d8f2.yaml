@@ -1,0 +1,183 @@
+overlay_basis:
+  from: aegi-adapter-engine
+    catalog/github/profiles/organization_programmatic_access_grant.yaml
+  engine_commit: d78062d
+  research_agreement: reviewed_override
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-13
+        request:
+          pat_id: absent
+          kind: absent
+        items: (items)
+    vars:
+      perms:
+        op: github_permission_name
+        of: permissions
+      repos:
+        any:
+          - op: index
+            name: pat_repos
+            key:
+              op: str
+              of: id
+        empty_as: []
+      owner:
+        if:
+          path: owner.login
+          truthy: true
+        then:
+          ref:
+            type: simple-user
+            lookup: login
+            value: owner.login
+            create:
+              rule: account
+              record: owner
+          prop: $key
+    refs:
+      grantee:
+        when:
+          path: $vars.owner
+          present: true
+        ref:
+          key: $vars.owner
+        type: simple-user
+        value: owner.login
+    properties:
+      token_id: token_id
+      token_name: token_name
+      owner_login: owner.login
+      permissions: permissions
+      permission_summary: $vars.perms
+      repository_selection: repository_selection
+      repositories: $vars.repos
+      access_granted_at: access_granted_at
+      token_expires_at: token_expires_at
+      token_expired: token_expired
+      token_last_used_at: token_last_used_at
+      expires_at:
+        op: null_if_missing
+        of: token_expires_at
+    display: PAT {token_name|token_id} ({owner.login})
+    relations:
+      - type: has_role_on
+        when:
+          path: repository_selection
+          eq: all
+        source:
+          key: $vars.owner
+        target: $tenant
+        role:
+          name: $vars.perms
+        basis: stated
+        properties:
+          via_grant: $self
+          token_expires_at: token_expires_at
+      - type: has_role_on
+        when:
+          path: repository_selection
+          ne: all
+        each: $vars.repos
+        source:
+          key: $vars.owner
+        target:
+          type: Repository
+          lookup: name
+          value:
+            op: split_last
+            of: $item
+            sep: /
+        role:
+          name: $vars.perms
+        basis: stated
+        properties:
+          via_grant: $self
+          token_expires_at: token_expires_at
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-GRANT-{id}
+runtime_stub: null
+runtime_key: GH-GRANT-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Organization Programmatic Access Grant:list
+    sources:
+      - call: GH-13
+        request:
+          pat_id: absent
+          kind: absent
+        items: (items)
+    vars:
+      perms:
+        op: github_permission_name
+        of: permissions
+      repos:
+        any:
+          - op: index
+            name: pat_repos
+            key:
+              op: str
+              of: id
+        empty_as: []
+      owner:
+        if:
+          path: owner.login
+          truthy: true
+        then:
+          ref:
+            type: simple-user
+            lookup: login
+            value: owner.login
+            create:
+              rule: account
+              record: owner
+          prop: $key
+    relations:
+      - type: has_role_on
+        when:
+          path: repository_selection
+          eq: all
+        source:
+          key: $vars.owner
+        target: $tenant
+        role:
+          name: $vars.perms
+        basis: stated
+        properties:
+          via_grant: $self
+          token_expires_at: token_expires_at
+      - type: has_role_on
+        when:
+          path: repository_selection
+          ne: all
+        each: $vars.repos
+        source:
+          key: $vars.owner
+        target:
+          type: Repository
+          lookup: name
+          value:
+            op: split_last
+            of: $item
+            sep: /
+        role:
+          name: $vars.perms
+        basis: stated
+        properties:
+          via_grant: $self
+          token_expires_at: token_expires_at
+    self_identity: object_rule
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

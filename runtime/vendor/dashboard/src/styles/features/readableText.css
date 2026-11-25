@@ -1,0 +1,45 @@
+/* ---- Finding 상세 ---- */
+.app-shell .fd-section-block p,
+.app-shell .fd-rail-note p,
+.app-shell .fd-check-text b,
+.app-shell .br-path-list p,
+.app-shell .lst-empty,
+.app-shell .ex-dialog-title p,
+.app-shell .ex-radio small,
+.app-shell .ex-field-hint,
+.app-shell .ex-preview,
+.app-shell .sz-edge-summary,
+.app-shell .mn-table td,
+.app-shell .mn-table p,
+.app-shell .mn-table li,
+.app-shell .mn-marklist p,
+.app-shell .mn-keys dd,
+.app-shell .mn-flow li,
+.app-shell .mn-dict dd,
+.app-shell .mn-dict dd b {
+  font-size: var(--font-size-md);
+  line-height: 1.6;
+}
+
+/* ---- 제목이 본문보다 작아 보이지 않게 ----
+   본문을 15px로 올리자 카드 제목(14~15px)이 본문과 같거나 더 작아 보였다(「위협 설명」 14px).
+   회색 띠의 카드 제목은 Overview 카드 제목과 같은 18px(--font-size-lg)로 올린다. */
+.app-shell .fd-panel-head > h3,
+.app-shell .fd-section-block > h3,
+.app-shell .ea-head h3,
+.app-shell .panel > .panel-head h2,
+.app-shell .panel > .panel-head h3 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+}
+
+/* 카드 안에서 설명 바로 위에 붙는 굵은 이름표는 설명과 같은 15px로 맞춰 설명보다 작지 않게 한다. */
+.app-shell .ex-radio b,
+.app-shell .ex-label,
+.app-shell .szi-sec-title,
+.app-shell .mn-table th,
+.app-shell .mn-marklist b,
+.app-shell .mn-sub,
+.app-shell .mn-term-group-name {
+  font-size: var(--font-size-md);
+}

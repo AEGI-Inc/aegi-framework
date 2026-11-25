@@ -1,0 +1,255 @@
+format: im-pilot-profile/1
+scope: catalog_spec5_record_projection
+provider: okta
+service: null
+object_type: AppUser
+interfaces:
+  - Assignment
+model:
+  research_type: null
+  runtime_type_id: model-v1:okta:AppUser
+  decision_refs:
+    - model-v1 runtime record_projection
+vars:
+  app_label:
+    ref:
+      type: Application
+      id: $req.app
+    prop: label
+  via_group:
+    if:
+      path: scope
+      eq: GROUP
+    then:
+      op: okta_group_of_link
+      of: _links.group
+identity:
+  primary:
+    - name: app
+      expr: $req.app
+      stability: catalog_reviewed
+    - name: uid
+      expr: id
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: OKTA-AU-{app}-{uid}
+binding:
+  status: catalog_call
+  call: OK-07
+  operation_id: op:okta_management_openapi:listApplicationUsers
+  paths:
+    - shape: sh:okta_management_openapi:AppUser
+      path:
+        - "*"
+  basis: catalog spec:5 sources
+fields:
+  scope:
+    expr: scope
+    source: catalog_spec5
+  status:
+    expr: status
+    source: catalog_spec5
+  userName:
+    expr:
+      op: lower
+      of: credentials.userName
+    source: catalog_spec5
+  externalId:
+    expr:
+      op: null_if_missing
+      of: externalId
+    source: catalog_spec5
+  created:
+    expr: created
+    source: catalog_spec5
+  syncState:
+    expr: syncState
+    source: catalog_spec5
+references: []
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - password
+    - token
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/app_user.yaml
+  engine_commit: d78062d
+  research_agreement: no_research_type
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-07
+        request:
+          app: present
+        not_endpoint: /groups(\?|$)
+    id_expr:
+      template: "{$req.app}:{id}"
+    parts:
+      app: $req.app
+      uid: id
+    vars:
+      app_label:
+        ref:
+          type: Application
+          id: $req.app
+        prop: label
+      via_group:
+        if:
+          path: scope
+          eq: GROUP
+        then:
+          op: okta_group_of_link
+          of: _links.group
+    parent:
+      ref:
+        type: Application
+        id: $req.app
+      when: always
+    refs:
+      grantee:
+        ref:
+          type: User
+          id: id
+        value: id
+      via_group:
+        ref:
+          type: Group
+          id: $vars.via_group
+        value: $vars.via_group
+    properties:
+      scope: scope
+      status: status
+      userName:
+        op: lower
+        of: credentials.userName
+      externalId:
+        op: null_if_missing
+        of: externalId
+      created: created
+      syncState: syncState
+    display: "{$vars.app_label|$req.app} ← {credentials.userName|id}"
+    relations:
+      - type: has_role_on
+        template: assignment
+        source:
+          type: User
+          id: id
+        target:
+          type: Application
+          id: $req.app
+        role:
+          name:
+            const: assigned
+        basis:
+          if:
+            path: scope
+            eq: GROUP
+          then:
+            const: computed
+          else:
+            const: stated
+        properties:
+          via_assignment: $self
+          scope: scope
+          ...:
+            if:
+              path: $vars.via_group
+              present: true
+            then:
+              object:
+                via_group:
+                  ref:
+                    type: Group
+                    id: $vars.via_group
+                  prop: $key
+                via_group_evidence:
+                  const: _links.group (highest priority group only)
+            else:
+              object: {}
+    identity:
+      primary:
+        - name: app
+          expr: $req.app
+          stability: catalog_reviewed
+        - name: uid
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-AU-{app}-{uid}
+runtime_stub: null
+runtime_key: OKTA-AU-{app}-{uid}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: AppUser:list
+    sources:
+      - call: OK-07
+        request:
+          app: present
+        not_endpoint: /groups(\?|$)
+    vars:
+      app_label:
+        ref:
+          type: Application
+          id: $req.app
+        prop: label
+      via_group:
+        if:
+          path: scope
+          eq: GROUP
+        then:
+          op: okta_group_of_link
+          of: _links.group
+    relations:
+      - type: has_role_on
+        template: assignment
+        source:
+          type: User
+          id: id
+        target:
+          type: Application
+          id: $req.app
+        role:
+          name:
+            const: assigned
+        basis:
+          if:
+            path: scope
+            eq: GROUP
+          then:
+            const: computed
+          else:
+            const: stated
+        properties:
+          via_assignment: $self
+          scope: scope
+          ...:
+            if:
+              path: $vars.via_group
+              present: true
+            then:
+              object:
+                via_group:
+                  ref:
+                    type: Group
+                    id: $vars.via_group
+                  prop: $key
+                via_group_evidence:
+                  const: _links.group (highest priority group only)
+            else:
+              object: {}
+    self_identity: object_rule

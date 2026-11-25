@@ -1,0 +1,8 @@
+fields:
+  max_permissions:
+    expr:
+      op: true_keys
+      of: "."
+      prefix: MaximumPermissions
+    source: collected_response
+fields_basis: 수집 응답에 있는데 Profile 선언에 없어 정규화에서 버려지던 보안 필드를 선언한다(2026-11-01 필드 대조, 값은 수집 응답 그대로)

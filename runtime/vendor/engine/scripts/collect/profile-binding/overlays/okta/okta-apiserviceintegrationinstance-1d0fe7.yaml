@@ -1,0 +1,59 @@
+overlay_basis:
+  from: aegi-adapter-engine
+    catalog/okta/profiles/apiservice_integration_instance.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-15
+        request:
+          instance_id: absent
+    properties:
+      name: name
+      displayName: displayName
+      type: type
+      status: status
+      createdAt: createdAt
+      lastUpdatedAt: lastUpdatedAt
+      operational_state:
+        op: map
+        of: status
+        table:
+          ACTIVE: active
+          INACTIVE: inactive
+        default:
+          const: unknown
+    display: "{displayName|name|id}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-APISVC-{id}
+runtime_stub: null
+runtime_key: OKTA-APISVC-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: APIServiceIntegrationInstance:list
+    sources:
+      - call: OK-15
+        request:
+          instance_id: absent
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule

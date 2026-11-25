@@ -1,0 +1,29 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: onepassword
+service: account
+object_type: Account
+interfaces: [Tenant]
+# 근거: op whoami(CLI 2.34.1) 실제 응답(2026-11-20, 체험 Business 계정). 호출 ID OP-01, request.kind whoami 는 수집기(scripts/collect/providers/onepassword.ts)와 맞춘 것이다.
+# 서비스 계정 토큰으로 부르면 그 토큰이 속한 계정 하나다. 계정 이름은 이 응답에 없고 주소(url)만 있다.
+identity:
+  primary:
+    - {name: id, expr: account_uuid, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: OP-ACCT-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OP-01
+        request: {kind: whoami}
+        items: (root)
+    id_expr: account_uuid
+    properties:
+      url: url
+    display: "{url|account_uuid}"
+    relations: []

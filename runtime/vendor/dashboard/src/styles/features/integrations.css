@@ -1,0 +1,163 @@
+/* =========================================================================
+   Adapters — SaaS 연결 카드 (위)와 수집 자격증명 대장 (아래)
+   ========================================================================= */
+
+.adapters-section {
+  display: grid;
+  gap: 10px;
+  margin-bottom: var(--space-gap);
+}
+
+/* 한 화면 안의 두 구역 이름. 화면 이름(h1)보다 작고 카드 이름과 같은 크기 */
+.adapters-section-title {
+  margin: 0;
+  font-size: var(--font-size-md, 15px);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-primary, #0f172a);
+}
+
+.credentials-page > .adapters-section-title {
+  margin-bottom: 10px;
+}
+
+.integration-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-gap);
+}
+
+.integration-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  border-radius: var(--radius-lg, 6px);
+  background: var(--color-surface, #ffffff);
+}
+
+.integration-card-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.integration-card-logo {
+  flex: none;
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+}
+
+.integration-card-logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.integration-card-name {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+
+.integration-card-name b {
+  font-size: var(--font-size-md, 15px);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-primary, #0f172a);
+}
+
+.integration-card-name small {
+  font-size: var(--font-size-xs, 11px);
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 수집 상태 배지 (Adapters 카드, Overview 머리). 글자는 흰색, 바탕 대비 4.5:1 이상 */
+.collect-badge {
+  flex: none;
+  padding: 2px 7px;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: #fff;
+  white-space: nowrap;
+}
+
+.integration-card-head .collect-badge { margin-left: auto; }
+.collect-badge.is-ok { background: #15803d; }
+.collect-badge.is-stale { background: var(--color-caution); }
+.collect-badge.is-none { background: var(--color-severity-low); }
+.collect-badge.is-sample { background: var(--color-icon); }
+
+/* 마지막 수집: 시각(KST)과 며칠 전 */
+.integration-card-collect {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.integration-card-collect > span:first-child { font-weight: var(--font-weight-bold); }
+.integration-card-collect > b { font-weight: var(--font-weight-medium); }
+
+.collect-stat.is-full {
+  color: #15803d;
+}
+
+.collect-stat.is-partial {
+  color: var(--color-caution, #b54708);
+}
+
+.collect-stat.is-fail {
+  color: var(--color-danger-text, #b42318);
+}
+
+/* 카드가 말하는 수는 전부 그래프에서 센 값이다. */
+.integration-card-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0;
+  border-top: 1px solid var(--color-border-subtle, #f1f5f9);
+  padding-top: 12px;
+}
+
+.integration-card-stats > div {
+  display: grid;
+  gap: 3px;
+}
+
+.integration-card-stats dt {
+  font-size: var(--font-size-xs, 11px);
+  color: var(--color-text-primary);
+}
+
+.integration-card-stats dd {
+  margin: 0;
+  font-size: var(--font-size-lg, 18px);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: 1.1;
+  color: var(--color-text-primary, #0f172a);
+  font-variant-numeric: tabular-nums;
+}
+
+.integration-card-stats dd.has-finding {
+  color: var(--color-danger-text);
+}
+
+/* 옛 화면이 쓰던 표식. 아직 다른 곳에서 참조한다. */
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  background: #94a3b8;
+}
+
+.dot.on {
+  background: #0f6b5f;
+}

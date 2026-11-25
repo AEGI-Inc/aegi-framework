@@ -1,0 +1,253 @@
+# 접근 규칙 묶음 — Effective Access 합성 규칙 (초안)
+#
+# "이런 관계 경로가 있고 이런 조건이면 A 가 X 에 닿는다"를 적는다. 형식은 specs/Path_Rule_Schema_v1.md 이고,
+# 지금 엔진 손코드(aegi-adapter-engine src/detection/v2/effectiveAccess/)의 규칙 5개를 옮겼다.
+# 엔진의 접근 규칙 실행기가 이 사전의 사본을 읽는다. 운영 effective_access.json 의 규칙 여섯은 모두 실행기 결과다(scripts/accessRules/production.ts). 2026-11-08 에 더한 둘(x_acts_as_inherits, x_token_inherits)은 처음부터 규칙 파일에만 있다.
+# 규칙은 길을 스스로 찾지 않는다. 닿음 핵심(위협 간선, 엔진 src/detection/v2/engine/reach.ts)이 내준 걸음 가운데 이 모양만 고른다
+# (2026-11-03, specs/Path_Rule_Schema_v1.md 「닿음 핵심 위의 모양 거름」. 그림자 뒤 전환). 미지원 문법은 보고한다.
+# differs 는 옛 손코드와 다르던 곳의 기록이다(손코드 다섯은 엔진 refactor/ea-retire-hand-rules 에서 지웠다).
+#
+# 검사: validation/check_path_rules.py (모양, 어휘, access 에서 막는 것)
+#
+# 칸
+#   id, for, status, says          규칙 이름(EA 행 source.rule), access, production | draft | off, 한 줄 뜻
+#                                  status 가 운영을 고른다(2026-11-18): production 은 운영 EA 가 돌린다. draft 는 적어 두고 시험만 하며 운영에서 돌지 않는다.
+#                                  off 는 끈 규칙이다(돌지 않고 기록만 남는다). 엔진은 production 줄만 운영에 넣고, 엔진이 행을 마무리할 줄 모르는
+#                                  production 줄이 있거나 엔진이 아는 규칙이 production 이 아니면 엔진 시험이 실패한다(aegi-adapter-engine scripts/accessRules/production.ts)
+#                                  production 인 access 규칙은 지금 mode general 만 된다(운영에는 질문이 없다)
+#   mode                           general: 경로가 있으면 행을 낸다 / question: 누가 물은 쌍에만 낸다(형식의 「질문 모드」, 2026-10-29 정함)
+#   patterns                       잇는 권한 방식(ontology/access_patterns.yaml 의 id)
+#   path                           홉 목록. from 은 앞에서 묶인 변수다(갈래 모양 경로를 위해 바로 앞 홉의 도착이 아니어도 된다)
+#   distinct, where, skip_if, uncertain_if, undecomposed_if, yields, cut   형식 문서 그대로. when 이 없으면 언제나
+#   engine                         지금 이 규칙을 계산하는 엔진 코드. 실행기로 옮긴 규칙은 실행기와, 그림자가 견줄 쪽으로 남은 손코드
+#   differs                        이 파일과 손코드가 다르게 계산하는 곳. 나란히 돌릴 때 "정해 둔 차이"가 된다
+#   notes                          규칙을 읽을 때 필요한 전제
+#
+# 공통 규칙(형식 문서 「공통 규칙」)은 규칙마다 다시 적지 않는다: 자동으로 닫지 않는다, 결론 강도는 가장 약한 근거,
+# 동일인 경로의 약한 간선은 하나까지(그룹 링크는 동일인이 아니다), 회수 지점은 stated 관계 홉만, 벤더가 합친 관계의
+# 못 푼 구간은 물려준다, SaaS 를 건너면 computed_cross, 관계 홉과 간선 홉은 그 관계의 조건 갈래를 따른다
+# (제외된 역할, 지운 배정 등), 역할을 거치는 홉은 그 역할의 excludes 를 먼저 본다.
+#
+# 규칙 밖에서 엔진이 하는 것: 동일성 키(id)가 같은 행은 처음 것만 남긴다(compute.ts).
+
+sources:
+  rules: 이 파일이 정본(초안). aegi-adapter-engine src/detection/v2/effectiveAccess/ @ 23098e0 + 고칠 거리 2(fix/ea-weak-link-hop)의 손코드에서 옮겼다. differs, patterns, engine 칸은 엔진 c5aa167(aegi-adapter-engine#124 머지 뒤)에 맞췄다. runs_as_inherits differs 의 interface 둘인 객체 소유 줄은 엔진 7fa2567 과 #147(1cd6ead)에서 더했고, runs_as_inherits engine 칸은 b2e60b9(#147 머지)에 맞췄다. 형식은 specs/Path_Rule_Schema_v1.md, 옮기며 본 진단은 reports/EA_Rule_Diagnosis_v1.md
+  assumes: 형식이 정하지 않은 자리에 이 초안이 제안값으로 쓴 것. decided 가 달린 셋은 2026-10-29 Relation 담당 결정으로 specs/Path_Rule_Schema_v1.md 「정한 것」에 옮겼다. 형식 문서 「정할 것」은 그날 비었다. decided 가 없는 둘은 형식 문서 본문에 문법으로 적혀 있지만(path 의 from, 빈 구간의 else_gap) 정함 표시가 없는 제안값이다. 규칙 하나에 딸린 미결은 그 규칙의 differs, notes 에 둔다(runs_as_inherits 의 interface 둘인 객체 소유, x_member_grant 의 false 사유)
+
+# 형식이 정하지 않은 자리에 이 초안이 제안값으로 쓴 것. 정해지면 decided 를 단다
+assumes:
+  - {open: 규칙 파일 위치, used: ontology/access_rules.yaml, decided: '2026-10-29 Relation 담당 결정. access, event 두 파일', see: Path_Rule_Schema_v1 「정한 것」}
+  - {open: 질문 모드, used: 'mode: question 칸. denied 행과 질문 모드의 순서(직접 부여면 행 없음, 능력 필터, 답하지 않음)는 아직 규칙에 없다', decided: '2026-10-29 Relation 담당 결정. 제안대로(denied 는 물었을 때만, 지나온 소속과 권한 목록이 모두 닫혀 있을 때만)', see: Path_Rule_Schema_v1 「정한 것」}
+  - {open: 관계로 SaaS 를 건넌 결론의 단계, used: '엔진대로 computed_cross', decided: '2026-10-29 Relation 담당 결정. 엔진 쪽으로(교차 관계 홉, 즉 양 끝 provider 가 다르거나 cross_provider 표시인 관계를 지나면 computed_cross)', see: Path_Rule_Schema_v1 「정한 것」}
+  - {open: 갈래 모양 경로, used: 'from 이 앞에서 묶인 아무 변수', see: 이 파일 머리 「path」}
+  - {open: 저장된 홉이 있을 수도 없을 수도 있는 자리, used: 'else_gap 칸. 관계가 없으면 그 자리를 빈 구간으로'}
+
+rules:
+
+- id: runs_as_inherits
+  for: access
+  status: production
+  mode: general
+  says: 자동화는 실행 신원의 권한으로 돈다. 실행 신원에서 나가는 G 간선이 닿는 곳에 자동화도 닿는다
+  patterns: [run_as, direct_grant, resource_membership, ownership]
+  path:
+    - {as: r, relation: runs_as, from: $a, to: $p, to_interface: Principal}
+    # automation_scope: 범위가 수집된 자동화($a)는 실행 신원 권한을 그 범위 안에서만 쓴다(semantic_mapping.yaml automation_scopes, 2026-11-17)
+    - {as: h, edge: G, from: $p, to: $x, automation_scope: $a}
+  distinct: [$a, $x]
+  skip_if:
+    any:
+      - {$p: {meta: {demo_role: measurement_principal}}}
+      - {$h: {property: {measurement_principal: true}}}
+  uncertain_if:
+    - {hop: r, reason: runs_as_computed, when: {any: [{$r: {property: {basis: {not: stated}}}}, {$r: {property: {decomposable: false}}}]}}
+  yields:
+    source: $a
+    target: $x
+    query: "이 자동화가 {$x} 에 접근할 수 있는가"
+  cut:
+    - {hop: r, affects: source_only}
+    - {hop: h, affects: group}
+  engine: 운영 일반 행은 실행기(scripts/accessRules/production.ts, aegi-adapter-engine#147). 그림자가 견줄 손코드는 compute.ts generalRules 1 과 common.ts accessHops. 시나리오 D 질문은 손코드 rules/runsAsInherits.ts 그대로
+  differs:
+    - 같은 자원에 has_role_on 과 owned_by 가 같이 오면 엔진은 has_role_on 한 번만 센다(GWS 파일 소유자 역할은 같은 벤더 사실). 형식의 「한 행은 한 경로」로는 두 행이다. 줄임을 적을 칸이 없다
+    - 엔진 행에는 runs_as_computed 사유가 없다. runs_as 가 basis computed 면 그 관계의 vendor_paths 만 물려받고, basis flag 면 아무것도 남기지 않는다(common.ts inheritedUndecomposed)
+    - has_role_on 의 okta_resource_set 갈래(리소스 세트를 펴지 않음)를 엔진 accessHops 는 보지 않는다
+    - 회수 지점 설명(cut 의 x_scope.note)을 적을 칸이 이 파일에 없다. 실행기는 비워 두고, 운영(scripts/accessRules/production.ts)이 손코드와 같은 문구를 붙인다(aegi-adapter-engine#147). 화면 문구라 결론은 같다
+    - 부르는 사람 권한으로 도는 자동화(run_as_resolution 이 caller 이고 runs_as 가 basis computed)를 엔진 손코드(compute.ts generalRules 1, common.ts accessHops)는 판정 보류 행으로 낸다. 이 규칙은 relation_semantics.yaml 의 runs_as.computed_caller 갈래가 그 runs_as 의 간선을 막아 행이 없다. 운영 일반 행은 aegi-adapter-engine#147 부터 이 규칙 쪽이라 그 행이 없다. 2026-10-31 에 실행기가 규칙 다섯을 모두 읽는 엔진으로 잰 데이터에서, 커밋된 데이터셋 measured_model_v1 에 손코드만 1행이 있고 다른 셋과 10-27 실측 번들은 0행이다
+    - 미결(팀이 정할 일, 엔진 #147 검토에서 찾음). 실행 신원($p)이, Resource 이면서 Endpoint, Credential, Automation 가운데 하나이기도 한 객체($a 자신은 빼고)를 소유(owned_by)하면, 엔진 손코드(common.ts accessHops)와 범용 접근 엔진(engine/edges.ts owned_by)은 G 로 세지 않는다. 이 규칙은 relation_semantics.yaml owned_by 의 Resource>Principal 칸 G 로 행을 낸다. 지금 운영 데이터에는 걸리지 않는다(10-29, 실측 데이터셋 다섯 개에 그런 owned_by 가 없고, owned_by 를 Principal 로 보내는 Profile 은 GWS 파일과 Jira 필터(둘 다 Resource 하나)뿐이다)
+
+- id: x_acts_as_inherits
+  for: access
+  status: production
+  mode: general
+  says: 앱은 자기가 동작하는 주체(봇 사용자)의 권한으로 동작한다. 그 주체에서 나가는 G 간선이 닿는 곳에 앱도 닿는다
+  patterns: [acts_for_app, direct_grant, resource_membership]
+  path:
+    - {as: r, relation: acts_as, from: $a, to: $p, to_interface: Principal}
+    # 로그인 · 동의만 주는 부여(능력이 authenticate 뿐)는 그 사람이 직접 로그인할 때만 쓴다. 앱은 API 로 그 사람으로 동작할 뿐
+    # 다른 앱에 로그인하지 못하므로 물려받지 않는다(예: Salesforce 실행 사용자가 연결 앱을 승인한 OauthToken)
+    - {as: h, edge: G, from: $p, to: $x, skip_caps_only: [authenticate]}
+  distinct: [$a, $x]
+  skip_if:
+    any:
+      - {$p: {meta: {demo_role: measurement_principal}}}
+      - {$h: {property: {measurement_principal: true}}}
+  yields:
+    source: $a
+    target: $x
+    query: "이 앱이 {$x} 에 접근할 수 있는가"
+  cut:
+    - {hop: r, affects: source_only}
+    - {hop: h, affects: group}
+  engine: 운영 일반 행은 실행기(scripts/accessRules/production.ts). 2026-11-08 처음 둔 규칙이라 손코드가 없다
+  notes:
+    - 2026-11-08 Relation 담당(Claude 가 정함). runs_as_inherits 와 같은 모양을 acts_as(앱 → 그 앱으로 동작하는 봇 사용자, 대행 A)에 둔다. 관계 홉은 acts_as 의 효과 갈래를 따른다(지웠거나 해지했거나 정지한 봇 사용자는 acts_as.inactive_account 로 홉이 서지 않는다)
+    - 11-04 실측에서 Slack 앱 22개가 봇 사용자로 동작하고 그 봇 사용자의 채널 소속(G) 21개가 EA 에 없었다. 봇을 채널에서 빼는 것(h)은 그 봇으로 동작하는 것 모두에 걸리므로 group 이다
+    - 2026-11-16 Relation 주담당 위임(Claude 가 정함). 엔진 #433 으로 Salesforce 외부 클라이언트 앱 → 실행 사용자 acts_as 가 생기자, 실행 사용자가 연결 앱을 승인한 기록(has_role_on authorized)까지 물려받아 「앱이 다른 연결 앱에 접근」 행이 났다(11-04 수집본 5행). 승인은 연결 앱이 사용자로 동작해도 된다는 동의라 앱이 그 연결 앱에 무엇을 하는 길이 아니다. h 홉에 skip_caps_only [authenticate] 를 단다
+- id: x_token_inherits
+  for: access
+  status: production
+  mode: general
+  says: 조직 소유 bearer 토큰(Okta API 토큰 등)을 쥐면 그 토큰을 만든 사람의 권한으로 동작한다. 그 사람에서 나가는 G 간선이 닿는 곳에 토큰도 닿는다
+  patterns: [acts_for_app, direct_grant, resource_membership]
+  path:
+    - {as: t, relation: authenticates_with, from: $c, to: $p, reverse: true, to_interface: Principal, why: 토큰을 만든 사람이 그 토큰으로 인증한다(사람 → 토큰)}
+    # 관리 API 자격이라 조직(Tenant)에 걸린 관리자 역할만 물려받는다(relation_to_interface). 앱 배정(사람이 SSO 로 앱에 로그인)은 토큰으로 쓰지 못한다.
+    # 조직에 걸린 역할이 리소스 세트로 좁혀졌으면 간선 도착은 세트가 덮는 대상이다(효과 표 끝 resource_set) — 그 대상까지 따라간다.
+    # 일부만 덮는 리소스 세트의 조직 표시 간선(resource_set_partial)은 「원래 권한 없음」으로 확정하지 않으려는 격차용 표시라 따라가지 않는다
+    - {as: h, edge: G, from: $p, to: $x, relation_to_interface: Tenant, skip_uncertain: [resource_set_partial]}
+  distinct: [$c, $x]
+  where:
+    # relation_semantics.yaml authenticates_with.org_bearer_token 과 같은 조건이다(대행 A 를 내는 갈래). 앱 소유 refresh token 은
+    # scope 만큼만 동작해(authenticates_with.app_refresh_token, token_scope_limited) 아래 x_token_scoped 가 scope 표로 따로 낸다
+    all:
+      - {$c: {judged_or_property: {credential_kind: bearer_token}}}
+      - {exists_relation: {type: owned_by, source: $c, target_interface: Tenant}}
+  skip_if:
+    any:
+      - {$p: {meta: {demo_role: measurement_principal}}}
+      - {$h: {property: {measurement_principal: true}}}
+  yields:
+    source: $c
+    target: $x
+    query: "이 토큰으로 {$x} 에 접근할 수 있는가"
+  cut:
+    - {hop: t, affects: source_only}
+    - {hop: h, affects: group}
+  engine: 운영 일반 행은 실행기(scripts/accessRules/production.ts). 2026-11-08 처음 둔 규칙이라 손코드가 없다
+  notes:
+    - 2026-11-08 Relation 담당(Claude 가 정함). Okta API 토큰(SSWS)은 scope 가 없고 만든 관리자의 권한을 그대로 쓴다(Okta 문서 「API token」). 11-04 실측에서 토큰 3개, 만든 사람의 G 19개가 EA 에 없었다
+    - 2026-11-09 리소스 세트 펴기(검증 세션 검토). h 는 resource_set_partial 간선을 건너뛴다(skip_uncertain). 따라가면 같은 토큰, 같은 조직에 조직 전체 역할(Read-only Administrator)로 낸 computed 행 옆에 indeterminate 행 둘이 붙어 한 질문에 답이 갈렸다. 토큰이 세트가 덮는 대상(11-04 테스트 사용자 MFA 초기화)에 닿는 행은 토큰 scope 표 판에서 h 가 resource_set 끝을 따라가게 해 낸다
+    - 토큰을 거두는 것(t)은 그 토큰만, 사람의 역할을 거두는 것(h)은 그 사람과 그 사람의 토큰 모두에 걸린다
+    - 2026-11-10 토큰 scope 표 판(Relation 주담당 위임, Claude 가 정함). h 의 to_interface Tenant 를 relation_to_interface Tenant(간선을 낸 관계의 도착이 조직)로 바꿨다. 조직 전체 역할은 그대로 「토큰 → 조직」 행이고, 리소스 세트로 좁힌 역할은 「토큰 → 세트가 덮는 대상」 행이다(11-04 HelpDesk 담당자의 토큰 → 테스트 사용자). 대상이 달라 조직 전체 역할 행과 한 질문에 답이 갈리지 않는다. 다 펴지 못한 세트의 조직 간선(resource_set_not_expanded)은 따라가 indeterminate 행이 된다
+    - 물려받는 G 는 조직(Tenant)에 걸린 것만이다(h 의 relation_to_interface, 11-09 까지 to_interface). 11-04 첫 판은 만든 사람의 Okta 앱 배정(role assigned → Application)까지 물려받아 19행 중 16행이 틀렸다(검증 세션 확인). 앱 배정은 SSO 로그인 권한이고 SSWS 토큰은 관리 API 만 부른다. 리소스 세트 범위의 관리자 역할은 리소스 세트를 펴는 판에서 더한다
+    - 앱 소유 refresh token(scope 로 제한)은 x_token_scoped 가 scope 와 사람 권한의 교집합으로 따로 낸다(2026-11-10)
+
+- id: x_token_scoped
+  for: access
+  status: production
+  mode: general
+  says: 사람이 앱에 준 토큰(Okta refresh token 등)을 쥐면 그 사람으로, 받은 scope 만큼 동작한다. 그 사람의 G 간선 가운데 scope 가 덮는 것에 토큰도 닿는다
+  patterns: [acts_for_app, direct_grant, resource_membership]
+  path:
+    - {as: t, relation: authenticates_with, from: $c, to: $p, reverse: true, to_interface: Principal, why: 토큰을 준 사람이 그 토큰으로 인증한다(사람 → 토큰)}
+    # scopes_of: 토큰 $c 의 scope 를 capabilities.yaml token_scopes 로 「무엇에 무엇을」로 바꿔, 그 사람의 G 간선 가운데 scope 가 덮는 것만 따라간다.
+    # 세기는 사람 역할과 scope 가운데 작은 것이다(행의 x_capability). scope 를 폈으므로 t 의 token_scope_limited 는 풀린다
+    - {as: h, edge: G, from: $p, to: $x, scopes_of: $c, skip_uncertain: [resource_set_partial]}
+  distinct: [$c, $x]
+  where:
+    # relation_semantics.yaml authenticates_with.app_refresh_token 과 같은 조건이다(대행 A 를 token_scope_limited 와 함께 내는 갈래)
+    all:
+      - {$c: {judged_or_property: {credential_kind: bearer_token}}}
+      - {exists_relation: {type: owned_by, source: $c, target_interface: Integration}}
+  skip_if:
+    any:
+      - {$p: {meta: {demo_role: measurement_principal}}}
+      - {$h: {property: {measurement_principal: true}}}
+  yields:
+    source: $c
+    target: $x
+    query: "이 토큰(받은 scope 만큼)으로 {$x} 에 접근할 수 있는가"
+  cut:
+    - {hop: t, affects: source_only}
+    - {hop: h, affects: group}
+  engine: 운영 일반 행은 실행기(scripts/accessRules/production.ts). 2026-11-10 처음 둔 규칙이라 손코드가 없다
+  notes:
+    - 2026-11-10 Relation 주담당 위임(Claude 가 정함). 11-04 실측의 Okta refresh token 29개(사람 둘이 Okta Workflows 등 앱에 준 것)가 EA 에 하나도 없었다. 토큰은 받은 scope 만큼 그 사람을 대신하는데(Okta 문서 「OAuth 2.0 Scopes」, scope 는 사람의 관리자 권한을 넘지 못한다) 그 「만큼」을 펴는 표가 없었다
+    - 어느 G 간선을 쓰는지는 scope 표가 provider 마다 정한다(token_scopes.<provider>.through). Okta 관리 API scope 는 조직에 걸린 관리자 역할로만 쓴다 — 앱 배정(SSO 로그인)은 쓰지 못한다(x_token_inherits 와 같다). 리소스 세트로 좁힌 역할이면 덮는 대상 가운데 scope 가 덮는 종류만이다
+    - 표에 없는 scope(token_scope_unmapped)가 있고 아는 scope 가 조직(Tenant) 간선을 덮지 않으면 그 조직에 판정 보류(indeterminate) 행을 낸다. 놓치는 것보다 넓게 잡는 것이 낫다. 조직이 아닌 대상(사용자, 그룹, 앱 …)에는 내지 않는다 — 그 종류를 건드리는 scope 는 모두 표의 자원 마디(users, groups, apps …)라 표에 없는 scope 가 덮을 수 없다(11-04 첫 판은 okta.manifests.read 하나로 테스트 사용자에 보류 행 둘을 냈다). 아는 scope 가 덮으면 그 행은 확정이고, 모르는 scope 는 x_capability.unmapped 에 남긴다
+    - 신원 scope(openid, profile 등)와 자기 계정 scope 만 가진 토큰은 행이 없다 — 남의 것에 닿지 않는다
+
+- id: x_member_grant
+  for: access
+  status: production
+  mode: general
+  says: 그룹에 소속되어, 그 그룹이 받은 역할로 닿는다
+  patterns: [group_membership, direct_grant, exclusion]
+  path:
+    - {as: m, relation: member_of, from: $p, to: $g, to_interface: Principal}
+    - {as: h, relation: has_role_on, from: $g, to: $x}
+  distinct: [$p, $g, $x]
+  where:
+    not:
+      any:
+        - {exists_relation: {type: excludes, source: $h.role, target: $p}}
+        - {exists_relation: {type: excludes, source: $h.role, target: $g}}
+        # 같은 대상에 같은 역할을 직접 받은 배정(basis stated)이 따로 있으면 그룹 행을 내지 않는다. 그 접근은 관계 한 행으로 끝나고,
+        # 그룹에서 빼도 직접 배정이 남아 소속 홉이 회수 지점이 아니다. Okta 는 그룹으로 받은 앱 사용자도 AppUser(scope GROUP)로 주므로
+        # 그 has_role_on 은 basis computed 라 여기 걸리지 않는다. 역할이 다르면(직접 읽기, 그룹 쓰기) 그룹 행이 더 센 길이라 남긴다
+        - {exists_relation: {type: has_role_on, source: $p, target: $x, role: $h.role, property: {basis: stated}}}
+  skip_if:
+    any:
+      - {$p: {meta: {demo_role: measurement_principal}}}
+      - {$m: {property: {measurement_principal: true}}}
+  yields:
+    source: $p
+    target: $x
+    query: "이 계정이 {$g} 소속으로 {$x} 에 {h.role} 역할을 가지는가"
+  cut:
+    - {hop: m, affects: source_only, when: {$h: {property: {membership_enforced: true}}}}
+    - {hop: h, affects: group}
+  undecomposed_if:
+    - {hop: m, reason: enforcement_unknown, when: {not: {$h: {property: {membership_enforced: true}}}}}
+  engine: compute.ts generalRules 2. 질문 모드는 rules/memberGrant.ts askGrant 2단계
+  notes:
+    - 집행 표시는 부여 홉 h 의 관계 행 속성 membership_enforced 다. 그 부여를 만드는 Profile 의 관계 선언이 적기로 정했다(specs/Profile_Schema_v4.2.md 「membership_enforced」). true 면 그룹에서 빼면 사라진다고 끊어 보고 확인한 것이다. true 가 아니면(없음, false) 소속 홉 m 은 회수 지점이 아니고 enforcement_unknown 으로 남는다. false(이력)의 사유를 따로 둘지는 미결이다(지금 false 인 부여가 없다)
+  differs:
+    - 엔진 손코드는 Okta 리소스 세트 배정(has_role_on properties.resource_set)의 사유를 달지 않는다. 실행기는 관계 효과 표의 okta_resource_set 갈래(2026-11-01 부터 칸 전부, 조직 Tenant 칸 포함)대로 부여 홉에 resource_set_not_expanded 를 단다. 위협 판정 간선은 손코드 시절부터 같은 사유를 달았다
+    - 엔진 손코드(common.ts membershipEnforced)는 집행을 Profile 이 아니라 코드 안 표로 판정한다. 엔진 정규화는 아직 Profile 의 이 값을 관계 행에 싣지 않으므로(후속), 그때까지 실행기는 Okta 그룹 → 앱 배정도 모름으로 내고 손코드는 소속 홉을 끊는다. 값이 실린 뒤에는 Okta 그룹 → 앱 배정이 같아진다. GitHub 팀 → 저장소는 그 뒤에도 손코드만 집행으로 본다. 끊어 본 기록이 없어 Profile 에 적지 않는다(reports/EA_Validation_Report_v2.md §5.1, §5.3. lab 조직은 멤버 전원이 owner 라 팀을 끊어 봐도 차이를 볼 수 없다)
+    - 엔진 손코드는 Okta 그룹의 부여가 template assignment 이면 대상 종류와 상관없이 집행으로 본다. Profile 은 앱 그룹 배정 하나에만 true 를 적으므로, 앱이 아닌 대상으로 가는 Okta 그룹 배정이 생기면 갈린다. 지금 실측 데이터셋에서 Okta 그룹이 출발인 배정 행은 그룹 → 앱뿐이라 실제 차이는 없다(잠재 차이)
+    - 엔진은 소속 대상($g)의 interface 를 보지 않는다. 이 규칙은 Principal(그룹)만 받는다
+    - 역할이 없는 그룹 부여를 엔진 손코드는 「접근 권한을 가지는가」로 묻는다. 이 규칙의 질문은 역할 칸이 비어 「 역할을 가지는가」가 된다(질문 문구를 갈래로 적을 칸이 없다). 2026-10-30 에 잰 데이터(커밋된 데이터셋 넷, 10-03 원본 재정규화, 10-27 D1 번들)에는 역할 없는 그룹 부여가 없다
+    - 그룹 회수 지점의 인원 수(cut 의 x_scope.count)를 적을 칸이 이 파일에 없다. 엔진 손코드(compute.ts generalRules 2)는 그룹 칸(hop h, affects group)에 인원 수를 적고 실행기는 비운다. 회수 지점 설명(x_scope.note)도 손코드는 적고 실행기는 비운다. 운영 EA 는 지금 손코드 행이고, 실행기로 옮기는 aegi-adapter-engine#201 에서는 운영 입구(scripts/accessRules/production.ts)가 손코드와 같은 수와 문구를 붙인다. 2026-10-31 에 손코드도 집행 표시를 관계 행에서 읽는 엔진 판(aegi-adapter-engine#201 의 가지)으로 잰 데이터에서, 그림자(scripts/accessRules/compare.ts)가 견주는 칸 가운데 x_member_grant 행 모두가 이 인원 칸만 다르다(environment_v2 2행, measured_model_v1 3행, measured_model_v1_base 3행, measured_v2 1행, 10-27 실측 번들 2행). 엔진 main 9755454 의 손코드로 재면 이 목록 첫 줄의 집행 판정 차이도 함께 나온다
+    - 2026-11-07 부터 일반 행도 같은 대상, 같은 역할의 직접 배정(basis stated)이 있으면 그룹 행을 내지 않는다(where). 11-04 실측에서 Okta 앱 직접 배정(AppUser scope USER)이 있는 사람에게 그룹 경유 행이 나와, 「그룹에서 빼기」로 닫히지 않는 회수 지점을 냈다. 직접 소유(owned_by)는 아직 보지 않는다
+    - 질문 모드(askGrant)의 순서, 즉 직접 부여나 소유가 있으면 그룹 행을 안 내고, 질문의 능력 필터를 걸고, 없으면 denied 나 답하지 않음을 내는 것은 형식의 「질문 모드」를 2026-10-29 에 정했지만 아직 이 규칙에 없다. 엔진은 수집이 닫혔는지 보지 않아 정한 것보다 넓게 denied 를 낸다
+
+- id: x_dynamic_holder
+  for: access
+  status: production
+  mode: general
+  says: Jira 권한 스킴이 프로젝트에 걸려 있고 그 스킴 줄의 보유자가 「프로젝트 리드」면, 그 프로젝트의 리드가 닿는다
+  patterns: [direct_grant]
+  path:
+    - {as: s, relation: applies_to, from: $scheme, to: $proj}
+    - {as: lead, ref: lead, from: $proj, to: $p}
+    - {as: line, item: properties.permissions, from: $scheme}
+  where:
+    all:
+      - {$scheme: {provider: atlassian, object_type: PermissionScheme}}
+      - {$proj: {object_type: Project}}
+      - {$line: {property: {holder_type: projectLead}}}
+  yields:
+    source: $p
+    target: $proj
+    holders: [line]
+    query: "이 계정이 프로젝트 리드로 {$proj} 에 접근할 수 있는가"
+  cut:
+    - {hop: s, affects: all_callers}
+  engine: compute.ts generalRules 3, rules/dynamicHolder.ts
+  differs:
+    - 질문 모드의 다른 보유자(anyone 은 배경이라 행 없음, applicationRole 과 이슈마다 정해지는 보유자는 판정 보류)는 이 규칙에 아직 없다. 지금 배포 코드에서 부르는 곳이 없다(EA 진단표 3장)
+    - 한 리드에 projectLead 줄이 여럿이면 엔진은 한 행의 x_holders 로 묶는다. 이 규칙은 item 홉이라 줄마다 한 행이다
+    - 엔진 일반 규칙은 스킴의 provider 를 보지 않는다(object_type 만). 엔진은 스킴 적용 관계의 못 푼 구간을 물려주지 않는다

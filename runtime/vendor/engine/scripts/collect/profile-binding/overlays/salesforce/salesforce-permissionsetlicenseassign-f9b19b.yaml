@@ -1,0 +1,43 @@
+overlay_basis:
+  from: aegi-knowledge docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md
+  note: 레지스트리 신규 객체의 관계 후보 채택(aegi-knowledge#93)
+references:
+  - name: permissionsetlicenseid
+    field: PermissionSetLicenseId
+    target: PermissionSetLicense
+    relation: has_role_on
+    reviewed_at: 2026-10-29
+    rationale: aegi-knowledge
+      docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md (IM v1
+      no_relation 을 바꿈)
+  - name: assigneeid
+    field: AssigneeId
+    target: User
+    relation: has_role_on
+    reviewed_at: 2026-10-29
+    rationale: aegi-knowledge
+      docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md (IM v1
+      no_relation 을 바꿈)
+  - name: lastcreatedbychangeid
+    field: LastCreatedByChangeId
+    target: UserAccessChange
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f4f197ad1f97612bcc66b2b4;
+      relation=no_relation
+  - name: lastdeletedbychangeid
+    field: LastDeletedByChangeId
+    target: UserAccessChange
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f9b43793c0f82e32b6338102;
+      relation=no_relation
+relation_plans:
+  - type: has_role_on
+    source: $refs.assigneeid
+    target: $tenant
+    role: $refs.permissionsetlicenseid
+    basis: stated
+    properties:
+      via_assignment: $self
+    decision: aegi-knowledge#93

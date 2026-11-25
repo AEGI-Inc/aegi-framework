@@ -1,0 +1,957 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Contract
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:f025187dfa8947e83250f384
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:f025187dfa8947e83250f384.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|Id
+  AccountId:
+    path: AccountId
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: reference
+      name: AccountId
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|AccountId
+  ActivatedById:
+    path: ActivatedById
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: reference
+      name: ActivatedById
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ActivatedById
+  ActivatedDate:
+    path: ActivatedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: dateTime
+      name: ActivatedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ActivatedDate
+  ActivityMetricId:
+    path: ActivityMetricId
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: reference
+      name: ActivityMetricId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ActivityMetricId
+  ActivityMetricRollupId:
+    path: ActivityMetricRollupId
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: reference
+      name: ActivityMetricRollupId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ActivityMetricRollupId
+  AggregationStrategy:
+    path: AggregationStrategy
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: AggregationStrategy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|AggregationStrategy
+  BillingAddress:
+    path: BillingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: address
+      name: BillingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|BillingAddress
+  BillingCity:
+    path: BillingCity
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: string
+      name: BillingCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|BillingCity
+  BillingCountry:
+    path: BillingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: string
+      name: BillingCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|BillingCountry
+  BillingCountryCode:
+    path: BillingCountryCode
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: BillingCountryCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|BillingCountryCode
+  BillingGeocodeAccuracy:
+    path: BillingGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: BillingGeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|BillingGeocodeAccuracy
+  BillingLatitude:
+    path: BillingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: double
+      name: BillingLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Contract|BillingLatitude
+  BillingLongitude:
+    path: BillingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: double
+      name: BillingLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Contract|BillingLongitude
+  BillingPostalCode:
+    path: BillingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: string
+      name: BillingPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|BillingPostalCode
+  BillingState:
+    path: BillingState
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: string
+      name: BillingState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|BillingState
+  BillingStateCode:
+    path: BillingStateCode
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: BillingStateCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|BillingStateCode
+  BillingStreet:
+    path: BillingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: textarea
+      name: BillingStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|BillingStreet
+  CompanySignedDate:
+    path: CompanySignedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: date
+      name: CompanySignedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|CompanySignedDate
+  CompanySignedId:
+    path: CompanySignedId
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: reference
+      name: CompanySignedId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|CompanySignedId
+  ContractNumber:
+    path: ContractNumber
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: string
+      name: ContractNumber
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ContractNumber
+  ContractTerm:
+    path: ContractTerm
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: int
+      name: ContractTerm
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Contract|ContractTerm
+  CustomerSignedDate:
+    path: CustomerSignedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: date
+      name: CustomerSignedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|CustomerSignedDate
+  CustomerSignedId:
+    path: CustomerSignedId
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: reference
+      name: CustomerSignedId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|CustomerSignedId
+  CustomerSignedTitle:
+    path: CustomerSignedTitle
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: string
+      name: CustomerSignedTitle
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|CustomerSignedTitle
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|Description
+  EndDate:
+    path: EndDate
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: date
+      name: EndDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|EndDate
+  HasContractCotermination:
+    path: HasContractCotermination
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: boolean
+      name: HasContractCotermination
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Contract|HasContractCotermination
+  IsPricingContract:
+    path: IsPricingContract
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: boolean
+      name: IsPricingContract
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Contract|IsPricingContract
+  IsDeleted:
+    path: IsDeleted
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: boolean
+      name: IsDeleted
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Contract|IsDeleted
+  LastActivityDate:
+    path: LastActivityDate
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: date
+      name: LastActivityDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|LastActivityDate
+  LastApprovedDate:
+    path: LastApprovedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: dateTime
+      name: LastApprovedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|LastApprovedDate
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: datetime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: datetime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|LastViewedDate
+  OwnerExpirationNotice:
+    path: OwnerExpirationNotice
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: OwnerExpirationNotice
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|OwnerExpirationNotice
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|OwnerId
+  Pricebook2Id:
+    path: Pricebook2Id
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: reference
+      name: Pricebook2Id
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|Pricebook2Id
+  PricingSource:
+    path: PricingSource
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: PricingSource
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|PricingSource
+  RecordTypeId:
+    path: RecordTypeId
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: reference
+      name: RecordTypeId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|RecordTypeId
+  RenewalTerm2:
+    path: RenewalTerm2
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: double
+      name: RenewalTerm2
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Contract|RenewalTerm2
+  RenewalTermUnit:
+    path: RenewalTermUnit
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: RenewalTermUnit
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|RenewalTermUnit
+  ShippingAddress:
+    path: ShippingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: address
+      name: ShippingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ShippingAddress
+  ShippingCity:
+    path: ShippingCity
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: string
+      name: ShippingCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ShippingCity
+  ShippingCountry:
+    path: ShippingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: string
+      name: ShippingCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ShippingCountry
+  ShippingCountryCode:
+    path: ShippingCountryCode
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: ShippingCountryCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ShippingCountryCode
+  ShippingGeocodeAccuracy:
+    path: ShippingGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: ShippingGeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ShippingGeocodeAccuracy
+  ShippingLatitude:
+    path: ShippingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: double
+      name: ShippingLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Contract|ShippingLatitude
+  ShippingLongitude:
+    path: ShippingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: double
+      name: ShippingLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Contract|ShippingLongitude
+  ShippingPostalCode:
+    path: ShippingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: string
+      name: ShippingPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ShippingPostalCode
+  ShippingState:
+    path: ShippingState
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: string
+      name: ShippingState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ShippingState
+  ShippingStateCode:
+    path: ShippingStateCode
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: ShippingStateCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ShippingStateCode
+  ShippingStreet:
+    path: ShippingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: textarea
+      name: ShippingStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|ShippingStreet
+  SourceQuoteId:
+    path: SourceQuoteId
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: reference
+      name: SourceQuoteId
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|SourceQuoteId
+  SpecialTerms:
+    path: SpecialTerms
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: textarea
+      name: SpecialTerms
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|SpecialTerms
+  StartDate:
+    path: StartDate
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: date
+      name: StartDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|StartDate
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: Status
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|Status
+  StatusCode:
+    path: StatusCode
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: picklist
+      name: StatusCode
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Contract|StatusCode
+  UnitPriceUplift:
+    path: UnitPriceUplift
+    source: research_shape
+    shape: sh:sf_object_reference:Contract
+    declaration:
+      format: percent
+      name: UnitPriceUplift
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Contract|UnitPriceUplift
+references:
+  - name: activitymetricrollupid
+    field: ActivityMetricRollupId
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:14329399c1ab10d0ca9de59b; relation=no_relation
+  - name: ownerid
+    field: OwnerId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:268a5f10b912b8b978ef68cc; relation=no_relation
+  - name: accountid
+    field: AccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:28a0188b3d8e0e30622239c9; relation=no_relation
+  - name: activatedbyid
+    field: ActivatedById
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:474800190c5c5595a5c96a21; relation=no_relation
+  - name: activitymetricid
+    field: ActivityMetricId
+    target: ActivityMetric
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:4e1da5dfac52aa3210e8feb0; relation=no_relation
+  - name: customersignedid
+    field: CustomerSignedId
+    target: Contact
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:722d56350215c5b0a785ed14; relation=no_relation
+  - name: sourcequoteid
+    field: SourceQuoteId
+    target: Quote
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d23583d18b7674de320f6016; relation=no_relation
+  - name: companysignedid
+    field: CompanySignedId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:eed6f60e027bae27e97bb7f8; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Contract
+  interfaces: *a1
+  model:
+    research_type: object-type:f025187dfa8947e83250f384
+  extract:
+    key: PILOT-salesforce-Contract-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-50f384
+            endpoint: /
+            items:
+              - records
+        properties:
+          AccountId: AccountId
+          ActivatedById: ActivatedById
+          ActivatedDate: ActivatedDate
+          ActivityMetricId: ActivityMetricId
+          ActivityMetricRollupId: ActivityMetricRollupId
+          AggregationStrategy: AggregationStrategy
+          BillingAddress: BillingAddress
+          BillingCity: BillingCity
+          BillingCountry: BillingCountry
+          BillingCountryCode: BillingCountryCode
+          BillingGeocodeAccuracy: BillingGeocodeAccuracy
+          BillingLatitude: BillingLatitude
+          BillingLongitude: BillingLongitude
+          BillingPostalCode: BillingPostalCode
+          BillingState: BillingState
+          BillingStateCode: BillingStateCode
+          BillingStreet: BillingStreet
+          CompanySignedDate: CompanySignedDate
+          CompanySignedId: CompanySignedId
+          ContractNumber: ContractNumber
+          ContractTerm: ContractTerm
+          CustomerSignedDate: CustomerSignedDate
+          CustomerSignedId: CustomerSignedId
+          CustomerSignedTitle: CustomerSignedTitle
+          Description: Description
+          EndDate: EndDate
+          HasContractCotermination: HasContractCotermination
+          Id: Id
+          IsDeleted: IsDeleted
+          IsPricingContract: IsPricingContract
+          LastActivityDate: LastActivityDate
+          LastApprovedDate: LastApprovedDate
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          OwnerExpirationNotice: OwnerExpirationNotice
+          OwnerId: OwnerId
+          Pricebook2Id: Pricebook2Id
+          PricingSource: PricingSource
+          RecordTypeId: RecordTypeId
+          RenewalTerm2: RenewalTerm2
+          RenewalTermUnit: RenewalTermUnit
+          ShippingAddress: ShippingAddress
+          ShippingCity: ShippingCity
+          ShippingCountry: ShippingCountry
+          ShippingCountryCode: ShippingCountryCode
+          ShippingGeocodeAccuracy: ShippingGeocodeAccuracy
+          ShippingLatitude: ShippingLatitude
+          ShippingLongitude: ShippingLongitude
+          ShippingPostalCode: ShippingPostalCode
+          ShippingState: ShippingState
+          ShippingStateCode: ShippingStateCode
+          ShippingStreet: ShippingStreet
+          SourceQuoteId: SourceQuoteId
+          SpecialTerms: SpecialTerms
+          StartDate: StartDate
+          Status: Status
+          StatusCode: StatusCode
+          UnitPriceUplift: UnitPriceUplift
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:Contract.query
+  operation: Contract.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Contract
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Contract
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Contract.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Contract/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - ActivityMetricRollupId
+    - OwnerId
+    - AccountId
+    - ActivatedById
+    - ActivityMetricId
+    - CustomerSignedId
+    - SourceQuoteId
+    - CompanySignedId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

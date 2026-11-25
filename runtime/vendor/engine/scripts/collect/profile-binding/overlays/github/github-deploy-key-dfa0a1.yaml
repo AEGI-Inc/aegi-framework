@@ -1,0 +1,174 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/deploy_key.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-26
+        items: (items)
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+      repo_name:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: name
+      adder:
+        if:
+          path: added_by
+          truthy: true
+        then:
+          ref:
+            type: simple-user
+            lookup: login
+            value: added_by
+          prop: $key
+    parent:
+      ref:
+        key: $vars.repo
+      when: always
+    refs:
+      added_by:
+        when:
+          path: $vars.adder
+          present: true
+        ref:
+          key: $vars.adder
+        type: simple-user
+        value: added_by
+    properties:
+      title: title
+      read_only: read_only
+      verified: verified
+      enabled: enabled
+      created_at: created_at
+      last_used:
+        op: null_if_missing
+        of: last_used
+      key_sha256:
+        op: null_if_missing
+        of: key_sha256
+      added_by_login:
+        op: null_if_missing
+        of: added_by
+    display: 배포 키 {title|id} ({$vars.repo_name|$vars.repo})
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+      - type: has_role_on
+        source: $self
+        target:
+          key: $vars.repo
+        role:
+          name:
+            if:
+              path: read_only
+              eq: false
+            then:
+              const: write
+            else:
+              const: read
+        basis: stated
+        properties:
+          read_only: read_only
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-DEPLOYKEY-{id}
+runtime_stub: null
+runtime_key: GH-DEPLOYKEY-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Deploy Key:list
+    sources:
+      - call: GH-26
+        items: (items)
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+      repo_name:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: name
+      adder:
+        if:
+          path: added_by
+          truthy: true
+        then:
+          ref:
+            type: simple-user
+            lookup: login
+            value: added_by
+          prop: $key
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+      - type: has_role_on
+        source: $self
+        target:
+          key: $vars.repo
+        role:
+          name:
+            if:
+              path: read_only
+              eq: false
+            then:
+              const: write
+            else:
+              const: read
+        basis: stated
+        properties:
+          read_only: read_only
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-DEPLOYKEY-{id}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

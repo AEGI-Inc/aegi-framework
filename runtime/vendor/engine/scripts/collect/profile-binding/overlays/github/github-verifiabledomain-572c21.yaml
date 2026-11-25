@@ -1,0 +1,45 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/verifiable_domain.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-31
+        items: data.organization.domains.nodes
+        where:
+          path: id
+          truthy: true
+    mutable_ids:
+      domain: domain
+    properties:
+      domain: domain
+      is_verified: isVerified
+      is_approved: isApproved
+      verified_at:
+        op: null_if_missing
+        of: verifiedAt
+      created_at: createdAt
+      updated_at: updatedAt
+    display: 도메인 {domain}
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-DOMAIN-{id}
+runtime_stub: null
+runtime_key: GH-DOMAIN-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  domain:
+    stability: mutable
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

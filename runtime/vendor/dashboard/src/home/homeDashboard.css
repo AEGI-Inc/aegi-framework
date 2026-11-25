@@ -1,0 +1,273 @@
+/* ==========================================================================
+   Overview
+   위쪽 두 칸(위협, 마지막 수집), 왼쪽 SaaS 연결 그림,
+   오른쪽 먼저 볼 위협과 SaaS 사이 영향 경로.
+   위쪽 두 칸은 home.css 가 맡는다.
+   ========================================================================== */
+
+.home-dashboard-v9 {
+  --home-bg: #f6f9fc;
+  --home-panel: #ffffff;
+  --home-text: var(--color-text-primary);
+  min-height: 100vh;
+  padding: 0 var(--space-page-x) 28px;
+  background: var(--home-bg);
+  color: var(--home-text);
+}
+
+/* 자리와 꼴은 pageShell.css의 .page-title-bar가 정한다. */
+.home-v9-title {
+  gap: 8px 16px;
+}
+
+.home-v9-title h1 {
+  color: var(--color-chrome-text);
+}
+
+.home-v9-card {
+  min-width: 0;
+  background: var(--home-panel);
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  box-shadow: 0 1px 2px rgba(30, 52, 75, 0.02);
+}
+
+.home-v9-card-head {
+  height: 54px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  /* 제목 칸은 옅은 회색 바탕과 진한 아래 선으로 내용과 가른다 */
+  background: var(--color-card-head-bg);
+  border-bottom: 1px solid var(--color-card-line);
+}
+
+.home-v9-card-head h2 {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  line-height: 1.2;
+  color: var(--home-text);
+}
+
+.home-v9-link {
+  border: 0;
+  background: none;
+  color: var(--color-select);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 0;
+  white-space: nowrap;
+}
+
+.home-v9-link:hover {
+  color: #1e40af;
+}
+
+.home-v9-path-provider {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.home-v9-path-provider svg,
+.home-v9-path-provider .provider-letter {
+  width: 19px;
+  height: 19px;
+  overflow: visible;
+}
+
+/* 화면 이름 옆의 수집 시각 */
+.home-v9-title-meta {
+  font-size: 13px;
+  color: var(--color-chrome-text);
+}
+
+/* 왼쪽 SaaS 연결 그림, 오른쪽 먼저 볼 위협과 영향 경로.
+   그림 칸은 들어오자마자 한 화면에 다 보이는 높이이고, 오른쪽 칸은 제 높이대로 아래로 이어진다 */
+.hp-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(400px, 36%);
+  gap: var(--space-gap);
+  align-items: start;
+}
+
+.hp-side-stack {
+  display: grid;
+  align-content: start;
+  gap: var(--space-gap);
+  min-width: 0;
+}
+
+.hp-graph-card {
+  display: flex;
+  flex-direction: column;
+  height: max(520px, calc(100vh - 214px));
+}
+
+/* SaaS 연결 그림(HomeEcosystemGraph). 바탕은 Cross-SaaS Graph 화면의 그래프 바탕과 같다 */
+.hp-graph-stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.home-eco-graph {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.home-eco-graph foreignObject { overflow: visible; }
+
+.home-eco-node,
+.home-eco-edge { cursor: pointer; }
+
+.home-eco-logo {
+  width: 100%;
+  height: 100%;
+}
+
+.home-eco-logo svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.home-eco-edge:hover line:first-child {
+  stroke-opacity: 1;
+  stroke-width: 3.4;
+}
+
+.hp-top-title { white-space: nowrap; }
+
+.hp-tag-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--color-card-line);
+}
+
+.hp-tag-chip {
+  padding: 4px 10px;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.hp-tag-chip:hover { border-color: var(--color-chrome-bg); }
+.hp-tag-chip b { margin-left: 4px; }
+
+.hp-rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hp-rows li + li { border-top: 1px solid var(--color-card-line); }
+
+/* 좁은 오른쪽 칸이라 첫 줄에 심각도, 분류, SaaS를 두고 제목은 둘째 줄을 다 쓴다 */
+.hp-row {
+  display: grid;
+  gap: 6px;
+  width: 100%;
+  padding: 12px 16px;
+  font-family: inherit;
+  text-align: left;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  border: 0;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.hp-row:hover { background: var(--color-bg-app); }
+
+.hp-row-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.hp-row-meta .hp-row-saas { margin-left: auto; }
+
+.hp-row-title {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
+  line-height: 1.4;
+}
+
+.hp-row-saas,
+.hp-row-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.hp-row-logo svg,
+.hp-row-logo .provider-letter {
+  width: 16px;
+  height: 16px;
+}
+
+.hp-row-arrow {
+  margin: 0 2px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.hp-empty {
+  margin: 0;
+  padding: 16px;
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+}
+
+.hp-path {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 10px 16px;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+  text-align: left;
+  background: var(--color-surface);
+  border: 0;
+  border-top: 1px solid var(--color-card-line);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.hp-path:hover { background: var(--color-bg-app); }
+/* 칸 머리 아래 첫 줄은 머리의 아래 선과 겹치지 않게 윗선을 뺀다 */
+.hp-paths .hp-path:first-child { border-top: 0; }
+.hp-path-count { margin-left: auto; font-size: var(--font-size-sm); }
+
+@media (max-width: 1180px) {
+  .hp-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 840px) {
+  .home-dashboard-v9 { padding: 0 14px 24px; }
+}

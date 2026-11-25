@@ -1,0 +1,274 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: jira
+service: null
+object_type: incidents
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:51bc50984125e802d10701ca
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:51bc50984125e802d10701ca.identity_evidence
+tenant_binding:
+  type: ServerInformation
+  service: null
+  call: JR-01
+  items: (root)
+  id: baseUrl
+fields:
+  schemaVersion:
+    path: schemaVersion
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      enum:
+        - "1.0"
+      name: schemaVersion
+      required: true
+      scalar: string
+    map_items:
+      - space:incidents|schemaVersion
+  id:
+    path: id
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      name: id
+      required: true
+      scalar: string
+    map_items:
+      - space:incidents|id
+  updateSequenceNumber:
+    path: updateSequenceNumber
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      format: int64
+      name: updateSequenceNumber
+      required: true
+      scalar: integer
+    map_items:
+      - space:incidents|updateSequenceNumber
+  affectedComponents:
+    path: affectedComponents
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      name: affectedComponents
+      required: true
+      shape: sh:jira_software_openapi:op:getIncidentById:resp:200.affectedComponents
+    map_items:
+      - space:incidents|affectedComponents
+  summary:
+    path: summary
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      name: summary
+      required: true
+      scalar: string
+    map_items:
+      - space:incidents|summary
+  description:
+    path: description
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      name: description
+      required: true
+      scalar: string
+    map_items:
+      - space:incidents|description
+  url:
+    path: url
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      format: uri
+      name: url
+      required: true
+      scalar: string
+    map_items:
+      - space:incidents|url
+  createdDate:
+    path: createdDate
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      format: date-time
+      name: createdDate
+      required: true
+      scalar: string
+    map_items:
+      - space:incidents|createdDate
+  lastUpdated:
+    path: lastUpdated
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      format: date-time
+      name: lastUpdated
+      required: true
+      scalar: string
+    map_items:
+      - space:incidents|lastUpdated
+  severity:
+    path: severity
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      name: severity
+      required: false
+      shape: sh:jira_software_openapi:op:getIncidentById:resp:200.severity
+    map_items: []
+  status:
+    path: status
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      enum:
+        - open
+        - resolved
+        - unknown
+      name: status
+      required: true
+      scalar: string
+    map_items:
+      - space:incidents|status
+  associations:
+    path: associations
+    source: research_shape
+    shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+    declaration:
+      name: associations
+      required: false
+      shape: sh:jira_software_openapi:op:getIncidentById:resp:200.associations
+    map_items: []
+references: []
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: jira
+  object_type: incidents
+  interfaces: *a1
+  model:
+    research_type: object-type:51bc50984125e802d10701ca
+  extract:
+    key: PILOT-jira-incidents-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-JIRA-0701ca
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          affectedComponents: affectedComponents
+          associations: associations
+          createdDate: createdDate
+          description: description
+          id: id
+          lastUpdated: lastUpdated
+          schemaVersion: schemaVersion
+          severity: severity
+          status: status
+          summary: summary
+          updateSequenceNumber: updateSequenceNumber
+          url: url
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:jira_software_openapi:getIncidentById
+  operation: getIncidentById
+  surface: rest
+  method: GET
+  kind: read_one
+  endpoint: /rest/operations/1\.0/incidents/[^/]+(?:\?|$)
+  endpoint_template: /rest/operations/1.0/incidents/{incidentId}
+  request: {}
+  required_params:
+    - incidentId
+  paths:
+    - shape: sh:jira_software_openapi:op:getIncidentById:resp:200
+      path: []
+  alternatives_total: 0
+  alternatives: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 50149499a641110c6bf94b3e0ee694a3701d3edc48d8b17420580571d73451f8
+    ir/shape.jsonl: 04cf5db894bbfdfc38d902b2036b3e757a28481b16ff75ae2d2c4b7e06b0160e
+    ir/operation.jsonl: bb433b0144fc822588adb64649c5592094ef6f67746759ec57a2e9677bac5a94
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

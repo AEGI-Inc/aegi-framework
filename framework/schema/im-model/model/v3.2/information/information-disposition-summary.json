@@ -1,0 +1,21 @@
+{
+  "revision": "r3",
+  "items": 4669,
+  "groups": 692,
+  "by_disposition": {
+    "parent_property": 1862,
+    "envelope_or_view": 704,
+    "unresolved": 978,
+    "action_result": 905,
+    "vendor_catalog": 52,
+    "observation_only": 157,
+    "bound_to_space": 11
+  },
+  "unresolved_reasons": {
+    "root_scoped_keyless_list": 392,
+    "no_parent_space": 147,
+    "rpc_parent_not_declared": 439
+  },
+  "observed_cohort_items": 239,
+  "note": "원본 map 항목은 그대로다. unresolved 는 미결 사유가 있는 상태이며 고아가 정상이라는 판정이 아니다. rule 적용 결과는 사용자 검토 전이다"
+}

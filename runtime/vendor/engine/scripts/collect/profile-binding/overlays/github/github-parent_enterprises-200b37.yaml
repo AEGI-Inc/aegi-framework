@@ -1,0 +1,5 @@
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full
+emit: reference_only
+emit_basis: 타입 이름이 API 경로 조각(parent:enterprises/{})이다. 엔터프라이즈 공지 배너 응답(announcement, expires_at, user_dismissible)이다. 2026-11-03 수집에서 공지가 없다(null). 엔터프라이즈는 이미 객체로 있다. 객체로 만들지 않는다

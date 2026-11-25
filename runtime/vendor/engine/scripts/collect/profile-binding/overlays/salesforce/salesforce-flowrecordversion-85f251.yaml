@@ -1,0 +1,65 @@
+overlay_basis:
+  from: aegi-knowledge docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md
+  note: 레지스트리 신규 객체의 관계 후보 채택(aegi-knowledge#93)
+references:
+  - name: flowrecordid
+    field: FlowRecordId
+    target: FlowRecord
+    relation: contained_in
+    reviewed_at: 2026-10-29
+    rationale: aegi-knowledge
+      docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md (IM v1
+      no_relation 을 바꿈)
+  - name: overriddenbyid
+    field: OverriddenById
+    target: FlowRecord
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:33e60bdcb32400f243f40f88;
+      relation=no_relation
+  - name: dataspaceid
+    field: DataSpaceId
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:46a561782cd33c78597d4717;
+      relation=no_relation
+  - name: activatedbyid
+    field: ActivatedById
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6588892dc5a1085c09379f57;
+      relation=no_relation
+  - name: resuminguserid
+    field: ResumingUserId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a6c0fad79a4642310d2c03ea;
+      relation=no_relation
+  - name: pausinguserid
+    field: PausingUserId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:dc637c7a5187a40481efa791;
+      relation=no_relation
+  - name: sourcetemplateid
+    field: SourceTemplateId
+    target: FlowRecord
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:e1f4309dfb08a05fa7883bc7;
+      relation=no_relation
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.flowrecordid
+    basis: stated
+    decision: aegi-knowledge#93
+fields:
+  Name:
+    path: Name
+    source: collected_response
+fields_basis: Tooling API FlowRecordVersion 응답의 버전 이름(Name)이 연구 스키마에 없어 버려지던 것을 선언한다(값은 수집 응답 그대로)

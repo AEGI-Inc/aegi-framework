@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>/*TITLE*/ 정보 지도</title>
+<style>
+:root {
+  --bg: #ffffff; --text: #111111; --text2: #333333; --line: #d0d0d0; --line2: #8a8a8a;
+  --accent: #0b5cad; --accent-bg: #e8f0fa; --warn: #8a4b00; --row: #f6f6f6;
+  --api: #111111; --copy: #5a5a5a; --event: #0b5cad; --audit: #8a4b00;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 "Pretendard", "Malgun Gothic", system-ui, sans-serif; }
+header { padding: 16px 20px 12px; border-bottom: 1px solid var(--line); }
+h1 { margin: 0 0 8px; font-size: 18px; }
+.totals { display: flex; flex-wrap: wrap; gap: 0; border: 1px solid var(--line); width: fit-content; max-width: 100%; }
+.totals div { padding: 6px 14px; border-right: 1px solid var(--line); }
+.totals div:last-child { border-right: 0; }
+.totals b { display: block; font-size: 16px; }
+main { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); min-height: calc(100vh - 110px); }
+#graphwrap { border-right: 1px solid var(--line); position: relative; }
+svg { width: 100%; height: 100%; min-height: 560px; display: block; }
+.node circle { stroke: #fff; stroke-width: 2; cursor: pointer; }
+.node text { font-size: 12px; fill: var(--text); pointer-events: none; paint-order: stroke; stroke: #fff; stroke-width: 4px; }
+.node.sel circle { stroke: var(--accent); stroke-width: 3; }
+.edge { stroke: var(--line2); fill: none; }
+.edge.member { stroke-dasharray: 4 3; }
+.edge.hi { stroke: var(--accent); }
+.keys { position: absolute; left: 12px; bottom: 10px; font-size: 12px; background: #fff; border: 1px solid var(--line); padding: 6px 10px; }
+.keys span { margin-right: 12px; white-space: nowrap; }
+.dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: -1px; margin-right: 4px; }
+#panel { padding: 14px 18px; overflow: auto; max-height: calc(100vh - 110px); }
+#panel h2 { font-size: 16px; margin: 0 0 4px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 0; margin: 10px 0; border: 1px solid var(--line); width: fit-content; max-width: 100%; }
+.tabs button { white-space: nowrap; border: 0; border-right: 1px solid var(--line); background: #fff; padding: 6px 12px; font: inherit; cursor: pointer; color: var(--text); }
+.tabs button:last-child { border-right: 0; }
+.tabs button.on { background: var(--accent); color: #fff; }
+.ctrl { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+input[type=search] { border: 1px solid var(--line2); padding: 5px 8px; font: inherit; min-width: 200px; border-radius: 0; }
+select { border: 1px solid var(--line2); padding: 5px 8px; font: inherit; border-radius: 0; background: #fff; color: var(--text); }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { border-bottom: 1px solid var(--line); padding: 5px 6px; text-align: left; vertical-align: top; }
+th { background: var(--row); font-weight: 600; position: sticky; top: 0; }
+td.path { font-family: Consolas, monospace; word-break: break-all; }
+tr.item { cursor: pointer; }
+tr.item:hover { background: var(--row); }
+tr.open { background: var(--accent-bg); }
+.b { display: inline-block; border: 1px solid currentColor; padding: 0 5px; margin: 1px 3px 1px 0; font-size: 12px; white-space: nowrap; }
+.b.api { color: var(--api); } .b.api_copy { color: var(--copy); } .b.event { color: var(--event); } .b.audit_copy { color: var(--audit); }
+.slots { font-family: Consolas, monospace; font-size: 12px; margin: 4px 0; padding-left: 16px; word-break: break-all; }
+.muted { color: var(--text2); }
+.list { columns: 2; font-family: Consolas, monospace; font-size: 12px; }
+@media (max-width: 900px) { main { grid-template-columns: 1fr; } #graphwrap { border-right: 0; border-bottom: 1px solid var(--line); } #panel { max-height: none; } }
+</style>
+</head>
+<body>
+<header>
+  <h1><a href="../index.html" style="color:var(--accent);font-weight:400;font-size:14px;margin-right:10px">SaaS 목록</a>/*TITLE*/ 정보 지도 v0</h1>
+  <div class="totals" id="totals"></div>
+</header>
+<main>
+  <div id="graphwrap">
+    <svg id="g"></svg>
+    <div class="keys">
+      <span><i class="dot" style="background:#111"></i>ID 공간</span>
+      <span><i class="dot" style="background:#0b5cad"></i>부모 안 키 (ts)</span>
+      <span><i class="dot" style="background:#8a4b00"></i>ID 조합</span>
+      <span>실선 참조, 점선 구성</span>
+    </div>
+  </div>
+  <div id="panel"></div>
+</main>
+<script>
+const D = /*DATA*/null;
+const T = D.totals;
+document.getElementById('totals').innerHTML = [
+  ['자리', T.slots], ['정보 항목', T.items], ['결정자', T.determinants], ['참조 간선', T.ref_edges],
+  ['쓰기 짝', T.write_edges + (T.body_write_edges || 0)], ['필터', T.filter_edges || 0], ['쓰기만 되는 정보', T.write_only || 0], ['감사 action 공간 연결', T.audit_actions_matched + ' / ' + (T.audit_actions_matched + T.audit_actions_unmatched)], ['감사 action 항목 연결', (T.action_linked.structural || 0) + (T.action_linked.chain || 0)], ['대기열', T.queue]
+].map(([k, v]) => `<div>${k}<b>${v}</b></div>`).join('');
+
+const KIND = {property: '속성 변경', relation: '관계 변경', lifecycle: '생성, 삭제', access: '사용 기록', setting: '조직 설정'};
+const BASIS = {fields_change: '감사 변경 전후 필드', fields: '감사 필드 일치', structural: '이름 일치', structural_partial: '일부 일치 (후보)', chain: '쓰기 동작 경유', op_name: '쓰기 동작 이름 일치', object_update: '대상 변경 (속성 모름)', object: '대상 자체', unmapped: '지도에 없는 대상', none: '못 정함'};
+const SRC = {api: 'API', api_copy: 'API 사본', event: '이벤트', audit_copy: '감사 로그'};
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const label = d => d.replace(/^space:/, '').replace(/^local:(.+)\/(.+)$/, '$1 안의 $2').replace(/^combo:/, '').replace(/\+/g, ' × ');
+
+// ---------------- 그래프
+const MAXN = 45;   // 결정자가 많으면 항목이 많은 순으로 그린다. 나머지는 「전체」 표에 있다
+const dets = Object.entries(D.determinants).filter(([k]) => /^(space|local|combo):/.test(k) && !k.startsWith('local:?'))
+  .sort((a, b) => b[1].items - a[1].items || a[0].localeCompare(b[0])).slice(0, MAXN);
+const hidden = Object.entries(D.determinants).filter(([k]) => /^(space|local|combo):/.test(k) && !k.startsWith('local:?')).length - dets.length;
+const nodes = dets.map(([k, v]) => ({id: k, items: v.items, kind: k.split(':')[0]}));
+const byId = Object.fromEntries(nodes.map(n => [n.id, n]));
+const edges = [];
+for (const r of D.refs) {
+  const a = 'space:' + r.from, b = 'space:' + r.to;
+  if (byId[a] && byId[b] && a !== b) edges.push({s: a, t: b, n: r.n, kind: 'ref', r});
+}
+for (const n of nodes) {
+  if (n.kind === 'combo') n.id.slice(6).split('+').forEach(m => byId['space:' + m] && edges.push({s: n.id, t: 'space:' + m, n: 1, kind: 'member'}));
+  if (n.kind === 'local') { const p = 'space:' + n.id.slice(6).split('/')[0]; byId[p] && edges.push({s: n.id, t: p, n: 1, kind: 'member'}); }
+}
+const svg = document.getElementById('g');
+function layout() {
+  const W = svg.clientWidth || 700, H = svg.clientHeight || 600;
+  // 결정적 배치: 원 위에서 시작해 스프링으로 다듬는다 (난수 없음)
+  nodes.forEach((n, i) => { const a = 2 * Math.PI * i / nodes.length; n.x = W / 2 + Math.cos(a) * W * 0.32; n.y = H / 2 + Math.sin(a) * H * 0.34; });
+  const r = n => 6 + Math.sqrt(n.items) * 1.3;
+  const L = Math.min(W, H);
+  for (let it = 0; it < 600; it++) {
+    const t = 1 - it / 600;
+    for (const a of nodes) for (const b of nodes) if (a !== b) {
+      let dx = a.x - b.x, dy = a.y - b.y, d = Math.sqrt(dx * dx + dy * dy) + 0.01;
+      const f = Math.min(8, (L * L * 0.02) / (d * d)) * t;      // 밀어내기
+      a.x += dx / d * f; a.y += dy / d * f;
+    }
+    for (const e of edges) {
+      const a = byId[e.s], b = byId[e.t]; let dx = b.x - a.x, dy = b.y - a.y, d = Math.sqrt(dx * dx + dy * dy) + 0.01;
+      const k = (d - (e.kind === 'member' ? L * 0.12 : L * 0.28)) * 0.01 * t; a.x += dx / d * k; a.y += dy / d * k; b.x -= dx / d * k; b.y -= dy / d * k;
+    }
+    for (const n of nodes) { n.x += (W / 2 - n.x) * 0.01 * t; n.y += (H / 2 - n.y) * 0.01 * t; }
+    for (const a of nodes) for (const b of nodes) if (a !== b) {      // 겹침 풀기 (원과 글자 자리)
+      let dx = a.x - b.x, dy = a.y - b.y, d = Math.sqrt(dx * dx + dy * dy) + 0.01, m = r(a) + r(b) + 44;
+      if (d < m) { const s = (m - d) / 2; a.x += dx / d * s; a.y += dy / d * s; b.x -= dx / d * s; b.y -= dy / d * s; }
+    }
+    for (const n of nodes) { n.x = Math.max(40, Math.min(W - 140, n.x)); n.y = Math.max(30, Math.min(H - 60, n.y)); }
+  }
+  const color = {space: '#111', local: '#0b5cad', combo: '#8a4b00'};
+  svg.innerHTML = edges.map((e, i) => {
+    const a = byId[e.s], b = byId[e.t];
+    return `<line class="edge ${e.kind}" data-i="${i}" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke-width="${e.kind === 'ref' ? Math.min(6, 0.8 + Math.log2(e.n)) : 1}"/>`;
+  }).join('') + nodes.map(n => `<g class="node" data-id="${esc(n.id)}" transform="translate(${n.x},${n.y})"><circle r="${r(n)}" fill="${color[n.kind]}"><title>${esc(((D.space_notes || {})[n.id.slice(6)] || '').split(' | ')[0])}</title></circle></g>`).join('')
+    + nodes.map(n => `<g class="node lbl" transform="translate(${n.x},${n.y})"><text x="${r(n) + 4}" y="4">${esc(label(n.id))} ${n.items}</text></g>`).join('');   // 글자를 원 위에 그린다
+  svg.querySelectorAll('.node:not(.lbl)').forEach(g => g.addEventListener('click', () => select(g.dataset.id)));
+  if (cur) mark(cur);
+}
+let cur = null, tab = 'items';
+function mark(id) {
+  svg.querySelectorAll('.node:not(.lbl)').forEach(g => g.classList.toggle('sel', g.dataset.id === id));
+  svg.querySelectorAll('.edge').forEach(l => { const e = edges[l.dataset.i]; l.classList.toggle('hi', e.s === id || e.t === id); });
+}
+function select(id) { cur = id; mark(id); render(); }
+
+// ---------------- 패널
+const panel = document.getElementById('panel');
+function srcBadges(src) { return Object.entries(src).map(([k, v]) => `<span class="b ${k}">${SRC[k] || k} ${v}</span>`).join(''); }
+function render() {
+  if (!cur) { renderHome(); return; }
+  const its = D.items.filter(i => i.det === cur);
+  const name = cur.startsWith('space:') ? cur.slice(6) : null;
+  const outs = D.refs.filter(r => name && r.from === name), ins = D.refs.filter(r => name && r.to === name && r.from !== name);
+  const changes = name ? D.action_links.filter(l => l.space === name) : [];
+  const note = name && (D.space_notes || {})[name];
+  panel.innerHTML = `<h2>${esc(label(cur))}</h2><div class="muted">결정자 <code>${esc(cur)}</code></div>${note ? `<p>${esc(note.split(' | ')[0])} <span class="b">${esc(note.split(' | ')[1] || '')}</span></p>` : ''}
+  <div class="tabs">
+    <button data-t="items" class="${tab === 'items' ? 'on' : ''}">정보 항목 ${its.length}</button>
+    <button data-t="refs" class="${tab === 'refs' ? 'on' : ''}">참조 ${outs.length + ins.length}</button>
+    <button data-t="changes" class="${tab === 'changes' ? 'on' : ''}">감사 action ${changes.length}</button>
+    <button data-t="home">전체</button>
+  </div><div id="body"></div>`;
+  panel.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
+    if (b.dataset.t === 'home') { cur = null; mark(null); render(); return; } tab = b.dataset.t; render();
+  }));
+  const body = document.getElementById('body');
+  if (tab === 'items') renderItems(body, its);
+  else if (tab === 'refs') {
+    const row = (r, dir) => `<tr><td>${dir}</td><td>${esc(dir === '나감' ? r.to : r.from)}</td><td>${r.n}</td><td class="path">${r.fields.map(f => esc(f[0]) + ' ' + f[1]).join('<br>')}</td><td>${srcBadges(r.via)}</td></tr>`;
+    body.innerHTML = `<table><tr><th>방향</th><th>공간</th><th>자리</th><th>필드</th><th>출처</th></tr>${outs.map(r => row(r, '나감')).join('')}${ins.map(r => row(r, '들어옴')).join('')}</table>`;
+  } else {
+    const links = D.action_links.filter(l => l.space === name);
+    body.innerHTML = `<div class="ctrl"><select id="ak"><option value="">모든 효과</option>${Object.entries(KIND).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select>
+      <select id="ab"><option value="">모든 근거</option>${Object.entries(BASIS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></div><div id="atbl"></div>`;
+    const draw = () => {
+      const k = document.getElementById('ak').value, b = document.getElementById('ab').value;
+      const rows = links.filter(l => (!k || l.kind === k) && (!b || (l.basis || 'none').split('+')[0] === b));
+      document.getElementById('atbl').innerHTML = `<table><tr><th>action</th><th>효과</th><th>바뀌는 항목</th><th>근거</th></tr>${rows.map(l =>
+        `<tr><td class="path">${esc(l.action)}</td><td>${KIND[l.kind]}</td><td class="path">${l.group ? esc(l.group.split('|')[1]) + ' (' + l.items.length + ')' : (l.target_space ? esc(l.target_space) + ' 자체' : '') + l.items.map(i => esc(i.startsWith('space:' + name + '|') ? i.split('|')[1] : i.replace(/^space:/, ''))).join('<br>')}</td><td>${BASIS[(l.basis || 'none').split('+')[0]]}${(l.basis || '').includes('+chain') ? ' + 쓰기 동작' : ''}${l.write_only ? ' (쓰기만 되는 정보)' : ''}</td></tr>`).join('')}</table>`;
+    };
+    document.getElementById('ak').addEventListener('change', draw); document.getElementById('ab').addEventListener('change', draw); draw();
+  }
+}
+function renderItems(body, its) {
+  body.innerHTML = `<div class="ctrl"><input type="search" id="q" placeholder="경로 검색"><select id="f">
+    <option value="">모든 출처</option><option value="api">API</option><option value="api_copy">API 사본</option><option value="event">이벤트</option><option value="audit_copy">감사 로그</option><option value="multi">출처 둘 이상</option><option value="write">쓰기 짝 있음</option><option value="filter">필터 있음</option><option value="audit">감사 action 있음</option></select></div><div id="tbl"></div>`;
+  const draw = () => {
+    const q = document.getElementById('q').value.trim().toLowerCase(), f = document.getElementById('f').value;
+    const rows = its.filter(i => (!q || i.rel.toLowerCase().includes(q)) && (!f || (f === 'multi' ? Object.keys(i.src).length > 1 : f === 'write' ? i.write_by.length : f === 'filter' ? (i.filter_by || []).length : f === 'audit' ? i.changed_by.length : i.src[f])))
+      .sort((a, b) => b.n_slots - a.n_slots || a.rel.localeCompare(b.rel));
+    document.getElementById('tbl').innerHTML = `<table><tr><th>경로</th><th>타입</th><th>출처</th><th>읽는 scope</th><th>쓰기</th><th>필터</th><th>감사</th></tr>${rows.map((i, k) =>
+      `<tr class="item" data-k="${k}"><td class="path">${esc(i.rel)}${i.ref_space ? ' → ' + esc(i.ref_space) : ''}</td><td>${esc(i.types.join(', '))}</td><td>${srcBadges(i.src)}</td><td>${i.read_by.length}</td><td>${i.write_by.length}</td><td>${(i.filter_by || []).length}</td><td>${i.changed_by.length}</td></tr>`).join('')}</table>`;
+    document.querySelectorAll('tr.item').forEach(tr => tr.addEventListener('click', () => {
+      const i = rows[tr.dataset.k], nx = tr.nextElementSibling;
+      if (nx && nx.classList.contains('detail')) { nx.remove(); tr.classList.remove('open'); return; }
+      tr.classList.add('open');
+      const d = document.createElement('tr'); d.className = 'detail';
+      d.innerHTML = `<td colspan="7"><b>자리 ${i.n_slots}</b><ul class="slots">${i.slots.map(s => `<li>${esc(s[0])} ${esc(s[1])} ${esc(s[2])}</li>`).join('')}</ul>
+        ${i.read_by.length ? `<b>읽는 scope</b><div class="slots">${i.read_by.map(esc).join(', ')}</div>` : ''}
+        ${i.write_by.length ? `<b>쓰기 동작</b><div class="slots">${i.write_by.map(esc).join(', ')}</div>` : ''}
+        ${(i.filter_by || []).length ? `<b>이 항목으로 거르는 조회 (동작?인자)</b><div class="slots">${i.filter_by.map(esc).join(', ')}</div>` : ''}
+        ${i.changed_by.length ? `<b>바꾸는 감사 action</b><div class="slots">${i.changed_by.map(esc).join(', ')}</div>` : ''}</td>`;
+      tr.after(d);
+    }));
+  };
+  document.getElementById('q').addEventListener('input', draw); document.getElementById('f').addEventListener('change', draw); draw();
+}
+function renderHome() {
+  const all = Object.entries(D.determinants);
+  const kinds = {space: 'ID 공간', local: '부모 안 키', combo: 'ID 조합', event: '사건 (이벤트 payload)', op: '결정자 못 정함 (동작 결과)'};
+  const groups = Object.keys(kinds).map(k => [k, all.filter(([d]) => d.startsWith(k + ':'))]);
+  panel.innerHTML = `<h2>결정자별 정보 항목</h2><p>그래프의 원을 누르면 그 결정자에 묶인 정보 항목을 봅니다.</p>
+  <table><tr><th>결정자 종류</th><th>개수</th><th>정보 항목</th><th>자리</th></tr>${groups.map(([k, g]) =>
+    `<tr><td>${kinds[k]}</td><td>${g.length}</td><td>${g.reduce((s, [, v]) => s + v.items, 0)}</td><td>${g.reduce((s, [, v]) => s + v.slots, 0)}</td></tr>`).join('')}</table>
+  ${hidden > 0 ? `<h2 style="margin-top:16px">그래프에 안 그린 결정자 ${hidden}</h2><table><tr><th>결정자</th><th>정보 항목</th></tr>${Object.entries(D.determinants).filter(([k]) => /^(space|local|combo):/.test(k) && !k.startsWith('local:?') && !byId[k]).sort((a, b) => b[1].items - a[1].items).map(([k, v]) => `<tr><td class="path">${esc(k)}</td><td>${v.items}</td></tr>`).join('')}</table>` : ''}
+  <h2 style="margin-top:16px">ID 공간</h2><table><tr><th>공간</th><th>정보 항목</th><th>설명</th><th>상태</th></tr>${Object.entries(D.determinants).filter(([k]) => k.startsWith('space:')).sort((a, b) => b[1].items - a[1].items).map(([k, v]) => {
+    const t = ((D.space_notes || {})[k.slice(6)] || '').split(' | ');
+    return `<tr><td class="path">${esc(k.slice(6))}</td><td>${v.items}</td><td>${esc(t[0] || '')}</td><td>${esc(t[1] || '')}</td></tr>`; }).join('')}</table>
+  <h2 style="margin-top:16px">감사 action 연결</h2>
+  <table><tr><th>효과</th>${Object.keys(BASIS).map(b => `<th>${BASIS[b]}</th>`).join('')}</tr>${Object.keys(KIND).map(k => `<tr><td>${KIND[k]}</td>${Object.keys(BASIS).map(b =>
+    `<td>${D.action_links.filter(l => l.kind === k && (l.basis || 'none').split('+')[0] === b).length || ''}</td>`).join('')}</tr>`).join('')}</table>
+  <h2 style="margin-top:16px">결정자 못 정함</h2><p>목록과 검색 결과, ID 없는 응답입니다. 다른 출처와 잇지 않았습니다.</p>
+  <table><tr><th>동작</th><th>정보 항목</th></tr>${groups.find(g => g[0] === 'op')[1].sort((a, b) => b[1].items - a[1].items).map(([d, v]) =>
+    `<tr><td class="path">${esc(d.slice(3))}</td><td>${v.items}</td></tr>`).join('')}</table>
+  <h2 style="margin-top:16px">대기열</h2><table><tr><th>종류</th><th>건수</th></tr>${Object.entries(D.queue_by_kind).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join('')}</table>
+  <h2 style="margin-top:16px">공간에 못 이은 감사 category</h2><table><tr><th>category</th><th>action</th></tr>${Object.entries(D.audit_unmatched).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v}</td></tr>`).join('')}</table>`;
+}
+layout(); render();
+window.addEventListener('resize', layout);
+</script>
+</body>
+</html>

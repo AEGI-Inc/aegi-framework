@@ -1,0 +1,105 @@
+/* =========================================================================
+   본문 폭에 맞춘 배치
+
+   화면 배치는 브라우저 폭(media query)으로 바뀐다. AI 창을 열면 본문이 오른쪽 폭을 내주는데
+   브라우저 폭은 그대로라 넓은 화면 배치를 그대로 써서, 표 머리글과 수치 줄이 겹치고 글자가
+   칸 밖으로 나갔다. App.tsx가 본문(.app-content) 폭을 재서 cw-lt-<폭> 이름을 붙이고, 여기서
+   그 이름으로 각 화면의 좁은 화면 배치를 다시 쓴다. 폭 기준은 각 media query 값에서 메뉴(196px)를 뺀 값이다.
+   ========================================================================= */
+
+/* ---- Overview (homeDashboard.css 1180px, 840px) ---- */
+.app-content.cw-lt-1000 .hp-layout {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.app-content.cw-lt-640 .hp-kpis {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+
+/* ---- Threat Analysis 목록 (threatAnalysis.css 1100px, 760px) ---- */
+.app-content.cw-lt-900 .ti-head,
+.app-content.cw-lt-900 .ti-row {
+  grid-template-columns: 96px minmax(0, 1fr) 150px 110px 56px;
+}
+
+.app-content.cw-lt-900 .ti-head span:nth-child(5),
+.app-content.cw-lt-900 .ti-cell-evidence {
+  display: none;
+}
+
+.app-content.cw-lt-560 .ti-head {
+  display: none;
+}
+
+.app-content.cw-lt-560 .ti-row {
+  grid-template-columns: minmax(0, 1fr) 56px;
+  row-gap: 8px;
+}
+
+.app-content.cw-lt-560 .ti-cell-severity,
+.app-content.cw-lt-560 .ti-cell-main,
+.app-content.cw-lt-560 .ti-cell-saas,
+.app-content.cw-lt-560 .ti-cell-handling {
+  grid-column: 1;
+}
+
+.app-content.cw-lt-560 .ti-cell-open {
+  grid-column: 2;
+  grid-row: 1 / span 4;
+  align-items: center;
+}
+
+/* ---- Finding 상세 (styles.css 1050px) ---- */
+.app-content.cw-lt-900 .finding-detail-grid {
+  grid-template-columns: 1fr;
+}
+
+/* ---- Access Gaps 목록 (accessGap.css 760px) ----
+   오른쪽 다섯 칸이 고정 폭이라 본문이 800px보다 좁으면 연동 경로 칸이 0으로 줄어 이름이 사라졌다. */
+.app-content.cw-lt-800 .agl-head {
+  display: none;
+}
+
+.app-content.cw-lt-800 .agl-row {
+  grid-template-columns: auto auto auto minmax(0, 1fr) 16px;
+  grid-template-areas: 'ends ends ends ends go' 'finding normal int gap go';
+  row-gap: 6px;
+  column-gap: 12px;
+}
+
+.app-content.cw-lt-800 .agl-row-ends { grid-area: ends; flex-wrap: wrap; }
+.app-content.cw-lt-800 .agl-c-finding { grid-area: finding; }
+.app-content.cw-lt-800 .agl-c-normal { grid-area: normal; }
+.app-content.cw-lt-800 .agl-c-int { grid-area: int; }
+.app-content.cw-lt-800 .agl-c-gap { grid-area: gap; text-align: left; }
+.app-content.cw-lt-800 .agl-row-go { grid-area: go; }
+.app-content.cw-lt-800 .agl-c-num { text-align: left; }
+.app-content.cw-lt-800 .agl-c-num::before { content: attr(data-label) ' '; font-weight: 600; }
+
+/* ---- Manual 메뉴 요약 표 ----
+   AI 창을 열어 본문이 좁아지면 앞 두 칸을 줄이고, 더 좁으면 한 칸씩 쌓는다(manual.css 760px 규칙과 같다) */
+.app-content.cw-lt-1000 .mn-menu-table th[scope='row'] {
+  width: 180px;
+}
+
+.app-content.cw-lt-1000 .mn-menu-table td[data-label='용도'] {
+  width: 200px;
+}
+
+.app-content.cw-lt-560 .mn-menu-table thead {
+  display: none;
+}
+
+.app-content.cw-lt-560 .mn-menu-table tr {
+  display: grid;
+}
+
+.app-content.cw-lt-560 .mn-menu-table th[scope='row'],
+.app-content.cw-lt-560 .mn-menu-table td[data-label='용도'] {
+  width: auto;
+}
+
+.app-content.cw-lt-560 .mn-menu-table tbody td {
+  border-top: 0;
+}

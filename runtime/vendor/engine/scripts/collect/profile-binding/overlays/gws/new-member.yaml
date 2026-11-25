@@ -1,0 +1,296 @@
+format: im-pilot-profile/1
+scope: catalog_spec5_record_projection
+provider: gws
+service: null
+object_type: Member
+interfaces:
+  - Assignment
+model:
+  research_type: null
+  runtime_type_id: model-v1:gws:Member
+  decision_refs:
+    - model-v1 runtime record_projection
+vars:
+  group:
+    ref:
+      type: Group
+      lookup: email
+      value:
+        op: str
+        of: $req.group
+      ci: true
+    prop: $key
+  gid:
+    ref:
+      type: Group
+      lookup: email
+      value:
+        op: str
+        of: $req.group
+      ci: true
+    prop: $id
+  principal_type:
+    if:
+      path: type
+      eq: GROUP
+    then:
+      const: Group
+    else:
+      const: User
+identity:
+  primary:
+    - name: g
+      expr: $vars.gid
+      stability: catalog_reviewed
+    - name: m
+      expr: id
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-MEM-{g}-{m}
+binding:
+  status: on_demand_or_uncollected
+  call: GW-04
+  operation_id: null
+  paths:
+    - shape: sh:gws_directory:Member
+      path: []
+  basis: catalog spec:5 sources
+fields:
+  email:
+    expr: email
+    source: catalog_spec5
+  role:
+    expr: role
+    source: catalog_spec5
+  type:
+    expr: type
+    source: catalog_spec5
+  status:
+    expr: status
+    source: catalog_spec5
+references: []
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - password
+    - token
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/member.yaml
+  engine_commit: d78062d
+  research_agreement: no_research_type
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-04
+        request:
+          group: present
+        items: members
+    vars:
+      group:
+        ref:
+          type: Group
+          lookup: email
+          value:
+            op: str
+            of: $req.group
+          ci: true
+        prop: $key
+      gid:
+        ref:
+          type: Group
+          lookup: email
+          value:
+            op: str
+            of: $req.group
+          ci: true
+        prop: $id
+      principal_type:
+        if:
+          path: type
+          eq: GROUP
+        then:
+          const: Group
+        else:
+          const: User
+    require:
+      path: $vars.gid
+      present: true
+    id_expr:
+      template: "{$vars.gid}:{id}"
+    parts:
+      g: $vars.gid
+      m: id
+    parent:
+      ref:
+        key: $vars.group
+      when: always
+    refs:
+      grantee:
+        ref:
+          switch: type
+          cases:
+            GROUP:
+              type: Group
+              lookup: email
+              value: email
+              ci: true
+          default:
+            type: User
+            id: id
+        value: id
+    properties:
+      email: email
+      role: role
+      type: type
+      status: status
+    display: "{email} ∈ {$req.group}"
+    relations:
+      - type: member_of
+        source:
+          switch: type
+          cases:
+            GROUP:
+              type: Group
+              lookup: email
+              value: email
+              ci: true
+          default:
+            type: User
+            id: id
+        target:
+          key: $vars.group
+        basis: stated
+        properties:
+          via_assignment: $self
+      - type: has_role_on
+        when:
+          path: role
+          in:
+            - OWNER
+            - MANAGER
+        source:
+          switch: type
+          cases:
+            GROUP:
+              type: Group
+              lookup: email
+              value: email
+              ci: true
+          default:
+            type: User
+            id: id
+        target:
+          key: $vars.group
+        role:
+          name: role
+        basis: stated
+        properties:
+          via_assignment: $self
+    identity:
+      primary:
+        - name: g
+          expr: $vars.gid
+          stability: catalog_reviewed
+        - name: m
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-MEM-{g}-{m}
+runtime_stub: null
+runtime_key: GWS-MEM-{g}-{m}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Member:list
+    sources:
+      - call: GW-04
+        request:
+          group: present
+        items: members
+    vars:
+      group:
+        ref:
+          type: Group
+          lookup: email
+          value:
+            op: str
+            of: $req.group
+          ci: true
+        prop: $key
+      gid:
+        ref:
+          type: Group
+          lookup: email
+          value:
+            op: str
+            of: $req.group
+          ci: true
+        prop: $id
+      principal_type:
+        if:
+          path: type
+          eq: GROUP
+        then:
+          const: Group
+        else:
+          const: User
+    require:
+      path: $vars.gid
+      present: true
+    relations:
+      - type: member_of
+        source:
+          switch: type
+          cases:
+            GROUP:
+              type: Group
+              lookup: email
+              value: email
+              ci: true
+          default:
+            type: User
+            id: id
+        target:
+          key: $vars.group
+        basis: stated
+        properties:
+          via_assignment: $self
+      - type: has_role_on
+        when:
+          path: role
+          in:
+            - OWNER
+            - MANAGER
+        source:
+          switch: type
+          cases:
+            GROUP:
+              type: Group
+              lookup: email
+              value: email
+              ci: true
+          default:
+            type: User
+            id: id
+        target:
+          key: $vars.group
+        role:
+          name: role
+        basis: stated
+        properties:
+          via_assignment: $self
+    self_identity: object_rule

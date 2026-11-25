@@ -1,0 +1,592 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: pull-request
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:b6770c5fed631eac77faa1b6
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:b6770c5fed631eac77faa1b6.identity_evidence
+  parent:
+    type: full-repository
+    expr: $req.parent_id
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  merged_at:
+    path: merged_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:issue.pull_request
+    declaration:
+      format: date-time
+      name: merged_at
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:pull-request|merged_at
+  diff_url:
+    path: diff_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:issue.pull_request
+    declaration:
+      format: uri
+      name: diff_url
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:pull-request|diff_url
+  html_url:
+    path: html_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:issue.pull_request
+    declaration:
+      format: uri
+      name: html_url
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:pull-request|html_url
+  patch_url:
+    path: patch_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:issue.pull_request
+    declaration:
+      format: uri
+      name: patch_url
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:pull-request|patch_url
+  url:
+    path: url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:issue.pull_request
+    declaration:
+      format: uri
+      name: url
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:pull-request|url
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: full-repository
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:fe703adac9986b2c8e5e5c90 (repos/{}/{}) -> full-repository
+  - name: links_comments_href
+    field: _links.comments.href
+    target: simple-commit-status
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0144fee04d7bde60cc546dea; relation=no_relation
+  - name: links_review_comment_href
+    field: _links.review_comment.href
+    target: simple-commit-status
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:05ab82dee2ef63cd1941642b; relation=no_relation
+  - name: head_user
+    field: head.user
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:06c7eb8065b2f7543a7ff8fc; relation=no_relation
+  - name: head_repo
+    field: head.repo
+    target: full-repository
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0be0fbc1865f4daecbea2134; relation=no_relation
+  - name: head_sha
+    field: head.sha
+    target: commit
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0c159f1b5e03987a0bad4669; relation=no_relation
+  - name: links_self_href
+    field: _links.self.href
+    target: simple-commit-status
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0ffa96bf0d7bf5055e4bef00; relation=no_relation
+  - name: url
+    field: url
+    target: pull-request
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1809ae30429e373ab66ec63b; relation=no_relation
+  - name: requested_reviewers
+    field: requested_reviewers
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:229a3b27f994b9fd431fbaf1; relation=no_relation
+  - name: requested_teams
+    field: requested_teams
+    target: enterprise-team-with-member-count
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2fe80e4e7121b07c116748d5; relation=no_relation
+  - name: milestone
+    field: milestone
+    target: milestone
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:33101813c33ea81b6f3a21a3; relation=no_relation
+  - name: assignees
+    field: assignees
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3a3e342b5065c0e680cc60db; relation=no_relation
+  - name: links_html_href
+    field: _links.html.href
+    target: simple-commit-status
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3e13a58869e97f9d87589a75; relation=no_relation
+  - name: merged_by
+    field: merged_by
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:43c45cc44605062886b3cad0; relation=no_relation
+  - name: statuses_url
+    field: statuses_url
+    target: simple-commit-status
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5160fdb80b71be521b235a3e; relation=no_relation
+  - name: links_statuses_href
+    field: _links.statuses.href
+    target: simple-commit-status
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:56e9ea769dad5cf5139d498d; relation=no_relation
+  - name: stack_base_sha
+    field: stack.base.sha
+    target: commit
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:642bae057bd39a52dafbf666; relation=no_relation
+  - name: base_user
+    field: base.user
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:68fe8469a982964e1235ed95; relation=no_relation
+  - name: auto_merge_enabled_by
+    field: auto_merge.enabled_by
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:6c748d0faa8c3f1354fbb037; relation=no_relation
+  - name: user
+    field: user
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:82367a7253e6994699b92afd; relation=no_relation
+  - name: issue_url
+    field: issue_url
+    target: issue
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:908b01311eea3940bd20947d; relation=no_relation
+  - name: labels
+    field: labels
+    target: label
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a77fad28943a3e9731bf8000; relation=no_relation
+  - name: base_repo
+    field: base.repo
+    target: full-repository
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:b4771750af93c0054ae6ec7e; relation=no_relation
+  - name: base_sha
+    field: base.sha
+    target: commit
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:b77868ca030cd8b28f21d7db; relation=no_relation
+  - name: links_commits_href
+    field: _links.commits.href
+    target: simple-commit-status
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:dd716c111bc9486fb125acee; relation=no_relation
+  - name: links_issue_href
+    field: _links.issue.href
+    target: simple-commit-status
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:fb2e768479ae9849cfb3a6c1; relation=no_relation
+  - name: links_review_comments_href
+    field: _links.review_comments.href
+    target: simple-commit-status
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:ff81693cc6b1034c8013e0c4; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: pull-request
+  interfaces: *a1
+  model:
+    research_type: object-type:b6770c5fed631eac77faa1b6
+  extract:
+    key: PILOT-github-pull-request-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-GITHUB-faa1b6
+            endpoint: /
+            items:
+              - payload.issue.pull_request
+        properties:
+          diff_url: diff_url
+          html_url: html_url
+          merged_at: merged_at
+          patch_url: patch_url
+          url: url
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_empty
+  call: GH-12
+  operation_id: op:gh_rest_ghec_next_2026_03_10_latest:pulls/list
+  operation: pulls/list
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /repos/[^/]+/[^/]+/pulls(?:\?|$)
+  endpoint_template: /repos/{owner}/{repo}/pulls
+  request: {}
+  required_params:
+    - owner
+    - repo
+  paths:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:pull-request-simple
+      path:
+        - "*"
+  alternatives_total: 25
+  alternatives:
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/list-pull-requests-associated-with-commit
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/commits/{commit_sha}/pulls
+      path:
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list
+      method: GET
+      kind: read_many
+      endpoint_template: /issues
+      path:
+        - "*"
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-for-authenticated-user
+      method: GET
+      kind: read_many
+      endpoint_template: /user/issues
+      path:
+        - "*"
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-for-org
+      method: GET
+      kind: read_many
+      endpoint_template: /orgs/{org}/issues
+      path:
+        - "*"
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-for-repo
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues
+      path:
+        - "*"
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-dependencies-blocked-by
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by
+      path:
+        - "*"
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-dependencies-blocking
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocking
+      path:
+        - "*"
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-relates-to
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/relates_to
+      path:
+        - "*"
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-sub-issues
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/sub_issues
+      path:
+        - "*"
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:pulls/get
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/pulls/{pull_number}
+      path: []
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/get
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}
+      path: &a3
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/get-parent
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/parent
+      path: *a3
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:code-scanning/get-alert
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/code-scanning/alerts/{alert_number}
+      path:
+        - linked_pull_requests
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-events-for-repo
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/events
+      path:
+        - "*"
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-events
+      method: GET
+      kind: read_many
+      endpoint_template: /events
+      path:
+        - "*"
+        - payload
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-events-for-authenticated-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/events
+      path:
+        - "*"
+        - payload
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-events-for-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/events/public
+      path:
+        - "*"
+        - payload
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-org-events
+      method: GET
+      kind: read_many
+      endpoint_template: /orgs/{org}/events
+      path:
+        - "*"
+        - payload
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-received-events-for-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/received_events
+      path:
+        - "*"
+        - payload
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-received-public-events-for-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/received_events/public
+      path:
+        - "*"
+        - payload
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-events-for-repo-network
+      method: GET
+      kind: read_many
+      endpoint_template: /networks/{owner}/{repo}/events
+      path:
+        - "*"
+        - payload
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-repo-events
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/events
+      path:
+        - "*"
+        - payload
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-events-for-timeline
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/timeline
+      path:
+        - "*"
+        - source
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/get-event
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/issues/events/{event_id}
+      path:
+        - issue
+        - pull_request
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-org-events-for-authenticated-user
+      method: GET
+      kind: read_one
+      endpoint_template: /users/{username}/events/orgs/{org}
+      path:
+        - "*"
+        - payload
+        - issue
+        - pull_request
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 0
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - _links.comments.href
+    - _links.review_comment.href
+    - head.user
+    - head.repo
+    - head.sha
+    - _links.self.href
+    - url
+    - requested_reviewers
+    - requested_teams
+    - milestone
+    - assignees
+    - _links.html.href
+    - merged_by
+    - statuses_url
+    - _links.statuses.href
+    - stack.base.sha
+    - base.user
+    - auto_merge.enabled_by
+    - user
+    - issue_url
+    - labels
+    - base.repo
+    - base.sha
+    - _links.commits.href
+    - _links.issue.href
+    - _links.review_comments.href
+  metadata_paths: *a2
+  remaining_declared_fields: properties

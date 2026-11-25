@@ -1,0 +1,242 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/acl_rule.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-22
+        items: items
+        where:
+          path: id
+          truthy: true
+    vars:
+      owner_email:
+        op: lower
+        of:
+          op: str
+          of:
+            any:
+              - $req.user
+            empty_as: ""
+      owner:
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value:
+            op: lower
+            of:
+              op: str
+              of:
+                any:
+                  - $req.user
+                empty_as: ""
+          ci: true
+        prop: $key
+      scope_type: scope.type
+      value:
+        if:
+          path: scope.value
+          truthy: true
+        then:
+          op: lower
+          of:
+            op: str
+            of: scope.value
+      grantee:
+        ref:
+          switch: scope.type
+          cases:
+            user:
+              type: User
+              lookup:
+                - primaryEmail
+                - aliases
+              value:
+                op: lower
+                of:
+                  op: str
+                  of: scope.value
+              ci: true
+            group:
+              type: Group
+              lookup: email
+              value:
+                op: lower
+                of:
+                  op: str
+                  of: scope.value
+              ci: true
+        prop: $key
+    require:
+      not:
+        all:
+          - path: scope.type
+            eq: user
+          - path: $vars.value
+            eq_expr: $vars.owner_email
+          - path: role
+            eq: owner
+    id_expr:
+      template: "{$vars.owner_email}:{id}"
+    parts:
+      o: $vars.owner_email
+      r: id
+    refs:
+      calendar_owner:
+        when:
+          path: $vars.owner
+          present: true
+        ref:
+          key: $vars.owner
+        type: User
+        value: $vars.owner_email
+      grantee:
+        - when:
+            all:
+              - path: $vars.grantee
+                present: true
+              - path: scope.type
+                eq: group
+          ref:
+            key: $vars.grantee
+          type: Group
+          value: $vars.value
+        - when:
+            all:
+              - path: $vars.grantee
+                present: true
+              - path: scope.type
+                ne: group
+          ref:
+            key: $vars.grantee
+          type: User
+          value: $vars.value
+        - when:
+            all:
+              - path: $vars.grantee
+                present: false
+              - path: $vars.value
+                truthy: true
+              - path: scope.type
+                eq: user
+          type: User
+          value: $vars.value
+          external: true
+        - when:
+            all:
+              - path: $vars.grantee
+                present: false
+              - path: $vars.value
+                truthy: true
+              - path: scope.type
+                eq: group
+          type: Group
+          value: $vars.value
+          external: true
+    properties:
+      calendar:
+        const: primary
+      calendar_owner: $vars.owner_email
+      role: role
+      scope_type: scope.type
+      scope_value:
+        op: null_if_missing
+        of: $vars.value
+    display: 캘린더 {$vars.owner_email} {role} → {$vars.value|scope.type}
+    relations: []
+    identity:
+      primary:
+        - name: o
+          expr: $vars.owner_email
+          stability: catalog_reviewed
+        - name: r
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-ACL-{o}-{r}
+runtime_stub: null
+runtime_key: GWS-ACL-{o}-{r}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+vars:
+  owner_email:
+    op: lower
+    of:
+      op: str
+      of:
+        any:
+          - $req.user
+        empty_as: ""
+  owner:
+    ref:
+      type: User
+      lookup:
+        - primaryEmail
+        - aliases
+      value:
+        op: lower
+        of:
+          op: str
+          of:
+            any:
+              - $req.user
+            empty_as: ""
+      ci: true
+    prop: $key
+  scope_type: scope.type
+  value:
+    if:
+      path: scope.value
+      truthy: true
+    then:
+      op: lower
+      of:
+        op: str
+        of: scope.value
+  grantee:
+    ref:
+      switch: scope.type
+      cases:
+        user:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value:
+            op: lower
+            of:
+              op: str
+              of: scope.value
+          ci: true
+        group:
+          type: Group
+          lookup: email
+          value:
+            op: lower
+            of:
+              op: str
+              of: scope.value
+          ci: true
+    prop: $key
+identity:
+  primary:
+    - name: o
+      expr: $vars.owner_email
+      stability: catalog_reviewed
+    - name: r
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-ACL-{o}-{r}
+    replaced:
+      - $req.parent_id
+      - id

@@ -1,0 +1,339 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: Bot
+interfaces: &a1
+  - Principal
+model:
+  research_type: object-type:ab706d026061357f8800c085
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:ab706d026061357f8800c085.identity_evidence
+  aliases:
+    - name: login
+      expr: login
+      stability: mutable
+      classification: self_address
+      evidence:
+        source: gh_rest_ghec_next_2026_03_10_latest
+        locator: Bot.login
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  avatarUrl:
+    path: avatarUrl
+    source: research_shape
+    shape: sh:gh_graphql_ghec_2026_10_13:Bot
+    declaration:
+      name: avatarUrl
+      required: true
+      shape: sh:gh_graphql_ghec_2026_10_13:URI
+    map_items: []
+  createdAt:
+    path: createdAt
+    source: research_shape
+    shape: sh:gh_graphql_ghec_2026_10_13:Bot
+    declaration:
+      name: createdAt
+      required: true
+      shape: sh:gh_graphql_ghec_2026_10_13:DateTime
+    map_items: []
+  databaseId:
+    path: databaseId
+    source: research_shape
+    shape: sh:gh_graphql_ghec_2026_10_13:Bot
+    declaration:
+      name: databaseId
+      required: false
+      scalar: integer
+    map_items: []
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gh_graphql_ghec_2026_10_13:Bot
+    declaration:
+      format: ID
+      name: id
+      required: true
+      scalar: string
+    map_items: []
+  login:
+    path: login
+    source: research_shape
+    shape: sh:gh_graphql_ghec_2026_10_13:Bot
+    declaration:
+      name: login
+      required: true
+      scalar: string
+    map_items: []
+  resourcePath:
+    path: resourcePath
+    source: research_shape
+    shape: sh:gh_graphql_ghec_2026_10_13:Bot
+    declaration:
+      name: resourcePath
+      required: true
+      shape: sh:gh_graphql_ghec_2026_10_13:URI
+    map_items: []
+  updatedAt:
+    path: updatedAt
+    source: research_shape
+    shape: sh:gh_graphql_ghec_2026_10_13:Bot
+    declaration:
+      name: updatedAt
+      required: true
+      shape: sh:gh_graphql_ghec_2026_10_13:DateTime
+    map_items: []
+  url:
+    path: url
+    source: research_shape
+    shape: sh:gh_graphql_ghec_2026_10_13:Bot
+    declaration:
+      name: url
+      required: true
+      shape: sh:gh_graphql_ghec_2026_10_13:URI
+    map_items: []
+references: []
+constants: {}
+row_contracts:
+  principal_kind:
+    const: unknown
+  account_kind:
+    const: unknown
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: Bot
+  interfaces: *a1
+  model:
+    research_type: object-type:ab706d026061357f8800c085
+  extract:
+    key: PILOT-github-Bot-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: id
+        sources:
+          - call: AUTO-GITHUB-00c085
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          avatarUrl: avatarUrl
+          createdAt: createdAt
+          databaseId: databaseId
+          id: id
+          login: login
+          resourcePath: resourcePath
+          updatedAt: updatedAt
+          url: url
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:gh_graphql_ghec_2026_10_13:Query.organization
+  operation: Query.organization
+  surface: graphql
+  method: null
+  kind: read_one
+  endpoint: /graphql(?:\?|$)
+  endpoint_template: graphql
+  graphql_field: Query.organization
+  request: {}
+  required_params: []
+  paths:
+    - shape: sh:gh_graphql_ghec_2026_10_13:Bot
+      path:
+        - projectV2
+        - creator
+  alternatives_total: 16
+  alternatives:
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.enterprise
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path:
+        - ruleset
+        - source
+        - discussion
+        - answerChosenBy
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.repository
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path:
+        - discussion
+        - answerChosenBy
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.viewer
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path: &a3
+        - projectV2
+        - creator
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.user
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path: *a3
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.enterpriseAdministratorInvitation
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path: &a4
+        - invitee
+        - projectV2
+        - creator
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.enterpriseAdministratorInvitationByToken
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path: *a4
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.enterpriseMemberInvitation
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path: &a5
+        - invitee
+        - projectV2
+        - creator
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.enterpriseMemberInvitationByToken
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path: *a5
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.repositoryOwner
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path:
+        - repository
+        - discussion
+        - answerChosenBy
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.topic
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path:
+        - repositories
+        - nodes
+        - "*"
+        - discussion
+        - answerChosenBy
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.nodes
+      method: null
+      kind: read_many
+      endpoint_template: graphql
+      path:
+        - "*"
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.node
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path: []
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.resource
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path: []
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.relay
+      method: null
+      kind: read_one
+      endpoint_template: graphql
+      path:
+        - node
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.search
+      method: null
+      kind: read_many
+      endpoint_template: graphql
+      path:
+        - nodes
+        - "*"
+        - answerChosenBy
+    - operation_id: op:gh_graphql_ghec_2026_10_13:Query.sponsorables
+      method: null
+      kind: read_many
+      endpoint_template: graphql
+      path:
+        - nodes
+        - "*"
+        - projectV2
+        - creator
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+    - login
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

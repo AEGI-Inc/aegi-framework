@@ -1,0 +1,528 @@
+# 능력 순위와 역할 → 능력
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  rank: aegi-dashboard src/detection/v2/engine/accessModel.ts RANK @ 0ee565f
+  role_rank: aegi-dashboard src/detection/v2/access.ts ROLE_RANK @ 0ee565f
+  okta_standard_roles: aegi-dashboard src/detection/v2/engine/accessModel.ts OKTA_STANDARD_ROLES @ 0ee565f. 2026-11-04 workflows_admin — developer.okta.com Okta Management API 「Roles in Okta」 안내서의 IAM 기반 기본 역할(Workflows Administrator, 리소스 세트 WORKFLOWS_IAM_POLICY 의 흐름 · 폴더 · 테이블 · 연결 · 커넥터를 부르고 관리한다). 운영 current(2026-11-03) has_role_on 에 이름으로 나온다. 2026-11-15 rank 3 → 5(Relation 주담당 위임, Claude 가 정함) — 「관리한다」는 흐름 켜기 · 끄기 · 실행 기록 설정(사전 configure)까지다. 11-04 운영 로그에서 이 역할만 가진 사람의 흐름 만들기 · 저장 · 끄기 5건이 읽기까지만 닿아 설명되지 않았다. 적용 범위(workflow)는 그대로라 판정(위협 · 격차 · EA)은 바이트가 같다
+  okta_permission_types: aegi-dashboard src/detection/v2/engine/accessModel.ts OKTA_PERMISSION_TYPES @ 0ee565f
+  role_name_from: aegi-dashboard src/detection/v2/engine/accessModel.ts roleCapability() name · src/detection/v2/access.ts relationRoleName() @ f0ef4b8
+  role_scopes_from: 2026-10-19 결정 — 역할 객체가 이름 대신 scope 목록을 가질 때(Slack bot-token). 대시보드 blastRadius.ts scopesOf() 와 같은 칸
+  scope_rank: aegi-dashboard src/detection/v2/blastRadius.ts tokenCapability() Slack 갈래 @ d05bac8. 엔진(accessModel.ts roleCapability)도 aegi-dashboard PR #125(2026-10-20 머지)부터 읽는다
+  token_scopes: 2026-11-10 Relation 주담당 위임(Claude 가 정함). 토큰 scope 를 「자원 마디 → 객체 종류」, 「능력 마디 → 세기」 두 표로 가르는 SaaS 공통 틀. Okta 는 developer.okta.com 「OAuth 2.0 Scopes」의 Okta Admin Management 목록(2026-11-10 확인)과 User Factors API 경로(/api/v1/users/{id}/factors). 대시보드 blastRadius.ts tokenCapability() Okta 갈래(.read · .manage 끝, okta.internal. 빼기)와 같은 가름이다. 2026-11-14 GWS 추가 — developers.google.com 「OAuth 2.0 Scopes for Google APIs」 및 각 API(Admin SDK Directory, Drive, Drive Activity, Sheets, Gmail Add-ons, Chat, Apps Script, Enterprise License Manager, Groups Settings, Admin Data Transfer) Authorization scopes 표(2026-11-14 확인). 2026-11-16 aegi-knowledge#306 — 엔진 위협 판정의 접속자 권한 실행 scope 표(vendorEdges.ts callerRunAs.scopes)를 이 표로 합치려고 디렉터리 줄 여섯, Vault, Gmail 민감 설정을 더하고, 누가 관리자인지 바꾸는 admin.directory.user · rolemanagement 를 관리(5)로 올렸다(users.makeAdmin, roleAssignments.insert 메서드 문서 2026-11-16 확인)
+  token_scope_from: 2026-11-10 Relation 주담당 위임(Claude 가 정함). 11-04 정규화 묶음에서 토큰 scope 가 담긴 칸 — Okta OAuth2RefreshToken · Slack 봇 자격 · Google 토큰은 properties.scopes, Okta AppUser 등은 properties.scope. 대시보드 blastRadius.ts scopesOf() 와 같은 두 칸
+  role_rank_order: 2026-10-20 Relation 담당 — 명세 안의 단계(name · scopes)를 엔진 roleCapability() 순서대로 적고 새 방법 셋(flags · object_type · grants)을 뒤에 붙였다. 2026-10-21 base_role 을 맨 뒤에 붙였다 — 엔진 roleCapability() 가 이미 마지막에 읽는 단계이고(GitHub 사용자 정의 저장소 역할 GH-07, 조직 역할 GH-27), docs.github.com REST 「Organization roles」 의 base_role(read · triage · write · maintain · admin)이다. 엔진의 overrides · 권한 요약 문자열 · Okta permissions 는 아직 명세 밖이다. 엔진은 이름이 있으면 scope 를 안 보지만(aegi-dashboard PR #125) 명세는 이름으로 못 정하면 다음 방법으로 간다 — 지금 데이터에서 갈리는 행은 없다
+  role_name_rank: 2026-10-20 Relation 담당 — Jira 키는 developer.atlassian.com Jira Cloud REST v3 명세(swagger-v3) GET /rest/api/3/permissionscheme 설명, Confluence 키는 Confluence Cloud REST v2 명세(openapi-v2) SpacePermissionAssignment.operation. 역할 이름 모양은 aegi-dashboard scripts/collect/normalize-v2/atlassian.ts · salesforce.ts @ d05bac8 이 만드는 것. 엔진은 aegi-dashboard PR #129 부터 읽는다. 2026-10-21 Slack · GitHub 을 더했다 — Slack 관리 역할 번호는 docs.slack.dev admin.roles.addAssignments 「Admin Roles」 표, 역할 뜻은 Slack 도움말 「Types of roles in Slack」 · 「Permissions by role in Slack」(slack.com 은 이 환경에서 못 열어 검색으로 확인), 워크플로 관리자는 Slack 도움말 「Build a workflow」 와 docs.slack.dev admin.workflows.search(collaborator = manager). GitHub 기본 조직 역할은 docs.github.com 「Permissions of predefined organization roles」 · 「Managing security managers in your organization」. 역할 이름 모양은 대시보드 normalize-v2/slack.ts(관리 역할은 role_id, 워크플로는 collaborator, 소유자는 primary_owner) · github.ts(조직 역할 name) 2026-11-19 GCP 를 더했다, 11-20 3회차 실측 역할 객체의 includedPermissions(IAM roles.list)로 Gemini Enterprise 역할 세기를 고쳤다 — Google Cloud IAM 역할. docs.cloud.google.com 「Basic roles」 · 「Discovery Engine roles and permissions」(역할마다 setIamPolicy · 만들기 · 고치기 · 지우기 권한이 있는지로 세기를 정했다). 역할 이름 모양은 aegi-adapter-engine#499 Profile(overlays/gcp new-engine · new-project) 의 has_role_on 역할 칸(roles/<이름>). 수집한 Role 객체에서 이름을 읽으려면 객체에 properties.role_name 이 있어야 한다(엔진 accessModel.ts roleCapability) 2026-11-21 1Password 를 더했다 — Relation 주담당 위임(Claude 가 정함). 1Password 금고 권한 13종 가운데 문서 설명이 있는 12종 — 1Password SDK 문서 「Vault permissions」(developer.1password.com/docs/sdks/vault-permissions → www.1password.dev/sdks/vault-permissions, 상수 · 비트 값 · 의존 관계)와 support.1password.com 「Create and share vaults」(UI 이름, Manage Vault 는 항목 보기 · 고치기를 들지 않음). 4회차(aegi.men) 실측 금고 권한 12줄의 비트 합(2147483646, 15730672, 48, 2, 1)이 문서 비트와 맞음. role_name_rank · capability_names 의 onepassword 줄. 2026-11-21 Microsoft 365 를 더했다 — Microsoft Graph 권한 이름(learn.microsoft.com 「Microsoft Graph permissions reference」). 앱 역할 배정(앱 권한)과 위임 동의(scope)가 같은 이름이라 한 표로 센다. 2026-11-20 M365 수집본 앱 권한 46개 · 위임 scope 12개 가운데 Dataverse user_impersonation 하나만 표에 없어 모름이다. 라이선스(구독 SKU 이름)는 0 — Relation 주담당 위임(Claude 가 정함)
+  role_flag_rank: 2026-10-20 Relation 담당 — developer.salesforce.com Object Reference PermissionSet(Permissions<이름> 칸), Security Implementation Guide 「View All and Modify All Permissions Overview」 · 「User Permissions」, Apex Developer Guide 「Enforce Object and Field Permissions」. Manage Users 는 help.salesforce.com 000385064(자바스크립트 화면이라 검색 요약). 칸 이름은 대시보드 salesforce.ts permFlags() 가 만드는 perm_<이름>. 엔진은 아직 안 읽는다
+  role_type_rank: 2026-10-20 Relation 담당 — 대시보드 오브젝트 모델 v1 4단계 B7(역할 계층은 contained_in, 상속은 Effective Access). 엔진은 아직 안 읽는다. 2026-11-04 PermissionSetLicense — developer.salesforce.com Object Reference 「PermissionSetLicense」(프로필을 바꾸지 않고 사용자가 정해진 권한을 받을 수 있게 하는 라이선스. MaximumPermissions<이름> 칸은 이 라이선스로 줄 수 있는 권한의 상한이다. 본문은 403 이라 검색 요약으로 확인). 실제 권한은 같은 사용자의 권한 세트 배정이 준다
+  role_privileges_from: 2026-11-04 Relation 담당 — Google Workspace 관리자 역할(Admin SDK Directory API roles.list)의 rolePrivileges[].privilegeName 을 정규화가 「serviceId:privilegeName」 목록(properties.privileges)으로 남긴 칸
+  privilege_rank: 2026-11-04 Relation 담당 — developers.google.com Admin SDK Directory API 「Manage roles」 안내서의 관리 콘솔 기능 ↔ 권한 이름 표(Users - Read = USERS_RETRIEVE, Users - Create · Update · Reset Password · Suspend = USERS_CREATE · USERS_UPDATE · USERS_RESET_PASSWORD · USERS_SUSPEND, Groups = GROUPS_ALL, User Security Management = USER_SECURITY_ALL, Organizational Units = ORGANIZATION_UNITS_ALL)와 같은 안내서의 _SEED_ADMIN_ROLE(isSuperAdminRole true) 예. 운영 current(2026-11-03)가 모은 권한 이름 81개를 모두 이 표로 맞춰 봤고, 뜻을 문서로 못 정한 5개는 일부러 뺐다(check_semantics GWS_PRIVILEGES_UNRANKED) 2026-11-21 Microsoft Entra 역할 정의의 허용 동작(rolePermissions.allowedResourceActions, learn.microsoft.com 「Microsoft Entra built-in roles」)을 더했다. 정규화가 역할 객체 properties.privileges 로 남긴다(엔진 overlays/microsoft/new-directory-role). 2026-11-20 수집본 기본 역할 149개 전부가 이 표로 세기를 받는다 — Relation 주담당 위임(Claude 가 정함)
+  role_rank_from_grants: 2026-10-20 Relation 담당 — 대시보드 atlassian.ts 가 권한 스킴 줄을 「프로젝트 역할 --[권한 키]--> 프로젝트」로 펴는 것(4단계 B3 · B4). 엔진은 아직 안 읽는다
+  capability_vocabulary: 2026-11-11 Relation 주담당 위임(Claude 가 정함). 11-04 운영 로그 18호출 418종 17,231건의 사건 종류를 효과 칸과 사건 이름으로 나눈 것(수집기 자기 사건 뺌). 능력마다 사건 종류 수 · 사건 수는 그 측정값이다. 자동 분류라 거칠다(Slack bot_message 가 execute 로 감) — 판정에는 rank 만 쓰여 분류 오차가 판정에 닿지 않는다
+  capability_bundles: 2026-11-11 같은 위임. 세기 1 · 3 · 5 를 능력 목록으로 옮긴 것. use = 보기, edit = 보기 + 고치기 · 만들기 · 지우기, manage = edit + 공유 · 설정 · 권한 주기
+  capability_names: 2026-11-11 같은 위임. 엔진 accessModel.ts nameCapability 의 Okta 앱 배정 갈래(assigned → 읽기 세기)를 표로 옮겼다. 앱 배정은 그 앱에 로그인하고 보는 것이다(Okta 도움말 「Assign applications」). 2026-11-21 1Password 금고 권한 이름 12종(근거는 role_name_rank 와 같은 문서) 2026-11-21 Microsoft 앱 기본 접근(default_access, 앱 역할 없는 배정 appRoleId 0…0)을 Okta 앱 배정과 같은 능력으로 더했다(learn.microsoft.com 「appRoleAssignment resource type」)
+  capability_name_steps: 2026-11-11 같은 위임. 엔진 accessModel.ts nameCapability 순서(Okta 표준 역할 → 앱 배정 → provider 이름 표 → 이름 순위표 → 권한 요약 문자열)를 표로 적었다. 엔진은 provider 이름으로 가르지 않고 이 차례로 표를 본다
+  permission_summary: 2026-11-11 같은 위임. 엔진 accessModel.ts permissionSummaryRank(GitHub 세분화 PAT 권한 요약 「contents:write,metadata:read」)를 표로 옮겼다
+  permission_prefixes: 2026-11-11 같은 위임. 엔진 accessModel.ts oktaCustomRole(사용자 정의 역할 권한 이름이 .read 로 끝나면 보기, 아니면 고치기, 접두사로 객체 종류)을 표로 옮겼다. 접두사 → 객체 종류는 위 okta_permission_types 를 그대로 쓴다
+  rank_capabilities: 2026-11-11 같은 위임. 세기 표에 나오는 세기(0 · 1 · 2 · 3 · 4 · 5)를 묶음으로. 2 · 4 는 판정 문턱 1 · 3 으로 접힌다 — 11-04 수집본 점수판이 main 과 같았다
+  capability_order: 2026-11-11 같은 위임. role_rank_order 에 엔진 roleCapability 가 base_role 앞에 보는 Okta 사용자 정의 역할 권한(permission_prefixes)을 끼운 것
+  capability_levels: 2026-11-16 직접 권한 정의(aegi-knowledge#308). 판정은 rank, 엔진은 능력 목록으로 수준을 정해 r3 11-13 에서 겹치는 쌍의 23% 가 수준이 달랐다. 능력 하나로 수준을 정하는 표 하나로 맞춘다. 로그인은 수준이 아니고 권한 주기만 있는 권한은 수준에서 뺀다(사용자 결정)
+  role_flag_reach: 2026-11-16 같은 결정. role_flag_rank 가 Modify All Data, Manage Users, Author Apex 를 모두 5 로 묶어 칸마다 닿는 객체 종류를 못 가른다. help.salesforce.com users_profiles_view_all_mod_all(View All and Modify All), 000386319(Manage Users). Author Apex 의 내용 접근과 Modify All Data 의 설정 관리는 확인 필요
+  membership_capabilities: 2026-11-11 같은 위임. 엔진 accessModel.ts membershipRank(Slack 채널 구성원은 읽고 쓴다)를 표로 옮겼다. 채널 구성원은 메시지를 읽고 보낸다(Slack 도움말 「Channel basics」)
+
+rank: {read: 1, write: 3, admin: 5}
+
+# 역할 하나의 세기를 정하는 순서 (2026-10-20). 위에서부터 보고, 세기를 처음 정한 방법을 쓴다. 다 못 정하면 모름(엔진 role_rank_unknown)
+#   permissions  관계 행의 권한 키 목록(properties.permissions)이 있으면 키마다 name 단계로 센 것 중 가장 높은 등급. 아는 키가 없으면 다음 단계.
+#                판단표 G4-Q01(역할 칸이 묶음이면 그중 가장 높은 등급). 2026-11-01 Relation 주담당이 엔진(edges.ts)대로 명세에 더함
+#   name         역할 이름(role_name_from) → okta_standard_roles · capability_names(세기는 능력 가운데 가장 센 것) · role_name_rank · role_rank
+#   scopes       역할 객체의 scope 목록(role_scopes_from) → scope_rank
+#   privileges   역할 객체의 권한 이름 목록(role_privileges_from) → privilege_rank. Google Workspace 관리자 역할 (2026-11-04)
+#   flags        역할 객체의 권한 칸(참 · 거짓) → role_flag_rank
+#   object_type  역할 객체 종류 → role_type_rank
+#   grants       역할 객체가 같은 대상에 받은 권한 줄 → role_rank_from_grants
+#   base_role    역할 객체의 기반 역할(properties.base_role: read · triage · write · maintain · admin) → role_rank.
+#                GitHub 조직 역할 · 사용자 정의 저장소 역할은 API 가 「이 역할이 권한을 물려받는 기본 역할」을 준다 (2026-10-21)
+role_rank_order: [permissions, name, scopes, privileges, flags, object_type, grants, base_role]
+
+# has_role_on 의 역할 이름을 어디서 읽나 (2026-10-19). relation_semantics.yaml 의 rank: role 은 이 이름으로 아래 표를 찾는다.
+# 위에서부터 처음 값이 있는 것을 쓴다. 역할 자리(references.role)가 이름(name_key)이면 그 값이고, 역할 객체(Policy)면 그 객체의 칸이다.
+# 오브젝트 모델 v1(대시보드 PR #117)부터 기본 제공 역할도 역할 객체(NamedRole, definition_kind: vendor_named_role)가 되어
+# 이름이 객체 칸에만 있다. g2 실측(2026-10-02 판)을 v1 로 옮긴 묶음에서 has_role_on 54행 중 이름을 아는 행이 이 줄로 50, 없으면 0 이다
+# (옛 묶음은 자리 47 + 역할 객체 3. 남은 4행은 Okta 사용자 정의 역할이라 이름 칸이 없다 — 세기는 permissions 로 정하고 아직 명세 밖)
+role_name_from:
+- {role: name_key, take: value}
+- {role: object, take: properties.role_name}
+
+# 역할 객체에 이름이 없으면 scope 목록으로 세기를 정한다 (2026-10-19). 오브젝트 모델 v1 에서 Slack bot-token 이 자격증명이 아니라
+# 권한 묶음(Policy)이 되어, 앱이 테넌트에 갖는 역할(has_role_on 의 역할 자리)로 쓰일 수 있다. 그 세기는 이름이 아니라 scope 가 정한다
+role_scopes_from: {role: object, take: properties.scopes}
+
+# scope → 세기. provider 마다 줄을 위에서부터 보고, 맞는 줄 가운데 가장 센 rank 를 쓴다. 아무 줄도 안 맞으면 0 —
+# 신원만 있고 데이터에 닿지 않는다(슬래시 명령을 등록하는 commands 등). Okta · Google 은 아직 대시보드 코드에만 있다(access_patterns.yaml acts_for_app)
+scope_rank:
+  slack:
+  - {match: '^admin', rank: 5}
+  - {match: '^chat:write(\.public)?$', rank: 3}
+  - {match: '^(channels|groups|im|mpim):(history|read)$', rank: 1}
+
+# 토큰 범위(scope) → 「무엇에 무엇을 할 수 있나」 (2026-11-10). SaaS 공통 틀
+#   토큰은 사람 대신 동작하지만 받은 scope 만큼만 한다. scope 하나를 둘로 가른다 — 「무엇에」(자원 마디)와 「무엇을」(능력 마디)
+#   from        토큰 객체에서 scope 목록을 읽는 칸. 위에서부터 처음 값이 있는 칸. 글 하나면 빈칸 · 쉼표로 가른다
+#   grammar     scope 하나를 가르는 정규식. 첫 묶음이 자원 마디, 둘째 묶음이 능력 마디(다른 묶음은 (?:...) 로 둔다)
+#   identity    자원에 닿지 않는 scope(로그인 신원, 자기 계정만, 벤더 내부 화면). 세지 않는다
+#   abilities   능력 마디 → 세기(rank 표의 1 · 3 · 5)
+#   resources   자원 마디 → 그 scope 가 건드리는 객체 종류(object_types). 비면 조직 설정(Tenant) 안의 것이라 조직에 걸린 역할로만 닿는다.
+#               ranks 는 그 자원에서만 다른 능력 세기(역할을 관리하면 누가 관리자인지 바꾼다 → 5)
+#   through     scope 가 사람의 어느 G 간선으로 쓰이나. 간선을 낸 관계의 도착 interface 목록. 없으면 모든 G 간선
+#   셋 어디에도 안 맞는 scope 는 모른다(uncertainty.yaml token_scope_unmapped). 0 으로 치지 않는다 — 세지 못한 힘이 있을 수 있다
+# 쓰는 곳: 접근 규칙의 간선 홉 scopes_of(access_rules.yaml x_token_scoped) — 사람의 G 간선 가운데 scope 가 덮는 종류에 닿는 것만,
+#   세기는 사람 역할과 scope 가운데 작은 것이다. 조직(Tenant)에 걸린 역할이면 scope 가 덮는 자원 전부, 리소스 세트로 좁힌 역할이면 덮는 대상의 종류만
+token_scope_from: [properties.scopes, properties.scope]
+token_scopes:
+  okta:
+    # developer.okta.com 「OAuth 2.0 Scopes」 Okta Admin Management 목록(2026-11-10 확인). okta.<자원>.<read|manage>. 사용자 인증 요소(MFA) 초기화는
+    # /api/v1/users/{id}/factors · lifecycle/reset_factors 라 okta.users.manage 다(okta.factors.* scope 는 목록에 없다)
+    grammar: '^okta\.([A-Za-z]+(?:\.[A-Za-z]+)*?)\.(read|manage|register)$'
+    identity: '^(openid|profile|email|address|phone|groups|offline_access|online_access|device_sso|okta\.internal\..+|okta\.[A-Za-z]+\.(read|manage)\.self|okta\.(myAccount|personal|enduser)\..+)$'
+    abilities: {read: 1, manage: 3, register: 3}
+    # 관리 API scope 는 조직에 걸린 관리자 역할로만 쓴다. 앱 배정(SSO 로그인 권한)은 관리 API 를 부르지 못한다
+    through: [Tenant]
+    resources:
+      users: {object_types: [User, UserFactor]}
+      groups: {object_types: [Group, GroupRule]}
+      apps: {object_types: [Application, AppUser, ApplicationGroupAssignment]}
+      clients: {object_types: [OAuth2Client]}
+      appGrants: {object_types: [OAuth2ScopeConsentGrant]}
+      authorizationServers: {object_types: [AuthorizationServer, OAuth2Scope, OAuth2Claim]}
+      eventHooks: {object_types: [EventHook]}
+      devices: {object_types: [DeviceWithProviders]}
+      apiTokens: {object_types: [ApiToken]}
+      # 조직 설정 안의 것 — 조직에 걸린 역할로만 닿는다
+      roles: {object_types: [], ranks: {manage: 5}}
+      orgs: {object_types: []}
+      logs: {object_types: []}
+      schemas: {object_types: []}
+      policies: {object_types: []}
+      authenticators: {object_types: []}
+      idps: {object_types: []}
+      inlineHooks: {object_types: []}
+      logStreams: {object_types: []}
+      networkZones: {object_types: []}
+      trustedOrigins: {object_types: []}
+      profileMappings: {object_types: []}
+      userTypes: {object_types: []}
+      linkedObjects: {object_types: []}
+      brands: {object_types: []}
+      templates: {object_types: []}
+      domains: {object_types: []}
+      emailDomains: {object_types: []}
+      emailServers: {object_types: []}
+      behaviors: {object_types: []}
+      threatInsights: {object_types: []}
+      captchas: {object_types: []}
+      agentPools: {object_types: []}
+      pushProviders: {object_types: []}
+      deviceAssurance: {object_types: []}
+      devicePostureChecks: {object_types: []}
+      oauthIntegrations: {object_types: []}
+      uischemas: {object_types: []}
+      principalRateLimits: {object_types: []}
+      rateLimits: {object_types: []}
+      securityEventsProviders: {object_types: []}
+      customTelephonyProvider: {object_types: []}
+      sessions: {object_types: []}
+      # okta.admin.* · okta.manifests.* · okta.governance.* · okta.resourceServers.* 는 위 목록에 없다 — 표에 넣지 않아 모름이다
+  gws:
+    # developers.google.com 「OAuth 2.0 Scopes for Google APIs」 및 각 API Authorization scopes 표(2026-11-14 확인).
+    # https://www.googleapis.com/auth/<자원>[.readonly] 능력 마디(.readonly)가 없으면 쓰기 이상(3), .readonly 는 읽기(1)
+    grammar: '^https://www\.googleapis\.com/auth/([A-Za-z0-9._-]+?)(\.readonly|)$'
+    identity: '^(openid|profile|email|https://www\.google\.com/accounts/OAuthLogin|https://www\.googleapis\.com/auth/(userinfo\.email|userinfo\.profile|script\.locale|script\.container\.ui|workspace\.linkpreview))$'
+    abilities: {'': 3, '.readonly': 1}
+    # 관리 API scope 는 조직에 걸린 관리자 역할과 함께 쓰인다(엔진이 사람 역할 세기와 scope 세기 중 작은 쪽을 택한다)
+    through: [Tenant]
+    resources:
+      # Drive, Docs, Sheets
+      drive: {object_types: [Drive, File]}
+      drive.activity: {object_types: [Drive, File]}
+      activity: {object_types: [Drive, File], ranks: {'': 1}}
+      spreadsheets: {object_types: [File]}
+      spreadsheets.currentonly: {object_types: [File]}
+      # Admin SDK Directory, Enterprise License Manager, Groups Settings, Data Transfer
+      admin.directory.orgunit: {object_types: [OrgUnit]}
+      # 누가 관리자인지 바꾸는 scope 는 관리(5). users.makeAdmin(최고 관리자로 만들기)이 admin.directory.user 를,
+      # roleAssignments.insert(관리 역할 배정)가 admin.directory.rolemanagement 를 쓴다(각 메서드 문서, 2026-11-16 확인)
+      admin.directory.user: {object_types: [User], ranks: {'': 5}}
+      admin.directory.user.alias: {object_types: [User]}
+      admin.directory.user.security: {object_types: [User, Token, Asp]}
+      admin.directory.rolemanagement: {object_types: [Role, RoleAssignment], ranks: {'': 5}}
+      admin.directory.group: {object_types: [Group, Member]}
+      admin.directory.group.member: {object_types: [Group, Member]}
+      admin.directory.device.mobile: {object_types: [GoogleAppsCloudidentityDevicesV1Device, GoogleAppsCloudidentityDevicesV1DeviceUser]}
+      admin.directory.device.mobile.action: {object_types: [GoogleAppsCloudidentityDevicesV1Device, GoogleAppsCloudidentityDevicesV1DeviceUser]}
+      admin.directory.device.chromeos: {object_types: [ChromeOsDevice]}
+      admin.directory.domain: {object_types: [Domains]}
+      admin.directory.customer: {object_types: [Customer]}
+      admin.directory.resource.calendar: {object_types: [CalendarResource]}
+      admin.directory.userschema: {object_types: []}
+      apps.licensing: {object_types: [User]}
+      apps.groups.settings: {object_types: [Group]}
+      admin.datatransfer: {object_types: [User, File]}
+      # cloud-platform 은 넣지 않는다(모름). 「OAuth 2.0 Scopes」 표는 Admin SDK 아래에 적지만 users.insert, users.makeAdmin,
+      # groups.insert 문서는 이 scope 를 받지 않는다(2026-11-16 확인). 어느 메서드가 받는지 확인한 뒤 줄을 더한다
+      # admin. 으로 시작하는 나머지(예: admin.reports.audit.readonly 는 감사 로그만 읽는다)도 한 줄씩 확인해 더한다
+      # Vault(eDiscovery). 메일과 Drive 를 내보내 읽는다. Vault 객체(Matter, Hold, Export) 관리는 이 줄로 펴지 않는다
+      ediscovery: {object_types: [Drive, File], ranks: {'': 1}}
+      # Gmail 민감 설정. 보내는 주소(SendAs), 전달 주소, 위임을 바꾼다
+      gmail.settings.sharing: {object_types: [User, SendAs]}
+      # Apps Script
+      script.external_request: {object_types: [Project]}
+      script.scriptapp: {object_types: [Project]}
+      # 조직 카탈로그에 대응 객체 종류가 없는 API(Gmail Add-ons, Chat). 조직 설정이나 메시지 범위라 [] 로 둔다
+      gmail.addons.current.message: {object_types: []}
+      gmail.addons.current.message.metadata: {object_types: [], ranks: {'': 1}}
+      gmail.addons.current.message.action: {object_types: []}
+      gmail.addons.current.action.compose: {object_types: []}
+      gmail.addons.execute: {object_types: []}
+      chat.messages: {object_types: []}
+      chat.memberships: {object_types: []}
+
+# provider 마다 역할 이름 → 세기 (2026-10-20). 이름 전체에 맞춘다(대소문자 그대로). 위에서부터 처음 맞는 줄을 쓰고,
+# 아무 줄도 안 맞으면 이 표로는 모른다(scope_rank 와 다르다 — 이름 하나는 권한 하나라, 모르는 이름을 0 으로 치지 않는다).
+# 아래 role_rank 보다 먼저 본다. 지금 두 표에 같은 이름은 없다
+role_name_rank:
+  atlassian:
+  # Jira 프로젝트 권한 키 — 권한 스킴 줄의 permission (대시보드가 보유자 --[키]--> 프로젝트 로 편다).
+  # 키 목록은 Jira Cloud REST v3 「Get all permission schemes」 설명의 기본 제공 권한 36개 그대로다(2026-10-20 확인). 앱이 더한 키는 표에 없어 모름이다.
+  # 관리 권한 ADMINISTER_PROJECTS: 프로젝트 설정 · 역할 구성원을 바꾼다 — 누가 들어오는지를 정한다
+  - {match: '^ADMINISTER_PROJECTS$', rank: 5}
+  # 관리 권한 EDIT_WORKFLOW · EDIT_ISSUE_LAYOUT: 문서는 관리 권한으로 묶지만 워크플로 · 이슈 화면만 바꾸고 누가 들어오는지는 못 바꾼다 — 쓰기로 둔다(2026-10-20 Relation 담당 결정)
+  - {match: '^(EDIT_WORKFLOW|EDIT_ISSUE_LAYOUT)$', rank: 3}
+  # 프로젝트 권한 — BROWSE_PROJECTS 는 프로젝트와 이슈를 본다(다른 권한이 다 이것에 기댄다). VIEW_* 는 보기만
+  - {match: '^(BROWSE_PROJECTS|VIEW_DEV_TOOLS|VIEW_READONLY_WORKFLOW|VIEW_VOTERS_AND_WATCHERS)$', rank: 1}
+  # 담당자로 지정될 수 있다 — 그것만으로는 아무것도 못 본다
+  - {match: '^ASSIGNABLE_USER$', rank: 0}
+  # 프로젝트 권한 중 스프린트 관리(Jira Software) · 서비스 요청 응대(Jira Service Management 상담원)
+  - {match: '^(MANAGE_SPRINTS_PERMISSION|SERVICEDESK_AGENT)$', rank: 3}
+  # 이슈 권한 — 만들고 고치고 옮기고 지우고 담당자 · 보안 수준을 바꾼다
+  - {match: '^(ASSIGN_ISSUES|CLOSE_ISSUES|CREATE_ISSUES|DELETE_ISSUES|EDIT_ISSUES|LINK_ISSUES|MODIFY_REPORTER|MOVE_ISSUES|RESOLVE_ISSUES|SCHEDULE_ISSUES|SET_ISSUE_SECURITY|TRANSITION_ISSUES)$', rank: 3}
+  # 지켜보는 사람 · 댓글 · 첨부 · 작업 기록 권한 — 만들고 고치고 지운다
+  - {match: '^(MANAGE_WATCHERS|ADD_COMMENTS|DELETE_ALL_COMMENTS|DELETE_OWN_COMMENTS|EDIT_ALL_COMMENTS|EDIT_OWN_COMMENTS|CREATE_ATTACHMENTS|DELETE_ALL_ATTACHMENTS|DELETE_OWN_ATTACHMENTS|DELETE_ALL_WORKLOGS|DELETE_OWN_WORKLOGS|EDIT_ALL_WORKLOGS|EDIT_OWN_WORKLOGS|WORK_ON_ISSUES)$', rank: 3}
+  # Jira 필터 공유 — 대시보드가 sharePermissions 를 view, editPermissions 를 edit 로 적는다. 필터를 본다 · 고친다
+  - {match: '^view$', rank: 1}
+  - {match: '^edit$', rank: 3}
+  # Confluence 스페이스 권한 — 동작:대상 (operation.key:targetType). 키와 대상 이름은 Confluence Cloud REST v2 SpacePermissionAssignment 의 enum 그대로다(2026-10-20 확인).
+  # administer 는 스페이스 권한을 바꾼다
+  - {match: '^administer:space$', rank: 5}
+  # 스페이스를 본다 · 내용을 통째로 내보낸다
+  - {match: '^(read|export):space$', rank: 1}
+  # 쪽 · 블로그 · 댓글 · 첨부 · 화이트보드 · 폴더 들을 만들고 고치고 옮기고 지운다. restrict_content 는 남이 못 보게 막는다. 대상 이름에 대문자가 있다(userProfile)
+  - {match: '^(create|update|delete|copy|move|archive|restore|purge|purge_version|restrict_content):[A-Za-z]+$', rank: 3}
+  # use(제품을 쓴다) · create_space(스페이스를 새로 만든다)는 사이트 단위 권한이라 스페이스 권한에 안 나온다 — 표에 없어 나오면 모름
+  # 조직 관리자 — 조직 사용자 역할 배정(Organizations REST API v2 role-assignments)의 역할 id. 엔진은 이 역할만 「사용자 → 조직」으로 편다(AT-03, 2026-11-15).
+  # support.atlassian.com 「What are the different types of admin roles?」 · 「Give users admin permissions」: 조직 전체를 관리하고, 조직 관리자 · 사이트 관리자를
+  # 주고 뺄 수 있는 것은 조직 관리자뿐이다 — 누가 관리자인지를 정하므로 Okta super_admin 과 같은 5. site-admin · user-access-admin 은 대상이 사이트 · 앱이라 아직 펴지 않는다
+  - {match: '^atlassian/org-admin$', rank: 5}
+  salesforce:
+  # 사용자 OAuth 승인(OauthToken) — 그 Connected App 을 쓸 수 있다. Okta 앱 배정(capability_names okta assigned)과 같은 세기
+  - {match: '^authorized$', rank: 1}
+  # 2026-10-21. 세기 기준은 Okta 표(okta_standard_roles)와 같다 — 관리 역할을 나눠 주면 5, 사람 · 앱 · 설정을 관리하지만 누가
+  # 관리자인지는 못 바꾸면 3 (Okta user_admin · app_admin), 보기만 하면 1
+  slack:
+  # 워크스페이스 · 조직의 최고 소유자 (is_primary_owner, team.primary_owner) — 소유자(owner 5)와 같고 넘겨줄 수만 있다
+  - {match: '^primary_owner$', rank: 5}
+  # 워크플로 관리자(API 이름 collaborator) — 워크플로를 고치고 게시를 내리고 지우며, 다른 관리자를 더하고 뺀다.
+  # 그 워크플로 하나의 구성원까지 바꾸는 자리라 GWS 공유 드라이브 organizer(4)와 비슷하지만, 이름 표는 0 · 1 · 3 · 5 만 쓰고
+  # 엔진도 4 를 쓰기(3)와 같이 센다 — 3
+  - {match: '^collaborator$', rank: 3}
+  # 관리 역할(system role) — 대시보드는 이름 API 가 없어 role_id 를 이름으로 쓴다. 번호는 docs.slack.dev admin.roles.addAssignments 표
+  - {match: '^Rl02$', rank: 5}  # Roles Admin — 누가 관리 역할을 받는지 정한다 (자기에게도 줄 수 있다)
+  - {match: '^(Rl01|Rl0A)$', rank: 3}  # Channel Admin(채널 만들기 · 이름 · 비공개 전환 · 보관 · 글쓰기 권한) · Channel Manager(맡은 채널의 관리)
+  - {match: '^(Rl03|Rl0J)$', rank: 3}  # User Admin(관리자 아닌 사용자 추가 · 제거 · 끄기) · Security Admin(세션 관리 · 계정 끄기) — Okta user_admin · help_desk_admin 과 같다
+  - {match: '^(Rl0D|Rl0K)$', rank: 3}  # Integrations Manager(앱 보기 · 설치 · 승인 · 관리) · Workflow Admin(워크플로 관리) — Okta app_admin 과 같다
+  - {match: '^(Rl09|Rl04|Rl0F|Rl0G)$', rank: 3}  # DLP Admin(DLP 구성) · Legal Holds Admin(보존 만들기 · 관리) · Exports Admin(내보내기 열람 · 관리) · Sales Admin(Sales Home 관리)
+  - {match: '^(Rl0C|Rl0L|Rl0E)$', rank: 1}  # Audit Logs Admin(감사 로그 열람) · Analytics Admin(분석 화면 보기) · Message Activity Manager(채널 메시지 활동 보기)
+  # Rl05 Conversation Admin · Rl0B Slack Platform Developer 는 공개된 권한 설명을 찾지 못해 표에 없다 — 나오면 모름
+  github:
+  # 기본 제공 조직 역할 (docs.github.com 「Permissions of predefined organization roles」). 저장소 전체 역할(All-repository read …
+  # admin)은 API 가 base_role 을 주어 base_role 단계가 센다. API 의 name 표기를 문서에서 확인하지 못해 두 표기를 다 받는다
+  - {match: '^(security_manager|Security manager)$', rank: 3}  # 모든 저장소 읽기 + 보안 경보 쓰기 + 조직 · 저장소 보안 기능 켜고 끄기. 구성원은 못 바꾼다
+  - {match: '^(ci_cd_admin|CI/CD admin)$', rank: 3}  # Actions 정책 · 러너 · 러너 그룹 · 비밀값 · 변수 관리
+  - {match: '^(app_manager|App Manager|App manager)$', rank: 3}  # 조직의 GitHub App 을 모두 만들고 고치고 지운다
+  - {match: '^(moderator|Moderator)$', rank: 1}  # 모든 댓글 숨기기, 바깥 기여자 차단 · 상호작용 제한 — 저장소 쓰기는 없다
+  gcp:
+  # Google Cloud IAM 기본 제공 역할(2026-11-19). 역할 이름은 IAM 명단(Binding.role)의 roles/<이름> 그대로다. 사용자 정의 역할(projects/…/roles/…)은 표에 없어 모름
+  # 기본 역할 — docs.cloud.google.com IAM 「Basic roles」: owner 는 역할 · 권한 관리까지, editor 는 고치기, viewer 는 보기만
+  - {match: '^roles/owner$', rank: 5}
+  - {match: '^roles/editor$', rank: 3}
+  - {match: '^roles/viewer$', rank: 1}
+  # 조직 관리자 — 조직 IAM 정책을 고친다(누가 관리자인지를 정한다). 조직에서 내려온 줄(inherited_from)로 프로젝트에 닿는다
+  - {match: '^roles/resourcemanager\.organizationAdmin$', rank: 5}
+  # Gemini Enterprise(Discovery Engine). 세기는 3회차 실측 역할 객체의 includedPermissions(IAM roles.list, 2026-11-18)로 정했다 — 문서 설명이 아니라 권한 목록이다.
+  # 관리자: engines · dataStores · agents 의 setIamPolicy 가 있다(agentspaceAdmin 477개) → 5. 문서의 admin · agentAdmin 도 setIamPolicy 가 있다
+  - {match: '^roles/discoveryengine\.(admin|agentspaceAdmin|agentAdmin)$', rank: 5}
+  # 앱 사용자 agentspaceUser(135개): 앱에는 engines.get 과 자기 데이터(EngineUserData · 개인 맥락)뿐이고 engines.update · delete 가 없다.
+  # 만들고 지우는 것은 자기 세션 · 에이전트 · 노트북이다 → 앱 사용(1). 문서 설명 「create/update/delete」만 보고 3 으로 두면 앱을 고치는 것처럼 나온다
+  - {match: '^roles/discoveryengine\.agentspaceUser$', rank: 1}
+  # 제한 사용자 agentspaceRestrictedUser(21개): 커넥터 자기 연결(acquireAndStoreRefreshToken) · 동작 실행(executeAction) · 저장소 메타데이터(dataStores.get) ·
+  # 노트북 만들기뿐이다. 앱(engines.*) 권한이 없어 앱 역할과 함께 줘야 앱을 쓴다(문서) → 1
+  - {match: '^roles/discoveryengine\.agentspaceRestrictedUser$', rank: 1}
+  # 보기: agentspaceViewer(106개) engines · dataStores · documents 의 get · list → 1. 문서의 viewer 도 보기만
+  - {match: '^roles/discoveryengine\.(viewer|agentspaceViewer)$', rank: 1}
+  # 에이전트 IAM(agents.getIamPolicy). agentOwner 는 만든 사람으로 공유 대상을 바꾼다(agents.setIamPolicy) → 5, agentUser 는 공유받아 부르기만 한다 → 1.
+  # 11-19 공유 에이전트 시험 정책 파일의 역할 이름. 역할 객체 권한 목록(includedPermissions)은 3 · 4회차 모두 실측에 없다
+  # (3회차는 에이전트 IAM 을 안 불렀고, 4회차는 합친 실행에서 역할 받기(GCP-02)를 에이전트 IAM(GCP-03)보다 앞선 실행에서 골랐다).
+  # 대신 효과로 확인했다(2026-11-23, 3회차 로그): 앱 사용자 역할(실측 135개, agents.setIamPolicy · publish 없음)과 이 에이전트의 agentOwner 만 가진 사람이
+  # 그 에이전트에 SetIamPolicy · InitIamPolicy · DeployLowCodeAgent · UpdateAgent 를 성공했다 → 권한 주기까지 있는 5 가 맞다. 4회차 PRIVATE 에이전트 4개도 owner 는 사람 하나씩이다
+  - {match: '^roles/discoveryengine\.agentOwner$', rank: 5}
+  - {match: '^roles/discoveryengine\.agentUser$', rank: 1}
+  # 문서의 editor · agentspaceEditor 는 앱 · 저장소를 고친다(IAM 은 못 바꾼다) → 3. 실측에는 없다
+  - {match: '^roles/discoveryengine\.(editor|agentspaceEditor)$', rank: 3}
+  # 그 밖에 3회차 명단에 나온 역할(권한 목록으로 정함). 로그 · 자산 · 풀 보기는 1, 조직 정책 관리는 설정 고치기 3(IAM 은 못 바꾼다),
+  # 서비스 사용 · 결제 계정 만들기 · 프로젝트 만들기는 이 프로젝트의 무엇에도 닿지 않는다 → 0. 서비스 에이전트(roles/*.serviceAgent)는 Google 이 관리하는 계정의 역할이라 표에 없다(모름)
+  - {match: '^roles/(logging\.viewer|cloudasset\.viewer|iam\.workforcePoolViewer)$', rank: 1}
+  - {match: '^roles/orgpolicy\.policyAdmin$', rank: 3}
+  - {match: '^roles/(serviceusage\.serviceUsageConsumer|billing\.creator|resourcemanager\.projectCreator)$', rank: 0}
+  onepassword:
+  # 1Password 금고 권한(2026-11-21). 관계의 permissions 칸은 켜진 권한 이름 목록이다(engine overlays/onepassword new-vault.yaml, 수집기가 SDK 비트에서 붙인 이름).
+  # 뜻은 1Password SDK 문서 「Vault permissions」(developer.1password.com/docs/sdks/vault-permissions, 상수 · 비트 · 의존 관계)와
+  # 1Password 도움말 「Create and share vaults」(UI 이름). 엔진은 이름마다 센 세기 가운데 가장 센 것을 쓴다(role_rank_order permissions)
+  # 보기(View Items) · 비밀번호 보기와 복사(View and Copy Passwords) · 항목 기록 보기(View Item History) → 1
+  - {match: '^(read_items|reveal_item_password|update_item_history)$', rank: 1}
+  # 만들기 · 가져오기 · 고치기 · 보관 · 지우기 · 금고 밖으로 복사와 공유 · 내보내기(암호 없는 파일) · 인쇄 → 3. 모두 View Items 에 기댄다
+  - {match: '^(create_items|import_items|update_items|archive_items|delete_items|send_items|export_items|print_items)$', rank: 3}
+  # 금고 관리(Manage Vault): 금고 접근을 주고 빼고, 남의 권한을 바꾸고, 금고를 지운다. 문서는 「항목 보기 · 고치기 권한은 들지 않는다」고 쓴다.
+  # 누가 들어오는지를 정하므로 다른 SaaS 관리 역할과 같은 5(자기에게 보기 권한을 줄 수 있다). 능력은 grant 뿐이다(capability_names)
+  - {match: '^manage_vault$', rank: 5}
+  # recover_vault(비트 1, 기본 그룹 Recovery 가 받음)는 SDK 상수에만 있고 문서 설명을 찾지 못해 표에 없다 — 모름
+  microsoft:
+  # Microsoft Graph 권한 이름(2026-11-21). 앱 역할 배정(앱 권한, appRoleAssignment 의 앱 역할 value)과 위임 동의(oAuth2PermissionGrant 의 scope 목록,
+  # 관계 properties.permissions)가 같은 이름을 쓴다. 모양은 <자원>.<동작>[.<범위>](learn.microsoft.com 「Microsoft Graph permissions reference」,
+  # 「Overview of Microsoft Graph permissions」). 위에서부터 처음 맞는 줄. Office 365 Management APIs(ActivityFeed.Read)도 같은 모양이다
+  # 로그인 신원 · 자기 프로필만 — 데이터 권한이 아니다(OpenID Connect scope, User.Read 는 로그인한 사람 자기 프로필)
+  - {match: '^(openid|profile|email|offline_access|User\.Read)$', rank: 0}
+  # 누가 관리자인지 · 어떤 권한을 받는지를 바꾼다, 남의 인증 수단 · 조건부 접근을 바꾼다, 사이트 권한을 관리한다 — 스스로 더 센 권한을 얻을 수 있다.
+  # Graph 권한 문서가 「앱이 자기에게 권한을 줄 수 있다」고 경고하는 것들(RoleManagement.ReadWrite.Directory, AppRoleAssignment.ReadWrite.All,
+  # Application.ReadWrite.All, DelegatedPermissionGrant.ReadWrite.All)과 Directory.AccessAsUser.All(로그인한 사람과 같은 디렉터리 권한)
+  - {match: '^(RoleManagement\.ReadWrite\.[A-Za-z]+|RoleAssignmentSchedule\.ReadWrite\.Directory|RoleEligibilitySchedule\.ReadWrite\.Directory|PrivilegedAccess\.ReadWrite\.[A-Za-z]+|AppRoleAssignment\.ReadWrite\.All|Application\.ReadWrite\.All|DelegatedPermissionGrant\.ReadWrite\.All|Directory\.AccessAsUser\.All|Policy\.ReadWrite\.ConditionalAccess|UserAuthenticationMethod\.ReadWrite(\.All)?|Sites\.FullControl\.All)$', rank: 5}
+  # 만들기 · 고치기 · 지우기 · 보내기(Mail.Send, Team.Create, Files.ReadWrite.All, Application.ReadWrite.OwnedBy 등)
+  - {match: '^[A-Za-z0-9]+(\.[A-Za-z0-9]+)*\.(ReadWrite|Send|Create|Manage|Write|Delete|Invite)(\.[A-Za-z0-9]+)*$', rank: 3}
+  # 보기(Read, ReadBasic, Read.All, Read.Shared, ReadDlp)
+  - {match: '^[A-Za-z0-9]+(\.[A-Za-z0-9]+)*\.(Read|ReadBasic|ReadDlp)(\.[A-Za-z0-9]+)*$', rank: 1}
+  # 라이선스(구독 SKU 의 skuPartNumber, 예: SPE_E5) — 제품을 쓸 자격이지 데이터 권한이 아니다(Graph assignedLicenses). 대문자 · 숫자 · _ 만인 이름은 Graph 권한 · 역할 이름에 없다
+  - {match: '^[A-Z0-9_]+$', rank: 0}
+
+# 역할 객체의 권한 칸(참 · 거짓) → 세기 (2026-10-20). 참인 칸 가운데 가장 센 rank.
+# 칸이 하나라도 있는데 참이 없으면 0 — 조직 전체에 걸치는 권한이 없다. 칸이 하나도 없으면 이 표로는 모른다.
+# Salesforce 프로필 · 권한 집합은 이름이 아니라 이 칸이 세기를 정한다(사용자 정의 프로필은 이름이 아무거나다)
+# 칸 이름은 Salesforce PermissionSet 객체의 Permissions<권한 이름>(권한마다 참 · 거짓 칸 하나)을 대시보드가 perm_<권한 이름>으로 옮긴 것.
+# 뜻은 Salesforce Security Implementation Guide · Apex Developer Guide 에서 확인했다(2026-10-20). Manage Users 만 도움말 화면이라 검색으로 확인했다(README)
+role_flag_rank:
+  salesforce:
+  - {field: properties.perm_ModifyAllData, rank: 5}  # 공유되지 않은 것까지 모든 앱과 데이터를 고친다 — 「조직 전체 관리자」용
+  - {field: properties.perm_ManageUsers, rank: 5}    # 사용자를 만들고 고치고 끄고, 프로필 · 역할 같은 보안 설정을 바꾼다 — 남의 계정을 차지할 수 있다
+  - {field: properties.perm_AuthorApex, rank: 5}     # Apex 코드를 쓴다 — 코드를 시스템 모드로 돌리면 실행한 사람의 권한과 공유 설정을 건너뛴다
+  - {field: properties.perm_ViewAllData, rank: 1}    # 공유되지 않은 것까지 모든 앱과 데이터를 본다
+  - {field: properties.perm_ApiEnabled, rank: 0}     # 어떤 Salesforce API 에도 들어올 수 있을 뿐, 그 자체로 데이터 권한이 아니다
+
+# 권한 칸마다 테넌트 아래 닿는 객체 종류와 수준 (2026-11-16, providers.yaml tenant_scope 의 salesforce 예외가 읽는다)
+#   content, config, account 칸: read, write, admin 은 그 수준, 안 적으면 안 닿음. 참인 칸들을 합친다(종류마다 가장 높은 수준)
+#   이 표에서 참인 칸이 하나도 없는 프로필, 권한 집합은 테넌트 아래로 내려가지 않는다(레코드는 공유 설정이 정한다)
+role_flag_reach:
+  salesforce:
+  - {field: properties.perm_ModifyAllData, content: write, config: admin}  # 공유와 상관없이 모든 데이터 만들기, 고치기, 지우기. 설정 관리는 추정(확인 필요)
+  - {field: properties.perm_ViewAllData, content: read}                     # 공유와 상관없이 모든 데이터 보기
+  - {field: properties.perm_ManageUsers, config: admin, account: admin}     # 사용자 만들기, 고치기, 끄기와 프로필, 역할 관리. 비밀번호 초기화는 별도 권한
+  - {field: properties.perm_AuthorApex, config: write}                      # Apex 코드 쓰기. 시스템 모드 실행으로 공유를 건너뛸 수 있어 내용 접근은 확인 필요
+
+# 역할 객체 종류만으로 정해지는 세기 (2026-10-20)
+role_type_rank:
+  salesforce:
+    # 역할 계층의 자리다. 조직 전체 권한이 아니다 — 아래 사람 레코드를 보는 힘은 공유 설정(OWD)에 달려 Effective Access 가 푼다
+    UserRole: 0
+    # 권한 세트 라이선스(2026-11-04): 권한 세트가 줄 수 있는 권한의 상한일 뿐 그 자체로 권한이 아니다. 실제 권한은 권한 세트 배정 줄이 센다
+    PermissionSetLicense: 0
+
+# 역할 객체의 권한 이름 목록 → 세기 (2026-11-04). provider 마다 권한 이름 하나씩 위에서부터 보고 처음 맞는 줄의 rank 를 쓰고,
+# 그 가운데 가장 센 값이 역할의 세기다. 줄 순서가 뜻이다 — 읽기 꼬리(_READ_ONLY)를 쓰기 머리(MANAGE_)보다 먼저 본다.
+# 어느 줄에도 안 맞는 이름은 세지 않고, 맞는 이름이 하나도 없으면 모른다(이름 하나가 권한 하나라 모르는 이름을 0 으로 치지 않는다).
+# Google Workspace 관리자 역할은 Customer(테넌트)에 받는 권한이고 Drive 파일로 내려가지 않는다. 사용자 계정에만 내려간다(tenant_grants_inherit gws: members)
+role_privileges_from: {role: object, take: properties.privileges}
+privilege_rank:
+  gws:
+  - {match: ':(SUPER_ADMIN|ROOT_APP_ADMIN)$', rank: 5}   # 최고 관리자(_SEED_ADMIN_ROLE)의 권한
+  - {match: ':([A-Z_]+_(RETRIEVE|READ|READ_ONLY)|[A-Z_]+_READ_[A-Z_]+|RETRIEVE_[A-Z_]+|(SIT_)?VIEW_[A-Z_]+|TELEMETRY_API(_[A-Z_]+)?|ADMIN_DASHBOARD|ADMIN_REPORTING_ACCESS|REPORTS_ACCESS)$', rank: 1}   # 읽기, 보기, 보고서
+  - {match: ':([A-Z_]+_(ALL|CREATE|UPDATE|DELETE|MOVE|ALIAS|SUSPEND|ADD_NICKNAME|RESET_PASSWORD|FORCE_PASSWORD_CHANGE|READWRITE|FULL_ACCESS|ADMIN)|[A-Z_]*MANAGE_[A-Z_]+|REVIEW_ALL_SENSITIVE_ACTIONS)$', rank: 3}   # 만들기, 고치기, 지우기, 관리
+  microsoft:
+  # Microsoft Entra 역할 정의(roleDefinitions)의 허용 동작(rolePermissions[].allowedResourceActions, 예: microsoft.directory/users/standard/read).
+  # 동작 이름 모양은 learn.microsoft.com 「Microsoft Entra built-in roles」 · 「Microsoft Entra role definitions」(<네임스페이스>/<자원>/<속성 묶음>/<동작>).
+  # 2026-11-20 M365 수집본의 기본 역할 149개가 가진 동작을 이 표로 센다. 줄 순서가 뜻이다 — 읽기 꼬리를 먼저 본다
+  - {match: '/read$', rank: 1}
+  # 누가 관리자인지를 바꾼다(역할 배정 · 정의 · PIM), 앱 · 서비스 주체에 자격증명을 더해 그 앱으로 동작한다, 모든 사람 대신 동의를 준다 —
+  # Microsoft 가 「privileged」로 표시하는 역할(Global Administrator, Privileged Role Administrator, Application Administrator 등)이 가진 동작
+  - {match: '^microsoft\.directory/(roleAssignments|roleDefinitions|roleEligibilitySchedules|roleAssignmentSchedules|privilegedIdentityManagement)/', rank: 5}
+  - {match: '^microsoft\.directory/(applications|servicePrincipals)/credentials/update$', rank: 5}
+  - {match: '^microsoft\.directory/servicePrincipals/(appRoleAssignedTo/update|managePermissionGrantsForAll\.[A-Za-z0-9-]+)$', rank: 5}
+  - {match: '^microsoft\.directory/oAuth2PermissionGrants/', rank: 5}
+  # 그 밖의 만들기 · 고치기 · 지우기 · 모든 작업(allTasks) — 사람 · 그룹 · 설정을 관리하지만 누가 관리자인지는 못 바꾼다(Okta user_admin 과 같은 3)
+  - {match: '^microsoft\.', rank: 3}
+
+# 역할 객체가 같은 대상에 받은 권한 줄로 세기를 정한다 (2026-10-20). 그 역할 객체가 출발인 has_role_on 가운데 도착이 같은 줄들의
+# 세기(위 순서로 정한 것) 중 가장 센 값. 그런 줄이 하나도 없으면 모른다 — 권한 스킴 수집이 빠졌을 수 있어서 0 으로 치지 않는다.
+# Jira 프로젝트 역할(Developers 등)은 이름이 세기를 말하지 않는다. 그 프로젝트의 권한 스킴이 그 역할에 준 권한 키가 세기다
+role_rank_from_grants:
+  atlassian: [ProjectRole]
+
+role_rank:
+  none: 0
+  read: 1
+  pull: 1
+  triage: 2
+  write: 3
+  push: 3
+  maintain: 4
+  admin: 5
+  reader: 1
+  commenter: 1
+  writer: 3
+  fileorganizer: 4
+  organizer: 4
+  owner: 5
+  read_only_admin: 1
+
+okta_standard_roles:
+  super_admin: {rank: 5}
+  org_admin: {rank: 5}
+  app_admin: {rank: 3, applies_to: [application]}
+  user_admin: {rank: 3, applies_to: [user, userfactor, group]}
+  group_membership_admin: {rank: 3, applies_to: [group]}
+  help_desk_admin: {rank: 3, applies_to: [user, userfactor]}
+  mobile_admin: {rank: 3, applies_to: [device]}
+  api_access_management_admin: {rank: 3, applies_to: [authorizationserver]}
+  read_only_admin: {rank: 1}
+  report_admin: {rank: 1, applies_to: [log]}
+  workflows_admin: {rank: 5, applies_to: [workflow]}  # IAM 기반 기본 역할. Okta Workflows 의 흐름 · 연결을 다 관리한다(만들기 · 켜고 끄기 · 실행 기록 설정) — 사용자 · 그룹 관리 권한이 아니다
+
+okta_permission_types:
+- {prefix: okta.users., object_types: [user, userfactor]}
+- {prefix: okta.groups., object_types: [group]}
+- {prefix: okta.apps., object_types: [application]}
+- {prefix: okta.authzServers., object_types: [authorizationserver]}
+- {prefix: okta.devices., object_types: [device]}
+
+# ==== 의미 층 능력 목록 (2026-11-11, 명세 Relation_Semantic_Layer_v1.md 「능력」)
+# 위의 세기 표(rank)는 그대로 둔다. 의미 층은 세기 대신 「무엇을 할 수 있나」 목록(능력)으로 적는다.
+# 능력 목록은 위 표에서 계산한다 — 세기 r 의 묶음은 rank_capabilities[r] 이다. 그래서 표를 두 벌로 적지 않는다.
+# 능력 목록의 세기(rank)는 그 목록에서 가장 센 능력의 rank 다. 세기 2(triage) · 4(maintain, organizer)는 1 · 3 으로 접힌다 —
+# 판정 문턱이 1 · 3 · 5 라 결과가 같다(2026-11-11 11-04 수집본 점수판 main 과 같음). validation/check_semantic_layer.py 가 접힘을 본다
+# 세기로 못 가르는 능력(인증과 읽기는 둘 다 1)은 아래 capability_names · membership_capabilities 처럼 목록을 바로 적는다
+
+# 능력 10종. rank 는 세기 표의 1 · 3 · 5 와 같은 눈금이다. events 는 11-04 운영 로그에서 그 능력으로 나뉜 사건 수
+capability_vocabulary:
+  authenticate: {rank: 1, meaning: 로그인 · 토큰 받기 · SSO, event_types: 39, events: 6786}
+  read: {rank: 1, meaning: 보기 · 읽기(내려받기 없이 열람), event_types: 45, events: 886}
+  write: {rank: 3, meaning: 있는 것을 고치기, event_types: 76, events: 412}
+  create: {rank: 3, meaning: 새로 만들기, event_types: 74, events: 390}
+  delete: {rank: 3, meaning: 지우기, event_types: 10, events: 32}
+  share: {rank: 3, meaning: 공유 · 내보내기(사본이나 접근이 밖으로 나감), event_types: 21, events: 79}
+  send: {rank: 3, meaning: 메시지 · 메일 보내기, event_types: 2, events: 73}
+  execute: {rank: 3, meaning: 자동화 · 스크립트 · 명령 실행, event_types: 13, events: 70}
+  configure: {rank: 3, meaning: 설정 · 정책 바꾸기, event_types: 45, events: 402}
+  grant: {rank: 5, meaning: 남에게 권한 · 소속 · 역할 주기(누가 들어오는지를 정함), event_types: 59, events: 405}
+
+# 능력에서 수준으로 (2026-11-16, 직접 권한). 판정과 Access Gap 이 같은 수준을 쓴다. 권한 하나의 수준은 그 능력들 가운데 가장 높은 것
+#   none 은 수준에 넣지 않는다. 로그인(authenticate)은 전제 조건이고, 권한 주기(grant)는 그 대상의 내용을 읽거나 고치는 길이 아니다
+#   share, send, execute 를 쓰기로 둔 것은 확인 필요
+capability_levels:
+  authenticate: none
+  read: read
+  write: write
+  create: write
+  delete: write
+  share: write
+  send: write
+  execute: write
+  configure: admin
+  grant: none
+
+# 묶음. 표에는 묶음 이름이나 능력 목록을 적는다
+capability_bundles:
+  none: []
+  use: [read]
+  edit: [read, write, create, delete]
+  manage: [read, write, create, delete, share, configure, grant]
+
+# 세기 → 묶음. 위 세기 표(role_rank, okta_standard_roles, role_name_rank, scope_rank, privilege_rank, role_flag_rank, role_type_rank,
+# token_scopes abilities · ranks)에 나오는 세기는 모두 여기 있어야 한다
+rank_capabilities: {0: none, 1: use, 2: use, 3: edit, 4: edit, 5: manage}
+
+# 역할 하나의 능력을 정하는 차례. role_rank_order 에 permission_prefixes(사용자 정의 역할 권한 이름)를 base_role 앞에 끼운 것이다 —
+# 엔진 roleCapability 가 그 차례로 본다. 위에서부터 보고 처음 정한 방법을 쓴다. 다 못 정하면 모름(엔진 role_rank_unknown)
+capability_order: [permissions, name, scopes, privileges, flags, object_type, grants, permission_prefixes, base_role]
+
+# 역할 이름(name 단계)을 볼 표의 차례. provider 칸이 있으면 그 provider 의 이름만 본다
+#   okta_standard_roles  이름(대소문자 무시) → 세기 · applies_to
+#   capability_names     provider 마다 이름(대소문자 무시) → 능력 목록
+#   role_name_rank       provider 마다 정규식(대소문자 그대로, 앞뒤 빈칸 뗌) → 세기
+#   role_rank            모든 provider, 이름(대소문자 무시) → 세기
+#   permission_summary   「키:수준,키:수준」 꼴 → 수준 가운데 가장 센 것
+capability_name_steps:
+- {table: okta_standard_roles, provider: okta}
+- {table: capability_names}
+- {table: role_name_rank}
+- {table: role_rank}
+- {table: permission_summary}
+
+# 세기로 못 가르는 이름 → 능력 목록 (대소문자 무시). 값은 능력 목록, 또는 {caps, below}: below 는 아래 객체(상위 범위에서 내려간 곳)로 내려갈 때 남는
+# 능력이다(caps 안). 간선 도착 자체에는 caps 전부, 그 아래에는 below 만 — 엔진 semantic/ceiling.ts underCeiling
+capability_names:
+  okta:
+    assigned: [authenticate, read]
+  # 1Password 금고 권한 이름(2026-11-21, 근거는 role_name_rank onepassword). 비밀번호 보기도 보기(read)다 — 능력 어휘에 「비밀 읽기」가 따로 없다.
+  # 금고 관리는 권한 주기(grant)만이다. 문서상 그것만으로 항목을 못 본다(capability_levels 의 grant 는 수준 없음)
+  onepassword:
+    read_items: [read]
+    reveal_item_password: [read]
+    update_item_history: [read]
+    create_items: [create]
+    import_items: [create]
+    update_items: [write]
+    archive_items: [delete]
+    delete_items: [delete]
+    send_items: [share]
+    export_items: [share]
+    print_items: [share]
+    manage_vault: [grant]
+  # 사용자 OAuth 승인(OauthToken, 역할 이름 authorized). 연결 앱이 이 사용자로 로그인 · 토큰을 받는 데 동의한 것이라 사용자 쪽 능력은 인증뿐이다.
+  # 세기는 role_name_rank 의 1 과 같다(authenticate 세기 1). 이 사용자로 대신 동작하는 앱은 이 능력을 물려받지 않는다(access_rules.yaml
+  # x_acts_as_inherits 의 skip_caps_only). 2026-11-16 Relation 주담당 위임(Claude 가 정함)
+  salesforce:
+    authorized: [authenticate]
+  # 앱 역할 없이 앱에 배정(appRoleId 0…0, Graph 「appRoleAssignment」의 default access). 그 앱에 로그인하고 보는 것이다 — Okta 앱 배정과 같다
+  microsoft:
+    default_access: [authenticate, read]
+  # Gemini Enterprise 앱 사용자 역할. 3회차 실측 includedPermissions(135개)에 앱 안에 새로 만드는 권한이 있다 — 세션(sessions.create · update · delete ·
+  # uploadFile), 에이전트(agents.create), 자기 사용자 데이터(engines.createEngineUserData · updateEngineUserData), 노트북 · 메모리. 앱 설정을 바꾸는
+  # 권한(engines.update · setIamPolicy)과 저장소 쓰기는 없다. 그래서 세기 하나(role_name_rank 의 1)가 아니라 [read, create] 로 적는다: 앱을 쓰고 그 안에
+  # 새로 만든다. 고치기 · 설정 · 권한 주기는 주지 않는다. 2026-11-20 Relation 담당(Claude 가 정함). 로그: 세션 만들기 40건 · 에이전트 만들기 4건이
+  # 「읽기까지만 닿음(write 근거 없음)」이었다.
+  # below: 아래 객체(앱 안 어시스턴트 · 에이전트 · 위젯 설정 · 저장소)로는 읽기만 내려간다. 만들기는 앱 자체에 거는 능력이다 — 내려보내면 만들기가 쓰기 수준이라
+  # 앱 사용자가 위젯 설정 · 남의 에이전트를 「쓴다」로 세였다(3회차 실측: Apps Script 실행 신원이 그룹으로 이 역할을 받아 위협 2개가 새로 생겼다)
+  gcp:
+    roles/discoveryengine.agentspaceuser: {caps: [read, create], below: use}
+
+# 권한 요약 문자열. split 로 나누고 kv 로 키와 수준을 가른다. 수준(소문자) → 묶음
+permission_summary: {split: ',', kv: ':', levels: {read: use, write: edit, admin: manage}}
+
+# 역할 객체의 권한 이름 목록 → 능력 (permission_prefixes 단계). 이름이 read_suffix 로 끝나면 read_caps, 아니면 other_caps.
+# 객체 종류는 types 표(접두사 → 소문자 객체 종류)에서 이름이 맞는 줄 전부
+permission_prefixes:
+  okta: {from: properties.permissions, read_suffix: .read, read_caps: use, other_caps: edit, types: okta_permission_types}
+
+# member_of 가 그룹 · 테넌트가 아닌 자원을 가리킬 때 그 소속이 주는 능력. 줄이 없으면 default
+membership_capabilities:
+  default: use
+  rows:
+  - {provider: slack, target_type: conversation, caps: [read, write, send]}

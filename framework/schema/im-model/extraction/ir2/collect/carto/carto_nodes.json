@@ -1,0 +1,4118 @@
+[
+ {
+  "module": "slack",
+  "file": "bot.py",
+  "class": "SlackBotSchema",
+  "label": "SlackBot",
+  "extra_labels": [
+   null,
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "deleted",
+   "id",
+   "is_app_user",
+   "is_bot",
+   "lastupdated",
+   "name",
+   "real_name"
+  ],
+  "sub_resource": {
+   "class": "SlackTeamToBotRel",
+   "file": "bot.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "SlackTeam",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:TEAM_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "slack",
+  "file": "channels.py",
+  "class": "SlackChannelSchema",
+  "label": "SlackChannel",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "created",
+   "id",
+   "is_archived",
+   "is_general",
+   "is_org_shared",
+   "is_private",
+   "is_shared",
+   "lastupdated",
+   "name",
+   "num_members",
+   "purpose",
+   "topic"
+  ],
+  "sub_resource": {
+   "class": "SlackTeamToChannelRel",
+   "file": "channels.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "SlackTeam",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:TEAM_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "SlackChannelToUserRel",
+    "file": "channels.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "SlackUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:member_id"
+    }
+   },
+   {
+    "class": "SlackChannelToCreatorRel",
+    "file": "channels.py",
+    "source": null,
+    "label": "CREATED",
+    "target": "SlackUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:creator"
+    }
+   },
+   {
+    "class": "SlackChannelToBotRel",
+    "file": "channels.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "SlackBot",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:member_id"
+    }
+   },
+   {
+    "class": "SlackChannelToBotCreatorRel",
+    "file": "channels.py",
+    "source": null,
+    "label": "CREATED",
+    "target": "SlackBot",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:creator"
+    }
+   }
+  ]
+ },
+ {
+  "module": "slack",
+  "file": "group.py",
+  "class": "SlackGroupSchema",
+  "label": "SlackGroup",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "channel_count",
+   "created_by",
+   "date_create",
+   "date_delete",
+   "date_update",
+   "description",
+   "handle",
+   "id",
+   "is_external",
+   "is_subteam",
+   "lastupdated",
+   "name",
+   "updated_by",
+   "user_count"
+  ],
+  "sub_resource": {
+   "class": "SlackGroupToSlackTeamRel",
+   "file": "group.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "SlackTeam",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:TEAM_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "SlackGroupToUserRel",
+    "file": "group.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "SlackUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:member_id"
+    }
+   },
+   {
+    "class": "SlackGroupToChannelRel",
+    "file": "group.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "SlackChannel",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:channel_id"
+    }
+   },
+   {
+    "class": "SlackGroupToCreatorRel",
+    "file": "group.py",
+    "source": null,
+    "label": "CREATED",
+    "target": "SlackUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:created_by"
+    }
+   },
+   {
+    "class": "SlackGroupToBotRel",
+    "file": "group.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "SlackBot",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:member_id"
+    }
+   },
+   {
+    "class": "SlackGroupToBotCreatorRel",
+    "file": "group.py",
+    "source": null,
+    "label": "CREATED",
+    "target": "SlackBot",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:created_by"
+    }
+   }
+  ]
+ },
+ {
+  "module": "slack",
+  "file": "team.py",
+  "class": "SlackTeamSchema",
+  "label": "SlackTeam",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "domain",
+   "email_domain",
+   "id",
+   "is_verified",
+   "lastupdated",
+   "name",
+   "url"
+  ],
+  "sub_resource": null,
+  "rels": []
+ },
+ {
+  "module": "slack",
+  "file": "user.py",
+  "class": "SlackUserSchema",
+  "label": "SlackUser",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "deleted",
+   "display_name",
+   "email",
+   "first_name",
+   "has_mfa",
+   "id",
+   "is_admin",
+   "is_email_confirmed",
+   "is_owner",
+   "is_restricted",
+   "is_ultra_restricted",
+   "last_name",
+   "lastupdated",
+   "name",
+   "profile_phone",
+   "profile_title",
+   "real_name",
+   "team"
+  ],
+  "sub_resource": {
+   "class": "SlackTeamToUserRel",
+   "file": "user.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "SlackTeam",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:TEAM_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "github",
+  "file": "action.py",
+  "class": "GitHubActionSchema",
+  "label": "GitHubAction",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "full_name",
+   "id",
+   "is_local",
+   "is_pinned",
+   "lastupdated",
+   "name",
+   "owner",
+   "version"
+  ],
+  "sub_resource": {
+   "class": "GitHubActionToOrgRel",
+   "file": "action.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubActionToWorkflowRel",
+    "file": "action.py",
+    "source": null,
+    "label": "USES_ACTION",
+    "target": "GitHubWorkflow",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:workflow_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "actions_secret.py",
+  "class": "GitHubOrgActionsSecretSchema",
+  "label": "GitHubActionsSecret",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "created_at",
+   "id",
+   "lastupdated",
+   "level",
+   "name",
+   "updated_at",
+   "visibility"
+  ],
+  "sub_resource": {
+   "class": "GitHubActionsSecretToOrgRel",
+   "file": "actions_secret.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "github",
+  "file": "actions_secret.py",
+  "class": "GitHubRepoActionsSecretSchema",
+  "label": "GitHubActionsSecret",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "created_at",
+   "id",
+   "lastupdated",
+   "level",
+   "name",
+   "updated_at",
+   "visibility"
+  ],
+  "sub_resource": {
+   "class": "GitHubActionsSecretToOrgRel",
+   "file": "actions_secret.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubActionsSecretToRepoRel",
+    "file": "actions_secret.py",
+    "source": null,
+    "label": "HAS_SECRET",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_url"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "actions_secret.py",
+  "class": "GitHubEnvActionsSecretSchema",
+  "label": "GitHubActionsSecret",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "created_at",
+   "id",
+   "lastupdated",
+   "level",
+   "name",
+   "updated_at",
+   "visibility"
+  ],
+  "sub_resource": {
+   "class": "GitHubEnvActionsSecretToOrgRel",
+   "file": "actions_secret.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubActionsSecretToEnvRel",
+    "file": "actions_secret.py",
+    "source": null,
+    "label": "HAS_SECRET",
+    "target": "GitHubEnvironment",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:env_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "actions_variable.py",
+  "class": "GitHubOrgActionsVariableSchema",
+  "label": "GitHubActionsVariable",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "created_at",
+   "id",
+   "lastupdated",
+   "level",
+   "name",
+   "updated_at",
+   "value",
+   "visibility"
+  ],
+  "sub_resource": {
+   "class": "GitHubActionsVariableToOrgRel",
+   "file": "actions_variable.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "github",
+  "file": "actions_variable.py",
+  "class": "GitHubRepoActionsVariableSchema",
+  "label": "GitHubActionsVariable",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "created_at",
+   "id",
+   "lastupdated",
+   "level",
+   "name",
+   "updated_at",
+   "value",
+   "visibility"
+  ],
+  "sub_resource": {
+   "class": "GitHubActionsVariableToOrgRel",
+   "file": "actions_variable.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubActionsVariableToRepoRel",
+    "file": "actions_variable.py",
+    "source": null,
+    "label": "HAS_VARIABLE",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_url"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "actions_variable.py",
+  "class": "GitHubEnvActionsVariableSchema",
+  "label": "GitHubActionsVariable",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "created_at",
+   "id",
+   "lastupdated",
+   "level",
+   "name",
+   "updated_at",
+   "value",
+   "visibility"
+  ],
+  "sub_resource": {
+   "class": "GitHubEnvActionsVariableToOrgRel",
+   "file": "actions_variable.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubActionsVariableToEnvRel",
+    "file": "actions_variable.py",
+    "source": null,
+    "label": "HAS_VARIABLE",
+    "target": "GitHubEnvironment",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:env_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "app_installations.py",
+  "class": "GitHubAppInstallationSchema",
+  "label": "GitHubAppInstallation",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "app_id",
+   "app_slug",
+   "client_id",
+   "created_at",
+   "enabled",
+   "events",
+   "html_url",
+   "id",
+   "installation_id",
+   "lastupdated",
+   "permissions",
+   "repository_selection",
+   "suspended_at",
+   "suspended_by",
+   "target_type",
+   "updated_at",
+   "write_permissions"
+  ],
+  "sub_resource": {
+   "class": "GitHubAppInstallationToOrgRel",
+   "file": "app_installations.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "github",
+  "file": "branch_protection_rules.py",
+  "class": "GitHubBranchProtectionRuleSchema",
+  "label": "GitHubBranchProtectionRule",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "allows_deletions",
+   "allows_force_pushes",
+   "dismisses_stale_reviews",
+   "id",
+   "is_admin_enforced",
+   "lastupdated",
+   "pattern",
+   "required_approving_review_count",
+   "requires_approving_reviews",
+   "requires_code_owner_reviews",
+   "requires_commit_signatures",
+   "requires_linear_history",
+   "requires_status_checks",
+   "requires_strict_status_checks",
+   "restricts_pushes",
+   "restricts_review_dismissals"
+  ],
+  "sub_resource": {
+   "class": "GitHubBranchProtectionRuleToOrganizationRel",
+   "file": "branch_protection_rules.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:owner_org_id(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubBranchProtectionRuleToRepositoryRel",
+    "file": "branch_protection_rules.py",
+    "source": null,
+    "label": "HAS_RULE",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_url"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "codeowners.py",
+  "class": "GitHubCodeOwnerRuleSchema",
+  "label": "GitHubCodeOwnerRule",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "default_branch",
+   "id",
+   "lastupdated",
+   "line_number",
+   "owner_emails",
+   "owner_logins",
+   "owner_team_slugs",
+   "owners",
+   "pattern",
+   "repo_name",
+   "repo_url",
+   "source_path",
+   "unresolved_owners"
+  ],
+  "sub_resource": {
+   "class": "GitHubCodeOwnerRuleToOrganizationRel",
+   "file": "codeowners.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:owner_org_id(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubRepositoryToCodeOwnerRuleRel",
+    "file": "codeowners.py",
+    "source": null,
+    "label": "HAS_CODEOWNER_RULE",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_url"
+    }
+   },
+   {
+    "class": "GitHubCodeOwnerRuleToTeamRel",
+    "file": "codeowners.py",
+    "source": null,
+    "label": "CODEOWNER",
+    "target": "GitHubTeam",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:team_ids"
+    }
+   },
+   {
+    "class": "GitHubCodeOwnerRuleToUserRel",
+    "file": "codeowners.py",
+    "source": null,
+    "label": "CODEOWNER",
+    "target": "GitHubUser",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:user_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "container_image_attestations.py",
+  "class": "GitHubContainerImageAttestationSchema",
+  "label": "GitHubContainerImageAttestation",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "attests_digest",
+   "bundle_id",
+   "id",
+   "lastupdated",
+   "predicate_type",
+   "source_file",
+   "source_revision",
+   "source_uri"
+  ],
+  "sub_resource": {
+   "class": "GitHubContainerImageAttestationToOrgRel",
+   "file": "container_image_attestations.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubContainerImageAttestationAttestsRel",
+    "file": "container_image_attestations.py",
+    "source": null,
+    "label": "ATTESTS",
+    "target": "GitHubContainerImage",
+    "dir": "OUTWARD",
+    "matcher": {
+     "digest": "ref:attests_digest"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "container_image_layers.py",
+  "class": "GitHubContainerImageLayerSchema",
+  "label": "GitHubContainerImageLayer",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:diff_id",
+  "props": [
+   "diff_id",
+   "digest",
+   "history",
+   "id",
+   "is_empty",
+   "lastupdated",
+   "media_type",
+   "size"
+  ],
+  "sub_resource": {
+   "class": "GitHubContainerImageLayerToOrgRel",
+   "file": "container_image_layers.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubContainerImageLayerToNextRel",
+    "file": "container_image_layers.py",
+    "source": null,
+    "label": "NEXT",
+    "target": "GitHubContainerImageLayer",
+    "dir": "OUTWARD",
+    "matcher": {
+     "diff_id": "ref:next_diff_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "container_image_tags.py",
+  "class": "GitHubContainerImageTagSchema",
+  "label": "GitHubContainerImageTag",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:uri",
+  "props": [
+   "digest",
+   "id",
+   "image_pushed_at",
+   "lastupdated",
+   "name",
+   "package_id",
+   "uri"
+  ],
+  "sub_resource": {
+   "class": "GitHubContainerImageTagToOrgRel",
+   "file": "container_image_tags.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubContainerImageTagToPackageRel",
+    "file": "container_image_tags.py",
+    "source": null,
+    "label": "REPO_IMAGE",
+    "target": "GitHubPackage",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:package_id"
+    }
+   },
+   {
+    "class": "GitHubContainerImageTagToImageRel",
+    "file": "container_image_tags.py",
+    "source": null,
+    "label": "IMAGE",
+    "target": "GitHubContainerImage",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:digest"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "container_images.py",
+  "class": "GitHubContainerImageSchema",
+  "label": "GitHubContainerImage",
+  "extra_labels": [
+   "when()",
+   "when()"
+  ],
+  "id": "ref:digest",
+  "props": [
+   "architecture",
+   "child_image_digests",
+   "digest",
+   "head_layer_diff_id",
+   "id",
+   "lastupdated",
+   "layer_diff_ids",
+   "media_type",
+   "os",
+   "parent_image_digest",
+   "parent_image_uri",
+   "schema_version",
+   "source_file",
+   "source_revision",
+   "source_uri",
+   "tail_layer_diff_id",
+   "type",
+   "uri",
+   "variant"
+  ],
+  "sub_resource": {
+   "class": "GitHubContainerImageToOrgRel",
+   "file": "container_images.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubContainerImageToPackageRel",
+    "file": "container_images.py",
+    "source": null,
+    "label": "HAS_IMAGE",
+    "target": "GitHubPackage",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:package_id"
+    }
+   },
+   {
+    "class": "GitHubContainerImageContainsImageRel",
+    "file": "container_images.py",
+    "source": null,
+    "label": "CONTAINS_IMAGE",
+    "target": "GitHubContainerImage",
+    "dir": "OUTWARD",
+    "matcher": {
+     "digest": "ref:child_image_digests"
+    }
+   },
+   {
+    "class": "GitHubContainerImageToLayerRel",
+    "file": "container_images.py",
+    "source": null,
+    "label": "HAS_LAYER",
+    "target": "GitHubContainerImageLayer",
+    "dir": "OUTWARD",
+    "matcher": {
+     "diff_id": "ref:layer_diff_ids"
+    }
+   },
+   {
+    "class": "GitHubContainerImageToHeadLayerRel",
+    "file": "container_images.py",
+    "source": null,
+    "label": "HEAD",
+    "target": "GitHubContainerImageLayer",
+    "dir": "OUTWARD",
+    "matcher": {
+     "diff_id": "ref:head_layer_diff_id"
+    }
+   },
+   {
+    "class": "GitHubContainerImageToTailLayerRel",
+    "file": "container_images.py",
+    "source": null,
+    "label": "TAIL",
+    "target": "GitHubContainerImageLayer",
+    "dir": "OUTWARD",
+    "matcher": {
+     "diff_id": "ref:tail_layer_diff_id"
+    }
+   },
+   {
+    "class": "GitHubContainerImageToParentImageRel",
+    "file": "container_images.py",
+    "source": null,
+    "label": "BUILT_FROM",
+    "target": "GitHubContainerImage",
+    "dir": "OUTWARD",
+    "matcher": {
+     "digest": "ref:parent_image_digest"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "container_images.py",
+  "class": "GitHubContainerImageProvenanceSchema",
+  "label": "GitHubContainerImage",
+  "extra_labels": [],
+  "id": "ref:digest",
+  "props": [
+   "id",
+   "lastupdated",
+   "parent_image_digest",
+   "parent_image_uri",
+   "source_file",
+   "source_revision",
+   "source_uri"
+  ],
+  "sub_resource": null,
+  "rels": [
+   {
+    "class": "GitHubContainerImageToParentImageRel",
+    "file": "container_images.py",
+    "source": null,
+    "label": "BUILT_FROM",
+    "target": "GitHubContainerImage",
+    "dir": "OUTWARD",
+    "matcher": {
+     "digest": "ref:parent_image_digest"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "dependabot_alerts.py",
+  "class": "GitHubDependabotAlertSchema",
+  "label": "GitHubDependabotAlert",
+  "extra_labels": [
+   null,
+   null,
+   "when()"
+  ],
+  "id": "ref:id",
+  "props": [
+   "advisory_cve_id",
+   "advisory_description",
+   "advisory_ghsa_id",
+   "advisory_published_at",
+   "advisory_summary",
+   "advisory_updated_at",
+   "advisory_withdrawn_at",
+   "created_at",
+   "cve_id",
+   "cvss_score",
+   "cvss_v3_score",
+   "cvss_v3_vector_string",
+   "cvss_v4_score",
+   "cvss_v4_vector_string",
+   "cvss_vector_string",
+   "cwe_ids",
+   "dependency_manifest_path",
+   "dependency_package_ecosystem",
+   "dependency_package_name",
+   "dependency_scope",
+   "dismissed_at",
+   "dismissed_comment",
+   "dismissed_reason",
+   "epss_percentage",
+   "epss_percentile",
+   "first_patched_version",
+   "fixed_at",
+   "has_cve",
+   "html_url",
+   "id",
+   "identifiers",
+   "lastupdated",
+   "number",
+   "references",
+   "repository_full_name",
+   "repository_name",
+   "repository_url",
+   "severity",
+   "state",
+   "updated_at",
+   "url",
+   "vulnerable_version_range"
+  ],
+  "sub_resource": {
+   "class": "GitHubDependabotAlertToOrgRel",
+   "file": "dependabot_alerts.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubDependabotAlertToRepoRel",
+    "file": "dependabot_alerts.py",
+    "source": null,
+    "label": "FOUND_IN",
+    "target": "GitHubRepository",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:repository_url"
+    }
+   },
+   {
+    "class": "GitHubDependabotAlertDismissedByUserRel",
+    "file": "dependabot_alerts.py",
+    "source": null,
+    "label": "DISMISSED_BY",
+    "target": "GitHubUser",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:dismissed_by_user_id"
+    }
+   },
+   {
+    "class": "GitHubDependabotAlertAssignedToUserRel",
+    "file": "dependabot_alerts.py",
+    "source": null,
+    "label": "ASSIGNED_TO",
+    "target": "GitHubUser",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:assignee_user_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "dependabot_alerts.py",
+  "class": "GitHubDependabotAlertUserSchema",
+  "label": "GitHubUser",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:html_url",
+  "props": [
+   "id",
+   "is_site_admin",
+   "lastupdated",
+   "type",
+   "username"
+  ],
+  "sub_resource": null,
+  "rels": []
+ },
+ {
+  "module": "github",
+  "file": "dependencies.py",
+  "class": "GitHubDependencySchema",
+  "label": "GitHubDependency",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "ecosystem",
+   "id",
+   "lastupdated",
+   "manifest_file",
+   "name",
+   "normalized_id",
+   "original_name",
+   "package_manager",
+   "purl",
+   "requirements",
+   "source",
+   "type",
+   "version",
+   "version_confidence"
+  ],
+  "sub_resource": null,
+  "rels": [
+   {
+    "class": "GitHubDependencyToRepositoryRel",
+    "file": "dependencies.py",
+    "source": null,
+    "label": "REQUIRES",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_url"
+    }
+   },
+   {
+    "class": "DependencyGraphManifestToDependencyRel",
+    "file": "dependencies.py",
+    "source": null,
+    "label": "HAS_DEP",
+    "target": "GitHubDependencyGraphManifest",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:manifest_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "domains.py",
+  "class": "GitHubOrganizationDomainSchema",
+  "label": "GitHubOrganizationDomain",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "created_at",
+   "domain",
+   "id",
+   "is_approved",
+   "is_required_for_policy_enforcement",
+   "is_verified",
+   "lastupdated",
+   "updated_at"
+  ],
+  "sub_resource": {
+   "class": "GitHubOrganizationDomainToOrgRel",
+   "file": "domains.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "github",
+  "file": "environment.py",
+  "class": "GitHubEnvironmentSchema",
+  "label": "GitHubEnvironment",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "created_at",
+   "html_url",
+   "id",
+   "lastupdated",
+   "name",
+   "updated_at"
+  ],
+  "sub_resource": {
+   "class": "GitHubEnvironmentToOrgRel",
+   "file": "environment.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubEnvironmentToRepoRel",
+    "file": "environment.py",
+    "source": null,
+    "label": "HAS_ENVIRONMENT",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_url"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "external_identities.py",
+  "class": "GitHubExternalIdentitySchema",
+  "label": "GitHubExternalIdentity",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "id",
+   "lastupdated",
+   "saml_name_id",
+   "saml_name_id_normalized"
+  ],
+  "sub_resource": {
+   "class": "GitHubExternalIdentityToOrganizationRel",
+   "file": "external_identities.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubExternalIdentityToUserRel",
+    "file": "external_identities.py",
+    "source": null,
+    "label": "HAS_IDENTITY",
+    "target": "GitHubUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:user_url"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "manifests.py",
+  "class": "DependencyGraphManifestSchema",
+  "label": "GitHubDependencyGraphManifest",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "blob_path",
+   "dependencies_count",
+   "filename",
+   "id",
+   "lastupdated",
+   "repo_relative_path",
+   "repo_url"
+  ],
+  "sub_resource": {
+   "class": "DependencyGraphManifestToOrganizationRel",
+   "file": "manifests.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:owner_org_id(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "DependencyGraphManifestToRepositoryRel",
+    "file": "manifests.py",
+    "source": null,
+    "label": "HAS_MANIFEST",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_url"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "orgs.py",
+  "class": "GitHubOrganizationSchema",
+  "label": "GitHubOrganization",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:url",
+  "props": [
+   "actions_allowed_actions",
+   "actions_can_approve_pull_request_reviews",
+   "actions_default_workflow_permissions",
+   "actions_enabled_repositories",
+   "actions_github_owned_allowed",
+   "actions_patterns_allowed",
+   "actions_sha_pinning_required",
+   "actions_verified_allowed",
+   "advanced_security_enabled_for_new_repositories",
+   "copilot_cli",
+   "copilot_ide_chat",
+   "copilot_plan_type",
+   "copilot_platform_chat",
+   "copilot_public_code_suggestions",
+   "copilot_seat_count",
+   "copilot_seat_management_setting",
+   "default_repository_permission",
+   "dependabot_alerts_enabled_for_new_repositories",
+   "dependabot_security_updates_enabled_for_new_repositories",
+   "dependency_graph_enabled_for_new_repositories",
+   "deploy_keys_enabled_for_repositories",
+   "id",
+   "ip_allow_list_enabled",
+   "is_verified",
+   "lastupdated",
+   "members_can_create_internal_repositories",
+   "members_can_create_private_repositories",
+   "members_can_create_public_pages",
+   "members_can_create_public_repositories",
+   "members_can_create_repositories",
+   "members_can_fork_private_repositories",
+   "name",
+   "notification_delivery_restricted",
+   "secret_scanning_enabled_for_new_repositories",
+   "secret_scanning_push_protection_custom_link_enabled",
+   "secret_scanning_push_protection_enabled_for_new_repositories",
+   "two_factor_requirement_enabled",
+   "username",
+   "verified_domain_count",
+   "web_commit_signoff_required"
+  ],
+  "sub_resource": null,
+  "rels": []
+ },
+ {
+  "module": "github",
+  "file": "packages.py",
+  "class": "GitHubPackageSchema",
+  "label": "GitHubPackage",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:html_url",
+  "props": [
+   "created_at",
+   "html_url",
+   "id",
+   "lastupdated",
+   "name",
+   "package_type",
+   "updated_at",
+   "uri",
+   "visibility"
+  ],
+  "sub_resource": {
+   "class": "GitHubPackageToOrgRel",
+   "file": "packages.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubPackageToRepositoryRel",
+    "file": "packages.py",
+    "source": null,
+    "label": "HAS_PACKAGE",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repository_url"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "personal_access_tokens.py",
+  "class": "GitHubPersonalAccessTokenSchema",
+  "label": "GitHubPersonalAccessToken",
+  "extra_labels": [
+   null,
+   "when()",
+   "when()"
+  ],
+  "id": "ref:id",
+  "props": [
+   "access_granted_at",
+   "credential_accessed_at",
+   "credential_authorized_at",
+   "expires_at",
+   "id",
+   "last_used_at",
+   "lastupdated",
+   "owner_login",
+   "permissions",
+   "repository_selection",
+   "scopes",
+   "token_id",
+   "token_kind",
+   "token_name"
+  ],
+  "sub_resource": {
+   "class": "GitHubPersonalAccessTokenToOrgRel",
+   "file": "personal_access_tokens.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubPersonalAccessTokenToOwnerUserRel",
+    "file": "personal_access_tokens.py",
+    "source": null,
+    "label": "OWNS",
+    "target": "GitHubUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:owner_user_id"
+    }
+   },
+   {
+    "class": "GitHubPersonalAccessTokenToOwnerUserOwnedByRel",
+    "file": "personal_access_tokens.py",
+    "source": null,
+    "label": "OWNED_BY",
+    "target": "GitHubUser",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:owner_user_id"
+    }
+   },
+   {
+    "class": "GitHubPersonalAccessTokenToRepositoryRel",
+    "file": "personal_access_tokens.py",
+    "source": null,
+    "label": "CAN_ACCESS",
+    "target": "GitHubRepository",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:repository_urls"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "repos.py",
+  "class": "GitHubRepositorySchema",
+  "label": "GitHubRepository",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "advanced_security_enabled",
+   "archived",
+   "code_security_enabled",
+   "createdat",
+   "defaultbranch",
+   "defaultbranchid",
+   "dependabot_security_updates_enabled",
+   "description",
+   "disabled",
+   "fork",
+   "fullname",
+   "giturl",
+   "homepage",
+   "id",
+   "lastupdated",
+   "locked",
+   "name",
+   "parent",
+   "primarylanguage",
+   "private",
+   "secret_scanning_enabled",
+   "secret_scanning_non_provider_patterns_enabled",
+   "secret_scanning_push_protection_enabled",
+   "secret_scanning_validity_checks_enabled",
+   "sshurl",
+   "updatedat",
+   "url",
+   "visibility"
+  ],
+  "sub_resource": null,
+  "rels": [
+   {
+    "class": "GitHubRepositoryToOwnerOrganizationRel",
+    "file": "repos.py",
+    "source": null,
+    "label": "OWNER",
+    "target": "GitHubOrganization",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:owner_org_id"
+    }
+   },
+   {
+    "class": "GitHubRepositoryToOwnerUserRel",
+    "file": "repos.py",
+    "source": null,
+    "label": "OWNER",
+    "target": "GitHubUser",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:owner_user_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "repos.py",
+  "class": "GitHubBranchSchema",
+  "label": "GitHubBranch",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "id",
+   "lastupdated",
+   "name"
+  ],
+  "sub_resource": {
+   "class": "GitHubBranchToOrganizationRel",
+   "file": "repos.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:owner_org_id(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubBranchToRepositoryRel",
+    "file": "repos.py",
+    "source": null,
+    "label": "BRANCH",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "repos.py",
+  "class": "ProgrammingLanguageSchema",
+  "label": "ProgrammingLanguage",
+  "extra_labels": [],
+  "id": "ref:language_name",
+  "props": [
+   "id",
+   "lastupdated",
+   "name"
+  ],
+  "sub_resource": null,
+  "rels": [
+   {
+    "class": "ProgrammingLanguageToRepositoryRel",
+    "file": "repos.py",
+    "source": null,
+    "label": "LANGUAGE",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "repos.py",
+  "class": "GitHubOwnerOrganizationSchema",
+  "label": "GitHubOrganization",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:owner_id",
+  "props": [
+   "id",
+   "lastupdated",
+   "username"
+  ],
+  "sub_resource": null,
+  "rels": [
+   {
+    "class": "GitHubOwnerToRepositoryRel",
+    "file": "repos.py",
+    "source": null,
+    "label": "OWNER",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "repos.py",
+  "class": "GitHubOwnerUserSchema",
+  "label": "GitHubUser",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:owner_id",
+  "props": [
+   "id",
+   "lastupdated",
+   "username"
+  ],
+  "sub_resource": null,
+  "rels": [
+   {
+    "class": "GitHubOwnerToRepositoryRel",
+    "file": "repos.py",
+    "source": null,
+    "label": "OWNER",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "repos.py",
+  "class": "_GitHubCollaboratorSchema",
+  "label": "GitHubUser",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:url",
+  "props": [
+   "company",
+   "email",
+   "fullname",
+   "id",
+   "lastupdated",
+   "permission",
+   "username"
+  ],
+  "sub_resource": null,
+  "rels": []
+ },
+ {
+  "module": "github",
+  "file": "repos.py",
+  "class": "GitHubPythonLibrarySchema",
+  "label": "PythonLibrary",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "id",
+   "lastupdated",
+   "name",
+   "specifier",
+   "version"
+  ],
+  "sub_resource": null,
+  "rels": [
+   {
+    "class": "GitHubPythonLibraryToRepositoryRel",
+    "file": "repos.py",
+    "source": null,
+    "label": "REQUIRES",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_url"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "ruleset_rules.py",
+  "class": "GitHubRulesetRuleSchema",
+  "label": "GitHubRulesetRule",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "id",
+   "lastupdated",
+   "parameters",
+   "parameters_dismiss_stale_reviews_on_push",
+   "parameters_require_code_owner_review",
+   "parameters_required_approving_review_count",
+   "parameters_required_status_checks",
+   "type"
+  ],
+  "sub_resource": {
+   "class": "GitHubRulesetRuleToOrganizationRel",
+   "file": "ruleset_rules.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:owner_org_id(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubRulesetRuleToRulesetRel",
+    "file": "ruleset_rules.py",
+    "source": null,
+    "label": "CONTAINS_RULE",
+    "target": "GitHubRuleset",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:ruleset_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "rulesets.py",
+  "class": "GitHubRulesetSchema",
+  "label": "GitHubRuleset",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "conditions_organization_property_exclude",
+   "conditions_organization_property_include",
+   "conditions_ref_name_exclude",
+   "conditions_ref_name_include",
+   "conditions_repository_ids",
+   "conditions_repository_name_exclude",
+   "conditions_repository_name_include",
+   "conditions_repository_name_protected",
+   "conditions_repository_property_exclude",
+   "conditions_repository_property_include",
+   "created_at",
+   "database_id",
+   "enforcement",
+   "id",
+   "lastupdated",
+   "name",
+   "target",
+   "updated_at"
+  ],
+  "sub_resource": {
+   "class": "GitHubRulesetToOrganizationRel",
+   "file": "rulesets.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:owner_org_id(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubRulesetToRepositoryRel",
+    "file": "rulesets.py",
+    "source": null,
+    "label": "HAS_RULESET",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_url"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "teams.py",
+  "class": "GitHubTeamSchema",
+  "label": "GitHubTeam",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:url",
+  "props": [
+   "description",
+   "id",
+   "lastupdated",
+   "name",
+   "url"
+  ],
+  "sub_resource": {
+   "class": "GitHubTeamToOrganizationRel",
+   "file": "teams.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubTeamAdminRepoRel",
+    "file": "teams.py",
+    "source": null,
+    "label": "ADMIN",
+    "target": "GitHubRepository",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:ADMIN"
+    }
+   },
+   {
+    "class": "GitHubTeamMaintainRepoRel",
+    "file": "teams.py",
+    "source": null,
+    "label": "MAINTAIN",
+    "target": "GitHubRepository",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:MAINTAIN"
+    }
+   },
+   {
+    "class": "GitHubTeamReadRepoRel",
+    "file": "teams.py",
+    "source": null,
+    "label": "READ",
+    "target": "GitHubRepository",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:READ"
+    }
+   },
+   {
+    "class": "GitHubTeamTriageRepoRel",
+    "file": "teams.py",
+    "source": null,
+    "label": "TRIAGE",
+    "target": "GitHubRepository",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:TRIAGE"
+    }
+   },
+   {
+    "class": "GitHubTeamWriteRepoRel",
+    "file": "teams.py",
+    "source": null,
+    "label": "WRITE",
+    "target": "GitHubRepository",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:WRITE"
+    }
+   },
+   {
+    "class": "GitHubTeamMaintainerUserRel",
+    "file": "teams.py",
+    "source": null,
+    "label": "MAINTAINER",
+    "target": "GitHubUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:MAINTAINER"
+    }
+   },
+   {
+    "class": "GitHubTeamMemberUserRel",
+    "file": "teams.py",
+    "source": null,
+    "label": "MEMBER",
+    "target": "GitHubUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:MEMBER"
+    }
+   },
+   {
+    "class": "GitHubTeamMemberUserMemberOfRel",
+    "file": "teams.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "GitHubUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:MEMBER"
+    }
+   },
+   {
+    "class": "GitHubTeamChildTeamRel",
+    "file": "teams.py",
+    "source": null,
+    "label": "MEMBER_OF_TEAM",
+    "target": "GitHubTeam",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:MEMBER_OF_TEAM"
+    }
+   },
+   {
+    "class": "GitHubTeamChildTeamMemberOfRel",
+    "file": "teams.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "GitHubTeam",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:MEMBER_OF_TEAM"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "users.py",
+  "class": "GitHubOrganizationUserSchema",
+  "label": "GitHubUser",
+  "extra_labels": [
+   null
+  ],
+  "id": null,
+  "props": [
+   "has_2fa_enabled"
+  ],
+  "sub_resource": null,
+  "rels": [
+   {
+    "class": "GitHubUserMemberOfOrganizationRel",
+    "file": "users.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "GitHubOrganization",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:MEMBER_OF"
+    }
+   },
+   {
+    "class": "GitHubUserAdminOfOrganizationRel",
+    "file": "users.py",
+    "source": null,
+    "label": "ADMIN_OF",
+    "target": "GitHubOrganization",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:ADMIN_OF"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "users.py",
+  "class": "GitHubUnaffiliatedUserSchema",
+  "label": "GitHubUser",
+  "extra_labels": [
+   null
+  ],
+  "id": null,
+  "props": [],
+  "sub_resource": null,
+  "rels": [
+   {
+    "class": "GitHubUserUnaffiliatedOrganizationRel",
+    "file": "users.py",
+    "source": null,
+    "label": "UNAFFILIATED",
+    "target": "GitHubOrganization",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:UNAFFILIATED"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "webhooks.py",
+  "class": "GitHubWebhookSchema",
+  "label": "GitHubWebhook",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "active",
+   "content_type",
+   "created_at",
+   "events",
+   "has_secret",
+   "hook_id",
+   "id",
+   "insecure_ssl",
+   "last_response_code",
+   "last_response_status",
+   "lastupdated",
+   "name",
+   "scope",
+   "target_host",
+   "target_scheme",
+   "updated_at"
+  ],
+  "sub_resource": {
+   "class": "GitHubWebhookToOrgRel",
+   "file": "webhooks.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubOrganizationToWebhookRel",
+    "file": "webhooks.py",
+    "source": null,
+    "label": "HAS_WEBHOOK",
+    "target": "GitHubOrganization",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:organization_id"
+    }
+   },
+   {
+    "class": "GitHubRepositoryToWebhookRel",
+    "file": "webhooks.py",
+    "source": null,
+    "label": "HAS_WEBHOOK",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repository_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "github",
+  "file": "workflow.py",
+  "class": "GitHubWorkflowSchema",
+  "label": "GitHubWorkflow",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "created_at",
+   "env_vars",
+   "has_reusable_workflow_calls",
+   "id",
+   "job_count",
+   "lastupdated",
+   "name",
+   "path",
+   "permissions_actions",
+   "permissions_checks",
+   "permissions_contents",
+   "permissions_deployments",
+   "permissions_id_token",
+   "permissions_issues",
+   "permissions_packages",
+   "permissions_pull_requests",
+   "permissions_security_events",
+   "permissions_statuses",
+   "repo_url",
+   "state",
+   "trigger_events",
+   "updated_at"
+  ],
+  "sub_resource": {
+   "class": "GitHubWorkflowToOrgRel",
+   "file": "workflow.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GitHubOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:org_url(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GitHubWorkflowToRepoRel",
+    "file": "workflow.py",
+    "source": null,
+    "label": "HAS_WORKFLOW",
+    "target": "GitHubRepository",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:repo_url"
+    }
+   },
+   {
+    "class": "GitHubWorkflowToSecretRel",
+    "file": "workflow.py",
+    "source": null,
+    "label": "REFERENCES_SECRET",
+    "target": "GitHubActionsSecret",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:secret_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "api_token.py",
+  "class": "OktaApiTokenSchema",
+  "label": "OktaApiToken",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "client_name",
+   "created",
+   "expires_at",
+   "id",
+   "lastupdated",
+   "name",
+   "network_connection",
+   "okta_last_updated",
+   "token_window",
+   "user_id"
+  ],
+  "sub_resource": {
+   "class": "OktaApiTokenToOrganizationRel",
+   "file": "api_token.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaApiTokenOwnedByUserRel",
+    "file": "api_token.py",
+    "source": null,
+    "label": "OWNED_BY",
+    "target": "OktaUser",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:user_id"
+    }
+   },
+   {
+    "class": "OktaApiTokenAllowedFromZoneRel",
+    "file": "api_token.py",
+    "source": null,
+    "label": "ALLOWED_FROM",
+    "target": "OktaNetworkZone",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:network_include_zone_ids"
+    }
+   },
+   {
+    "class": "OktaApiTokenBlockedFromZoneRel",
+    "file": "api_token.py",
+    "source": null,
+    "label": "BLOCKED_FROM",
+    "target": "OktaNetworkZone",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:network_exclude_zone_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "application.py",
+  "class": "OktaApplicationSchema",
+  "label": "OktaApplication",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "accessibility_error_redirect_url",
+   "accessibility_login_redirect_url",
+   "accessibility_self_service",
+   "activated",
+   "created",
+   "credentials_signing_kid",
+   "credentials_signing_last_rotated",
+   "credentials_signing_next_rotation",
+   "credentials_signing_rotation_mode",
+   "credentials_signing_use",
+   "credentials_user_name_template_push_status",
+   "credentials_user_name_template_suffix",
+   "credentials_user_name_template_template",
+   "credentials_user_name_template_type",
+   "features",
+   "id",
+   "label",
+   "last_updated",
+   "lastupdated",
+   "licensing_seat_count",
+   "name",
+   "settings_app_acs_url",
+   "settings_app_button_field",
+   "settings_app_implicit_assignment",
+   "settings_app_inline_hook_id",
+   "settings_app_login_url_regex",
+   "settings_app_org_name",
+   "settings_app_password_field",
+   "settings_app_url",
+   "settings_app_username_field",
+   "settings_notes_admin",
+   "settings_notes_enduser",
+   "settings_notifications_vpn_help_url",
+   "settings_notifications_vpn_message",
+   "settings_notifications_vpn_network_connection",
+   "settings_notifications_vpn_network_exclude",
+   "settings_notifications_vpn_network_include",
+   "settings_oauth_client_application_type",
+   "settings_oauth_client_client_uri",
+   "settings_oauth_client_consent_method",
+   "settings_oauth_client_grant_Type",
+   "settings_oauth_client_idp_initiated_login_default_scope",
+   "settings_oauth_client_idp_initiated_login_mode",
+   "settings_oauth_client_initiate_login_uri",
+   "settings_oauth_client_logo_uri",
+   "settings_oauth_client_policy_uri",
+   "settings_oauth_client_post_logout_redirect_uris",
+   "settings_oauth_client_redirect_uris",
+   "settings_oauth_client_response_types",
+   "settings_oauth_client_tos_uri",
+   "settings_oauth_client_wildcard_redirect",
+   "settings_sign_on_assertion_signed",
+   "settings_sign_on_audience",
+   "settings_sign_on_audience_override",
+   "settings_sign_on_authn_context_class_ref",
+   "settings_sign_on_default_relay_state",
+   "settings_sign_on_destination",
+   "settings_sign_on_destination_override",
+   "settings_sign_on_digest_algorithm",
+   "settings_sign_on_honor_force_authn",
+   "settings_sign_on_idp_issuer",
+   "settings_sign_on_recipient",
+   "settings_sign_on_recipient_override",
+   "settings_sign_on_response_signed",
+   "settings_sign_on_signature_algorithm",
+   "settings_sign_on_sso_acs_url",
+   "settings_sign_on_sso_acs_url_override",
+   "settings_sign_on_subject_name_id_format",
+   "settings_sign_on_subject_name_id_template",
+   "sign_on_mode",
+   "status",
+   "visibility_app_links",
+   "visibility_auto_launch",
+   "visibility_auto_submit_toolbar",
+   "visibility_hide"
+  ],
+  "sub_resource": {
+   "class": "OktaApplicationToOktaOrganizationRelPropertiesRel",
+   "file": "application.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaApplicationToOktaUserPropertiesRel",
+    "file": "application.py",
+    "source": null,
+    "label": "APPLICATION",
+    "target": "OktaUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:user_id"
+    }
+   },
+   {
+    "class": "OktaApplicationToOktaGroupPropertiesRel",
+    "file": "application.py",
+    "source": null,
+    "label": "APPLICATION",
+    "target": "OktaGroup",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:group_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "authenticator.py",
+  "class": "OktaAuthenticatorSchema",
+  "label": "OktaAuthenticator",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "authenticator_type",
+   "created",
+   "id",
+   "key",
+   "last_updated",
+   "lastupdated",
+   "name",
+   "provider_auth_port",
+   "provider_configuration",
+   "provider_host_name",
+   "provider_instance_id",
+   "provider_integration_key",
+   "provider_type",
+   "provider_user_name_template",
+   "settings",
+   "settings_allowed_for",
+   "settings_app_instance_id",
+   "settings_channel_binding",
+   "settings_compliance",
+   "settings_token_lifetime_minutes",
+   "settings_user_verification",
+   "status"
+  ],
+  "sub_resource": {
+   "class": "OktaAuthenticatorToOktaOrganizationRel",
+   "file": "authenticator.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "okta",
+  "file": "device.py",
+  "class": "OktaDeviceSchema",
+  "label": "OktaDevice",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "created",
+   "disk_encryption_type",
+   "display_name",
+   "id",
+   "imei",
+   "integrity_jailbreak",
+   "lastupdated",
+   "managed",
+   "manufacturer",
+   "meid",
+   "model",
+   "okta_last_updated",
+   "os_version",
+   "platform",
+   "registered",
+   "resource_alternate_id",
+   "resource_display_name",
+   "resource_display_name_sensitive",
+   "resource_type",
+   "secure_hardware_present",
+   "serial_number",
+   "sid",
+   "status",
+   "tpm_public_key_hash",
+   "udid"
+  ],
+  "sub_resource": {
+   "class": "OktaDeviceToOrganizationRel",
+   "file": "device.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "okta",
+  "file": "factor.py",
+  "class": "OktaUserFactorSchema",
+  "label": "OktaUserFactor",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "created",
+   "factor_type",
+   "id",
+   "lastupdated",
+   "okta_last_updated",
+   "provider",
+   "status"
+  ],
+  "sub_resource": {
+   "class": "OktaUserFactorToOktaOrganizationRel",
+   "file": "factor.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaUserFactorToOktaUserRel",
+    "file": "factor.py",
+    "source": null,
+    "label": "FACTOR",
+    "target": "OktaUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:user_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "group.py",
+  "class": "OktaGroupRoleSchema",
+  "label": "OktaGroupRole",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "assignment_type",
+   "created",
+   "description",
+   "id",
+   "label",
+   "last_updated",
+   "lastupdated",
+   "name",
+   "role_type",
+   "status"
+  ],
+  "sub_resource": {
+   "class": "OktaGroupRoleToOktaOrganizationRel",
+   "file": "group.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "okta",
+  "file": "group.py",
+  "class": "OktaGroupSchema",
+  "label": "OktaGroup",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "created",
+   "description",
+   "dn",
+   "external_id",
+   "group_type",
+   "id",
+   "last_membership_updated",
+   "last_updated",
+   "lastupdated",
+   "name",
+   "object_class",
+   "sam_account_name",
+   "windows_domain_qualified_name"
+  ],
+  "sub_resource": {
+   "class": "OktaGroupToOktaOrganizationRel",
+   "file": "group.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaGroupToOktaUserRel",
+    "file": "group.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "OktaUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:user_id"
+    }
+   },
+   {
+    "class": "OktaGroupToOktaUserDeprecatedRel",
+    "file": "group.py",
+    "source": null,
+    "label": "MEMBER_OF_OKTA_GROUP",
+    "target": "OktaUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:user_id"
+    }
+   },
+   {
+    "class": "OktaGroupToOktaGroupRoleRel",
+    "file": "group.py",
+    "source": null,
+    "label": "HAS_ROLE",
+    "target": "OktaGroupRole",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:role_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "group.py",
+  "class": "OktaGroupRuleSchema",
+  "label": "OktaGroupRule",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "assigned_groups",
+   "condition_type",
+   "conditions",
+   "created",
+   "exclusions",
+   "expression_type",
+   "id",
+   "inclusions",
+   "last_updated",
+   "lastupdated",
+   "name",
+   "status"
+  ],
+  "sub_resource": {
+   "class": "OktaGroupRuleToOktaOrganizationRel",
+   "file": "group.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaGroupToOktaGroupRuleRel",
+    "file": "group.py",
+    "source": null,
+    "label": "ASSIGNED_BY_GROUP_RULE",
+    "target": "OktaGroup",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:group_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "log_stream.py",
+  "class": "OktaLogStreamSchema",
+  "label": "OktaLogStream",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "aws_account_id",
+   "aws_event_source_name",
+   "aws_region",
+   "created",
+   "id",
+   "lastupdated",
+   "name",
+   "okta_last_updated",
+   "splunk_edition",
+   "splunk_host",
+   "status",
+   "type"
+  ],
+  "sub_resource": {
+   "class": "OktaLogStreamToOrganizationRel",
+   "file": "log_stream.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaLogStreamToAWSAccountRel",
+    "file": "log_stream.py",
+    "source": null,
+    "label": "STREAMS_TO",
+    "target": "AWSAccount",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:aws_account_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "network_zone.py",
+  "class": "OktaNetworkZoneSchema",
+  "label": "OktaNetworkZone",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "asns_exclude",
+   "asns_include",
+   "created",
+   "gateways",
+   "id",
+   "ip_service_categories_exclude",
+   "ip_service_categories_include",
+   "lastupdated",
+   "locations_exclude",
+   "locations_include",
+   "name",
+   "okta_last_updated",
+   "proxies",
+   "proxy_type",
+   "status",
+   "system",
+   "type",
+   "usage",
+   "use_as_exempt_list"
+  ],
+  "sub_resource": {
+   "class": "OktaNetworkZoneToOrganizationRel",
+   "file": "network_zone.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "okta",
+  "file": "organization.py",
+  "class": "OktaOrganizationSchema",
+  "label": "OktaOrganization",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "admin_console_session_idle_timeout_minutes",
+   "admin_console_session_max_lifetime_minutes",
+   "admin_roles_synced",
+   "id",
+   "lastupdated",
+   "log_streams_synced",
+   "name"
+  ],
+  "sub_resource": null,
+  "rels": []
+ },
+ {
+  "module": "okta",
+  "file": "origin.py",
+  "class": "OktaTrustedOriginSchema",
+  "label": "OktaTrustedOrigin",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "cors_allowed",
+   "cors_allowed_okta_apps",
+   "cors_value",
+   "created",
+   "created_by",
+   "id",
+   "iframe_allowed",
+   "iframe_allowed_okta_apps",
+   "iframe_value",
+   "last_updated",
+   "last_updated_by",
+   "lastupdated",
+   "name",
+   "origin",
+   "redirect_allowed",
+   "redirect_allowed_okta_apps",
+   "redirect_value",
+   "status"
+  ],
+  "sub_resource": {
+   "class": "OktaTrustedOriginToOktaOrganizationRel",
+   "file": "origin.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "TrustedOriginLastUpdateByToOktaUserRel",
+    "file": "origin.py",
+    "source": null,
+    "label": "LAST_UPDATED_BY",
+    "target": "OktaUser",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:last_updated_by"
+    }
+   },
+   {
+    "class": "TrustedOriginCreatedByToOktaUserRel",
+    "file": "origin.py",
+    "source": null,
+    "label": "CREATED_BY",
+    "target": "OktaUser",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:created_by"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "policy.py",
+  "class": "OktaPolicySchema",
+  "label": "OktaPolicy",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "application_ids",
+   "auth_provider",
+   "conditions",
+   "created",
+   "description",
+   "enrollment_disabled_authenticators",
+   "enrollment_optional_authenticators",
+   "enrollment_required_authenticators",
+   "first_party_app_names",
+   "group_exclude_ids",
+   "group_include_ids",
+   "id",
+   "lastupdated",
+   "lockout_auto_unlock_minutes",
+   "lockout_max_attempts",
+   "lockout_notification_channels",
+   "lockout_show_failures",
+   "name",
+   "okta_last_updated",
+   "password_common_password_check",
+   "password_exclude_attributes",
+   "password_exclude_username",
+   "password_expire_warn_days",
+   "password_history_count",
+   "password_max_age_days",
+   "password_min_age_minutes",
+   "password_min_length",
+   "password_min_lowercase",
+   "password_min_number",
+   "password_min_symbol",
+   "password_min_uppercase",
+   "priority",
+   "settings",
+   "status",
+   "system",
+   "type"
+  ],
+  "sub_resource": {
+   "class": "OktaPolicyToOrganizationRel",
+   "file": "policy.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaPolicyAppliesToGroupRel",
+    "file": "policy.py",
+    "source": null,
+    "label": "APPLIES_TO",
+    "target": "OktaGroup",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:group_include_ids"
+    }
+   },
+   {
+    "class": "OktaPolicyExcludesGroupRel",
+    "file": "policy.py",
+    "source": null,
+    "label": "EXCLUDES",
+    "target": "OktaGroup",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:group_exclude_ids"
+    }
+   },
+   {
+    "class": "OktaPolicyAppliesToApplicationRel",
+    "file": "policy.py",
+    "source": null,
+    "label": "APPLIES_TO",
+    "target": "OktaApplication",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:application_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "policy.py",
+  "class": "OktaPolicyRuleSchema",
+  "label": "OktaPolicyRule",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "access",
+   "actions",
+   "conditions",
+   "created",
+   "device_bound_required",
+   "enroll_self",
+   "factor_lifetime_minutes",
+   "factor_mode",
+   "factor_prompt_mode",
+   "group_exclude_ids",
+   "group_include_ids",
+   "hardware_protection_required",
+   "id",
+   "lastupdated",
+   "name",
+   "network_connection",
+   "network_exclude_zone_ids",
+   "network_include_zone_ids",
+   "okta_last_updated",
+   "password_change_access",
+   "phishing_resistant_required",
+   "policy_id",
+   "primary_factor",
+   "priority",
+   "reauthenticate_in",
+   "remember_device_by_default",
+   "require_factor",
+   "risk_score_level",
+   "self_service_password_reset_access",
+   "self_service_unlock_access",
+   "session_max_idle_minutes",
+   "session_max_lifetime_minutes",
+   "session_use_persistent_cookie",
+   "status",
+   "system",
+   "type",
+   "user_exclude_ids",
+   "user_include_ids",
+   "verification_constraints",
+   "verification_method_type"
+  ],
+  "sub_resource": {
+   "class": "OktaPolicyRuleToOrganizationRel",
+   "file": "policy.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaPolicyHasRuleRel",
+    "file": "policy.py",
+    "source": null,
+    "label": "HAS_RULE",
+    "target": "OktaPolicy",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:policy_id"
+    }
+   },
+   {
+    "class": "OktaPolicyRuleAppliesToGroupRel",
+    "file": "policy.py",
+    "source": null,
+    "label": "APPLIES_TO",
+    "target": "OktaGroup",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:group_include_ids"
+    }
+   },
+   {
+    "class": "OktaPolicyRuleExcludesGroupRel",
+    "file": "policy.py",
+    "source": null,
+    "label": "EXCLUDES",
+    "target": "OktaGroup",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:group_exclude_ids"
+    }
+   },
+   {
+    "class": "OktaPolicyRuleAppliesToUserRel",
+    "file": "policy.py",
+    "source": null,
+    "label": "APPLIES_TO",
+    "target": "OktaUser",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:user_include_ids"
+    }
+   },
+   {
+    "class": "OktaPolicyRuleExcludesUserRel",
+    "file": "policy.py",
+    "source": null,
+    "label": "EXCLUDES",
+    "target": "OktaUser",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:user_exclude_ids"
+    }
+   },
+   {
+    "class": "OktaPolicyRuleAppliesToNetworkZoneRel",
+    "file": "policy.py",
+    "source": null,
+    "label": "APPLIES_TO",
+    "target": "OktaNetworkZone",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:network_include_zone_ids"
+    }
+   },
+   {
+    "class": "OktaPolicyRuleExcludesNetworkZoneRel",
+    "file": "policy.py",
+    "source": null,
+    "label": "EXCLUDES",
+    "target": "OktaNetworkZone",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:network_exclude_zone_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "reply_uri.py",
+  "class": "OktaReplyUriSchema",
+  "label": "ReplyUri",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "id",
+   "lastupdated",
+   "uri"
+  ],
+  "sub_resource": {
+   "class": "OktaReplyUriToOktaOrganizationRel",
+   "file": "reply_uri.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaReplyUriToOktaApplicationRel",
+    "file": "reply_uri.py",
+    "source": null,
+    "label": "REPLYURI",
+    "target": "OktaApplication",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:application_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "user.py",
+  "class": "OktaUserTypeSchema",
+  "label": "OktaUserType",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "id",
+   "lastupdated"
+  ],
+  "sub_resource": {
+   "class": "OktaUserTypeToOktaOrganizationRel",
+   "file": "user.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaUserTypeToOktaUserRel",
+    "file": "user.py",
+    "source": null,
+    "label": "HAS_TYPE",
+    "target": "OktaUser",
+    "dir": "INWARD",
+    "matcher": {
+     "type": "ref:id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "okta",
+  "file": "user.py",
+  "class": "OktaUserRoleSchema",
+  "label": "OktaUserRole",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "assignment_type",
+   "created",
+   "description",
+   "id",
+   "label",
+   "last_updated",
+   "lastupdated",
+   "name",
+   "role_type",
+   "status"
+  ],
+  "sub_resource": {
+   "class": "OktaUserRoleToOktaOrganizationRel",
+   "file": "user.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "okta",
+  "file": "user.py",
+  "class": "OktaUserSchema",
+  "label": "OktaUser",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "activated",
+   "city",
+   "cost_center",
+   "country_code",
+   "created",
+   "custom_attributes",
+   "department",
+   "display_name",
+   "division",
+   "email",
+   "employee_number",
+   "first_name",
+   "honorific_prefix",
+   "honorific_suffix",
+   "id",
+   "last_login",
+   "last_name",
+   "lastupdated",
+   "locale",
+   "login",
+   "manager",
+   "manager_id",
+   "middle_name",
+   "mobile_phone",
+   "nick_name",
+   "okta_last_updated",
+   "organization",
+   "password_changed",
+   "postal_address",
+   "preferred_language",
+   "primary_phone",
+   "profile_url",
+   "second_email",
+   "state",
+   "status",
+   "status_changed",
+   "street_address",
+   "timezone",
+   "title",
+   "transition_to_status",
+   "type",
+   "user_type",
+   "zip_code"
+  ],
+  "sub_resource": {
+   "class": "OktaUserToOktaOrganizationRel",
+   "file": "user.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "OktaOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:OKTA_ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "OktaUserToOktaUserRoleRel",
+    "file": "user.py",
+    "source": null,
+    "label": "HAS_ROLE",
+    "target": "OktaUserRole",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:role_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "googleworkspace",
+  "file": "device.py",
+  "class": "GoogleWorkspaceDeviceSchema",
+  "label": "GoogleWorkspaceDevice",
+  "extra_labels": [],
+  "id": "ref:deviceId",
+  "props": [
+   "android_specific_attributes",
+   "asset_tag",
+   "baseband_version",
+   "bootloader_version",
+   "brand",
+   "build_number",
+   "compromised_state",
+   "create_time",
+   "customer_id",
+   "device_type",
+   "enabled_developer_options",
+   "enabled_usb_debugging",
+   "encryption_state",
+   "endpoint_verification_specific_attributes",
+   "hostname",
+   "id",
+   "imei",
+   "kernel_version",
+   "last_sync_time",
+   "lastupdated",
+   "management_state",
+   "manufacturer",
+   "meid",
+   "model",
+   "network_operator",
+   "os_version",
+   "other_accounts",
+   "owner_type",
+   "release_version",
+   "security_patch_time",
+   "serial_number",
+   "unified_device_id",
+   "wifi_mac_addresses"
+  ],
+  "sub_resource": {
+   "class": "GoogleWorkspaceDeviceToTenantRel",
+   "file": "device.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GoogleWorkspaceTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:CUSTOMER_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "GoogleWorkspaceUserToDeviceRel",
+    "file": "device.py",
+    "source": null,
+    "label": "OWNS",
+    "target": "GoogleWorkspaceUser",
+    "dir": "INWARD",
+    "matcher": {
+     "primary_email": "ref:owner_email"
+    }
+   }
+  ]
+ },
+ {
+  "module": "googleworkspace",
+  "file": "group.py",
+  "class": "GoogleWorkspaceGroupSchema",
+  "label": "GoogleWorkspaceGroup",
+  "extra_labels": [
+   null,
+   null
+  ],
+  "id": "ref:name",
+  "props": [
+   "create_time",
+   "customer_id",
+   "description",
+   "display_name",
+   "email",
+   "id",
+   "labels",
+   "lastupdated",
+   "name",
+   "parent",
+   "update_time"
+  ],
+  "sub_resource": {
+   "class": "GoogleWorkspaceGroupToTenantRel",
+   "file": "group.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GoogleWorkspaceTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:CUSTOMER_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "googleworkspace",
+  "file": "oauth_app.py",
+  "class": "GoogleWorkspaceOAuthAppSchema",
+  "label": "GoogleWorkspaceOAuthApp",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:client_id",
+  "props": [
+   "anonymous",
+   "client_id",
+   "customer_id",
+   "display_text",
+   "id",
+   "lastupdated",
+   "native_app"
+  ],
+  "sub_resource": {
+   "class": "GoogleWorkspaceOAuthAppToTenantRel",
+   "file": "oauth_app.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GoogleWorkspaceTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:CUSTOMER_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "googleworkspace",
+  "file": "tenant.py",
+  "class": "GoogleWorkspaceTenantSchema",
+  "label": "GoogleWorkspaceTenant",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "domain",
+   "id",
+   "lastupdated",
+   "name"
+  ],
+  "sub_resource": null,
+  "rels": []
+ },
+ {
+  "module": "googleworkspace",
+  "file": "user.py",
+  "class": "GoogleWorkspaceUserSchema",
+  "label": "GoogleWorkspaceUser",
+  "extra_labels": [
+   null,
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "agreed_to_terms",
+   "archived",
+   "change_password_at_next_login",
+   "creation_time",
+   "customer_id",
+   "email",
+   "etag",
+   "family_name",
+   "given_name",
+   "id",
+   "include_in_global_address_list",
+   "ip_whitelisted",
+   "is_admin",
+   "is_delegated_admin",
+   "is_enforced_in_2_sv",
+   "is_enrolled_in_2_sv",
+   "is_mailbox_setup",
+   "kind",
+   "last_login_time",
+   "lastupdated",
+   "name",
+   "org_unit_path",
+   "organization_department",
+   "organization_name",
+   "organization_title",
+   "primary_email",
+   "suspended",
+   "thumbnail_photo_etag",
+   "thumbnail_photo_url",
+   "user_id"
+  ],
+  "sub_resource": {
+   "class": "GoogleWorkspaceUserToTenantRel",
+   "file": "user.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GoogleWorkspaceTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:CUSTOMER_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "gsuite",
+  "file": "group.py",
+  "class": "GSuiteGroupSchema",
+  "label": "GSuiteGroup",
+  "extra_labels": [
+   null,
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "admin_created",
+   "customer_id",
+   "description",
+   "direct_members_count",
+   "email",
+   "etag",
+   "group_id",
+   "id",
+   "kind",
+   "lastupdated",
+   "name"
+  ],
+  "sub_resource": {
+   "class": "GSuiteGroupToTenantRel",
+   "file": "group.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GSuiteTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:CUSTOMER_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "gsuite",
+  "file": "tenant.py",
+  "class": "GSuiteTenantSchema",
+  "label": "GSuiteTenant",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "customer_id",
+   "id",
+   "lastupdated"
+  ],
+  "sub_resource": null,
+  "rels": []
+ },
+ {
+  "module": "gsuite",
+  "file": "user.py",
+  "class": "GSuiteUserSchema",
+  "label": "GSuiteUser",
+  "extra_labels": [
+   null,
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "agreed_to_terms",
+   "archived",
+   "change_password_at_next_login",
+   "creation_time",
+   "customer_id",
+   "email",
+   "etag",
+   "family_name",
+   "given_name",
+   "id",
+   "include_in_global_address_list",
+   "ip_whitelisted",
+   "is_admin",
+   "is_delegated_admin",
+   "is_enforced_in_2_sv",
+   "is_enrolled_in_2_sv",
+   "is_mailbox_setup",
+   "kind",
+   "last_login_time",
+   "lastupdated",
+   "name",
+   "org_unit_path",
+   "primary_email",
+   "suspended",
+   "thumbnail_photo_etag",
+   "thumbnail_photo_url",
+   "user_id"
+  ],
+  "sub_resource": {
+   "class": "GSuiteUserToTenantRel",
+   "file": "user.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "GSuiteTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:CUSTOMER_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "jira",
+  "file": "access.py",
+  "class": "JiraTenantSchema",
+  "label": "JiraTenant",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:id",
+  "props": [
+   "domain",
+   "id",
+   "lastupdated",
+   "name",
+   "url"
+  ],
+  "sub_resource": null,
+  "rels": []
+ },
+ {
+  "module": "jira",
+  "file": "access.py",
+  "class": "JiraGroupSchema",
+  "label": "JiraGroup",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "admin_access_types",
+   "group_id",
+   "id",
+   "lastupdated",
+   "name",
+   "tenant_id"
+  ],
+  "sub_resource": {
+   "class": "JiraResourceRel",
+   "file": "access.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "JiraTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:TENANT_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "JiraGroupAdminRel",
+    "file": "access.py",
+    "source": null,
+    "label": "ADMIN_OF",
+    "target": "JiraTenant",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:admin_tenant_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "jira",
+  "file": "access.py",
+  "class": "JiraUserSchema",
+  "label": "JiraUser",
+  "extra_labels": [
+   "when()"
+  ],
+  "id": "ref:id",
+  "props": [
+   "account_id",
+   "account_type",
+   "active",
+   "display_name",
+   "email",
+   "id",
+   "lastupdated",
+   "tenant_id"
+  ],
+  "sub_resource": {
+   "class": "JiraResourceRel",
+   "file": "access.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "JiraTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:TENANT_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "JiraUserGroupRel",
+    "file": "access.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "JiraGroup",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:group_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "jira",
+  "file": "access.py",
+  "class": "JiraProjectSchema",
+  "label": "JiraProject",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "id",
+   "key",
+   "lastupdated",
+   "name",
+   "permission_scheme_id",
+   "permission_scheme_supported",
+   "project_id",
+   "project_type",
+   "style",
+   "tenant_id"
+  ],
+  "sub_resource": {
+   "class": "JiraResourceRel",
+   "file": "access.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "JiraTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:TENANT_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "JiraProjectLeadRel",
+    "file": "access.py",
+    "source": null,
+    "label": "LEADS",
+    "target": "JiraUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:lead_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "jira",
+  "file": "access.py",
+  "class": "JiraProjectRoleSchema",
+  "label": "JiraProjectRole",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "admin",
+   "description",
+   "id",
+   "lastupdated",
+   "name",
+   "role_id",
+   "tenant_id"
+  ],
+  "sub_resource": {
+   "class": "JiraResourceRel",
+   "file": "access.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "JiraTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:TENANT_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "JiraRoleProjectRel",
+    "file": "access.py",
+    "source": null,
+    "label": "ROLE_OF",
+    "target": "JiraProject",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:project_id"
+    }
+   },
+   {
+    "class": "JiraRoleUserRel",
+    "file": "access.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "JiraUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:user_ids"
+    }
+   },
+   {
+    "class": "JiraRoleGroupRel",
+    "file": "access.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "JiraGroup",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:group_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "jira",
+  "file": "access.py",
+  "class": "JiraPermissionGrantSchema",
+  "label": "JiraPermissionGrant",
+  "extra_labels": [],
+  "id": "ref:id",
+  "props": [
+   "grant_id",
+   "holder_parameter",
+   "holder_type",
+   "holder_value",
+   "id",
+   "lastupdated",
+   "permission",
+   "scheme_id",
+   "tenant_id"
+  ],
+  "sub_resource": {
+   "class": "JiraResourceRel",
+   "file": "access.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "JiraTenant",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:TENANT_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "JiraGrantProjectRel",
+    "file": "access.py",
+    "source": null,
+    "label": "APPLIES_TO",
+    "target": "JiraProject",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:project_id"
+    }
+   },
+   {
+    "class": "JiraGrantUserRel",
+    "file": "access.py",
+    "source": null,
+    "label": "HAS_PERMISSION",
+    "target": "JiraUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:user_id"
+    }
+   },
+   {
+    "class": "JiraGrantGroupRel",
+    "file": "access.py",
+    "source": null,
+    "label": "HAS_PERMISSION",
+    "target": "JiraGroup",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:group_id"
+    }
+   },
+   {
+    "class": "JiraGrantProjectRoleRel",
+    "file": "access.py",
+    "source": null,
+    "label": "HAS_PERMISSION",
+    "target": "JiraProjectRole",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:role_id"
+    }
+   }
+  ]
+ },
+ {
+  "module": "salesforce",
+  "file": "connectedapp.py",
+  "class": "SalesforceConnectedAppSchema",
+  "label": "SalesforceConnectedApp",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:Id",
+  "props": [
+   "admin_approved_users_only",
+   "created_date",
+   "id",
+   "last_modified_date",
+   "lastupdated",
+   "name"
+  ],
+  "sub_resource": {
+   "class": "SalesforceConnectedAppToOrganizationRel",
+   "file": "connectedapp.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "SalesforceOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "SalesforceConnectedAppToUserRel",
+    "file": "connectedapp.py",
+    "source": null,
+    "label": "AUTHORIZED",
+    "target": "SalesforceUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:_authorized_user_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "salesforce",
+  "file": "group.py",
+  "class": "SalesforceGroupSchema",
+  "label": "SalesforceGroup",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:Id",
+  "props": [
+   "developer_name",
+   "id",
+   "lastupdated",
+   "name",
+   "related_id",
+   "type"
+  ],
+  "sub_resource": {
+   "class": "SalesforceGroupToOrganizationRel",
+   "file": "group.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "SalesforceOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "SalesforceGroupToUserRel",
+    "file": "group.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "SalesforceUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:_member_user_ids"
+    }
+   },
+   {
+    "class": "SalesforceGroupToGroupRel",
+    "file": "group.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "SalesforceGroup",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:_member_group_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "salesforce",
+  "file": "organization.py",
+  "class": "SalesforceOrganizationSchema",
+  "label": "SalesforceOrganization",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:Id",
+  "props": [
+   "country",
+   "created_date",
+   "id",
+   "instance_name",
+   "is_sandbox",
+   "language_locale_key",
+   "lastupdated",
+   "name",
+   "namespace_prefix",
+   "organization_type",
+   "primary_contact",
+   "trial_expiration_date"
+  ],
+  "sub_resource": null,
+  "rels": []
+ },
+ {
+  "module": "salesforce",
+  "file": "permissionset.py",
+  "class": "SalesforcePermissionSetSchema",
+  "label": "SalesforcePermissionSet",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:Id",
+  "props": [
+   "created_date",
+   "description",
+   "id",
+   "is_owned_by_profile",
+   "label",
+   "lastupdated",
+   "name",
+   "namespace_prefix",
+   "permissions_api_enabled",
+   "permissions_modify_all_data",
+   "permissions_view_all_data",
+   "profile_id",
+   "type"
+  ],
+  "sub_resource": {
+   "class": "SalesforcePermissionSetToOrganizationRel",
+   "file": "permissionset.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "SalesforceOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "SalesforcePermissionSetToUserRel",
+    "file": "permissionset.py",
+    "source": null,
+    "label": "HAS_ROLE",
+    "target": "SalesforceUser",
+    "dir": "INWARD",
+    "matcher": {
+     "id": "ref:_assignee_ids"
+    }
+   }
+  ]
+ },
+ {
+  "module": "salesforce",
+  "file": "profile.py",
+  "class": "SalesforceProfileSchema",
+  "label": "SalesforceProfile",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:Id",
+  "props": [
+   "created_date",
+   "description",
+   "id",
+   "lastupdated",
+   "name",
+   "permissions_api_enabled",
+   "permissions_manage_users",
+   "permissions_modify_all_data",
+   "permissions_view_all_data",
+   "user_type"
+  ],
+  "sub_resource": {
+   "class": "SalesforceProfileToOrganizationRel",
+   "file": "profile.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "SalesforceOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:ORG_ID(set)"
+   }
+  },
+  "rels": []
+ },
+ {
+  "module": "salesforce",
+  "file": "user.py",
+  "class": "SalesforceUserSchema",
+  "label": "SalesforceUser",
+  "extra_labels": [
+   null
+  ],
+  "id": "ref:Id",
+  "props": [
+   "alias",
+   "created_date",
+   "department",
+   "email",
+   "federation_identifier",
+   "first_name",
+   "id",
+   "is_active",
+   "last_login_date",
+   "last_name",
+   "last_password_change_date",
+   "lastupdated",
+   "manager_id",
+   "name",
+   "profile_id",
+   "title",
+   "user_role_id",
+   "user_type",
+   "username"
+  ],
+  "sub_resource": {
+   "class": "SalesforceUserToOrganizationRel",
+   "file": "user.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "SalesforceOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "SalesforceUserToProfileRel",
+    "file": "user.py",
+    "source": null,
+    "label": "HAS_ROLE",
+    "target": "SalesforceProfile",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:ProfileId"
+    }
+   },
+   {
+    "class": "SalesforceUserToUserRoleRel",
+    "file": "user.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "SalesforceUserRole",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:UserRoleId"
+    }
+   }
+  ]
+ },
+ {
+  "module": "salesforce",
+  "file": "userrole.py",
+  "class": "SalesforceUserRoleSchema",
+  "label": "SalesforceUserRole",
+  "extra_labels": [],
+  "id": "ref:Id",
+  "props": [
+   "developer_name",
+   "id",
+   "lastupdated",
+   "name",
+   "parent_role_id",
+   "portal_type",
+   "rollup_description"
+  ],
+  "sub_resource": {
+   "class": "SalesforceUserRoleToOrganizationRel",
+   "file": "userrole.py",
+   "source": null,
+   "label": "RESOURCE",
+   "target": "SalesforceOrganization",
+   "dir": "INWARD",
+   "matcher": {
+    "id": "ref:ORG_ID(set)"
+   }
+  },
+  "rels": [
+   {
+    "class": "SalesforceUserRoleToParentRel",
+    "file": "userrole.py",
+    "source": null,
+    "label": "MEMBER_OF",
+    "target": "SalesforceUserRole",
+    "dir": "OUTWARD",
+    "matcher": {
+     "id": "ref:ParentRoleId"
+    }
+   }
+  ]
+ }
+]

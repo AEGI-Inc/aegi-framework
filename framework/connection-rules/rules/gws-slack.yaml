@@ -1,0 +1,410 @@
+# gws ↔ slack 연결 규칙
+# 연동 방법마다 「a 와 b 가 같아야 이어진 것」을 적는다. 읽는 법은 legend.yaml, ../README.md
+
+pair:
+- gws
+- slack
+written: '2026-10-04'
+verified: '2026-10-14'
+kind: rules
+note: 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/gws-slack.yaml
+methods:
+- id: google_saml_idp_for_slack
+  type: identity
+  what: GWS 를 SAML IdP 로 Slack 로그인
+  identify:
+    api: slack 감사 idp_configuration_*
+    when: IdP 설정 이벤트가 있음
+  points_to:
+  - tier: config_id
+    a: slack SSO 설정 IdP Issuer (관리 화면만)
+    b: gws SAML 앱 (Google 주소)
+    check: a 와 b 가 같다
+    if_unreadable: API 없음. Slack 조직 설정 > 보안 > SSO 설정 화면 (Org Owner)
+  - tier: via_person
+    a: slack 사용자 email
+    b: gws:user:primaryEmail
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: slack 감사 idp_configuration_added·idp_prod_configuration_updated 의 details.idp_entity_id_hash
+    b: gws SAML 앱 Entity ID 의 해시
+    check: 해시 방식이 문서에 없다. 설정을 한 번 바꿔 보고 같은 방식으로 맞는지 확인한 뒤에만 쓴다
+  - tier: log_time
+    a: gws saml login_success 시각과 actor.email (application_name 이 그 Slack 앱)
+    b: slack 감사 user_login 시각과 actor.user.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws Reports applicationName=saml login_success (application_name)
+  - slack idp_configuration_added, user_login
+  sources:
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/saml [Exa]
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+- id: slack_app_google_oauth
+  type: app_grant
+  what: Slack 의 Google Drive, Google Calendar 앱 등이 Google 사용자 OAuth 승인으로 GWS 를 읽음
+  identify:
+    api: gws tokens.list (GW-05)
+    when: displayText 가 Slack 관련 앱
+  points_to:
+  - tier: config_name
+    a: gws tokens.list displayText, clientId
+    b: slack 설치 앱 (승인 앱 목록, 봇)
+    check: a 와 b 가 같다
+    if_unreadable: 최고 관리자가 승인했으면 위임 관리자로는 읽을 수 없다(401). 최고 관리자 권한으로 tokens.list, 또는 Google 관리 콘솔 > 보안 > 액세스 및 데이터 제어 > API 제어 > 서드파티 앱 액세스 관리. 토큰 감사 로그 authorize 이벤트로는 설정 대신 승인 사실을 본다
+  - tier: log_id
+    a: gws token 감사 authorize·activity 의 client_id
+    b: gws tokens.list 의 clientId (Slack 의 Google Drive·Calendar 앱)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack 감사 app_installed 시각과 actor.user.email (entity.app.name Google Drive 등)
+    b: gws token 감사 authorize 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws token 감사 authorize, activity (app_name, client_id)
+  - slack app_installed
+  sources:
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference
+  - https://developers.google.com/workspace/admin/directory/reference/rest/v1/tokens (clientId, displayText)
+- id: apps_script_webhook
+  type:
+  - stored_credential
+  - event_delivery
+  what: Apps Script 가 Slack 수신 웹훅 주소를 갖고 UrlFetchApp 으로 채널에 게시. 웹훅은 Slack 앱 설치 OAuth 로 받는다
+  identify:
+    api: gws Apps Script 프로젝트 (GW-09), tokens.list (GW-05)
+    when: script.external_request 범위로 승인된 스크립트가 있음
+  points_to:
+  - tier: fingerprint
+    note: 주소를 스크립트 속성에 두면 API 로 못 읽음
+    a: Apps Script 코드의 웹훅 주소 sha256
+    b: slack:incoming-webhook:webhook_url_sha256
+    check: a 의 sha256 과 b 가 같다
+    if_unreadable: 주소를 스크립트 속성에 두면 API 로 못 읽는다. 스크립트 소유자나 편집자가 Apps Script 편집기 > 프로젝트 설정 > 스크립트 속성에서 값을 보고 sha256 을 계산해 b 와 비교한다. 주소 자체는 문서, 대화에 옮기지 않는다
+  - tier: config_name
+    a: gws tokens.list displayText (스크립트 이름)
+    b: slack 앱 이름
+    check: a 와 b 가 같다
+    if_unreadable: 최고 관리자가 승인했으면 위임 관리자로는 읽을 수 없다(401). 최고 관리자 권한으로 tokens.list, 또는 Google 관리 콘솔 > 보안 > 액세스 및 데이터 제어 > API 제어 > 서드파티 앱 액세스 관리. 토큰 감사 로그 authorize 이벤트로는 설정 대신 승인 사실을 본다
+  - tier: via_person
+    a: gws 스크립트 owner
+    b: slack 앱 설치자 (감사 app_installed actor)
+    check: a 와 b 가 같다
+  - tier: fingerprint
+    note: redirect_urls 가 외부 서버일 때
+    a: OAuth 콜백을 받은 서버의 웹훅 지문
+    b: slack:incoming-webhook:webhook_url_sha256
+    check: a 의 sha256 과 b 가 같다
+  - tier: log_id
+    a: slack 메시지 bot_id
+    b: slack 수신 웹훅 configuration_url 끝의 B…
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws Apps Script 실행 기록 startTime
+    b: slack 그 봇 메시지 ts
+    check: 시각이 같다
+  activity:
+  - gws Apps Script 실행 기록 (GW-13 functionName, processType, startTime)
+  - slack 봇 메시지 (bot_id = 웹훅 configuration_url 끝 B…)
+  - slack app_installed (bot_scopes incoming-webhook)
+  sources:
+  - https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app [Exa] (script.external_request 범위 필요)
+  - https://developers.google.com/apps-script/api/reference/rest/v1/processes (projectName, functionName, processType, startTime)
+  - https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks (incoming_webhook.configuration_url)
+- id: gmail_forward_to_slack
+  type: event_delivery
+  what: Gmail 자동 전달을 Slack 채널 이메일 주소로
+  identify:
+    api: gmail settings autoForwarding, forwardingAddresses (GW-15)
+    when: 전달 주소가 Slack 채널 주소
+  points_to:
+  - tier: config_name
+    a: gmail forwardingEmail
+    b: slack 채널 이메일 주소
+    check: a 와 b 가 같다
+  - tier: log_id
+    a: gws login 감사 email_forwarding_out_of_domain 의 전달 주소 (메시지 형식의 email_forwarding_destination_address)
+    b: slack 채널 이메일 주소
+    check: a 와 b 가 같다
+  activity:
+  - gws login 감사 email_forwarding_out_of_domain
+  sources:
+  - 'https://slack.com/help/articles/206819278-Send-emails-to-Slack (채널·DM 이메일 주소, 유료 플랜, 채널에 메시지로 게시)'
+  - 'https://developers.google.com/workspace/gmail/api/reference/rest/v1/AutoForwarding (enabled, emailAddress)'
+  - 'https://developers.google.com/workspace/gmail/api/reference/rest/v1/users.settings.forwardingAddresses (forwardingEmail)'
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/login (login_success: login_type saml·google_password 등)"
+- id: slack_workflow_google
+  type: app_grant
+  what: Slack 워크플로 빌더의 Google Sheets 단계 등
+  identify:
+    api: gws tokens.list
+    when: Slack 워크플로 클라이언트
+  points_to:
+  - tier: config_name
+    a: gws tokens.list displayText
+    b: slack 워크플로
+    check: a 와 b 가 같다
+    if_unreadable: 최고 관리자가 승인했으면 위임 관리자로는 읽을 수 없다(401). 최고 관리자 권한으로 tokens.list, 또는 Google 관리 콘솔 > 보안 > 액세스 및 데이터 제어 > API 제어 > 서드파티 앱 액세스 관리. 토큰 감사 로그 authorize 이벤트로는 설정 대신 승인 사실을 본다
+  - tier: log_id
+    a: slack 감사 workflow_published 의 entity.workflow_v2.step_configuration[].step_function_app_id
+    b: Slack 워크플로 빌더 Google Sheets 커넥터 앱 ID (값은 문서에 없어 커넥터를 넣어 보고 읽는다)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: slack external_auth_oauth2_token_fetched 시각과 actor
+    b: gws token 감사 authorize 시각과 actor.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - slack 감사 workflow_published, external_auth_oauth2_token_fetched
+  - gws token 감사 authorize
+  sources:
+  - https://slack.com/help/articles/11086384874259-Use-Google-Sheets-with-Workflow-Builder [Exa 검색 요약] (단계를 처음 추가할 때 Google 계정 연결)
+  - https://slack.com/help/articles/20155812595219-Slack-connectors-for-Workflow-Builder [Exa 검색 요약] (Google Calendar, Google Mail, Google Sheets 등)
+  - "https://github.com/slackapi/python-slack-sdk/blob/main/slack_sdk/audit_logs/v1/logs.py (Slack 공식 SDK 의 감사 로그 모델: entity.app.id·name·scopes, entity.workflow_v2.app_id·step_configuration, details.app_id·bot_id·installer_user_id·is_internal_integration·idp_config_id·idp_entity_id_hash)"
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+- id: person_link
+  type: same_person
+  what: 같은 사람의 GWS 계정과 Slack 계정
+  points_to:
+  - tier: via_person
+    a: slack user email
+    b: gws:user:primaryEmail
+    check: a 와 b 가 같다
+  identify:
+    api: gws Directory users.list primaryEmail; slack users.list email
+    when: 항상
+  sources:
+  - https://developers.google.com/workspace/admin/directory/reference/rest/v1/users (primaryEmail)
+  - https://docs.slack.dev/reference/methods/users.list (profile.email)
+  note: 로그 등급 없음. 같은 사람 대조는 두 계정의 속성 비교라 로그에서 잇는 값이 따로 없다
+- id: content_ref
+  type: content_ref
+  what: Slack 메시지 속 Drive 주소, Drive 권한을 Slack 관련 계정에 줌
+  points_to:
+  - tier: config_name
+    a: slack 메시지 본문의 docs.google.com 주소
+    b: gws:file:id
+    check: a 와 b 가 같다
+    if_unreadable: 수집기는 본문을 지문만 남긴다. conversations.history 의 text 를 수집하거나 사람이 채널에서 본다
+  - tier: via_person
+    a: gws Drive 권한 emailAddress
+    b: slack 계정 이메일
+    check: a 와 b 가 같다
+  if_unreadable: 수집기는 본문을 지문만 남긴다. conversations.history 의 text 를 수집하거나 사람이 채널에서 본다
+  identify:
+    api: slack conversations.history text (수집하면), gws Drive permissions.list
+    when: 본문에 docs.google.com 주소, 또는 Drive 권한 이메일이 Slack 계정
+# ── 2026-10-05 연동 조합 표(../연동 조합 표.md)로 더함
+  sources:
+  - https://docs.slack.dev/reference/methods/conversations.history (messages[].text)
+  - https://developers.google.com/workspace/drive/api/reference/rest/v3/files (id)
+  note: 로그 등급 없음. 본문 속 주소라 연결이 동작한 기록이 없다
+- id: slack_request_to_apps_script
+  type: event_delivery
+  what: Slack 앱의 슬래시 명령, 이벤트 구독, 상호작용 요청 주소가 Apps Script 웹앱이라 Slack 이 스크립트를 직접 부름
+  identify:
+    api: slack apps.manifest.export (SL-10)
+    when: slash_commands[].url, settings.event_subscriptions.request_url, settings.interactivity.request_url 호스트가 script.google.com
+  points_to:
+  - tier: config_id
+    a: slack 요청 주소 (호스트 + 경로)
+    b: gws Apps Script 웹앱 배포 주소 (GW-11 deploymentId)
+    check: a 와 b 가 같다 (경로의 배포 ID)
+  - tier: log_time
+    a: slack 앱 메시지 시각 (슬래시 명령은 Slack 감사 로그에 안 남음)
+    b: gws Apps Script 실행 기록 (WEBAPP, GW-13)
+    check: 시각이 같다
+  note: Apps Script 는 요청 헤더를 읽지 못해 Slack 서명을 검증할 수 없다. 이벤트 구독은 등록 때 challenge 를 되돌려야 해 통과 여부는 확인 못 함
+  activity:
+  - gws Apps Script 실행 기록 (processType WEBAPP, 실행 신원은 배포 executeAs)
+  sources:
+  - https://developers.google.com/apps-script/guides/web (이벤트 객체에 헤더 없음)
+- id: apps_script_slack_api
+  type: stored_credential
+  what: Apps Script 가 Slack 봇·사용자 토큰을 스크립트 속성 등에 두고 Slack Web API(chat.postMessage 등)를 부름
+  identify:
+    api: gws Apps Script 코드 (GW-09), tokens.list (script.external_request)
+    when: 코드의 호출 호스트가 slack.com (경로 /api/)
+  points_to:
+  - tier: config_name
+    a: Apps Script 코드의 호출 호스트 slack.com
+    b: slack 워크스페이스 (어느 워크스페이스인지는 토큰이 정함, 코드에서 안 보임)
+    check: 호스트만 같다
+  - tier: via_person
+    a: gws 스크립트 소유자
+    b: slack 토큰을 발급한 앱의 설치자 (감사 app_installed actor)
+    check: a 와 b 가 같은 사람
+  - tier: log_time
+    a: gws Apps Script 실행 시각
+    b: slack 그 앱 봇의 메시지 시각
+    check: 시각이 같다
+  activity:
+  - gws Apps Script 실행 기록, slack 봇 메시지
+  sources:
+  - https://developers.google.com/apps-script/reference/url-fetch/url-fetch-app [Exa]
+- id: slack_for_gmail_addon
+  type: app_grant
+  what: Google Workspace Marketplace 부가기능 「Slack for Gmail」(Slack Technologies) 이 메일을 Slack 채널·DM 으로 보냄
+  identify:
+    api: gws admin 감사 ADD_APPLICATION, Marketplace apps (화면), tokens.list displayText
+    when: 앱 이름 Slack for Gmail
+  points_to:
+  - tier: config_name
+    a: gws 설치 앱 Slack for Gmail (Marketplace 앱 ID 533288507123), 토큰 범위 (초안 관리·메일 발송, 메일 읽기, 외부 서비스 연결)
+    b: slack 워크스페이스 (사용자 연결. Slack 쪽 앱 이름은 문서에 없음)
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: gws 설치 사용자
+    b: slack 로그인 사용자
+    check: 같은 사람
+  - tier: log_id
+    a: gws admin 감사 ADD_APPLICATION·ADD_APPLICATION_TO_WHITELIST 의 APP_ID
+    b: Marketplace 앱 ID 533288507123 (Slack for Gmail)
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 activity 시각과 actor.email
+    b: slack 그 부가기능이 보낸 메시지 ts 와 사용자
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws admin 감사 ADD_APPLICATION, token 감사 authorize
+  - slack 메시지 (부가기능이 보낸 것)
+  sources:
+  - https://workspace.google.com/marketplace/app/slack_for_gmail/533288507123 (게시자 Slack Technologies, Inc., 권한)
+  - https://developers.google.com/workspace/admin/reports/v1/appendix/activity/admin-domain-settings (ADD_APPLICATION)
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+- id: google_auth_signin
+  type: identity
+  what: Slack 워크스페이스가 「Google Auth」(OAuth 2.0) 로 로그인을 받음. Pro·Business+ 에서 Workspace Owner 가 설정하고 Enterprise 조직에는 없다. 이메일만 동기화한다 (SAML 과 다름)
+  identify:
+    api: slack 관리 화면 Workspace settings > Security > SSO & authentication > Google Auth (조회 API 는 문서에 없음)
+    when: Google Auth 가 켜져 있음
+  points_to:
+  - tier: config_name
+    a: gws token 감사 authorize 의 app_name, client_id (Slack 의 Google OAuth 클라이언트. 이름은 문서에 없음)
+    b: slack 워크스페이스
+    check: 승인한 사용자가 그 워크스페이스 멤버다
+    if_unreadable: 'Google 관리 콘솔 > 보안 > API 제어 > Manage App Access'
+  - tier: via_person
+    a: gws user primaryEmail
+    b: slack user email
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws token 감사 authorize 또는 login 감사 시각과 actor.email
+    b: slack 감사 user_login 시각과 actor.user.email
+    check: 시각이 가깝고 사람이 같다
+  activity:
+  - gws token 감사 authorize, login 감사
+  - slack 감사 user_login
+  sources:
+  - https://slack.com/help/articles/204078066-Google-Workspace-single-sign-on (Google Auth 와 Google SAML 비교, 설정 경로, 플랜, Workspace Owner)
+  - "https://developers.google.com/workspace/admin/reports/v1/appendix/activity/token (authorize·activity: app_name, client_id, client_type, scope, product_bucket)"
+  - "https://docs.slack.dev/admins/audit-logs-api (항목: action, actor.user, entity, context.location·ua·ip_address·app)"
+- id: gemini_enterprise_slack_datastore
+  type: app_grant
+  what: Gemini Enterprise 의 Slack 데이터 저장소(Conversation, File, Message)와 액션(메시지 보내기, 예약, canvas 만들기, 초안). GA. Slack 요금제에 Slack AI 검색이 있어야 한다. Slack 관리자가 앱 승인 방식(사전 승인, 승인 요청, 직접 설치)을 고르고 사용자가 각자 Slack 계정을 승인한다
+  identify:
+    api: google Cloud Audit Logs discoveryengine.googleapis.com; slack 설치 앱 목록 (화면), Audit Logs API
+    when: google 프로젝트에 Slack 데이터 저장소가 있고 slack 에 해당 앱이 설치되어 있음
+  points_to:
+  - tier: config_id
+    a: gemini enterprise Slack 데이터 저장소에 선택 입력한 Slack Team ID (T 로 시작)
+    b: slack team_id
+    check: a 와 b 가 같다
+    if_unreadable: Team ID 는 선택 입력이다. 데이터 저장소 설정은 화면. Enterprise Grid 는 admin.slack.com 에서 Team ID 를 찾는다
+  - tier: via_person
+    a: google(Gemini Enterprise) 사용자
+    b: slack 계정 (사용자가 직접 승인)
+    check: 같은 사람
+  - tier: log_time
+    a: google Cloud 감사 google.cloud.discoveryengine.v1.DataConnectorService.SetUpDataConnector 시각
+    b: slack 감사 app_installed 시각 (Gemini Enterprise 앱 설치)
+    check: 시각이 가깝다
+  activity:
+  - google Cloud 감사 DataConnectorService.SetUpDataConnector, .UpdateDataConnector, DataStoreService.CreateDataStore
+  - slack 감사 app_installed, external_auth_oauth2_token_fetched, external_auth_oauth2_token_refreshed, external_auth_oauth2_token_deleted
+  sources:
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/slack (GA, 액션)
+  - https://docs.cloud.google.com/gemini/enterprise/docs/slack/set-up-data-store (Slack 앱 승인 방식, Team ID, 사용자 승인)
+  - 'https://docs.cloud.google.com/gemini/enterprise/docs/audit-logging (Cloud Audit Logs 메서드 이름: DataConnectorService.SetUpDataConnector 등)'
+  - https://docs.cloud.google.com/gemini/enterprise/docs/connectors/connect-third-party-data-source (커넥터 목록과 출시 상태)
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (Slack 감사 로그 action 이름)
+  note: Slack 쪽 OAuth 스코프와 설치 앱 이름은 이 문서들에 없다. 감사 이벤트와의 대응은 문서가 말하지 않아 시각으로만 잇는다. Business 에디션은 Settings > Manage team > Connectors 로 같은 커넥터를 켠다
+- id: gemini_enterprise_app_for_slack
+  type: app_grant
+  what: Slack 안에서 Gemini Enterprise 검색을 쓴다 (Gemini Enterprise app for Slack). Google Cloud 관리자가 OAuth 웹 클라이언트(리디렉션 https://vertexaisearch.cloud.google.com/slack/oauth_callback)를 만들고, Gemini Enterprise 앱의 Integration > Slack 에 워크스페이스 ID 와 클라이언트 ID·Secret 을 등록하고, Slack 소유자·관리자가 앱을 설치한다. 검색만 되고 액션은 없다. Slack AI 부가기능 필요. 설정 문서는 상태를 적지 않고 Salesforce 파트너 페이지는 Private Preview 라고 쓴다
+  identify:
+    api: slack 설치 앱 목록 Manage > Installed Apps (화면); google Cloud Console Credentials (화면)
+    when: slack 에 Gemini Enterprise app for Slack 이 설치되어 있음
+  points_to:
+  - tier: config_id
+    a: gemini enterprise 앱 Integration > Slack 에 등록한 워크스페이스 ID (T 로 시작)
+    b: slack team_id
+    check: a 와 b 가 같다
+    if_unreadable: '읽는 API 가 문서에 없다. 사람: Gemini Enterprise 앱 > Integration > Slack'
+  - tier: config_name
+    a: slack 설치 앱 이름 (Gemini Enterprise app for Slack)
+    b: gemini enterprise 앱의 Slack 연동 (Integration > Slack)
+    check: a 와 b 가 같다
+  activity:
+  - slack 감사 app_installed, app_scopes_expanded
+  sources:
+  - https://docs.cloud.google.com/gemini/enterprise/docs/configure-slack-app (설정 순서, 스코프, 리디렉션 URI)
+  - 'https://www.salesforce.com/partners/google/ (Gemini Enterprise with Slack: Private Preview) [Exa]'
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (Slack 감사 로그 action 이름)
+  note: 요청 스코프는 app_mentions:read, assistant:write, chat:write, commands, im:history, reactions:write 이다. Gemini Enterprise 앱과 Slack 워크스페이스가 1대1로 묶인다. Google 쪽 감사 이벤트는 이 문서에 없다. 로그 등급 없음
+- id: workspace_studio_slack
+  type: app_grant
+  what: Google Workspace Studio 흐름의 외부 연동 단계(Third-party integrations, 베타)로 Slack 를 부른다. 기본 꺼짐이고 관리자가 연동·Custom steps·Webhook 설정을 따로 켠다. 사용자는 Connect 로 연결한다. 문서가 든 에디션에 Enterprise Standard·Plus 가 들어 있다.
+  identify:
+    api: gws Reports applicationName=workspace_studio (flow_run 의 start_flow_step·end_flow_step, step_app 「Slack Connector [Beta]」); gws Reports applicationName=token authorize (app_name 이 흐름 이름); gws 관리 콘솔 Workspace Studio > Connector settings (화면); slack 조직 감사 app_installed
+    when: Studio 흐름에 Slack Connector 단계가 있고 그 단계가 실행됨
+  points_to:
+  - tier: config_name
+    a: gws admin 감사 CREATE_APPLICATION_SETTING (APPLICATION_NAME 「Workspace Studio」, SETTING_NAME 「Connector Access Setting Connectors」) 의 NEW_VALUE, 또는 관리 콘솔 Workspace Studio > Connector settings > Connector use in steps
+    b: 'On'
+    check: a 가 On 이다. 서비스별 허용 목록은 이 화면에 없어 Slack 만 가려내지 못한다
+    if_unreadable: 'CREATE_APPLICATION_SETTING 은 설정을 바꾼 때만 남는다. 현재 값을 읽는 API 는 확인하지 못했다. 사람: 관리 콘솔 Workspace Studio 설정, Studio 흐름 편집기의 단계 목록 (잠겨 있으면 「Workspace 관리자가 해당 단계에 대한 액세스를 제한했습니다」 라고 뜬다)'
+  - tier: via_person
+    a: gws Reports workspace_studio 행의 actor.email (흐름 소유자)
+    b: slack 조직 감사 app_installed 의 actor 이메일
+    check: a 와 b 가 같다
+  - tier: log_time
+    a: gws Reports workspace_studio 의 start_flow_step·end_flow_step (step_app 「Slack Connector [Beta]」, step_name 「Send channel message」) 시각
+    b: slack 채널 메시지의 ts 와 app_id (Slack 앱 「Google Integration」, bot_profile 이름이 같다)
+    check: b 의 ts 가 start_flow_step 과 end_flow_step 사이에 든다
+  activity:
+  - 'gws Reports workspace_studio: flow_management(create_flow, update_flow, view_flow), flow_run(start_flow_run, start_flow_step, end_flow_step, end_flow_run_success, end_flow_run_error). 연결 전 첫 실행은 end_flow_run_error 로 끝났다'
+  - 'gws Reports token authorize: app_name 「Workspace Studio」(scope workspace.workflows.trigger), 흐름 이름(scope workspace.studio.execution)'
+  - slack 조직 감사 app_installed (앱 「Google Integration」, actor 는 Slack 에서 승인한 계정)
+  - slack 채널 메시지의 app_id
+  sources:
+  - https://workspaceupdates.googleblog.com/2026/09/automate-workflows-with-custom-starters-and-steps-third-party-integrations-and-webhooks-in-Workspace-Studio.html (외부 연동 베타 목록, 관리자 설정 위치, 기본 꺼짐)
+  - https://knowledge.workspace.google.com/admin/studio/allow-or-block-ws-integrations-steps (연동 단계 허용·차단)
+  - https://support.google.com/workspace-studio/answer/16658279 (사용자 연결, 해제 위치 myaccount.google.com/connections)
+  - 'https://knowledge.workspace.google.com/admin/reports/workspace-studio-log-events (Workspace Studio 로그 이벤트: Step app 속성)'
+  note: 아래는 실측(2026-10-26, CM-14, Enterprise Plus)에서 본 것이다. 연결하면 Slack 쪽에 앱 「Google Integration」(app_installed)이 설치되고 메시지는 그 앱 이름으로 올라간다. 설치한 계정은 흐름 소유자와 같은 이메일(dev.junsik)로 남았다. gws 쪽에는 ADD_APPLICATION·AUTHORIZE_API_CLIENT_ACCESS 가 남지 않았고, Slack 앱 id 나 이름을 담은 gws 로그도 없었다. Marketplace 앱 434877244351 은 감사 로그가 아니라 연결 화면 주소의 connector= 값으로만 나왔다. Slack 을 연결하기 전 첫 실행은 end_flow_run_error 로 끝났다. Workspace Studio 로그에는 연동 연결·웹훅 호출 이벤트가 없고 Step app 속성만 있다
+- id: slack_domain_wide_google_auth
+  type: app_grant
+  what: Slack 소유자·관리자가 Google Calendar 또는 Google Drive 앱에서 도메인을 추가하고, Google Super Admin 이 Domain Install 과 도메인 소유권 확인을 하면, 그 도메인 이메일을 가진 모든 멤버의 Slack 계정이 자동으로 Google 계정에 연결된다. 멤버는 연결을 끊을 수 없다. 사용자가 각자 승인하는 slack_app_google_oauth 와 달리 승인 주체가 도메인 관리자다. Free·Pro·Business+ 는 소유자·관리자, Enterprise 는 Org 소유자·관리자가 설정하며 모든 플랜에서 쓸 수 있다.
+  identify:
+    api: slack 감사 app_dwa_domain_added (도메인 추가), app_dwa_domain_removed (제거). Audit Logs API 는 Enterprise 전용. gws 쪽은 관리 콘솔 Apps > Google Workspace Marketplace apps 의 Slack 앱 항목 (화면, domain-wide installation 과 API scopes 를 보는 곳)
+    when: slack 감사에 app_dwa_domain_added 행이 있음. Enterprise 가 아니면 Slack Google Calendar 앱 Home > Settings 의 Domain-wide Authentication 화면으로 본다
+  points_to:
+  - tier: config_name
+    a: slack Google Calendar 또는 Google Drive 앱 Settings 의 Domain-wide Authentication 에 등록된 도메인
+    b: gws 에서 Domain Install 과 도메인 소유권 확인을 한 도메인 (Google 조직의 도메인 이름)
+    check: a 와 b 가 같다
+    if_unreadable: slack 쪽은 앱 Home > Settings 화면. gws 쪽은 Apps > Google Workspace Marketplace apps 화면. 도메인을 읽는 API 는 문서에 없다
+  - tier: via_person
+    a: slack 멤버 계정의 email (도메인 email 을 가진 멤버 전체)
+    b: gws:user:primaryEmail
+    check: 같은 사람이다. 자동 연결이라 개별 승인은 없다
+  activity:
+  - slack 감사 app_dwa_domain_added, app_dwa_domain_removed
+  - gws 쪽에 멤버별 토큰 행이 생기는지 문서에 없다. gws tokens.list 로 확인 필요
+  sources:
+  - https://slack.com/help/articles/360047862573-Enable-domain-wide-authentication-for-calendar-and-file-apps-in-Slack (절차, 주체, 자동 연결, 해제 불가, 플랜) [Exa]
+  - https://docs.slack.dev/reference/audit-logs-api/methods-actions-reference (app_dwa_domain_added·removed 설명, Enterprise 전용) [Exa]
+  - https://knowledge.workspace.google.com/admin/apps/control-api-access-with-domain-wide-delegation (Marketplace 앱의 domain-wide installation·API scopes 관리 위치, 수동 DWD 절차) [Exa]
+  note: '(1) Google 쪽 클라이언트 ID 와 OAuth 범위가 생기는지 문서에 없다. Slack 도움말은 Domain Install 까지만 말하고 클라이언트 ID 와 범위를 말하지 않는다. Google 도움말의 수동 DWD 는 Super Admin 이 클라이언트 ID 를 직접 등록하는 다른 경로다. Marketplace 설치가 DWD 목록에 행을 만드는지는 확인 못 했다. 검색 요약에 있던 「Marketplace 설치는 DWD 를 직접 설정할 필요 없다」 문장은 원문을 열지 않아 쓰지 않았다. (2) Enterprise 가 아닌 테넌트에서는 감사 API 가 없어 app_dwa_domain_added 를 못 읽는다. 화면으로만 확인한다. (3) 확신 낮은 칸: via_person 행이 감사나 gws 로그에 실제로 남는지. 테넌트 확인 필요. (4) 기존 slack_app_google_oauth 와 같은 Slack 앱이 두 경로로 연결될 수 있다. 어느 경로로 생긴 연결인지 가르는 방법은 문서에 없다.'

@@ -1,0 +1,10 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["name", "role", "points"],
+  "properties": {
+    "name": { "type": "string" },
+    "role": { "type": "string", "description": "명사형, 20자 이하" },
+    "points": { "type": "array", "items": { "type": "string", "description": "명사형, 30자 이하" } }
+  }
+}

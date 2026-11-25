@@ -1,0 +1,169 @@
+# GitHub 공통 수단 연결 규칙
+# 상대 SaaS 를 가리지 않고 GitHub 가 밖과 붙는 수단. 4개 SaaS 사이 쌍은 ../rules/<쌍>.yaml 에 있다
+# 실제 값은 넣지 않는다. 시험 환경 값은 ../test-environment/github-external.yaml. 범례는 legend.yaml
+
+anchor: github
+written: '2026-10-04'
+verified: '2026-10-14'
+kind: rules
+
+methods:
+- id: webhook
+  type: event_delivery
+  what: "조직, 저장소 웹훅이 밖의 주소로 이벤트를 보냄"
+  identify:
+    api: "github GET /orgs/{org}/hooks, GET /repos/{o}/{r}/hooks (admin:org_hook)"
+    when: "config.url 이 있음"
+  points_to:
+  - {tier: config_name, a: "github hook config.url 호스트", b: "받는 서버 (다른 SaaS 의 명령 주소 호스트 등)", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "받는 서버 수신 기록의 hook_id, delivery_id", b: "github hook id, deliveries", check: "a 와 b 가 같다"}
+  activity: ["github hook.create, hook.config_changed (감사 행의 config.url 에 주소 전체가 있다)", "웹훅 배달 기록 GET /orgs/{org}/hooks/{id}/deliveries"]
+  note: "수집 주의 — 웹훅 목록 API 는 주소를 그대로 주고, 조직 감사 로그 hook.create·hook.config_changed 행도 config.url 에 주소 전체(쿼리의 토큰 포함, 예 Okta Workflows ?clientToken=)를 담는다. 둘 다 host·지문만 남겨야 한다 (2026-10-05 우리 수집 원본에서 발견, 대시보드 수집기에서 고침). 같은 흐름 주소를 다른 SaaS 가 쓰면 경로(/api/flo/<별칭>/invoke)로 같은 대상인지 맞출 수 있다"
+  sources: ["https://docs.github.com/en/rest/orgs/webhooks#list-organization-webhooks [Exa] (config.url, events)"]
+
+- id: github_app_install
+  type: app_grant
+  what: "GitHub App 을 조직에 설치. 앱 업체 서버가 설치 토큰으로 저장소를 읽고 씀"
+  identify: {api: "github GET /orgs/{org}/installations", when: "설치가 있음"}
+  points_to:
+  - tier: config_name
+    a: "github installation app_slug, app_id, permissions, events, repository_selection"
+    b: "앱 업체 (다른 SaaS 의 앱이면 그 SaaS 쪽 설치 기록)"
+    check: "a 와 b 가 같다"
+    if_unreadable: "조직 설정 > GitHub Apps 화면"
+  - tier: log_id
+    a: "github integration_installation.create 의 integration, application_client_id"
+    b: "앱 업체 GitHub App 의 slug, client_id"
+    check: "a 와 b 가 같다"
+  - tier: log_id
+    a: "앱 업체 서버가 받은 웹훅 본문의 installation.id"
+    b: "github GET /orgs/{org}/installations 의 id"
+    check: "a 와 b 가 같다"
+  - tier: config_id
+    a: Google Cloud Developer Connect connections 리소스의 githubConfig.appInstallationId (githubApp 가 GEMINI_CODE_ASSIST 인 연결)
+    b: github GET /orgs/{org}/installations 의 id (설치 ID)
+    check: 'a 와 b 가 같다 (이 항목은 Google Cloud 쪽이라 pair 를 github-gws 대신 github-external 로 바꿨다. 새 방법은 만들지 않았다. Gemini Code Assist on GitHub 는 github_app_install 의 한 인스턴스다(GitHub 앱을 조직에 설치, 벤더 서버가 설치 토큰으로 저장소 접근). 문서에 없음: 이 GitHub 앱의 slug 와 app_id(기존 github_app_install 의 app_slug 로 확인), 조직 소유자 권한 요구 여부. GitHub OAuth 토큰(authorizerCredential)은 Secret Manager 에 저장된다고 가이드에 있으나 user_authorization 과 겹쳐 새로 두지 않았다. Developer Connect 감사 로그 메서드 이름 FetchGitHubInstallations(DATA_READ), DeleteGitRepositoryLink(ADMIN_WRITE)는 [Exa 검색 발췌, 원문 미열람]이다.)'
+  activity: ["github integration_installation.create, integration_installation.repositories_added", "github integration_installation.destroy, .suspend, .repositories_removed"]
+  sources: ["https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise (integration_installation.create)", "app_slug 등 필드는 우리 수집 원본 응답(수집 호출 GH-14)으로 확인", "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (integration_installation.create: integration, application_client_id, repository_selection)", "https://docs.github.com/en/webhooks/webhook-events-and-payloads (GitHub App 으로 가는 본문에는 installation 이 있다)", 'https://docs.cloud.google.com/developer-connect/docs/api/reference/rest/v1/projects.locations.connections (GitHubConfig 의 githubApp, appInstallationId, GEMINI_CODE_ASSIST) [Exa 검색 발췌, 원문 미열람]', 'https://docs.cloud.google.com/gemini/docs/code-review/set-up-code-assist-github (GitHub 앱 설치, 연결 생성, IAM 역할 Service Usage Admin 과 scmConnectionAdmin, us-east1) [WebFetch] [Exa]', 'https://docs.cloud.google.com/developer-connect/docs/connect-github-repo (gcloud --github-config-app=GEMINI_CODE_ASSIST) [Exa 검색 발췌, 원문 미열람]']
+
+- id: user_authorization
+  type: app_grant
+  what: "사용자가 OAuth 앱, GitHub App 에 자기 권한을 줌 (SAML 조직이면 SSO 승인 목록에 남음)"
+  identify: {api: "github GET /orgs/{org}/credential-authorizations", when: "credential_type 이 OAuth app token, GitHub app token"}
+  points_to:
+  - tier: config_name
+    a: "github credential-authorizations application_name, login, credential_authorized_at"
+    b: "앱 (다른 SaaS 의 앱이면 그 SaaS)"
+    check: "a 와 b 가 같다"
+    if_unreadable: "승인한 사용자의 Settings > Integrations > Applications > Authorized OAuth Apps 탭 (https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/reviewing-your-authorized-applications-oauth, 2026-10-05 원문 확인. GitHub App 승인은 별도 문서)"
+  - tier: log_id
+    a: "github org_credential_authorization.grant 의 application_id, application_name, application_type"
+    b: "github credential-authorizations 의 앱"
+    check: "a 와 b 가 같다"
+  - tier: log_time
+    a: "github org_credential_authorization.grant 시각과 actor"
+    b: "상대 SaaS 쪽 GitHub 연결 기록 시각과 사람"
+    check: "시각이 가깝고 사람이 같다"
+  activity: ["github org_credential_authorization.grant", "github 사용자 보안 로그 oauth_authorization.create (oauth_application_name. 그 사용자만 봄)"]
+  sources: ["https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise (org_credential_authorization.grant: SAML, OIDC SSO 용 자격증명 승인)", "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (org_credential_authorization.grant: application_id, application_name, application_type)", "https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/security-log-events (oauth_authorization.create: oauth_application_name)"]
+
+- id: personal_access_token
+  type: stored_credential
+  what: "사용자 토큰(세분화, classic)을 밖의 시스템이 보관해 GitHub 를 부름"
+  identify:
+    api: "github GET /orgs/{org}/personal-access-tokens (세분화, GitHub App 만), GET /orgs/{org}/credential-authorizations (classic, credential_type personal access token)"
+    when: "토큰이 조직 자원에 승인됨"
+  points_to:
+  - tier: config_name
+    a: "github 토큰 owner, token_name, permissions"
+    b: "토큰을 보관한 밖의 시스템 (GitHub 쪽에는 주소가 없음)"
+    check: "이름 일치뿐 (약한 근거)"
+  - tier: log_id
+    a: "github 감사 programmatic_access_type, token_id, 또는 그 토큰으로 만든 커밋, PR 의 작성자"
+    b: "밖의 시스템 기록의 커밋 SHA, 요청 시각"
+    check: "a 와 b 가 같다"
+  activity: ["github personal_access_token.request_created, personal_access_token.access_granted", "토큰 사용 감사 (hashed_token, token_id)"]
+  sources: ["https://docs.github.com/en/rest/orgs/personal-access-tokens [Exa] (GitHub App 만 호출 가능)"]
+
+- id: deploy_key
+  type: stored_credential
+  what: "저장소 하나에 붙은 SSH 키. 개인키는 밖의 서버에 있음"
+  identify: {api: "github GET /repos/{o}/{r}/keys", when: "키가 있음"}
+  points_to:
+  - {tier: fingerprint, a: "github 배포 키 공개키", b: "밖의 서버 개인키에 짝인 공개키", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "github public_key.create·public_key.verify 의 fingerprint, title, read_only", b: "밖의 서버 개인키에 짝인 공개키의 fingerprint", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "github git.clone·git.fetch·git.push 시각과 repo (transport_protocol_name ssh)", b: "밖의 서버 작업 기록 시각", check: "시각이 같다. git 이벤트에는 어느 키를 썼는지가 없다"}
+  activity: ["github public_key.create, public_key.delete, public_key.verify (fingerprint, key, title, read_only)", "github git.clone, git.fetch, git.push (웹 화면에는 없고 REST API·스트리밍·내보내기로만)"]
+  sources: ["https://docs.github.com/en/rest/deploy-keys/deploy-keys [Exa]", "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (public_key.*: fingerprint, key, title, read_only. git.clone·git.fetch: transport_protocol_name)", "https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise"]
+
+- id: actions_outbound
+  type: [stored_credential, event_delivery]
+  what: "Actions 워크플로가 비밀이나 OIDC 로 밖의 서비스를 부름"
+  identify: {api: "github GET /repos/{o}/{r}/actions/workflows, /actions/secrets, /orgs/{org}/actions/secrets", when: "워크플로가 있음"}
+  points_to:
+  - tier: config_name
+    a: "github 비밀 이름 (값은 못 봄), 워크플로 파일의 호출 주소"
+    b: "밖의 서비스"
+    check: "이름, 주소로만"
+    if_unreadable: "워크플로 파일 내용(.github/workflows/*.yml)을 저장소에서 읽는다"
+  - {tier: config_name, a: "상대 쪽 OIDC 신뢰 설정 issuer https://token.actions.githubusercontent.com, 조건의 repository", b: "github:repository", check: "a 와 b 가 같다"}
+  - tier: log_id
+    a: "밖의 서비스가 받은 OIDC 토큰의 sub, repository, run_id"
+    b: "github:repository, workflows.completed_workflow_run 의 workflow_run_id"
+    check: "a 와 b 가 같다"
+  - tier: log_time
+    a: "github workflows.completed_workflow_run 의 started_at·completed_at"
+    b: "밖의 서비스 요청 기록 시각"
+    check: "시각이 실행 구간 안이다"
+  activity:
+  - github org.create_actions_secret, repo.create_actions_secret, .update_actions_secret, .remove_actions_secret (key)
+  - github workflows.completed_workflow_run (workflow_run_id, head_sha, started_at, completed_at)
+  sources: ["https://docs.github.com/en/rest/actions/secrets#list-organization-secrets [Exa]", "https://docs.github.com/en/actions/security-for-github-actions/security-hardening-your-deployments/configuring-openid-connect-in-google-cloud-platform [Exa]", "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (*.create_actions_secret: key. workflows.completed_workflow_run: workflow_run_id, started_at, completed_at)", "https://docs.github.com/en/actions/concepts/security/openid-connect (토큰 클레임 sub, repository, repository_id, run_id, job_workflow_ref)"]
+
+- id: audit_log_stream
+  type: event_delivery
+  what: "엔터프라이즈 감사 로그를 밖의 저장소로 스트리밍"
+  identify: {api: "github GET /enterprises/{enterprise}/audit-log/streams (List audit log stream configurations for an enterprise. 필요한 토큰 범위는 문서에 적혀 있지 않음. https://docs.github.com/en/enterprise-cloud@latest/rest/enterprise-admin/audit-log, 2026-10-05 원문 확인. 대시보드 수집 호출 GH-29 가 소유자 토큰으로 200). 사람: 엔터프라이즈 설정 화면", when: "스트림이 있음"}
+  points_to:
+  - {tier: config_name, a: "github 스트림 대상", b: "밖의 저장소", check: "a 와 b 가 같다", if_unreadable: "엔터프라이즈 설정 > 감사 로그 > 로그 스트리밍 화면"}
+  - {tier: log_id, a: "github audit_log_streaming.create·.update 의 audit_log_stream_id, audit_log_stream_sink, new_s3_bucket·new_splunk_domain·new_gc_bucket·new_azure_blob_container·new_datadog_site", b: "밖의 저장소 (버킷, Splunk 주소 등)", check: "a 와 b 가 같다"}
+  - {tier: log_id, a: "밖의 저장소에 들어온 감사 이벤트의 _document_id", b: "github 감사 로그 _document_id", check: "a 와 b 가 같다"}
+  activity: ["github audit_log_streaming.create, .update, .destroy, .check"]
+  sources: ["https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/streaming-the-audit-log-for-your-enterprise [Exa]", "https://docs.github.com/en/enterprise-cloud@latest/admin/monitoring-activity-in-your-enterprise/reviewing-audit-logs-for-your-enterprise/audit-log-events-for-your-enterprise (audit_log_streaming.*: audit_log_stream_id, audit_log_stream_sink, new_s3_bucket, new_splunk_domain 등)"]
+
+- id: actions_variables
+  type: content_ref
+  what: "GitHub Actions 변수(비밀이 아닌 설정값)에 밖의 주소·식별자를 둠. 값이 그대로 응답에 온다"
+  identify: {api: "github GET /orgs/{org}/actions/variables (name, value, visibility), GET /repos/{o}/{r}/actions/variables (name, value)", when: "value 에 주소·호스트"}
+  points_to:
+  - {tier: config_name, a: "github 변수 value 의 호스트", b: "밖의 서비스", check: "a 와 b 가 같다"}
+  - {tier: log_time, a: "github workflows.completed_workflow_run 의 started_at·completed_at", b: "밖의 서비스 요청 기록 시각", check: "시각이 실행 구간 안이다"}
+  activity: ["github org.create_actions_variable, repo.create_actions_variable, environment.create_actions_variable, .update_actions_variable, .remove_actions_variable (key, visibility)"]
+  sources: ["https://docs.github.com/en/rest/actions/variables (목록 경로, value 문자열 반환, non-sensitive information)", "https://docs.github.com/en/organizations/keeping-your-organization-secure/managing-security-settings-for-your-organization/audit-log-events-for-your-organization (*.create_actions_variable: key, visibility)"]
+- id: github_mcp_server_third_party_clients
+  type:
+  - app_grant
+  - stored_credential
+  what: VS Code·Visual Studio·JetBrains·Xcode·Eclipse 같은 IDE 와 외부 AI 클라이언트가 GitHub 원격 MCP 서버(https://api.githubcopilot.com/mcp/)에 붙는다. 인증은 OAuth(기본) 또는 Authorization 헤더의 PAT 다. Copilot Business·Enterprise 구성원은 「MCP servers in Copilot」 정책이 켜져 있어야 하고 EMU 는 PAT 가 기본 꺼져 있다
+  identify:
+    api: github 사용자 OAuth 승인(Settings > Applications), PAT 목록, 조직 Copilot 정책 「MCP servers in Copilot」
+    when: github 원격 MCP 서버 주소로 요청이 들어옴, 또는 사용자가 MCP 클라이언트에 OAuth 승인을 줌
+  points_to:
+  - tier: config_name
+    a: 클라이언트 설정의 MCP 서버 주소
+    b: github 원격 MCP 서버 주소 https://api.githubcopilot.com/mcp/
+    check: a 와 b 가 같다
+  - tier: via_person
+    a: github OAuth 승인 또는 PAT 를 만든 사용자
+    b: MCP 클라이언트를 쓰는 사람
+    check: 같은 사람
+  - tier: log_time
+    a: github 쪽 MCP 호출 기록 위치는 문서에 없다
+    b: 클라이언트 쪽 호출 기록 위치는 문서에 없다
+    check: 시각이 가깝다. 짝 확인 방법은 문서에 없다
+  activity:
+  - github 사용자 OAuth 승인, PAT 사용 (MCP 연결로 확인한 감사 이벤트 이름은 문서에 없다)
+  sources:
+  - https://docs.github.com/en/copilot/how-tos/provide-context/use-mcp/set-up-the-github-mcp-server (서버 주소, OAuth 기본, PAT 헤더, 설정 방법이 있는 IDE, 조직 정책, EMU)
+  - https://github.com/github/github-mcp-server (README 의 지원 클라이언트 목록. 조사 에이전트가 앞 100,000자만 읽은 요약, 직접 미확인)
+  note: 기존 user_authorization·personal_access_token 은 MCP 와 무관한 일반 방법이다. 이 방법은 GitHub 가 MCP 서버로 낸 같은 인증을 MCP 클라이언트가 쓰는 경우를 따로 둔 것이다. 원격 서버의 GA 표기는 문서에 없다. 실측 없음 (GitHub 쪽에서 Agentforce Registry 로 붙인 시도는 github-salesforce:agentforce_registry_github_mcp)

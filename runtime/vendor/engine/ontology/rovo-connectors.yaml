@@ -1,0 +1,50 @@
+format: rovo-connector-bindings/1
+# 출처(O2, 2026-11-17 git log 로 찾아 적음). 모든 칸은 b30d17d(aegi-knowledge#78, 2026-10-27)가 처음 적었고 그 뒤 안 바뀌었다. 글로 적은 계약이고 엔진은 읽지 않는다(엔진 overlay new-rovo-connector · new-rovo-organization 의 source 칸이 이 파일)
+sources:
+  format: b30d17d(#78). 파일 양식 이름
+  status: b30d17d(#78). 구현 후보
+  objects: b30d17d(#78). Atlassian Administration 조직 화면 주소와 Teamwork Graph 커넥터 상세 · 설정 칸(브라우저 화면 스냅샷)
+  matching: b30d17d(#78). 커넥터 → Rovo 조직 registered_in, Salesforce 커넥터 도메인 → 실제 Organization API 호스트 tenant_pointer(crosswalk.yaml 줄과 같은 커밋)
+  provenance: b30d17d(#78). 화면 스냅샷의 출처 표시(BROWSER_UI, 응답 상태 · 목록 완전성을 지어내지 않음)
+  boundaries: b30d17d(#78). 앱 이름이나 메일만으로 외부 테넌트를 잇지 않는 경계
+  references: b30d17d(#78). Atlassian 도움말 「Connect Salesforce to Teamwork Graph」
+status: implementation_candidate
+objects:
+  - provider: atlassian
+    object_type: RovoOrganization
+    interfaces: [Tenant]
+    identity: [organization_id]
+    source: Atlassian Administration organization URL observed in browser UI
+  - provider: atlassian
+    object_type: RovoConnector
+    interfaces: [Integration]
+    identity: [organization_id, connection_id]
+    source: Existing Teamwork Graph connector detail and configuration fields
+    properties:
+      operational_state: unknown; tool availability does not prove a user's authentication is healthy
+      indexing: Explicit enabled/disabled setting; do not equate disabled indexing with disconnected
+      tools: Configured tool capabilities, not executed operations or effective user permissions
+      target_salesforce_domain: Exact domain read from the Salesforce connector configuration field
+      oauth_client_id: Public Google client ID read from the Drive connector configuration
+      oauth_scopes: Requested scopes displayed by the Drive connector; not proof of currently granted scopes
+      dwd_authorization_observations: Google admin AUTHORIZE_API_CLIENT_ACCESS events matched by exact client ID; retain event time and customer ID, not current permission status
+      workspace_label: Slack workspace label displayed in settings; not a unique tenant identifier
+matching:
+  local_registration: RovoConnector registered_in RovoOrganization
+  foreign_registration:
+    kind: tenant_pointer
+    relation: registered_in
+    source: RovoConnector.target_salesforce_domain
+    target: Salesforce Organization.api_instance_host from the actual Organization API endpoint
+    unique_match: true
+provenance:
+  browser_ui: Explicit imported snapshot; BROWSER_UI method, no invented HTTP response status or API inventory completeness
+  source_url: Exact admin.atlassian.com organization/connector detail page
+boundaries:
+  - No new interfaces or relation names; frozen V3.2 is unchanged.
+  - Chat app selection counts include built-in services and are not external connector counts.
+  - An OAuth app name or a user's email alone is not sufficient to match an external tenant.
+  - Enabled write tools do not establish that a write occurred or that a particular user can perform it.
+  - UI snapshots can be partial or stale; keep their collection time and source separately from API responses.
+references:
+  - https://support.atlassian.com/organization-administration/docs/connect-salesforce-to-teamwork-graph/

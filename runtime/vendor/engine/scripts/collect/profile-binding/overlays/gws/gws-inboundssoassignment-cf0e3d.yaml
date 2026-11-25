@@ -1,0 +1,39 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/inbound_sso_assignment.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-17
+        request:
+          kind: assignments
+        items: inboundSsoAssignments
+      - call: GW-17
+        endpoint: /inboundSsoAssignments(\?|$)
+        items: inboundSsoAssignments
+    id_expr: name
+    properties:
+      name: name
+      customer: customer
+      ssoMode: ssoMode
+      targetGroup: targetGroup
+      targetOrgUnit: targetOrgUnit
+      samlSsoInfo: samlSsoInfo
+    display: SSO 배정 {name}
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: name
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-SSOASGN-{id}
+runtime_stub: null
+runtime_key: GWS-SSOASGN-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable

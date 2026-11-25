@@ -1,0 +1,23 @@
+diff --git a/vendor/engine/scripts/collect/providers/gcp.ts b/vendor/engine/scripts/collect/providers/gcp.ts
+index 2936baf..e91572b 100644
+--- a/vendor/engine/scripts/collect/providers/gcp.ts
++++ b/vendor/engine/scripts/collect/providers/gcp.ts
+@@ -296,6 +296,8 @@ export function gcpCalls(ctx: ProviderContext): CallDef[] {
+     }),
+ 
+     call('GCP-04', 'Agent Registry', async api => {
++      // agentregistry.googleapis.com /skills 엔드포인트가 리전마다 응답 정체(~250s)되어 일단 수집에서 제외한다
++      api.note('skills 건너뜀: agentregistry.googleapis.com /skills 응답 정체로 수집 제외')
+       for (const project of state.projects) {
+         for (const loc of limited(api, 'locations', await sub(api, AR, project.name, { kind: 'locations', path: 'locations', items: 'locations' }))) {
+           for (const s of [
+@@ -306,9 +308,6 @@ export function gcpCalls(ctx: ProviderContext): CallDef[] {
+             { kind: 'endpoints', path: 'endpoints', items: 'endpoints' },
+             { kind: 'bindings', path: 'bindings', items: 'bindings' },
+           ]) await sub(api, AR, loc.name, s)
+-          for (const skill of limited(api, 'skills', await sub(api, AR, loc.name, { kind: 'skills', path: 'skills', items: 'skills', drop: ['initialRevision'] }))) {
+-            await sub(api, AR, skill.name, { kind: 'skill_revisions', path: 'revisions', items: 'skillRevisions' })
+-          }
+         }
+       }
+     }),

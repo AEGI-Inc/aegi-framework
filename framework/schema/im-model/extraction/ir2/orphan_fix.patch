@@ -1,0 +1,220 @@
+--- map3_base.py	2026-10-18 22:14:15.654191900 +0900
++++ map3_patched.py	2026-10-18 22:24:48.164265300 +0900
+@@ -502,7 +502,9 @@
+                 n += 1
+             names.add(name)
+             par = set()
+-            for P in items:
++            # 단건 위치뿐 아니라 목록, 생성 왕복으로 붙은 주소 위치의 부모도 적는다 (2026-10-18 리뷰 반영: Okta OAuth2ClientSecret 은
++            # apps/{} 아래와 api-services/{} 아래 비밀값이 한 공간인데 부모가 apps/{} 만 보였다)
++            for P in sorted(set(items) | {x[4:] for x in xs if x.startswith("pos:") and x[4:] in self.addressable}):
+                 ss = segs(P.lstrip("!"))
+                 idx = [i for i, s in enumerate(ss) if s == "{}"]
+                 if P.startswith("!") and idx:
+@@ -563,6 +565,28 @@
+         for r, sp in self.space.items():
+             for P in sp["positions"]:
+                 self.pos_space[P] = sp["name"]
++        # 부모로만 쓰이는 경로 위치 (고아 수정 3, 2026-10-18): 그 위치를 읽는 단건 GET 은 없지만 아래에 다른 글자 조각이 이어지는
++        # 동작이 3개 이상이면 그 인자가 가리키는 대상이 있다 (GitHub enterprises/{enterprise}, Gmail users/{userId}, ASA teams/{team_name}).
++        # 다음 조각이 또 인자인 위치(repos/{owner}/{repo} 의 owner)는 복합 주소의 앞부분이라 뺀다. 같은 대상의 다른 공간과의 같음은 2단계
++        kids = collections.defaultdict(set)
++        for oid, o in self.ops.items():
++            t = (o.get("path") or {}).get("template")
++            if not t:
++                continue
++            ss = segs(t)
++            for x in o["path"]["positions"]:
++                i = x["index"]
++                if i + 1 < len(ss) and not ss[i + 1].startswith("{"):
++                    kids[pos_of(t, i)].add(oid)
++        for P, ops_ in sorted(kids.items()):
++            if P in self.pos_space or len(ops_) < 3 or P in self.enum_pos:
++                continue
++            nm = "parent:" + P
++            self.space["parent:" + P] = {"name": nm, "item_positions": [], "shapes": [], "stated_key_shapes": [], "positions": [P],
++                                         "form": "parent_only", "parent_positions": [], "child_operations": len(ops_),
++                                         "candidate_why": "아래 동작 %d개의 부모 위치. 이 위치를 읽는 동작은 없다" % len(ops_)}
++            self.pos_space[P] = nm
++            self.verify["parent_only_positions"]["spaces"] += 1
+ 
+     def returned_by_item(self, items):
+         out = set()
+@@ -661,6 +685,13 @@
+             for f in fs:
+                 idf_space[f["id"]] = nm
+         self.verify["ref_only_formats"]["spaces"] = sum(1 for k in self.space if str(k).startswith("ref_only:"))
++        for sid, fids in sorted(getattr(self, "align_deferred", {}).items()):
++            sps = {idf_space.get(f) for f in fids} - {None}
++            if len(sps) == 1 and not self.shape_space.get(sid):
++                self.shape_space[sid] = next(iter(sps))
++                self.verify["key_format_alignment"]["aligned_to_narrower"] += 1
++            else:
++                self.verify["key_format_alignment"]["narrower_unresolved"] += 1
+         # 원문 참조가 ID 형식을 가리키면(to.id_format) 그 형식의 공간이 대상이다 (2026-10-18: Slack auth.test 의 team_id,
+         # user_id 가 형식을 가리키는데 대상이 비어 있었다. 모양을 가리키는 참조만 풀고 있었다)
+         for r in self.refs_decl:
+@@ -887,6 +918,7 @@
+                     rx[f["id"]] = re.compile(pat)
+                 except re.error:
+                     pass
++        self.align_deferred = {}
+         keyfmt = collections.defaultdict(set)              # (명명 체계, 키 속성 이름) -> {(형식, 공간)}
+         for k in self.keys:
+             if k["grade"] != "stated":
+@@ -909,10 +941,20 @@
+                 if sid in self.shape_space:
+                     continue
+                 hit = {(f, sp) for f, sp in keyfmt.get((naming.get(self.shapes[sid]["src"]["source"]), name), ()) if rx[f].match(v)}
++                if not hit:
++                    continue
++                # 키 형식보다 좁은 원문 형식이 값에 맞으면 그 형식의 대상이다 (2026-10-18 리뷰 반영: Slack objs_team.id 는
++                # defs_workspace_id ^[TE] 라 enterprise 레코드 E12345678 이 팀 공간에 붙었다. defs_enterprise_id ^[E] 가 더 좁다)
++                narrow_all = self.narrowest({f for f, r_ in rx.items() if r_.match(v)})
++                if not narrow_all & {f for f, _ in hit}:
++                    self.align_deferred.setdefault(sid, set()).update(narrow_all)
++                    continue
+                 keep = self.narrowest({f for f, _ in hit})
+                 for f, sp in hit:
+                     if f in keep:
+                         votes[sid][sp] += 1
++        for sid in self.align_deferred:
++            votes.pop(sid, None)
+         for sid, c in sorted(votes.items()):
+             if len(c) == 1:
+                 sp = next(iter(c))
+@@ -1048,6 +1090,21 @@
+         for s_ in self.shapes.values():
+             if any(pr.get("shape") in cat_from for pr in s_.get("props") or []):
+                 self.catalog_shapes.add(s_["id"])
++        # 이벤트 기록 레코드 (고아 수정 4, 2026-10-18): 공간이 아닌 레코드의 한 자리 값이 모두 그 provider 의 이벤트, 감사 카탈로그
++        # 키이면 그 레코드는 카탈로그의 기록이다 (GitHub audit-log-event 의 action, Slack audit.logs 의 entries.action).
++        # 값이 둘 이상이고 서로 다른 카탈로그 키여야 한다 (값 하나만 맞는 우연을 줄인다)
++        cat_keys = {c["key"] for c in self.cats if c.get("key")}
++        rec_vals = collections.defaultdict(set)
++        for ins in self.insts:
++            o_ = self.ops.get((ins.get("of") or {}).get("operation", ""))
++            if o_ and self.resp(o_):
++                for s_, n_, v, _ in self.walk(ins["value"], self.resp(o_)):
++                    if not self.shape_space.get(s_):
++                        rec_vals[(s_, n_)].add(v)
++        for (s_, n_), vs in sorted(rec_vals.items()):
++            if len(vs) >= 2 and vs <= cat_keys and s_ not in self.catalog_shapes:
++                self.catalog_shapes.add(s_)
++                self.verify["catalog_record_by_key"][n_] += 1
+ 
+         def place(sid, op, ctx_space, via, parent=None):
+             sp = self.shape_space.get(sid)
+@@ -1081,8 +1138,14 @@
+                 # 루프 12: URL 참조는 빼고(자기 URL 일 수 있다), 대상이 하나로 정해진 자리만 센다(다형 참조 하나를 둘로 세지 않는다)
+                 tg = sorted({(t[0] if isinstance(t, list) else t) for rel, _, _, kd, t in props if "." not in rel
+                              and kd in ("embedded_ref", "ref", "address_key") and t and (not isinstance(t, list) or len(t) == 1)})
++                lctx = self._list_ctx if via in ("list_element", "response") else None
+                 if len(tg) >= 2:
+                     det, kind_via = "relation:" + "x".join(tg[:3]), "relation"
++                elif len(tg) == 1 and lctx and lctx not in tg:
++                    # 부모 아래 목록의 원소가 다른 공간 하나를 가리키면 부모와 그 공간의 연결이다 (R1, 고아 수정 2, 2026-10-18:
++                    # Okta /devices/{id}/users 의 원소는 장치 x 사용자, GitHub 설치 저장소 목록은 설치 x 저장소)
++                    det, kind_via = "relation:" + "x".join(sorted([lctx] + tg)), "relation_list_parent"
++                    self.verify["list_parent_relation"]["placed"] += 1
+                 elif ctx_space:
+                     det, kind_via = "space:" + ctx_space, "path_context"
+                 else:
+@@ -1092,6 +1155,19 @@
+                     det, kind_via = "orphan:" + sid, "orphan_" + why
+             wrapper_like = any(pr.get("shape") and (self.shapes.get(pr["shape"]) or {}).get("kind") == "array"
+                                and self.obj(pr["shape"]) for pr in self.shapes[sid].get("props") or [])
++            # 레코드 하나를 싸는 봉투도 같다 (고아 수정 1, 2026-10-18: Slack team.info 의 {ok, team}, bots.info 의 {ok, bot})
++            wrapper_like = wrapper_like or any(any(self.shape_space.get(x) for x in self.obj(pr.get("shape") or ""))
++                                               for pr in self.shapes[sid].get("props") or [])
++            const = self.env_const.get(self.shapes[sid]["src"]["source"], set()) if via == "response" and not sp else set()
++            if const:
++                keep = []
++                for x in props:
++                    if x[0] in const:
++                        add("envelope:" + self.shapes[sid]["src"]["source"], x[0], x[1], x[2], x[3], x[4], op, "envelope")
++                        self.verify["response_envelope"]["status_slots"] += 1
++                    else:
++                        keep.append(x)
++                props = keep
+             if via in ("response", "list_element") and not sp and sid not in self.local_shapes and wrapper_like:
+                 env = self.env_names.get(self.shapes[sid]["src"]["source"], set())
+                 keep = []
+@@ -1129,6 +1205,7 @@
+             return kind_via
+ 
+         seen = set()
++        self._list_ctx = None
+         # 응답 봉투 (루프 10): 원소가 공간 레코드로 확인된 래퍼 응답에서 배열 옆 자리 이름을 출처별로 배운다
+         self.env_names = collections.defaultdict(set)
+         env_ev = collections.defaultdict(set)
+@@ -1140,6 +1217,11 @@
+                 props = self.shapes[root].get("props") or []
+                 arr_spaced = [pr for pr in props if pr.get("shape") and (self.shapes.get(pr["shape"]) or {}).get("kind") == "array"
+                               and any(self.shape_space.get(x) for x in self.obj(pr["shape"]))]
++                # 레코드 하나를 싸는 봉투: 공간 레코드인 객체 속성이 하나이고 배열 래퍼가 아닐 때 (고아 수정 1)
++                obj_spaced = [pr for pr in props if pr.get("shape") and (self.shapes.get(pr["shape"]) or {}).get("kind") == "object"
++                              and self.shape_space.get(pr["shape"])]
++                if not arr_spaced and len(obj_spaced) == 1:
++                    arr_spaced = obj_spaced
+                 if len(arr_spaced) == 1:
+                     el_sp = tuple(sorted({self.shape_space.get(x) for x in self.obj(arr_spaced[0]["shape"])} - {None}))
+                     for pr in props:
+@@ -1152,6 +1234,31 @@
+         for (src, name), ev in sorted(env_ev.items()):
+             if len({r for r, _ in ev}) >= 3 and len({e for _, e in ev}) >= 2:
+                 self.env_names[src].add(name)
++        # 응답 상태 자리 (고아 수정 1, 2026-10-18): 같은 출처의 응답 뿌리 10개 이상에 나오는 불리언 뿌리 자리는 레코드의 정보가
++        # 아니라 응답 상태다 (Slack ok). 이름이 아니라 「여러 동작의 응답 뿌리에 되풀이되는 불리언」으로 정한다. 래퍼가 아닌 응답
++        # (쓰기 동작의 {ok})에도 쓴다. 문자열은 넣지 않는다: 문서 예시의 자리 표시(C123ABC456)가 값이 늘 같은 것처럼 보인다
++        cv = collections.defaultdict(lambda: (set(), set()))
++        for ins in self.insts:
++            o_ = self.ops.get((ins.get("of") or {}).get("operation", ""))
++            if not o_ or not self.resp(o_) or ins["grade"] not in ("observed", "example") or not isinstance(ins["value"], dict):
++                continue
++            for root in self.obj(self.resp(o_)):
++                props_ = {pr["name"] for pr in self.shapes[root].get("props") or [] if pr.get("scalar") is not None}
++                for k_, v_ in ins["value"].items():
++                    if k_ in props_ and isinstance(v_, bool):
++                        rs_, vs_ = cv[(self.shapes[root]["src"]["source"], k_)]
++                        rs_.add(root)
++                        vs_.add(json.dumps(v_))
++        # 그 출처 응답 뿌리의 30% 이상에 나와야 한다 (GitHub enabled 는 설정 15곳에만 있어 상태가 아니라 정보다)
++        roots_by_src = collections.defaultdict(set)
++        for o_ in self.ops.values():
++            for root in self.obj(self.resp(o_) or ""):
++                roots_by_src[self.shapes[root]["src"]["source"]].add(root)
++        self.env_const = collections.defaultdict(set)
++        for (src, name), (rs_, vs_) in sorted(cv.items()):
++            if len(rs_) >= 10 and len(rs_) * 10 >= 3 * len(roots_by_src[src]):
++                self.env_const[src].add(name)
++                self.verify["response_status_field"][src + "." + name] = len(rs_)
+         for oid, o in sorted(self.ops.items()):
+             r = self.resp(o)
+             if not r:
+@@ -1167,17 +1274,25 @@
+             # 목록 래퍼로 볼 근거: 원소가 공간에 속하고 뿌리는 공간이 아니다. 아니면 뿌리를 그대로 놓는다 (루프 5, GET /user)
+             if els and (not any(self.shape_space.get(e) for e in els) or any(self.shape_space.get(x) for x in roots)):
+                 els = []
++            # 원소가 이벤트 기록 레코드인 래퍼도 목록이다 (고아 수정 4: Slack audit.logs 의 entries, 동작 종류와 무관)
++            cel = [e for e in self.element(r) if e in self.catalog_shapes] if r else []
++            if not els and cel and not any(self.shape_space.get(x) for x in roots):
++                els = cel
+             for sid in roots:
+                 if els and sid not in els:
+                     # 목록 래퍼 뿌리: 배열 옆 값은 응답 메타
+                     for pr in self.shapes[sid].get("props") or []:
+                         if pr.get("scalar") is not None:
+                             orphan_items["response_meta"] += 1
++                    self._list_ctx = ctx                    # 목록의 부모 맥락 (relation 판정에만 쓴다)
+                     for e in els:
+                         v = place(e, oid, None, "list_element")
+                         orphans[v] += 1
++                    self._list_ctx = None
+                     continue
++                self._list_ctx = ctx if o["kind"] == "read_many" else None
+                 v = place(sid, oid, ctx if o["kind"] != "read_many" else None, "response")
++                self._list_ctx = None
+                 orphans[v] += 1
+                 seen.add(sid)
+         for c in self.cats:

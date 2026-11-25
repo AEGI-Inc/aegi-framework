@@ -1,0 +1,779 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: InvoiceLine
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:5fb5e67caf6fa20227f2591f
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:5fb5e67caf6fa20227f2591f.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|Id
+  AdjustmentAmount:
+    path: AdjustmentAmount
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: AdjustmentAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|AdjustmentAmount
+  AdjustmentAmountWithTax:
+    path: AdjustmentAmountWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: AdjustmentAmountWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|AdjustmentAmountWithTax
+  AdjustmentTaxAmount:
+    path: AdjustmentTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: AdjustmentTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|AdjustmentTaxAmount
+  Balance:
+    path: Balance
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: Balance
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|Balance
+  BillingAddressId:
+    path: BillingAddressId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: BillingAddressId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|BillingAddressId
+  BillingScheduleGroupId:
+    path: BillingScheduleGroupId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: BillingScheduleGroupId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|BillingScheduleGroupId
+  BillingScheduleId:
+    path: BillingScheduleId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: BillingScheduleId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|BillingScheduleId
+  ChargeAmount:
+    path: ChargeAmount
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: ChargeAmount
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|ChargeAmount
+  ChargeAmountWithTax:
+    path: ChargeAmountWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: ChargeAmountWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|ChargeAmountWithTax
+  ChargeTaxAmount:
+    path: ChargeTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: ChargeTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|ChargeTaxAmount
+  ConvertedNegAmount:
+    path: ConvertedNegAmount
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: ConvertedNegAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|ConvertedNegAmount
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: string
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|Description
+  GroupReferenceEntityItemId:
+    path: GroupReferenceEntityItemId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: GroupReferenceEntityItemId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|GroupReferenceEntityItemId
+  HasMultipleItems:
+    path: HasMultipleItems
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: boolean
+      name: HasMultipleItems
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:InvoiceLine|HasMultipleItems
+  InvoiceId:
+    path: InvoiceId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: InvoiceId
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|InvoiceId
+  InvoiceLineEndDate:
+    path: InvoiceLineEndDate
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: date
+      name: InvoiceLineEndDate
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|InvoiceLineEndDate
+  InvoiceLineStartDate:
+    path: InvoiceLineStartDate
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: date
+      name: InvoiceLineStartDate
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|InvoiceLineStartDate
+  InvoiceStatus:
+    path: InvoiceStatus
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: string
+      name: InvoiceStatus
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|InvoiceStatus
+  LegalEntityAccountingPeriodId:
+    path: LegalEntityAccountingPeriodId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: LegalEntityAccountingPeriodId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|LegalEntityAccountingPeriodId
+  LegalEntityId:
+    path: LegalEntityId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: LegalEntityId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|LegalEntityId
+  LineAmount:
+    path: LineAmount
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: LineAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|LineAmount
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: string
+      name: Name
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|Name
+  NetCreditsApplied:
+    path: NetCreditsApplied
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: NetCreditsApplied
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|NetCreditsApplied
+  NetPaymentsApplied:
+    path: NetPaymentsApplied
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: NetPaymentsApplied
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|NetPaymentsApplied
+  Product2Id:
+    path: Product2Id
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: Product2Id
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|Product2Id
+  Quantity:
+    path: Quantity
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: double
+      name: Quantity
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|Quantity
+  ReferenceEntityItemId:
+    path: ReferenceEntityItemId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: ReferenceEntityItemId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|ReferenceEntityItemId
+  ReferenceEntityItemType:
+    path: ReferenceEntityItemType
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: picklist
+      name: ReferenceEntityItemType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|ReferenceEntityItemType
+  ReferenceEntityItemTypeCode:
+    path: ReferenceEntityItemTypeCode
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: picklist
+      name: ReferenceEntityItemTypeCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|ReferenceEntityItemTypeCode
+  RelatedLineId:
+    path: RelatedLineId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: RelatedLineId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|RelatedLineId
+  ShippingAddressId:
+    path: ShippingAddressId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: ShippingAddressId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|ShippingAddressId
+  TaxAmount:
+    path: TaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: TaxAmount
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|TaxAmount
+  TaxCode:
+    path: TaxCode
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: string
+      name: TaxCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|TaxCode
+  TaxDocumentNumber:
+    path: TaxDocumentNumber
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: string
+      name: TaxDocumentNumber
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|TaxDocumentNumber
+  TaxEffectiveDate:
+    path: TaxEffectiveDate
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: date
+      name: TaxEffectiveDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|TaxEffectiveDate
+  TaxName:
+    path: TaxName
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: string
+      name: TaxName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|TaxName
+  TaxRate:
+    path: TaxRate
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: percent
+      name: TaxRate
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|TaxRate
+  TaxTransactionNumber:
+    path: TaxTransactionNumber
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: string
+      name: TaxTransactionNumber
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|TaxTransactionNumber
+  TaxTreatmentId:
+    path: TaxTreatmentId
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: reference
+      name: TaxTreatmentId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|TaxTreatmentId
+  Type:
+    path: Type
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: picklist
+      name: Type
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:InvoiceLine|Type
+  UnitPrice:
+    path: UnitPrice
+    source: research_shape
+    shape: sh:sf_object_reference:InvoiceLine
+    declaration:
+      format: currency
+      name: UnitPrice
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:InvoiceLine|UnitPrice
+references:
+  - name: billingschedulegroupid
+    field: BillingScheduleGroupId
+    target: BillingScheduleGroup
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:26c74ef434bb822f98077e37; relation=no_relation
+  - name: shippingaddressid
+    field: ShippingAddressId
+    target: InvoiceAddressGroup
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:390e3a0caa2778608e0ecdd6; relation=no_relation
+  - name: legalentityaccountingperiodid
+    field: LegalEntityAccountingPeriodId
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:697938ba94cade523df6f9ab; relation=no_relation
+  - name: legalentityid
+    field: LegalEntityId
+    target: LegalEntity
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:79c953da1e85ce0bedfeacab; relation=no_relation
+  - name: billingscheduleid
+    field: BillingScheduleId
+    target: BillingSchedule
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:8bc7c0717c39c1cfdc928a76; relation=no_relation
+  - name: referenceentityitemid
+    field: ReferenceEntityItemId
+    target: OrderItemAdjustmentLineItem
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a8adfeffbf1e722faca3db53; relation=no_relation
+  - name: billingaddressid
+    field: BillingAddressId
+    target: InvoiceAddressGroup
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:b0bf752b410019b6f4e8fe51; relation=no_relation
+  - name: invoiceid
+    field: InvoiceId
+    target: Invoice
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:be98c1ce730451480b8f010f; relation=no_relation
+  - name: product2id
+    field: Product2Id
+    target: Product2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c5c087b51d598d5a53f4feed; relation=no_relation
+  - name: groupreferenceentityitemid
+    field: GroupReferenceEntityItemId
+    target: OrderItem
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d9babf8ff5cb00e24b6c3ea6; relation=no_relation
+  - name: taxtreatmentid
+    field: TaxTreatmentId
+    target: TaxTreatment
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:e69ef35ae3c67a5d11b2b35d; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: InvoiceLine
+  interfaces: *a1
+  model:
+    research_type: object-type:5fb5e67caf6fa20227f2591f
+  extract:
+    key: PILOT-salesforce-InvoiceLine-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-f2591f
+            endpoint: /
+            items:
+              - records
+        properties:
+          AdjustmentAmount: AdjustmentAmount
+          AdjustmentAmountWithTax: AdjustmentAmountWithTax
+          AdjustmentTaxAmount: AdjustmentTaxAmount
+          Balance: Balance
+          BillingAddressId: BillingAddressId
+          BillingScheduleGroupId: BillingScheduleGroupId
+          BillingScheduleId: BillingScheduleId
+          ChargeAmount: ChargeAmount
+          ChargeAmountWithTax: ChargeAmountWithTax
+          ChargeTaxAmount: ChargeTaxAmount
+          ConvertedNegAmount: ConvertedNegAmount
+          Description: Description
+          GroupReferenceEntityItemId: GroupReferenceEntityItemId
+          HasMultipleItems: HasMultipleItems
+          Id: Id
+          InvoiceId: InvoiceId
+          InvoiceLineEndDate: InvoiceLineEndDate
+          InvoiceLineStartDate: InvoiceLineStartDate
+          InvoiceStatus: InvoiceStatus
+          LegalEntityAccountingPeriodId: LegalEntityAccountingPeriodId
+          LegalEntityId: LegalEntityId
+          LineAmount: LineAmount
+          Name: Name
+          NetCreditsApplied: NetCreditsApplied
+          NetPaymentsApplied: NetPaymentsApplied
+          Product2Id: Product2Id
+          Quantity: Quantity
+          ReferenceEntityItemId: ReferenceEntityItemId
+          ReferenceEntityItemType: ReferenceEntityItemType
+          ReferenceEntityItemTypeCode: ReferenceEntityItemTypeCode
+          RelatedLineId: RelatedLineId
+          ShippingAddressId: ShippingAddressId
+          TaxAmount: TaxAmount
+          TaxCode: TaxCode
+          TaxDocumentNumber: TaxDocumentNumber
+          TaxEffectiveDate: TaxEffectiveDate
+          TaxName: TaxName
+          TaxRate: TaxRate
+          TaxTransactionNumber: TaxTransactionNumber
+          TaxTreatmentId: TaxTreatmentId
+          Type: Type
+          UnitPrice: UnitPrice
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:InvoiceLine.query
+  operation: InvoiceLine.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: InvoiceLine
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:InvoiceLine
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:InvoiceLine.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/InvoiceLine/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - BillingScheduleGroupId
+    - ShippingAddressId
+    - LegalEntityAccountingPeriodId
+    - LegalEntityId
+    - BillingScheduleId
+    - ReferenceEntityItemId
+    - BillingAddressId
+    - InvoiceId
+    - Product2Id
+    - GroupReferenceEntityItemId
+    - TaxTreatmentId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

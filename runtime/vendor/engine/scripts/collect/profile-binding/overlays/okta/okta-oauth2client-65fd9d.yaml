@@ -1,0 +1,65 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/oauth2_client.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-08
+        request:
+          app: absent
+    id_expr: client_id
+    refs:
+      application:
+        ref:
+          type: Application
+          id: client_id
+          exists: true
+        value: client_id
+    properties:
+      client_name: client_name
+      application_type: application_type
+      grant_types: grant_types
+      token_endpoint_auth_method: token_endpoint_auth_method
+      response_types: response_types
+      principal_kind:
+        const: service
+    display: "{client_name|client_id}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: client_id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-CLIENT-{id}
+  - id: jwks
+    kind: enrich
+    sources:
+      - call: OK-08
+        request:
+          app: present
+        items: (root)
+    target:
+      type: OAuth2Client
+      id: $req.app
+    set:
+      jwks_kids:
+        op: pluck
+        of: .
+        field: kid
+    relations: []
+    key_template: OKTA-CLIENT-{id}
+runtime_stub: null
+runtime_key: OKTA-CLIENT-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+fields:
+  redirect_uris:
+    path: redirect_uris
+    source: collected_response
+fields_basis: 수집 응답에 있는데 Profile 선언에 없어 정규화에서 버려지던 보안 필드를 선언한다(2026-11-01 필드 대조, 값은 수집 응답 그대로)

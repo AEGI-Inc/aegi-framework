@@ -1,0 +1,644 @@
+# Okta Profiles v3 (예시 · 초안)
+
+`Profile_Schema_v3.md` 형식을 **두 번째 provider**에 대 본 것이다. 목적은 Okta 수집이 아니라 **형식이 Slack 밖에서도 서는지 확인하는 것**이다.
+
+- 출처: Okta Management API OpenAPI 조각 128개, 오퍼레이션 **764개**
+- **실 API 호출 없음.** 규격 문서만 읽었다
+- 다룬 object_type 6종. Okta 전체가 아니다
+
+`Slack_Profiles_v3.md`는 실측에서 나왔고 이 파일은 규격에서 나왔다. **같은 무게로 읽으면 안 된다.**
+
+---
+
+## 무엇이 기계에서 나왔나
+
+선언 슬롯 219개 중 규격만으로 채운 것 **67개, 31%**. 그런데 평균이 거짓말이다.
+
+| | 자동 | 판단 |
+| --- | --- | --- |
+| 엔드포인트 경로·메서드 발견 | **19/19 (100%)** | 0 |
+| `record` 위치 | **6/6** | 0 |
+| `envelope` | **6/6** | 0 |
+| 필드 이름 인벤토리 111개 | **111/111 (100%)** | 0 |
+| `tenant_defined` | **4/4** | 0 |
+| | | |
+| `properties.keep` 판정 | 0/84 | **84 (100%)** |
+| `stability` | 0/17 | **17 (100%)** |
+| `primary`/`enrichment` 구분 | 0/14 | **14** |
+
+**발견은 전부 기계가 하고, 취사선택은 전부 사람이 한다.** 중간이 거의 없다.
+
+그래서 Profile은 **처음부터 손으로 쓰는 문서가 아니다.** 골격을 생성하고 사람이 판단만 얹는 것이 맞다.
+
+---
+
+## 형식이 버틴 곳
+
+| | |
+| --- | --- |
+| `enumerable` 다섯 등급 | Okta 6종이 `full` 2, `required_params` 1, `parent_fanout` 2, `full`+`completeness: partial` 1로 **전부 표현됐다.** 불리언 `listable`이었다면 3종이 표현 불가였다 |
+| 복합키 + `$request` 성분 | `app_user`가 `(app_id, user_id)`이고 `app_id`가 경로 파라미터에서 온다. v3에서 허용한 자리다 |
+| `resolve.by` 목록 | `sibling_field` 3곳, `link_path` 3곳. **`id_prefix`는 한 곳도 못 썼다** |
+| `properties.per_source` | `status`가 User 8종·AppUser 13종으로 enum 자체가 다르다 |
+
+### `id_prefix`가 Okta에서 안 되는 이유
+
+접두사가 **문서화돼 있지 않고 자기 예제 안에서 이미 충돌한다.**
+
+```
+0pr…   그룹 규칙 예시
+0pr…   정책 규칙 예시        같은 접두사
+rul…   정책 규칙 예시        같은 종류인데 접두사가 둘
+00g…   그룹
+0gabcd1234            Group.id 스키마 예시는 다른 모양
+```
+
+반대 방향도 못 쓴다. Okta가 "id는 opaque"라고 선언한 적이 없다. opaque라고 한 건 **커서·URL·ETag뿐**이다.
+
+---
+
+## 형식이 못 버틴 곳
+
+### 1. `role: primary`가 정확히 하나라는 규칙이 깨진다
+
+`role_assignment`에 **조직 전체 목록 엔드포인트가 없다.** 로스터가 셋으로 쪼개진다.
+
+```
+/api/v1/users/{userId}/roles
+/api/v1/groups/{groupId}/roles
+/api/v1/oauth2/v1/clients/{clientId}/roles
+```
+
+셋을 합쳐야 전수다. 지금 형식에는 그걸 적을 자리가 없어서 `role: primary_partition`이라는 **규격에 없는 값을 임시로 썼다.**
+
+→ `Profile_Schema` 다음 판에서 `primary`가 목록일 수 있게 해야 한다.
+
+### 2. 테넌트 참조를 6종 전부 못 채운다
+
+user, group, app, app_user, role_assignment, policy **어느 응답에도 org 식별자 필드가 없다.** 후보는 `app.orn` 하나인데 ORN 문법이 규격에 없다.
+
+전부 `from: $request.org`로 적었다. **관측이 아니라 우리가 아는 값을 넣은 것**이고, 그 사실이 행에 남아야 한다.
+
+### 3. discriminator 하위 타입
+
+`Application`은 `signOnMode`로 갈리는 하위 타입이 **9종**이고, `name`·`credentials`·`settings`가 하위 타입에만 있다. `Policy`는 `type`으로 13종이고 `conditions`가 하위 타입에만 있다.
+
+`properties.keep`은 object_type당 평평한 한 벌이라 **"하위 타입마다 다른 필드 집합"을 못 적는다.**
+
+### 4. 페이징 커서의 위치
+
+Okta는 커서를 HTTP `Link` **헤더**에 준다. Slack은 본문(`response_metadata.next_cursor`)이었다.
+
+`paging: cursor`는 "커서식이다"까지만 말하고 어디 있는지를 못 말한다.
+
+### 5. 같은 스키마가 로스터로도 간선으로도 나온다
+
+`Application` 레코드가 `/api/v1/apps`(로스터), `/policies/{id}/app`(정책→앱 간선), `/groups/{id}/apps`(그룹→앱 간선) 셋에서 **같은 모양**으로 나온다. `record`만 보고는 구분이 안 된다.
+
+Slack은 엔드포인트 하나가 object_type 하나였다.
+
+### 6. 하위 리소스로만 존재하는 간선
+
+```
+/api/v1/users/{id}/groups                         사용자 -> 그룹
+/api/v1/groups/{groupId}/users                    그룹 -> 멤버
+/api/v1/users/{userId}/roles/{raId}/targets/groups  역할이 미치는 범위
+```
+
+`references`는 **레코드 본문과 `$request`에서만** 읽는다. 이 간선들은 적을 자리가 전혀 없다.
+
+→ 이게 가장 큰 구멍이다. `enrichment` 엔드포인트의 응답을 참조로 쓰는 표기가 필요하다.
+
+---
+
+## 교차 SaaS 관점에서 중요한 필드
+
+`AppUser.externalId` — **대상 앱에서의 사용자 id**다. Okta가 다른 SaaS의 기본키를 들고 있다.
+
+```yaml
+external_refs:
+  target_app_user:
+    path: externalId
+    provider: "@resolve"
+    resolve: { by: app_instance }    # 어느 앱인지는 부모 app_id 가 정한다
+```
+
+**이건 관계가 아니라 Link다.** `Link_Schema_v3.md`의 `disclosed_relation` 단계이고, 규격상 **서버가 검증하지 않는 값**이다.
+
+그리고 `AppUser.scope`가 `GROUP`이면 `_links.group`이 어느 그룹 때문인지 준다. **다만 그룹 둘로 배정되면 우선순위 높은 하나만 가리킨다(보고서 §7.7)**. 두 번째 경로는 `/apps/{id}/groups`와 `/users/{id}/groups`를 합쳐야 보인다.
+
+---
+
+## 결론
+
+**형식은 대체로 섰다.** 못 버틴 여섯 중 셋(1·4·6)은 `Profile_Schema` 다음 판에서 키를 더하면 된다. 규칙 1대로 **새 선택 키로만** 더하면 Slack Profile은 안 바뀐다.
+
+나머지 셋(2·3·5)은 Okta 쪽 사정이라 `open_issues`로 남긴다.
+
+**이 파일은 아직 수집에 쓰면 안 된다.** 실 호출로 검증한 적이 없다.
+
+---
+
+## okta.user
+
+```yaml
+provider: okta
+spec: 3
+object_type: user
+endpoints:
+- role: primary
+  method: GET
+  path: /api/v1/users
+  params:
+    limit: '200'
+- role: detail
+  method: GET
+  path: /api/v1/users/{id}
+  params: {}
+- role: enrichment
+  method: GET
+  path: /api/v1/users/{id}/groups
+  params: {}
+record: (root)[]
+envelope: none
+paging: cursor          # `after` query param; cursor is in the HTTP `Link` header, NOT in the body
+enumerable: full
+completeness: partial   # see open_issues: DEPROVISIONED users are omitted by this endpoint
+identifiers:
+  primary: [id]
+  id:
+    path: id
+    stability: stable
+  login:
+    path: profile.login
+    stability: mutable
+    normalization: [lowercase, trim]
+  email:
+    path: profile.email
+    stability: mutable
+    normalization: [lowercase, trim]
+references:
+  tenant:
+    from: $request.org
+    object_type: org
+  user_type:
+    path: type.id
+    object_type: user_type
+  realm:
+    path: realmId
+    object_type: realm
+  manager:
+    path: profile.managerId
+    object_type: user
+    status: inferred      # profile.* is tenant-editable; the value is not guaranteed to be an Okta user id
+properties:
+  keep:
+  - status, transitioningToStatus, statusChanged
+  - created, activated, lastLogin, lastUpdated, passwordChanged
+  - credentials.provider.type, credentials.provider.name
+  - credentials.password.hook.type
+  - credentials.recovery_question.question
+  - profile.userType, profile.department, profile.division, profile.organization
+  - profile.title, profile.employeeNumber, profile.costCenter
+  - profile.displayName, profile.firstName, profile.lastName
+  - profile.secondEmail, profile.mobilePhone, profile.primaryPhone
+  - profile.locale, profile.preferredLanguage, profile.timezone, profile.countryCode
+  drop:
+  - credentials.password.value
+  - credentials.password.hash.*       # value/salt/workFactor/iterationCount/keySize
+  - credentials.recovery_question.answer
+  - profile.profileUrl
+  - profile.streetAddress, profile.postalAddress, profile.city, profile.state, profile.zipCode
+  - profile.honorificPrefix, profile.honorificSuffix, profile.nickName, profile.middleName
+  - _links.*
+  tenant_defined:
+  - profile.*                          # UserProfile.additionalProperties = true (user.json)
+confidence: confirmed
+open_issues:
+- listUsers 설명에 "This operation omits users that have a status of DEPROVISIONED" 가 명시돼 있다 (user.json,
+  paths./api/v1/users.get.description). 전수를 받으려면 filter 나 search 를 써야 하는데, 전수를 보장하는 표현식이
+  스펙에 없다. 어떤 식을 넣을지는 판단이고 아직 확인 못 함
+- 사용자의 group 소속은 user 레코드에 없다. /api/v1/users/{id}/groups 가 Group 레코드 배열을 돌려준다
+  (userresources.json). 이 포맷의 references 는 레코드 본문/$request 에서만 읽으므로 이 간선을 적을 자리가 없다
+- /api/v1/users/{id}/groups 에 페이징 파라미터가 선언돼 있지 않다 (userresources.json). 200 개 넘는 소속에서
+  어떻게 되는지 확인 못 함
+- search 파라미터는 "eventually consistent datasource" 라고 스펙이 직접 경고한다. primary 를 search 로 옮기면
+  일관성이 깨진다
+```
+
+## okta.group
+
+```yaml
+provider: okta
+spec: 3
+object_type: group
+endpoints:
+- role: primary
+  method: GET
+  path: /api/v1/groups
+  params:
+    limit: '200'
+    expand: stats
+- role: detail
+  method: GET
+  path: /api/v1/groups/{groupId}
+  params: {}
+- role: enrichment
+  method: GET
+  path: /api/v1/groups/{groupId}/owners
+  params: {}
+record: (root)[]
+envelope: none
+paging: cursor
+enumerable: full
+completeness: full
+identifiers:
+  primary: [id]
+  id:
+    path: id
+    stability: stable
+  name:
+    path: profile.name
+    stability: mutable
+    normalization: [trim]
+references:
+  tenant:
+    from: $request.org
+    object_type: org
+  source:
+    path: _links.source.href
+    object_type: '@resolve'
+    resolve:
+      by: href_path          # APP_GROUP 이면 소스 앱 인스턴스. id 필드가 없고 href 만 있다
+    status: inferred
+  owners:
+    path: _embedded.owners[].id     # groupowner.json / listGroupOwners
+    object_type: '@resolve'
+    resolve:
+      by: sibling_field
+      field: type            # GroupOwnerType enum = [GROUP, USER]
+  owner_origin_app:
+    path: _embedded.owners[].originId
+    object_type: app
+    resolve:
+      by: sibling_field
+      field: originType      # APPLICATION 일 때만 유효, OKTA_DIRECTORY 면 NULL
+properties:
+  keep:
+  - type                     # GroupType enum = [APP_GROUP, BUILT_IN, OKTA_GROUP]
+  - created, lastUpdated, lastMembershipUpdated
+  - objectClass
+  - profile.description
+  - profile.externalId, profile.dn, profile.samAccountName, profile.windowsDomainQualifiedName
+  - _embedded.stats.usersCount, _embedded.stats.appsCount
+  - _embedded.stats.groupPushMappingsCount, _embedded.stats.hasAdminPrivlege
+  drop:
+  - _links.*
+  - _embedded.app.*          # expand=app 일 때만 나오는 축약 앱 레코드. app object_type 으로 따로 수집한다
+  tenant_defined:
+  - profile.*                # OktaUserGroupProfile 은 커스텀 속성 확장 가능 (group.json)
+confidence: confirmed
+open_issues:
+- GroupProfile 은 anyOf[OktaUserGroupProfile, OktaActiveDirectoryGroupProfile] 이다 (group.json). 즉
+  dn/samAccountName/windowsDomainQualifiedName 은 AD 임포트 그룹에만 있다. 이 포맷의 keep 은 평평한 한 벌이라
+  "어느 변종에서만 존재" 를 못 적는다
+- _embedded.stats.hasAdminPrivlege 는 Okta 스펙의 오타다 (Privlege). 임의로 고치지 않았다
+- 그룹 멤버십(/api/v1/groups/{groupId}/users) 은 Group 레코드의 필드가 아니라 별도 엔드포인트다. user 와 같은
+  이유로 references 에 적을 자리가 없다
+- listGroups 의 filter 는 id/type/lastUpdated/lastMembershipUpdated 만 지원한다. 증분 수집은 되지만
+  name 으로는 못 거른다
+```
+
+## okta.app
+
+```yaml
+provider: okta
+spec: 3
+object_type: app
+endpoints:
+- role: primary
+  method: GET
+  path: /api/v1/apps
+  params:
+    limit: '200'
+    includeNonDeleted: 'true'
+- role: detail
+  method: GET
+  path: /api/v1/apps/{appId}
+  params: {}
+record: (root)[]
+envelope: none
+paging: cursor
+enumerable: full
+completeness: full
+identifiers:
+  primary: [id]
+  id:
+    path: id
+    stability: stable
+  orn:
+    path: orn
+    stability: stable
+  name:
+    path: name
+    stability: stable       # 하위 타입에만 있는 필드. Application 기반 스키마에는 없다
+  label:
+    path: label
+    stability: mutable
+references:
+  tenant:
+    from: $request.org
+    object_type: org
+  access_policy:
+    path: _links.accessPolicy.href
+    object_type: policy
+    resolve:
+      by: href_path          # policy id 를 주는 필드가 없다. href 의 마지막 세그먼트를 잘라야 한다
+    status: inferred
+properties:
+  keep:
+  - status                   # ApplicationLifecycleStatus enum = [ACTIVE, DELETED, INACTIVE]
+  - signOnMode
+  - created, lastUpdated
+  - features
+  - accessibility.selfService, accessibility.loginRedirectUrl, accessibility.errorRedirectUrl
+  - visibility.hide.web, visibility.hide.iOS, visibility.autoLaunch, visibility.autoSubmitToolbar
+  - licensing.seatCount
+  - universalLogout.status, universalLogout.protocol, universalLogout.supportType
+  - universalLogout.identityStack
+  - expressConfiguration.enabledCapabilities, expressConfiguration.supportedCapabilities
+  drop:
+  - credentials.*            # 하위 타입 필드. 시크릿/서명키를 포함한다
+  - _links.*
+  - _embedded.*
+  - visibility.appLinks      # 키가 앱 인스턴스마다 다른 맵
+  tenant_defined:
+  - profile.*                # Application.profile 은 "any valid JSON schema" (application.json)
+confidence: confirmed
+open_issues:
+- Application 은 discriminator 스키마다. propertyName=signOnMode, 매핑 9종
+  (application.json, components.schemas.Application.discriminator). name / credentials / settings 세 필드는
+  Application 자체가 아니라 SamlApplication 등 하위 타입에만 있다. 이 포맷의 properties 는 object_type 당 한 벌이라
+  "signOnMode 별로 다른 필드 집합" 을 표현할 자리가 없다
+- settings.* 를 keep 에 안 넣었다. 하위 타입마다 구조가 전혀 달라 (SAML attribute statements / OIDC redirect URIs)
+  한 목록으로 못 쓴다
+- /api/v1/apps/search 가 별도 엔드포인트로 있고 q/status/types/labels 필터를 지원한다. primary 를 어느 쪽에 둘지는
+  스코프 판단이다. /apps 를 골랐다
+- includeNonDeleted=true 를 넣으면 non-active 앱이 포함된다. 넣지 않으면 completeness 가 partial 이 된다.
+  이 플래그의 기본값이 뭔지 스펙에 없다 (application.json)
+- orn 이 조직 식별자를 품고 있으나 문법이 스펙에 없다. tenant 를 orn 에서 뽑을 수 있는지 확인 못 함
+```
+
+## okta.app_user
+
+```yaml
+provider: okta
+spec: 3
+object_type: app_user
+endpoints:
+- role: primary
+  method: GET
+  path: /api/v1/apps/{appId}/users
+  params:
+    limit: '500'
+    expand: user
+- role: detail
+  method: GET
+  path: /api/v1/apps/{appId}/users/{userId}
+  params: {}
+record: (root)[]
+envelope: none
+paging: cursor
+enumerable: parent_fanout   # app 로스터 전체를 먼저 돌려야 한다. 조직 전체 app_user 목록 엔드포인트가 없다
+completeness: full
+identifiers:
+  primary: [app_id, user_id]
+  app_id:
+    from: $request.appId
+    stability: stable
+  user_id:
+    path: id                 # "Unique identifier for the Okta user" (applicationusers.json)
+    stability: stable
+  external_id:
+    path: externalId
+    stability: unstable      # 대상 앱이 정하는 값. 임포트 시 설정된다
+references:
+  tenant:
+    from: $request.org
+    object_type: org
+  app:
+    from: $request.appId
+    object_type: app
+  principal:
+    path: id
+    object_type: user
+properties:
+  keep:
+  - scope                    # USER = 직접 할당, GROUP = 그룹 멤버십 경유
+  - status                   # AppUserStatus enum 13종
+  - statusChanged, created, lastUpdated, lastSync, passwordChanged
+  - syncState                # AppUserSyncState enum = [DISABLED, ERROR, OUT_OF_SYNC, SYNCHRONIZED, SYNCING]
+  - credentials.userName
+  drop:
+  - credentials.password.value
+  - _links.*
+  - _embedded.*              # expand=user 로 붙는 User 사본. user object_type 으로 따로 수집한다
+  tenant_defined:
+  - profile.*                # AppUserProfile.additionalProperties = true, 선언된 속성이 0개다
+confidence: confirmed
+open_issues:
+- scope=GROUP 인 행은 _links.group 으로 그룹을 준다(실측 09-26). 그룹 둘로 배정되면 우선순위 높은 하나만 준다(09-28).
+  경로를 다 펴려면 앱의 그룹 배정과 사람의 그룹 소속을 합쳐야 한다
+- AppUserProfile 은 properties 가 아예 비어 있고 additionalProperties 가 true 뿐이다. 즉 이 객체의 실제
+  필드 이름은 스펙에서 하나도 못 얻는다. 앱 인스턴스마다 다르다
+- id 가 Okta user id 와 같은 값이다. app_user 의 고유키가 아니므로 복합키를 썼다. 이 포맷에서 identifiers.primary 의
+  한 성분을 $request 에서 채우는 표기는 slack.collect.yaml 에 전례가 없다
+- created/lastUpdated 가 allOf 래퍼(createdProperty/lastUpdatedProperty)로 들어 있다. 타입은 date-time 으로
+  보이나 스키마를 한 번 더 펼쳐야 확인된다
+```
+
+## okta.role_assignment
+
+```yaml
+provider: okta
+spec: 3
+object_type: role_assignment
+endpoints:
+- role: primary
+  method: GET
+  path: /api/v1/users/{userId}/roles
+  params:
+    expand: targets/groups
+- role: primary_partition     # 규칙 위반. 아래 open_issues 참조
+  method: GET
+  path: /api/v1/groups/{groupId}/roles
+  params: {}
+- role: primary_partition
+  method: GET
+  path: /oauth2/v1/clients/{clientId}/roles
+  params: {}
+- role: enrichment
+  method: GET
+  path: /api/v1/iam/assignees/users
+  params:
+    limit: '100'
+- role: detail
+  method: GET
+  path: /api/v1/users/{userId}/roles/{roleAssignmentId}
+  params: {}
+record: (root)[] | value[]    # /iam/assignees/users 만 value[] 로 감싼다
+envelope: none
+paging: cursor                # /iam/assignees/users 만. /users/{id}/roles 에는 페이징 파라미터가 없다
+enumerable: parent_fanout
+completeness: partial
+identifiers:
+  primary: [assignee_type, assignee_id, id]
+  assignee_type:
+    path: assignmentType      # RoleAssignmentType enum = [CLIENT, GROUP, USER]
+    stability: stable
+  assignee_id:
+    from: $request.userId     # 또는 $request.groupId / $request.clientId
+    stability: stable
+  id:
+    path: id
+    stability: stable
+references:
+  tenant:
+    from: $request.org
+    object_type: org
+  assignee:
+    path: _links.assignee.href
+    object_type: '@resolve'
+    resolve:
+      by: sibling_field
+      field: assignmentType
+  role:
+    path: role                # CustomRole 에만 있다. StandardRole 은 type 이 enum 문자열이다
+    object_type: role
+  resource_set:
+    path: resource-set        # CustomRole 에만 있다
+    object_type: resource_set
+properties:
+  keep:
+  - type                      # RoleType enum. CUSTOM 이면 role/resource-set 를 봐야 한다
+  - label
+  - status
+  - created, lastUpdated
+  drop:
+  - _links.*
+  - _embedded.targets.groups[].profile, _embedded.targets.groups[]._links
+  tenant_defined: []
+confidence: inferred
+open_issues:
+- 조직 전체 역할 할당 목록 엔드포인트가 없다. 확인한 것은 /api/v1/iam/assignees/users 하나뿐이고, 이건 할당 레코드가
+  아니라 "역할이 달린 사용자 id + orn" 목록이다 (roleassignmentauser.json). 그래서 primary 가 하나로 안 모인다
+- 그룹 할당과 클라이언트 할당에는 assignees 에 해당하는 것조차 없다 (all_ops.tsv 전수 grep). 전 그룹 / 전 OAuth 클라이언트를
+  팬아웃해야 한다. 이 포맷에는 primary 를 세 개로 쪼개 적을 자리가 없어서 role=primary_partition 이라는 값을
+  임의로 만들어 썼다. 스키마에 없는 값이다
+- id 가 전역 고유인지 스펙에 없다. 경로가 /users/{userId}/roles/{roleAssignmentId} 라서 assignee 없이는 못 읽는다.
+  전역 고유일 수도 있으나 확인 못 함
+- 응답 스키마가 oneOf(StandardRole, CustomRole) 이다. CustomRole 만 role / resource-set 을 가진다. app 과
+  같은 하위타입 문제다
+- /api/v1/users/{userId}/roles 에 limit/after 파라미터가 없다. 할당이 많은 사용자에서 잘리는지 확인 못 함
+- 할당의 대상 범위(targets/groups, targets/catalog/apps) 는 별도 하위 엔드포인트다 (rolebtargetadmin.json).
+  expand=targets/groups 로 일부만 _embedded 에 붙는다. 앱 타깃은 expand 로 안 붙는 것으로 보이나 확인 못 함
+- 같은 할당이 /api/v1/iam/resource-sets/{rs}/bindings/{role}/members 로도 나온다
+  (roledresourcesetbindingmember.json). 두 경로의 레코드가 같은 것인지 확인 못 함
+```
+
+## okta.policy
+
+```yaml
+provider: okta
+spec: 3
+object_type: policy
+endpoints:
+- role: primary
+  method: GET
+  path: /api/v1/policies
+  params:
+    type: <PolicyType>        # REQUIRED. enum 13종을 전부 돌아야 전수가 된다
+    limit: '200'
+- role: detail
+  method: GET
+  path: /api/v1/policies/{policyId}
+  params: {}
+- role: enrichment
+  method: GET
+  path: /api/v1/policies/{policyId}/mappings
+  params: {}
+- role: enrichment
+  method: GET
+  path: /api/v1/policies/{policyId}/rules
+  params: {}
+record: (root)[]
+envelope: none
+paging: cursor
+enumerable: required_params
+completeness: full
+identifiers:
+  primary: [id]
+  id:
+    path: id
+    stability: stable
+  name:
+    path: name
+    stability: mutable
+references:
+  tenant:
+    from: $request.org
+    object_type: org
+  mapped_resources:
+    path: _links.mappings.href
+    object_type: '@resolve'
+    resolve:
+      by: href_path           # PolicyMapping 응답에 resourceId 도 resourceType 도 없다. href 만 있다
+    status: inferred
+  included_groups:
+    path: conditions.people.groups.include
+    object_type: group
+    status: inferred          # 하위 타입에만 존재하는 경로
+  excluded_groups:
+    path: conditions.people.groups.exclude
+    object_type: group
+    status: inferred
+properties:
+  keep:
+  - type                      # PolicyType enum 13종
+  - status
+  - priority
+  - system                    # Okta 가 만든 정책인지
+  - name, description
+  - created, lastUpdated
+  drop:
+  - _links.*
+  tenant_defined: []
+confidence: inferred
+open_issues:
+- listPolicies 의 type 이 required query param 이다 (policy.json). 13개 enum 을 각각 호출해야 전수가 된다.
+  이 포맷의 enumerable 에는 "어떤 파라미터를 어떤 값들로 순회하라" 를 적을 자리가 없다
+- Policy 도 discriminator 스키마다. propertyName=type, 매핑 13종. conditions 는 Policy 에 없고
+  OktaSignOnPolicy / AccessPolicy / PasswordPolicy / ProfileEnrollmentPolicy 등 하위 타입에만 있다.
+  그래서 included_groups / excluded_groups 를 status=inferred 로 뒀다
+- GroupCondition 은 {include[], exclude[]} 다 (policy.json). 두 배열이 같은 group 을 가리키지만 의미가 반대다.
+  이 포맷의 references 는 이름만 다르게 두 줄 적는 것 말고 극성을 표현할 방법이 없다
+- PolicyMapping 응답 스키마에 id 와 _links 뿐이다. resourceId / resourceType 은 요청(PolicyMappingRequest)에만 있다.
+  즉 매핑 대상을 알려면 _links.application.href 를 파싱해야 한다
+- PolicyMappingResourceType enum 은 ACCESS_POLICY 하나뿐인데 _links 는 application 과 policy 를 둘 다 준다.
+  실제로 앱이 매핑되는지 정책이 매핑되는지 스펙만으로 확정 못 함
+- /api/v1/policies/{policyId}/app 은 Application 배열을 돌려준다. app object_type 과 레코드 모양이 같아서
+  정책→앱 간선인지 앱 로스터인지 record 만 보고는 구분이 안 된다
+- policy rule 을 별도 object_type 으로 볼지 policy 의 속성으로 볼지 미정이다. 지금은 enrichment 엔드포인트로만 적었다
+```
+
+---
+
+## open_issues
+
+- `role_assignment` 의 `primary_partition` 은 `Profile_Schema_v3.md` 에 없는 값이다. 임시 표기다
+- `tenant` 6종 전부 `$request.org` 다. 응답에 org 식별자가 없다
+- `Application` / `Policy` 의 하위 타입별 필드를 `keep` 으로 못 적었다
+- `paging: cursor` 가 헤더 커서임을 못 적었다
+- `/users/{id}/groups` 류의 하위 리소스 간선을 못 적었다
+- `properties.keep` 은 규격의 필드 이름에서 골랐을 뿐, **실제 응답을 본 적이 없다**
+- Okta id 의 재사용·불변성에 대한 공식 문구를 못 찾았다. 확인 못 함

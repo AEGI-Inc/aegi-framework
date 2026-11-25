@@ -1,0 +1,4 @@
+{"im_revision":"r3","provider":"okta","canonical":"Application","alias":"OAuth2Client","kind":"conditional_alias","condition":"Application.credentials.oauthClient.client_id = OAuth2Client.client_id (same tenant)","unmatched":"OAuth2Client 는 Integration 으로 남는다","decision_ref":"V2-D05","pinned_out2":"different"}
+{"im_revision":"r3","provider":"github","canonical":"public-user","alias":"simple-user[type=User|Bot]","kind":"conditional_alias","decision_ref":"V2-S4"}
+{"im_revision":"r3","provider":"github","canonical":"organization-full","alias":"simple-user[type=Organization]","kind":"conditional_alias","decision_ref":"V2-S4"}
+{"im_revision":"r3","provider":"github","canonical":"public-user","alias":"team-membership.username","kind":"key_reference","key":"login","decision_ref":"R1-D09"}

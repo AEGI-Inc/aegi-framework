@@ -1,0 +1,120 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/policy.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-10
+        request:
+          policy: absent
+    properties:
+      name: name
+      type: type
+      status: status
+      priority: priority
+      system: system
+    display: "{name}"
+    relations:
+      - type: applies_to
+        each: conditions.people.groups.include
+        source: $self
+        target:
+          type: Group
+          id: $item
+        basis: stated
+        properties:
+          binding:
+            const: explicit
+      - type: excludes
+        each: conditions.people.groups.exclude
+        source: $self
+        target:
+          type: Group
+          id: $item
+        basis: stated
+      - type: applies_to
+        each: conditions.people.users.include
+        source: $self
+        target:
+          type: User
+          id: $item
+        basis: stated
+        properties:
+          binding:
+            const: explicit
+      - type: excludes
+        each: conditions.people.users.exclude
+        source: $self
+        target:
+          type: User
+          id: $item
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-POL-{id}
+runtime_stub: null
+runtime_key: OKTA-POL-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Policy:list
+    sources:
+      - call: OK-10
+        request:
+          policy: absent
+    relations:
+      - type: applies_to
+        each: conditions.people.groups.include
+        source: $self
+        target:
+          type: Group
+          id: $item
+        basis: stated
+        properties:
+          binding:
+            const: explicit
+      - type: excludes
+        each: conditions.people.groups.exclude
+        source: $self
+        target:
+          type: Group
+          id: $item
+        basis: stated
+      - type: applies_to
+        each: conditions.people.users.include
+        source: $self
+        target:
+          type: User
+          id: $item
+        basis: stated
+        properties:
+          binding:
+            const: explicit
+      - type: excludes
+        each: conditions.people.users.exclude
+        source: $self
+        target:
+          type: User
+          id: $item
+        basis: stated
+    self_identity: object_rule
+fields:
+  settings:
+    path: settings
+    source: collected_response
+  conditions:
+    path: conditions
+    source: collected_response
+  password_settings:
+    expr: settings.password
+    source: collected_response
+fields_basis: 설정 판정이 읽는 응답 최상위 키다. Profile 필드 선언에 없어 quarantined_fields 로 빠지던 것을 선언한다. settings.password(길이·복잡도·잠금·이력)는 privacy secret_leaf_names 의 password 에 걸려 settings 안에서 지워지므로 password_settings 에 따로 둔다. path 로 두면 마지막 마디 password 로 다시 지워져 expr 로 읽는다

@@ -1,0 +1,462 @@
+/* =========================================================================
+   탐지 경로 그림 (ThreatPathGraph)
+
+   판은 SaaS 상자 × 단계 칸이다. 노드 모양과 선 색은 Cross-SaaS Graph 와 같다:
+   흰 원에 SaaS 색 테두리와 종류 그림, 관계는 회청색 선, 탐지 경로는 빨간 선.
+   ========================================================================= */
+
+.tpg-canvas {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.tpg-canvas:active {
+  cursor: grabbing;
+}
+
+.tpg-world {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 0 0;
+}
+
+.tpg-controls {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: 20;
+  display: flex;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.tpg-controls button {
+  height: 28px;
+  min-width: 30px;
+  border: 0;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  cursor: pointer;
+}
+
+.tpg-controls button:last-child {
+  border-right: 0;
+  min-width: 40px;
+  font-size: var(--font-size-xs);
+}
+
+.tpg-controls button:hover {
+  background: var(--color-border-subtle);
+}
+
+/* SaaS 상자. Cross-SaaS Graph 가 SaaS 하나를 그 SaaS 색 테두리 원에 담고 이름표를 테두리에 얹듯,
+   SaaS 줄마다 SaaS 색 테두리 상자에 담고 이름표를 위 테두리에 얹는다. 상자 사이 틈을 지나는 선이
+   SaaS 경계를 넘는 구간이다 */
+.tpg-lane {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  border: 2px solid var(--tpg-lane, var(--color-text-primary));
+  background: var(--color-surface);
+  pointer-events: none;
+}
+
+.tpg-lane[data-provider='slack'] { --tpg-lane: var(--color-provider-slack); }
+.tpg-lane[data-provider='github'] { --tpg-lane: var(--color-provider-github); }
+.tpg-lane[data-provider='okta'] { --tpg-lane: var(--color-provider-okta); }
+.tpg-lane[data-provider='gws'] { --tpg-lane: var(--color-provider-gws); }
+.tpg-lane[data-provider='atlassian'] { --tpg-lane: var(--color-provider-atlassian); }
+.tpg-lane[data-provider='salesforce'] { --tpg-lane: var(--color-provider-salesforce); }
+
+.tpg-lane-name {
+  position: absolute;
+  left: 16px;
+  top: 0;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  border: 1px solid var(--tpg-lane, var(--color-text-primary));
+  background: var(--color-surface);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.tpg-lane-name i {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  color: var(--color-icon);
+}
+
+.tpg-lane-name i svg {
+  width: 22px;
+  height: 22px;
+}
+
+.tpg-column-name {
+  position: absolute;
+  top: 12px;
+  transform: translateX(-50%);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+}
+
+/* 선 */
+.tpg-lines {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: visible;
+}
+
+.tpg-edge path:first-child {
+  fill: none;
+}
+
+.tpg-edge.tpg-observed path:first-child {
+  stroke: #dc2626;
+  stroke-width: 2.6;
+}
+
+.tpg-edge.tpg-possible path:first-child {
+  stroke: #dc2626;
+  stroke-width: 1.6;
+  stroke-dasharray: 6 5;
+}
+
+.tpg-edge.tpg-relation path:first-child {
+  stroke: #94a3b8;
+  stroke-width: 1.5;
+}
+
+/* 동일인 연결: Cross-SaaS Graph 와 같은 짙은 남색 점선 */
+.tpg-edge.tpg-identity path:first-child {
+  stroke: #1e1b4b;
+  stroke-width: 2;
+  stroke-dasharray: 1.5 4;
+  stroke-linecap: round;
+}
+
+.tpg-edge.is-selected path:first-child {
+  stroke-width: 4;
+}
+
+.tpg-edge-hit {
+  fill: none;
+  stroke: transparent;
+  stroke-width: 14;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+
+/* 선 이름: 흰 바탕 상자. 관측된 선은 빨간 테두리와 차례 번호 */
+.tpg-edge-label {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 200px;
+  padding: 3px 8px 3px 4px;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--color-card-line);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  text-align: left;
+  cursor: pointer;
+}
+
+.tpg-edge-label.is-side {
+  transform: translate(0, -50%);
+}
+
+.tpg-edge-label:not(:has(em)) {
+  padding-left: 8px;
+}
+
+.tpg-edge-label.tpg-observed {
+  border-color: #dc2626;
+}
+
+.tpg-edge-label.is-selected {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 1px;
+}
+
+.tpg-edge-label em {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #dc2626;
+  color: var(--color-text-on-danger);
+  font-style: normal;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+.tpg-edge-label span {
+  display: grid;
+  min-width: 0;
+}
+
+.tpg-edge-label b,
+.tpg-edge-label small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tpg-edge-label b {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+.tpg-edge-label small {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+  font-variant-numeric: tabular-nums;
+}
+
+/* 노드 */
+.tpg-node {
+  position: absolute;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  --tpg-color: var(--color-text-primary);
+  --tpg-fill: var(--color-text-primary);
+}
+
+.tpg-node[data-provider='slack'] { --tpg-color: var(--color-provider-slack); --tpg-fill: var(--color-provider-slack-fill); }
+.tpg-node[data-provider='github'] { --tpg-color: var(--color-provider-github); --tpg-fill: var(--color-provider-github-fill); }
+.tpg-node[data-provider='okta'] { --tpg-color: var(--color-provider-okta); --tpg-fill: var(--color-provider-okta-fill); }
+.tpg-node[data-provider='gws'] { --tpg-color: var(--color-provider-gws); --tpg-fill: var(--color-provider-gws-fill); }
+.tpg-node[data-provider='atlassian'] { --tpg-color: var(--color-provider-atlassian); --tpg-fill: var(--color-provider-atlassian-fill); }
+.tpg-node[data-provider='salesforce'] { --tpg-color: var(--color-provider-salesforce); --tpg-fill: var(--color-provider-salesforce-fill); }
+
+/* 점 기준 자리: 이름이 아래면 점 가운데가 (left, top), 옆이면 점이 줄 가운데 */
+.tpg-node.is-below {
+  flex-direction: column;
+  gap: 6px;
+  width: 210px;
+  transform: translate(-50%, -20px);
+}
+
+.tpg-node.is-left {
+  flex-direction: row-reverse;
+  transform: translate(calc(-100% + 20px), -50%);
+}
+
+.tpg-node.is-right {
+  transform: translate(-20px, -50%);
+}
+
+.tpg-dot {
+  flex: none;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--tpg-color);
+  border-radius: 50%;
+  background: var(--color-surface);
+  color: var(--tpg-color);
+}
+
+/* 관측된 경로 위의 노드: Cross-SaaS Graph 의 탐지 경로 노드처럼 빨간 고리 */
+.tpg-node.is-observed .tpg-dot {
+  box-shadow: 0 0 0 3px var(--color-surface), 0 0 0 5px #dc2626;
+}
+
+.tpg-node.is-selected .tpg-dot {
+  border-color: var(--tpg-fill);
+  background: var(--tpg-fill);
+  color: var(--color-chrome-text);
+}
+
+.tpg-name {
+  display: grid;
+  gap: 1px;
+  min-width: 0;
+  max-width: 210px;
+}
+
+.tpg-node.is-below .tpg-name {
+  justify-items: center;
+  text-align: center;
+}
+
+.tpg-node.is-left .tpg-name {
+  justify-items: end;
+  text-align: right;
+}
+
+.tpg-node.is-right .tpg-name {
+  justify-items: start;
+  text-align: left;
+}
+
+.tpg-name b,
+.tpg-name small {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* 위협 판정 V2 경로: 다른 SaaS 상자에서 올라오는 선이 노드 이름을 지나가도 글자가 가려지지 않게 이름 뒤를 판 바탕색으로 막는다 */
+.tpg-canvas.is-v2 .tpg-name b,
+.tpg-canvas.is-v2 .tpg-name small {
+  background: var(--color-surface);
+}
+
+.tpg-name b {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+}
+
+.tpg-name small {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+}
+
+.tpg-target-badge {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 2px 6px;
+  background: var(--color-danger-text);
+  color: var(--color-text-on-danger);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+}
+
+.tpg-node.is-left .tpg-target-badge {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.tpg-node.is-right .tpg-target-badge {
+  left: 0;
+  transform: none;
+}
+
+.tpg-empty {
+  display: grid;
+  place-items: center;
+  height: 160px;
+  border: 1px solid var(--color-border);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+/* 범례: Cross-SaaS Graph 범례와 같은 꼴 */
+.fd-graph-legend i.tpg-key-observed { width: 18px; height: 3px; background: #dc2626; }
+.fd-graph-legend i.tpg-key-possible { width: 18px; height: 2px; background: repeating-linear-gradient(90deg, #dc2626 0 6px, transparent 6px 10px); } /* rules-ok: 범례의 선 모양 견본(가능한 경로는 점선) */
+.fd-graph-legend i.tpg-key-relation { width: 18px; height: 2px; background: #94a3b8; }
+.fd-graph-legend i.tpg-key-identity { width: 18px; height: 3px; background: radial-gradient(circle, #1e1b4b 1.4px, transparent 1.6px) 0 50% / 6px 3px repeat-x; } /* rules-ok: 범례의 선 모양 견본(동일인 연결은 Cross-SaaS Graph와 같은 점선) */
+
+
+/* 위협 판정 V2 차단 지점: 선 이름표의 번호 배지 */
+.tpg-edge.is-cut:not(.is-selected) path:first-child {
+  stroke-width: 2.6;
+}
+
+.tpg-edge-label.has-cut {
+  max-width: 260px;
+  border-color: var(--color-text-primary);
+}
+
+/* 노드에 다는 차단 번호. 위협 대상 배지와 같은 자리, 둘 다 있으면 그 위 */
+.tpg-node-cut {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  display: flex;
+  gap: 4px;
+  transform: translateX(-50%);
+}
+
+.tpg-node.is-target .tpg-node-cut {
+  bottom: calc(100% + 30px);
+}
+
+.tpg-node.is-left .tpg-node-cut {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+.tpg-node.is-right .tpg-node-cut {
+  left: 0;
+  transform: none;
+}
+
+.tpg-cut-no {
+  flex: none;
+  display: inline-block;
+  padding: 2px 6px;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+  white-space: nowrap;
+  background: var(--color-chrome-bg);
+  color: var(--color-chrome-text);
+  border-radius: 0;
+}
+
+/* 차단 지점 목록에서 고른 차단 지점. 그 선과 양 끝 노드만 빨갛게, 나머지는 흐리게 */
+.tpg-canvas.has-hot .tpg-edge:not(.is-hot),
+.tpg-canvas.has-hot .tpg-edge-label:not(.is-hot),
+.tpg-canvas.has-hot .tpg-node:not(.is-hot) {
+  opacity: 0.22;
+}
+
+.tpg-edge.is-hot path:first-child {
+  stroke: var(--color-danger);
+  stroke-width: 5;
+}
+
+.tpg-edge-label.is-hot {
+  border: 2px solid var(--color-danger);
+}
+
+.tpg-edge-label.is-hot .tpg-cut-no,
+.tpg-node.is-hot .tpg-cut-no {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+.tpg-node.is-hot .tpg-dot {
+  box-shadow: 0 0 0 3px var(--color-danger);
+}

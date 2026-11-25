@@ -1,0 +1,51 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/role.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-06
+        request:
+          kind: roles
+        items: items
+    id_expr: roleId
+    properties:
+      roleName: roleName
+      role_name: roleName
+      isSystemRole: isSystemRole
+      isSuperAdminRole: isSuperAdminRole
+      privileges:
+        op: map_each
+        of: rolePrivileges
+        value:
+          template: "{$item.serviceId}:{$item.privilegeName}"
+    display: "{roleName}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: roleId
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-ROLE-{id}
+runtime_stub: null
+runtime_key: GWS-ROLE-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+identity:
+  primary:
+    - name: id
+      expr: roleId
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-ROLE-{id}
+    replaced:
+      - $req.parent_id
+      - roleId

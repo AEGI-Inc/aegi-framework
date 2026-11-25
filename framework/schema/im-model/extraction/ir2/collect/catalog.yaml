@@ -1,0 +1,238 @@
+# 출처 정의 (2026-10-15). build_registry.py 가 이 표와 받은 목록(manifest.jsonl)을 합쳐 registry.json 을 만든다.
+# 경로는 finding-nemo 기준 상대 경로다. url, retrieved_at, 상태는 manifest 에서 온다 (manifest 가 없는 파일은 여기 적는다).
+# kind: api_schema | api_doc | log_doc | event_doc | tenant,  rank: 1 API 스키마, 2 API 문서, 3 로그와 이벤트 문서, 4 테넌트
+# naming: 이름 비교를 같은 명명 체계 안으로 묶는 표지
+# 폴더 출처(dir)는 안의 파일 전체(이름 순, desktop.ini 제외)로 해시를 만든다
+
+sources:
+  # ------------------------------------------------------------------ GitHub
+  - {id: gh_rest_ghec_next_2026_03_10_latest, provider: github, kind: api_schema, rank: 1, naming: rest_json,
+     from_snapshot: ir2_2026_10_15, note: "정규화에 쓰는 판. OpenAPI 3.1, webhooks 절 있음"}
+  - {id: gh_rest_ghec_2026_03_10_latest, provider: github, kind: api_schema, rank: 1, naming: rest_json,
+     from_snapshot: ir2_2026_10_15, note: "descriptions/ 판 (OpenAPI 3.0.3, x-webhooks). 정규화에 쓰지 않고 판 비교에만 쓴다"}
+  - {id: gh_rest_ghec_2026_03_10_drive, provider: github, kind: api_schema, rank: 1, naming: rest_json,
+     file: github-api-drive-upload/01_docs_원문/raw_specs/ghec.2026-03-10.json,
+     url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/ghec/ghec.2026-03-10.json,
+     snapshot: "2026-09-03", fetched_at: "2026-09-03", fetch_method: local_upload, version: "REST API 2026-03-10, info 1.1.4, 2026-09-03 판",
+     note: "웹훅 절(webhooks)을 이 판에서 읽는다"}
+  - {id: gh_rest_ghec_default_2026_10_13, provider: github, kind: api_schema, rank: 1, naming: rest_json,
+     file: github_api_list/snapshot_2026-10-13/raw/raw.githubusercontent.com__github__rest-api-description__main__descriptions__ghec__ghec.json,
+     version: "기본 판 ghec.json (OpenAPI 3.0.3, x-webhooks)", note: "정규화에 쓰지 않는다. 최신 날짜판(2026-03-10)이 따로 있다"}
+  - {id: gh_graphql_ghec_2026_10_13, provider: github, kind: api_schema, rank: 1, naming: graphql,
+     file: github_api_list/snapshot_2026-10-13/raw/docs.github.com__public__ghec__schema.docs.graphql}
+  - {id: gh_webhook_samples_2026_09_03, provider: github, kind: event_doc, rank: 3, naming: rest_json,
+     dir: github-api-drive-upload/01_docs_원문/raw_specs/webhook-payload-samples/fpt,
+     url: https://docs.github.com/en/webhooks/webhook-events-and-payloads, snapshot: "2026-09-03", fetched_at: "2026-09-03",
+     fetch_method: local_upload, note: "웹훅 payload 예시 JSON (github/docs 저장소 자료)"}
+  - {id: gh_audit_events_2026_09_03, provider: github, kind: log_doc, rank: 3, naming: github_audit,
+     file: github-api-drive-upload/02_API_전수_리스트/audit_events.jsonl,
+     url: https://github.com/github/docs/tree/main/src/audit-logs/data, snapshot: "2026-09-03", fetched_at: "2026-09-03",
+     fetch_method: local_upload, note: "github/docs 감사 로그 데이터(fields-pool.json 등)를 기계로 옮긴 목록"}
+  - {id: gh_audit_doc_enterprise_2026_10_13, provider: github, kind: log_doc, rank: 3, naming: github_audit,
+     file: github_api_list/snapshot_2026-10-13/raw/docs.github.com__api__article__body__pathname__en__enterprise-cloud__latest__admin__monitoring-activity-in-your-enterprise__reviewing-audit-logs-for-your-enterprise__audit-log-events-for-your-enterprise}
+  - {id: gh_audit_doc_org_2026_10_13, provider: github, kind: log_doc, rank: 3, naming: github_audit,
+     file: github_api_list/snapshot_2026-10-13/raw/docs.github.com__api__article__body__pathname__en__enterprise-cloud__latest__organizations__keeping-your-organization-secure__managing-security-settings-for-your-organization__audit-log-events-for-your-organization}
+  - {id: gh_audit_doc_user_2026_10_13, provider: github, kind: log_doc, rank: 3, naming: github_audit,
+     file: github_api_list/snapshot_2026-10-13/raw/docs.github.com__api__article__body__pathname__en__enterprise-cloud__latest__authentication__keeping-your-account-and-data-secure__security-log-events}
+  - {id: gh_app_permissions, provider: github, kind: api_doc, rank: 2, naming: github_permission,
+     file: github_api_list/snapshot_2026-10-13/raw/docs.github.com__api__article__body__pathname__en__rest__authentication__permissions-required-for-github-apps}
+  - {id: gh_pat_permissions, provider: github, kind: api_doc, rank: 2, naming: github_permission,
+     file: github_api_list/snapshot_2026-10-13/raw/docs.github.com__api__article__body__pathname__en__rest__authentication__permissions-required-for-fine-grained-personal-access-tokens}
+  - {id: gh_oauth_scopes, provider: github, kind: api_doc, rank: 2, naming: oauth_scope,
+     file: github_api_list/snapshot_2026-10-13/raw/docs.github.com__api__article__body__pathname__en__apps__oauth-apps__building-oauth-apps__scopes-for-oauth-apps}
+  - {id: gh_webhook_doc_2026_10_13, provider: github, kind: event_doc, rank: 3, naming: rest_json,
+     file: github_api_list/snapshot_2026-10-13/raw/docs.github.com__api__article__body__pathname__en__webhooks__webhook-events-and-payloads}
+
+  # ------------------------------------------------------------------ Okta
+  - {id: okta_management_openapi, provider: okta, kind: api_schema, rank: 1, naming: rest_json, version: "2026.09.2",
+     file: okta_api_list/snapshot_2026-10-13/raw/raw.githubusercontent.com__okta__okta-management-openapi-spec__master__dist__current__management-minimal.yaml}
+  - {id: okta_oauth_openapi, provider: okta, kind: api_schema, rank: 1, naming: rest_json, version: "2026.09.2",
+     file: okta_api_list/snapshot_2026-10-13/raw/raw.githubusercontent.com__okta__okta-management-openapi-spec__master__dist__current__oauth-minimal.yaml}
+  - {id: okta_idp_openapi, provider: okta, kind: api_schema, rank: 1, naming: rest_json, version: "2026.09.2",
+     file: okta_api_list/snapshot_2026-10-13/raw/raw.githubusercontent.com__okta__okta-management-openapi-spec__master__dist__current__idp-minimal.yaml}
+  - {id: okta_iga_openapi, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_iga_enduser_openapi, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_iga_requests_v1_openapi, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_iga_requests_v2_openapi, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_event_types, provider: okta, kind: log_doc, rank: 3, naming: okta_event,
+     file: okta_api_list/snapshot_2026-10-13/raw/raw.githubusercontent.com__okta__okta-developer-docs__master__packages__okta__vuepress-site__data__event-types.json}
+  - {id: okta_admin_permissions, provider: okta, kind: api_doc, rank: 2, naming: okta_permission,
+     file: okta_api_list/snapshot_2026-10-13/raw/developer.okta.com__docs__api__openapi__okta-management__guides__permissions}
+  - {id: okta_standard_roles, provider: okta, kind: api_doc, rank: 2, naming: okta_role,
+     file: okta_api_list/snapshot_2026-10-13/raw/developer.okta.com__docs__api__openapi__okta-management__guides__roles}
+
+  # ------------------------------------------------------------------ Slack
+  - {id: slack_inventory, provider: slack, kind: api_doc, rank: 2, naming: slack_rpc,
+     file: slack_api_list/Slack_API_Methods_v1_final.xlsx, snapshot: "2026-09", fetch_method: local_upload,
+     note: "팀이 만든 메서드 목록 (Web API, SCIM, 감사 API 시트)"}
+  - {id: slack_openapi_legacy, provider: slack, kind: api_schema, rank: 1, naming: slack_rpc,
+     file: slack_api_list/slack_openapi.json, url: https://github.com/slackapi/slack-api-specs,
+     snapshot: "2020 구판", fetch_method: local_upload, version: "Swagger 2.0 구판 (slackapi/slack-api-specs, 갱신 중단)",
+     note: "순위는 1이지만 판이 오래되었다 (4.3절)"}
+  - {id: slack_docs_methods, provider: slack, kind: api_doc, rank: 2, naming: slack_rpc,
+     dir: slack_api_list/docs_snapshot_2026-10-12/raw, dir_glob: "reference__methods__", url: https://docs.slack.dev/reference/methods,
+     snapshot: "2026-10-12", manifest: slack_api_list/docs_snapshot_2026-10-12/manifest.jsonl}
+  - {id: slack_docs_legal_hold, provider: slack, kind: api_doc, rank: 2, naming: slack_rpc,
+     file: slack_api_list/docs_snapshot_2026-10-12/raw/reference__legal-holds-api-reference.html}
+  - {id: slack_docs_events, provider: slack, kind: event_doc, rank: 3, naming: slack_event,
+     dir: slack_api_list/docs_snapshot_2026-10-12/raw, dir_glob: "reference__events__", url: https://docs.slack.dev/reference/events,
+     snapshot: "2026-10-12", manifest: slack_api_list/docs_snapshot_2026-10-12/manifest.jsonl}
+  - {id: slack_docs_scopes, provider: slack, kind: api_doc, rank: 2, naming: oauth_scope,
+     dir: slack_api_list/docs_snapshot_2026-10-12/raw, dir_glob: "reference__scopes__", url: https://docs.slack.dev/reference/scopes,
+     snapshot: "2026-10-12", manifest: slack_api_list/docs_snapshot_2026-10-12/manifest.jsonl}
+  - {id: slack_docs_manifest_ref, provider: slack, kind: api_doc, rank: 2, naming: slack_rpc,
+     file: slack_api_list/docs_snapshot_2026-10-12/raw/reference__app-manifest.html}
+  - {id: slack_docs_cache, provider: slack, kind: api_doc, rank: 2, naming: slack_rpc,
+     file: slack_api_list/web_api_docs_cache.json, snapshot: "2026-09", fetch_method: local_upload,
+     note: "api.slack.com 메서드 문서에서 인자와 scope 를 모은 캐시"}
+  - {id: slack_method_md, provider: slack, kind: api_doc, rank: 2, naming: slack_rpc,
+     dir: slack_api_list/web-api, snapshot: "2026-09", fetch_method: local_upload,
+     note: "메서드 문서를 LLM 으로 정리한 md (extraction llm_normalized). 응답 예시를 example 등급으로만 쓴다"}
+  - {id: slack_scim_md, provider: slack, kind: api_doc, rank: 2, naming: scim,
+     dir: slack_api_list/scim-v2, snapshot: "2026-09", fetch_method: local_upload, note: "SCIM 문서 정리 md (llm_normalized)"}
+  - {id: slack_audit_actions_doc, provider: slack, kind: log_doc, rank: 3, naming: slack_audit,
+     file: slack_api_list/snapshot_2026-10-13/raw/docs.slack.dev__reference__audit-logs-api__methods-actions-reference}
+  - {id: slack_roles_help, provider: slack, kind: api_doc, rank: 2, naming: slack_role,
+     file: slack_api_list/snapshot_2026-10-13/raw/slack.com__help__articles__360018112273-Types-of-roles-in-Slack}
+  # 테넌트 실측 (4순위). _log.tsv 에 파일마다 요청 경로가 있다 (2026-10-15 추가, Information Map 설계.md M4)
+  - {id: gh_tenant_lab_0926, provider: github, kind: tenant, rank: 4, naming: rest_json,
+     dir: aegi-schema/data/github/lab_0926, snapshot: "2026-09-26", fetched_at: "2026-09-26", fetch_method: local_upload,
+     note: "GHEC 평가판 조직 AEGI-gh-lab-20260904 REST 응답"}
+  - {id: okta_tenant_5102035_0925, provider: okta, kind: tenant, rank: 4, naming: rest_json,
+     dir: aegi-schema/data/okta/trial-5102035/raw_0925, snapshot: "2026-09-25", fetched_at: "2026-09-25", fetch_method: local_upload,
+     note: "Okta 평가판 trial-5102035 Management API 응답"}
+  - {id: okta_tenant_5102035_0926, provider: okta, kind: tenant, rank: 4, naming: rest_json,
+     dir: aegi-schema/data/okta/trial-5102035/raw_0926, snapshot: "2026-09-26", fetched_at: "2026-09-26", fetch_method: local_upload,
+     note: "Okta 평가판 trial-5102035 Management API 응답"}
+  - {id: okta_tenant_9523037_0927, provider: okta, kind: tenant, rank: 4, naming: rest_json,
+     dir: aegi-schema/data/okta/trial-9523037/raw_0927, snapshot: "2026-09-27", fetched_at: "2026-09-27", fetch_method: local_upload,
+     note: "Okta 평가판 trial-9523037 Management API 응답"}
+  - {id: slack_tenant_raw, provider: slack, kind: tenant, rank: 4, naming: slack_rpc,
+     dir: aegi-schema/data/slack_raw, snapshot: "2026-09-17", fetched_at: "2026-09-17", fetch_method: local_upload,
+     note: "테스트 테넌트 실측 응답 (RUN2). Web API, SCIM, 감사 API"}
+
+  # 2026-10-18 수집 범위 보완 (ID 공간 오브젝트 대조.md)
+  - {id: okta_asa_openapi, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: gws_gmailpostmastertools_v2, provider: gws, kind: api_schema, rank: 1, naming: google_discovery, from_snapshot: ir2_2026_10_15}
+  - {id: gws_drivelabels, provider: gws, kind: api_schema, rank: 1, naming: google_discovery, from_snapshot: ir2_2026_10_15}
+  - {id: gws_gmailpostmastertools, provider: gws, kind: api_schema, rank: 1, naming: google_discovery, from_snapshot: ir2_2026_10_15}
+  - {id: gws_vault, provider: gws, kind: api_schema, rank: 1, naming: google_discovery, from_snapshot: ir2_2026_10_15}
+  - {id: gws_forms, provider: gws, kind: api_schema, rank: 1, naming: google_discovery, from_snapshot: ir2_2026_10_15}
+  - {id: gws_people, provider: gws, kind: api_schema, rank: 1, naming: google_discovery, from_snapshot: ir2_2026_10_15}
+  - {id: gws_chromemanagement, provider: gws, kind: api_schema, rank: 1, naming: google_discovery, from_snapshot: ir2_2026_10_15}
+  - {id: gws_meet, provider: gws, kind: api_schema, rank: 1, naming: google_discovery, from_snapshot: ir2_2026_10_15}
+  - {id: gws_script, provider: gws, kind: api_schema, rank: 1, naming: google_discovery, from_snapshot: ir2_2026_10_15}
+  - {id: okta_opa_openapi, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_aerial_openapi, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_resource_servers_a2aserverregistration, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_resource_servers_apiserverregistration, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_resource_servers_mcpserverregistration, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_resource_servers_resourceserverclientauthsettings, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_resource_servers_stsauthorization, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_resource_servers_virtualmcpserverresource, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_workload_principals_agentconnections, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_workload_principals_agentpotentialconnections, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_workload_principals_agentproviders, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_workload_principals_agentpublickey, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_workload_principals_agentregistration, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_workload_principals_agentschema, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_workload_principals_delegationlinks, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_workload_principals_virtualmcpconnections, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_workload_principals_virtualmcpregistration, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: okta_ai_workload_principals_workloadprincipaloperations, provider: okta, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+
+  # ------------------------------------------------------------------ Salesforce
+  - {id: sf_object_reference, provider: salesforce, kind: api_doc, rank: 2, naming: soql,
+     file: salesforce_api_list/snapshot_2026-10-12/raw/resources.docs.salesforce.com__latest__latest__en-us__sfdc__pdf__object_reference.pdf}
+  - {id: sf_rest_api, provider: salesforce, kind: api_doc, rank: 2, naming: soql,
+     file: salesforce_api_list/snapshot_2026-10-13/raw/resources.docs.salesforce.com__latest__latest__en-us__sfdc__pdf__api_rest.pdf}
+  - {id: sf_metadata_api, provider: salesforce, kind: api_doc, rank: 2, naming: sf_metadata,
+     file: salesforce_api_list/snapshot_2026-10-13/raw/resources.docs.salesforce.com__latest__latest__en-us__sfdc__pdf__api_meta.pdf}
+  - {id: sf_platform_events, provider: salesforce, kind: event_doc, rank: 3, naming: soql,
+     file: salesforce_api_list/snapshot_2026-10-13/raw/resources.docs.salesforce.com__latest__latest__en-us__sfdc__pdf__platform_events.pdf}
+  - {id: sf_change_data_capture, provider: salesforce, kind: event_doc, rank: 3, naming: soql,
+     file: salesforce_api_list/snapshot_2026-10-13/raw/resources.docs.salesforce.com__latest__latest__en-us__sfdc__pdf__salesforce_change_data_capture.pdf}
+  - {id: sf_mobile_sdk, provider: salesforce, kind: api_doc, rank: 2, naming: oauth_scope,
+     file: salesforce_api_list/snapshot_2026-10-13/raw/resources.docs.salesforce.com__latest__latest__en-us__sfdc__pdf__mobile_sdk.pdf}
+
+  # ------------------------------------------------------------------ Google Workspace (Discovery 11종은 아래 규칙으로)
+  - {id: gws_oauth_scopes, provider: gws, kind: api_doc, rank: 2, naming: oauth_scope,
+     file: gws_api_list/snapshot_2026-10-13/raw/developers.google.com__identity__protocols__oauth2__scopes}
+  - {id: gws_events_chat, provider: gws, kind: event_doc, rank: 3, naming: gws_event,
+     file: gws_api_list/snapshot_2026-10-13/raw/developers.google.com__workspace__events__guides__events-chat}
+  - {id: gws_events_drive, provider: gws, kind: event_doc, rank: 3, naming: gws_event,
+     file: gws_api_list/snapshot_2026-10-13/raw/developers.google.com__workspace__events__guides__events-drive}
+  - {id: gws_events_meet, provider: gws, kind: event_doc, rank: 3, naming: gws_event,
+     file: gws_api_list/snapshot_2026-10-13/raw/developers.google.com__workspace__events__guides__events-meet}
+
+  # ------------------------------------------------------------------ Atlassian
+  - {id: jira_openapi_v3, provider: jira, kind: api_schema, rank: 1, naming: rest_json,
+     file: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__jira__platform__swagger-v3.v3.json}
+  - {id: jsm_openapi, provider: jira, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: jira_software_openapi, provider: jira, kind: api_schema, rank: 1, naming: rest_json, from_snapshot: ir2_2026_10_15}
+  - {id: jira_webhooks, provider: jira, kind: event_doc, rank: 3, naming: atlassian_event,
+     file: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__jira__platform__webhooks}
+  - {id: jira_audit_categories, provider: jira, kind: log_doc, rank: 3, naming: display_name,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__jira-cloud-administration__docs__audit-activities-in-jira-applications}
+  - {id: jira_scopes, provider: jira, kind: api_doc, rank: 2, naming: oauth_scope,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__jira__platform__scopes-for-oauth-2-3LO-and-forge-apps}
+  - {id: jira_builtin_permissions, provider: jira, kind: api_doc, rank: 2, naming: jira_permission,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__jira__platform__rest__v3__api-group-permission-schemes}
+  - {id: jira_global_permissions, provider: jira, kind: api_doc, rank: 2, naming: display_name,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__jira-cloud-administration__docs__what-are-global-permissions-and-what-do-they-do}
+  - {id: confluence_openapi_v1, provider: confluence, kind: api_schema, rank: 1, naming: rest_json,
+     file: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__confluence__swagger.v3.json}
+  - {id: confluence_openapi_v2, provider: confluence, kind: api_schema, rank: 1, naming: rest_json,
+     file: atlassian_api_list/snapshot_2026-10-12/raw/dac-static.atlassian.com__cloud__confluence__openapi-v2.v3.json}
+  - {id: confluence_webhooks, provider: confluence, kind: event_doc, rank: 3, naming: atlassian_event,
+     file: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__confluence__modules__webhook}
+  - {id: confluence_scopes, provider: confluence, kind: api_doc, rank: 2, naming: oauth_scope,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__confluence__scopes-for-oauth-2-3LO-and-forge-apps}
+  - {id: confluence_roles_doc, provider: confluence, kind: api_doc, rank: 2, naming: display_name,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__confluence-cloud__docs__what-are-confluences-roles}
+  - {id: confluence_global_permissions, provider: confluence, kind: api_doc, rank: 2, naming: display_name,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__confluence-cloud__docs__manage-global-permissions}
+  - {id: atlassian_admin_organization, provider: atlassian, kind: api_schema, rank: 1, naming: rest_json,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__admin__organization__swagger.v3.json}
+  - {id: atlassian_admin_user_management, provider: atlassian, kind: api_schema, rank: 1, naming: rest_json,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__admin__user-management__swagger.v3.json}
+  - {id: atlassian_admin_user_provisioning, provider: atlassian, kind: api_schema, rank: 1, naming: scim,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__admin__user-provisioning__swagger.v3.json}
+  - {id: atlassian_admin_api_access, provider: atlassian, kind: api_schema, rank: 1, naming: rest_json,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__admin__api-access__swagger.v3.json}
+  - {id: atlassian_audit_db, provider: [jira, confluence, atlassian], kind: log_doc, rank: 3, naming: display_name,
+     file: atlassian_api_list/snapshot_2026-10-13/raw/support.atlassian.com__security-and-access-policies__docs__audit-log-activities-database}
+
+  # ------------------------------------------------------------------ M365
+  - {id: m365_graph_v1_openapi, provider: m365, kind: api_schema, rank: 1, naming: rest_json,
+     file: ../m365-docs/snapshot_2026-11-20/repos/graph-metadata/openapi/v1.0/openapi.yaml,
+     snapshot: "2026-11-20", fetch_method: prior_snapshot}
+  - {id: m365_graph_v1_csdl, provider: m365, kind: api_doc, rank: 1, naming: odata_csdl,
+     file: ../m365-docs/snapshot_2026-11-20/repos/graph-metadata/clean_v10_metadata/cleanMetadataWithDescriptionsAndAnnotationsv1.0.xml,
+     snapshot: "2026-11-20", fetch_method: prior_snapshot}
+  - {id: m365_graph_v1_docs, provider: m365, kind: api_doc, rank: 2, naming: rest_json,
+     dir: ../m365-docs/snapshot_2026-11-20/repos/graph-docs/api-reference/v1.0,
+     snapshot: "2026-11-20", fetch_method: prior_snapshot}
+  - {id: m365_mgmt_activity_schema, provider: m365, kind: log_doc, rank: 3, naming: m365_audit,
+     file: ../m365-docs/snapshot_2026-11-20/repos/o365-mgmt-api/office-365-management-api/office-365-management-activity-api-schema.md,
+     snapshot: "2026-11-20", fetch_method: prior_snapshot}
+  - {id: m365_copilot_audit_schema, provider: m365, kind: log_doc, rank: 3, naming: m365_audit,
+     file: ../m365-docs/snapshot_2026-11-20/repos/o365-mgmt-api/office-365-management-api/copilot-schema.md,
+     snapshot: "2026-11-20", fetch_method: prior_snapshot}
+  - {id: m365_purview_audit_activities, provider: m365, kind: log_doc, rank: 3, naming: m365_audit,
+     file: ../m365-docs/snapshot_2026-11-20/learn/purview-audit-activities.html,
+     snapshot: "2026-11-20", fetch_method: prior_snapshot}
+  - {id: m365_entra_audit_activities, provider: m365, kind: log_doc, rank: 3, naming: m365_audit,
+     file: ../m365-docs/snapshot_2026-11-20/repos/entra-docs/docs/identity/monitoring-health/reference-audit-activities.md,
+     snapshot: "2026-11-20", fetch_method: prior_snapshot}
+  - {id: m365_tenant_20261120, provider: m365, kind: tenant, rank: 4, naming: rest_json,
+     dir: data/m365/tenant_20261120, snapshot: "2026-11-20", fetched_at: "2026-11-20",
+     fetch_method: local_upload, note: "M365 E5 체험 테넌트 m365-aegim365 Graph v1.0 읽기 응답"}
+
+# 규칙으로 만드는 출처 (파일 이름 접두사)
+rules:
+  - {id_prefix: gws_reports_activity__, provider: gws, kind: log_doc, rank: 3, naming: gws_reports,
+     dir: gws_api_list/snapshot_2026-10-13/raw, name_prefix: developers.google.com__workspace__admin__reports__v1__appendix__activity__}
+
+# Discovery 11종 (lexicons/gws.yaml 의 sources.discovery 와 같은 id)
+gws_discovery_from_lexicon: true

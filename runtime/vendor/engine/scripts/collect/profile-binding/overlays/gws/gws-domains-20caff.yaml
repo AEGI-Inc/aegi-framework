@@ -1,0 +1,14 @@
+overlay_basis:
+  note: 요청 경로 변수 parent_id 는 별칭 my_customer 라 Customer id 와 맞지 않는다. 경로 생성기 타입(parent:...customer/{})으로 가던 참조를 빼고 수집한 고객(테넌트)에 잇는다
+references:
+  - name: domainaliases
+    field: domainAliases
+    target: DomainAlias
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:2ebe2d398751a636a8cdd3dc; relation=no_relation
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $tenant
+    basis: stated

@@ -1,0 +1,819 @@
+# 관계 의미 층 — 기록 층(관계 17종)을 의미 층(사실 9종 + 능력 목록)으로 옮기는 표 (2026-11-11)
+#
+# 명세: schema/specs/Relation_Semantic_Layer_v1.md. 검사: validation/check_semantic_layer.py (run_all).
+# 두 층
+#   기록 층  지금 관계 17종(relation_types.yaml, relation_semantics.yaml). 어댑터 · 정규화 · 대시보드 · Effective Access 가 쓴다. 이 표는 그것을 바꾸지 않는다
+#   의미 층  엔진이 계산할 때 읽는 정식 어휘. 사실 9종(facts) · 능력 10종(capabilities.yaml capability_vocabulary) · 근거(basis) · 칸(patterns).
+#            SaaS 마다 다른 것은 이 표와 capabilities.yaml 에만 있다. 엔진 코드에는 SaaS 이름이 없다
+# 맨 아래 aliases 는 생성 부분이다(tools/gen_semantic_aliases.py 가 relation_semantics.yaml 에서 만든다). 손으로 고치지 않는다.
+# 엔진은 aliases 앞에 routes_first 를 붙이고 drop_routes 를 빼서 관계 행을 읽는다.
+
+version: semantic-1
+
+sources:
+  facts: 2026-11-11 Relation 주담당 결정 「17종 = 기록 층, 9종 = 의미 층」. 후보 P(의미 중심 9종) 시제품을 11-04 운영 수집본에 재 본 것 — 로그 행위 설명률(원래 권한) 74% → 91%, 점수판 main 과 같음, 엔진 관계 계산 안 SaaS 이름 조건 4 → 0, 관계 → 간선 조합 20 → 7
+  patterns: 2026-11-11 처음 보는 SaaS 두 곳(Microsoft 365 · Entra ID, Notion)을 문서만으로 대 본 지면 시험. 요소 175개 중 새 관계 0 · 새 객체 0, 새 패턴 18개가 아래 일반 개념 8가지로 묶였다
+  assignments: 2026-11-11 11-04 수집본 Assignment 객체 472개(26종)와 카탈로그 Assignment 19종. 종류마다 관계가 되는 자리, 또는 안 되는 까닭을 한 줄로 적는다(명세 「Assignment 객체 = 관계 한 행」을 검사로 묶는다). 2026-11-17 slack Conversation Membership Assignment 줄을 뺌 — 지운 합성 환경 데이터(aegi_inc_environment_v2)에만 있던 이름이라 엔진 Profile · 모델 v3.2 · 카탈로그 index 어디에도 없다(SL2 실재 검사)
+  records: 2026-11-18 Atlassian 기본 그룹 이름 앞부분을 공식 문서의 제품 이름으로 좁힘(사용자가 만든 sales-admins-eu 같은 그룹이 사이트 관리 권한을 받던 것, 엔진 judgments.ts origin 판정과 같은 정규식으로 모음). 2026-11-16 emit 칸 tenant_grant 와 GitHub 조직 기본 권한 규칙을 더함(aegi-knowledge#308, 직접 권한 테넌트 전파). 2026-11-11 로그 측정 구멍 — Atlassian 사이트 접근 · 조직 관리 216건, 벤더 기본 허용 56건. 벤더 문서의 기본 그룹 · 기본 앱. 2026-11-13 Slack AI 요약 · MCP 도구 호출 13건(위임 호출, identity caller)
+  version: 이 표의 판. 사실 · 칸 어휘를 바꾸면 올린다
+  basis: 2026-11-11 같은 결정. 지금 엔진 권한 출처(grantSource config · model · observed)와 로그 개선안(logschema design 「basis logged」)을 합친 다섯
+  principles: 2026-11-11 같은 결정과 측정 — Salesforce 를 표에서 빼 본 결과(확실 426 → 0, 틀린 답 0), 로그를 지운 수집본(의미 층 간선 집합 같음), 로그 개선안 원칙 3 · 4
+  filters: 2026-11-11 효과 표 inactive_account 갈래 7개(같은 match 식)를 한 줄로 모은 것. 결과 같음(11-04 수집본)
+  provenance_only: 2026-11-11 효과 표에서 간선이 없는 관계(registered_by · applies_to · excludes · evaluates · permits · trusts). 출처 · 정책 정보로만 남는다
+  drop_routes: 2026-11-11 filters 와 membership_capabilities 로 옮긴 효과 표 갈래 8개
+  routes_first: 2026-11-11 로그 측정 구멍 「Atlassian 사이트 접근」(사이트 사용자 목록 = 제품 접근이 있는 계정, Jira · Confluence 사용자 검색)
+  aliases: relation_semantics.yaml relations 의 effects · conditions 를 이름만 바꿔 옮긴 것. 효과 표와 차이 0(tools/gen_semantic_aliases.py --check)
+  automation_scopes: 2026-11-17 aegi-knowledge#311. 엔진 EA(accessModel.ts automationRunsAsInScope, 프로젝트 객체만)와 위협 판정(fromIndex.ts addRuleScopes, aegi-adapter-engine#429)이 따로 들던 Jira 자동화 규칙 범위 거름. r3 11-13 · 11-15 실측 재판정(#311 2026-11-17 댓글)과 미리보기 D1 r3 11-13 재계산(EA 103 → 91, 위협 17 → 18)
+  settings: 2026-11-13 로그 측정(11-04 운영 수집본) — 관리자가 아닌 Slack 구성원 넷의 앱 설치 12건 · scope 넓히기 12건이 원래 권한으로 설명되지 않고 엉뚱한 연동 길(누구나 폼 → 스크립트 → 메시지)로만 설명됐다. 워크스페이스 설정 값은 수집본에 없다(admin.teams.settings.info 응답에 설정 칸 없음) — 벤더 기본값으로 계산하고 재수집 목록에 적는다
+
+# ---- 사실 9종 ----
+# from · to  출발 · 도착 interface. 표 줄의 끝이 이 밖이면 검사가 잡는다
+# edge       엔진 간선(M 소속, U 포함, G 권한, A 대신 동작, T 호출, F 흐름). none 은 간선을 내지 않고 정보로만 둔다
+# slots      이 사실에 붙을 수 있는 칸(아래 patterns 와 caps · basis)
+facts:
+  member_of:
+    meaning: A 는 B 의 구성원이다(그룹 · 조직 · 채널)
+    from: [Principal, Tenant]
+    to: [Principal, Tenant, Resource]
+    edge: M
+    slots: [basis, activation, visibility, derive, observed_window]
+  contained_in:
+    meaning: A 는 B 안에 있다(폴더 · 프로젝트 · 조직). 위에 걸린 권한이 내려오는 길
+    from: [Tenant, Principal, Integration, Credential, Assignment, Policy, Endpoint, Resource, Automation]
+    to: [Tenant, Principal, Integration, Credential, Assignment, Policy, Endpoint, Resource, Automation]
+    edge: U
+    slots: [basis, inherit, observed_window]
+  grants:
+    meaning: A 는 B 에 능력 caps 를 가진다(역할 · 공유 · 배정 · scope 동의)
+    from: [Tenant, Principal, Integration, Credential, Policy, Endpoint]
+    to: [Tenant, Integration, Resource, Automation]
+    edge: G
+    slots: [caps, applies_to, basis, ceiling, inherit, activation, conditions_on, derive, observed_window]
+  holds:
+    meaning: A 는 자격증명 B 를 쥔다. 쥐면 그 신원으로 동작할 때만 간선이 된다(impersonate)
+    from: [Principal, Integration, Automation]
+    to: [Credential]
+    edge: A
+    edge_direction: reverse
+    slots: [basis, impersonate, derive, observed_window]
+  acts_as:
+    meaning: A 는 B 로서 동작한다(앱 · 자동화 · 자격증명이 사람 · 앱 신원으로)
+    from: [Integration, Automation, Credential, Endpoint]
+    to: [Principal, Integration, Credential, Tenant]
+    edge: A
+    slots: [basis, ceiling, observed_window]
+  triggers:
+    meaning: A 가 B 를 부른다(사람 · 자원 변화 · 앱이 자동화를, 테넌트 구성원이 설치된 앱이나 조직 기능을)
+    from: [Principal, Tenant, Resource, Integration, Endpoint]
+    to: [Automation, Integration, Tenant]
+    edge: T
+    slots: [basis, mode, identity, observed_window]
+  flows_to:
+    meaning: A 의 내용이 B 로 흘러간다(웹훅 · 동기화 · 내보내기)
+    from: [Principal, Integration, Credential, Assignment, Policy, Endpoint, Resource, Automation]
+    to: [Tenant, Credential, Resource, Automation]
+    edge: F
+    slots: [basis, linked_identity, observed_window]
+  conditions:
+    meaning: 정책 · 설정 A 가 B 에 조건을 건다(포함 · 제외 · 요구). 판정을 좁히거나 상한을 준다. 테넌트 설정(settings 표)이 막은 능력은 exclude
+    from: [Tenant, Policy, Integration, Credential, Assignment]
+    to: [Principal, Integration, Credential, Resource, Tenant]
+    edge: none
+    slots: [polarity, caps, conditions_on, observed_window]
+  trusts:
+    meaning: 테넌트 A 가 B 의 신원 주장을 믿는다(SSO 연합, SaaS 사이 연결)
+    from: [Tenant, Integration]
+    to: [Tenant, Integration]
+    edge: none
+    slots: [basis, observed_window]
+
+# 사실이 어디서 왔나. 판정은 근거로 갈리지 않는다(권한 출처 표시와 회수 가능만 다르다)
+basis:
+  stated: 수집한 설정에 그대로 적힌 것(역할 배정, 공유 줄)
+  computed: 설정 여럿을 합쳐 계산한 것(리소스 세트 펼치기, 같은 대상 권한 줄의 최댓값)
+  flag: 객체의 참 · 거짓 칸에서 나온 것(Salesforce 권한 칸)
+  vendor_default: 설정이 아니라 벤더 기본값(기본 그룹, 기본 앱). 조직이 바꿨으면 틀릴 수 있다
+  logged: 스냅샷에 없고 로그 사건으로만 안 것. 관측 창(observed_window) 밖은 모름이다
+
+# ---- 칸(패턴): 지면 시험에서 나온 일반 개념 ----
+# used_by 이 칸을 쓰는 사실
+# fields  칸 이름과 값
+# status  computed = 엔진이 지금 계산한다, declared = 칸과 뜻만 정했다(값을 채우는 표나 계산은 그 SaaS 를 붙일 때)
+# seen    이 개념이 나온 곳(지면 시험 SaaS 와 지금 데이터)
+patterns:
+  inherit:
+    used_by: [contained_in, grants]
+    fields: {inherit: 'all | none | caps 목록 | only(조건식)', replaces_inherited: 'true 면 위에서 내려온 능력을 지우고 이것만 둔다'}
+    meaning: 위에 걸린 능력이 아래로 내려가는가, 얼마나. 상속을 끊는 고유 권한은 replaces_inherited
+    status: declared
+    now: providers.yaml tenant_grants_inherit · inherit_caps 가 SaaS 단위로 계산한다
+    seen: [M365 제한 관리 단위 · SharePoint 고유 권한 · 비공개 채널, Notion 관리자 역할이 페이지에 안 내려감 · 하위 페이지 상속 끊기, GWS 공유 드라이브, Slack 비공개 채널]
+  ceiling:
+    used_by: [grants, acts_as]
+    fields: {ceiling: '{caps: 능력 목록, targets: 객체 종류, on: 사실 id}', scope_role: 'ceiling(상한만) | grant(그 자체로 권한)', range: '자동화 범위 표(automation_scopes) 한 줄. 대상 객체를 범위로 자른다'}
+    meaning: 이 사실은 다른 권한을 넘지 못한다. 실효 능력 = 보유자 권한 ∩ 상한. scope 는 기본이 상한이다. 범위 갈래(range)는 능력이 아니라 닿는 대상을 자른다 — 실행 신원 권한 ∩ 자동화 범위
+    status: computed
+    now: 배정 자리 표의 ceiling 칸이 conditions(requires) 사실을 낸다. 질의는 아직 읽지 않는다(엔진 PR 후속). 범위 갈래는 아래 automation_scopes 표를 엔진 accessModel.ts 한 곳이 읽고, 접근 규칙(automation_scope 홉) · 위협 판정 · 닿음 질의가 같은 답을 쓴다(2026-11-17)
+    seen: [M365 위임 권한 = 사용자 ∩ scope · 애플리케이션 액세스 정책, Notion 통합 = 공유 페이지 ∩ capabilities, Okta 관리 API = 역할 ∩ scope(11-11 K · P 에서 scope 를 권한으로 내면 정답 라벨 하나가 틀림), Jira 자동화 규칙 = 실행 신원 ∩ 프로젝트 범위(r3 11-13 규칙 12개 · 11-15 30개)]
+  conditions_on:
+    used_by: [conditions, grants]
+    fields: {'on': 'holder | recipient | target', level: '조직 · 워크스페이스 · 팀스페이스 같은 설정 층', precedence: '층이 겹칠 때 이기는 쪽'}
+    meaning: 조건이 누구에게 걸리나(보유자 · 받는 쪽 · 대상), 어느 설정 층에서 오나. 설정 하나가 허용하면 grants, 막으면 다른 근거로 생긴 그 능력을 깎는다
+    status: computed
+    now: 아래 settings 표 한 줄 = 설정 하나. 엔진이 허용이면 grants(구성원 → 대상), 막음이면 conditions(exclude)를 내고 질의가 상한과 같은 자리에서 깎는다. on 은 holder 만, level · precedence 는 아직 declared(층 둘을 같이 수집한 SaaS 가 없다)
+    seen: [M365 조건부 액세스 포함 · 제외, Notion 받는 쪽 제한(게스트 막기) · 설정 층, Slack 워크스페이스 설정(구성원 앱 설치 24건 — 11-11 설명 안 됨 묶음 55건의 일부)]
+  derive:
+    used_by: [member_of, holds, grants]
+    fields: {rule: 'attribute_membership(속성 규칙 소속) | joinable(스스로 가입) | credential_issuer(자격증명을 발급하면 그 신원)', potential: 'true — 지금 사실이 아니라 「이것을 바꿀 수 있으면 이렇게 된다」'}
+    meaning: 잠재 관계. 규칙 · 설정을 고칠 수 있는 사람에게 생길 수 있는 사실
+    status: declared
+    seen: [M365 동적 그룹 · 앱 소유자가 비밀 발급, Notion 공개 팀스페이스 가입, Okta API 토큰 · GitHub deploy key · Slack 앱 관리자]
+  linked_identity:
+    used_by: [flows_to]
+    fields: {visible_to: 'linked_identity — 받는 쪽에서 원래 신원의 권한대로 보인다', lag: '동기화 지연'}
+    meaning: 신원 연동 사본. 내용이 다른 SaaS 로 가도 보는 사람은 연동된 신원의 권한을 따른다
+    status: declared
+    seen: [Notion AI 커넥터, Okta 가져오기, Slack ↔ Salesforce 동기화(로그 MIRROR 묶음)]
+  visibility:
+    used_by: [member_of]
+    fields: {visibility: 'public | private', non_member_caps: '구성원이 아닌 사람의 능력(설정값)', joinable: 'true 면 스스로 들어올 수 있다'}
+    meaning: 공개 여부가 멤버십을 넓힌다
+    status: declared
+    now: providers.yaml visibility_scoped 와 relation_semantics.yaml rules 의 공개 여부 절이 계산한다
+    seen: [M365 팀 공개 · 비공개, Notion 팀스페이스 공개 수준, Slack 채널]
+  activation:
+    used_by: [grants, member_of]
+    fields: {activation: 'standing | session | once', active: '지금 켜져 있나'}
+    meaning: 켜야 쓰는 자격(세션 권한, 적시 권한)
+    status: declared
+    now: has_role_on 의 activation · session_active 칸을 aliases 조건 갈래가 읽는다
+    seen: [M365 PIM for Groups(member_of 에도), Salesforce 세션 권한 세트]
+  identity:
+    used_by: [triggers]
+    fields: {identity: 'own(기본) — 불린 쪽이 자기 실행 신원(acts_as)으로 동작한다 | caller — 불린 쪽이 부른 사람 자신의 권한으로 동작한다(위임)'}
+    meaning: 불린 쪽이 누구의 권한으로 동작하나. caller 면 부른 사람이 원래 할 수 있는 것을 넘지 않아 격차를 만들지 않는다. 엔진은 T 간선을 내지 않고 사실로만 두며, 로그 설명(호출 사건)만 이 사실을 읽는다
+    status: computed
+    now: 엔진 semantic/facts.ts 가 identity caller 인 triggers 를 간선 없는 「위임 호출」 사실로 두고, usage.ts 호출 판정이 부른 사람의 소속(M*)으로 읽는다
+    seen: [Slack AI 가 앱의 MCP 도구를 부름(앱 봇이 아니라 부른 사용자의 연동 신원으로 동작) · 조직 기능(Slack AI 요약)을 부름, M365 위임 권한(delegated) · 애플리케이션 권한, Notion 통합의 사용자 대신 동작]
+  observed_window:
+    used_by: [member_of, contained_in, grants, holds, acts_as, triggers, flows_to, conditions, trusts]
+    fields: {observed_window: '{from: 처음 본 때, retention: 보관 기간}'}
+    meaning: basis logged 사실은 관측 창과 함께 적는다. 창 밖은 모름이다
+    status: declared
+    seen: [Notion 권한 목록 API 가 없어 grants 대부분이 logged]
+
+# ---- 원칙 ----
+principles:
+  unknown_without_table: 표에 그 SaaS · 역할 줄이 없으면 틀린 답이 아니라 「모름」(간선 uncertain role_rank_unknown 또는 사실 없음 + 보고). 11-11 Salesforce 를 표에서 빼 보니 확실 426 → 0, 틀린 답 0
+  absent_log_is_not_absent_permission: 로그에 없다고 권한이 없다고 보지 않는다. 「안 썼다」는 관측 창과 함께 회수 추천으로만 쓴다
+  no_log_same_result: 로그가 없는 환경은 결과가 같다. 의미 층 사실은 설정(스냅샷)에서만 나온다 — 11-11 로그를 지워도 의미 층이 더한 간선 집합이 같았다
+
+# ---- 기록 층 → 의미 층 손 줄 ----
+# 모든 사실에 한 번 거는 거름. principal_end 는 사실의 양 끝 가운데 Principal 인 객체에 match 식(자리 source)을 대 본다. 맞으면 사실을 내지 않는다.
+# 효과 표의 inactive_account 갈래 7개(has_role_on, member_of, owned_by, acts_as, authenticates_with, runs_as, triggered_by)를 이 한 줄로 바꾼다
+filters:
+- name: inactive_principal
+  p: [member_of, grants, holds, acts_as, triggers]
+  principal_end: {source: {judged_or_property: {account_state: [deleted, deprovisioned, suspended]}}}
+
+# 간선을 내지 않고 출처 · 정책 정보로만 남는 관계(registered_by 와 책임자 뜻 owned_by 는 출처 칸, applies_to · excludes · evaluates 는 conditions)
+provenance_only: [registered_by, applies_to, excludes, evaluates, permits, trusts]
+
+# aliases 에서 뺄 갈래 (관계 종류.갈래 이름)
+drop_routes:
+- has_role_on.inactive_account
+- member_of.inactive_account
+- owned_by.inactive_account
+- acts_as.inactive_account
+- authenticates_with.inactive_account
+- runs_as.inactive_account
+- triggered_by.inactive_account
+# 채널 소속이 쓰기라는 것은 capabilities.yaml membership_capabilities 로 옮겼다. default 갈래의 caps: membership 이 읽는다
+- member_of.slack_conversation
+
+# 관계 종류마다 aliases 갈래보다 먼저 볼 갈래 (문법은 aliases 와 같다)
+routes_first:
+  member_of:
+  # 로그 측정 구멍 「Atlassian 사이트 접근」: 사이트(ServerInformation) 사용자 목록에 든 계정은 그 사이트 제품을 쓴다(로그인 · 보기).
+  # 사이트 사용자 목록 = 제품 접근이 있는 계정(Jira · Confluence 사용자 검색). 쓰기와 조직 관리는 이것으로 주지 않는다
+  - name: site_product_use
+    match: {target: {provider: atlassian, object_type: ServerInformation}}
+    cases:
+    - pairs: [Principal>Tenant]
+      emit:
+      - {p: member_of, from: source, to: target}
+      - {p: grants, from: source, to: target, caps: [read, authenticate], basis: vendor_default}
+
+# 레코드 규칙: 관계 행이 아니라 객체 하나가 사실을 말할 때. select 는 그 객체를 source 자리로 본다(match 문법), name_regex 는 칸 → 정규식.
+# 끝: self(그 객체) · tenant(그 객체의 테넌트) · ref:<참조 칸>(| 는 여럿) · tenant_of_from(앞 끝의 테넌트)
+# emit 칸(2026-11-16 더함, aegi-knowledge#308)
+#   tenant_grant  테넌트에 거는 권한의 출처 종류(providers.yaml tenant_scope kinds 의 record 값). 없으면 그 권한은 테넌트 아래로 내려가지 않는다
+records:
+# 벤더 기본 앱: Okta 최종 사용자 대시보드(okta_enduser)는 조직의 모든 활성 사용자가 배정 없이 로그인한다. 로그 구멍 「Okta 기본 앱 SSO」 34건
+- name: okta_enduser_dashboard
+  select: {source: {provider: okta, object_type: Application, property: {name: okta_enduser}}}
+  emit:
+  - {p: grants, from: tenant, to: self, caps: [authenticate, read], basis: vendor_default}
+# 벤더 기본 그룹: Atlassian 사이트 기본 그룹 이름 꼴 <제품>-admins-<사이트> 등이 곧 제품 역할이다(Atlassian 관리 도움말 「기본 그룹」).
+# 그룹 → 그 그룹의 테넌트(사이트). 그룹 구성원은 member_of 로 닿는다. 로그 구멍 「Atlassian 조직 관리 · 사이트 접근」 216건.
+# 이름을 바꾼 조직에서는 안 걸린다(그때는 사실이 없다 — basis vendor_default 의 한계)
+# 앞부분은 문서의 제품 이름만 받는다(2026-11-18). 아무 앞부분이나 받으면 사용자가 만든 sales-admins-eu 같은 그룹이 사이트 관리 권한을 받는다.
+# 제품 이름: 문서 목록 + 10-20 실측 사이트에 Atlassian 이 깐 그룹(assets, loom, studio). 엔진 judgments.ts 가 이 정규식으로 기본 그룹(origin)도 정한다.
+# 문서에 있지만 일부러 안 넣은 것: jira-servicemanagement-customers-<사이트>(고객 포털만), focus-viewers-<사이트>(보기만) — 사이트 권한 수준이 다르다
+# users 줄에는 guard-detect 를 넣지 않는다: 문서에 guard-detect-users-<사이트> 는 「쓰이지 않고 권한을 주지 않는다」(2026-11-18)
+# https://support.atlassian.com/user-management/docs/default-groups-and-permissions/
+- name: atlassian_default_group_admins
+  select: {source: {provider: atlassian, object_type: FoundGroup}}
+  name_regex: {name: '^(system-administrators|(jira|jira-software|jira-workmgmt|jira-work-management|jira-servicemanagement|jira-product-discovery|confluence|opsgenie|statuspage|trello|bitbucket|guard-detect|goals|projects|focus|loom|assets|studio|compass|atlas)-admins-.+)$'}
+  emit:
+  - {p: grants, from: self, to: tenant, caps: manage, basis: vendor_default, tenant_grant: console_role}
+- name: atlassian_default_group_user_access_admins
+  select: {source: {provider: atlassian, object_type: FoundGroup}}
+  name_regex: {name: '^(jira|jira-software|jira-workmgmt|jira-work-management|jira-servicemanagement|jira-product-discovery|confluence|opsgenie|statuspage|trello|bitbucket|guard-detect|goals|projects|focus|loom|assets|studio|compass|atlas)-user-access-admins-.+$'}
+  emit:
+  - {p: grants, from: self, to: tenant, caps: [read, grant], basis: vendor_default, tenant_grant: console_role}
+- name: atlassian_default_group_users
+  select: {source: {provider: atlassian, object_type: FoundGroup}}
+  name_regex: {name: '^(jira|jira-software|jira-workmgmt|jira-work-management|jira-servicemanagement|jira-product-discovery|confluence|opsgenie|statuspage|trello|bitbucket|goals|projects|focus|loom|assets|studio|compass|atlas)-users-.+$'}
+  emit:
+  - {p: grants, from: self, to: tenant, caps: edit, basis: vendor_default, tenant_grant: product_use}
+- name: atlassian_default_group_guests
+  select: {source: {provider: atlassian, object_type: FoundGroup}}
+  name_regex: {name: '^(jira|jira-software|jira-workmgmt|jira-work-management|jira-servicemanagement|jira-product-discovery|confluence|opsgenie|statuspage|trello|bitbucket|guard-detect|goals|projects|focus|loom|assets|studio|compass|atlas)-guests-.+$'}
+  emit:
+  - {p: grants, from: self, to: tenant, caps: use, basis: vendor_default, tenant_grant: product_use}
+# GitHub 조직 기본 권한(base permission): 조직의 모든 구성원이 조직의 모든 저장소에 그 수준을 받는다(바깥 협력자는 아님).
+# 조직 객체 속성 default_repository_permission(none, read, write, admin). 실측 5개 묶음 모두 read. 저장소마다 더 높은 권한은 따로 걸린다.
+# 테넌트 범위(providers.yaml tenant_scope base_permission)가 내용에만 내리므로 저장소와 그 안(커밋, PR)에 닿고 설정, 계정에는 안 닿는다.
+# 적용 종류를 저장소로 좁히지 않는다. 좁히면 저장소 아래 커밋에 안 내려가 구성원이 커밋을 못 읽는 것으로 판정됐다(2026-11-16 r3 실측)
+# https://docs.github.com/en/organizations/managing-user-access-to-your-organizations-repositories/managing-repository-roles/setting-base-permissions-for-an-organization
+- name: github_base_permission_read
+  select: {source: {provider: github, interface: Tenant, property: {default_repository_permission: read}}}
+  emit:
+  - {p: grants, from: self, to: self, caps: use, basis: stated, tenant_grant: base_permission}
+- name: github_base_permission_write
+  select: {source: {provider: github, interface: Tenant, property: {default_repository_permission: write}}}
+  emit:
+  - {p: grants, from: self, to: self, caps: edit, basis: stated, tenant_grant: base_permission}
+- name: github_base_permission_admin
+  select: {source: {provider: github, interface: Tenant, property: {default_repository_permission: admin}}}
+  emit:
+  - {p: grants, from: self, to: self, caps: manage, basis: stated, tenant_grant: base_permission}
+# 벤더 기본 위임 호출: Slack Enterprise Grid 의 워크스페이스 구성원은 조직(Enterprise)의 기능(Slack AI 요약 등)을 자기 이름으로 부른다.
+# Slack AI 는 부른 사람이 볼 수 있는 것만 쓴다 → identity caller(격차를 만들지 않고 로그 설명에만). 로그 구멍 「Slack AI 요약 요청」 8건(대상이 조직).
+# 워크스페이스 → 조직 소속은 contained_in(상위 테넌트 소속)이 이미 낸다(11-13 잼: 소속 줄을 따로 두면 같은 간선 하나뿐이었다).
+# 「조직 읽기」(grants use)로 두면 안 된다: 파일 내려받기 · 캔버스 열기처럼 조직을 container 로 단 사건 8건이 조직 읽기 하나로
+# 사람 권한이 됐다(11-12 · 11-13 잼, 상속을 끊어도 같다 — 상속이 아니라 container 를 묻기 때문)
+- name: slack_workspace_calls_org
+  select: {source: {provider: slack, object_type: 200.team}}
+  emit:
+  - {p: triggers, from: self, to: 'ref:enterprise_id', mode: invoke, identity: caller, basis: vendor_default}
+# 벤더 기본 위임 호출: Slack 에 설치된 앱(조직 또는 워크스페이스에 등록)의 도구는 그 구성원이 자기 이름으로 부른다(Slack AI 의 앱 도구 · MCP).
+# 이때 앱은 앱 봇이 아니라 부른 사용자의 연동 신원으로, 그 사용자 권한 안에서 동작한다 → identity caller(격차를 만들지 않고 로그 설명에만 쓴다).
+# 앱 봇이 자기 권한으로 도는 호출(슬래시 명령 · 이벤트 구독)은 이 줄이 아니라 엔진 호출 게이트 줄이 낸다.
+# 앱 관리 설정으로 좁힐 수 있다(그때는 틀릴 수 있다 — basis vendor_default 의 한계). 로그 구멍 「Slack AI 가 MCP 앱 도구를 부름」 5건.
+# identity 를 빼고(own) 넣으면 11-04 수집본 켬 점수판이 격차 경로 13 → 33, 사람-경로 쌍 17 → 139, 위협 6/8 → 4/9 로 바뀌었다(11-12 잼)
+- name: slack_installed_app_invoke
+  select: {source: {provider: slack, object_type: defs_app_id}}
+  emit:
+  - {p: triggers, from: 'ref:tenant', to: self, mode: invoke, identity: caller, basis: vendor_default}
+# Gemini Enterprise 공유 에이전트(2026-11-20). 공유 범위(sharingConfig.scope)가 ALL_USERS 면 그 앱을 쓰는 사람 누구나 에이전트를 부른다.
+# 에이전트는 부른 사람 자신의 권한과 커넥터 연결로 돈다 → identity caller(격차를 만들지 않고 로그 설명에만). 11-19 공유 에이전트 시험: 만든 사람의 Jira 동의가 있어도
+# 동의하지 않은 사람이 부르면 Jira 도구 실행 0건, 토큰 받기 302건이 모두 자기 동의 커넥터였다. 출발은 앱(ref:engine)이다 — 테넌트 구성원이 아니라 앱 역할이 있는 사람이 부른다.
+# RESTRICTED 는 에이전트 IAM 의 agentUser, PRIVATE 는 agentOwner(만든 사람) has_role_on 이 맡고 이 줄은 걸리지 않는다(capabilities role_name_rank gcp).
+# 3회차 실측 6개: ALL_USERS 2, RESTRICTED 1, PRIVATE 3
+- name: gcp_shared_agent_all_users
+  select: {source: {provider: gcp, object_type: Agent, property: {sharing_scope: ALL_USERS}}}
+  emit:
+  - {p: triggers, from: 'ref:engine', to: self, mode: invoke, identity: caller, basis: stated}
+
+# ---- 설정 조건 표 (칸 conditions_on) ----
+# 테넌트 설정 하나가 누구에게 어떤 능력을 허용 · 제한하나. 한 줄 = 설정 하나. 엔진은 provider 이름 없이 이 줄만 읽는다.
+#   select      설정이 붙는 객체(테넌트). match 문법, 자리 source
+#   level       설정 층(workspace · organization …). 같은 능력을 층 둘이 정하면 precedence 로 가린다(아직 declared)
+#   property    설정 값을 담을 객체 칸(정규화가 벤더 칸을 이 이름으로 옮긴다). values 는 값 → allow | deny
+#   default     칸이 없을 때(수집하지 않음) 벤더 기본값 allow | deny. default_source 는 그 출처
+#               칸이 있으면 근거 flag, 없으면 근거 vendor_default 에 모름 사유 setting_not_collected(허용 간선이 불확실 — 조직이 바꿨을 수 있다)
+#   holder      설정이 걸리는 사람. tenant = 그 테넌트 구성원 전원(간선 하나, 출발 = 테넌트)
+#   except      허용해도 빠지는 구성원(match, 자리 source). 테넌트 소속을 펼 때 뺀다(역할 제외와 같은 길)
+#   exempt      막아도 그대로인 구성원(관리자). 막음은 나머지 구성원마다 conditions(exclude) 사실 하나
+#   target      능력이 걸리는 곳. tenant = 그 테넌트, objects:<object_type> = 그 테넌트와 상위 테넌트 안의 그 종류 객체
+#   caps        허용하면 주는 능력. 막으면 다른 근거로 생긴 이 능력을 그 대상에서 깎는다(상한 ceiling 과 같은 자리)
+#   label       간선 설명 글
+#   collect     칸을 아직 수집하지 않으면 무엇을 받아야 하나(재수집 목록)
+settings:
+# 앱 설치 = 앱에 scope 를 주는 일(grant). 워크스페이스에 grant 를 주면 구성원 전원이 관리자처럼 계산되므로 대상은 그 워크스페이스의 앱 객체다.
+# 11-04 로그: 관리자 아닌 구성원 넷이 앱 설치 12 · scope 넓히기 12 성공, admin.apps.requests.list 는 요청 0건(승인 절차를 거치지 않았다는 것과 맞다)
+- name: slack_member_app_install
+  select: {source: {provider: slack, object_type: '200.team'}}
+  level: workspace
+  property: member_app_install
+  values: {allow: allow, approval_required: deny, admins_only: deny}
+  default: allow
+  default_source: 'Slack 도움말 「앱 승인 관리」 — 앱 승인을 켜지 않은 워크스페이스는 구성원이 앱을 설치한다. 게스트는 앱을 설치하지 못한다'
+  holder: tenant
+  except: {any: [{source: {property: {is_restricted: true}}}, {source: {property: {is_ultra_restricted: true}}}, {source: {property: {is_bot: true}}}, {source: {property: {is_app_user: true}}}, {source: {object_type: '200.bot'}}]}
+  exempt: {any: [{source: {property: {is_admin: true}}}, {source: {property: {is_owner: true}}}, {source: {property: {is_primary_owner: true}}}]}
+  target: 'objects:defs_app_id'
+  caps: [grant]
+  label: 워크스페이스 설정 — 구성원이 앱을 설치하고 scope 를 준다
+  collect: 앱 승인 켬 여부와 설치 허용 대상(Enterprise 조직 설정 · 워크스페이스 앱 관리 설정). admin.teams.settings.info 응답에는 이 칸이 없다 — 2-4 재수집 때 벤더 칸을 확인해 member_app_install 로 정규화
+# 아직 줄로 두지 않은 설정(2026-11-13): 채널 만들기 권한. 테넌트 자체에 거는 능력은 구성원마다 간선이 되는데, 만들기(세기 3)가 「쓰기 이상 테넌트 권한」으로
+# 세여 판정이 바뀐다. 11-04 로그에서 일반 구성원의 채널 만들기 2건은 이미 그 채널 소속으로 설명된다 — 질의가 능력 create 를 따로 묻게 된 뒤 더한다
+# 아직 줄로 두지 않은 설정(2026-11-20, Gemini Enterprise 앱 features): disable-agent-sharing(두 앱 모두 OFF), agent-sharing-without-admin-approval(둘 다 ON),
+# enable-end-user-sharing-with-groups(한 앱 ON · 한 앱 OFF). 3회차 설정값 원본의 엔진 응답 features 칸에 값이 있다. 셋 다 「에이전트를 남에게 공유하기」(에이전트 IAM
+# 권한 주기)를 정하는 설정이라 에이전트 만들기(CreateAgent)와는 상관이 없다 — 만들기는 역할 권한(capabilities.yaml 앱 사용자 [read, create])이 설명한다.
+# 줄로 두지 않는 까닭: (1) 이 표의 허용은 grants 를 새로 낸다. 공유 허용을 grants 로 두면 구성원 전원이 모든 에이전트에 권한 주기를 받는다(자기 에이전트만 공유한다).
+# 허용은 아무것도 주지 않고 막음만 깎는 줄 모양이 표에 없다. (2) 막음(ON)인 앱이 없다. (3) 이 설정이 갈라 줄 사건(에이전트 공유 SetIamPolicy)은 에이전트 owner
+# 바인딩이 있어야 설명되는데 에이전트 IAM 을 아직 수집하지 않았다. 다음 수집 때 owner 바인딩과 함께, 표에 「막음만」 칸을 두고 넣는다
+
+# ---- 자동화 범위 표(칸 ceiling 의 범위 갈래) ----
+# 범위가 수집된 자동화는 실행 신원(runs_as)의 권한을 이 범위 안에서만 쓴다. 실효 = 실행 신원이 닿는 곳 ∩ 범위.
+# 엔진 accessModel.ts 한 곳이 이 표를 읽는다. 쓰는 곳 셋이 같은 답을 쓴다(2026-11-17, aegi-knowledge#311):
+#   범위 안     접근 규칙 runs_as_inherits 의 automation_scope 홉(EA 행), 위협 판정 실행 신원 간선의 편집 범위(규칙을 고칠 수 있는 사람)
+#   동작 범위   범위 안 가운데 동작이 고치는 제품 자원만. 위협 판정의 호출 범위(규칙을 부르는 사람), 닿음 질의의 구조 경로
+# 칸
+#   name          줄 이름
+#   select        자동화 객체(provider, object_type)
+#   scope         범위 칸(property, properties 의 id 목록)과 그 id 가 가리키는 객체(object_type, ids = 그 객체에서 id 를 읽는 칸).
+#                 칸이 없거나 비었으면 범위를 모르는 것이라 자르지 않는다(전역 규칙, 범위가 프로젝트가 아닌 Confluence 규칙)
+#   below         범위 객체 아래로 보는 관계. 대상에서 이 관계를 따라 위로 올라가다 범위 객체를 만나면 범위 안이다(대상 자신이 범위 객체여도 안)
+#   own_product   true 면 범위는 자동화와 같은 제품(canonical.service) 객체에만 건다. 다른 제품 · 다른 SaaS 객체는 범위가 자르지 않는다.
+#                 제품 값이 없는 객체는 같은 제품으로 본다
+#   other_product_interface  own_product 일 때 다른 제품 객체 가운데 범위 안으로 두는 것의 interface. 자동화의 다른 제품 동작이 고치는 것만 남긴다.
+#                 없으면 다른 제품 객체를 모두 범위 안으로 둔다. 다른 SaaS 객체는 이 칸과 상관없이 범위 안이다
+#   actions      동작 범위. from 동작 목록 칸(그 줄들의 type), non_action 동작이 아닌 줄(이름 맞춤 match, 이름에 표시가 없는 트리거 types),
+#                 outbound 밖으로만 보내는 동작(같은 SaaS 자원을 고치지 않는다), record_only 아무것도 고치지 않는 동작,
+#                 product 동작 유형 접두 → 고치는 제품. 표에 없는 동작이 하나라도 있거나 동작 목록이 없으면 제품을 가리지 않는다(모름은 자르지 않는다)
+#   decided, seen 정한 날과 까닭, 이 줄을 잰 데이터
+automation_scopes:
+- name: jira_rule_project_scope
+  select: {provider: atlassian, object_type: AutomationRule}
+  scope: {property: scope_project_ids, object_type: Project, ids: [properties.id, identifiers]}
+  below: contained_in
+  own_product: true
+  other_product_interface: Resource
+  actions:
+    from: properties.components
+    non_action: {match: '(?:^|[.:_-])(trigger|condition)(?:$|[.:_-])', types: [jira.incoming.webhook, incoming.webhook]}
+    outbound: [slack.notification, jira.issue.outgoing.webhook, outgoing.webhook, action.send-templated-email]
+    record_only: [codebarrel.action.log]
+    product: {jira: jira, confluence: confluence}
+  decided: >-
+    2026-11-17 Relation 담당(Claude 가 정함, aegi-knowledge#311). 엔진에서 EA(프로젝트 객체만 범위로 자름)와 위협 판정(aegi-adapter-engine#429, 같은 SaaS 객체는
+    범위 프로젝트와 그 아래만)이 뜻을 따로 들고 있었다. 판정 뜻으로 합친다. 범위 규칙은 범위 프로젝트에서 일어난 일로만 돌고 동작도 그 일의 이슈를 바꾸므로,
+    프로젝트 아래가 아닌 Jira 객체(사이트, 사용자, 그룹, 스킴, 프로젝트 역할)는 범위 밖이다. EA 뜻으로 다시 판정하면 r3 11-13 판정 행이 17 → 147,
+    11-15 가 92 → 233 으로 늘었고 더 생긴 행은 모두 「규칙 편집자가 실행 신원으로 사이트 객체를 바꾼다」는 미확정이었다(사람 2명). 사이트 쪽을 바꾸는 동작이
+    수집에 나오면 그 동작만 따로 적는다. 한편 프로젝트 범위는 Jira 객체에만 건다. Jira 규칙의 Confluence 페이지 수정 동작은 프로젝트와 상관없이 Confluence 를
+    고친다(판정이 provider 로 비교해 Confluence space 가 하나도 안 남던 것을 고침). 다만 다른 제품에서는 내용 객체(Resource: space, 페이지)만 범위 안이다.
+    규칙의 Confluence 동작은 페이지를 만들고 고칠 뿐 Confluence 권한 설정 · 역할 · 자동화 규칙은 못 고친다(위협 판정 담당 aegi-adapter-engine#454 의
+    적대적 검토에서 같은 결론, 11-17). 프로젝트 범위 규칙도 Confluence 동작의 대상 space 를 고른다(https://jira.atlassian.com/browse/AUTO-2415)
+  seen: >-
+    r3 11-13 동작 목록과 범위가 함께 수집된 Jira 규칙 12개, 11-15 30개(실행 신원 3개). 미리보기 D1 r3 11-13 을 엔진 main 과 이 표를 읽는 엔진으로 나란히 재계산 —
+    EA 103 → 91(빠진 12행은 모두 규칙 → 사이트 ServerInformation, Confluence space 2행은 남음), 위협 17 → 18(Confluence 페이지를 고치는 규칙을 거쳐 Confluence space 에
+    관리로 닿는 권한 상승 1건, 사람 1명, 사유 능력 범위 모름), 권한 격차 3 · 피해 범위 77 그대로. 11-15 는 #311 의 수(EA 사이트 30행)
+
+# ---- 배정 자리 선언 표 ----
+# Assignment 객체 종류마다 한 줄. 정규화된 object_type 이 열쇠다(catalog 는 카탈로그 index 의 type 이름이 다를 때).
+# 줄마다 아래 가운데 하나(emit 은 relation 과 같이 둘 수 있다):
+#   relation    정규화가 이미 관계 행으로 만든다. slot 은 관계 행이 이 객체를 가리키는 칸(via_assignment · via_grant · session_activation · source)
+#   emit        의미 층이 이 객체에서 사실을 만든다. holder 보유자 자리, target 대상 자리(ref:<칸> · tenant_of_holder), caps 능력,
+#               ceiling 상한 scope 칸(conditions requires 사실로만, 간선 아님), when 객체 칸 조건
+#   skip        관계로 바꾸지 않는 까닭(중복 · 자리 없음 · 권한 아님)
+#   unverified  수집본에 행이 없어 자리를 아직 확인하지 못했다(그 까닭)
+# count 는 11-04 수집본 개수(0 은 카탈로그에만 있음)
+assignments:
+# 의미 층이 만든다. scope 는 권한이 아니라 상한이다 — 토큰 받기(authenticate)만 권한으로(11-11 scope 를 권한으로 내면 정답 라벨 하나가 틀림)
+- {provider: okta, object_type: OAuth2ScopeConsentGrant, count: 92, emit: {holder: 'ref:clientid|parent_scope', target: tenant_of_holder, caps: [authenticate], ceiling: scopeId, when: {status: ACTIVE}}, note: 객체 → 앱 contained_in 은 참조 칸에서 따로 나온다}
+- {provider: github, object_type: credential-authorizations, catalog: Credential Authorization, count: 9, emit: {holder: 'ref:grantee', target: 'ref:tenant', caps: [authenticate], ceiling: scopes}, note: 조직 SSO 로 인가된 PAT · SSH 키로 조직에 들어온다}
+- {provider: github, object_type: personal-access-tokens, catalog: Organization Programmatic Access Grant, count: 3, relation: has_role_on, slot: via_grant, emit: {holder: 'ref:grantee', target: 'ref:tenant', caps: [authenticate]}, note: 저장소 권한은 has_role_on 이 내고 의미 층은 조직에 들어오는 것만 더한다}
+# 정규화가 관계로 만든다
+- {provider: atlassian, object_type: SpacePermission, count: 44, relation: has_role_on, slot: via_assignment}
+- {provider: atlassian, object_type: PermissionGrant, count: 0, relation: has_role_on, slot: via_assignment, note: 권한 스킴 줄. 11-04 수집본에는 없고 10-20 수집본(엔진 src/data/aegi_inc_measured_v2)에서 533개 중 338개가 관계}
+- {provider: gws, object_type: GoogleAppsCloudidentityDevicesV1DeviceUser, count: 17, relation: owned_by, slot: via_assignment, note: 기기 쪽 contained_in 은 참조 칸에서 나온다}
+- {provider: gws, object_type: Permission, count: 12, relation: has_role_on, slot: via_assignment, note: 소유자 줄은 owned_by}
+- {provider: gws, object_type: RoleAssignment, count: 5, relation: has_role_on, slot: via_assignment, note: 5개 중 1개는 받는 쪽 참조가 없어 관계가 없다}
+- {provider: okta, object_type: AppUser, count: 46, relation: has_role_on, slot: via_assignment}
+- {provider: okta, object_type: ApplicationGroupAssignment, count: 2, relation: has_role_on, slot: via_assignment}
+- {provider: okta, object_type: CustomRole, count: 11, relation: has_role_on, slot: source, note: OK-06 이 같은 배정을 has_role_on 으로 이미 만든다. 다시 바꾸면 중복(11-11 K 에서 확인)}
+- {provider: salesforce, object_type: GroupMember, count: 3, relation: member_of, slot: via_assignment}
+- {provider: salesforce, object_type: OauthToken, count: 18, relation: has_role_on, slot: via_assignment, note: 18개 중 6개만 관계 — 나머지는 앱 객체가 수집본에 없다}
+- {provider: salesforce, object_type: PermissionSetAssignment, count: 30, relation: has_role_on, slot: via_assignment}
+- {provider: salesforce, object_type: PermissionSetGroupComponent, count: 7, relation: contained_in, slot: via_assignment}
+- {provider: salesforce, object_type: PermissionSetLicenseAssign, count: 7, relation: has_role_on, slot: via_assignment}
+- {provider: salesforce, object_type: SessionPermSetActivation, count: 11, relation: has_role_on, slot: session_activation, note: 세션 활성화 기록. has_role_on 의 activation · session_active 칸이 담는다}
+- {provider: slack, object_type: '200.entities[*]', count: 7, relation: applies_to, slot: via_assignment}
+# 관계로 바꾸지 않는다
+- {provider: okta, object_type: AssignedAppLink, count: 59, skip: 사용자 자리 없음 — 정규화가 사용자 참조를 남기지 않는다. 앱 배정은 AppUser 가 낸다}
+- {provider: okta, object_type: PolicyMapping, count: 34, skip: 권한 아님 — 정책 → 앱 적용(conditions). 대상 id 를 객체로 못 푼다}
+- {provider: gws, object_type: AclRule, count: 7, skip: '대상(캘린더) 객체 없음, 받는 쪽(scope.value)도 객체로 안 풀림'}
+- {provider: gws, object_type: Token, count: 32, skip: '사용자 OAuth 토큰. 앱 객체로 잇는 정규화가 아직 없다 — holds, acts_as 후보(로그 부여 사건 중 스냅샷에 없는 셋 가운데 하나)'}
+- {provider: salesforce, object_type: WorkAccess, count: 12, skip: 대상(parentid) 객체로 안 풀림}
+- {provider: salesforce, object_type: ContentDocumentLink, count: 2, skip: 양 끝 객체로 안 풀림}
+- {provider: salesforce, object_type: UserPermissionAccess, count: 1, skip: '받는 쪽, 대상 참조 없음'}
+- {provider: atlassian, object_type: SharePermission, count: 1, skip: 받는 쪽(프로젝트 구성원) 객체로 안 풀림}
+# 카탈로그에만 있다
+- {provider: gws, object_type: Member, count: 0, unverified: 운영 수집본에 행이 없다. 합성 환경 데이터(엔진 src/data/aegi_inc_environment_v2. 2026-11-13 지움)에서는 객체 → 그룹 contained_in 만 있고 사람 자리가 관계가 되지 않는다}
+- {provider: gws, object_type: Delegate, count: 0, unverified: 수집본에 행이 없다(메일 위임 — acts_as 후보)}
+- {provider: gws, object_type: InboundSsoAssignment, count: 0, unverified: 수집본에 행이 없다(조직 단위 → SSO 설정 — conditions 후보)}
+- {provider: github, object_type: ExternalIdentity, count: 0, relation: member_of, slot: via_assignment, note: 11-04 수집본에는 없다. 엔진 src/data/aegi_inc_measured_model_v1_base 에서 5개 모두 member_of}
+- {provider: github, object_type: Organization Invitation, count: 0, unverified: 수집본에 행이 없다(초대 대기 — 받기 전에는 권한 아님)}
+- {provider: slack, object_type: workflow-collaborator, count: 0, unverified: 수집본에 이 이름 행이 없다. 워크플로 관리자는 has_role_on 역할 이름 collaborator 로 들어온다}
+# Google Cloud · Gemini Enterprise (2026-11-19, aegi-adapter-engine#499). 11-04 수집본에는 gcp 가 없어 count 0. UserLicense 는 3회차 실측(11-18) 10개
+- {provider: gcp, object_type: UserLicense, count: 0, skip: 권한을 더 주지 않는다 — 좌석 라이선스는 앱을 쓰는 필요조건이고 앱 권한은 IAM has_role_on 이 준다(conditions requires 후보). 받는 쪽은 메일 칸(userPrincipal)뿐이라 IamMember 로 풀리지 않는다. 3회차 실측 10개}
+- {provider: gcp, object_type: AgentIdentityAuthorization, count: 0, unverified: 명세에만 있다(Agent Identity v1 Discovery 문서). 사용자가 에이전트에 준 동의 기록 — holds · acts_as 후보}
+- {provider: gcp, object_type: RegistryBinding, count: 0, unverified: 명세에만 있다(Agent Registry v1 Discovery 문서). 대상과 인증 제공자를 잇고 scope 목록을 가진다 — ceiling 후보}
+
+# ---- 생성 부분: 별칭 표 (tools/gen_semantic_aliases.py 가 relation_semantics.yaml 에서 만든다. 손으로 고치지 않는다)
+# 관계 종류마다 갈래 목록. 갈래 고르기(위에서부터 먼저 맞는 갈래 하나, 없으면 default)와 match 식·끝 이름은 효과 표와 같다
+aliases:
+  has_role_on:
+  - name: inactive_account
+    match: {"source": {"judged_or_property": {"account_state": ["deleted", "deprovisioned", "suspended"]}}}
+    cases:
+    - pairs: ["Principal>Resource", "Principal>Tenant", "Principal>Integration", "Principal>Automation"]
+      emit: []
+  - name: deleted_assignment
+    match: {"via_assignment": {"property": {"deleted": true}}}
+    cases:
+    - pairs: "all"
+      emit: []
+  - name: excluded
+    match: {"exists_relation": {"type": "excludes", "source": "$role", "target": "$source"}}
+    cases:
+    - pairs: "all"
+      emit: []
+  - name: via_grant
+    match: {"relation": {"property": {"via_grant": "present"}}}
+    cases:
+    - pairs: "all"
+      emit:
+      - {"p": "grants", "from": "source", "to": "target", "caps": "role"}
+      - {"p": "grants", "from": "grant", "to": "target", "caps": "role"}
+  - name: okta_resource_set_partial
+    match: {"relation": {"provider": "okta", "property": {"resource_set_scope": "partial"}}}
+    cases:
+    - pairs: ["Principal>Tenant"]
+      emit:
+      - {"p": "grants", "from": "source", "to": "resource_set", "caps": "role"}
+      - {"p": "grants", "from": "source", "to": "target", "caps": "role", "uncertain": ["resource_set_partial"]}
+      - {"p": "grants", "from": "source", "to": "resource_set_unexpanded", "caps": "role", "uncertain": ["resource_set_not_expanded"]}
+    - pairs: ["Policy>Tenant", "Credential>Tenant", "Integration>Tenant"]
+      emit:
+      - {"p": "grants", "from": "source", "to": "resource_set", "caps": "role"}
+      - {"p": "grants", "from": "source", "to": "resource_set_unexpanded", "caps": "role", "uncertain": ["resource_set_not_expanded"]}
+  - name: okta_resource_set_org
+    match: {"relation": {"provider": "okta", "property": {"resource_set_scope": "org"}}}
+    cases:
+    - pairs: "all"
+      emit:
+      - {"p": "grants", "from": "source", "to": "target", "caps": "role"}
+  - name: okta_resource_set
+    match: {"relation": {"provider": "okta", "property": {"resource_set": "present"}}}
+    override: confirmed_resource_sets
+    cases:
+    - pairs: "all"
+      emit:
+      - {"p": "grants", "from": "source", "to": "target", "caps": "role", "uncertain": ["resource_set_not_expanded"]}
+  - name: session_active
+    match: {"all": [{"relation": {"property": {"activation": "session"}}}, {"relation": {"property": {"session_active": true}}}]}
+    cases:
+    - pairs: ["Principal>Tenant", "Principal>Resource"]
+      emit:
+      - {"p": "grants", "from": "source", "to": "target", "caps": "role"}
+  - name: session_activation
+    match: {"relation": {"property": {"activation": "session"}}}
+    cases:
+    - pairs: ["Principal>Tenant", "Principal>Resource"]
+      emit:
+      - {"p": "grants", "from": "source", "to": "target", "caps": "role", "uncertain": ["session_activation"]}
+  - name: gcp_public_principal
+    match: {"all": [{"source": {"provider": "gcp", "object_type": "IamMember"}}, {"source": {"property": {"member": ["allUsers", "allAuthenticatedUsers"]}}}]}
+    cases:
+    - pairs: ["Principal>Resource", "Principal>Tenant"]
+      emit:
+      - {"p": "grants", "from": "everyone", "to": "target", "caps": "role"}
+  - name: gcp_project_member
+    match: {"all": [{"source": {"provider": "gcp", "object_type": "IamMember"}}, {"source": {"property": {"member_type": ["user", "group", "domain", "serviceAccount"]}}}, {"target": {"interface": "Tenant"}}]}
+    cases:
+    - pairs: ["Principal>Tenant"]
+      emit:
+      - {"p": "member_of", "from": "source", "to": "target"}
+      - {"p": "grants", "from": "source", "to": "target", "caps": "role"}
+  - name: special_principal.public
+    match: {"all": [{"source": {"provider": "atlassian", "object_type": "SpecialPrincipal"}}, {"source": {"property": {"access_class": "ANONYMOUS_USERS"}}}]}
+    cases:
+    - pairs: ["Principal>Resource", "Principal>Tenant"]
+      emit:
+      - {"p": "grants", "from": "everyone", "to": "target", "caps": "role"}
+  - name: special_principal.tenant_members
+    match: {"all": [{"source": {"provider": "atlassian", "object_type": "SpecialPrincipal"}}, {"source": {"property": {"access_class": "ALL_LICENSED_USERS"}}}, {"relation": {"property": {"via_scheme": "missing"}}}]}
+    cases:
+    - pairs: ["Principal>Resource", "Principal>Tenant"]
+      emit:
+      - {"p": "grants", "from": "tenant", "to": "target", "caps": "role"}
+  - name: special_principal.role_bundle
+    match: {"source": {"provider": "atlassian", "object_type": "SpecialPrincipal"}}
+    cases:
+    - pairs: ["Principal>Resource", "Principal>Tenant"]
+      emit:
+      - {"p": "grants", "from": "source", "to": "target", "caps": "role", "uncertain": ["dynamic_holder_unresolved"]}
+  - name: default
+    cases:
+    - pairs: ["Principal>Resource", "Principal>Tenant", "Principal>Integration", "Principal>Automation", "Policy>Resource", "Policy>Tenant", "Policy>Integration", "Policy>Automation", "Credential>Resource", "Credential>Tenant", "Credential>Integration", "Credential>Automation", "Integration>Resource", "Integration>Tenant", "Integration>Integration", "Integration>Automation"]
+      emit:
+      - {"p": "grants", "from": "source", "to": "target", "caps": "role"}
+  permits: []
+  member_of:
+  - name: inactive_account
+    match: {"source": {"judged_or_property": {"account_state": ["deleted", "deprovisioned", "suspended"]}}}
+    cases:
+    - pairs: "all"
+      emit: []
+  - name: measurement_membership
+    match: {"relation": {"property": {"measurement_principal": true}}}
+    cases:
+    - pairs: ["Principal>Tenant", "Principal>Resource"]
+      emit: []
+  - name: measurement_principal
+    match: {"source": {"meta": {"demo_role": "measurement_principal"}}}
+    cases:
+    - pairs: ["Principal>Tenant"]
+      emit: []
+  - name: gws_org_unit
+    match: {"all": [{"relation": {"provider": "gws"}}, {"target": {"object_type": "OrgUnit"}}]}
+    cases:
+    - pairs: ["Principal>Resource"]
+      emit:
+      - {"p": "member_of", "from": "source", "to": "target"}
+  - name: scope_only_target
+    match: {"target": {"judged_or_property": {"grant_target": false}}}
+    cases:
+    - pairs: ["Principal>Resource"]
+      emit:
+      - {"p": "member_of", "from": "source", "to": "target"}
+  - name: slack_conversation
+    match: {"all": [{"relation": {"provider": "slack"}}, {"target": {"object_type": "conversation"}}]}
+    cases:
+    - pairs: ["Principal>Resource"]
+      emit:
+      - {"p": "grants", "from": "source", "to": "target", "caps": "edit"}
+  - name: default
+    cases:
+    - pairs: ["Principal>Tenant", "Principal>Principal"]
+      emit:
+      - {"p": "member_of", "from": "source", "to": "target"}
+    - pairs: ["Principal>Resource"]
+      emit:
+      - {"p": "grants", "from": "source", "to": "target", "caps": "membership"}
+  owned_by:
+  - name: inactive_account
+    match: {"target": {"judged_or_property": {"account_state": ["deleted", "deprovisioned", "suspended"]}}}
+    cases:
+    - pairs: ["Resource>Principal"]
+      emit: []
+  - name: caller
+    match: {"source": {"judged_or_property": {"run_as_resolution": "caller"}}}
+    cases:
+    - pairs: ["Automation>Integration", "Automation>Tenant"]
+      emit: []
+  - name: delivery_endpoint
+    match: {"all": [{"source": {"interface": "Endpoint"}}, {"exists_relation": {"type": "receives_into", "source": "$source"}}]}
+    cases:
+    - pairs: ["Endpoint>Integration", "Endpoint>Tenant", "Credential>Integration", "Credential>Tenant"]
+      emit: []
+  - name: outbound_endpoint
+    match: {"all": [{"source": {"interface": "Endpoint"}}, {"source": {"judged_or_property": {"direction": "out"}}}]}
+    cases:
+    - pairs: ["Endpoint>Tenant"]
+      emit: []
+  - name: app_refresh_token
+    match: {"all": [{"source": {"judged_or_property": {"credential_kind": "bearer_token"}}}, {"exists_relation": {"type": "authenticates_with", "target": "$source"}}]}
+    cases:
+    - pairs: ["Credential>Integration"]
+      emit: []
+  - name: org_bearer_token
+    match: {"source": {"judged_or_property": {"credential_kind": "bearer_token"}}}
+    cases:
+    - pairs: ["Credential>Tenant"]
+      emit: []
+  - name: public_certificate
+    match: {"source": {"judged_or_property": {"credential_kind": "certificate"}}}
+    cases:
+    - pairs: ["Credential>Tenant"]
+      emit: []
+  - name: unknown_runner_tenant
+    match: {"source": {"judged_or_property": {"run_as_resolution": "unknown"}}}
+    cases:
+    - pairs: ["Automation>Tenant"]
+      emit: []
+  - name: registered_device
+    match: {"source": {"provider": "gws", "object_type": "GoogleAppsCloudidentityDevicesV1Device"}}
+    cases:
+    - pairs: ["Resource>Principal"]
+      emit: []
+  - name: default
+    cases:
+    - pairs: ["Endpoint>Integration", "Endpoint>Tenant", "Automation>Integration", "Automation>Tenant", "Credential>Integration", "Credential>Tenant"]
+      emit:
+      - {"p": "acts_as", "from": "source", "to": "target"}
+    - pairs: ["Resource>Principal"]
+      emit:
+      - {"p": "grants", "from": "target", "to": "source", "caps": "manage"}
+    - pairs: ["Principal>Integration"]
+      emit:
+      - {"p": "acts_as", "from": "target", "to": "source"}
+  registered_in:
+  - name: default
+    cases:
+    - pairs: ["Integration>Tenant"]
+      emit:
+      - {"p": "contained_in", "from": "source", "to": "target"}
+  registered_by: []
+  acts_as:
+  - name: inactive_account
+    match: {"target": {"judged_or_property": {"account_state": ["deleted", "deprovisioned", "suspended"]}}}
+    cases:
+    - pairs: "all"
+      emit: []
+  - name: default
+    cases:
+    - pairs: ["Integration>Principal"]
+      emit:
+      - {"p": "acts_as", "from": "source", "to": "target"}
+  authenticates_with:
+  - name: inactive_account
+    match: {"source": {"judged_or_property": {"account_state": ["deleted", "deprovisioned", "suspended"]}}}
+    cases:
+    - pairs: ["Principal>Credential"]
+      emit: []
+  - name: org_bearer_token
+    match: {"all": [{"target": {"judged_or_property": {"credential_kind": "bearer_token"}}}, {"exists_relation": {"type": "owned_by", "source": "$target", "target_interface": "Tenant"}}]}
+    cases:
+    - pairs: ["Principal>Credential"]
+      emit:
+      - {"p": "holds", "from": "source", "to": "target", "impersonate": true}
+  - name: app_refresh_token
+    match: {"all": [{"target": {"judged_or_property": {"credential_kind": "bearer_token"}}}, {"exists_relation": {"type": "owned_by", "source": "$target", "target_interface": "Integration"}}]}
+    cases:
+    - pairs: ["Principal>Credential"]
+      emit:
+      - {"p": "holds", "from": "source", "to": "target", "impersonate": true, "uncertain": ["token_scope_limited"]}
+  - name: default
+    cases:
+    - pairs: ["Principal>Credential", "Integration>Credential", "Endpoint>Credential"]
+      emit: []
+  runs_as:
+  - name: inactive_account
+    match: {"target": {"judged_or_property": {"account_state": ["deleted", "deprovisioned", "suspended"]}}}
+    cases:
+    - pairs: ["Automation>Principal"]
+      emit: []
+  - name: computed_caller
+    match: {"all": [{"relation": {"property": {"basis": "computed"}}}, {"source": {"judged_or_property": {"run_as_resolution": "caller"}}}]}
+    cases:
+    - pairs: ["Automation>Principal"]
+      emit: []
+  - name: computed
+    match: {"relation": {"property": {"basis": "computed"}}}
+    cases:
+    - pairs: ["Automation>Principal"]
+      emit:
+      - {"p": "acts_as", "from": "source", "to": "target", "uncertain": ["runs_as_computed"]}
+    - pairs: ["Automation>Credential"]
+      emit:
+      - {"p": "acts_as", "from": "source", "to": "target"}
+      - {"p": "flows_to", "from": "source", "to": "target", "uncertain": ["flow_not_observed"]}
+  - name: default
+    cases:
+    - pairs: ["Automation>Principal"]
+      emit:
+      - {"p": "acts_as", "from": "source", "to": "target"}
+    - pairs: ["Automation>Credential"]
+      emit:
+      - {"p": "acts_as", "from": "source", "to": "target"}
+      - {"p": "flows_to", "from": "source", "to": "target", "uncertain": ["flow_not_observed"]}
+  triggered_by:
+  - name: inactive_account
+    match: {"target": {"judged_or_property": {"account_state": ["deleted", "deprovisioned", "suspended"]}}}
+    cases:
+    - pairs: ["Automation>Principal"]
+      emit: []
+  - name: input_carried
+    match: {"exists_relation": {"type": "runs_as", "source": "$source", "target_interface": "Credential"}}
+    cases:
+    - pairs: ["Automation>Resource"]
+      emit:
+      - {"p": "triggers", "from": "target", "to": "source", "mode": "input"}
+      - {"p": "flows_to", "from": "target", "to": "source", "uncertain": ["flow_not_observed"]}
+  - name: default
+    cases:
+    - pairs: ["Automation>Principal"]
+      emit:
+      - {"p": "triggers", "from": "target", "to": "source", "mode": "invoke"}
+    - pairs: ["Automation>Endpoint", "Automation>Resource", "Automation>Integration"]
+      emit:
+      - {"p": "triggers", "from": "target", "to": "source", "mode": "input"}
+  receives_into:
+  - name: default
+    cases:
+    - pairs: ["Endpoint>Tenant", "Endpoint>Resource"]
+      emit:
+      - {"p": "grants", "from": "source", "to": "target", "caps": "edit"}
+      - {"p": "flows_to", "from": "source", "to": "target"}
+  shared_with:
+  - name: anyone
+    match: {"relation": {"property": {"permission_type": "anyone"}}}
+    cases:
+    - pairs: "all"
+      emit:
+      - {"p": "grants", "from": "everyone", "to": "source", "caps": "use"}
+  - name: set
+    match: {"relation": {"property": {"target_kind": "set"}}}
+    cases:
+    - pairs: "all"
+      emit:
+      - {"p": "grants", "from": "everyone", "to": "source", "caps": "use"}
+  - name: role
+    match: {"relation": {"property": {"role": "writer"}}}
+    cases:
+    - pairs: "all"
+      emit:
+      - {"p": "grants", "from": "target", "to": "source", "caps": "edit"}
+  - name: slack_conversation.is_private_false
+    match: {"source": {"provider": "slack", "object_type": "conversation", "property": {"is_private": false}}}
+    cases:
+    - pairs: "all"
+      emit: []
+  - name: slack_conversation.is_private_true
+    match: {"source": {"provider": "slack", "object_type": "conversation", "property": {"is_private": true}}}
+    cases:
+    - pairs: "all"
+      emit: []
+  - name: slack_conversation.is_private_unknown
+    match: {"source": {"provider": "slack", "object_type": "conversation", "property": {"is_private": "missing"}}}
+    cases:
+    - pairs: "all"
+      emit: []
+  - name: default
+    cases:
+    - pairs: ["Resource>Tenant"]
+      emit:
+      - {"p": "grants", "from": "target", "to": "source", "caps": "membership"}
+  applies_to: []
+  excludes: []
+  evaluates: []
+  trusts: []
+  contained_in:
+  - name: group_tenant
+    match: {"any": [{"source": {"judged_or_property": {"principal_kind": "group"}}}, {"source": {"object_type": ["group", "usergroup", "team"]}}, {"exists_relation": {"type": "member_of", "target": "$source"}}]}
+    cases:
+    - pairs: ["Principal>Tenant"]
+      emit:
+      - {"p": "contained_in", "from": "source", "to": "target"}
+  - name: automation_resource
+    match: {"source": {"interface": "Automation"}}
+    cases:
+    - pairs: ["Resource>Principal", "Resource>Integration", "Resource>Credential", "Resource>Assignment", "Resource>Policy", "Resource>Endpoint", "Resource>Resource", "Resource>Automation"]
+      emit: []
+  - name: slack_conversation.is_private_false
+    match: {"source": {"provider": "slack", "object_type": "conversation", "property": {"is_private": false}}}
+    cases:
+    - pairs: ["Resource>Tenant"]
+      emit:
+      - {"p": "contained_in", "from": "source", "to": "target"}
+  - name: gws_project
+    match: {"source": {"in_table": "container_bound_automations"}}
+    cases:
+    - pairs: ["Automation>Resource"]
+      emit:
+      - {"p": "flows_to", "from": "target", "to": "source", "uncertain": ["flow_not_observed"]}
+      - {"p": "triggers", "from": "target", "to": "source", "mode": "modify"}
+  - name: gcp_app_store_caller
+    match: {"all": [{"source": {"provider": "gcp", "object_type": "DataStore"}}, {"target": {"provider": "gcp", "object_type": "Engine"}}, {"any": [{"source": {"property": {"aclEnabled": true}}}, {"exists_relation": {"type": "contained_in", "source": "$source", "property": {"federated": true}}}]}]}
+    cases:
+    - pairs: ["Resource>Resource"]
+      emit: []
+  - name: gcp_connector_store
+    match: {"all": [{"source": {"provider": "gcp", "object_type": "DataStore"}}, {"target": {"provider": "gcp", "object_type": "DataConnector"}}]}
+    cases:
+    - pairs: ["Resource>Integration"]
+      emit: []
+  - name: default
+    cases:
+    - pairs: ["Tenant>Tenant"]
+      emit:
+      - {"p": "member_of", "from": "source", "to": "target"}
+      - {"p": "contained_in", "from": "source", "to": "target"}
+    - pairs: ["Tenant>Principal", "Tenant>Integration", "Tenant>Credential", "Tenant>Assignment", "Tenant>Policy", "Tenant>Endpoint", "Tenant>Resource", "Tenant>Automation", "Principal>Principal", "Principal>Integration", "Principal>Credential", "Principal>Assignment", "Principal>Policy", "Principal>Endpoint", "Principal>Resource", "Principal>Automation", "Integration>Tenant", "Integration>Principal", "Integration>Integration", "Integration>Credential", "Integration>Assignment", "Integration>Policy", "Integration>Endpoint", "Integration>Resource", "Integration>Automation", "Credential>Tenant", "Credential>Principal", "Credential>Integration", "Credential>Credential", "Credential>Assignment", "Credential>Policy", "Credential>Endpoint", "Credential>Resource", "Credential>Automation", "Assignment>Tenant", "Assignment>Principal", "Assignment>Integration", "Assignment>Credential", "Assignment>Assignment", "Assignment>Policy", "Assignment>Endpoint", "Assignment>Resource", "Assignment>Automation", "Policy>Tenant", "Policy>Principal", "Policy>Integration", "Policy>Credential", "Policy>Assignment", "Policy>Policy", "Policy>Endpoint", "Policy>Resource", "Policy>Automation", "Endpoint>Tenant", "Endpoint>Principal", "Endpoint>Credential", "Endpoint>Assignment", "Endpoint>Policy", "Endpoint>Endpoint", "Endpoint>Resource", "Endpoint>Automation", "Resource>Tenant", "Resource>Principal", "Resource>Integration", "Resource>Credential", "Resource>Assignment", "Resource>Policy", "Resource>Endpoint", "Resource>Resource", "Resource>Automation", "Automation>Tenant"]
+      emit:
+      - {"p": "contained_in", "from": "source", "to": "target"}
+    - pairs: ["Principal>Tenant"]
+      emit:
+      - {"p": "member_of", "from": "source", "to": "target"}
+    - pairs: ["Endpoint>Integration"]
+      emit:
+      - {"p": "acts_as", "from": "source", "to": "target"}
+    - pairs: ["Automation>Principal", "Automation>Integration", "Automation>Credential", "Automation>Assignment", "Automation>Policy", "Automation>Endpoint", "Automation>Resource", "Automation>Automation"]
+      emit:
+      - {"p": "flows_to", "from": "target", "to": "source", "uncertain": ["flow_not_observed"]}

@@ -1,0 +1,21 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: slack
+service: null
+object_type: Policy
+interfaces:
+  - Policy
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: tenant
+runtime_stub:
+  display: "{id} (인증 정책)"
+runtime_key: SL-POL-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable

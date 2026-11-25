@@ -1,0 +1,1167 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Quote
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:067abc1de893817e2e026419
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:067abc1de893817e2e026419.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|Id
+  AccountId:
+    path: AccountId
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: reference
+      name: AccountId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|AccountId
+  AdditionalAddress:
+    path: AdditionalAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: address
+      name: AdditionalAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|AdditionalAddress
+  AdditionalCity:
+    path: AdditionalCity
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: AdditionalCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|AdditionalCity
+  AdditionalCountry:
+    path: AdditionalCountry
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: AdditionalCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|AdditionalCountry
+  AdditionalCountryCode:
+    path: AdditionalCountryCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: AdditionalCountryCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|AdditionalCountryCode
+  AdditionalLatitude:
+    path: AdditionalLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: double
+      name: AdditionalLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|AdditionalLatitude
+  AdditionalLongitude:
+    path: AdditionalLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: double
+      name: AdditionalLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|AdditionalLongitude
+  AdditionalName:
+    path: AdditionalName
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: AdditionalName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|AdditionalName
+  AdditionalPostalCode:
+    path: AdditionalPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: AdditionalPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|AdditionalPostalCode
+  AdditionalState:
+    path: AdditionalState
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: AdditionalState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|AdditionalState
+  AdditionalStateCode:
+    path: AdditionalStateCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: AdditionalStateCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|AdditionalStateCode
+  AdditionalStreet:
+    path: AdditionalStreet
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: textarea
+      name: AdditionalStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|AdditionalStreet
+  BillToContactId:
+    path: BillToContactId
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: reference
+      name: BillToContactId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|BillToContactId
+  BillingAddress:
+    path: BillingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: address
+      name: BillingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|BillingAddress
+  BillingCity:
+    path: BillingCity
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: BillingCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|BillingCity
+  BillingCountry:
+    path: BillingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: BillingCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|BillingCountry
+  BillingCountryCode:
+    path: BillingCountryCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: BillingCountryCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|BillingCountryCode
+  BillingLatitude:
+    path: BillingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: double
+      name: BillingLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|BillingLatitude
+  BillingLongitude:
+    path: BillingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: double
+      name: BillingLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|BillingLongitude
+  BillingName:
+    path: BillingName
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: BillingName
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|BillingName
+  BillingPostalCode:
+    path: BillingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: BillingPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|BillingPostalCode
+  BillingState:
+    path: BillingState
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: BillingState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|BillingState
+  BillingStateCode:
+    path: BillingStateCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: BillingStateCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|BillingStateCode
+  BillingStreet:
+    path: BillingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: textarea
+      name: BillingStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|BillingStreet
+  CalculationStatus:
+    path: CalculationStatus
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: CalculationStatus
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|CalculationStatus
+  CanCreateQuoteLineItems:
+    path: CanCreateQuoteLineItems
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: boolean
+      name: CanCreateQuoteLineItems
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Quote|CanCreateQuoteLineItems
+  ContactId:
+    path: ContactId
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: reference
+      name: ContactId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ContactId
+  ContractId:
+    path: ContractId
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: reference
+      name: ContractId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ContractId
+  CurrencyIsoCode:
+    path: CurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: CurrencyIsoCode
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|CurrencyIsoCode
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|Description
+  Discount:
+    path: Discount
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: percent
+      name: Discount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|Discount
+  Email:
+    path: Email
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: email
+      name: Email
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|Email
+  ExpirationDate:
+    path: ExpirationDate
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: date
+      name: ExpirationDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ExpirationDate
+  Fax:
+    path: Fax
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: phone
+      name: Fax
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|Fax
+  GrandTotal:
+    path: GrandTotal
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: currency
+      name: GrandTotal
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|GrandTotal
+  IsSyncing:
+    path: IsSyncing
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: boolean
+      name: IsSyncing
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Quote|IsSyncing
+  InsuranceQuoteType:
+    path: InsuranceQuoteType
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: InsuranceQuoteType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|InsuranceQuoteType
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: date
+      name: LastReferencedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: date
+      name: LastViewedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|LastViewedDate
+  LineItemCount:
+    path: LineItemCount
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: int
+      name: LineItemCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Quote|LineItemCount
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: Name
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|Name
+  OpportunityId:
+    path: OpportunityId
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: reference
+      name: OpportunityId
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|OpportunityId
+  Phone:
+    path: Phone
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: phone
+      name: Phone
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|Phone
+  Pricebook2Id:
+    path: Pricebook2Id
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: reference
+      name: Pricebook2Id
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|Pricebook2Id
+  QuoteAccountId:
+    path: QuoteAccountId
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: reference
+      name: QuoteAccountId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|QuoteAccountId
+  QuoteNumber:
+    path: QuoteNumber
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: QuoteNumber
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|QuoteNumber
+  QuoteToAddress:
+    path: QuoteToAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: address
+      name: QuoteToAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|QuoteToAddress
+  QuoteToCity:
+    path: QuoteToCity
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: QuoteToCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|QuoteToCity
+  QuoteToCountry:
+    path: QuoteToCountry
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: QuoteToCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|QuoteToCountry
+  QuoteToLatitude:
+    path: QuoteToLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: double
+      name: QuoteToLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|QuoteToLatitude
+  QuoteToLongitude:
+    path: QuoteToLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: double
+      name: QuoteToLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|QuoteToLongitude
+  QuoteToName:
+    path: QuoteToName
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: QuoteToName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|QuoteToName
+  QuoteToPostalCode:
+    path: QuoteToPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: QuoteToPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|QuoteToPostalCode
+  QuoteToState:
+    path: QuoteToState
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: QuoteToState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|QuoteToState
+  QuoteToStreet:
+    path: QuoteToStreet
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: textarea
+      name: QuoteToStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|QuoteToStreet
+  RecordSource:
+    path: RecordSource
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: RecordSource
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|RecordSource
+  RecordTypeID:
+    path: RecordTypeID
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: reference
+      name: RecordTypeID
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|RecordTypeID
+  RelatedWorkId:
+    path: RelatedWorkId
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: reference
+      name: RelatedWorkId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|RelatedWorkId
+  ShippingAddress:
+    path: ShippingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: address
+      name: ShippingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ShippingAddress
+  ShippingCity:
+    path: ShippingCity
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: ShippingCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ShippingCity
+  ShippingCountry:
+    path: ShippingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: ShippingCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ShippingCountry
+  ShippingCountryCode:
+    path: ShippingCountryCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: ShippingCountryCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ShippingCountryCode
+  ShippingHandling:
+    path: ShippingHandling
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: currency
+      name: ShippingHandling
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|ShippingHandling
+  ShippingLatitude:
+    path: ShippingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: double
+      name: ShippingLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|ShippingLatitude
+  ShippingLongitude:
+    path: ShippingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: double
+      name: ShippingLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|ShippingLongitude
+  ShippingName:
+    path: ShippingName
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: ShippingName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ShippingName
+  ShippingPostalCode:
+    path: ShippingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: ShippingPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ShippingPostalCode
+  ShippingState:
+    path: ShippingState
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: string
+      name: ShippingState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ShippingState
+  ShippingStateCode:
+    path: ShippingStateCode
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: ShippingStateCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ShippingStateCode
+  ShippingStreet:
+    path: ShippingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: textarea
+      name: ShippingStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|ShippingStreet
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: picklist
+      name: Status
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Quote|Status
+  Subtotal:
+    path: Subtotal
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: currency
+      name: Subtotal
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|Subtotal
+  Tax:
+    path: Tax
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: currency
+      name: Tax
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|Tax
+  TotalPrice:
+    path: TotalPrice
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: currency
+      name: TotalPrice
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|TotalPrice
+  TotalPriceWithTax:
+    path: TotalPriceWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: currency
+      name: TotalPriceWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|TotalPriceWithTax
+  TotalTaxAmount:
+    path: TotalTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Quote
+    declaration:
+      format: currency
+      name: TotalTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Quote|TotalTaxAmount
+references:
+  - name: quoteaccountid
+    field: QuoteAccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:58246ea5624a1a9ecdf97a95; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Quote
+  interfaces: *a1
+  model:
+    research_type: object-type:067abc1de893817e2e026419
+  extract:
+    key: PILOT-salesforce-Quote-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-026419
+            endpoint: /
+            items:
+              - records
+        properties:
+          AccountId: AccountId
+          AdditionalAddress: AdditionalAddress
+          AdditionalCity: AdditionalCity
+          AdditionalCountry: AdditionalCountry
+          AdditionalCountryCode: AdditionalCountryCode
+          AdditionalLatitude: AdditionalLatitude
+          AdditionalLongitude: AdditionalLongitude
+          AdditionalName: AdditionalName
+          AdditionalPostalCode: AdditionalPostalCode
+          AdditionalState: AdditionalState
+          AdditionalStateCode: AdditionalStateCode
+          AdditionalStreet: AdditionalStreet
+          BillToContactId: BillToContactId
+          BillingAddress: BillingAddress
+          BillingCity: BillingCity
+          BillingCountry: BillingCountry
+          BillingCountryCode: BillingCountryCode
+          BillingLatitude: BillingLatitude
+          BillingLongitude: BillingLongitude
+          BillingName: BillingName
+          BillingPostalCode: BillingPostalCode
+          BillingState: BillingState
+          BillingStateCode: BillingStateCode
+          BillingStreet: BillingStreet
+          CalculationStatus: CalculationStatus
+          CanCreateQuoteLineItems: CanCreateQuoteLineItems
+          ContactId: ContactId
+          ContractId: ContractId
+          CurrencyIsoCode: CurrencyIsoCode
+          Description: Description
+          Discount: Discount
+          Email: Email
+          ExpirationDate: ExpirationDate
+          Fax: Fax
+          GrandTotal: GrandTotal
+          Id: Id
+          InsuranceQuoteType: InsuranceQuoteType
+          IsSyncing: IsSyncing
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          LineItemCount: LineItemCount
+          Name: Name
+          OpportunityId: OpportunityId
+          Phone: Phone
+          Pricebook2Id: Pricebook2Id
+          QuoteAccountId: QuoteAccountId
+          QuoteNumber: QuoteNumber
+          QuoteToAddress: QuoteToAddress
+          QuoteToCity: QuoteToCity
+          QuoteToCountry: QuoteToCountry
+          QuoteToLatitude: QuoteToLatitude
+          QuoteToLongitude: QuoteToLongitude
+          QuoteToName: QuoteToName
+          QuoteToPostalCode: QuoteToPostalCode
+          QuoteToState: QuoteToState
+          QuoteToStreet: QuoteToStreet
+          RecordSource: RecordSource
+          RecordTypeID: RecordTypeID
+          RelatedWorkId: RelatedWorkId
+          ShippingAddress: ShippingAddress
+          ShippingCity: ShippingCity
+          ShippingCountry: ShippingCountry
+          ShippingCountryCode: ShippingCountryCode
+          ShippingHandling: ShippingHandling
+          ShippingLatitude: ShippingLatitude
+          ShippingLongitude: ShippingLongitude
+          ShippingName: ShippingName
+          ShippingPostalCode: ShippingPostalCode
+          ShippingState: ShippingState
+          ShippingStateCode: ShippingStateCode
+          ShippingStreet: ShippingStreet
+          Status: Status
+          Subtotal: Subtotal
+          Tax: Tax
+          TotalPrice: TotalPrice
+          TotalPriceWithTax: TotalPriceWithTax
+          TotalTaxAmount: TotalTaxAmount
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:Quote.query
+  operation: Quote.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Quote
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Quote
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Quote.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Quote/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - QuoteAccountId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

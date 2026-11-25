@@ -1,0 +1,57 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/identity_provider.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-18
+    properties:
+      name: name
+      type: type
+      status: status
+      created: created
+      lastUpdated: lastUpdated
+      protocol_type: protocol.type
+      client_id: protocol.credentials.client.client_id
+      issuer_url: protocol.issuer.url
+      authorization_url: protocol.endpoints.authorization.url
+      operational_state:
+        op: map
+        of: status
+        table:
+          ACTIVE: active
+          INACTIVE: inactive
+        default:
+          const: unknown
+    display: 외부 IdP {name|id}
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-IDP-{id}
+runtime_stub: null
+runtime_key: OKTA-IDP-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: IdentityProvider:list
+    sources:
+      - call: OK-18
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule

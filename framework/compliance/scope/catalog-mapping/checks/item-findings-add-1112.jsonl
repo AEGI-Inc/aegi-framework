@@ -1,0 +1,23 @@
+{"item_key":"ISMS-P:2.5.3-01","finding_id":"salesforce-063","decision":"add","reason":"모든 직접 UI 로그인 MFA 요구, salesforce-004 와 같은 항목"}
+{"item_key":"ISO27001:8.5","finding_id":"salesforce-063","decision":"add","reason":"모든 직접 UI 로그인 MFA 요구, salesforce-004 와 같은 항목"}
+{"item_key":"PIPA:admin-73493:article-5:p5","finding_id":"salesforce-063","decision":"add","reason":"모든 직접 UI 로그인 MFA 요구, salesforce-004 와 같은 항목"}
+{"item_key":"ISMS-P:2.6.2-02","finding_id":"okta-002","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"ISMS-P:2.6.2-02","finding_id":"okta-003","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"ISMS-P:2.6.2-02","finding_id":"gws-031","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"ISMS-P:2.6.3-02","finding_id":"okta-002","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"ISMS-P:2.6.3-02","finding_id":"okta-003","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"ISMS-P:2.6.3-02","finding_id":"gws-031","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"ISO27001:5.15","finding_id":"okta-002","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"ISO27001:5.15","finding_id":"okta-003","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"ISO27001:5.15","finding_id":"gws-031","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"PIPA:admin-73493:article-6:p4","finding_id":"okta-002","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"PIPA:admin-73493:article-6:p4","finding_id":"okta-003","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"PIPA:admin-73493:article-6:p4","finding_id":"gws-031","decision":"add","reason":"세션 수명, 재인증 주기. okta-001 과 같은 항목"}
+{"item_key":"ISO27001:5.14","finding_id":"gws-208","decision":"add","reason":"외부 스페이스 생성과 참여. gws-207 과 같은 항목"}
+{"item_key":"PIPA:admin-73493:article-6:p3","finding_id":"gws-208","decision":"add","reason":"외부 스페이스 생성과 참여. gws-207 과 같은 항목"}
+{"item_key":"ISMS-P:2.10.2-02","finding_id":"gws-144","decision":"add","reason":"메일 발신 인증 DKIM, SPF, DMARC. 스푸핑 보호 gws-164~169 와 같은 항목"}
+{"item_key":"ISMS-P:2.10.2-02","finding_id":"gws-145","decision":"add","reason":"메일 발신 인증 DKIM, SPF, DMARC. 스푸핑 보호 gws-164~169 와 같은 항목"}
+{"item_key":"ISMS-P:2.10.2-02","finding_id":"gws-146","decision":"add","reason":"메일 발신 인증 DKIM, SPF, DMARC. 스푸핑 보호 gws-164~169 와 같은 항목"}
+{"item_key":"ISMS-P:2.10.2-02","finding_id":"gws-147","decision":"add","reason":"메일 발신 인증 DKIM, SPF, DMARC. 스푸핑 보호 gws-164~169 와 같은 항목"}
+{"item_key":"ISMS-P:2.10.2-02","finding_id":"gws-150","decision":"add","reason":"메일 발신 인증 DKIM, SPF, DMARC. 스푸핑 보호 gws-164~169 와 같은 항목"}
+{"item_key":"ISMS-P:2.10.2-02","finding_id":"gws-151","decision":"add","reason":"메일 발신 인증 DKIM, SPF, DMARC. 스푸핑 보호 gws-164~169 와 같은 항목"}

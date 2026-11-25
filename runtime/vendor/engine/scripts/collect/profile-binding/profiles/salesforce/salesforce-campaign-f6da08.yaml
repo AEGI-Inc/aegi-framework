@@ -1,0 +1,1120 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Campaign
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:d969b8a73e34947f17f6da08
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:d969b8a73e34947f17f6da08.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|Id
+  ActualCost:
+    path: ActualCost
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: ActualCost
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|ActualCost
+  AmountAllOpportunities:
+    path: AmountAllOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: AmountAllOpportunities
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|AmountAllOpportunities
+  AmountWonOpportunities:
+    path: AmountWonOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: AmountWonOpportunities
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|AmountWonOpportunities
+  BriefId:
+    path: BriefId
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: reference
+      name: BriefId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|BriefId
+  BudgetedCost:
+    path: BudgetedCost
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: BudgetedCost
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|BudgetedCost
+  CampaignImageId:
+    path: CampaignImageId
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: reference
+      name: CampaignImageId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|CampaignImageId
+  CampaignMemberRecordTypeId:
+    path: CampaignMemberRecordTypeId
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: reference
+      name: CampaignMemberRecordTypeId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|CampaignMemberRecordTypeId
+  CampaignStage:
+    path: CampaignStage
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: picklist
+      name: CampaignStage
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|CampaignStage
+  CreatedByID:
+    path: CreatedByID
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: reference
+      name: CreatedByID
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|CreatedByID
+  CurrencyIsoCode:
+    path: CurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: picklist
+      name: CurrencyIsoCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|CurrencyIsoCode
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|Description
+  EndDate:
+    path: EndDate
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: date
+      name: EndDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|EndDate
+  ExpectedResponse:
+    path: ExpectedResponse
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: percent
+      name: ExpectedResponse
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|ExpectedResponse
+  ExpectedRevenue:
+    path: ExpectedRevenue
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: ExpectedRevenue
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|ExpectedRevenue
+  HierarchyActualCost:
+    path: HierarchyActualCost
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: HierarchyActualCost
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|HierarchyActualCost
+  HierarchyAmountAllOpportunities:
+    path: HierarchyAmountAllOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: HierarchyAmountAllOpportunities
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|HierarchyAmountAllOpportunities
+  HierarchyAmountWonOpportunities:
+    path: HierarchyAmountWonOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: HierarchyAmountWonOpportunities
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|HierarchyAmountWonOpportunities
+  HierarchyBudgetedCost:
+    path: HierarchyBudgetedCost
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: HierarchyBudgetedCost
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|HierarchyBudgetedCost
+  HierarchyExpectedRevenue:
+    path: HierarchyExpectedRevenue
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: HierarchyExpectedRevenue
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|HierarchyExpectedRevenue
+  HierarchyNumberOfContacts:
+    path: HierarchyNumberOfContacts
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: HierarchyNumberOfContacts
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|HierarchyNumberOfContacts
+  HierarchyNumberOfConvertedLeads:
+    path: HierarchyNumberOfConvertedLeads
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: HierarchyNumberOfConvertedLeads
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|HierarchyNumberOfConvertedLeads
+  HierarchyNumberOfLeads:
+    path: HierarchyNumberOfLeads
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: HierarchyNumberOfLeads
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|HierarchyNumberOfLeads
+  HierarchyNumberOfOpportunities:
+    path: HierarchyNumberOfOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: HierarchyNumberOfOpportunities
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|HierarchyNumberOfOpportunities
+  HierarchyNumberOfResponses:
+    path: HierarchyNumberOfResponses
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: HierarchyNumberOfResponses
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|HierarchyNumberOfResponses
+  HierarchyNumberOfWonOpportunities:
+    path: HierarchyNumberOfWonOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: HierarchyNumberOfWonOpportunities
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|HierarchyNumberOfWonOpportunities
+  HierarchyNumberSent:
+    path: HierarchyNumberSent
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: double
+      name: HierarchyNumberSent
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|HierarchyNumberSent
+  HierarchyTotalEmailsDelivered:
+    path: HierarchyTotalEmailsDelivered
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: HierarchyTotalEmailsDelivered
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|HierarchyTotalEmailsDelivered
+  HierarchyTotalFormSubmissions:
+    path: HierarchyTotalFormSubmissions
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: HierarchyTotalFormSubmissions
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|HierarchyTotalFormSubmissions
+  HierarchyTotalFormViews:
+    path: HierarchyTotalFormViews
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: HierarchyTotalFormViews
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|HierarchyTotalFormViews
+  HierarchyTotalLandingPageFormSubmissions:
+    path: HierarchyTotalLandingPageFormSubmissions
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: HierarchyTotalLandingPageFormSubmissions
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|HierarchyTotalLandingPageFormSubmissions
+  HierarchyTotalLandingPageViews:
+    path: HierarchyTotalLandingPageViews
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: HierarchyTotalLandingPageViews
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|HierarchyTotalLandingPageViews
+  HierarchyUniqueEmailOpens:
+    path: HierarchyUniqueEmailOpens
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: HierarchyUniqueEmailOpens
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|HierarchyUniqueEmailOpens
+  HierarchyUniqueEmailTrackedLinkClicks:
+    path: HierarchyUniqueEmailTrackedLinkClicks
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: HierarchyUniqueEmailTrackedLinkClicks
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|HierarchyUniqueEmailTrackedLinkClicks
+  HierarchyUniqueMarketingLinkClicks:
+    path: HierarchyUniqueMarketingLinkClicks
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: HierarchyUniqueMarketingLinkClicks
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|HierarchyUniqueMarketingLinkClicks
+  IsActive:
+    path: IsActive
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: boolean
+      name: IsActive
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Campaign|IsActive
+  LastActivityDate:
+    path: LastActivityDate
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: date
+      name: LastActivityDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|LastActivityDate
+  LastModifiedById:
+    path: LastModifiedById
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: reference
+      name: LastModifiedById
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|LastModifiedById
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: datetime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: datetime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|LastViewedDate
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: string
+      name: Name
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|Name
+  NumberOfContacts:
+    path: NumberOfContacts
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: NumberOfContacts
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|NumberOfContacts
+  NumberOfConvertedLeads:
+    path: NumberOfConvertedLeads
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: NumberOfConvertedLeads
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|NumberOfConvertedLeads
+  NumberOfLeads:
+    path: NumberOfLeads
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: NumberOfLeads
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|NumberOfLeads
+  NumberOfOpportunities:
+    path: NumberOfOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: NumberOfOpportunities
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|NumberOfOpportunities
+  NumberOfResponses:
+    path: NumberOfResponses
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: NumberOfResponses
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|NumberOfResponses
+  NumberOfWonOpportunities:
+    path: NumberOfWonOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: NumberOfWonOpportunities
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|NumberOfWonOpportunities
+  NumberSent:
+    path: NumberSent
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: double
+      name: NumberSent
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|NumberSent
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: reference
+      name: OwnerId
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|OwnerId
+  ParentCampaign:
+    path: ParentCampaign
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: reference
+      name: ParentCampaign
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|ParentCampaign
+  ParentId:
+    path: ParentId
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: reference
+      name: ParentId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|ParentId
+  RecordTypeId:
+    path: RecordTypeId
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: reference
+      name: RecordTypeId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|RecordTypeId
+  StartDate:
+    path: StartDate
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: date
+      name: StartDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|StartDate
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: picklist
+      name: Status
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|Status
+  TenantId:
+    path: TenantId
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: reference
+      name: TenantId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|TenantId
+  TotalAmountAllOpportunities:
+    path: TotalAmountAllOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: TotalAmountAllOpportunities
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|TotalAmountAllOpportunities
+  TotalAmountAllWonOpportunities:
+    path: TotalAmountAllWonOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: currency
+      name: TotalAmountAllWonOpportunities
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Campaign|TotalAmountAllWonOpportunities
+  TotalEmailsDelivered:
+    path: TotalEmailsDelivered
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: TotalEmailsDelivered
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|TotalEmailsDelivered
+  TotalFormSubmissions:
+    path: TotalFormSubmissions
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: TotalFormSubmissions
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|TotalFormSubmissions
+  TotalFormViews:
+    path: TotalFormViews
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: TotalFormViews
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|TotalFormViews
+  TotalLandingPageFormSubmissions:
+    path: TotalLandingPageFormSubmissions
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: TotalLandingPageFormSubmissions
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|TotalLandingPageFormSubmissions
+  TotalLandingPageViews:
+    path: TotalLandingPageViews
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: TotalLandingPageViews
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|TotalLandingPageViews
+  TotalNumberofLeads:
+    path: TotalNumberofLeads
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: TotalNumberofLeads
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|TotalNumberofLeads
+  TotalNumberofOpportunities:
+    path: TotalNumberofOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: TotalNumberofOpportunities
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|TotalNumberofOpportunities
+  TotalNumberofResponses:
+    path: TotalNumberofResponses
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: TotalNumberofResponses
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|TotalNumberofResponses
+  TotalNumberofWonOpportunities:
+    path: TotalNumberofWonOpportunities
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: TotalNumberofWonOpportunities
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|TotalNumberofWonOpportunities
+  Type:
+    path: Type
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: picklist
+      name: Type
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Campaign|Type
+  UniqueEmailOpens:
+    path: UniqueEmailOpens
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: UniqueEmailOpens
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|UniqueEmailOpens
+  UniqueEmailTrackedLinkClicks:
+    path: UniqueEmailTrackedLinkClicks
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: UniqueEmailTrackedLinkClicks
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|UniqueEmailTrackedLinkClicks
+  UniqueMarketingLinkClicks:
+    path: UniqueMarketingLinkClicks
+    source: research_shape
+    shape: sh:sf_object_reference:Campaign
+    declaration:
+      format: int
+      name: UniqueMarketingLinkClicks
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Campaign|UniqueMarketingLinkClicks
+references:
+  - name: briefid
+    field: BriefId
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1afba813539e4c3cfc9214db; relation=no_relation
+  - name: lastmodifiedbyid
+    field: LastModifiedById
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:4e0384f301b87a0c3ea971cb; relation=no_relation
+  - name: campaignmemberrecordtypeid
+    field: CampaignMemberRecordTypeId
+    target: RecordType
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:532f794423a6809fb1291e09; relation=no_relation
+  - name: ownerid
+    field: OwnerId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:ce08be60b76c5f7d1695c340; relation=no_relation
+  - name: tenantid
+    field: TenantId
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:cedafd8144f2b312bb6054fb; relation=no_relation
+  - name: createdbyid
+    field: CreatedByID
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:faa7892a49fd0509c38aa2a5; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Campaign
+  interfaces: *a1
+  model:
+    research_type: object-type:d969b8a73e34947f17f6da08
+  extract:
+    key: PILOT-salesforce-Campaign-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-f6da08
+            endpoint: /
+            items:
+              - records
+        properties:
+          ActualCost: ActualCost
+          AmountAllOpportunities: AmountAllOpportunities
+          AmountWonOpportunities: AmountWonOpportunities
+          BriefId: BriefId
+          BudgetedCost: BudgetedCost
+          CampaignImageId: CampaignImageId
+          CampaignMemberRecordTypeId: CampaignMemberRecordTypeId
+          CampaignStage: CampaignStage
+          CreatedByID: CreatedByID
+          CurrencyIsoCode: CurrencyIsoCode
+          Description: Description
+          EndDate: EndDate
+          ExpectedResponse: ExpectedResponse
+          ExpectedRevenue: ExpectedRevenue
+          HierarchyActualCost: HierarchyActualCost
+          HierarchyAmountAllOpportunities: HierarchyAmountAllOpportunities
+          HierarchyAmountWonOpportunities: HierarchyAmountWonOpportunities
+          HierarchyBudgetedCost: HierarchyBudgetedCost
+          HierarchyExpectedRevenue: HierarchyExpectedRevenue
+          HierarchyNumberOfContacts: HierarchyNumberOfContacts
+          HierarchyNumberOfConvertedLeads: HierarchyNumberOfConvertedLeads
+          HierarchyNumberOfLeads: HierarchyNumberOfLeads
+          HierarchyNumberOfOpportunities: HierarchyNumberOfOpportunities
+          HierarchyNumberOfResponses: HierarchyNumberOfResponses
+          HierarchyNumberOfWonOpportunities: HierarchyNumberOfWonOpportunities
+          HierarchyNumberSent: HierarchyNumberSent
+          HierarchyTotalEmailsDelivered: HierarchyTotalEmailsDelivered
+          HierarchyTotalFormSubmissions: HierarchyTotalFormSubmissions
+          HierarchyTotalFormViews: HierarchyTotalFormViews
+          HierarchyTotalLandingPageFormSubmissions: HierarchyTotalLandingPageFormSubmissions
+          HierarchyTotalLandingPageViews: HierarchyTotalLandingPageViews
+          HierarchyUniqueEmailOpens: HierarchyUniqueEmailOpens
+          HierarchyUniqueEmailTrackedLinkClicks: HierarchyUniqueEmailTrackedLinkClicks
+          HierarchyUniqueMarketingLinkClicks: HierarchyUniqueMarketingLinkClicks
+          Id: Id
+          IsActive: IsActive
+          LastActivityDate: LastActivityDate
+          LastModifiedById: LastModifiedById
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          Name: Name
+          NumberOfContacts: NumberOfContacts
+          NumberOfConvertedLeads: NumberOfConvertedLeads
+          NumberOfLeads: NumberOfLeads
+          NumberOfOpportunities: NumberOfOpportunities
+          NumberOfResponses: NumberOfResponses
+          NumberOfWonOpportunities: NumberOfWonOpportunities
+          NumberSent: NumberSent
+          OwnerId: OwnerId
+          ParentCampaign: ParentCampaign
+          ParentId: ParentId
+          RecordTypeId: RecordTypeId
+          StartDate: StartDate
+          Status: Status
+          TenantId: TenantId
+          TotalAmountAllOpportunities: TotalAmountAllOpportunities
+          TotalAmountAllWonOpportunities: TotalAmountAllWonOpportunities
+          TotalEmailsDelivered: TotalEmailsDelivered
+          TotalFormSubmissions: TotalFormSubmissions
+          TotalFormViews: TotalFormViews
+          TotalLandingPageFormSubmissions: TotalLandingPageFormSubmissions
+          TotalLandingPageViews: TotalLandingPageViews
+          TotalNumberofLeads: TotalNumberofLeads
+          TotalNumberofOpportunities: TotalNumberofOpportunities
+          TotalNumberofResponses: TotalNumberofResponses
+          TotalNumberofWonOpportunities: TotalNumberofWonOpportunities
+          Type: Type
+          UniqueEmailOpens: UniqueEmailOpens
+          UniqueEmailTrackedLinkClicks: UniqueEmailTrackedLinkClicks
+          UniqueMarketingLinkClicks: UniqueMarketingLinkClicks
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:Campaign.query
+  operation: Campaign.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Campaign
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Campaign
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Campaign.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Campaign/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - BriefId
+    - LastModifiedById
+    - CampaignMemberRecordTypeId
+    - OwnerId
+    - TenantId
+    - CreatedByID
+  metadata_paths: *a2
+  remaining_declared_fields: properties

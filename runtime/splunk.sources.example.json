@@ -1,0 +1,21 @@
+{
+  "policyVersion": "v1",
+  "sources": [
+    { "ref": "okta-main", "provider": "okta", "index": "aegi_okta", "sourcetype": "okta:im2:log", "isolation": { "dedicated": true },
+      "fields": { "event_type": "eventType", "actor_id": "actor.id", "actor_login": "actor.alternateId", "outcome": "outcome.result", "client_ip": "client.ipAddress", "occurred_at": "published" } },
+    { "ref": "github-main", "provider": "github", "index": "aegi_github", "sourcetype": "github:cloud:audit", "isolation": { "dedicated": true },
+      "fields": { "event_type": "action", "actor_login": "actor", "actor_id": "actor_id", "repository": "repo", "client_ip": "actor_ip" } },
+    { "ref": "slack-main", "provider": "slack", "index": "aegi_slack", "sourcetype": "slack:audit", "isolation": { "dedicated": true },
+      "fields": { "event_type": "action", "actor_id": "actor.user.id", "actor_login": "actor.user.email", "client_ip": "context.ip_address", "event_id": "id" } },
+    { "ref": "gws-main", "provider": "gws", "index": "aegi_gws", "sourcetype": "gws:reports:activity", "isolation": { "dedicated": true },
+      "fields": { "application": "id.applicationName", "actor_login": "actor.email", "actor_id": "actor.profileId", "client_ip": "ipAddress", "occurred_at": "id.time" } },
+    { "ref": "salesforce-main", "provider": "salesforce", "index": "aegi_salesforce", "sourcetype": "sfdc:setupaudittrail", "isolation": { "dedicated": true },
+      "fields": { "event_type": "Action", "actor_id": "CreatedById", "event_id": "Id", "occurred_at": "CreatedDate", "section": "Section" } },
+    { "ref": "jira-main", "provider": "atlassian", "index": "aegi_atlassian", "sourcetype": "jira:audit", "isolation": { "dedicated": true },
+      "fields": { "event_type": "summary", "actor_id": "authorAccountId", "client_ip": "remoteAddress", "occurred_at": "created", "category": "category" } },
+    { "ref": "confluence-main", "provider": "atlassian", "index": "aegi_atlassian", "sourcetype": "confluence:audit", "isolation": { "dedicated": true },
+      "fields": { "event_type": "summary", "actor_id": "author.accountId", "client_ip": "remoteAddress", "occurred_at": "creationDate", "category": "category", "object_name": "affectedObject.name", "object_type": "affectedObject.objectType" } },
+    { "ref": "guard-main", "provider": "atlassian", "index": "aegi_atlassian", "sourcetype": "atlassian:guard:audit", "isolation": { "dedicated": true },
+      "fields": { "event_type": "data{}.attributes.action", "actor_id": "data{}.attributes.actor.id", "client_ip": "data{}.attributes.location.ip", "occurred_at": "data{}.attributes.time", "event_id": "data{}.id" } }
+  ]
+}

@@ -1,0 +1,70 @@
+# 공통 범례
+# rules/*.yaml 과 test-environment/*.yaml 이 함께 쓴다
+
+connection_type:
+  identity: "SSO, 프로비저닝, 가져오기, 그룹 동기화"
+  app_grant: "앱 설치, OAuth 승인"
+  stored_credential: "상대 SaaS 의 비밀(토큰, 웹훅 주소, 키)을 보관"
+  event_delivery: "웹훅, 이벤트 전달"
+  external_relay: "SaaS 밖의 서버를 거침"
+  same_person: "같은 사람의 계정"
+  content_ref: "내용 속 주소, 링크"
+
+tier:   # 위가 강함. 위가 맞아도 아래 근거를 빼지 않는다
+  config_id: {meaning: "한쪽 설정에 상대 ID", layer: truth}
+  config_name: {meaning: "한쪽 설정에 상대 이름, 도메인", layer: truth}
+  fingerprint: {meaning: "비밀 값의 해시가 양쪽에서 같음", layer: truth}
+  via_person: {meaning: "같은 사람의 계정을 거쳐서만", layer: truth}
+  log_id: {meaning: "로그의 ID 가 상대 객체와 같음", layer: observed}
+  log_time: {meaning: "시각과 대상만 맞음", layer: observed}
+
+layer:
+  truth: "설정으로 확인되는 연결"
+  observed: "로그로만 확인되는 연결"
+  review: "추정. 정답 아님"
+
+rules_fields:   # rules/*.yaml
+  identify: "어떤 API 의 어떤 객체가 어떤 조건이면 이 방법인가"
+  points_to: "a 와 b 가 같아야 이어진 것 (check)"
+  if_unreadable: "a 나 b 를 API 로 못 읽을 때 확인 방법"
+  activity: "동작하면 남는 감사 로그"
+
+observed_fields:   # test-environment/*.yaml
+  instances: "시험 환경에서 찾은 연결과 근거 세기별 값"
+  absent: "확인했더니 없는 방법"
+  review: "추정"
+  gaps: "비어 있는 값과 구체적 확인 방법"
+  prepare: "아직 테넌트가 없는 쌍에서, 결과를 채우기 전에 모아야 할 API 호출·권한·화면"
+  data_sources: "파일 맨 위. 이 결과를 만든 자료. raw 는 수집 원본 위치, *_window 는 본 감사 로그 기간, current_* 와 github·gws 는 대상 테넌트, dashboard 는 비교한 대시보드 데이터 시점, team_truth 는 팀 시나리오 정답지 위치"
+  via: "instances 안. 두 SaaS 가 밖의 서버를 거쳐 이어질 때 그 서버 (external_relay)"
+  other_side: "evidence 값 하나에 붙음. 그 값이 상대편의 무엇과 같았는지"
+  dashboard: "instances 안. AEGI 대시보드가 이 연결을 어떻게 잡았는지. 2026-10-05 대조 기준"
+  team_truth: "instances 안. 팀 시나리오 정답지(data_sources.team_truth)에서 이 연결의 항목 이름. 없으면 「없음」"
+  checks: "instances 안. 정답지. 규칙 points_to 항목(point 번호, 1부터)마다 이 환경의 실제 값. a·b 는 {api, field, value, raw}, result 는 같음 | 다름 | 못 읽음(API 없음·비밀) | 원본 없음(모은 원본에 없음) | 해당 없음. point 가 null 이면 규칙에 없는 근거(규칙에 넣을 후보). docs/how-to-read.md 참고"
+  identify: "instances 안. 무엇을 보면 이 연결을 아는가. config 는 API 로 읽는 설정에서 상대가 보이는 정도(id | 이름 | 없음), use 는 실제 사용이 남는 곳(감사 로그 | 그 밖: 배달·실행 기록, 받는 서버, 글 본문 | 없음), level 은 둘로 정한 단계(1 설정만으로 상대까지, 2 설정으로 연결은 보이고 상대·사용은 로그나 다른 기록, 3 로그가 있어야, 4 로그로도 안 됨), why 는 이유. 현재 환경 행은 근거와 대조해 정했고 나머지는 방법 규칙의 points_to 로 정했다"
+  history: "instances 안. 기간에 따라 값이 달랐던 연결의 값 목록. 항목마다 value, from, to, seen_at. from·to 는 그 값을 기록으로 본 첫·마지막 시각(UTC)이고 실제로 바뀐 순간이 아니다. to 가 없으면 마지막으로 본 때까지 그 값이다"
+
+chain_fields:   # test-environment/v3/chains.yaml
+  path: "경로가 지나는 곳을 순서대로"
+  started_by: "누가 무엇으로 시작했나"
+  hops: "단계. instance 는 그 단계의 v3 쌍 연결 id(한 SaaS 안의 단계는 비움), via 는 거쳐 간 앱·규칙·커넥터, runs_as 는 그 단계가 누구 권한으로 돌았는지, at 은 시각(UTC), result: failed 는 그 단계가 실패했다는 뜻"
+  carried: "단계 사이에 넘어간 값 (이슈 키, 레코드 id, 메시지 본문 등)"
+  verdict: "connected 는 끝까지 이어졌다, failed 는 중간에 끊겼다"
+  link_seen_by: "경로가 이어졌다는 것을 어디서 아는가 (감사 로그 | 그 밖)와 이유"
+
+common_fields:   # 두 종류 모두
+  written: "처음 쓴 날"
+  verified: "적힌 값과 출처를 마지막으로 다시 확인한 날. 규칙은 출처 URL 과 그 안의 주장, 결과는 근거 값과 수집 원본"
+
+verdict:
+  connected: "수집한 상대와 이어짐"
+  outside: "상대가 수집 대상 밖 (대개 예전 환경)"
+  config_only: "설정은 있는데 동작 기록이 없거나 상대를 모름"
+  not_used: "설정으로 확인했거나, 감사 로그가 대상 생성부터 전부 있는데 흔적이 없음"
+  not_seen: "일부 기간 로그에 흔적이 없을 뿐 (window 에 기간)"
+  unknown: "필요한 API 미수집"
+
+status:
+  present: "대시보드 데이터에 있음"
+  adapter_drops: "수집은 하는데 대시보드 데이터에 안 남음"
+  not_collected: "수집기가 부르지 않음"

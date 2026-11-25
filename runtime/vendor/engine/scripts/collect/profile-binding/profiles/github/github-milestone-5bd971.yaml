@@ -1,0 +1,547 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: github
+service: null
+object_type: milestone
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:2e546b76ee6ede90955bd971
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:2e546b76ee6ede90955bd971.identity_evidence
+  parent:
+    type: full-repository
+    expr: $req.parent_id
+tenant_binding:
+  type: Organization
+  service: null
+  call: GH-01
+  items: (root)
+  id: id
+fields:
+  url:
+    path: url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      format: uri
+      name: url
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|url
+  html_url:
+    path: html_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      format: uri
+      name: html_url
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|html_url
+  labels_url:
+    path: labels_url
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      format: uri
+      name: labels_url
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|labels_url
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      name: id
+      required: true
+      scalar: integer
+    map_items:
+      - space:milestone|id
+  node_id:
+    path: node_id
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      name: node_id
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|node_id
+  number:
+    path: number
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      name: number
+      required: true
+      scalar: integer
+    map_items:
+      - space:milestone|number
+  state:
+    path: state
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      enum:
+        - open
+        - closed
+      name: state
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|state
+  title:
+    path: title
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      name: title
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|title
+  description:
+    path: description
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      name: description
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|description
+  creator:
+    path: creator
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      name: creator
+      nullable: true
+      required: true
+      shape: sh:gh_rest_ghec_next_2026_03_10_latest:simple-user
+    map_items:
+      - space:milestone|creator
+  open_issues:
+    path: open_issues
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      name: open_issues
+      required: true
+      scalar: integer
+    map_items:
+      - space:milestone|open_issues
+  closed_issues:
+    path: closed_issues
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      name: closed_issues
+      required: true
+      scalar: integer
+    map_items:
+      - space:milestone|closed_issues
+  created_at:
+    path: created_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      format: date-time
+      name: created_at
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|created_at
+  updated_at:
+    path: updated_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      format: date-time
+      name: updated_at
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|updated_at
+  closed_at:
+    path: closed_at
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      format: date-time
+      name: closed_at
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|closed_at
+  due_on:
+    path: due_on
+    source: research_shape
+    shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+    declaration:
+      format: date-time
+      name: due_on
+      nullable: true
+      required: true
+      scalar: string
+    map_items:
+      - space:milestone|due_on
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: full-repository
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:0991dd2580a210d4170efb72 (repos/{}/{}) -> full-repository
+  - name: url
+    field: url
+    target: milestone
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:bf3799dc4c5546cf1158ac86; relation=no_relation
+  - name: creator
+    field: creator
+    target: simple-user
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:e57f58481659f60eb6466a6d; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: github
+  object_type: milestone
+  interfaces: *a1
+  model:
+    research_type: object-type:2e546b76ee6ede90955bd971
+  extract:
+    key: PILOT-github-milestone-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-GITHUB-5bd971
+            endpoint: /
+            items:
+              - payload.issue.milestone
+        properties:
+          closed_at: closed_at
+          closed_issues: closed_issues
+          created_at: created_at
+          creator: creator
+          description: description
+          due_on: due_on
+          html_url: html_url
+          id: id
+          labels_url: labels_url
+          node_id: node_id
+          number: number
+          open_issues: open_issues
+          state: state
+          title: title
+          updated_at: updated_at
+          url: url
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: collected_empty
+  call: GH-12
+  operation_id: op:gh_rest_ghec_next_2026_03_10_latest:pulls/list
+  operation: pulls/list
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /repos/[^/]+/[^/]+/pulls(?:\?|$)
+  endpoint_template: /repos/{owner}/{repo}/pulls
+  request: {}
+  required_params:
+    - owner
+    - repo
+  paths:
+    - shape: sh:gh_rest_ghec_next_2026_03_10_latest:milestone
+      path:
+        - "*"
+        - milestone
+  alternatives_total: 28
+  alternatives:
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-milestones
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/milestones
+      path:
+        - "*"
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list
+      method: GET
+      kind: read_many
+      endpoint_template: /issues
+      path:
+        - "*"
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-for-authenticated-user
+      method: GET
+      kind: read_many
+      endpoint_template: /user/issues
+      path:
+        - "*"
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-for-org
+      method: GET
+      kind: read_many
+      endpoint_template: /orgs/{org}/issues
+      path:
+        - "*"
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-for-repo
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues
+      path:
+        - "*"
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-dependencies-blocked-by
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by
+      path:
+        - "*"
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-dependencies-blocking
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocking
+      path:
+        - "*"
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-relates-to
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/relates_to
+      path:
+        - "*"
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-sub-issues
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/sub_issues
+      path:
+        - "*"
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:repos/list-pull-requests-associated-with-commit
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/commits/{commit_sha}/pulls
+      path:
+        - "*"
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/get-milestone
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/milestones/{milestone_number}
+      path: []
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/get
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}
+      path: &a3
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/get-parent
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/parent
+      path: *a3
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:pulls/get
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/pulls/{pull_number}
+      path:
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-events-for-repo
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/events
+      path:
+        - "*"
+        - issue
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-events
+      method: GET
+      kind: read_many
+      endpoint_template: /events
+      path:
+        - "*"
+        - payload
+        - issue
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-events-for-authenticated-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/events
+      path:
+        - "*"
+        - payload
+        - issue
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-events-for-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/events/public
+      path:
+        - "*"
+        - payload
+        - issue
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-org-events
+      method: GET
+      kind: read_many
+      endpoint_template: /orgs/{org}/events
+      path:
+        - "*"
+        - payload
+        - issue
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-received-events-for-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/received_events
+      path:
+        - "*"
+        - payload
+        - issue
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-received-public-events-for-user
+      method: GET
+      kind: read_many
+      endpoint_template: /users/{username}/received_events/public
+      path:
+        - "*"
+        - payload
+        - issue
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-public-events-for-repo-network
+      method: GET
+      kind: read_many
+      endpoint_template: /networks/{owner}/{repo}/events
+      path:
+        - "*"
+        - payload
+        - issue
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:activity/list-repo-events
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/events
+      path:
+        - "*"
+        - payload
+        - issue
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/list-events-for-timeline
+      method: GET
+      kind: read_many
+      endpoint_template: /repos/{owner}/{repo}/issues/{issue_number}/timeline
+      path:
+        - "*"
+        - source
+        - issue
+        - milestone
+    - operation_id: op:gh_rest_ghec_next_2026_03_10_latest:issues/get-event
+      method: GET
+      kind: read_one
+      endpoint_template: /repos/{owner}/{repo}/issues/events/{event_id}
+      path:
+        - issue
+        - milestone
+  basis: ir_read_response_reachability
+  selection: ranked
+  collected_records: 0
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 7c29c7e6c506507a08ffb929a4e8df46a47f2c3745d861548cc10ad000b584db
+    ir/shape.jsonl: bf66d40962d96cf3cfb0403b111b0b89803c33371370012ad07bdcd43d58f4b5
+    ir/operation.jsonl: 27874b60d0481ced64203456bffdd9436a84d796354e08043b60f9c7de78c32b
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - url
+    - creator
+  metadata_paths: *a2
+  remaining_declared_fields: properties

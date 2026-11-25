@@ -1,0 +1,9 @@
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+emit:
+  merge_into: 200.team
+manual_basis: admin.teams.settings.info 의 team 은 team.info · admin.teams.list 가 읽는 워크스페이스(200.team)와 같은
+  실체다. id(T…)가 같아 200.team 으로 합친다. 따로 두면 같은 워크스페이스가 객체 둘이 되고, 사건은 먼저 찾은 쪽(이 객체)에 붙어
+  관계가 모인 200.team 과 이어지지 않는다

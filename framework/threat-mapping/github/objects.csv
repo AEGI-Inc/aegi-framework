@@ -1,0 +1,40 @@
+saas,object_category,target_object,aegi_object,collection_status,collection_path,threat_count
+github,Identity / Access,User / Organization Member,public-user; org-membership,수집 중,GH-02; GH-03,4
+github,Identity / Access,Outside Collaborator,simple-user,수집 중,GH-35; GH-06,1
+github,Identity / Access,Team,team-full,수집 중,GH-04,2
+github,Identity / Access,Organization Role / Team 역할,organization-role,수집 중,GH-27,2
+github,,Custom Repository Role,organization-custom-repository-role,수집 중,GH-07 [11-17 출력 0건],0
+github,Identity / Access,GitHub App / Machine User,installation; integration,수집 중,GH-14,5
+github,Identity / Access,Personal Access Token (fine-grained·classic),personal-access-tokens,수집 중,GH-13 (App 이 본 fine-grained PAT. classic 은 GH-22 SSO 승인분만),3
+github,Identity / Access,Deploy Key / SSH Key,deploy-key,수집 중,GH-26,2
+github,,2FA 상태,simple-user,수집 중,GH-35 (2FA 미사용 목록. 외부 협력자만),0
+github,Identity / Access,웹 세션,,로그만,GH-17 감사 로그,1
+github,Policy / Configuration,"조직 인증 정책(2FA 필수, SSO)",organization-full,수집 중,GH-01 (two_factor_requirement_enabled),2
+github,Policy / Configuration,IP allow list,ipallowlistentry,수집 중,GH-31 [11-17 출력 0건],1
+github,,SAML SSO / IdP 연결,organizationidentityprovider,수집 중,GH-31 [11-17 출력 0건],0
+github,,Verified Domain,verifiabledomain,수집 중,GH-31 [11-17 출력 0건],0
+github,Integration / Automation,OAuth App / GitHub App 사용자 승인,credential-authorizations,수집 중,GH-22,1
+github,Integration / Automation,GitHub App / OAuth App,integration; installation,수집 중,GH-14,3
+github,Integration / Automation,App Installation,installation,수집 중,GH-14,4
+github,Integration / Automation,Copilot 에이전트 / MCP,custom-agents,수집 중,RG-GH-copilot.get-copilot-custom-agents-source-for-enterprise,7
+github,Integration / Automation,GitHub Actions Workflow,workflow; actions-policy,수집 중,GH-10; RG-GH-actions.get-enterprise-actions-policies,6
+github,Integration / Automation,Webhook (조직·저장소),org-hook; hook,수집 중,GH-15,4
+github,Integration / Automation,GitHub App 연동 커넥터,integration,수집 중,GH-14,1
+github,,Actions 워크플로 단계 / 재사용 워크플로,workflow,수집 중,GH-10,0
+github,Identity / Access,Organization / Enterprise,organization-full; Enterprise,수집 중,GH-01,4
+github,,Enterprise 조직 관계 / 외부 협력 조직,Enterprise; external-group,수집 중,GH-01; GH-28,0
+github,Identity / Access,Credential Authorization (SSO 승인),credential-authorizations,수집 중,GH-22,1
+github,,Team sync / SCIM,scim-user; external-group,수집 중,GH-28; RG-GH-scim.list-provisioned-identities [11-17 출력 0건],0
+github,,SCIM 사용자·그룹,scim-user,수집 중,RG-GH-scim.list-provisioned-identities [11-17 출력 0건],0
+github,Policy / Configuration,조직 보안 설정 / 저장소 기본 권한,organization-full; repository-ruleset,수집 중,GH-01; GH-08,4
+github,Policy / Configuration,Secret scanning / push protection,code-security-configuration; secret-scanning-alert-with-metadata,수집 중,RG-GH-code-security.get-configurations-for-enterprise; RG-GH-secret-scanning.list-alerts-for-enterprise,1
+github,Policy / Configuration,Copilot 정책 / 콘텐츠 제외,,미수집(API 있음),/orgs/{org}/copilot/content_exclusion,1
+github,Policy / Configuration,OAuth App 접근 제한 정책,organization-full,필드 없음,GH-01 (OAuth 앱 접근 제한 필드 없음),1
+github,Policy / Configuration,Audit log streaming 설정,get-audit-log-stream-config,수집 중,RG-GH-enterprise-admin.get-audit-log-streams [11-17 출력 0건],1
+github,Resource,저장소 공개 범위 (visibility),Repository,수집 중,GH-05,2
+github,,저장소 마이그레이션·내보내기,migration,미수집(API 있음),/orgs/{org}/migrations,0
+github,Resource,Repository,Repository,수집 중,GH-05,9
+github,Resource,Actions·Dependabot·Codespaces 비밀,actions-secret; dependabot-secret; repo-codespaces-secret,수집 중,GH-25; RG-GH-codespaces.list-repo-secrets (이름과 날짜만) [11-17 출력 0건],2
+github,Resource,Issue·PR·Discussion 댓글,pull-request; issue-comment,수집 중,GH-12,1
+github,Resource,Repository (코드),Repository; commit,수집 중,GH-05; GH-11,3
+github,Resource,Environment / Deployment,environment; deployment-protection-rule,수집 중,GH-24; GH-30 [11-17 출력 0건],4

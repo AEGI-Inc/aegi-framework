@@ -1,0 +1,29 @@
+overlay_basis:
+  from: aegi-knowledge docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md
+  note: 레지스트리 신규 객체의 관계 후보 채택(aegi-knowledge#93)
+references:
+  - name: permissionsetid
+    field: PermissionSetId
+    target: PermissionSet
+    relation: contained_in
+    reviewed_at: 2026-10-29
+    rationale: aegi-knowledge
+      docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md (IM v1
+      no_relation 을 바꿈)
+  - name: permissionsetgroupid
+    field: PermissionSetGroupId
+    target: PermissionSetGroup
+    relation: contained_in
+    reviewed_at: 2026-10-29
+    rationale: aegi-knowledge
+      docs/decisions/REGISTRY_RELATION_CANDIDATES_2026-10-29.md (IM v1
+      no_relation 을 바꿈)
+relation_plans:
+  - type: contained_in
+    source: $refs.permissionsetid
+    target: $refs.permissionsetgroupid
+    basis: stated
+    decision: aegi-knowledge#93
+    # 이 행(PermissionSetGroupComponent)이 묶음의 근거다. 관계에 근거 객체로 남긴다
+    properties:
+      via_assignment: $self

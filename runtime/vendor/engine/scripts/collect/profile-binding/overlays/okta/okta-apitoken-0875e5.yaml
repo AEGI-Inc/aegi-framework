@@ -1,0 +1,82 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/api_token.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-16
+    parent:
+      ref:
+        type: User
+        id: userId
+    refs:
+      user:
+        ref:
+          type: User
+          id: userId
+        value: userId
+    properties:
+      name: name
+      created: created
+      expiresAt:
+        op: null_if_missing
+        of: expiresAt
+      userId:
+        op: null_if_missing
+        of: userId
+      clientName:
+        op: null_if_missing
+        of: clientName
+    display: API 토큰 {name|id}
+    relations:
+      - type: authenticates_with
+        source:
+          type: User
+          id: userId
+        target: $self
+        basis: stated
+        require:
+          - source
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-TOKEN-{id}
+runtime_stub: null
+runtime_key: OKTA-TOKEN-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: ApiToken:list
+    sources:
+      - call: OK-16
+    relations:
+      - type: authenticates_with
+        source:
+          type: User
+          id: userId
+        target: $self
+        basis: stated
+        require:
+          - source
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+# Profile 상수: knowledge schema/catalog/okta/research.json 의 ApiToken decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml owned_by.org_bearer_token)이 이 값으로 고른다
+constants:
+  credential_kind:
+    const: bearer_token

@@ -1,0 +1,84 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/runner_group.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-32
+        request:
+          kind: groups
+        items: runner_groups
+        where:
+          path: id
+          defined: true
+    vars:
+      available:
+        if:
+          path: visibility
+          eq: selected
+        then:
+          any:
+            - op: index
+              name: group_repos
+              key:
+                op: str
+                of: id
+          empty_as: []
+        else:
+          const: []
+    refs:
+      available_to:
+        each: $vars.available
+        ref:
+          key: $item.key
+        type: Repository
+        value: $item.value
+    properties:
+      name: name
+      visibility: visibility
+      default: default
+      inherited: inherited
+      allows_public_repositories: allows_public_repositories
+      restricted_to_workflows: restricted_to_workflows
+      selected_workflows:
+        any:
+          - selected_workflows
+        empty_as: []
+    display: 러너 그룹 {name}
+    # 조직 러너 그룹(GH-32 /orgs/{org}/actions/runner-groups)은 수집한 조직에 속한다
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-RUNNERGROUP-{id}
+runtime_stub: null
+runtime_key: GH-RUNNERGROUP-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-RUNNERGROUP-{id}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

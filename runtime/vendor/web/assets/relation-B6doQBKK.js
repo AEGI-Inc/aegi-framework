@@ -1,0 +1,1 @@
+import{u as e}from"./generated-BQlAqxs4.js";var t=new Set(e);function n(e){return!!e&&e.kind===`name_key`&&e.object_type===null}export{n,t};

@@ -1,0 +1,38 @@
+{
+  "version": "2.0.0",
+  "environment_id": "AEGI-Inc",
+  "name": "AEGI-Inc Measured SaaS Graph v2 (aegi-schema)",
+  "record": "measured",
+  "created_at": "2026-10-20T09:51:37Z",
+  "description": "실측 원본(collected/)을 aegi-schema 규격(Object 4.1 · Relation 3 · Link 3 · Profile 4.2)으로 정규화한 데이터셋. git 에 넣지 않는다 (D-15).",
+  "providers": [
+    "slack",
+    "github",
+    "okta",
+    "gws",
+    "salesforce",
+    "atlassian"
+  ],
+  "source_runs": [
+    "20261020T063727Z-5a87",
+    "20261020T065302Z-ccde",
+    "20261020T074103Z-2d14",
+    "20261020T091723Z-c338",
+    "20261020T093158Z-3960",
+    "20261020T094036Z-74d1",
+    "20261020T094148Z-6217",
+    "20261020T095137Z-1d2a"
+  ],
+  "adapter": "normalize-v2",
+  "schema_ref": {
+    "repo": "AEGI-Inc/aegi-schema",
+    "commit": "4742e79",
+    "object": "4.1",
+    "relation": "3",
+    "link": "3",
+    "profile": "4.2"
+  },
+  "canonical_schema_version": "4.1",
+  "relation_schema_version": "3.0",
+  "link_schema_version": "3.0"
+}

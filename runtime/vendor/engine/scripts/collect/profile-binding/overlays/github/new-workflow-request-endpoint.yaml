@@ -1,0 +1,47 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: github
+object_type: WorkflowRequestEndpoint
+interfaces: [Endpoint]
+model:
+  runtime_type_id: automation-source-bindings/1:github:WorkflowRequestEndpoint
+  source: aegi-knowledge/schema/ontology/automation-sources.yaml
+identity:
+  primary:
+    - {name: workflow, expr: $req.workflow, stability: stable}
+    - {name: target, expr: sha256, stability: stable}
+  scope: parent
+fields: {}
+runtime_key: GH-WF-REQ-{workflow}-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+# 워크플로 파일에 글자로 적힌 호출 주소 하나에 통로 하나. 수집기(GH-10 요약)는 주소를 호스트와 지문으로만 남긴다.
+# 비밀이나 변수로 넣은 주소는 파일에 없어 통로가 되지 않는다
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-10
+        endpoint: /contents/
+        items: (root)
+        each: workflow_definition.url_refs
+        where: {path: host, present: true}
+    id_expr: sha256
+    parts:
+      workflow: $req.workflow
+    properties:
+      url_host: host
+      url_sha256: sha256
+      repo: $req.repo
+      workflow_path: $req.path
+      direction: {const: out}
+    display: "{$req.path} → {host}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: workflow
+          id: $req.workflow
+        basis: stated
+        require: [target]

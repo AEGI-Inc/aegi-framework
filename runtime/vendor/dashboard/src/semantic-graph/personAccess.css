@@ -1,0 +1,103 @@
+/* 사람 한 명이 닿는 리소스 표 (PersonAccessDialog). 바탕, 그림자는 예외 처리 창(.ex-backdrop, .ex-dialog)과 같다 */
+.pa-dialog {
+  width: min(1040px, 100%);
+}
+
+.pa-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  background: var(--color-card-head-bg);
+  border-bottom: 1px solid var(--color-card-line);
+}
+
+.pa-head h2 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.pa-head h2 b { margin-left: 4px; }
+
+.pa-copy,
+.pa-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 12px;
+  font-family: inherit;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-card-line);
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.pa-close { width: 32px; padding: 0; }
+.pa-copy:hover,
+.pa-close:hover { border-color: var(--color-select); }
+
+.pa-body {
+  overflow: auto;
+  padding: 4px 18px 18px;
+}
+
+.pa-empty {
+  margin: 14px 0 0;
+  font-size: var(--font-size-md);
+  color: var(--color-text-primary);
+}
+
+.pa-saas h3 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 16px 0 8px;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-primary);
+}
+
+.pa-saas h3 svg,
+.pa-saas h3 .provider-letter {
+  width: 18px;
+  height: 18px;
+}
+
+.pa-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.pa-table th {
+  padding: 7px 10px;
+  font-weight: var(--font-weight-medium);
+  text-align: left;
+  background: var(--color-card-head-bg);
+  border: 1px solid var(--color-card-line);
+}
+
+.pa-table td {
+  padding: 7px 10px;
+  vertical-align: top;
+  border: 1px solid var(--color-card-line);
+}
+
+.pa-table td:first-child b {
+  display: block;
+  font-weight: var(--font-weight-bold);
+  overflow-wrap: anywhere;
+}
+
+.pa-table td:first-child span {
+  font-size: var(--font-size-xs);
+}

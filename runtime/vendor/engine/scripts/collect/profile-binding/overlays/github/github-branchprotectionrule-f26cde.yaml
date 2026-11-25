@@ -1,0 +1,146 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/branch_protection_rule.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-09
+        items: (root)
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+      repo_id:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $id
+    id_expr:
+      template: "{$vars.repo_id}:{$req.branch}"
+    parts:
+      r: $vars.repo_id
+      b:
+        op: str
+        of: $req.branch
+    parent:
+      ref:
+        key: $vars.repo
+      when: always
+    properties:
+      branch: $req.branch
+      required_pull_request_reviews: required_pull_request_reviews
+      enforce_admins: enforce_admins.enabled
+      required_status_checks: required_status_checks
+    display: "{$req.repo}:{$req.branch}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+      - type: applies_to
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+        properties:
+          binding:
+            const: explicit
+    identity:
+      primary:
+        - name: r
+          expr: $vars.repo_id
+          stability: catalog_reviewed
+        - name: b
+          expr: &a1
+            op: str
+            of: $req.branch
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-BPR-{r}-{b}
+runtime_stub: null
+runtime_key: GH-BPR-{r}-{b}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Branch Protection Rule:list
+    sources:
+      - call: GH-09
+        items: (root)
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+      repo_id:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $id
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+      - type: applies_to
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+        properties:
+          binding:
+            const: explicit
+    self_identity: object_rule
+vars:
+  repo:
+    ref:
+      type: Repository
+      lookup: name
+      value: $req.repo
+    prop: $key
+  repo_id:
+    ref:
+      type: Repository
+      lookup: name
+      value: $req.repo
+    prop: $id
+identity:
+  primary:
+    - name: r
+      expr: $vars.repo_id
+      stability: catalog_reviewed
+    - name: b
+      expr: *a1
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-BPR-{r}-{b}
+    replaced:
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

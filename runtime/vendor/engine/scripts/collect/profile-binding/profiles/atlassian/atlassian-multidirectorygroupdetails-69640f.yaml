@@ -1,0 +1,195 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: atlassian
+service: null
+object_type: MultiDirectoryGroupDetails
+interfaces: &a1
+  - Principal
+model:
+  research_type: object-type:caa4b7a706b6700f9b69640f
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:caa4b7a706b6700f9b69640f.identity_evidence
+  parent:
+    type: parent:orgs/{}/directories/{}
+    expr: $req.parent_id
+tenant_binding:
+  type: Org
+  service: null
+  call: AT-01
+  items: data
+  id: id
+fields:
+  data:
+    path: data
+    source: research_shape
+    shape: sh:atlassian_admin_organization:MultiDirectoryGroupDetails
+    declaration:
+      name: data
+      required: false
+      shape: sh:atlassian_admin_organization:MultiDirectoryGroupDetails.data
+    map_items:
+      - space:MultiDirectoryGroupDetails|data
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: parent:orgs/{}/directories/{}
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:7a8116c0b2eee132d9f60428 (orgs/{}/directories/{}) -> parent:orgs/{}/directories/{}
+  - name: data
+    field: data
+    target: MultiDirectoryGroupDetails
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:71b49897bfc45c33d56a77f2; relation=no_relation
+constants: {}
+row_contracts:
+  principal_kind:
+    const: group
+  account_kind:
+    const: unknown
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: atlassian
+  object_type: MultiDirectoryGroupDetails
+  interfaces: *a1
+  model:
+    research_type: object-type:caa4b7a706b6700f9b69640f
+  extract:
+    key: PILOT-atlassian-MultiDirectoryGroupDetails-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-ATLASSIAN-69640f
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          data: data
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:atlassian_admin_organization:getGroup
+  operation: getGroup
+  surface: rest
+  method: GET
+  kind: read_one
+  endpoint: /v2/orgs/[^/]+/directories/[^/]+/groups/[^/]+(?:\?|$)
+  endpoint_template: /v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}
+  request: {}
+  required_params:
+    - directoryId
+    - groupId
+    - orgId
+  paths:
+    - shape: sh:atlassian_admin_organization:MultiDirectoryGroupDetails
+      path: []
+  alternatives_total: 3
+  alternatives:
+    - operation_id: op:atlassian_admin_organization:getGroup
+      method: GET
+      kind: read_one
+      endpoint_template: /v2/orgs/{orgId}/directories/{directoryId}/groups/{groupId}
+      path:
+        - data
+    - operation_id: op:atlassian_admin_organization:searchDirectoryGroups
+      method: POST
+      kind: action
+      endpoint_template: /v2/orgs/{orgId}/directories/{directoryId}/groups/search
+      path:
+        - data
+        - "*"
+    - operation_id: op:atlassian_admin_organization:getGroups
+      method: GET
+      kind: read_many
+      endpoint_template: /v2/orgs/{orgId}/directories/{directoryId}/groups
+      path:
+        - data
+        - "*"
+      deprecated: deprecated
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: a2820d78ff69e70a12c11245c6e8eaa6735191962bc9453e2398b3661dec8dff
+    ir/shape.jsonl: 4efdbeff3f2f2da90b51ff0408016f32d6fbaa235d2e448defe4e407dbf432b8
+    ir/operation.jsonl: 791b21142f4885470a66beb7f80d550db969c448a1efe8283e57122059abf044
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - data
+  metadata_paths: *a2
+  remaining_declared_fields: properties

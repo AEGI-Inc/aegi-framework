@@ -1,0 +1,191 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/asp.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-18
+        items: items
+    vars:
+      email:
+        op: lower
+        of:
+          op: str
+          of:
+            any:
+              - $req.user
+            empty_as: ""
+      user:
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value:
+            op: lower
+            of:
+              op: str
+              of:
+                any:
+                  - $req.user
+                empty_as: ""
+          ci: true
+        prop: $key
+      code:
+        op: str
+        of:
+          any:
+            - codeId
+            - id
+    id_expr:
+      template: "{$vars.email}:{$vars.code}"
+    parts:
+      u: $vars.email
+      c: $vars.code
+    parent:
+      ref:
+        key: $vars.user
+      when: always
+    refs:
+      user:
+        when:
+          path: $vars.user
+          present: true
+        ref:
+          key: $vars.user
+        type: User
+        value: $vars.email
+    properties:
+      codeId: codeId
+      name: name
+      creationTime: creationTime
+      lastTimeUsed: lastTimeUsed
+      userKey: $vars.email
+    display: 앱 비밀번호 {name|$vars.code} ({$vars.email})
+    relations:
+      - type: authenticates_with
+        source:
+          key: $vars.user
+        target: $self
+        basis: stated
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: u
+          expr: $vars.email
+          stability: catalog_reviewed
+        - name: c
+          expr: $vars.code
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-ASP-{u}-{c}
+runtime_stub: null
+runtime_key: GWS-ASP-{u}-{c}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Asp:list
+    sources:
+      - call: GW-18
+        items: items
+    vars:
+      email:
+        op: lower
+        of:
+          op: str
+          of:
+            any:
+              - $req.user
+            empty_as: ""
+      user:
+        ref:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value:
+            op: lower
+            of:
+              op: str
+              of:
+                any:
+                  - $req.user
+                empty_as: ""
+          ci: true
+        prop: $key
+      code:
+        op: str
+        of:
+          any:
+            - codeId
+            - id
+    relations:
+      - type: authenticates_with
+        source:
+          key: $vars.user
+        target: $self
+        basis: stated
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+vars:
+  email:
+    op: lower
+    of:
+      op: str
+      of:
+        any:
+          - $req.user
+        empty_as: ""
+  user:
+    ref:
+      type: User
+      lookup:
+        - primaryEmail
+        - aliases
+      value:
+        op: lower
+        of:
+          op: str
+          of:
+            any:
+              - $req.user
+            empty_as: ""
+      ci: true
+    prop: $key
+  code:
+    op: str
+    of:
+      any:
+        - codeId
+        - id
+identity:
+  primary:
+    - name: u
+      expr: $vars.email
+      stability: catalog_reviewed
+    - name: c
+      expr: $vars.code
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-ASP-{u}-{c}
+    replaced:
+      - $req.parent_id
+      - name
+# Profile 상수: knowledge schema/catalog/gws/research.json 의 Asp decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml owned_by.org_bearer_token)이 이 값으로 고른다
+constants:
+  credential_kind:
+    const: bearer_token

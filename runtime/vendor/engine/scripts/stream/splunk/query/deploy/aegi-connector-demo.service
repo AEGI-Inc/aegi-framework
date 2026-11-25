@@ -1,0 +1,23 @@
+# AEGI Splunk 커넥터 (Splunk와 같은 서버). 밖으로만 연결하고 포트를 열지 않는다.
+# 설치: docs/SPLUNK_QUERY_GATEWAY.md 「서버에서 커넥터 돌리기」
+[Unit]
+Description=AEGI Splunk connector (public demo)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=aegi-connector-demo
+Group=aegi-connector-demo
+WorkingDirectory=/opt/aegi-connector-demo
+EnvironmentFile=/etc/aegi-connector-demo/connector.env
+ExecStart=/usr/local/bin/node /opt/aegi-connector-demo/connector.mjs
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/aegi-connector-demo
+
+[Install]
+WantedBy=multi-user.target

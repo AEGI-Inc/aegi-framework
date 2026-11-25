@@ -1,0 +1,1260 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Order
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:8ca95470d949460d7fbef2eb
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:8ca95470d949460d7fbef2eb.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|Id
+  AccountId:
+    path: AccountId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: AccountId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|AccountId
+  ActivatedById:
+    path: ActivatedById
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: ActivatedById
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ActivatedById
+  ActivatedDate:
+    path: ActivatedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: dateTime
+      name: ActivatedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ActivatedDate
+  BillingAddress:
+    path: BillingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: address
+      name: BillingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingAddress
+  BillingCity:
+    path: BillingCity
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: BillingCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingCity
+  BillingCountry:
+    path: BillingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: BillingCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingCountry
+  BillingCountryCode:
+    path: BillingCountryCode
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: BillingCountryCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingCountryCode
+  BillingEmailAddress:
+    path: BillingEmailAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: email
+      name: BillingEmailAddress
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingEmailAddress
+  BillingGeocodeAccuracy:
+    path: BillingGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: BillingGeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingGeocodeAccuracy
+  BillingLatitude:
+    path: BillingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: double
+      name: BillingLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|BillingLatitude
+  BillingLongitude:
+    path: BillingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: double
+      name: BillingLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|BillingLongitude
+  BillingPhoneNumber:
+    path: BillingPhoneNumber
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: phone
+      name: BillingPhoneNumber
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingPhoneNumber
+  BillingPostalCode:
+    path: BillingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: BillingPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingPostalCode
+  BillingState:
+    path: BillingState
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: BillingState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingState
+  BillingStateCode:
+    path: BillingStateCode
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: BillingStateCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingStateCode
+  BillingStreet:
+    path: BillingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: textarea
+      name: BillingStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillingStreet
+  BillToContactId:
+    path: BillToContactId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: BillToContactId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|BillToContactId
+  CompanyAuthorizedById:
+    path: CompanyAuthorizedById
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: CompanyAuthorizedById
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|CompanyAuthorizedById
+  CompanyAuthorizedDate:
+    path: CompanyAuthorizedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: date
+      name: CompanyAuthorizedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|CompanyAuthorizedDate
+  ContractId:
+    path: ContractId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: ContractId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ContractId
+  CurrencyIsoCode:
+    path: CurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: CurrencyIsoCode
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|CurrencyIsoCode
+  CustomerAuthorizedById:
+    path: CustomerAuthorizedById
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: CustomerAuthorizedById
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|CustomerAuthorizedById
+  CustomerAuthorizedDate:
+    path: CustomerAuthorizedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: date
+      name: CustomerAuthorizedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|CustomerAuthorizedDate
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|Description
+  EffectiveDate:
+    path: EffectiveDate
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: date
+      name: EffectiveDate
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|EffectiveDate
+  EndDate:
+    path: EndDate
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: date
+      name: EndDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|EndDate
+  ExternalCustomerReference:
+    path: ExternalCustomerReference
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: ExternalCustomerReference
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ExternalCustomerReference
+  GrandTotalAmount:
+    path: GrandTotalAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: GrandTotalAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|GrandTotalAmount
+  IsReductionOrder:
+    path: IsReductionOrder
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: boolean
+      name: IsReductionOrder
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Order|IsReductionOrder
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: dateTime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|LastViewedDate
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: Name
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|Name
+  OpportunityId:
+    path: OpportunityId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: OpportunityId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|OpportunityId
+  OrderedDate:
+    path: OrderedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: dateTime
+      name: OrderedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|OrderedDate
+  OrderManagementReferenceIdentifier:
+    path: OrderManagementReferenceIdentifier
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: OrderManagementReferenceIdentifier
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|OrderManagementReferenceIdentifier
+  OrderNumber:
+    path: OrderNumber
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: OrderNumber
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|OrderNumber
+  OrderReferenceNumber:
+    path: OrderReferenceNumber
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: OrderReferenceNumber
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|OrderReferenceNumber
+  OriginalOrderId:
+    path: OriginalOrderId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: OriginalOrderId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|OriginalOrderId
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|OwnerId
+  PaymentTermId:
+    path: PaymentTermId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: PaymentTermId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|PaymentTermId
+  PoDate:
+    path: PoDate
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: date
+      name: PoDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|PoDate
+  PoNumber:
+    path: PoNumber
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: PoNumber
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|PoNumber
+  Pricebook2Id:
+    path: Pricebook2Id
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: Pricebook2Id
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|Pricebook2Id
+  QuoteId:
+    path: QuoteId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: QuoteId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|QuoteId
+  RecordTypeId:
+    path: RecordTypeId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: RecordTypeId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|RecordTypeId
+  RelatedOrderId:
+    path: RelatedOrderId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: RelatedOrderId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|RelatedOrderId
+  RelatedOrderType:
+    path: RelatedOrderType
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: RelatedOrderType
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|RelatedOrderType
+  SalesChannelId:
+    path: SalesChannelId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: SalesChannelId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|SalesChannelId
+  SalesStoreId:
+    path: SalesStoreId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: SalesStoreId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|SalesStoreId
+  ShippingAddress:
+    path: ShippingAddress
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: address
+      name: ShippingAddress
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ShippingAddress
+  ShippingCity:
+    path: ShippingCity
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: ShippingCity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ShippingCity
+  ShippingCountry:
+    path: ShippingCountry
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: ShippingCountry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ShippingCountry
+  ShippingCountryCode:
+    path: ShippingCountryCode
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: ShippingCountryCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ShippingCountryCode
+  ShippingGeocodeAccuracy:
+    path: ShippingGeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: ShippingGeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ShippingGeocodeAccuracy
+  ShippingLatitude:
+    path: ShippingLatitude
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: double
+      name: ShippingLatitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|ShippingLatitude
+  ShippingLongitude:
+    path: ShippingLongitude
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: double
+      name: ShippingLongitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|ShippingLongitude
+  ShippingPostalCode:
+    path: ShippingPostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: ShippingPostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ShippingPostalCode
+  ShippingState:
+    path: ShippingState
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: string
+      name: ShippingState
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ShippingState
+  ShippingStateCode:
+    path: ShippingStateCode
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: ShippingStateCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ShippingStateCode
+  ShippingStreet:
+    path: ShippingStreet
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: textarea
+      name: ShippingStreet
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ShippingStreet
+  ShipToContactId:
+    path: ShipToContactId
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: reference
+      name: ShipToContactId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|ShipToContactId
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: Status
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|Status
+  StatusCode:
+    path: StatusCode
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: StatusCode
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|StatusCode
+  TaxLocaleType:
+    path: TaxLocaleType
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: TaxLocaleType
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|TaxLocaleType
+  TotalAdjDeliveryAmtWithTax:
+    path: TotalAdjDeliveryAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalAdjDeliveryAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalAdjDeliveryAmtWithTax
+  TotalAdjProductAmtWithTax:
+    path: TotalAdjProductAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalAdjProductAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalAdjProductAmtWithTax
+  TotalAdjustedDeliveryAmount:
+    path: TotalAdjustedDeliveryAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalAdjustedDeliveryAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalAdjustedDeliveryAmount
+  TotalAdjustedDeliveryTaxAmount:
+    path: TotalAdjustedDeliveryTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalAdjustedDeliveryTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalAdjustedDeliveryTaxAmount
+  TotalAdjustedProductAmount:
+    path: TotalAdjustedProductAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalAdjustedProductAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalAdjustedProductAmount
+  TotalAdjustedProductTaxAmount:
+    path: TotalAdjustedProductTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalAdjustedProductTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalAdjustedProductTaxAmount
+  TotalAmount:
+    path: TotalAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalAmount
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalAmount
+  TotalDeliveryAdjDistAmount:
+    path: TotalDeliveryAdjDistAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalDeliveryAdjDistAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalDeliveryAdjDistAmount
+  TotalDeliveryAdjDistAmtWithTax:
+    path: TotalDeliveryAdjDistAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalDeliveryAdjDistAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalDeliveryAdjDistAmtWithTax
+  TotalDeliveryAdjDistTaxAmount:
+    path: TotalDeliveryAdjDistTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalDeliveryAdjDistTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalDeliveryAdjDistTaxAmount
+  TotalProductAdjDistAmount:
+    path: TotalProductAdjDistAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalProductAdjDistAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalProductAdjDistAmount
+  TotalProductAdjDistAmtWithTax:
+    path: TotalProductAdjDistAmtWithTax
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalProductAdjDistAmtWithTax
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalProductAdjDistAmtWithTax
+  TotalProductAdjDistTaxAmount:
+    path: TotalProductAdjDistTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalProductAdjDistTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalProductAdjDistTaxAmount
+  TotalTaxAmount:
+    path: TotalTaxAmount
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: currency
+      name: TotalTaxAmount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Order|TotalTaxAmount
+  Type:
+    path: Type
+    source: research_shape
+    shape: sh:sf_object_reference:Order
+    declaration:
+      format: picklist
+      name: Type
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Order|Type
+references:
+  - name: customerauthorizedbyid
+    field: CustomerAuthorizedById
+    target: Contact
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:086987126271f17bbd2786a4; relation=no_relation
+  - name: paymenttermid
+    field: PaymentTermId
+    target: PaymentTerm
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:0db07437437c4ddb88d3cb2a; relation=no_relation
+  - name: ownerid
+    field: OwnerId
+    target: Group
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1d10a65de83f4cbd1b9c7d17; relation=no_relation
+  - name: salesstoreid
+    field: SalesStoreId
+    target: WebStore
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:308ef47410ec66936c08579b; relation=no_relation
+  - name: accountid
+    field: AccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:391341ac55cea050a1f1768b; relation=no_relation
+  - name: contractid
+    field: ContractId
+    target: Contract
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:68c7b02479a3dcf8a194161d; relation=no_relation
+  - name: activatedbyid
+    field: ActivatedById
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9a672bd15c5f0f7aa35efe9a; relation=no_relation
+  - name: pricebook2id
+    field: Pricebook2Id
+    target: Pricebook2
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:c40cb8ca93000d92c0b9521f; relation=no_relation
+  - name: companyauthorizedbyid
+    field: CompanyAuthorizedById
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:d1e91922ea1a3fea2d4c366e; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Order
+  interfaces: *a1
+  model:
+    research_type: object-type:8ca95470d949460d7fbef2eb
+  extract:
+    key: PILOT-salesforce-Order-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-bef2eb
+            endpoint: /
+            items:
+              - records
+        properties:
+          AccountId: AccountId
+          ActivatedById: ActivatedById
+          ActivatedDate: ActivatedDate
+          BillToContactId: BillToContactId
+          BillingAddress: BillingAddress
+          BillingCity: BillingCity
+          BillingCountry: BillingCountry
+          BillingCountryCode: BillingCountryCode
+          BillingEmailAddress: BillingEmailAddress
+          BillingGeocodeAccuracy: BillingGeocodeAccuracy
+          BillingLatitude: BillingLatitude
+          BillingLongitude: BillingLongitude
+          BillingPhoneNumber: BillingPhoneNumber
+          BillingPostalCode: BillingPostalCode
+          BillingState: BillingState
+          BillingStateCode: BillingStateCode
+          BillingStreet: BillingStreet
+          CompanyAuthorizedById: CompanyAuthorizedById
+          CompanyAuthorizedDate: CompanyAuthorizedDate
+          ContractId: ContractId
+          CurrencyIsoCode: CurrencyIsoCode
+          CustomerAuthorizedById: CustomerAuthorizedById
+          CustomerAuthorizedDate: CustomerAuthorizedDate
+          Description: Description
+          EffectiveDate: EffectiveDate
+          EndDate: EndDate
+          ExternalCustomerReference: ExternalCustomerReference
+          GrandTotalAmount: GrandTotalAmount
+          Id: Id
+          IsReductionOrder: IsReductionOrder
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          Name: Name
+          OpportunityId: OpportunityId
+          OrderManagementReferenceIdentifier: OrderManagementReferenceIdentifier
+          OrderNumber: OrderNumber
+          OrderReferenceNumber: OrderReferenceNumber
+          OrderedDate: OrderedDate
+          OriginalOrderId: OriginalOrderId
+          OwnerId: OwnerId
+          PaymentTermId: PaymentTermId
+          PoDate: PoDate
+          PoNumber: PoNumber
+          Pricebook2Id: Pricebook2Id
+          QuoteId: QuoteId
+          RecordTypeId: RecordTypeId
+          RelatedOrderId: RelatedOrderId
+          RelatedOrderType: RelatedOrderType
+          SalesChannelId: SalesChannelId
+          SalesStoreId: SalesStoreId
+          ShipToContactId: ShipToContactId
+          ShippingAddress: ShippingAddress
+          ShippingCity: ShippingCity
+          ShippingCountry: ShippingCountry
+          ShippingCountryCode: ShippingCountryCode
+          ShippingGeocodeAccuracy: ShippingGeocodeAccuracy
+          ShippingLatitude: ShippingLatitude
+          ShippingLongitude: ShippingLongitude
+          ShippingPostalCode: ShippingPostalCode
+          ShippingState: ShippingState
+          ShippingStateCode: ShippingStateCode
+          ShippingStreet: ShippingStreet
+          Status: Status
+          StatusCode: StatusCode
+          TaxLocaleType: TaxLocaleType
+          TotalAdjDeliveryAmtWithTax: TotalAdjDeliveryAmtWithTax
+          TotalAdjProductAmtWithTax: TotalAdjProductAmtWithTax
+          TotalAdjustedDeliveryAmount: TotalAdjustedDeliveryAmount
+          TotalAdjustedDeliveryTaxAmount: TotalAdjustedDeliveryTaxAmount
+          TotalAdjustedProductAmount: TotalAdjustedProductAmount
+          TotalAdjustedProductTaxAmount: TotalAdjustedProductTaxAmount
+          TotalAmount: TotalAmount
+          TotalDeliveryAdjDistAmount: TotalDeliveryAdjDistAmount
+          TotalDeliveryAdjDistAmtWithTax: TotalDeliveryAdjDistAmtWithTax
+          TotalDeliveryAdjDistTaxAmount: TotalDeliveryAdjDistTaxAmount
+          TotalProductAdjDistAmount: TotalProductAdjDistAmount
+          TotalProductAdjDistAmtWithTax: TotalProductAdjDistAmtWithTax
+          TotalProductAdjDistTaxAmount: TotalProductAdjDistTaxAmount
+          TotalTaxAmount: TotalTaxAmount
+          Type: Type
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:Order.query
+  operation: Order.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Order
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Order
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Order.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Order/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - CustomerAuthorizedById
+    - PaymentTermId
+    - OwnerId
+    - SalesStoreId
+    - AccountId
+    - ContractId
+    - ActivatedById
+    - Pricebook2Id
+    - CompanyAuthorizedById
+  metadata_paths: *a2
+  remaining_declared_fields: properties

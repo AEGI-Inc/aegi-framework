@@ -1,0 +1,58 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/space.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: CF-01
+        items: (array_or:values|results)
+    id_expr:
+      op: str
+      of: id
+    mutable_ids:
+      key: key
+    properties:
+      key: key
+      name: name
+      type: type
+      status: status
+      author_account:
+        op: null_if_missing
+        of: authorId
+    display: "{name|key|id}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: &a1
+            op: str
+            of: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: CF-SP-{id}
+runtime_stub: null
+runtime_key: CF-SP-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  key:
+    stability: mutable
+identity:
+  primary:
+    - name: id
+      expr: *a1
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: CF-SP-{id}
+    replaced:
+      - id
+tenant_binding:
+  type: ServerInformation
+tenant_basis: Confluence 의 tenant 는 Space 가 아니라 같은 Atlassian site 다. V3.2 에서
+  Jira ServerInformation 이 Tenant(V2-T1)

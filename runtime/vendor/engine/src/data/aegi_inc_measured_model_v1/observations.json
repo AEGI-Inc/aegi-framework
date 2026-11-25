@@ -1,0 +1,1150 @@
+[
+  {
+    "id": "OBS-B-REQ-9",
+    "scenarioKey": "B",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C5SKU6L75)",
+    "occurredAt": "2026-10-01T13:17:24Z",
+    "objectKeys": [
+      "SLK-U-U0C5SKU6L75",
+      "SLK-END-A0C5HFF9NTZ-devbot",
+      "SLK-CH-C0C5WTS9V46"
+    ],
+    "attributes": {
+      "command": "/devbot",
+      "action": "sync-config",
+      "request_channel": "SLK-CH-C0C5WTS9V46",
+      "request_channel_id": "C0C5WTS9V46",
+      "requester_slack_user": "SLK-U-U0C5SKU6L75",
+      "requester_slack_user_id": "U0C5SKU6L75",
+      "result": "success",
+      "correlated_commit": "GH-COMMIT-00781b89be09acba6fc2bd4eafac90a413f3ca62",
+      "correlated_commit_sha": "00781b89be09acba6fc2bd4eafac90a413f3ca62",
+      "api_app_id": "A0C5HFF9NTZ",
+      "text": {
+        "$fp": "sha256:4bc5b4239776deb707e0a230858acb9e30d5ed71af781823b5b7f39e700f9a68",
+        "len": 35
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#9"
+    }
+  },
+  {
+    "id": "OBS-B-REQ-10",
+    "scenarioKey": "B",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C5SKU8HMH)",
+    "occurredAt": "2026-10-01T13:20:02Z",
+    "objectKeys": [
+      "SLK-U-U0C5SKU8HMH",
+      "SLK-END-A0C5HFF9NTZ-devbot",
+      "SLK-CH-C0C5HFHDSGP"
+    ],
+    "attributes": {
+      "command": "/devbot",
+      "request_channel": "SLK-CH-C0C5HFHDSGP",
+      "request_channel_id": "C0C5HFHDSGP",
+      "requester_slack_user": "SLK-U-U0C5SKU8HMH",
+      "requester_slack_user_id": "U0C5SKU8HMH",
+      "result": "denied",
+      "api_app_id": "A0C5HFF9NTZ",
+      "text": {
+        "$fp": "sha256:f691c823bfff6af5a69c196ef09a7cec5accfb543c7b3ad0448f69e050d0e9af",
+        "len": 36
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#10"
+    }
+  },
+  {
+    "id": "OBS-B-REQ-11",
+    "scenarioKey": "B",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C5SKU6L75)",
+    "occurredAt": "2026-10-01T13:20:11Z",
+    "objectKeys": [
+      "SLK-U-U0C5SKU6L75",
+      "SLK-END-A0C5HFF9NTZ-devbot",
+      "SLK-CH-C0C5WTS9V46"
+    ],
+    "attributes": {
+      "command": "/devbot",
+      "action": "sync-config",
+      "request_channel": "SLK-CH-C0C5WTS9V46",
+      "request_channel_id": "C0C5WTS9V46",
+      "requester_slack_user": "SLK-U-U0C5SKU6L75",
+      "requester_slack_user_id": "U0C5SKU6L75",
+      "result": "success",
+      "correlated_commit": "GH-COMMIT-4e805cdb55d60203c18ad743fd25870ccf5af677",
+      "correlated_commit_sha": "4e805cdb55d60203c18ad743fd25870ccf5af677",
+      "api_app_id": "A0C5HFF9NTZ",
+      "text": {
+        "$fp": "sha256:f691c823bfff6af5a69c196ef09a7cec5accfb543c7b3ad0448f69e050d0e9af",
+        "len": 36
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#11"
+    }
+  },
+  {
+    "id": "OBS-B-REQ-12",
+    "scenarioKey": "B",
+    "kind": "slash_request",
+    "title": "/devbot 요청 (U0C6T7R2XCG)",
+    "occurredAt": "2026-10-02T04:17:08Z",
+    "objectKeys": [
+      "SLK-U-U0C6T7R2XCG",
+      "SLK-END-A0C5HFF9NTZ-devbot",
+      "SLK-CH-C0C5WTS9V46"
+    ],
+    "attributes": {
+      "command": "/devbot",
+      "action": "update-script",
+      "request_channel": "SLK-CH-C0C5WTS9V46",
+      "request_channel_id": "C0C5WTS9V46",
+      "requester_slack_user": "SLK-U-U0C6T7R2XCG",
+      "requester_slack_user_id": "U0C6T7R2XCG",
+      "result": "success",
+      "correlated_commit": "GH-COMMIT-ebc65257c96ac4294351db4978e7bc98d3685b25",
+      "correlated_commit_sha": "ebc65257c96ac4294351db4978e7bc98d3685b25",
+      "api_app_id": "A0C5HFF9NTZ",
+      "text": {
+        "$fp": "sha256:77faa8ae40d37293ae2d5f26e7ea3bb5e6ba338ee325ff66284d07779180f05a",
+        "len": 38
+      },
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#12"
+    }
+  },
+  {
+    "id": "OBS-B-CRED-2307990",
+    "scenarioKey": "B",
+    "kind": "credential_use",
+    "title": "개인 PAT 로 한 커밋 (aegi-dev-jiwon)",
+    "occurredAt": "2026-10-02T04:17:09Z",
+    "objectKeys": [
+      "GH-GRANT-2307990",
+      "GH-U-336525768",
+      "GH-REPO-1385438403",
+      "GH-COMMIT-4e805cdb55d60203c18ad743fd25870ccf5af677",
+      "GH-COMMIT-ebc65257c96ac4294351db4978e7bc98d3685b25"
+    ],
+    "attributes": {
+      "credential_kind": "github_fine_grained_pat",
+      "credential_fingerprint": "token_id:20452871",
+      "credential_owner_object": "GH-U-336525768",
+      "grant_object": "GH-GRANT-2307990",
+      "native_github_actor": "GH-U-336525768",
+      "commits": [
+        "GH-COMMIT-4e805cdb55d60203c18ad743fd25870ccf5af677",
+        "GH-COMMIT-ebc65257c96ac4294351db4978e7bc98d3685b25"
+      ],
+      "push_webhook_deliveries": [
+        "d5a4e162-bd9a-11f1-98d6-132cb0239b9e",
+        "230142d4-be18-11f1-8d47-5338db7f6928"
+      ],
+      "slack_native_audit_contains_slash_requester": false,
+      "github_native_audit_contains_slack_requester": false,
+      "requester_trace_source": "bot_local_log_only",
+      "github_audit_log_contains_commit": false,
+      "github_audit_rows_with_token_id": 2,
+      "credential_link_basis": "grant.repositories ∋ target_repository ∧ commit.author = grant.owner ∧ commit.sha ∈ bot log",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "github:GH-13+GH-11+worker:GH-18"
+    }
+  },
+  {
+    "id": "OBS-B-CRED-2262294",
+    "scenarioKey": "B",
+    "kind": "credential_use",
+    "title": "개인 PAT 로 한 커밋 (didwl-aegi)",
+    "occurredAt": "2026-10-01T13:17:25Z",
+    "objectKeys": [
+      "GH-GRANT-2262294",
+      "GH-U-331622196",
+      "GH-REPO-1385438403",
+      "GH-COMMIT-00781b89be09acba6fc2bd4eafac90a413f3ca62"
+    ],
+    "attributes": {
+      "credential_kind": "github_fine_grained_pat",
+      "credential_fingerprint": "token_id:20144799",
+      "credential_owner_object": "GH-U-331622196",
+      "grant_object": "GH-GRANT-2262294",
+      "native_github_actor": "GH-U-331622196",
+      "commits": [
+        "GH-COMMIT-00781b89be09acba6fc2bd4eafac90a413f3ca62"
+      ],
+      "push_webhook_deliveries": [
+        "72b1b86e-bd9a-11f1-8a3d-55fce6a7522c",
+        "d5a4e162-bd9a-11f1-98d6-132cb0239b9e"
+      ],
+      "slack_native_audit_contains_slash_requester": false,
+      "github_native_audit_contains_slack_requester": false,
+      "requester_trace_source": "bot_local_log_only",
+      "github_audit_log_contains_commit": false,
+      "github_audit_rows_with_token_id": 0,
+      "credential_link_basis": "grant.repositories ∋ target_repository ∧ commit.author = grant.owner ∧ commit.sha ∈ bot log",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "github:GH-13+GH-11+worker:GH-18"
+    }
+  },
+  {
+    "id": "OBS-C-REQ-8",
+    "scenarioKey": "C",
+    "kind": "slash_request",
+    "title": "/mfa-reset 요청 (U0C5SKU6L75, success)",
+    "occurredAt": "2026-10-01T12:26:49Z",
+    "objectKeys": [
+      "SLK-U-U0C5SKU6L75",
+      "SLK-CH-C0C60QPJFHP",
+      "SLK-END-A0C5YMWRL7L-mfa-reset",
+      "OKTA-U-00u187p30bhJHPRMe698",
+      "OKTA-APP-0oa17zcw8x2b9e68j698"
+    ],
+    "attributes": {
+      "workflow_name": "/mfa-reset",
+      "request_channel_id": "SLK-CH-C0C60QPJFHP",
+      "request_channel_raw": "C0C60QPJFHP",
+      "request_channel_name": "helpdesk",
+      "requester_object": "SLK-U-U0C5SKU6L75",
+      "requester_slack_user_id": "U0C5SKU6L75",
+      "action": "POST /api/v1/users/{id}/lifecycle/reset_factors",
+      "target_object": "OKTA-U-00u187p30bhJHPRMe698",
+      "result": "success",
+      "okta_event_uuid": "60fbe88f-bd93-11f1-8814-33a4a9f677e8",
+      "okta_event_type": "user.mfa.factor.reset_all",
+      "okta_actor": "OKTA-APP-0oa17zcw8x2b9e68j698",
+      "okta_actor_display": "AEGI Helpdesk Action",
+      "okta_published": "2026-10-01T12:26:51.016Z",
+      "okta_contains_slack_requester": false,
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#8+okta:OK-12#60fbe88f-bd93-11f1-8814-33a4a9f677e8"
+    }
+  },
+  {
+    "id": "OBS-C-REQ-13",
+    "scenarioKey": "C",
+    "kind": "slash_request",
+    "title": "/mfa-reset 요청 (U0C60QMMB25, success)",
+    "occurredAt": "2026-10-02T04:29:02Z",
+    "objectKeys": [
+      "SLK-U-U0C60QMMB25",
+      "SLK-CH-C0C60QPJFHP",
+      "SLK-END-A0C5YMWRL7L-mfa-reset",
+      "OKTA-U-00u187p30bhJHPRMe698",
+      "OKTA-APP-0oa17zcw8x2b9e68j698"
+    ],
+    "attributes": {
+      "workflow_name": "/mfa-reset",
+      "request_channel_id": "SLK-CH-C0C60QPJFHP",
+      "request_channel_raw": "C0C60QPJFHP",
+      "request_channel_name": "helpdesk",
+      "requester_object": "SLK-U-U0C60QMMB25",
+      "requester_slack_user_id": "U0C60QMMB25",
+      "action": "POST /api/v1/users/{id}/lifecycle/reset_factors",
+      "target_object": "OKTA-U-00u187p30bhJHPRMe698",
+      "result": "success",
+      "okta_event_uuid": "cc7a9037-be19-11f1-91ec-c1dccf04c656",
+      "okta_event_type": "user.mfa.factor.reset_all",
+      "okta_actor": "OKTA-APP-0oa17zcw8x2b9e68j698",
+      "okta_actor_display": "AEGI Helpdesk Action",
+      "okta_published": "2026-10-02T04:29:03.924Z",
+      "okta_contains_slack_requester": false,
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "worker:SL-12#13+okta:OK-12#cc7a9037-be19-11f1-91ec-c1dccf04c656"
+    }
+  },
+  {
+    "id": "OBS-D-DELIVERY-1790858510441549",
+    "scenarioKey": "D",
+    "kind": "delivery",
+    "title": "시트 → Slack 전달 (1790858510.441549)",
+    "occurredAt": "2026-10-01T12:41:50.441Z",
+    "objectKeys": [
+      "GWS-FILE-1iarAHlKO3C_148XaF5SB6LC7tmKksYgGP8YhL7X8xP0",
+      "GWS-FORM-1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY",
+      "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+      "SLK-HOOK-A0C60QMC3U1-C0C5HFHDSGP",
+      "SLK-MSG-C0C5HFHDSGP-1790858510.441549"
+    ],
+    "attributes": {
+      "source_form": "GWS-FORM-1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY",
+      "source_file": "GWS-FILE-1iarAHlKO3C_148XaF5SB6LC7tmKksYgGP8YhL7X8xP0",
+      "automation": "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+      "destination_endpoint": "SLK-HOOK-A0C60QMC3U1-C0C5HFHDSGP",
+      "destination_message": "SLK-MSG-C0C5HFHDSGP-1790858510.441549",
+      "trigger": "form_submit",
+      "matched_execution": "2026-10-01T12:41:49.640Z",
+      "webhook_fingerprint_match": false,
+      "contains_source_data": true,
+      "contains_source_data_basis": "onFormSubmit 실행 시각 대조",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "slack:SL-05#1790858510.441549+gws:GW-09"
+    }
+  },
+  {
+    "id": "OBS-D-DELIVERY-1790857963151959",
+    "scenarioKey": "D",
+    "kind": "delivery",
+    "title": "시트 → Slack 전달 (1790857963.151959)",
+    "occurredAt": "2026-10-01T12:32:43.151Z",
+    "objectKeys": [
+      "GWS-FILE-1iarAHlKO3C_148XaF5SB6LC7tmKksYgGP8YhL7X8xP0",
+      "GWS-FORM-1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY",
+      "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+      "SLK-HOOK-A0C60QMC3U1-C0C5HFHDSGP",
+      "SLK-MSG-C0C5HFHDSGP-1790857963.151959"
+    ],
+    "attributes": {
+      "source_form": "GWS-FORM-1fqTovtuOjouT0hJM_3--GoYX9aGskdGBKIM45BUBtyY",
+      "source_file": "GWS-FILE-1iarAHlKO3C_148XaF5SB6LC7tmKksYgGP8YhL7X8xP0",
+      "automation": "GWS-PROJECT-1DJ7gYM2VvQchCIAsL3IbDdKkie0ueKBdSlf6ATXw-tlLJsmrXMU1y4FC",
+      "destination_endpoint": "SLK-HOOK-A0C60QMC3U1-C0C5HFHDSGP",
+      "destination_message": "SLK-MSG-C0C5HFHDSGP-1790857963.151959",
+      "trigger": "form_submit",
+      "webhook_fingerprint_match": false,
+      "contains_source_data": false,
+      "contains_source_data_basis": "unknown",
+      "record": "measured"
+    },
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "slack:SL-05#1790857963.151959"
+    }
+  },
+  {
+    "id": "OBS-G-FORWARD-GWS-U-100024818286955775644",
+    "scenarioKey": "G",
+    "kind": "access_snapshot",
+    "objectKeys": [
+      "GWS-U-100024818286955775644"
+    ],
+    "attributes": {
+      "enabled": true,
+      "emailAddress": "twyeo0295@gmail.com",
+      "disposition": "leaveInInbox",
+      "verificationStatus": "accepted"
+    },
+    "occurredAt": "2026-10-02T05:56:51.413Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-15#7c6f2c9240363f923eca84702946c49cfa1a090cab844cf4b5ac8db028f6f676"
+    },
+    "title": "Gmail 자동 전달 설정"
+  },
+  {
+    "id": "OBS-H-VERSION-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-3",
+    "scenarioKey": "H",
+    "kind": "access_snapshot",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D"
+    ],
+    "attributes": {
+      "versionNumber": 3,
+      "manifest": {
+        "webapp": {
+          "executeAs": "USER_ACCESSING",
+          "access": "DOMAIN"
+        },
+        "executionApi": null,
+        "oauthScopes": [
+          "https://www.googleapis.com/auth/admin.directory.user.readonly",
+          "https://www.googleapis.com/auth/script.external_request",
+          "https://www.googleapis.com/auth/userinfo.email"
+        ],
+        "advancedServices": [
+          {
+            "userSymbol": "AdminDirectory",
+            "serviceId": "admin",
+            "version": "directory_v1"
+          }
+        ],
+        "runtimeVersion": "V8"
+      },
+      "code_markers": {
+        "advanced_services_called": [
+          "AdminDirectory"
+        ]
+      }
+    },
+    "occurredAt": "2026-10-02T05:56:22.408Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-12#b73ca40189a2155fea881653a2a217e47cb99481c977c676d2cb11557da84920"
+    },
+    "title": "웹앱 버전 3 설정"
+  },
+  {
+    "id": "OBS-H-VERSION-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-2",
+    "scenarioKey": "H",
+    "kind": "access_snapshot",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D"
+    ],
+    "attributes": {
+      "versionNumber": 2,
+      "manifest": {
+        "webapp": {
+          "executeAs": "USER_ACCESSING",
+          "access": "DOMAIN"
+        },
+        "executionApi": null,
+        "oauthScopes": [
+          "https://www.googleapis.com/auth/admin.directory.user.readonly",
+          "https://www.googleapis.com/auth/script.external_request",
+          "https://www.googleapis.com/auth/userinfo.email"
+        ],
+        "advancedServices": [],
+        "runtimeVersion": "V8"
+      },
+      "code_markers": {
+        "advanced_services_called": []
+      }
+    },
+    "occurredAt": "2026-10-02T05:56:23.851Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-12#f7108ad8d8dd1105e322f74b01eac7dcb6d39b6e94fc0c6911fc224ee4cf622c"
+    },
+    "title": "웹앱 버전 2 설정"
+  },
+  {
+    "id": "OBS-H-VERSION-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-1",
+    "scenarioKey": "H",
+    "kind": "access_snapshot",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D"
+    ],
+    "attributes": {
+      "versionNumber": 1,
+      "manifest": {
+        "webapp": {
+          "executeAs": "USER_ACCESSING",
+          "access": "DOMAIN"
+        },
+        "executionApi": null,
+        "oauthScopes": [
+          "https://www.googleapis.com/auth/admin.directory.user.readonly",
+          "https://www.googleapis.com/auth/script.external_request",
+          "https://www.googleapis.com/auth/userinfo.email"
+        ],
+        "advancedServices": [],
+        "runtimeVersion": "V8"
+      },
+      "code_markers": {
+        "advanced_services_called": []
+      }
+    },
+    "occurredAt": "2026-10-02T05:56:25.299Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-12#a8eb5ba97e5b8ef9bb890b50a9fa263f5b8497abea9258eb7d6899ac4f5d41e8"
+    },
+    "title": "웹앱 버전 1 설정"
+  },
+  {
+    "id": "OBS-H-DEPLOY-AKfycbx4S7cefvZxsgCGHvZOBM_UXt2Ylv35WgcvoUMiUnFeDMRCPAkGyc7OmqOyBpvgkic0",
+    "scenarioKey": "H",
+    "kind": "access_snapshot",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-100024818286955775644"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "author": "GWS-U-100024818286955775644",
+      "deploymentId": "AKfycbx4S7cefvZxsgCGHvZOBM_UXt2Ylv35WgcvoUMiUnFeDMRCPAkGyc7OmqOyBpvgkic0",
+      "versionNumber": 3,
+      "updateTime": "2026-10-02T05:08:22.414Z",
+      "access": "DOMAIN",
+      "executeAs": "USER_ACCESSING"
+    },
+    "occurredAt": "2026-10-02T05:56:12.814Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-11#36f8d6b567d74c2c7418bc94c7f9d9159cbff5ea628388d1d210192f7eade2d6"
+    },
+    "title": "접속자 권한 실행 배포"
+  },
+  {
+    "id": "OBS-H-RUN-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-GWS-U-100024818286955775644-2026-10-02T02:53:40.211Z",
+    "scenarioKey": "H",
+    "kind": "agent_run",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-100024818286955775644"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "author": "GWS-U-100024818286955775644",
+      "caller": "GWS-U-100024818286955775644",
+      "functionName": "doGet",
+      "status": "COMPLETED",
+      "duration": "0.768s"
+    },
+    "occurredAt": "2026-10-02T02:53:40.211Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-13#5d1544d846c5373e3fc71fd37a091a5ce3a019de7085e11038b0d2293b3ebd97"
+    },
+    "title": "접속자의 웹앱 실행"
+  },
+  {
+    "id": "OBS-H-RUN-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-GWS-U-112743042539036671055-2026-10-02T05:08:38.016Z",
+    "scenarioKey": "H",
+    "kind": "agent_run",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-100024818286955775644",
+      "GWS-U-112743042539036671055"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "author": "GWS-U-100024818286955775644",
+      "caller": "GWS-U-112743042539036671055",
+      "status": "COMPLETED",
+      "duration": "1.401s"
+    },
+    "occurredAt": "2026-10-02T05:08:38.016Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-13#7278d6ab952ab98ba18f7c03768ba88bf1bb9f7d1a4f1deeeb5825d6daa9d60d"
+    },
+    "title": "접속자의 웹앱 실행"
+  },
+  {
+    "id": "OBS-H-RUN-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-GWS-U-112743042539036671055-2026-10-02T05:08:38.016Z-DELIVERY-1790917719.360159",
+    "scenarioKey": "H",
+    "kind": "delivery",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-112743042539036671055",
+      "SLK-MSG-C0C5WTRUMU6-1790917719.360159",
+      "SLK-CH-C0C5WTRUMU6"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "caller": "GWS-U-112743042539036671055",
+      "destination_channel": "SLK-CH-C0C5WTRUMU6",
+      "destination_message": "SLK-MSG-C0C5WTRUMU6-1790917719.360159",
+      "matching": "execution_message_time",
+      "run_id": "OBS-H-RUN-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-GWS-U-112743042539036671055-2026-10-02T05:08:38.016Z"
+    },
+    "occurredAt": "2026-10-02T05:08:39.360Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "slack:SL-05#a80abc9395e9416468b5e415ccd8c5a6a070faa81946cce2e916fc7c15865e42"
+    },
+    "title": "작성자 채널의 메시지"
+  },
+  {
+    "id": "OBS-H-RUN-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-GWS-U-112743042539036671055-2026-10-02T05:01:57.964Z",
+    "scenarioKey": "H",
+    "kind": "agent_run",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-100024818286955775644",
+      "GWS-U-112743042539036671055"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "author": "GWS-U-100024818286955775644",
+      "caller": "GWS-U-112743042539036671055",
+      "status": "COMPLETED",
+      "duration": "0.732s"
+    },
+    "occurredAt": "2026-10-02T05:01:57.964Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-13#7278d6ab952ab98ba18f7c03768ba88bf1bb9f7d1a4f1deeeb5825d6daa9d60d"
+    },
+    "title": "접속자의 웹앱 실행"
+  },
+  {
+    "id": "OBS-H-RUN-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-GWS-U-112743042539036671055-2026-10-02T04:06:57.105Z",
+    "scenarioKey": "H",
+    "kind": "agent_run",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-100024818286955775644",
+      "GWS-U-112743042539036671055"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "author": "GWS-U-100024818286955775644",
+      "caller": "GWS-U-112743042539036671055",
+      "status": "COMPLETED",
+      "duration": "0.665s"
+    },
+    "occurredAt": "2026-10-02T04:06:57.105Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-13#7278d6ab952ab98ba18f7c03768ba88bf1bb9f7d1a4f1deeeb5825d6daa9d60d"
+    },
+    "title": "접속자의 웹앱 실행"
+  },
+  {
+    "id": "OBS-H-RUN-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-GWS-U-112743042539036671055-2026-10-02T04:05:53.835Z",
+    "scenarioKey": "H",
+    "kind": "agent_run",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-100024818286955775644",
+      "GWS-U-112743042539036671055"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "author": "GWS-U-100024818286955775644",
+      "caller": "GWS-U-112743042539036671055",
+      "status": "COMPLETED",
+      "duration": "0.929s"
+    },
+    "occurredAt": "2026-10-02T04:05:53.835Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-13#7278d6ab952ab98ba18f7c03768ba88bf1bb9f7d1a4f1deeeb5825d6daa9d60d"
+    },
+    "title": "접속자의 웹앱 실행"
+  },
+  {
+    "id": "OBS-H-RUN-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D-GWS-U-112743042539036671055-2026-10-02T02:58:30.649Z",
+    "scenarioKey": "H",
+    "kind": "agent_run",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-100024818286955775644",
+      "GWS-U-112743042539036671055"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "author": "GWS-U-100024818286955775644",
+      "caller": "GWS-U-112743042539036671055",
+      "status": "COMPLETED",
+      "duration": "0.743s"
+    },
+    "occurredAt": "2026-10-02T02:58:30.649Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-13#7278d6ab952ab98ba18f7c03768ba88bf1bb9f7d1a4f1deeeb5825d6daa9d60d"
+    },
+    "title": "접속자의 웹앱 실행"
+  },
+  {
+    "id": "OBS-H-TOKEN-4672015686532438286-0",
+    "scenarioKey": "H",
+    "kind": "credential_use",
+    "objectKeys": [
+      "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "GWS-U-112743042539036671055"
+    ],
+    "attributes": {
+      "automation": "GWS-PROJECT-1r-P9_C-ZaRaR2S3ch0i22HLjo4Sz5mJlYGZ7-lKgepf_1WeNvw2Gfk-D",
+      "caller": "GWS-U-112743042539036671055",
+      "event_name": "activity",
+      "api_name": "admin",
+      "method_name": "directory.users.list",
+      "client_id": "152892097128-n75ptv99dg26d7gjevl9ij6gihopubqu.apps.googleusercontent.com",
+      "num_response_bytes": "3315",
+      "product_bucket": "GSUITE_ADMIN",
+      "app_name": "Team Directory",
+      "client_type": "WEB"
+    },
+    "occurredAt": "2026-10-02T05:08:38.887Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "gws:GW-14#edf366dd81b94263b01eac972770eca361ced165a0000601947869d21ad34b22"
+    },
+    "title": "접속자 토큰의 API 사용"
+  },
+  {
+    "id": "OBS-I-RULE-0pr18567skrKN6YMq698",
+    "scenarioKey": "I",
+    "kind": "access_snapshot",
+    "objectKeys": [
+      "OKTA-GRULE-0pr18567skrKN6YMq698",
+      "OKTA-U-00u188pdmjxPT3YQ3698"
+    ],
+    "attributes": {
+      "expression": {
+        "value": "user.title==\"Manager\"",
+        "type": "urn:okta:expression:1.0"
+      },
+      "status": "ACTIVE",
+      "assign_groups": [
+        "00g184i07t2PrDRQY698"
+      ]
+    },
+    "occurredAt": "2026-10-02T05:55:36.904Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-11#5faff9ef6685d5f94105d614971c2a3e055356c563155094f07d04714a67649c"
+    },
+    "title": "프로필 조건에 따른 그룹 배정 설정"
+  },
+  {
+    "id": "OBS-I-SCHEMA-0pr18567skrKN6YMq698-https://trial-9523037.okta.com/meta/schemas/user/default",
+    "scenarioKey": "I",
+    "kind": "access_snapshot",
+    "objectKeys": [
+      "OKTA-GRULE-0pr18567skrKN6YMq698",
+      "OKTA-U-00u188pdmjxPT3YQ3698"
+    ],
+    "attributes": {
+      "schema_id": "https://trial-9523037.okta.com/meta/schemas/user/default",
+      "self_attributes": {
+        "login": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "firstName": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_WRITE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "lastName": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_WRITE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "middleName": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "honorificPrefix": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "honorificSuffix": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "email": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_WRITE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "title": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_WRITE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "displayName": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "nickName": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "profileUrl": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "secondEmail": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_WRITE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "mobilePhone": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_WRITE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "primaryPhone": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "HIDE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "streetAddress": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "HIDE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "city": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "HIDE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "state": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "HIDE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "zipCode": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "HIDE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "countryCode": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "HIDE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "postalAddress": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "HIDE"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "preferredLanguage": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "locale": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "timezone": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "userType": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "employeeNumber": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "costCenter": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "organization": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "division": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "department": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "managerId": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        },
+        "manager": {
+          "permissions": [
+            {
+              "principal": "SELF",
+              "action": "READ_ONLY"
+            }
+          ],
+          "master": {
+            "type": "PROFILE_MASTER"
+          }
+        }
+      }
+    },
+    "occurredAt": "2026-10-02T05:57:11.955Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-14#dc72c1a337b24f9ceabbf6f3d4fa2df6e8a6d28124f4081859912bbf32519125"
+    },
+    "title": "본인 편집 권한의 프로필 스키마"
+  },
+  {
+    "id": "OBS-I-EVENT-ca16b982-be1a-11f1-bf20-b5045a521a3a",
+    "scenarioKey": "I",
+    "kind": "audit_event",
+    "objectKeys": [
+      "OKTA-U-00u188pdmjxPT3YQ3698",
+      "OKTA-GRULE-0pr18567skrKN6YMq698"
+    ],
+    "attributes": {
+      "event_type": "user.account.update_profile",
+      "actor_id": "00u188pdmjxPT3YQ3698",
+      "actor_type": "User",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmjxPT3YQ3698"
+      ],
+      "changed_attributes": "mobilePhone,secondEmail,title"
+    },
+    "occurredAt": "2026-10-02T04:36:09.411Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    },
+    "title": "사용자 프로필 수정"
+  },
+  {
+    "id": "OBS-I-EVENT-ca1f1df3-be1a-11f1-bf20-b5045a521a3a",
+    "scenarioKey": "I",
+    "kind": "audit_event",
+    "objectKeys": [
+      "OKTA-U-00u188pdmjxPT3YQ3698",
+      "OKTA-GRULE-0pr18567skrKN6YMq698",
+      "OKTA-G-00g184i07t2PrDRQY698"
+    ],
+    "attributes": {
+      "event_type": "group.user_membership.add",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "00u188pdmjxPT3YQ3698",
+        "00g184i07t2PrDRQY698"
+      ]
+    },
+    "occurredAt": "2026-10-02T04:36:09.466Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    },
+    "title": "그룹 멤버 배정"
+  },
+  {
+    "id": "OBS-I-EVENT-ca2e6038-be1a-11f1-bf20-b5045a521a3a",
+    "scenarioKey": "I",
+    "kind": "audit_event",
+    "objectKeys": [
+      "OKTA-U-00u188pdmjxPT3YQ3698",
+      "OKTA-GRULE-0pr18567skrKN6YMq698",
+      "OKTA-APP-0oa184hxqtkd9OGOq698"
+    ],
+    "attributes": {
+      "event_type": "application.user_membership.add",
+      "actor_id": "spr17oo1dq5FiNVlD698",
+      "actor_type": "SystemPrincipal",
+      "result": "SUCCESS",
+      "target_ids": [
+        "0ua18a575y8BltfVC698",
+        "0oa184hxqtkd9OGOq698",
+        "00u188pdmjxPT3YQ3698"
+      ]
+    },
+    "occurredAt": "2026-10-02T04:36:09.566Z",
+    "provenance": {
+      "record": "measured",
+      "sourceRef": "okta:OK-12#d71c6039c1550139852f3f0f06e6636523438bc169fba09d7acc82fccfee0eb5"
+    },
+    "title": "앱 접근 배정"
+  }
+]

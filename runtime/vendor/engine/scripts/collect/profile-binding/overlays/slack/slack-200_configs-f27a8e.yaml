@@ -1,0 +1,7 @@
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다
+# 필수 인자를 넣어 부르는 손코드 호출이 읽는다 (2026-11-19 실측)
+binding:
+  call: SL-19

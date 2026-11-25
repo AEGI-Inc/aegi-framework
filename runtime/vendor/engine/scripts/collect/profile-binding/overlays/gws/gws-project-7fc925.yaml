@@ -1,0 +1,692 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/project.yaml
+  engine_commit: d78062d
+  research_agreement: reviewed_override
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-09
+        endpoint: /projects/[^/?]+(\?|$)
+        items: (root)
+        where:
+          path: scriptId
+          truthy: true
+    id_expr: scriptId
+    parent:
+      ref:
+        type: File
+        id: parentId
+    refs:
+      parent_file:
+        when:
+          path: parentId
+          truthy: true
+        ref:
+          type: File
+          id: parentId
+        value: parentId
+        key_if_exists: true
+    properties:
+      title: title
+      parentId: parentId
+      creator: creator.email
+      createTime: createTime
+      updateTime: updateTime
+      run_as_resolution:
+        const: unknown
+    display: "{title|scriptId}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: File
+          id: parentId
+        basis: stated
+        require:
+          - target
+      # 작성자는 스크립트를 고칠 수 있다(효과 표 owned_by Resource>Principal 이 관리 권한을 낸다). 실행 방식과 상관없이 모든 프로젝트.
+      # 소유는 설정으로 회수하지 못해 decomposable false. 2026-11-15 위협 판정 벤더 표(vendorEdges.ts)에서 옮김
+      - type: owned_by
+        source: $self
+        target:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: creator.email
+          ci: true
+        basis: stated
+        properties:
+          via:
+            const: projects.get creator (스크립트 작성자)
+          decomposable:
+            const: false
+        require:
+          - target
+    identity:
+      primary:
+        - name: id
+          expr: scriptId
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-PROJECT-{id}
+  - id: content
+    kind: enrich
+    sources:
+      - call: GW-09
+        endpoint: /content(\?|$)
+        items: (root)
+    target:
+      type: Project
+      id:
+        op: str
+        of: $req.script
+      exists: true
+    set:
+      code_files:
+        op: map_each
+        of:
+          any:
+            - files
+          empty_as: []
+        value:
+          object:
+            name: $item.name
+            type: $item.type
+            source: $item.source
+      external_references: code_markers.external_references
+      webhook_url_sha256:
+        op: uniq
+        of:
+          op: pluck
+          of:
+            op: filter
+            of:
+              op: flatten
+              of:
+                op: pluck
+                of: files
+                field: source.urls
+            where:
+              path: $item.host
+              eq: hooks.slack.com
+          field: sha256
+          keep_empty: true
+    relations: []
+    key_template: GWS-PROJECT-{id}
+  - id: processes
+    kind: enrich
+    sources:
+      - call: GW-09
+        endpoint: /processes
+        items: (root)
+    target:
+      type: Project
+      id:
+        op: str
+        of: $req.script
+      exists: true
+    vars:
+      runs:
+        op: map_each
+        of: processes
+        value:
+          object:
+            functionName: $item.functionName
+            processType: $item.processType
+            processStatus: $item.processStatus
+            userAccessLevel: $item.userAccessLevel
+            startTime: $item.startTime
+            duration: $item.duration
+    append:
+      executions: $vars.runs
+    judged:
+      run_as_resolution:
+        if:
+          path:
+            op: some
+            of: $vars.runs
+            where:
+              path: $item.processType
+              in:
+                - TRIGGER
+                - TIME_DRIVEN
+          truthy: true
+        then:
+          const: static_principal
+    relations: []
+    key_template: GWS-PROJECT-{id}
+  - id: runs_as
+    kind: relations
+    sources:
+      - call: GW-09
+        endpoint: /processes
+        items: (root)
+        where:
+          all:
+            - path:
+                op: count
+                of: processes
+              truthy: true
+            - has:
+                type: Project
+                id:
+                  op: str
+                  of: $req.script
+            - has:
+                type: User
+                lookup:
+                  - primaryEmail
+                  - aliases
+                value: $req.owner
+                ci: true
+    group_by:
+      op: str
+      of: $req.script
+    obs: first
+    vars:
+      all:
+        op: flatten
+        of:
+          op: pluck
+          of: $group
+          field: r.processes
+      types:
+        op: uniq_sorted
+        of:
+          op: pluck
+          of: $vars.all
+          field: processType
+      installed:
+        op: some
+        of: $vars.all
+        where:
+          path: $item.processType
+          in:
+            - TRIGGER
+            - TIME_DRIVEN
+    relations:
+      - type: runs_as
+        source:
+          type: Project
+          id:
+            op: str
+            of: $req.script
+        target:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $req.owner
+          ci: true
+        basis:
+          if:
+            path: $vars.installed
+            truthy: true
+          then:
+            const: stated
+          else:
+            const: computed
+        properties:
+          via:
+            const: processes.list (실행 주체로 가장한 사용자)
+          process_types: $vars.types
+          executions:
+            op: count
+            of: $vars.all
+          ...:
+            if:
+              path: $vars.installed
+              truthy: true
+            then:
+              object:
+                run_as_evidence:
+                  const: installable_trigger
+            else:
+              object:
+                run_as_evidence:
+                  const: by_or_on_behalf_of
+                decomposable: false
+                undecomposed:
+                  list:
+                    - const: owner
+                    - const: caller
+    key_template: GWS-PROJECT-{id}
+  - id: deployments
+    kind: enrich
+    sources:
+      - call: GW-11
+        items: (root)
+    target:
+      type: Project
+      id:
+        op: str
+        of: $req.script
+      exists: true
+    vars:
+      deps:
+        op: flatten
+        of:
+          op: map_each
+          of: deployments
+          as: d
+          value:
+            op: map_each
+            of: $item.entryPoints
+            value:
+              object:
+                deploymentId: $vars.d.deploymentId
+                versionNumber: $vars.d.deploymentConfig.versionNumber
+                entryPointType: $item.entryPointType
+                access:
+                  any:
+                    - $item.webApp.entryPointConfig.access
+                    - $item.executionApi.entryPointConfig.access
+                executeAs:
+                  any:
+                    - $item.webApp.entryPointConfig.executeAs
+                    - $item.executionApi.entryPointConfig.executeAs
+                updateTime: $vars.d.updateTime
+      open:
+        op: filter
+        of: $vars.deps
+        where:
+          path: $item.access
+          in:
+            - ANYONE
+            - ANYONE_ANONYMOUS
+    append:
+      deployments: $vars.deps
+    judged:
+      run_as_resolution:
+        if:
+          path:
+            op: some
+            of: $vars.deps
+            where:
+              path: $item.executeAs
+              eq: USER_DEPLOYING
+          truthy: true
+        then:
+          const: static_principal
+        else:
+          if:
+            path:
+              op: some
+              of: $vars.deps
+              where:
+                path: $item.executeAs
+                eq: USER_ACCESSING
+            truthy: true
+          then:
+            const: caller
+    set:
+      public_entry_points:
+        if:
+          path:
+            op: count
+            of: $vars.open
+          truthy: true
+        then:
+          op: map_each
+          of: $vars.open
+          value:
+            template: "{$item.entryPointType}:{$item.access}"
+    relations: []
+    key_template: GWS-PROJECT-{id}
+  - id: unlisted
+    kind: object
+    key: GWS-PROJECT-UNLISTED-{u}-{n}
+    sources:
+      - call: GW-16
+        items: processes
+        where:
+          path: projectName
+          type: string
+    vars:
+      email:
+        op: lower
+        of:
+          op: str
+          of:
+            any:
+              - $req.user
+            empty_as: ""
+      name: projectName
+      known:
+        op: count
+        of:
+          op: filter
+          of:
+            op: objects
+            type: Project
+            where_eq:
+              title: projectName
+            where_falsy:
+              - unlisted
+          where:
+            all:
+              - path: $item.properties.title
+                eq_expr: projectName
+              - path: $item.properties.unlisted
+                truthy: false
+    require:
+      all:
+        - path: projectName
+          truthy: true
+        - path: $vars.known
+          ne: 1
+    id_expr:
+      template: "{$vars.email}:{projectName}"
+    parts:
+      u: $vars.email
+      n: projectName
+    properties:
+      title: projectName
+      unlisted: true
+      discovered_by:
+        const: GW-16 사용자별 실행 이력
+      run_as_user: $vars.email
+      executions:
+        const: []
+      run_as_resolution:
+        const: unknown
+    display: "{projectName} (목록에 없는 스크립트)"
+    relations: []
+    identity:
+      primary:
+        - name: $vars.email
+          expr: $vars.email
+          stability: catalog_reviewed
+        - name: projectName
+          expr: projectName
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-PROJECT-UNLISTED-{u}-{n}
+  - id: unlisted_runs
+    kind: enrich
+    sources:
+      - call: GW-16
+        items: processes
+        where:
+          path: projectName
+          type: string
+    vars:
+      email:
+        op: lower
+        of:
+          op: str
+          of:
+            any:
+              - $req.user
+            empty_as: ""
+      name: projectName
+      known:
+        op: count
+        of:
+          op: filter
+          of:
+            op: objects
+            type: Project
+            where_eq:
+              title: projectName
+            where_falsy:
+              - unlisted
+          where:
+            all:
+              - path: $item.properties.title
+                eq_expr: projectName
+              - path: $item.properties.unlisted
+                truthy: false
+    require:
+      all:
+        - path: projectName
+          truthy: true
+        - path: $vars.known
+          ne: 1
+    target:
+      type: Project
+      key_template: GWS-PROJECT-UNLISTED-{u}-{n}
+      id: projectName
+      parts:
+        u: $vars.email
+        n: projectName
+    append:
+      executions:
+        list:
+          - object:
+              functionName: functionName
+              processType: processType
+              processStatus: processStatus
+              userAccessLevel: userAccessLevel
+              startTime: startTime
+              duration: duration
+              user: $vars.email
+    judged:
+      run_as_resolution:
+        if:
+          all:
+            - path: processType
+              in:
+                - TRIGGER
+                - TIME_DRIVEN
+            - has:
+                type: User
+                lookup:
+                  - primaryEmail
+                  - aliases
+                value: $vars.email
+                ci: true
+        then:
+          const: static_principal
+    relations:
+      - type: runs_as
+        when:
+          path: processType
+          in:
+            - TRIGGER
+            - TIME_DRIVEN
+        source: $self
+        target:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $vars.email
+          ci: true
+        basis: stated
+        properties:
+          via:
+            const: processes.list (사용자별 전체)
+          run_as_evidence:
+            const: installable_trigger
+    key_template: GWS-PROJECT-{id}
+runtime_stub: null
+runtime_key: GWS-PROJECT-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Project:list
+    sources:
+      - call: GW-09
+        endpoint: /projects/[^/?]+(\?|$)
+        items: (root)
+        where:
+          path: scriptId
+          truthy: true
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: File
+          id: parentId
+        basis: stated
+        require:
+          - target
+    self_identity: object_rule
+  - id: Project:runs_as
+    sources:
+      - call: GW-09
+        endpoint: /processes
+        items: (root)
+        where:
+          all:
+            - path:
+                op: count
+                of: processes
+              truthy: true
+            - has:
+                type: Project
+                id:
+                  op: str
+                  of: $req.script
+            - has:
+                type: User
+                lookup:
+                  - primaryEmail
+                  - aliases
+                value: $req.owner
+                ci: true
+    vars:
+      all:
+        op: flatten
+        of:
+          op: pluck
+          of: $group
+          field: r.processes
+      types:
+        op: uniq_sorted
+        of:
+          op: pluck
+          of: $vars.all
+          field: processType
+      installed:
+        op: some
+        of: $vars.all
+        where:
+          path: $item.processType
+          in:
+            - TRIGGER
+            - TIME_DRIVEN
+    relations:
+      - type: runs_as
+        source:
+          type: Project
+          id:
+            op: str
+            of: $req.script
+        target:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $req.owner
+          ci: true
+        basis:
+          if:
+            path: $vars.installed
+            truthy: true
+          then:
+            const: stated
+          else:
+            const: computed
+        properties:
+          via:
+            const: processes.list (실행 주체로 가장한 사용자)
+          process_types: $vars.types
+          executions:
+            op: count
+            of: $vars.all
+          ...:
+            if:
+              path: $vars.installed
+              truthy: true
+            then:
+              object:
+                run_as_evidence:
+                  const: installable_trigger
+            else:
+              object:
+                run_as_evidence:
+                  const: by_or_on_behalf_of
+                decomposable: false
+                undecomposed:
+                  list:
+                    - const: owner
+                    - const: caller
+  - id: Project:unlisted_runs
+    sources:
+      - call: GW-16
+        items: processes
+        where:
+          path: projectName
+          type: string
+    vars:
+      email:
+        op: lower
+        of:
+          op: str
+          of:
+            any:
+              - $req.user
+            empty_as: ""
+      name: projectName
+      known:
+        op: count
+        of:
+          op: filter
+          of:
+            op: objects
+            type: Project
+            where_eq:
+              title: projectName
+            where_falsy:
+              - unlisted
+          where:
+            all:
+              - path: $item.properties.title
+                eq_expr: projectName
+              - path: $item.properties.unlisted
+                truthy: false
+    require:
+      all:
+        - path: projectName
+          truthy: true
+        - path: $vars.known
+          ne: 1
+    relations:
+      - type: runs_as
+        when:
+          path: processType
+          in:
+            - TRIGGER
+            - TIME_DRIVEN
+        source: $self
+        target:
+          type: User
+          lookup:
+            - primaryEmail
+            - aliases
+          value: $vars.email
+          ci: true
+        basis: stated
+        properties:
+          via:
+            const: processes.list (사용자별 전체)
+          run_as_evidence:
+            const: installable_trigger
+identity:
+  primary:
+    - name: id
+      expr: scriptId
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: GWS-PROJECT-{id}
+    replaced:
+      - $record_hash

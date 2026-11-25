@@ -1,0 +1,105 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/workflow.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-10
+        items: workflows
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+    parent:
+      ref:
+        key: $vars.repo
+      when: always
+    properties:
+      name: name
+      path: path
+      state: state
+    display: "{name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-WF-{id}
+  - id: definition
+    kind: enrich
+    sources:
+      - call: GH-10
+        endpoint: /contents/
+        items: (root)
+    target:
+      type: workflow
+      id: $req.workflow
+      exists: true
+    set:
+      definition: workflow_definition
+      definition_blob_sha: sha
+      definition_ref: $req.ref
+    relations: []
+runtime_stub: null
+runtime_key: GH-WF-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Workflow:list
+    sources:
+      - call: GH-10
+        items: workflows
+        where:
+          has:
+            type: Repository
+            lookup: name
+            value: $req.repo
+    vars:
+      repo:
+        ref:
+          type: Repository
+          lookup: name
+          value: $req.repo
+        prop: $key
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-WF-{id}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

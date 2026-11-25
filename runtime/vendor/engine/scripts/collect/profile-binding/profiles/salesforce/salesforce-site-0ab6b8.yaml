@@ -1,0 +1,697 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Site
+interfaces: &a1
+  - Endpoint
+model:
+  research_type: object-type:bbc69fd885c3fd9dd20ab6b8
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:bbc69fd885c3fd9dd20ab6b8.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|Id
+  AdminId:
+    path: AdminId
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: reference
+      name: AdminId
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|AdminId
+  AnalyticsTrackingCode:
+    path: AnalyticsTrackingCode
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: string
+      name: AnalyticsTrackingCode
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|AnalyticsTrackingCode
+  ArchiveStatus:
+    path: ArchiveStatus
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: picklist
+      name: ArchiveStatus
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|ArchiveStatus
+  ArchivedById:
+    path: ArchivedById
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: reference
+      name: ArchivedById
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|ArchivedById
+  ArchivedDate:
+    path: ArchivedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: dateTime
+      name: ArchivedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|ArchivedDate
+  ClickjackProtectionLevel:
+    path: ClickjackProtectionLevel
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: picklist
+      name: ClickjackProtectionLevel
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|ClickjackProtectionLevel
+  DailyBandwidthLimit:
+    path: DailyBandwidthLimit
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: int
+      name: DailyBandwidthLimit
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Site|DailyBandwidthLimit
+  DailyBandwidthUsed:
+    path: DailyBandwidthUsed
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: int
+      name: DailyBandwidthUsed
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Site|DailyBandwidthUsed
+  DailyRequestTimeLimit:
+    path: DailyRequestTimeLimit
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: int
+      name: DailyRequestTimeLimit
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Site|DailyRequestTimeLimit
+  DailyRequestTimeUsed:
+    path: DailyRequestTimeUsed
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: int
+      name: DailyRequestTimeUsed
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Site|DailyRequestTimeUsed
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|Description
+  GuestRecordDefaultOwnerId:
+    path: GuestRecordDefaultOwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: reference
+      name: GuestRecordDefaultOwnerId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|GuestRecordDefaultOwnerId
+  GuestUserId:
+    path: GuestUserId
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: reference
+      name: GuestUserId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|GuestUserId
+  MasterLabel:
+    path: MasterLabel
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: string
+      name: MasterLabel
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|MasterLabel
+  MonthlyPageViewsEntitlement:
+    path: MonthlyPageViewsEntitlement
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: int
+      name: MonthlyPageViewsEntitlement
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Site|MonthlyPageViewsEntitlement
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: string
+      name: Name
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|Name
+  OptionsAllowGuestPaymentsApi:
+    path: OptionsAllowGuestPaymentsApi
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsAllowGuestPaymentsApi
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsAllowGuestPaymentsApi
+  OptionsAllowGuestSupportApi:
+    path: OptionsAllowGuestSupportApi
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsAllowGuestSupportApi
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsAllowGuestSupportApi
+  OptionsAllowHomePage:
+    path: OptionsAllowHomePage
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsAllowHomePage
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsAllowHomePage
+  OptionsAllowStandardAnswersPages:
+    path: OptionsAllowStandardAnswersPages
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsAllowStandardAnswersPages
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsAllowStandardAnswersPages
+  OptionsAllowStandardIdeasPages:
+    path: OptionsAllowStandardIdeasPages
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsAllowStandardIdeasPages
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsAllowStandardIdeasPages
+  OptionsAllowStandardLookups:
+    path: OptionsAllowStandardLookups
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsAllowStandardLookups
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsAllowStandardLookups
+  OptionsAllowStandardPortalPages:
+    path: OptionsAllowStandardPortalPages
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsAllowStandardPortalPages
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsAllowStandardPortalPages
+  OptionsAllowStandardSearch:
+    path: OptionsAllowStandardSearch
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsAllowStandardSearch
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsAllowStandardSearch
+  OptionsBrowserXssProtection:
+    path: OptionsBrowserXssProtection
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsBrowserXssProtection
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsBrowserXssProtection
+  OptionsCachePublicVfPagesInProxies:
+    path: OptionsCachePublicVfPagesInProxies
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsCachePublicVfPagesInProxies
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsCachePublicVfPagesInProxies
+  OptionsContentSniffingProtection:
+    path: OptionsContentSniffingProtection
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsContentSniffingProtection
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsContentSniffingProtection
+  OptionsCookieConsent:
+    path: OptionsCookieConsent
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsCookieConsent
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsCookieConsent
+  OptionsCspUpgradeInsecureRequests:
+    path: OptionsCspUpgradeInsecureRequests
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsCspUpgradeInsecureRequests
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsCspUpgradeInsecureRequests
+  OptionsEnableFeeds:
+    path: OptionsEnableFeeds
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsEnableFeeds
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsEnableFeeds
+  OptionsHasStoredPathPrefix:
+    path: OptionsHasStoredPathPrefix
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsHasStoredPathPrefix
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsHasStoredPathPrefix
+  OptionsRedirectToCustomDomain:
+    path: OptionsRedirectToCustomDomain
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsRedirectToCustomDomain
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsRedirectToCustomDomain
+  OptionsReferrerPolicyOriginWhenCrossOrigin:
+    path: OptionsReferrerPolicyOriginWhenCrossOrigin
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsReferrerPolicyOriginWhenCrossOrigin
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsReferrerPolicyOriginWhenCrossOrigin
+  OptionsRequireHttps:
+    path: OptionsRequireHttps
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: boolean
+      name: OptionsRequireHttps
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Site|OptionsRequireHttps
+  SiteType:
+    path: SiteType
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: picklist
+      name: SiteType
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|SiteType
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: picklist
+      name: Status
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|Status
+  Subdomain:
+    path: Subdomain
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: string
+      name: Subdomain
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|Subdomain
+  TopLevelDomain:
+    path: TopLevelDomain
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: url
+      name: TopLevelDomain
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|TopLevelDomain
+  UrlPathPrefix:
+    path: UrlPathPrefix
+    source: research_shape
+    shape: sh:sf_object_reference:Site
+    declaration:
+      format: string
+      name: UrlPathPrefix
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Site|UrlPathPrefix
+references:
+  - name: guestuserid
+    field: GuestUserId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:18ea94e7d9b6a5a4fe61bd0b; relation=no_relation
+  - name: guestrecorddefaultownerid
+    field: GuestRecordDefaultOwnerId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:50923dd2919bcc1d136000c6; relation=no_relation
+  - name: adminid
+    field: AdminId
+    target: User
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:aafa00835d0398f0861e11d6; relation=no_relation
+constants: {}
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Site
+  interfaces: *a1
+  model:
+    research_type: object-type:bbc69fd885c3fd9dd20ab6b8
+  extract:
+    key: PILOT-salesforce-Site-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-0ab6b8
+            endpoint: /
+            items:
+              - records
+        properties:
+          AdminId: AdminId
+          AnalyticsTrackingCode: AnalyticsTrackingCode
+          ArchiveStatus: ArchiveStatus
+          ArchivedById: ArchivedById
+          ArchivedDate: ArchivedDate
+          ClickjackProtectionLevel: ClickjackProtectionLevel
+          DailyBandwidthLimit: DailyBandwidthLimit
+          DailyBandwidthUsed: DailyBandwidthUsed
+          DailyRequestTimeLimit: DailyRequestTimeLimit
+          DailyRequestTimeUsed: DailyRequestTimeUsed
+          Description: Description
+          GuestRecordDefaultOwnerId: GuestRecordDefaultOwnerId
+          GuestUserId: GuestUserId
+          Id: Id
+          MasterLabel: MasterLabel
+          MonthlyPageViewsEntitlement: MonthlyPageViewsEntitlement
+          Name: Name
+          OptionsAllowGuestPaymentsApi: OptionsAllowGuestPaymentsApi
+          OptionsAllowGuestSupportApi: OptionsAllowGuestSupportApi
+          OptionsAllowHomePage: OptionsAllowHomePage
+          OptionsAllowStandardAnswersPages: OptionsAllowStandardAnswersPages
+          OptionsAllowStandardIdeasPages: OptionsAllowStandardIdeasPages
+          OptionsAllowStandardLookups: OptionsAllowStandardLookups
+          OptionsAllowStandardPortalPages: OptionsAllowStandardPortalPages
+          OptionsAllowStandardSearch: OptionsAllowStandardSearch
+          OptionsBrowserXssProtection: OptionsBrowserXssProtection
+          OptionsCachePublicVfPagesInProxies: OptionsCachePublicVfPagesInProxies
+          OptionsContentSniffingProtection: OptionsContentSniffingProtection
+          OptionsCookieConsent: OptionsCookieConsent
+          OptionsCspUpgradeInsecureRequests: OptionsCspUpgradeInsecureRequests
+          OptionsEnableFeeds: OptionsEnableFeeds
+          OptionsHasStoredPathPrefix: OptionsHasStoredPathPrefix
+          OptionsRedirectToCustomDomain: OptionsRedirectToCustomDomain
+          OptionsReferrerPolicyOriginWhenCrossOrigin: OptionsReferrerPolicyOriginWhenCrossOrigin
+          OptionsRequireHttps: OptionsRequireHttps
+          SiteType: SiteType
+          Status: Status
+          Subdomain: Subdomain
+          TopLevelDomain: TopLevelDomain
+          UrlPathPrefix: UrlPathPrefix
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:Site.query
+  operation: Site.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Site
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Site
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Site.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Site/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - GuestUserId
+    - GuestRecordDefaultOwnerId
+    - AdminId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

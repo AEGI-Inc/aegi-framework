@@ -1,0 +1,36 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/gws/profiles/allowlisted_domain.yaml
+  engine_commit: d78062d
+  research_agreement: reviewed_override
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GW-23
+        items: allowlistedDomains
+        where:
+          path: name
+          truthy: true
+    id_expr: name
+    mutable_ids:
+      domain: domain
+    properties:
+      domain: domain
+    display: 허용 도메인 {domain|name}
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: name
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GWS-ALLOWDOM-{id}
+runtime_stub: null
+runtime_key: GWS-ALLOWDOM-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  domain:
+    stability: mutable

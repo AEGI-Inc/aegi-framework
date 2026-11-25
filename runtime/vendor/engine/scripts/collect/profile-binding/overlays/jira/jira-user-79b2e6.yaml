@@ -1,0 +1,199 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/user.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: JI-02
+        items: (array_or:values|results)
+        where:
+          path: accountId
+          truthy: true
+    id_expr: accountId
+    mutable_ids:
+      email:
+        if:
+          path: emailAddress
+          truthy: true
+        then:
+          op: lower
+          of:
+            op: str
+            of: emailAddress
+    properties:
+      display_name: displayName
+      account_type: accountType
+      active: active
+      account_state:
+        op: map
+        of: active
+        table:
+          'true': active
+          'false': suspended
+        default:
+          const: unknown
+      principal_kind:
+        op: map
+        of: accountType
+        table:
+          app: service
+        default:
+          const: unknown
+      account_kind:
+        op: map
+        of: accountType
+        table:
+          app: app
+          atlassian: human
+        default:
+          const: unknown
+    display: "{displayName|accountId}"
+    relations: []
+    identity:
+      primary:
+        - name: id
+          expr: accountId
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: AT-U-{id}
+  # 조직 사용자 (AT-02, 2026-11-15 수집 빈 곳). 사이트(JI-02)에 없는 조직 구성원도 여기서 객체가 된다. 같은 accountId 면 JI-02 객체와 합친다.
+  # 필드는 developer.atlassian.com Organizations REST API 「Users」(accountId, accountType, accountStatus, membershipStatus, name, email)
+  - id: org_users
+    kind: object
+    sources:
+      - call: AT-02
+        request:
+          kind: users
+        items: data
+        where:
+          path: accountId
+          truthy: true
+    id_expr: accountId
+    mutable_ids:
+      email:
+        if:
+          path: email
+          truthy: true
+        then:
+          op: lower
+          of:
+            op: str
+            of: email
+    properties:
+      display_name: name
+      account_type: accountType
+      account_status: accountStatus
+      membership_status: membershipStatus
+      account_state:
+        op: map
+        of: accountStatus
+        table:
+          active: active
+          inactive: suspended
+          closed: deprovisioned
+        default:
+          const: unknown
+      principal_kind:
+        op: map
+        of: accountType
+        table:
+          app: service
+        default:
+          const: unknown
+      account_kind:
+        op: map
+        of: accountType
+        table:
+          app: app
+          atlassian: human
+        default:
+          const: unknown
+    display: "{name|accountId}"
+    relations:
+      # 조직 구성원. 대상 Org 는 수집 설정의 조직 ID(요청 값 org)다. Org 목록(RG-AT-getOrgs)이 비어도 스텁으로 선다
+      - type: member_of
+        source: $self
+        target:
+          type: Org
+          id:
+            op: str
+            of: $req.org
+        basis: stated
+        properties:
+          membership_status: membershipStatus
+          directory_id: $req.directory
+    identity:
+      primary:
+        - name: id
+          expr: accountId
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: AT-U-{id}
+  # 조직 관리자 역할 (AT-03). 조직 전체에 걸린 역할 atlassian/org-admin 만 「사용자 → 조직」 has_role_on 으로 편다.
+  # 사이트·제품 역할(site-admin, user-access-admin, 제품 사용자)은 대상이 조직이 아니라 사이트·앱이라 조직으로 올리지 않는다(후속: 사이트 객체에 잇기)
+  - id: org_roles
+    kind: relations
+    sources:
+      - call: AT-03
+        request:
+          kind: user_role_assignments
+        items: data
+    relations:
+      - type: has_role_on
+        each:
+          op: uniq
+          of:
+            op: filter
+            of:
+              op: concat
+              of:
+                - roles
+                - op: pluck
+                  of: roleAssignments
+                  field: role
+            where:
+              path: $item
+              eq: atlassian/org-admin
+        source:
+          type: User
+          id:
+            op: str
+            of: $req.user
+        target:
+          type: Org
+          id:
+            op: str
+            of: $req.org
+        role:
+          name:
+            const: atlassian/org-admin
+        basis: stated
+        require:
+          - source
+        properties:
+          resource_id: resourceId
+          resource_owner: resourceOwner
+    key_template: AT-U-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: AT-U-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+  email:
+    stability: mutable
+identity:
+  primary:
+    - name: id
+      expr: accountId
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: AT-U-{id}
+    replaced:
+      - key

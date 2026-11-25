@@ -1,0 +1,113 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/webhook.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-15
+        items: (items)
+        where:
+          any:
+            - path: $req.scope
+              eq: org
+            - has:
+                type: Repository
+                lookup: name
+                value: $req.repo
+    vars:
+      repo:
+        if:
+          path: $req.scope
+          ne: org
+        then:
+          ref:
+            type: Repository
+            lookup: name
+            value: $req.repo
+          prop: $key
+    parent:
+      ref:
+        key: $vars.repo
+      when: always
+    properties:
+      name: name
+      active: active
+      events: events
+      url: config.url
+      url_host: config.url.host
+      target_deployment_id: config.url.deployment_id
+      target_automation_rule_key: config.url.automation_rule_key
+      target_automation_namespace_ref: config.url.automation_namespace_ref
+      content_type: config.content_type
+      created_at: created_at
+      direction:
+        const: out
+    display: hook {config.url.host|id}
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-HOOK-{id}
+runtime_stub: null
+runtime_key: GH-HOOK-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Webhook:list
+    sources:
+      - call: GH-15
+        items: (items)
+        where:
+          any:
+            - path: $req.scope
+              eq: org
+            - has:
+                type: Repository
+                lookup: name
+                value: $req.repo
+    vars:
+      repo:
+        if:
+          path: $req.scope
+          ne: org
+        then:
+          ref:
+            type: Repository
+            lookup: name
+            value: $req.repo
+          prop: $key
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          key: $vars.repo
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-HOOK-{id}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

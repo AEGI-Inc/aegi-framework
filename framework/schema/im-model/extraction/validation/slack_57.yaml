@@ -1,0 +1,60 @@
+# 기존 Slack 확정 Object 57건(aegi-schema/data/objects.json) -> 이번 후보 (2026-10-12 2차: 공식 문서 스냅샷 반영, 사람이 대조)
+# status: hit = 자기 후보로 잡힘 / weak = 이름공간이나 다른 후보 안에만 있음 / miss = 없음
+# key 는 candidates.jsonl 의 key 와 같아야 한다. compare.py 가 확인한다.
+- {id: SLK-v5.1-0003, term: App Approval Policy, status: hit, key: [assoc, "@tenant", app, approved], also: [[assoc, "@tenant", app, restricted]]}
+- {id: SLK-v5.1-0004, term: app-allowlist-rule, status: hit, key: [event, app_allowlist_rule], also: [[assoc, "@tenant", app, config]]}
+- {id: SLK-v5.1-0005, term: app-configuration-token, status: hit, key: [field, cand_58772dee3191, ".token"], also: [[field, cand_58772dee3191, ".refresh_token"]], why: "tooling.tokens.rotate 응답의 token, refresh_token (E7)"}
+- {id: SLK-v5.1-0006, term: app-installation, status: weak, key: [event, org_app_workspace], why: "감사 org_app_workspace_added/removed 로만 잡힘. 설치 목록 API 응답 자료 없음"}
+- {id: "SLK-v5.1-0006::integration", term: Slack App Installation Registration, status: weak, key: [event, org_app_workspace], why: "위와 같음"}
+- {id: SLK-v5.1-0007, term: app-token, status: miss, why: "앱 수준 토큰(xapp)은 앱 설정 화면에서만 발급. 메서드, 감사 짝, scope 어디에도 없다"}
+- {id: SLK-v5.1-0012, term: barrier, status: hit, key: [unknown_space, admin.barriers, barrier], also: [[event, barrier]]}
+- {id: SLK-v5.1-0013, term: bot, status: hit, key: [space, bot]}
+- {id: SLK-v5.1-0014, term: bot-token, status: hit, key: [field, cand_fb6dd2ef18b3, ".access_token"], why: "oauth.v2.access 응답 (E7)"}
+- {id: SLK-v5.1-0018, term: canvas, status: hit, key: [event, canvas]}
+- {id: SLK-v5.1-0022, term: conversation, status: hit, key: [space, channel]}
+- {id: SLK-v5.1-0026, term: datastore, status: hit, key: [unknown_space, apps.datastore, item], also: [[event, app_datastore]]}
+- {id: SLK-v5.1-0028, term: ekm-key-registration, status: hit, key: [event, ekm_key]}
+- {id: SLK-v5.1-0029, term: enterprise, status: hit, key: [space, enterprise]}
+- {id: SLK-v5.1-0030, term: enterprise-user, status: hit, key: [space, user], why: "같은 ID 공간이라 user 에 합쳐짐 (Slack_Profiles_v3 와 같은 결론)"}
+- {id: SLK-v5.1-0034, term: external-team, status: hit, key: [assoc, channel, team, externalTeams]}
+- {id: SLK-v5.1-0037, term: function, status: hit, key: [unknown_space, admin.functions, function], also: [[space, function]]}
+- {id: SLK-v5.1-0041, term: incoming-webhook, status: hit, key: [vocab, incoming-webhook], why: "어떤 메서드도 안 쓰는 scope (E5 vocab_only)"}
+- {id: SLK-v5.1-0047, term: outgoing-webhook, status: miss, why: "레거시 통합. 현재 레퍼런스에 메서드, 이벤트, scope 가 없다"}
+- {id: SLK-v5.1-0048, term: permission, status: weak, key: [ns, admin.apps.permissions], why: "공식 문서 응답 예시에도 구조가 없다"}
+- {id: SLK-v5.1-0049, term: role, status: hit, key: [space, role]}
+- {id: SLK-v5.1-0050, term: role-assignment, status: hit, key: [assoc, role, team, user, roles]}
+- {id: SLK-v5.1-0059, term: trigger, status: hit, key: [space, trigger]}
+- {id: SLK-v5.1-0060, term: user, status: hit, key: [space, user]}
+- {id: SLK-v5.1-0061, term: user-token, status: hit, key: [field, cand_fb6dd2ef18b3, ".authed_user.access_token"], why: "oauth.v2.access 응답 (E7)"}
+- {id: SLK-v5.1-0062, term: usergroup, status: hit, key: [space, subteam]}
+- {id: SLK-v5.1-0064, term: workflow, status: hit, key: [space, workflow]}
+- {id: SLK-v5.1-0065, term: workflow-collaborator, status: hit, key: [assoc, user, workflow, ""], why: "collaborators.add/remove 동사 짝 (E3b)"}
+- {id: SLK-v5.1-0066, term: workflow-permission, status: weak, key: [ns, admin.workflows.permissions], why: "공식 문서 응답 예시에도 구조가 없다"}
+- {id: SLK-v5.1-0067, term: workflow-step, status: hit, key: [embedded, cand_db01ebca9384, ".steps[*]"]}
+- {id: SLK-v5.1-0068, term: workspace, status: hit, key: [space, team]}
+- {id: "SLK-v5.1-0063::endpoint", term: Webhook Trigger Endpoint, status: miss, why: "workflows.triggers.* 생성과 목록이 공식 레퍼런스에 없다 (CLI 전용)"}
+- {id: SLK-v2-rev-0021, term: App Collaborator Assignment, status: hit, key: [event, app_collaborator]}
+- {id: SLK-v2-rev-0005, term: Canvas Access Assignment, status: hit, key: [assoc, file, "@resolve", ""], why: "canvases.access.set/delete. 캔버스와 리스트가 같은 file ID 공간이라 리스트 접근과 한 후보"}
+- {id: SLK-v2-rev-0013, term: Conversation Retention Policy, status: hit, key: [singleton, channel, customretention]}
+- {id: SLK-v2-rev-0020, term: Conversation Membership Assignment, status: hit, key: [assoc, channel, user, ""]}
+- {id: SLK-v2-rev-0014, term: Conversation Posting Policy, status: hit, key: [singleton, channel, conversationprefs]}
+- {id: SLK-v2-rev-0017, term: Event Request Endpoint, status: hit, key: [field, cand_819ca37ca861, ".settings.event_subscriptions.request_url"], why: "manifest 스키마로 구멍을 메움 (E7)"}
+- {id: SLK-v2-rev-0002, term: File, status: hit, key: [space, file]}
+- {id: SLK-v2-rev-0018, term: Interactivity Request Endpoint, status: hit, key: [field, cand_819ca37ca861, ".settings.interactivity.request_url"]}
+- {id: SLK-v2-rev-0006, term: Legal Hold Policy, status: hit, key: [unknown_space, admin.legalHold.policies, policy], also: [[event, legal_hold_policy]]}
+- {id: SLK-v2-rev-0007, term: Legal Hold Custodian Assignment, status: hit, key: [unknown_space, admin.legalHold.entities, entity], why: "자기 id(He...)가 있어 관계가 아니라 대상으로 잡힘. 접두사 미상이라 대기열"}
+- {id: SLK-v2-rev-0003, term: Slack List, status: hit, key: [event, list]}
+- {id: SLK-v2-rev-0004, term: Slack List Item, status: hit, key: [unknown_space, slackLists.items, item]}
+- {id: SLK-v2-rev-0001, term: Message, status: hit, key: [local, channel, message]}
+- {id: SLK-v2-rev-0019, term: OAuth Redirect Endpoint, status: hit, key: [field, cand_819ca37ca861, ".oauth_config.redirect_urls"]}
+- {id: SLK-v2-rev-0011, term: Org Admin Assignment, status: weak, key: [assoc, team, user, admin], why: "워크스페이스 단위 플래그만 잡힘. 조직 단위(enterprise_user.is_admin)는 tenant 를 enterprise 로 못 정함"}
+- {id: SLK-v2-rev-0012, term: Org Owner Assignment, status: weak, key: [assoc, team, user, owner], why: "위와 같음"}
+- {id: SLK-v2-rev-0026, term: User Session Settings Policy, status: hit, key: [assoc, "@tenant", user, session]}
+- {id: SLK-v2-rev-0008, term: Workspace Membership Assignment, status: hit, key: [assoc, team, user, ""]}
+- {id: SLK-v2-rev-0009, term: Workspace Admin Assignment, status: hit, key: [assoc, team, user, admin]}
+- {id: SLK-v2-rev-0010, term: Workspace Owner Assignment, status: hit, key: [assoc, team, user, owner]}
+- {id: SLK-v2-gap-0001, term: Slack List Access Assignment, status: hit, key: [assoc, file, "@resolve", ""], why: "캔버스 접근과 같은 후보 (같은 file ID 공간)"}
+- {id: SLK-v2-gap-0002, term: Private Channel IDP Group Access Assignment, status: weak, key: [ns, admin.conversations.restrictAccess], why: "group_id 예시에 접두사가 없어 공간을 못 정함 (assoc_param_unresolved)"}
+- {id: SLK-v2-gap-0003, term: Auth Policy Entity Assignment, status: hit, key: [assoc, "@tenant", user, policy]}
+- {id: SLK-v2-gap-0004, term: Slash Command Request Endpoint, status: hit, key: [field, cand_819ca37ca861, ".features.slash_commands[*].url"]}
+- {id: SLK-v2-gap-0005, term: Interactivity Options Load Endpoint, status: hit, key: [field, cand_819ca37ca861, ".settings.interactivity.message_menu_options_url"]}

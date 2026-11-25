@@ -1,0 +1,91 @@
+overlay_basis:
+  from: aegi-adapter-engine
+    catalog/github/profiles/git_hub_app_installation_registration.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-14
+        request:
+          app_slug: absent
+        items: installations
+    properties:
+      app_slug: app_slug
+      app_id: app_id
+      client_id: client_id
+      repository_selection: repository_selection
+      events: events
+      created_at: created_at
+      suspended_at: suspended_at
+      operational_state:
+        if:
+          path: suspended_at
+          truthy: true
+        then:
+          const: suspended
+        else:
+          const: active
+    display: "{app_slug}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+      - type: has_role_on
+        when:
+          path: repository_selection
+          eq: all
+        source: $self
+        target: $tenant
+        role:
+          name:
+            op: github_permission_name
+            of: permissions
+        basis: stated
+        properties:
+          permissions: permissions
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-INST-{id}
+runtime_stub: null
+runtime_key: GH-INST-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: GitHub App Installation Registration:list
+    sources:
+      - call: GH-14
+        request:
+          app_slug: absent
+        items: installations
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+      - type: has_role_on
+        when:
+          path: repository_selection
+          eq: all
+        source: $self
+        target: $tenant
+        role:
+          name:
+            op: github_permission_name
+            of: permissions
+        basis: stated
+        properties:
+          permissions: permissions
+    self_identity: object_rule
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

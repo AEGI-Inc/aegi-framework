@@ -1,0 +1,78 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/filter.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: JI-07
+        items: (array_or:values|results)
+    id_expr:
+      op: str
+      of: id
+    properties:
+      name: name
+      jql:
+        if:
+          path: jql
+          truthy: true
+        then:
+          const: (jql)
+      owner_account:
+        op: null_if_missing
+        of: owner.accountId
+    display: "{name|id}"
+    relations:
+      - type: owned_by
+        when:
+          path: owner.accountId
+          truthy: true
+        source: $self
+        target:
+          type: User
+          id: owner.accountId
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: &a1
+            op: str
+            of: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: JIRA-F-{id}
+runtime_stub: null
+runtime_key: JIRA-F-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Filter:list
+    sources:
+      - call: JI-07
+        items: (array_or:values|results)
+    relations:
+      - type: owned_by
+        when:
+          path: owner.accountId
+          truthy: true
+        source: $self
+        target:
+          type: User
+          id: owner.accountId
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: *a1
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: JIRA-F-{id}
+    replaced:
+      - id

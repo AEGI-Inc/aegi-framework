@@ -1,0 +1,1186 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: salesforce
+service: null
+object_type: Lead
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:3259681a115f4121fa850fd6
+identity:
+  primary:
+    - name: id
+      expr: Id
+      stability: undocumented
+  scope: tenant
+  evidence:
+    source: im_types
+    locator: id=object-type:3259681a115f4121fa850fd6.identity_evidence
+tenant_binding:
+  type: Organization
+  service: null
+  call: SF-01
+  items: records
+  id: Id
+  normalization:
+    - to_18_char
+fields:
+  Id:
+    path: Id
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: id
+      name: Id
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Id
+  ActionCadenceAssigneeId:
+    path: ActionCadenceAssigneeId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: ActionCadenceAssigneeId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ActionCadenceAssigneeId
+  ActionCadenceId:
+    path: ActionCadenceId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: ActionCadenceId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ActionCadenceId
+  ActionCadenceState:
+    path: ActionCadenceState
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: ActionCadenceState
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ActionCadenceState
+  ActiveTrackerCount:
+    path: ActiveTrackerCount
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: int
+      name: ActiveTrackerCount
+      nullable: true
+      read_only: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Lead|ActiveTrackerCount
+  ActivityMetricId:
+    path: ActivityMetricId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: ActivityMetricId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ActivityMetricId
+  ActivityMetricRollupId:
+    path: ActivityMetricRollupId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: ActivityMetricRollupId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ActivityMetricRollupId
+  Address:
+    path: Address
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: address
+      name: Address
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Address
+  AnnualRevenue:
+    path: AnnualRevenue
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: currency
+      name: AnnualRevenue
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Lead|AnnualRevenue
+  City:
+    path: City
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: City
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|City
+  CleanStatus:
+    path: CleanStatus
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: CleanStatus
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|CleanStatus
+  Company:
+    path: Company
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: Company
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Company
+  CompanyDunsNumber:
+    path: CompanyDunsNumber
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: CompanyDunsNumber
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|CompanyDunsNumber
+  ConvertedAccountId:
+    path: ConvertedAccountId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: ConvertedAccountId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ConvertedAccountId
+  ConvertedContactId:
+    path: ConvertedContactId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: ConvertedContactId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ConvertedContactId
+  ConvertedDate:
+    path: ConvertedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: date
+      name: ConvertedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ConvertedDate
+  ConvertedOpportunityId:
+    path: ConvertedOpportunityId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: ConvertedOpportunityId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ConvertedOpportunityId
+  ConnectionReceivedId:
+    path: ConnectionReceivedId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: ConnectionReceivedId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ConnectionReceivedId
+  ConnectionSentId:
+    path: ConnectionSentId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: ConnectionSentId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ConnectionSentId
+  Country:
+    path: Country
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: Country
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Country
+  CountryCode:
+    path: CountryCode
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: CountryCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|CountryCode
+  CurrencyIsoCode:
+    path: CurrencyIsoCode
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: CurrencyIsoCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|CurrencyIsoCode
+  DandBCompanyId:
+    path: DandBCompanyId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: DandBCompanyId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|DandBCompanyId
+  Description:
+    path: Description
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: textarea
+      name: Description
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Description
+  Division:
+    path: Division
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: Division
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Division
+  Email:
+    path: Email
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: email
+      name: Email
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Email
+  EmailBouncedDate:
+    path: EmailBouncedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: dateTime
+      name: EmailBouncedDate
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|EmailBouncedDate
+  EmailBouncedReason:
+    path: EmailBouncedReason
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: EmailBouncedReason
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|EmailBouncedReason
+  ExportStatus:
+    path: ExportStatus
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: ExportStatus
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ExportStatus
+  Fax:
+    path: Fax
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: phone
+      name: Fax
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Fax
+  FirstCallDateTime:
+    path: FirstCallDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: datetime
+      name: FirstCallDateTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|FirstCallDateTime
+  FirstEmailDateTime:
+    path: FirstEmailDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: datetime
+      name: FirstEmailDateTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|FirstEmailDateTime
+  FirstName:
+    path: FirstName
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: FirstName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|FirstName
+  GeocodeAccuracy:
+    path: GeocodeAccuracy
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: GeocodeAccuracy
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|GeocodeAccuracy
+  GenderIdentity:
+    path: GenderIdentity
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: GenderIdentity
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|GenderIdentity
+  HasOptedOutOfEmail:
+    path: HasOptedOutOfEmail
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: boolean
+      name: HasOptedOutOfEmail
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Lead|HasOptedOutOfEmail
+  HasOptedOutOfFax:
+    path: HasOptedOutOfFax
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: boolean
+      name: HasOptedOutOfFax
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Lead|HasOptedOutOfFax
+  IndividualId:
+    path: IndividualId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: IndividualId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|IndividualId
+  Industry:
+    path: Industry
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: Industry
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Industry
+  IsConverted:
+    path: IsConverted
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: boolean
+      name: IsConverted
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Lead|IsConverted
+  IsDeleted:
+    path: IsDeleted
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: boolean
+      name: IsDeleted
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Lead|IsDeleted
+  IsPriorityRecord:
+    path: IsPriorityRecord
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: boolean
+      name: IsPriorityRecord
+      read_only: true
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Lead|IsPriorityRecord
+  IsUnreadByOwner:
+    path: IsUnreadByOwner
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: boolean
+      name: IsUnreadByOwner
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Lead|IsUnreadByOwner
+  Jigsaw:
+    path: Jigsaw
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: Jigsaw
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Jigsaw
+  JigsawContactId:
+    path: JigsawContactId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: JigsawContactId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|JigsawContactId
+  LastActivityDate:
+    path: LastActivityDate
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: date
+      name: LastActivityDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|LastActivityDate
+  LastName:
+    path: LastName
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: LastName
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|LastName
+  LastReferencedDate:
+    path: LastReferencedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: dateTime
+      name: LastReferencedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|LastReferencedDate
+  LastViewedDate:
+    path: LastViewedDate
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: datetime
+      name: LastViewedDate
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|LastViewedDate
+  Latitude:
+    path: Latitude
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: double
+      name: Latitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Lead|Latitude
+  LeadSource:
+    path: LeadSource
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: LeadSource
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|LeadSource
+  Longitude:
+    path: Longitude
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: double
+      name: Longitude
+      nullable: true
+      required: false
+      scalar: number
+    map_items:
+      - space:Lead|Longitude
+  MasterRecordId:
+    path: MasterRecordId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: MasterRecordId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|MasterRecordId
+  MiddleName:
+    path: MiddleName
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: MiddleName
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|MiddleName
+  MobilePhone:
+    path: MobilePhone
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: phone
+      name: MobilePhone
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|MobilePhone
+  Name:
+    path: Name
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: Name
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Name
+  NumberOfEmployees:
+    path: NumberOfEmployees
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: int
+      name: NumberOfEmployees
+      nullable: true
+      required: false
+      scalar: integer
+    map_items:
+      - space:Lead|NumberOfEmployees
+  OwnerId:
+    path: OwnerId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: OwnerId
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|OwnerId
+  PartnerAccountId:
+    path: PartnerAccountId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: PartnerAccountId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|PartnerAccountId
+  Phone:
+    path: Phone
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: phone
+      name: Phone
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Phone
+  PhotoUrl:
+    path: PhotoUrl
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: url
+      name: PhotoUrl
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|PhotoUrl
+  PostalCode:
+    path: PostalCode
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: PostalCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|PostalCode
+  Pronouns:
+    path: Pronouns
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: Pronouns
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Pronouns
+  Rating:
+    path: Rating
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: Rating
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Rating
+  RecordTypeId:
+    path: RecordTypeId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: RecordTypeId
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|RecordTypeId
+  Salutation:
+    path: Salutation
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: Salutation
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Salutation
+  ScheduledResumeDateTime:
+    path: ScheduledResumeDateTime
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: dateTime
+      name: ScheduledResumeDateTime
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ScheduledResumeDateTime
+  ScoreIntelligenceId:
+    path: ScoreIntelligenceId
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: reference
+      name: ScoreIntelligenceId
+      nullable: true
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|ScoreIntelligenceId
+  State:
+    path: State
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: State
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|State
+  StateCode:
+    path: StateCode
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: StateCode
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|StateCode
+  Status:
+    path: Status
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: picklist
+      name: Status
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Status
+  Street:
+    path: Street
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: textarea
+      name: Street
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Street
+  Suffix:
+    path: Suffix
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: Suffix
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Suffix
+  Title:
+    path: Title
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: string
+      name: Title
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Title
+  Website:
+    path: Website
+    source: research_shape
+    shape: sh:sf_object_reference:Lead
+    declaration:
+      format: url
+      name: Website
+      nullable: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Lead|Website
+references:
+  - name: ownerid
+    field: OwnerId
+    target: Group
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:18398ab2358c820b5aef001f; relation=no_relation
+  - name: activitymetricrollupid
+    field: ActivityMetricRollupId
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:533654713b7cdd8a8a7e8d78; relation=no_relation
+  - name: activitymetricid
+    field: ActivityMetricId
+    target: ActivityMetric
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9d2faf2387a3772450292443; relation=no_relation
+  - name: convertedopportunityid
+    field: ConvertedOpportunityId
+    target: Opportunity
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:a4c7bafb6fcf8d6cf2f531e3; relation=no_relation
+  - name: convertedaccountid
+    field: ConvertedAccountId
+    target: Account
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:ac2d39c1c9468e12ca811a42; relation=no_relation
+  - name: individualid
+    field: IndividualId
+    target: Individual
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:db466a227fdebd32ab832b72; relation=no_relation
+  - name: convertedcontactid
+    field: ConvertedContactId
+    target: Contact
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:e15ec16ad1556a7abfd94e25; relation=no_relation
+  - name: dandbcompanyid
+    field: DandBCompanyId
+    target: external_target
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:fc73faf70eca203c80f7a5b8; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: salesforce
+  object_type: Lead
+  interfaces: *a1
+  model:
+    research_type: object-type:3259681a115f4121fa850fd6
+  extract:
+    key: PILOT-salesforce-Lead-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr: Id
+        sources:
+          - call: AUTO-SALESFORCE-850fd6
+            endpoint: /
+            items:
+              - records
+        properties:
+          ActionCadenceAssigneeId: ActionCadenceAssigneeId
+          ActionCadenceId: ActionCadenceId
+          ActionCadenceState: ActionCadenceState
+          ActiveTrackerCount: ActiveTrackerCount
+          ActivityMetricId: ActivityMetricId
+          ActivityMetricRollupId: ActivityMetricRollupId
+          Address: Address
+          AnnualRevenue: AnnualRevenue
+          City: City
+          CleanStatus: CleanStatus
+          Company: Company
+          CompanyDunsNumber: CompanyDunsNumber
+          ConnectionReceivedId: ConnectionReceivedId
+          ConnectionSentId: ConnectionSentId
+          ConvertedAccountId: ConvertedAccountId
+          ConvertedContactId: ConvertedContactId
+          ConvertedDate: ConvertedDate
+          ConvertedOpportunityId: ConvertedOpportunityId
+          Country: Country
+          CountryCode: CountryCode
+          CurrencyIsoCode: CurrencyIsoCode
+          DandBCompanyId: DandBCompanyId
+          Description: Description
+          Division: Division
+          Email: Email
+          EmailBouncedDate: EmailBouncedDate
+          EmailBouncedReason: EmailBouncedReason
+          ExportStatus: ExportStatus
+          Fax: Fax
+          FirstCallDateTime: FirstCallDateTime
+          FirstEmailDateTime: FirstEmailDateTime
+          FirstName: FirstName
+          GenderIdentity: GenderIdentity
+          GeocodeAccuracy: GeocodeAccuracy
+          HasOptedOutOfEmail: HasOptedOutOfEmail
+          HasOptedOutOfFax: HasOptedOutOfFax
+          Id: Id
+          IndividualId: IndividualId
+          Industry: Industry
+          IsConverted: IsConverted
+          IsDeleted: IsDeleted
+          IsPriorityRecord: IsPriorityRecord
+          IsUnreadByOwner: IsUnreadByOwner
+          Jigsaw: Jigsaw
+          JigsawContactId: JigsawContactId
+          LastActivityDate: LastActivityDate
+          LastName: LastName
+          LastReferencedDate: LastReferencedDate
+          LastViewedDate: LastViewedDate
+          Latitude: Latitude
+          LeadSource: LeadSource
+          Longitude: Longitude
+          MasterRecordId: MasterRecordId
+          MiddleName: MiddleName
+          MobilePhone: MobilePhone
+          Name: Name
+          NumberOfEmployees: NumberOfEmployees
+          OwnerId: OwnerId
+          PartnerAccountId: PartnerAccountId
+          Phone: Phone
+          PhotoUrl: PhotoUrl
+          PostalCode: PostalCode
+          Pronouns: Pronouns
+          Rating: Rating
+          RecordTypeId: RecordTypeId
+          Salutation: Salutation
+          ScheduledResumeDateTime: ScheduledResumeDateTime
+          ScoreIntelligenceId: ScoreIntelligenceId
+          State: State
+          StateCode: StateCode
+          Status: Status
+          Street: Street
+          Suffix: Suffix
+          Title: Title
+          Website: Website
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:sf_object_reference:Lead.query
+  operation: Lead.query
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /query(?:\?|$)
+  endpoint_template: /query
+  request:
+    soql_object: Lead
+  required_params: []
+  paths:
+    - shape: sh:sf_object_reference:Lead
+      path:
+        - records
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:sf_object_reference:Lead.retrieve
+      method: GET
+      kind: read_one
+      endpoint_template: /sobjects/Lead/{id}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 6bf9e66b259beb090d524b66e5f3e31182dd64b1b6baa63e367db991e1471750
+    ir/shape.jsonl: 9749f5c416c7cddbb3a9674d7251cc9328597aa9b72646d2e65735d02e99b12e
+    ir/operation.jsonl: e806c1a8ece7910fe65aaed3310edeef0435c2020fff4f34c0e9ac0a74e28ff9
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - Id
+  reference_paths:
+    - OwnerId
+    - ActivityMetricRollupId
+    - ActivityMetricId
+    - ConvertedOpportunityId
+    - ConvertedAccountId
+    - IndividualId
+    - ConvertedContactId
+    - DandBCompanyId
+  metadata_paths: *a2
+  remaining_declared_fields: properties

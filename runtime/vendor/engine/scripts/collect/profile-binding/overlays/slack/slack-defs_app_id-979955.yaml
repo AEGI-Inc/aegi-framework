@@ -1,0 +1,108 @@
+overlay_basis:
+  from: aegi-adapter-engine
+    catalog/slack/profiles/slack_app_installation_registration.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-08
+        items:
+          - approved_apps
+          - restricted_apps
+        where:
+          path: app.id
+          present: true
+    id_expr: app.id
+    properties:
+      app_id: app.id
+      name: app.name
+      date_updated: date_updated
+      approval:
+        if:
+          path: $env.endpoint
+          matches: restricted
+        then:
+          const: restricted
+        else:
+          const: approved
+    display: "{app.name|app.id}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: app.id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-APP-{id}
+  - id: from_bot
+    kind: object
+    on_demand: true
+    id_expr: app_id
+    properties:
+      app_id: app_id
+      name: name
+    display: "{name|app_id}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: app_id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-APP-{id}
+runtime_stub:
+  display: "{id} (목록에 없음)"
+runtime_key: SLK-APP-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Slack App Installation Registration:list
+    sources:
+      - call: SL-08
+        items:
+          - approved_apps
+          - restricted_apps
+        where:
+          path: app.id
+          present: true
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+  - id: Slack App Installation Registration:from_bot
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: app.id
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: SLK-APP-{id}
+    replaced:
+      - $record_hash
+tenant_binding:
+  type: 200.team
+tenant_basis: 생성기의 tenant 이름 workspace 는 카탈로그 이름이다. 현행 카탈로그 workspace 의 연구 타입이 새
+  Profile 200.team 이다

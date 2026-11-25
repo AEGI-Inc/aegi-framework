@@ -1,0 +1,395 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: gws
+service: drive
+object_type: Permission
+interfaces: &a1
+  - Assignment
+model:
+  research_type: object-type:54f914b6474bcbb2753b1932
+identity:
+  primary:
+    - name: file_id
+      expr: $req.file
+      stability: undocumented
+    - name: permission_id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: gws_drive
+    locator: schemas.Permission.description and properties.id; object_contract composite identity examples
+    statement: Output only. The ID of this permission. This is a unique identifier for the grantee, and is published in the [User resource](https://developers.google.com/workspace/drive/api/reference/rest/v3/User) as `permissionId`. IDs should be treated as opaque values.
+  parent:
+    type: File
+    expr: $req.file
+tenant_binding:
+  type: Customer
+  service: admin
+  call: GW-01
+  items: (root)
+  id: id
+fields:
+  domain:
+    path: domain
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: domain
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Permission|domain
+  deleted:
+    path: deleted
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: deleted
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Permission|deleted
+  role:
+    path: role
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: role
+      required: false
+      scalar: string
+    map_items:
+      - space:Permission|role
+  id:
+    path: id
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: id
+      required: false
+      scalar: string
+    map_items:
+      - space:Permission|id
+  view:
+    path: view
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: view
+      required: false
+      scalar: string
+    map_items:
+      - space:Permission|view
+  photoLink:
+    path: photoLink
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: photoLink
+      required: false
+      scalar: string
+    map_items:
+      - space:Permission|photoLink
+  teamDrivePermissionDetails:
+    path: teamDrivePermissionDetails
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      deprecated: true
+      name: teamDrivePermissionDetails
+      read_only: true
+      required: false
+      shape: sh:gws_drive:Permission.teamDrivePermissionDetails
+    map_items: []
+  displayName:
+    path: displayName
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: displayName
+      required: false
+      scalar: string
+    map_items:
+      - space:Permission|displayName
+  inheritedPermissionsDisabled:
+    path: inheritedPermissionsDisabled
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: inheritedPermissionsDisabled
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Permission|inheritedPermissionsDisabled
+  allowFileDiscovery:
+    path: allowFileDiscovery
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: allowFileDiscovery
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Permission|allowFileDiscovery
+  expirationTime:
+    path: expirationTime
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      format: date-time
+      name: expirationTime
+      required: false
+      scalar: string
+    map_items:
+      - space:Permission|expirationTime
+  type:
+    path: type
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: type
+      required: false
+      scalar: string
+    map_items:
+      - space:Permission|type
+  emailAddress:
+    path: emailAddress
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: emailAddress
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:Permission|emailAddress
+  permissionDetails:
+    path: permissionDetails
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: permissionDetails
+      read_only: true
+      required: false
+      shape: sh:gws_drive:Permission.permissionDetails
+    map_items: []
+  pendingOwner:
+    path: pendingOwner
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: pendingOwner
+      required: false
+      scalar: boolean
+    map_items:
+      - space:Permission|pendingOwner
+  kind:
+    path: kind
+    source: research_shape
+    shape: sh:gws_drive:Permission
+    declaration:
+      name: kind
+      required: false
+      scalar: string
+    map_items:
+      - space:Permission|kind
+references:
+  - name: file
+    field: $req.file
+    target: File
+    relation: contained_in
+    source: gws_drive
+    reviewed_at: 2026-10-25
+    rationale: Reviewed source gws_drive; contained_in
+  - name: grantee
+    field: emailAddress
+    target_switch: type
+    targets:
+      user: User
+      group: Group
+      domain: SpecialPrincipal
+      anyone: SpecialPrincipal
+    lookup_field: primaryEmail
+    relation: has_role_on
+    source: im_relation_decisions
+    locator: A4 plus g4_decisions special principals
+    target_services:
+      User: admin
+      Group: admin
+      SpecialPrincipal: drive
+    value_expr:
+      any:
+        - emailAddress
+        - domain
+        - if:
+            path: type
+            eq: anyone
+          then:
+            const: anyone
+    identifier_types:
+      User: primaryEmail
+      Group: email
+      SpecialPrincipal: name
+    source_paths:
+      - emailAddress
+      - domain
+    case_insensitive: true
+    required: true
+    reviewed_at: 2026-10-25
+    rationale: A4 plus g4_decisions special principals
+constants: {}
+row_contracts:
+  expires_at:
+    if:
+      path: expirationTime
+      defined: true
+    then: expirationTime
+    else:
+      const: null
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.file
+    produced_by_reference: file
+    basis: stated
+  - type: has_role_on
+    source: $refs.grantee
+    target: $refs.file
+    role:
+      name: role
+      kind: name_key
+    produced_by_reference: grantee
+    basis: stated
+    allowed_roles:
+      - owner
+      - organizer
+      - fileOrganizer
+      - writer
+      - commenter
+      - reader
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: gws
+  object_type: Permission
+  interfaces: *a1
+  model:
+    research_type: object-type:54f914b6474bcbb2753b1932
+  extract:
+    key: PILOT-gws-Permission-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.file}|{id}"
+        sources:
+          - call: GW-07
+            endpoint: /files/[^/]+/permissions(?:\?|$)
+            items:
+              - permissions
+        properties:
+          allowFileDiscovery: allowFileDiscovery
+          deleted: deleted
+          displayName: displayName
+          domain: domain
+          emailAddress: emailAddress
+          expirationTime: expirationTime
+          id: id
+          inheritedPermissionsDisabled: inheritedPermissionsDisabled
+          kind: kind
+          pendingOwner: pendingOwner
+          permissionDetails: permissionDetails
+          photoLink: photoLink
+          role: role
+          teamDrivePermissionDetails: teamDrivePermissionDetails
+          type: type
+          view: view
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  call: GW-07
+  endpoint: /files/[^/]+/permissions(?:\?|$)
+  request: {}
+  paths:
+    - shape: sh:gws_drive:Permission
+      path:
+        - permissions
+        - "*"
+  status: pilot_manual
+  operation_id: op:gws_drive:drive.permissions.list
+  alternatives_total: 5
+  observed_sources:
+    - shape: sh:gws_drive:Permission
+      operation_id: op:gws_drive:drive.files.list
+      call: GW-07
+      path:
+        - files
+        - "*"
+        - permissions
+        - "*"
+      records: 6
+      partial: true
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: 8d48095984113f27a11dc420a752b717df59eae51bc3bbd4797896c8ad4af30d
+    ir/shape.jsonl: 998cf62cfd25e0d4d9d9e705e0e34b0b8c31494250a970686a7d8867e0503fbc
+    ir/operation.jsonl: 14fd7a38425bfeae03709952cd2c90c62f41d51658abd12c249f48def14db67f
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths:
+    - emailAddress
+    - domain
+  metadata_paths: *a2
+  remaining_declared_fields: properties

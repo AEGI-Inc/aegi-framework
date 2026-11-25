@@ -1,0 +1,151 @@
+/* =========================================================================
+   AEGI Design Tokens & Variables
+   ========================================================================= */
+
+:root {
+  /* Brand / Provider Colors */
+  --color-provider-slack: #4a154b;
+  --color-provider-github: #24292e;
+  --color-provider-okta: #007dc1;
+  --color-provider-gws: #0f9d58;
+  --color-provider-atlassian: #0052cc;
+  --color-provider-salesforce: #00a1e0;
+
+  --color-provider-slack-bg: #fdf2f8;
+  --color-provider-github-bg: #f8fafc;
+  --color-provider-okta-bg: #eff6ff;
+  --color-provider-gws-bg: #f0fdf4;
+  --color-provider-atlassian-bg: #f0f5ff;
+  --color-provider-salesforce-bg: #eef8fd;
+
+  /* 그래프에서 고른 항목의 바탕(흰 글씨). 흰 글씨 대비가 4.5:1 에 못 미치는 Okta(4.47), Google(3.5)은
+     플랫폼에서 쓰는 더 짙은 같은 계열 색을 쓴다(Okta 5.5, Google 4.6). */
+  --color-provider-slack-fill: var(--color-provider-slack);
+  --color-provider-github-fill: var(--color-provider-github);
+  --color-provider-okta-fill: #1662dd;
+  --color-provider-gws-fill: #00875a;
+  --color-provider-atlassian-fill: var(--color-provider-atlassian);
+  /* Salesforce 파랑(#00a1e0)은 흰 글씨 대비 2.9 라 Salesforce 의 짙은 파랑(4.6)을 쓴다 */
+  --color-provider-salesforce-fill: #0176d3;
+
+  /* Severity Colors */
+  --color-danger: #dc2626;
+  --color-text-on-danger: #ffffff;
+  --color-graph-query: #b45309;
+  --color-danger-bg: #fef2f2;
+  --color-danger-border: #fecaca;
+  /* 위험을 강조하는 글자. 빨강 다섯 가지(#dc2626, #b91c1c, #b42318, #991b1b, #a4201a)를 하나로 모았다. 흰 바탕 5.84:1 */
+  --color-danger-text: #b42318;
+  /* 심각도 네 단계. 배지는 이 색 바탕에 흰 글씨, 점은 같은 색(CRITICAL 10.9, HIGH 6.6, LOW 7.7:1).
+     MEDIUM 은 HIGH 빨강과 헷갈리던 짙은 주황(#b54708) 대신 밝은 호박색으로 가른다. 흰 글씨 대비는 3.2:1 로
+     4.5:1 에 못 미치지만 HIGH 와 구분하는 것을 앞세운 사용자 결정(2026-10-21)이다. 흰 바탕 위 점은 3.2:1 */
+  --color-severity-critical: #7a1212;
+  --color-severity-high: #b42318;
+  --color-severity-medium: #d97706;
+  --color-severity-low: #475467;
+  /* 진행 중, 일부, 합성처럼 주의를 끄는 상태 배지. 흰 글씨 5.43:1. 전에는 MEDIUM 심각도 색을 같이 썼다 */
+  --color-caution: #b54708;
+  --color-warning: #d97706;
+  --color-warning-bg: #fffbeb;
+  --color-success: #16a34a;
+  --color-success-bg: #f0fdf4;
+
+  /* Neutrals & Surfaces */
+  --color-bg-app: #f8fafc;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-border-subtle: #f1f5f9;
+  /* 글자색은 세 단계만 쓴다. 보조색 #94a3b8은 흰 바탕에서 2.9:1이라
+     WCAG AA(4.5:1)에 한참 못 미쳤다. 같은 계열에서 기준을 넘는
+     값으로 내린다(흰 바탕 4.97 / #f8fafc 4.84 / #f1f5f9 4.75). */
+  --color-text-primary: #0f172a;
+  /* 글씨는 웬만하면 검은색으로 쓴다. 회색은 입력 안내(placeholder)에만 남긴다. */
+  --color-text-secondary: #0f172a;
+  --color-text-muted: #0f172a;
+  --color-text-placeholder: #5d7287;
+  /* 회색은 글자가 아닌 아이콘(화살표, 경로 구분 등)에만 쓴다. 흰 바탕 4.76:1 */
+  --color-icon: #64748b;
+
+  /* 왼쪽 메뉴 바와 화면 제목 줄. 본문(흰 바탕)을 감싸는 틀이라 짙은 인디고로 칠한다.
+     메뉴 바는 오른쪽으로 그림자를 드리워 제목 줄 위에 얹힌 것처럼 보이게 한다. */
+  --color-chrome-bg: #1e1b4b;
+  --color-chrome-text: #ffffff;
+  --color-chrome-hover: rgba(255, 255, 255, 0.08);
+  --color-chrome-active: rgba(255, 255, 255, 0.14);
+  --color-chrome-line: rgba(255, 255, 255, 0.28);
+  --shadow-chrome-side: 6px 0 18px rgba(8, 6, 30, 0.55);
+
+  /* 누른 것(고른 탭, 켠 필터, 연 메뉴, 체크한 칸)의 강조색. 검정으로 두면 글자와 구분이 안 되고
+     화면마다 따로 놀아 한 가지 파랑으로 맞춘다. 메뉴 바의 짙은 인디고는 가는 선에서 검정과 구분되지
+     않았다. Finding(빨강)처럼 뜻이 있는 색은 이 값을 쓰지 않는다. */
+  /* 증적 터미널(Event Board 그래프 대조, 원본 필드). 수집한 기록 그대로임을 한눈에 가르려고 검정 바탕에 흰 고정폭 글씨(대비 21:1) */
+  --color-terminal-bg: #000000;
+  --color-terminal-text: #ffffff;
+  --color-terminal-line: rgba(255, 255, 255, 0.32);
+  --color-terminal-hover: rgba(255, 255, 255, 0.12);
+
+  --color-select: #1d4ed8;
+  /* 고른 단추와 칩은 바탕을 메뉴 바와 같은 짙은 인디고로 채우고 흰 글씨를 쓴다(대비 16:1).
+     그래프에서 고른 항목은 위의 --color-provider-*-fill 로 채운다.
+     가는 선에서는 검정과 구분되지 않아 테두리와 초점선은 위의 파랑을 쓴다. */
+  --color-select-fill: var(--color-chrome-bg);
+
+  /* 카드 제목 칸. 옅은 회색 바탕과 진한 아래 선으로 내용과 가른다. 카드 테두리도 같은 선 색을 쓴다. */
+  --color-card-head-bg: #eef2f6;
+  --color-card-line: #cbd5e1;
+
+  /* 화면 간격. Overview에 맞춘 값을 모든 화면이 쓴다.
+     page-x: 화면 좌우 바깥 여백, gap: 화면 이름 줄과 내용 사이, 카드와 카드 사이 */
+  --space-page-x: 24px;
+  --space-gap: 14px;
+
+  /* Typography */
+  /* 한글·영문·숫자를 한 벌로 맞추기 위해 Pretendard로 통일한다.
+     index.html에서 dynamic subset으로 불러온다. */
+  --font-family-base: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Malgun Gothic", sans-serif;
+  /* 고정폭 글꼴에는 한글이 없다. 마지막의 monospace로 떨어지면 한국어 Windows는
+     굴림체를 골라 글자가 벌어진다. 한글은 맑은 고딕이 받게 그 앞에 둔다. */
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "Malgun Gothic", monospace;
+
+  /* Typography Scale
+     글자 크기는 이 다섯 단계와 큰 수치용 display, 표지 제목용 hero 에서만 고른다.
+     11px 미만은 한글이 뭉개져 읽히지 않으므로 쓰지 않는다.
+
+     화면에 실제로 떠 있던 크기를 재 보면 화면마다 제각각이었다.
+     화면 이름이 Home·Threat·Integrations는 24px인데 Explorer만 38px,
+     Finding 상세는 20px이었고, 같은 구역 제목이 14px과 15px로 갈렸다.
+     지금은 다섯 화면이 같은 규격을 쓴다. */
+  --font-size-xs: 11px; /* 배지, 보조 캡션 — 하한 */
+  --font-size-sm: 13px; /* 라벨, 표 본문, 단추 */
+  --font-size-md: 15px; /* 본문, 구역 제목 */
+  --font-size-lg: 18px; /* 큰 구역 제목, 표의 수치 */
+  --font-size-xl: 24px; /* 화면 제목 */
+  --font-size-display: 28px; /* KPI처럼 한눈에 읽는 수치 */
+  --font-size-hero: 40px; /* 공개 데모 첫 화면처럼 화면 전체를 쓰는 표지의 제목 */
+
+  /* Font Weights
+     굵기는 3단계만 쓴다. 전부 굵으면 아무것도 강조되지 않는다. */
+  --font-weight-regular: 400;
+  --font-weight-medium: 600;
+  --font-weight-bold: 700;
+
+  /* Radii
+     사각형은 모서리를 둥글리지 않는다. 카드 · 단추 · 칩 · 입력칸 · 알약 모양까지
+     전부 직각이다. 이름은 옛 코드가 참조하므로 남기고 값만 0으로 둔다.
+     둥근 것은 진짜 원(상태 점 · 로고 · 도넛 · 번호 원)과 켜고 끄는 슬라이드
+     스위치(막대 + 동그란 손잡이)뿐이다. 스위치는 네모로 두면 스위치로 읽히지
+     않는다. */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-full: 9999px; /* 진짜 원(아바타, 점)에만 */
+
+  /* Shadows
+     그림자는 "이것이 떠 있다"는 말만 한다. 20px 떠서 50px 번지는
+     그림자는 그 말을 과장할 뿐이라 y는 3px, 번짐은 10px을 넘지 않는다.
+     경계가 필요하면 그림자 대신 1px 선을 쓴다. */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 2px 6px -1px rgba(15, 23, 42, 0.08);
+  --shadow-lg: 0 3px 10px -2px rgba(15, 23, 42, 0.10);
+  --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.06);
+}

@@ -1,0 +1,47 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: aws
+service: lambda
+object_type: LambdaFunction
+interfaces: [Automation, Resource]
+identity:
+  primary:
+    - {name: id, expr: FunctionName, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: AWS-LAMBDA-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AWS-06
+        request: {kind: functions}
+        items: Functions
+    id_expr: FunctionName
+    properties:
+      operational_state: {const: active}
+      run_as_resolution: {const: fixed_principal}
+      function_name: FunctionName
+      arn: FunctionArn
+      runtime: Runtime
+      role_arn: Role
+      role_name: RoleName
+      environment_variable_keys: EnvironmentVariableKeys
+      vpc_config: VpcConfig
+      account_id: AccountId
+    display: "{FunctionName}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Account, id: AccountId}
+        basis: stated
+        require: [target]
+      - type: runs_as
+        source: $self
+        target: {type: IAMRole, lookup: role_name, value: RoleName}
+        when: {path: RoleName, present: true}
+        basis: stated
+        require: [target]

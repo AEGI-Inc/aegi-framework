@@ -1,0 +1,247 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: okta
+service: null
+object_type: EmailTemplateResponse
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:57d4a2a62a23e0992a1bbc1d
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: name
+      expr: name
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:57d4a2a62a23e0992a1bbc1d.identity_evidence
+  parent:
+    type: BrandWithEmbedded
+    expr: $req.parent_id
+tenant_binding:
+  type: org
+  service: management
+  call: OK-01
+  items: (root)
+  id: id
+fields:
+  name:
+    path: name
+    source: research_shape
+    shape: sh:okta_management_openapi:EmailTemplateResponse
+    declaration:
+      name: name
+      read_only: true
+      required: false
+      scalar: string
+    map_items:
+      - space:EmailTemplateResponse|name
+  _embedded:
+    path: _embedded
+    source: research_shape
+    shape: sh:okta_management_openapi:EmailTemplateResponse
+    declaration:
+      name: _embedded
+      read_only: true
+      required: false
+      shape: sh:okta_management_openapi:EmailTemplateResponse._embedded
+    map_items: []
+  _links:
+    path: _links
+    source: research_shape
+    shape: sh:okta_management_openapi:EmailTemplateResponse
+    declaration:
+      name: _links
+      required: false
+      shape: sh:okta_management_openapi:EmailTemplateResponse._links
+    map_items: []
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: BrandWithEmbedded
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:405af7eb25c879110190f2e9 (brands/{}) -> BrandWithEmbedded
+  - name: links_contentsource_href
+    field: _links.contentSource.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:1496fabb57bbb18cbe78d343; relation=no_relation
+  - name: links_template_href
+    field: _links.template.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:3b27ce578b63e3d83be0dce4; relation=no_relation
+  - name: links_settings_href
+    field: _links.settings.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:5e8f39875759fe372a44aac5; relation=no_relation
+  - name: links_self_href
+    field: _links.self.href
+    target: BehaviorRule
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:67724b32d14056fab52f4563; relation=no_relation
+  - name: links_defaultcontent_href
+    field: _links.defaultContent.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:7aea6173cbaf77e1823ad462; relation=no_relation
+  - name: links_test_href
+    field: _links.test.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:92ac1ec123c6ff9f399e56a7; relation=no_relation
+  - name: links_customizations_href
+    field: _links.customizations.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:9966e174ccdfdb4ddbf56ecb; relation=no_relation
+  - name: embedded_settings__links_template_href
+    field: _embedded.settings._links.template.href
+    target: InlineHook
+    relation: no_relation
+    reviewed_at: 2026-10-25
+    rationale: IM v1 typed reference typed-reference:f844a2b61fecb3720e15a0a3; relation=no_relation
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: okta
+  object_type: EmailTemplateResponse
+  interfaces: *a1
+  model:
+    research_type: object-type:57d4a2a62a23e0992a1bbc1d
+  extract:
+    key: PILOT-okta-EmailTemplateResponse-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{name}"
+        sources:
+          - call: AUTO-OKTA-1bbc1d
+            endpoint: /
+            items:
+              - (root)
+        properties:
+          _embedded: _embedded
+          _links: _links
+          name: name
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:okta_management_openapi:listEmailTemplates
+  operation: listEmailTemplates
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /api/v1/brands/[^/]+/templates/email(?:\?|$)
+  endpoint_template: /api/v1/brands/{brandId}/templates/email
+  request: {}
+  required_params:
+    - brandId
+  paths:
+    - shape: sh:okta_management_openapi:EmailTemplateResponse
+      path:
+        - "*"
+  alternatives_total: 1
+  alternatives:
+    - operation_id: op:okta_management_openapi:getEmailTemplate
+      method: GET
+      kind: read_one
+      endpoint_template: /api/v1/brands/{brandId}/templates/email/{templateName}
+      path: []
+  basis: ir_read_response_reachability
+  selection: ranked
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: d967e288feb39befed83bb69d5fd002310b0fd753be1060646b86bcc4e93eb18
+    ir/shape.jsonl: 46acb7a92b1ed6ab54e0eee3c3fc552dd7244458e9a799b38cfab49ced937f77
+    ir/operation.jsonl: 29d89f0001a0e47c74a2293268579799e4a52227f17b87196267e0a5da356d46
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - name
+  reference_paths:
+    - _links.contentSource.href
+    - _links.template.href
+    - _links.settings.href
+    - _links.self.href
+    - _links.defaultContent.href
+    - _links.test.href
+    - _links.customizations.href
+    - _embedded.settings._links.template.href
+  metadata_paths: *a2
+  remaining_declared_fields: properties

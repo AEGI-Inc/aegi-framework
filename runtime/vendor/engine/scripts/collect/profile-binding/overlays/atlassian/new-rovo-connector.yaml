@@ -1,0 +1,85 @@
+format: im-pilot-profile/1
+provider: atlassian
+object_type: RovoConnector
+interfaces: [Integration]
+scope: additive_runtime_projection
+model:
+  runtime_type_id: rovo-connector-bindings/1:atlassian:RovoConnector
+  source: aegi-knowledge/schema/ontology/rovo-connectors.yaml
+identity:
+  primary:
+    - {name: organization, expr: $req.organization, stability: stable}
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: ATL-ROVO-{organization}-{id}
+runtime_identifiers: {primary: [id], id: {stability: stable}}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: AT-UI-01
+        request: {kind: rovo_connector_ui, collection_method: browser_ui}
+        items: connectors
+    id_expr: id
+    parts: {organization: $req.organization}
+    properties:
+      name: service
+      service: service
+      operational_state: operational_state
+      indexing: indexing
+      tools: tools
+      evidence_source: {const: browser_ui}
+      source_url: source_url
+      target_salesforce_domain: target_salesforce_domain
+      oauth_client_id: oauth_client_id
+      oauth_scopes: oauth_scopes
+      workspace_label: workspace_label
+    display: "Rovo {service}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: {type: RovoOrganization, id: $req.organization}
+        basis: stated
+        require: [target]
+  - id: gws-authorization
+    kind: enrich
+    sources:
+      - provider: gws
+        call: GW-10
+        request: {application: admin}
+        items: items
+    # DWD 승인 이벤트가 있는 감사 항목만 단위로 센다(다른 관리 이벤트는 대상이 아니다)
+    where:
+      path: {op: some, of: events, where: {path: $item.name, eq: AUTHORIZE_API_CLIENT_ACCESS}}
+      truthy: true
+    vars:
+      event:
+        op: find
+        of: events
+        where: {path: $item.name, eq: AUTHORIZE_API_CLIENT_ACCESS}
+      client:
+        op: find
+        of: $vars.event.parameters
+        where: {path: $item.name, eq: API_CLIENT_NAME}
+      scopes:
+        op: find
+        of: $vars.event.parameters
+        where: {path: $item.name, eq: API_SCOPES}
+    target:
+      type: RovoConnector
+      lookup: oauth_client_id
+      value: $vars.client.value
+      exists: true
+    append:
+      dwd_authorization_observations:
+        object:
+          customer_id: id.customerId
+          time: id.time
+          client_id: $vars.client.value
+          scopes: $vars.scopes.value
+          action: {const: AUTHORIZE_API_CLIENT_ACCESS}
+          evidence: {const: observed}
+          current_grant_state: {const: not_established_by_historical_event}
+    observe: true
+    relations: []

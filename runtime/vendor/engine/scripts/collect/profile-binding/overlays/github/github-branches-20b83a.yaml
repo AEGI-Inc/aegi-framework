@@ -1,0 +1,18 @@
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full
+identity:
+  primary:
+    - name: ruleset_id
+      expr:
+        any:
+          - $req.ruleset_id
+          - $parent.id
+      stability: parent_scoped
+    - name: rule_type
+      expr: type
+      stability: parent_scoped
+  scope: parent
+manual_basis: A ruleset rule has its ruleset ID in the request or enclosing
+  ruleset, and its discriminating type in the record; ruleset_id is not a rule
+  record property.

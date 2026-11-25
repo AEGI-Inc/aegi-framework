@@ -1,0 +1,173 @@
+format: im-pilot-profile/1
+scope: catalog_spec5_record_projection
+provider: slack
+service: null
+object_type: workflow-collaborator
+interfaces:
+  - Assignment
+model:
+  research_type: null
+  runtime_type_id: model-v1:slack:workflow-collaborator
+  decision_refs:
+    - model-v1 runtime record_projection
+    - V2-P2
+vars:
+  wf: $parent.id
+  u:
+    op: str
+    of: .
+identity:
+  primary:
+    - name: wf
+      expr: $vars.wf
+      stability: catalog_reviewed
+    - name: u
+      expr: $vars.u
+      stability: catalog_reviewed
+  scope: tenant
+  evidence:
+    source: catalog_spec5_key
+    key_template: SLK-WFCOLLAB-{wf}-{u}
+binding:
+  status: catalog_call
+  call: SL-17
+  operation_id: op:slack_docs_methods:admin.workflows.search
+  each: collaborators
+  paths:
+    - shape: sh:slack_docs_methods:op:admin.workflows.search:resp:200.workflows[*].collaborators
+      path:
+        - workflows
+        - "*"
+  basis: catalog spec:5 sources
+fields:
+  workflow_id:
+    expr: $vars.wf
+    source: catalog_spec5
+  user_id:
+    expr: .
+    source: catalog_spec5
+references: []
+relation_plans: []
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - password
+    - token
+overlay_basis:
+  from: aegi-adapter-engine catalog/slack/profiles/workflow_collaborator.yaml
+  engine_commit: d78062d
+  research_agreement: no_research_type
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: SL-17
+        items: workflows
+        each: collaborators
+        where:
+          all:
+            - path: $parent.id
+              present: true
+            - has:
+                type: 200.members[*]
+                id:
+                  op: str
+                  of: .
+    vars:
+      wf: $parent.id
+      u:
+        op: str
+        of: .
+    id_expr:
+      template: "{$vars.wf}:{$vars.u}"
+    parts:
+      wf: $vars.wf
+      u: $vars.u
+    parent:
+      ref:
+        type: 200.workflows[*]
+        id: $vars.wf
+      when: always
+    refs:
+      grantee:
+        ref:
+          type: 200.members[*]
+          id: $vars.u
+        value: $vars.u
+    properties:
+      workflow_id: $vars.wf
+      user_id: .
+    display: "{$parent.title|$parent.id} 협업자 {$vars.u}"
+    relations:
+      - type: has_role_on
+        source:
+          type: 200.members[*]
+          id: $vars.u
+        target:
+          type: 200.workflows[*]
+          id: $vars.wf
+        role:
+          name:
+            const: collaborator
+        basis: stated
+        properties:
+          via_assignment: $self
+    identity:
+      primary:
+        - name: wf
+          expr: $vars.wf
+          stability: catalog_reviewed
+        - name: u
+          expr: $vars.u
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: SLK-WFCOLLAB-{wf}-{u}
+runtime_stub: null
+runtime_key: SLK-WFCOLLAB-{wf}-{u}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: workflow-collaborator:list
+    sources:
+      - call: SL-17
+        items: workflows
+        each: collaborators
+        where:
+          all:
+            - path: $parent.id
+              present: true
+            - has:
+                type: user
+                id:
+                  op: str
+                  of: .
+    vars:
+      wf: $parent.id
+      u:
+        op: str
+        of: .
+    relations:
+      - type: has_role_on
+        source:
+          type: 200.members[*]
+          id: $vars.u
+        target:
+          type: 200.workflows[*]
+          id: $vars.wf
+        role:
+          name:
+            const: collaborator
+        basis: stated
+        properties:
+          via_assignment: $self
+    self_identity: object_rule

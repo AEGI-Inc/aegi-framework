@@ -1,0 +1,74 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/okta/profiles/event_hook.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: OK-17
+        request:
+          kind: event_hooks
+      - call: OK-17
+        request:
+          kind: absent
+        endpoint: /eventHooks(\?|$)
+    properties:
+      name: name
+      status: status
+      events:
+        any:
+          - events.type
+          - events
+      channel:
+        if:
+          path: channel
+          truthy: true
+        then:
+          object:
+            type: channel.type
+            uri: channel.config.uri
+        else: null
+      created: created
+      lastUpdated: lastUpdated
+    display: 이벤트 훅 {name|id}
+    relations:
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: OKTA-EVTHOOK-{id}
+runtime_stub: null
+runtime_key: OKTA-EVTHOOK-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: EventHook:list
+    sources:
+      - call: OK-17
+        request:
+          kind: event_hooks
+      - call: OK-17
+        request:
+          kind: absent
+        endpoint: /eventHooks(\?|$)
+    relations:
+      - type: owned_by
+        source: $self
+        target: $tenant
+        basis: stated
+    self_identity: object_rule
+# Profile 상수: knowledge schema/catalog/okta/research.json 의 EventHook decision.constants(오브젝트 모델 v1 결정)를 옮긴다.
+# 2026-11-01 관계 결정(relation_semantics.yaml owned_by.outbound_endpoint)이 이 값으로 고른다
+constants:
+  direction:
+    const: out

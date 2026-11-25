@@ -1,0 +1,41 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: discoveryengine
+object_type: AlphaEvolveExperiment
+interfaces: [Resource]
+# 근거: Discovery Engine v1alpha Discovery 문서의 GoogleCloudDiscoveryengineV1alphaAlphaEvolveExperiment 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-03 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-GE-AEEXP-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-03
+        request: {kind: alpha_evolve_experiments}
+        items: alphaEvolveExperiments
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    properties:
+      createTime: createTime
+      stats: stats
+      initialAlphaEvolveProgram: initialAlphaEvolveProgram
+      config: config
+      state: state
+    display: "{name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Session, id: {op: regex, of: name, pattern: "^(.+)/alphaEvolveExperiments/[^/]+$"}}
+        basis: stated
+        require: [target]

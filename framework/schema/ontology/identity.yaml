@@ -1,0 +1,39 @@
+# 신원 연결 단계
+#
+# 0단계에서 원본 표를 그대로 옮겼다. 값을 고칠 때는 이 파일을 고치고 원본도 같이 고친다.
+# 명세 쪽은 validation/check_ontology.py, 대시보드 쪽은 ontology/tools/check_dashboard.py 가 대조한다.
+
+sources:
+  link_levels: docs/Link_Schema_v3.md 「단계와 전이 정책」
+  engine_level_grades: aegi-dashboard src/model/link.ts IdentityLink.level · src/detection/v2/identity.ts levelGrade() @ 0ee565f
+
+link_levels:
+- name: disclosed_relation
+  transitive: within_hub_only
+  meaning: '**벤더가 포인터를 줬다.** 우리가 맞춘 게 아니다'
+  example: SCIM `externalId`, Okta `AppUser.externalId`
+- name: resolved
+  transitive: within_hub_only
+  meaning: 결정적인 규칙이 확정했다
+  example: IdP 프로비저닝 + 유일키, 같은 email(2026-11-03), 같은 조직이 DNS 로 확인한 별칭 도메인의 같은 앞부분 email(2026-11-14)
+- name: possibly_same
+  transitive: false
+  meaning: 약한 키로 맞췄다
+  example: username
+- name: possibly_related
+  transitive: false
+  meaning: 더 약하다
+  example: 같은 표시 이름
+- name: different
+  transitive: false
+  meaning: '**아니라고 판정했다**'
+  example: 사람이 검토함
+
+engine_level_grades:
+  resolved: strong
+  candidate: weak
+  inferred: weak
+  disclosed_relation: strong
+  possibly_same: weak
+  possibly_related: weak
+  different: null

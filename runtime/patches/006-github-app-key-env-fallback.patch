@@ -1,0 +1,41 @@
+diff --git a/vendor/engine/scripts/collect/config.ts b/vendor/engine/scripts/collect/config.ts
+index ea137a7..a1a3d0b 100644
+--- a/vendor/engine/scripts/collect/config.ts
++++ b/vendor/engine/scripts/collect/config.ts
+@@ -227,13 +227,20 @@ export class Credentials {
+     const direct = this.env[name]
+     if (direct) return inlinePem(direct)
+     const file = this.env[`${name}_FILE`]
+-    if (!file) return undefined
+-    const resolved = path.isAbsolute(file) ? file : path.join(this.baseDir, file)
+-    try {
+-      return this.readFile(resolved).trim() || undefined
+-    } catch {
+-      return undefined
++    if (file) {
++      const resolved = path.isAbsolute(file) ? file : path.join(this.baseDir, file)
++      try {
++        const content = this.readFile(resolved).trim()
++        if (content) return content
++      } catch {
++        // ignore
++      }
+     }
++    if (name === 'GITHUB_APP_PRIVATE_KEY' || name === 'GITHUB_APP_ID') {
++      const proc = process.env[name]
++      if (proc) return inlinePem(proc)
++    }
++    return undefined
+   }
+ 
+   set(name: string, value: string): void {
+@@ -310,6 +317,9 @@ export function credentialKeyNames(creds: Credentials, id: CredentialId): readon
+   if (id === 'CRED-AT-01' && creds.get('ATLASSIAN_COLLECTOR_REFRESH_TOKEN') && !creds.get('ATLASSIAN_COLLECTOR_API_TOKEN')) {
+     return CREDENTIAL_OAUTH_KEYS['CRED-AT-01']!
+   }
++  if (id === 'CRED-AT-ORG-01' && !creds.get('ATLASSIAN_COLLECTOR_ORG_API_KEY') && creds.get('ATLASSIAN_ORG_AUDIT_API_KEY')) {
++    return ['ATLASSIAN_ORG_AUDIT_API_KEY']
++  }
+   return CREDENTIAL_KEYS[id]
+ }
+ 

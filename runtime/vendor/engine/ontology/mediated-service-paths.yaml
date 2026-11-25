@@ -1,0 +1,40 @@
+format: mediated-service-paths/1
+# 출처(O2, 2026-11-17 git log 로 찾아 적음). 모든 칸은 96dd3f3(aegi-knowledge#80, 2026-10-27)이 처음 적었고 그 뒤 안 바뀌었다.
+# 글로 적은 계약이고 엔진은 이 파일을 읽지 않는다(엔진 scripts/collect/shared/mediatedServicePaths.ts 가 따로 구현)
+sources:
+  format: 96dd3f3(#80). 파일 양식 이름
+  status: 96dd3f3(#80). 구현 후보
+  purpose: 96dd3f3(#80). A → 중간 → B 로 확인한 설정 경로를 A → B 서비스 연결로 보여 주고 중간과 원래 근거를 남긴다
+  storage: 96dd3f3(#80). WorkerScript 속성 mediated_service_paths 로 D1 에 저장하는 화면용 기록(관계 · Link 아님)
+  fields: 96dd3f3(#80). 경로 기록의 칸
+  matching: 96dd3f3(#80). 들어온 경로 지문, GitHub contents PUT, Okta reset_factors 를 확인한 경우만
+  display: 96dd3f3(#80). 중간 객체를 기본 그래프에서 숨기고 저장한 경로를 그린다
+  boundaries: 96dd3f3(#80). 경로는 권한 · 자격 신원이 아니고 탐지 · EA 에 들지 않는다
+status: implementation_candidate
+purpose: Display a verified A -> intermediary -> B configured path as an A -> B service connection while retaining the intermediary and original evidence.
+storage:
+  object_properties: WorkerScript.mediated_service_paths
+  scope: Presentation records computed by the adapter and persisted in D1, not new canonical Relations or identity Links.
+fields:
+  id: Stable path identifier
+  source_object_key: Existing source request Endpoint
+  target_object_key: Existing unique final target object
+  operation: Verified HTTP operation and resource kind
+  via: Intermediary object key, admitted request route and deployed code fingerprint
+  evidence: stated for configured code paths; observed execution evidence must be separately identified
+  source_relation_keys: Existing trigger relation identifying the request endpoint
+  conditions: Original workspace/channel checks may still gate execution; do not infer authorization or successful execution
+matching:
+  ingress: Match only an existing trigger endpoint and the exact admitted route fingerprint.
+  github: Resolve the repository by exact configured owner/name after proving that the dispatched callback reaches a PUT to the GitHub contents API.
+  okta: Resolve the user ID within the exact configured Okta origin after proving callback -> client request -> POST reset_factors.
+  ambiguous_or_unresolved: Report without rendering a guessed service connection.
+display:
+  default: Hide objects explicitly marked intermediary from the target-SaaS graph and render persisted service paths between their existing endpoints.
+  details: Show intermediary, operation, source code fingerprint, source evidence and configured-only status.
+boundaries:
+  - Nine Interfaces and seventeen Relation names are unchanged.
+  - A service path does not grant access, establish credential identity or participate in detection/EA as a synthetic canonical Relation.
+  - No client-side composition from coincidentally shared workers or service hosts.
+  - A webhook that only writes receiver logs has no final target SaaS connection.
+  - Physical infrastructure and raw relations remain available as provenance; default graph visibility does not delete evidence.

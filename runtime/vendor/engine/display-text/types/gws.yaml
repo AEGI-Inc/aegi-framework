@@ -1,0 +1,32 @@
+# 검토된 화면 설명 문구. 사람이 쓰고 고친다. 비어 있는 종류는 npm run display-text 가 AI 로 만들어 캐시하고, 검토를 거쳐 여기로 옮긴다.
+# types 의 키는 object_type 소문자. 「종류 — 꾸밈말」 꼴은 화면에서 「꾸밈말 종류」로 붙인다.
+provider: gws
+format: aegi-display-text/v1
+name: Google Workspace
+profile:
+  role: 문서, 메일, 자동화
+  points:
+    - 드라이브 문서, 설문, 그룹 메일
+    - 파일 공유 권한과 그룹 멤버십으로 정하는 문서 열람자
+    - 실행한 사람 권한으로 문서를 읽어 밖으로 보낼 수 있는 Apps Script
+types:
+  customer:
+    meaning: Google Workspace 테넌트
+  user:
+    meaning: Google Workspace 사용자 계정
+  group:
+    meaning: Google 그룹 — 멤버에게 메일, 문서 권한을 함께 주는
+  member:
+    meaning: 그룹 구성원 기록
+  permission:
+    meaning: 드라이브 파일 공유 권한
+  file:
+    meaning: 드라이브 파일
+  form:
+    meaning: Google 설문지
+  project:
+    meaning: Apps Script 프로젝트 — 사람 대신 자동으로 실행되는
+  role:
+    meaning: Google Workspace 관리자 역할
+  roleassignment:
+    meaning: 누구에게 관리자 역할을 줬는지의 기록

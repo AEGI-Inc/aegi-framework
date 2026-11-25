@@ -1,0 +1,317 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/atlassian/profiles/share_permission.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: view
+    kind: object
+    sources:
+      - call: JI-07
+        items: (array_or:values|results)
+        each: sharePermissions
+    vars:
+      access:
+        const: view
+      filter:
+        op: str
+        of: $parent.id
+    id_expr:
+      template: "{$vars.filter}:{$vars.access}:{id}"
+    parts:
+      f: $vars.filter
+      a: $vars.access
+      s: id
+    parent:
+      ref:
+        type: Filter
+        id: $vars.filter
+      when: always
+    properties:
+      share_type: type
+      access: $vars.access
+      project:
+        op: null_if_missing
+        of: project.id
+      project_role:
+        op: null_if_missing
+        of: role.id
+    display: "{$parent.name|$parent.id} → {type}"
+    relations:
+      - type: has_role_on
+        when:
+          any:
+            - all:
+                - path: type
+                  eq: user
+                - path: user.accountId
+                  truthy: true
+            - all:
+                - path: type
+                  eq: group
+                - path: group.groupId
+                  truthy: true
+        source:
+          switch: type
+          cases:
+            user:
+              type: User
+              id: user.accountId
+            group:
+              type: FoundGroup
+              id: group.groupId
+        target:
+          type: Filter
+          id: $vars.filter
+        role:
+          name: $vars.access
+        basis: stated
+        properties:
+          via_assignment: $self
+      - type: shared_with
+        when:
+          path: type
+          in:
+            - global
+            - authenticated
+            - loggedin
+        source:
+          type: Filter
+          id: $vars.filter
+        target: $tenant
+        basis: stated
+        properties:
+          via_assignment: $self
+          share_type: type
+    identity:
+      primary:
+        - name: f
+          expr: $vars.filter
+          stability: catalog_reviewed
+        - name: a
+          expr: $vars.access
+          stability: catalog_reviewed
+        - name: s
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: JIRA-SHARE-{f}-{a}-{s}
+  - id: edit
+    kind: object
+    sources:
+      - call: JI-07
+        items: (array_or:values|results)
+        each: editPermissions
+    vars:
+      access:
+        const: edit
+      filter:
+        op: str
+        of: $parent.id
+    id_expr:
+      template: "{$vars.filter}:{$vars.access}:{id}"
+    parts:
+      f: $vars.filter
+      a: $vars.access
+      s: id
+    parent:
+      ref:
+        type: Filter
+        id: $vars.filter
+      when: always
+    properties:
+      share_type: type
+      access: $vars.access
+      project:
+        op: null_if_missing
+        of: project.id
+      project_role:
+        op: null_if_missing
+        of: role.id
+    display: "{$parent.name|$parent.id} → {type}"
+    relations:
+      - type: has_role_on
+        when:
+          any:
+            - all:
+                - path: type
+                  eq: user
+                - path: user.accountId
+                  truthy: true
+            - all:
+                - path: type
+                  eq: group
+                - path: group.groupId
+                  truthy: true
+        source:
+          switch: type
+          cases:
+            user:
+              type: User
+              id: user.accountId
+            group:
+              type: FoundGroup
+              id: group.groupId
+        target:
+          type: Filter
+          id: $vars.filter
+        role:
+          name: $vars.access
+        basis: stated
+        properties:
+          via_assignment: $self
+      - type: shared_with
+        when:
+          path: type
+          in:
+            - global
+            - authenticated
+            - loggedin
+        source:
+          type: Filter
+          id: $vars.filter
+        target: $tenant
+        basis: stated
+        properties:
+          via_assignment: $self
+          share_type: type
+    identity:
+      primary:
+        - name: f
+          expr: $vars.filter
+          stability: catalog_reviewed
+        - name: a
+          expr: $vars.access
+          stability: catalog_reviewed
+        - name: s
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: JIRA-SHARE-{f}-{a}-{s}
+runtime_stub: null
+runtime_key: JIRA-SHARE-{f}-{a}-{s}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: SharePermission:view
+    sources:
+      - call: JI-07
+        items: (array_or:values|results)
+        each: sharePermissions
+    vars:
+      access:
+        const: view
+      filter:
+        op: str
+        of: $parent.id
+    relations:
+      - type: has_role_on
+        when: &a1
+          any:
+            - all:
+                - path: type
+                  eq: user
+                - path: user.accountId
+                  truthy: true
+            - all:
+                - path: type
+                  eq: group
+                - path: group.groupId
+                  truthy: true
+        source:
+          switch: type
+          cases:
+            user:
+              type: User
+              id: user.accountId
+            group:
+              type: FoundGroup
+              id: group.groupId
+        target:
+          type: Filter
+          id: $vars.filter
+        role: &a2
+          name: $vars.access
+        basis: stated
+        properties: &a3
+          via_assignment: $self
+      - type: shared_with
+        when: &a4
+          path: type
+          in:
+            - global
+            - authenticated
+            - loggedin
+        source:
+          type: Filter
+          id: $vars.filter
+        target: $tenant
+        basis: stated
+        properties: &a5
+          via_assignment: $self
+          share_type: type
+    self_identity: object_rule
+  - id: SharePermission:edit
+    sources:
+      - call: JI-07
+        items: (array_or:values|results)
+        each: editPermissions
+    vars:
+      access:
+        const: edit
+      filter:
+        op: str
+        of: $parent.id
+    relations:
+      - type: has_role_on
+        when: *a1
+        source:
+          switch: type
+          cases:
+            user:
+              type: User
+              id: user.accountId
+            group:
+              type: FoundGroup
+              id: group.groupId
+        target:
+          type: Filter
+          id: $vars.filter
+        role: *a2
+        basis: stated
+        properties: *a3
+      - type: shared_with
+        when: *a4
+        source:
+          type: Filter
+          id: $vars.filter
+        target: $tenant
+        basis: stated
+        properties: *a5
+    self_identity: object_rule
+vars:
+  access:
+    const: view
+  filter:
+    op: str
+    of: $parent.id
+identity:
+  primary:
+    - name: f
+      expr: $vars.filter
+      stability: catalog_reviewed
+    - name: a
+      expr: $vars.access
+      stability: catalog_reviewed
+    - name: s
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: JIRA-SHARE-{f}-{a}-{s}
+    replaced:
+      - $req.parent_id
+      - id

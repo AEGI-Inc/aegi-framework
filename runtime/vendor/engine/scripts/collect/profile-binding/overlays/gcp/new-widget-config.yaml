@@ -1,0 +1,86 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: gcp
+service: discoveryengine
+object_type: WidgetConfig
+interfaces: [Policy]
+# 근거: Discovery Engine v1alpha Discovery 문서의 GoogleCloudDiscoveryengineV1alphaWidgetConfig 스키마. 명세에만 있음, 우리 환경 미조회(저장된 실제 응답 없음).
+# 호출 ID GCP-03 와 request.kind 는 수집기(scripts/collect/providers/gcp.ts)와 맞춘 것이다. 실제 Google API 로는 돌려 보지 않았다.
+# 웹 앱 공개 접근·허용 도메인 설정.
+identity:
+  primary:
+    - {name: id, expr: name, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [access_token, accessToken, refresh_token, refreshToken, client_secret, clientSecret, secret, password, token, securityToken, api_key, apiKey, privateKeyData, private_key, privateKey]
+runtime_key: GCP-GE-WIDGET-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GCP-03
+        request: {kind: widget_config}
+        items: (root)
+    tenant: {switch: {if: {path: name, matches: "^projects/[0-9]+(/|$)"}, then: {const: number}, else: {const: id}}, cases: {number: {type: Project, id: {op: regex, of: name, pattern: "^(projects/[^/]+)"}}, id: {type: Project, lookup: projectId, value: {op: regex, of: name, pattern: "^projects/([^/]+)"}}}}
+    id_expr: name
+    properties:
+      collectionComponents: collectionComponents
+      enableResultScore: enableResultScore
+      enableQualityFeedback: enableQualityFeedback
+      assistantSettings: assistantSettings
+      enableConversationalSearch: enableConversationalSearch
+      accessSettings: accessSettings
+      enableSummarization: enableSummarization
+      enablePrivateKnowledgeGraph: enablePrivateKnowledgeGraph
+      displayName: displayName
+      fieldsUiComponentsMap: fieldsUiComponentsMap
+      geminiBundle: geminiBundle
+      uiBranding: uiBranding
+      allowlistedDomains: allowlistedDomains
+      resultDisplayType: resultDisplayType
+      batchAuthStatuses: batchAuthStatuses
+      uiSettings: uiSettings
+      contentSearchSpec: contentSearchSpec
+      facetField: facetField
+      configId: configId
+      createTime: createTime
+      enableSnippetResultSummary: enableSnippetResultSummary
+      dataStoreUiConfigs: dataStoreUiConfigs
+      enableWebApp: enableWebApp
+      dataStoreType: dataStoreType
+      industryVertical: industryVertical
+      homepageSetting: homepageSetting
+      defaultSearchRequestOrderBy: defaultSearchRequestOrderBy
+      nodes: nodes
+      customerProvidedConfig: customerProvidedConfig
+      updateTime: updateTime
+      enableSafeSearch: enableSafeSearch
+      minimumDataTermAccepted: minimumDataTermAccepted
+      enableAutocomplete: enableAutocomplete
+      allowPublicAccess: allowPublicAccess
+      solutionType: solutionType
+      llmEnabled: llmEnabled
+      enableSearchAsYouType: enableSearchAsYouType
+      access_allow_public_access: accessSettings.allowPublicAccess
+      access_allowlisted_domains: accessSettings.allowlistedDomains
+      access_enable_web_app: accessSettings.enableWebApp
+      access_workforce_identity_pool_provider: accessSettings.workforceIdentityPoolProvider
+      activation: {const: standing}
+    display: "{displayName|title|name}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Engine, id: {op: regex, of: name, pattern: "^(.+/engines/[^/]+)/widgetConfigs/[^/]+$"}}
+        when: {path: name, matches: "^(.+/engines/[^/]+)/widgetConfigs/[^/]+$"}
+        basis: stated
+        require: [target]
+      - type: contained_in
+        source: $self
+        target: {type: DataStore, id: {op: regex, of: name, pattern: "^(.+/dataStores/[^/]+)/widgetConfigs/[^/]+$"}}
+        when: {path: name, matches: "^(.+/dataStores/[^/]+)/widgetConfigs/[^/]+$"}
+        basis: stated
+        require: [target]

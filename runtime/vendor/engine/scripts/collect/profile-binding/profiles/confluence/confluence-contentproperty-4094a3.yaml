@@ -1,0 +1,454 @@
+format: im-pilot-profile/1
+scope: selected_read_route_only
+provider: confluence
+service: null
+object_type: ContentProperty
+interfaces: &a1
+  - Resource
+model:
+  research_type: object-type:52a6d98c55536da7f44094a3
+identity:
+  primary:
+    - name: parent_id
+      expr: $req.parent_id
+      stability: undocumented
+    - name: id
+      expr: id
+      stability: undocumented
+  scope: parent
+  evidence:
+    source: im_types
+    locator: id=object-type:52a6d98c55536da7f44094a3.identity_evidence
+  parent:
+    type: blogposts
+    expr: $req.parent_id
+tenant_binding:
+  type: Space
+  service: null
+  call: CF-01
+  items: results
+  id: id
+fields:
+  id:
+    path: id
+    source: research_shape
+    shape: sh:confluence_openapi_v2:ContentProperty
+    declaration:
+      name: id
+      required: false
+      scalar: string
+    map_items:
+      - space:ContentProperty|id
+  key:
+    path: key
+    source: research_shape
+    shape: sh:confluence_openapi_v2:ContentProperty
+    declaration:
+      name: key
+      required: false
+      scalar: string
+    map_items:
+      - space:ContentProperty|key
+  value:
+    path: value
+    source: research_shape
+    shape: sh:confluence_openapi_v2:ContentProperty
+    declaration:
+      name: value
+      required: false
+      scalar: any
+    map_items:
+      - space:ContentProperty|value
+  version:
+    path: version
+    source: research_shape
+    shape: sh:confluence_openapi_v2:ContentProperty
+    declaration:
+      name: version
+      required: false
+      shape: sh:confluence_openapi_v2:Version
+    map_items: []
+references:
+  - name: parent_scope
+    field: $req.parent_id
+    target: blogposts
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:13d8da84c1639383ed3ab6fb (blogposts/{}) -> blogposts
+  - name: parent_scope_2
+    field: $req.parent_id
+    target: custom-content
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:343a9250bcf9e45739dcd9a7 (custom-content/{}) -> custom-content
+  - name: parent_scope_3
+    field: $req.parent_id
+    target: whiteboards
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:379c77733b88cfdf10e1d98f (whiteboards/{}) -> whiteboards
+  - name: parent_scope_4
+    field: $req.parent_id
+    target: embeds
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:7192b4eb5c202d386c582930 (embeds/{}) -> embeds
+  - name: parent_scope_5
+    field: $req.parent_id
+    target: folders
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:76b79f08008e3d5f7904660e (folders/{}) -> folders
+  - name: parent_scope_6
+    field: $req.parent_id
+    target: databases
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:a2e7ca6f140ecdaa47e801f9 (databases/{}) -> databases
+  - name: parent_scope_7
+    field: $req.parent_id
+    target: parent:comments/{}
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:cf3dd401d632f0a11c088040 (comments/{}) -> parent:comments/{}
+  - name: parent_scope_8
+    field: $req.parent_id
+    target: attachments
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:e5f25cfbc20e82d6d6a23f87 (attachments/{}) -> attachments
+  - name: parent_scope_9
+    field: $req.parent_id
+    target: pages
+    relation: contained_in
+    reviewed_at: 2026-10-25
+    rationale: IM v1 proven containment containment:f34ffe2dfb0b87f2b80ecd9a (pages/{}) -> pages
+constants:
+  grant_target:
+    const: true
+row_contracts: {}
+relation_plans:
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope
+    produced_by_reference: parent_scope
+    basis: stated
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope_2
+    produced_by_reference: parent_scope_2
+    basis: stated
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope_3
+    produced_by_reference: parent_scope_3
+    basis: stated
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope_4
+    produced_by_reference: parent_scope_4
+    basis: stated
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope_5
+    produced_by_reference: parent_scope_5
+    basis: stated
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope_6
+    produced_by_reference: parent_scope_6
+    basis: stated
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope_7
+    produced_by_reference: parent_scope_7
+    basis: stated
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope_8
+    produced_by_reference: parent_scope_8
+    basis: stated
+  - type: contained_in
+    source: $self
+    target: $refs.parent_scope_9
+    produced_by_reference: parent_scope_9
+    basis: stated
+privacy:
+  secret_leaf_names:
+    - access_token
+    - refresh_token
+    - client_secret
+    - signing_secret
+    - verification_token
+    - bot_access_token
+    - app_token
+    - api_token
+    - sharedSecret
+    - privateKeyData
+    - password
+    - passwordHash
+    - passwordSalt
+  secret_paths:
+    - _embedded.activation.challenge
+  object_rules:
+    - when_key: kty
+      fields:
+        - n
+        - e
+        - x5c
+  token_patterns:
+    - ^xox
+    - hooks\.slack\.com/services/
+  redact_write_only: true
+  write_only_paths: []
+unknown_fields: quarantine_record
+source_metadata_fields: &a2 []
+engine_profile:
+  provider: confluence
+  object_type: ContentProperty
+  interfaces: *a1
+  model:
+    research_type: object-type:52a6d98c55536da7f44094a3
+  extract:
+    key: PILOT-confluence-ContentProperty-{id}
+    rules:
+      - id: im_projection
+        kind: object
+        tenant: none
+        id_expr:
+          template: "{$req.parent_id}|{id}"
+        sources:
+          - call: AUTO-CONFLUENCE-4094a3
+            endpoint: /
+            items:
+              - properties.results
+        properties:
+          id: id
+          key: key
+          value: value
+          version: version
+          _pilot_source_record: .
+        display: IM pilot
+binding:
+  status: documented_not_collected
+  call: null
+  operation_id: op:confluence_openapi_v2:getAttachmentContentProperties
+  operation: getAttachmentContentProperties
+  surface: rest
+  method: GET
+  kind: read_many
+  endpoint: /attachments/[^/]+/properties(?:\?|$)
+  endpoint_template: /attachments/{attachment-id}/properties
+  request: {}
+  required_params:
+    - attachment-id
+  paths:
+    - shape: sh:confluence_openapi_v2:ContentProperty
+      path:
+        - results
+        - "*"
+  alternatives_total: 25
+  alternatives:
+    - operation_id: op:confluence_openapi_v2:getBlogpostContentProperties
+      method: GET
+      kind: read_many
+      endpoint_template: /blogposts/{blogpost-id}/properties
+      path:
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getCommentContentProperties
+      method: GET
+      kind: read_many
+      endpoint_template: /comments/{comment-id}/properties
+      path:
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getCustomContentContentProperties
+      method: GET
+      kind: read_many
+      endpoint_template: /custom-content/{custom-content-id}/properties
+      path:
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getDatabaseContentProperties
+      method: GET
+      kind: read_many
+      endpoint_template: /databases/{id}/properties
+      path:
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getFolderContentProperties
+      method: GET
+      kind: read_many
+      endpoint_template: /folders/{id}/properties
+      path:
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getPageContentProperties
+      method: GET
+      kind: read_many
+      endpoint_template: /pages/{page-id}/properties
+      path:
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getSmartLinkContentProperties
+      method: GET
+      kind: read_many
+      endpoint_template: /embeds/{id}/properties
+      path:
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getWhiteboardContentProperties
+      method: GET
+      kind: read_many
+      endpoint_template: /whiteboards/{id}/properties
+      path:
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getAttachmentContentPropertiesById
+      method: GET
+      kind: read_one
+      endpoint_template: /attachments/{attachment-id}/properties/{property-id}
+      path: &a3 []
+    - operation_id: op:confluence_openapi_v2:getBlogpostContentPropertiesById
+      method: GET
+      kind: read_one
+      endpoint_template: /blogposts/{blogpost-id}/properties/{property-id}
+      path: *a3
+    - operation_id: op:confluence_openapi_v2:getCommentContentPropertiesById
+      method: GET
+      kind: read_one
+      endpoint_template: /comments/{comment-id}/properties/{property-id}
+      path: *a3
+    - operation_id: op:confluence_openapi_v2:getCustomContentContentPropertiesById
+      method: GET
+      kind: read_one
+      endpoint_template: /custom-content/{custom-content-id}/properties/{property-id}
+      path: *a3
+    - operation_id: op:confluence_openapi_v2:getDatabaseContentPropertiesById
+      method: GET
+      kind: read_one
+      endpoint_template: /databases/{database-id}/properties/{property-id}
+      path: *a3
+    - operation_id: op:confluence_openapi_v2:getFolderContentPropertiesById
+      method: GET
+      kind: read_one
+      endpoint_template: /folders/{folder-id}/properties/{property-id}
+      path: *a3
+    - operation_id: op:confluence_openapi_v2:getPageContentPropertiesById
+      method: GET
+      kind: read_one
+      endpoint_template: /pages/{page-id}/properties/{property-id}
+      path: *a3
+    - operation_id: op:confluence_openapi_v2:getSmartLinkContentPropertiesById
+      method: GET
+      kind: read_one
+      endpoint_template: /embeds/{embed-id}/properties/{property-id}
+      path: *a3
+    - operation_id: op:confluence_openapi_v2:getWhiteboardContentPropertiesById
+      method: GET
+      kind: read_one
+      endpoint_template: /whiteboards/{whiteboard-id}/properties/{property-id}
+      path: *a3
+    - operation_id: op:confluence_openapi_v2:getFooterComments
+      method: GET
+      kind: read_many
+      endpoint_template: /footer-comments
+      path:
+        - results
+        - "*"
+        - properties
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getInlineComments
+      method: GET
+      kind: read_many
+      endpoint_template: /inline-comments
+      path:
+        - results
+        - "*"
+        - properties
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getAttachmentById
+      method: GET
+      kind: read_one
+      endpoint_template: /attachments/{id}
+      path:
+        - properties
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getBlogPostById
+      method: GET
+      kind: read_one
+      endpoint_template: /blogposts/{id}
+      path:
+        - properties
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getCustomContentById
+      method: GET
+      kind: read_one
+      endpoint_template: /custom-content/{id}
+      path:
+        - properties
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getFooterCommentById
+      method: GET
+      kind: read_one
+      endpoint_template: /footer-comments/{comment-id}
+      path:
+        - properties
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getInlineCommentById
+      method: GET
+      kind: read_one
+      endpoint_template: /inline-comments/{comment-id}
+      path:
+        - properties
+        - results
+        - "*"
+    - operation_id: op:confluence_openapi_v2:getPageById
+      method: GET
+      kind: read_one
+      endpoint_template: /pages/{id}
+      path:
+        - properties
+        - results
+        - "*"
+  basis: ir_read_response_reachability
+  selection: tie_needs_review
+provenance:
+  research_type_snapshot: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+  research_files:
+    map/info_map.json: fcade0e0d3a98180585704e08d614b03f045dbbee0bb4e95b19e5f19625b3a47
+    ir/shape.jsonl: 07219a625b7ba774972cb75ea00cadf20dcf4ada7b9bc586f8e97d822695c0e7
+    ir/operation.jsonl: 50e8e81bd51c7189f98371308a059657fe71e759e3bca74b0a954307084f4570
+  reviewed_facts: e2f0b2cfaf2506f24b094c948f2b5b3e91a481d95b22cec8db9cef8cc98cd90b
+  source_hashes:
+    okta_management_openapi: 369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25
+    gws_directory: 1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5
+    gws_drive: 5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c
+    gh_rest_ghec_next_2026_03_10_latest: ab56a14fceb4f63d05282b6b90fbb8c575a6bd6e64d4c9d74751ead873860cc3
+    gh_rest_ghec_default_2026_10_13: 9c4be35c8aed2260c271c683e66d1f2d3d5eb939c4d525e877f1876526d7e4e8
+    object_contract: c40481784683aaa9dde299d3c6a52e498ae60cb2cb0b6cada1cd961fc79fe1d7
+    interface_contract: e742f58adf5670b6e0428ef6c97422cdc3c5940a040122effc6ab9614a2cea14
+    relation_contract: a7fd36d358c82a3d8270192821b98c7deaf07af130fcc7af6e18740181968000
+    g4_decisions: 1c275ba8d29457a69713e367c26aa658b32c0230f587c941464d8d0287b1d189
+    im_types: 0e3290cd45c77b2bb20880b0e86fcb3358cdbc00afebc8c2dec404f831e3bf58
+    im_relation_decisions: b739fc2eb3cd47602ea21cd1f8656a50b56d0fd4ca3f2f28a2e8674731d92192
+    salesforce_system_fields: 5a9b2f59cfdb30f58371cb6977e1661ef74f098bd47fedae9e7d4e395cda2a19
+    slack_conversation_document: c09565a519701531acb3628ae983deed7bfd95a94bca1a411e3b4b2ce65dc6be
+boundary:
+  - not_all_operations_of_type
+  - not_production_catalog_schema
+  - reference_targets_without_profiles_remain_outside_scope
+  - nested_values_preserved_using_research_shape_not_flattened
+routing:
+  identifier_paths:
+    - id
+  reference_paths: []
+  metadata_paths: *a2
+  remaining_declared_fields: properties

@@ -1,0 +1,95 @@
+overlay_basis:
+  from: aegi-adapter-engine catalog/github/profiles/self_hosted_runners.yaml
+  engine_commit: d78062d
+  research_agreement: same
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: GH-32
+        request:
+          kind: runners
+        items: runners
+        where:
+          all:
+            - path: id
+              defined: true
+            - has:
+                type: runner-groups-org
+                id: $req.runner_group
+    parent:
+      ref:
+        type: runner-groups-org
+        id: $req.runner_group
+      when: always
+    properties:
+      name: name
+      os: os
+      status: status
+      busy: busy
+      ephemeral:
+        op: null_if_missing
+        of: ephemeral
+      labels:
+        op: pluck
+        of: labels
+        field: name
+    display: 러너 {name}
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: runner-groups-org
+          id: $req.runner_group
+        basis: stated
+    identity:
+      primary:
+        - name: id
+          expr: id
+          stability: catalog_reviewed
+      scope: tenant
+    key_template: GH-RUNNER-{id}
+runtime_stub: null
+runtime_key: GH-RUNNER-{id}
+runtime_identifiers:
+  primary:
+    - id
+  id:
+    stability: stable
+relation_rules:
+  - id: Self hosted runners:list
+    sources:
+      - call: GH-32
+        request:
+          kind: runners
+        items: runners
+        where:
+          all:
+            - path: id
+              defined: true
+            - has:
+                type: Runner Group
+                id: $req.runner_group
+    relations:
+      - type: contained_in
+        source: $self
+        target:
+          type: runner-groups-org
+          id: $req.runner_group
+        basis: stated
+    self_identity: object_rule
+identity:
+  primary:
+    - name: id
+      expr: id
+      stability: catalog_reviewed
+  scope: parent
+  evidence:
+    source: catalog_spec5_key
+    key_template: GH-RUNNER-{id}
+    replaced:
+      - $req.parent_id
+      - id
+tenant_binding:
+  type: organization-full
+tenant_basis: 생성기의 tenant 이름 Organization 은 카탈로그 이름이다. 새 Profile 의 조직 타입은 organization-full

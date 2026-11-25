@@ -1,0 +1,1890 @@
+# 4절 묶음 판정 (11-08 사용자 검토). 항목	대상 종류	in/out/review
+ISMS-P:1.2.1-01	slack Message	out
+ISMS-P:1.2.1-01	salesforce PackageLicense	in
+ISMS-P:1.2.1-01	github public-user	review
+ISMS-P:1.2.1-01	atlassian Domain	in
+ISMS-P:1.2.1-01	github custom-agents	out
+ISMS-P:1.2.1-01	gws Alert	in
+ISMS-P:1.2.1-01	atlassian ServerInformation	in
+ISMS-P:1.2.1-01	salesforce Report	review
+ISMS-P:1.2.1-01	external Host	in
+ISMS-P:1.2.1-01	atlassian page	review
+ISMS-P:1.2.1-02	slack Message	out
+ISMS-P:1.2.1-02	slack conversation	review
+ISMS-P:1.2.1-02	atlassian spaces	review
+ISMS-P:1.2.1-02	github commit	out
+ISMS-P:1.2.1-02	github Repository	in
+ISMS-P:1.2.1-02	salesforce Lead	review
+ISMS-P:1.2.1-02	salesforce Opportunity	review
+ISMS-P:1.2.1-02	atlassian page	review
+ISMS-P:1.2.1-03	salesforce PackageLicense	in
+ISMS-P:1.2.1-03	gws OrgUnit	in
+ISMS-P:1.2.1-03	slack Message	out
+ISMS-P:1.2.1-03	github public-user	review
+ISMS-P:1.2.1-03	atlassian Domain	in
+ISMS-P:1.2.1-03	salesforce Group	review
+ISMS-P:1.2.1-03	atlassian Org	in
+ISMS-P:1.2.1-03	atlassian spaces	review
+ISMS-P:1.2.1-03	gws Alert	in
+ISMS-P:1.2.1-03	atlassian FoundGroup	review
+ISMS-P:1.2.1-03	atlassian ServerInformation	in
+ISMS-P:1.2.1-03	salesforce Organization	in
+ISMS-P:1.2.1-03	slack conversation	review
+ISMS-P:1.2.1-03	slack defs_enterprise_id	in
+ISMS-P:1.2.1-03	external Host	in
+ISMS-P:1.2.1-03	atlassian page	review
+ISMS-P:1.2.2-01	salesforce ApexClass	out
+ISMS-P:1.2.2-01	salesforce GenAiPluginDefinition	out
+ISMS-P:1.2.2-01	gws 관계 receives_into (Form → File)	review
+ISMS-P:1.2.2-02	slack Message	out
+ISMS-P:1.2.2-02	salesforce PackageLicense	out
+ISMS-P:1.2.2-02	gws File	review
+ISMS-P:1.2.2-02	slack conversation	review
+ISMS-P:1.2.2-02	atlassian spaces	review
+ISMS-P:1.2.2-02	github Repository	out
+ISMS-P:1.2.2-02	slack defs_app_id	out
+ISMS-P:1.2.2-02	salesforce Lead	in
+ISMS-P:1.2.2-02	atlassian page	review
+ISMS-P:1.2.2-02	github 관계 triggered_by (workflow → Repository)	out
+ISMS-P:1.2.2-03	slack Message	out
+ISMS-P:1.2.2-03	gws File	review
+ISMS-P:1.2.2-03	salesforce PackageLicense	out
+ISMS-P:1.2.2-03	slack conversation	review
+ISMS-P:1.2.2-03	atlassian spaces	review
+ISMS-P:1.2.2-03	github Repository	out
+ISMS-P:1.2.2-03	salesforce Lead	in
+ISMS-P:1.2.2-03	external Host	in
+ISMS-P:1.2.2-03	atlassian page	review
+ISMS-P:2.1.3-01	okta ResourceSetResource	out
+ISMS-P:2.1.3-01	slack Message	out
+ISMS-P:2.1.3-01	github Repository	in
+ISMS-P:2.1.3-01	gws Form	review
+ISMS-P:2.1.3-01	slack conversation	review
+ISMS-P:2.1.3-01	atlassian page	review
+ISMS-P:2.1.3-02	slack Message	out
+ISMS-P:2.1.3-02	atlassian spaces	review
+ISMS-P:2.1.3-02	slack conversation	review
+ISMS-P:2.1.3-02	salesforce Report	review
+ISMS-P:2.1.3-02	atlassian page	review
+ISMS-P:2.10.1-04	github organization-role	out
+ISMS-P:2.10.1-04	github enterprise-role	out
+ISMS-P:2.10.2-02	atlassian Domain	in
+ISMS-P:2.10.2-02	gws Domains	in
+ISMS-P:2.10.2-02	gws Policy	review
+ISMS-P:2.10.2-02	slack defs_enterprise_id	in
+ISMS-P:2.10.2-03	okta BehaviorRule	in
+ISMS-P:2.10.2-04	okta ResourceSetResource	out
+ISMS-P:2.10.5-02	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	review
+ISMS-P:2.10.5-02	slack defs_app_id	out
+ISMS-P:2.10.5-02	okta Application	in
+ISMS-P:2.10.5-02	okta OAuth2Client	in
+ISMS-P:2.10.5-02	salesforce PackageLicense	in
+ISMS-P:2.10.5-02	gws Form	review
+ISMS-P:2.10.5-02	okta AuthorizationServer	out
+ISMS-P:2.10.5-02	external Host	in
+ISMS-P:2.10.5-02	gws 관계 receives_into (MailAddress → Mailbox)	review
+ISMS-P:2.11.3-01	gws Policy	review
+ISMS-P:2.11.3-01	okta BehaviorRule	in
+ISMS-P:2.11.3-01	okta ThreatInsightConfiguration	in
+ISMS-P:2.2.1-02	slack 200.members[*]	review
+ISMS-P:2.2.1-02	slack 200.bot	out
+ISMS-P:2.2.1-02	atlassian User	review
+ISMS-P:2.2.1-02	okta User	review
+ISMS-P:2.2.1-02	gws User	review
+ISMS-P:2.2.1-02	github organization-role	out
+ISMS-P:2.2.1-02	github enterprise-role	out
+ISMS-P:2.2.1-02	salesforce User	review
+ISMS-P:2.2.1-02	github public-user	review
+ISMS-P:2.2.1-02	gws Role	in
+ISMS-P:2.2.1-03	slack 관계 member_of (200.members[*] → 200.team)	in
+ISMS-P:2.2.1-03	slack 관계 member_of (200.members[*] → conversation)	review
+ISMS-P:2.2.1-03	slack 200.bot	out
+ISMS-P:2.2.1-03	github 관계 has_role_on (simple-user → Repository)	in
+ISMS-P:2.2.1-03	gws 관계 member_of (User → OrgUnit)	in
+ISMS-P:2.2.1-03	okta 관계 member_of (User → OrgSetting)	in
+ISMS-P:2.2.1-03	salesforce 관계 has_role_on (User → Report)	review
+ISMS-P:2.2.1-03	github public-user	review
+ISMS-P:2.2.1-03	atlassian 관계 member_of (User → ServerInformation)	in
+ISMS-P:2.2.1-03	salesforce 관계 member_of (User → Organization)	in
+ISMS-P:2.2.2-01	slack 200.bot	out
+ISMS-P:2.2.2-01	salesforce ExtlClntAppPlcyCnfg	in
+ISMS-P:2.2.2-01	github organization-role	out
+ISMS-P:2.2.2-01	atlassian SecurityScheme	in
+ISMS-P:2.2.2-01	salesforce ContentDocumentLink	out
+ISMS-P:2.2.2-01	okta 관계 member_of (User → OrgSetting)	in
+ISMS-P:2.2.2-01	github public-user	review
+ISMS-P:2.2.2-01	okta ClientPrivilegesSetting	out
+ISMS-P:2.2.2-01	salesforce ExtlClntAppOauthPlcyCnfg	in
+ISMS-P:2.2.2-01	slack 200.members[*]	review
+ISMS-P:2.2.2-01	atlassian 관계 member_of (User → ServerInformation)	in
+ISMS-P:2.2.2-01	slack 관계 member_of (200.members[*] → 200.team)	in
+ISMS-P:2.2.5-02	atlassian User	review
+ISMS-P:2.2.5-02	slack 200.members[*]	review
+ISMS-P:2.2.5-02	slack 200.bot	out
+ISMS-P:2.2.5-02	gws Token	in
+ISMS-P:2.2.5-02	github public-user	review
+ISMS-P:2.2.5-02	salesforce ContentDocumentLink	out
+ISMS-P:2.2.5-02	salesforce User	review
+ISMS-P:2.2.5-02	github 관계 has_role_on (deploy-key → Repository)	in
+ISMS-P:2.2.5-02	slack 관계 member_of (200.members[*] → 200.team)	in
+ISMS-P:2.3.1-01	atlassian User	review
+ISMS-P:2.3.1-01	slack 200.members[*]	review
+ISMS-P:2.3.1-01	okta 관계 authenticates_with (User → OAuth2RefreshToken)	in
+ISMS-P:2.3.1-01	slack 200.bot	out
+ISMS-P:2.3.1-01	salesforce User	review
+ISMS-P:2.3.1-01	okta User	review
+ISMS-P:2.3.1-01	okta 관계 registered_in (Application → OrgSetting)	in
+ISMS-P:2.3.1-01	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	out
+ISMS-P:2.3.1-01	gws User	review
+ISMS-P:2.3.1-01	slack defs_app_id	out
+ISMS-P:2.3.1-01	okta Application	in
+ISMS-P:2.3.1-01	okta OAuth2Client	in
+ISMS-P:2.3.1-01	slack 관계 registered_in (defs_app_id → defs_enterprise_id)	out
+ISMS-P:2.3.1-01	slack 관계 shared_with (conversation → 200.team)	out
+ISMS-P:2.3.4-01	okta OAuth2ScopeConsentGrant	in
+ISMS-P:2.3.4-01	okta AssignedAppLink	out
+ISMS-P:2.3.4-01	slack 200.members[*]	review
+ISMS-P:2.3.4-01	gws Token	in
+ISMS-P:2.3.4-01	atlassian SpacePermission	in
+ISMS-P:2.3.4-01	okta AppUser	review
+ISMS-P:2.3.4-01	slack 200.bot	out
+ISMS-P:2.3.4-01	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	out
+ISMS-P:2.3.4-01	slack 관계 member_of (200.members[*] → 200.team)	review
+ISMS-P:2.3.4-01	okta User	review
+ISMS-P:2.3.4-01	salesforce 관계 member_of (User → Organization)	review
+ISMS-P:2.3.4-01	gws User	review
+ISMS-P:2.3.4-01	salesforce User	review
+ISMS-P:2.3.4-01	okta 관계 authenticates_with (User → UserFactor)	review
+ISMS-P:2.3.4-01	atlassian User	review
+ISMS-P:2.3.4-01	okta CustomRole	out
+ISMS-P:2.3.4-01	okta 관계 member_of (User → Group)	review
+ISMS-P:2.3.4-01	gws Permission	in
+ISMS-P:2.3.4-01	okta 관계 member_of (User → OrgSetting)	review
+ISMS-P:2.3.4-01	gws 관계 member_of (User → OrgUnit)	review
+ISMS-P:2.3.4-01	gws 관계 member_of (User → Customer)	review
+ISMS-P:2.3.4-01	salesforce 관계 has_role_on (User → Opportunity)	review
+ISMS-P:2.3.4-01	gws AclRule	in
+ISMS-P:2.3.4-01	slack 200.entities[*]	out
+ISMS-P:2.3.4-01	slack 관계 member_of (200.members[*] → conversation)	review
+ISMS-P:2.3.4-01	okta 관계 authenticates_with (User → OAuth2RefreshToken)	in
+ISMS-P:2.3.4-01	github 관계 has_role_on (simple-user → Repository)	review
+ISMS-P:2.3.4-01	atlassian 관계 member_of (User → FoundGroup)	review
+ISMS-P:2.3.4-01	github credential-authorizations	in
+ISMS-P:2.3.4-01	gws RoleAssignment	out
+ISMS-P:2.3.4-01	salesforce GroupMember	out
+ISMS-P:2.3.4-01	salesforce SessionPermSetActivation	out
+ISMS-P:2.3.4-01	salesforce PermissionSetAssignment	in
+ISMS-P:2.3.4-01	atlassian 관계 member_of (User → ServerInformation)	review
+ISMS-P:2.3.4-01	atlassian 관계 runs_as (AutomationRule → personal-access-tokens)	in
+ISMS-P:2.3.4-01	okta ApplicationGroupAssignment	in
+ISMS-P:2.3.4-01	okta 관계 has_role_on (Group → Application)	in
+ISMS-P:2.3.4-01	okta 관계 has_role_on (User → OrgSetting)	review
+ISMS-P:2.3.4-01	slack 관계 has_role_on (200.members[*] → 200.team)	review
+ISMS-P:2.3.4-01	salesforce 관계 has_role_on (User → Report)	review
+ISMS-P:2.3.4-01	github personal-access-tokens	in
+ISMS-P:2.3.4-01	atlassian SharePermission	in
+ISMS-P:2.3.4-01	salesforce OauthToken	in
+ISMS-P:2.3.4-01	salesforce UserPermissionAccess	in
+ISMS-P:2.3.4-01	slack 200.profile	out
+ISMS-P:2.3.4-01	okta 관계 has_role_on (Group → OrgSetting)	out
+ISMS-P:2.3.4-01	slack 관계 has_role_on (200.members[*] → defs_enterprise_id)	review
+ISMS-P:2.3.4-01	github 관계 authenticates_with (simple-user → personal-access-tokens)	in
+ISMS-P:2.3.4-01	okta 관계 authenticates_with (User → actions-secret)	review
+ISMS-P:2.3.4-01	atlassian 관계 authenticates_with (User → actions-secret)	review
+ISMS-P:2.5.1-02	salesforce ContentDocumentLink	out
+ISMS-P:2.5.1-02	github public-user	review
+ISMS-P:2.5.2-01	github public-user	review
+ISMS-P:2.5.2-02	okta User	review
+ISMS-P:2.5.2-02	gws 관계 member_of (User → OrgUnit)	review
+ISMS-P:2.5.2-02	atlassian User	review
+ISMS-P:2.5.2-02	slack 200.entities[*]	out
+ISMS-P:2.5.2-02	slack 200.members[*]	review
+ISMS-P:2.5.2-02	gws Permission	out
+ISMS-P:2.5.2-02	github 관계 has_role_on (simple-user → Repository)	review
+ISMS-P:2.5.2-02	salesforce ContentDocumentLink	out
+ISMS-P:2.5.2-02	gws User	review
+ISMS-P:2.5.2-02	github public-user	review
+ISMS-P:2.5.2-02	salesforce GroupMember	out
+ISMS-P:2.5.2-02	salesforce WorkAccess	out
+ISMS-P:2.5.2-02	github 관계 has_role_on (deploy-key → Repository)	out
+ISMS-P:2.5.2-02	atlassian 관계 member_of (User → ServerInformation)	review
+ISMS-P:2.5.2-02	slack 관계 member_of (200.members[*] → conversation)	review
+ISMS-P:2.5.2-02	slack 관계 member_of (200.members[*] → 200.team)	review
+ISMS-P:2.5.3-01	okta AuthenticatorBase	in
+ISMS-P:2.5.3-01	gws 관계 applies_to (Policy → Customer)	review
+ISMS-P:2.5.3-02	gws 관계 applies_to (Policy → Customer)	review
+ISMS-P:2.5.3-02	slack 관계 applies_to (Policy → 200.members[*])	in
+ISMS-P:2.5.3-02	okta Policy	in
+ISMS-P:2.5.3-02	okta PolicyRule	in
+ISMS-P:2.5.3-02	okta BehaviorRule	in
+ISMS-P:2.5.3-02	gws Policy	review
+ISMS-P:2.5.3-02	okta TrustedOrigin	in
+ISMS-P:2.5.4-01	okta PolicyRule	in
+ISMS-P:2.5.4-02	okta AuthenticatorBase	in
+ISMS-P:2.5.4-02	okta Policy	in
+ISMS-P:2.5.4-02	okta PolicyRule	in
+ISMS-P:2.5.4-02	okta UserLockoutSettings	in
+ISMS-P:2.5.4-03	github deploy-key	in
+ISMS-P:2.5.4-03	okta AuthorizationServerJsonWebKey	in
+ISMS-P:2.5.5-01	atlassian User	review
+ISMS-P:2.5.5-01	slack 200.members[*]	review
+ISMS-P:2.5.5-01	slack 200.bot	out
+ISMS-P:2.5.5-01	okta User	review
+ISMS-P:2.5.5-01	gws User	review
+ISMS-P:2.5.5-01	github public-user	review
+ISMS-P:2.5.5-01	salesforce User	review
+ISMS-P:2.5.5-02	salesforce User	review
+ISMS-P:2.5.5-02	gws User	review
+ISMS-P:2.5.5-02	atlassian User	review
+ISMS-P:2.5.5-02	slack 200.members[*]	review
+ISMS-P:2.5.5-02	github public-user	review
+ISMS-P:2.5.6-01	salesforce ContentDocumentLink	out
+ISMS-P:2.5.6-01	github public-user	review
+ISMS-P:2.5.6-02	slack 200.bot	out
+ISMS-P:2.5.6-02	salesforce Group	review
+ISMS-P:2.5.6-02	github public-user	review
+ISMS-P:2.5.6-02	salesforce ContentDocumentLink	out
+ISMS-P:2.5.6-02	atlassian SpecialPrincipal	out
+ISMS-P:2.5.6-02	github 관계 has_role_on (deploy-key → Repository)	in
+ISMS-P:2.6.2-02	okta PolicyRule	in
+ISMS-P:2.6.2-02	okta Policy	in
+ISMS-P:2.6.2-02	okta 관계 applies_to (PolicyRule → User)	in
+ISMS-P:2.6.3-01	gws Policy	review
+ISMS-P:2.6.3-01	okta OAuth2Scope	in
+ISMS-P:2.6.3-01	gws 관계 member_of (User → OrgUnit)	in
+ISMS-P:2.6.3-01	github 관계 has_role_on (simple-user → Repository)	in
+ISMS-P:2.6.3-01	salesforce ContentDocumentLink	out
+ISMS-P:2.6.3-01	salesforce ExtlClntAppPlcyCnfg	in
+ISMS-P:2.6.3-01	github 관계 has_role_on (deploy-key → Repository)	in
+ISMS-P:2.6.3-01	github 관계 has_role_on (simple-user → organization-full)	review
+ISMS-P:2.6.3-02	okta PolicyRule	in
+ISMS-P:2.6.3-02	okta Policy	in
+ISMS-P:2.6.3-02	okta 관계 applies_to (Policy → Group)	in
+ISMS-P:2.6.3-02	okta 관계 applies_to (PolicyRule → User)	in
+ISMS-P:2.6.3-03	okta BehaviorRule	in
+ISMS-P:2.6.3-03	github organization-role	out
+ISMS-P:2.6.3-03	gws Policy	review
+ISMS-P:2.6.3-03	okta AuthenticatorBase	in
+ISMS-P:2.6.3-03	okta Policy	in
+ISMS-P:2.6.3-03	gws 관계 applies_to (Policy → Customer)	review
+ISMS-P:2.6.3-03	okta 관계 applies_to (Policy → Group)	in
+ISMS-P:2.6.3-03	okta PolicyRule	in
+ISMS-P:2.6.3-03	slack 관계 applies_to (Policy → 200.members[*])	in
+ISMS-P:2.6.3-03	github 관계 has_role_on (installation → organization-full)	out
+ISMS-P:2.6.3-03	github enterprise-role	out
+ISMS-P:2.6.3-03	okta UserLockoutSettings	in
+ISMS-P:2.6.3-03	salesforce Profile	in
+ISMS-P:2.6.3-03	slack Policy	in
+ISMS-P:2.6.3-03	github 관계 has_role_on (simple-user → organization-full)	review
+ISMS-P:2.6.3-05	salesforce ExtlClntAppPlcyCnfg	in
+ISMS-P:2.6.3-05	salesforce Profile	in
+ISMS-P:2.6.3-05	salesforce UserRole	in
+ISMS-P:2.6.3-05	salesforce PermissionSetGroup	in
+ISMS-P:2.6.6-03	gws 관계 applies_to (Policy → Customer)	review
+ISMS-P:2.6.6-03	gws Policy	review
+ISMS-P:2.6.6-03	okta Policy	in
+ISMS-P:2.6.6-03	okta PolicyRule	in
+ISMS-P:2.6.6-03	okta AuthenticatorBase	in
+ISMS-P:2.6.6-03	okta BehaviorRule	in
+ISMS-P:2.6.6-03	okta 관계 applies_to (PolicyRule → User)	in
+ISMS-P:2.6.6-03	atlassian Domain	in
+ISMS-P:2.6.6-03	okta 관계 applies_to (Policy → Group)	in
+ISMS-P:2.6.6-03	github Enterprise	in
+ISMS-P:2.6.6-03	okta OrgSetting	in
+ISMS-P:2.6.6-03	okta UserLockoutSettings	in
+ISMS-P:2.6.6-03	salesforce Organization	in
+ISMS-P:2.7.1-02	gws Policy	review
+ISMS-P:2.7.1-02	salesforce IframeWhiteListUrl	in
+ISMS-P:2.7.1-02	okta TrustedOrigin	in
+ISMS-P:2.7.1-02	salesforce BrowserPolicyViolation	in
+ISMS-P:2.7.2-02	salesforce 관계 has_role_on (User → Organization)	in
+ISMS-P:2.7.2-02	okta UserFactor	review
+ISMS-P:2.7.2-02	okta 관계 authenticates_with (User → UserFactor)	review
+ISMS-P:2.8.3-01	slack 관계 member_of (200.members[*] → conversation)	out
+ISMS-P:2.8.3-01	salesforce 관계 member_of (User → Organization)	in
+ISMS-P:2.8.3-01	gws 관계 contained_in (OrgUnit → Customer)	in
+ISMS-P:2.8.3-01	gws 관계 member_of (User → OrgUnit)	in
+ISMS-P:2.8.3-01	slack 200.entities[*]	out
+ISMS-P:2.8.3-01	gws 관계 member_of (User → Customer)	in
+ISMS-P:2.8.3-01	github 관계 contained_in (branch-with-protection → Repository)	in
+ISMS-P:2.8.3-01	gws OrgUnit	in
+ISMS-P:2.8.3-01	github 관계 contained_in (commit → Repository)	out
+ISMS-P:2.8.3-01	atlassian 관계 contained_in (Domain → Org)	in
+ISMS-P:2.8.3-01	github 관계 contained_in (check-immutable-releases → Repository)	in
+ISMS-P:2.8.3-01	atlassian Org	in
+ISMS-P:2.8.3-01	github Enterprise	in
+ISMS-P:2.8.3-01	github organization-full	out
+ISMS-P:2.8.3-01	github Repository	in
+ISMS-P:2.8.3-01	gws Customer	in
+ISMS-P:2.8.3-01	gws Domains	out
+ISMS-P:2.8.3-01	gws Permission	out
+ISMS-P:2.8.3-01	okta OrgSetting	in
+ISMS-P:2.8.3-01	salesforce ContentDocumentLink	out
+ISMS-P:2.8.3-01	slack 200.team_2	in
+ISMS-P:2.8.3-01	slack 200.team	in
+ISMS-P:2.8.3-01	slack defs_enterprise_id	in
+ISMS-P:2.8.3-01	github 관계 contained_in (branches → Repository)	in
+ISMS-P:2.8.3-01	gws 관계 contained_in (Domains → Customer)	in
+ISMS-P:2.8.3-01	atlassian 관계 member_of (User → ServerInformation)	in
+ISMS-P:2.8.3-02	slack 관계 contained_in (Message → conversation)	out
+ISMS-P:2.8.3-02	slack conversation	out
+ISMS-P:2.8.3-02	slack Message	out
+ISMS-P:2.8.3-02	atlassian spaces	out
+ISMS-P:2.8.3-02	slack 관계 contained_in (conversation → 200.team)	in
+ISMS-P:2.8.3-02	slack 관계 member_of (200.members[*] → conversation)	out
+ISMS-P:2.8.3-02	gws 관계 member_of (User → OrgUnit)	in
+ISMS-P:2.8.3-02	gws Calendar	out
+ISMS-P:2.8.3-02	gws 관계 contained_in (File → File)	review
+ISMS-P:2.8.3-02	gws File	out
+ISMS-P:2.8.3-02	atlassian 관계 contained_in (Domain → Org)	in
+ISMS-P:2.8.3-02	atlassian Project	out
+ISMS-P:2.8.3-02	salesforce Report	out
+ISMS-P:2.8.3-02	salesforce Lead	out
+ISMS-P:2.8.3-02	salesforce Opportunity	out
+ISMS-P:2.8.3-02	atlassian page	out
+ISMS-P:2.8.3-02	github 관계 contained_in (workflow → Repository)	in
+ISMS-P:2.8.3-02	gws 관계 contained_in (Domains → Customer)	in
+ISMS-P:2.8.3-02	slack 관계 contained_in (200.team → defs_enterprise_id)	in
+ISMS-P:2.8.4-01	slack 관계 contained_in (conversation → 200.team)	in
+ISMS-P:2.8.4-01	atlassian spaces	out
+ISMS-P:2.8.4-01	gws File	review
+ISMS-P:2.8.4-01	gws 관계 contained_in (File → File)	review
+ISMS-P:2.8.4-01	github commit	out
+ISMS-P:2.8.4-01	slack conversation	out
+ISMS-P:2.8.4-01	github 관계 contained_in (commit → Repository)	out
+ISMS-P:2.8.4-01	github custom-agents	out
+ISMS-P:2.8.4-01	atlassian Project	out
+ISMS-P:2.8.4-01	salesforce GenAiPluginDefinition	out
+ISMS-P:2.8.4-01	slack 관계 contained_in (Message → conversation)	out
+ISMS-P:2.8.4-02	slack 관계 contained_in (Message → conversation)	out
+ISMS-P:2.8.4-02	gws Calendar	out
+ISMS-P:2.8.4-02	gws File	out
+ISMS-P:2.8.4-02	gws 관계 contained_in (File → File)	review
+ISMS-P:2.8.4-02	atlassian spaces	out
+ISMS-P:2.8.4-02	slack 관계 contained_in (conversation → 200.team)	in
+ISMS-P:2.8.4-02	github Repository	in
+ISMS-P:2.8.4-02	slack Message	out
+ISMS-P:2.8.4-02	atlassian Project	out
+ISMS-P:2.8.4-02	slack conversation	out
+ISMS-P:2.8.4-02	gws Mailbox	out
+ISMS-P:2.8.5-03	github 관계 contained_in (workflow → Repository)	in
+ISMS-P:2.9.4-01	gws 관계 applies_to (Policy → Customer)	review
+ISMS-P:2.9.4-01	gws Policy	review
+ISMS-P:2.9.4-01	okta BehaviorRule	in
+ISMS-P:2.9.4-01	okta ThreatInsightConfiguration	in
+ISMS-P:2.9.4-02	salesforce 관계 has_role_on (User → Organization)	in
+ISMS-P:2.9.4-02	salesforce PermissionSet	in
+ISMS-P:2.9.4-02	gws Role	in
+ISMS-P:2.9.4-02	okta CustomRole	in
+ISMS-P:2.9.4-02	atlassian ProjectRole	in
+ISMS-P:2.9.4-02	gws 관계 has_role_on (User → Customer)	in
+ISMS-P:2.9.4-02	okta 관계 has_role_on (User → OrgSetting)	in
+ISMS-P:2.9.4-02	github enterprise-role	in
+ISMS-P:2.9.4-02	salesforce Profile	in
+ISMS-P:2.9.4-02	github 관계 has_role_on (installation → organization-full)	out
+ISMS-P:2.9.4-02	slack 관계 has_role_on (200.members[*] → 200.team)	in
+ISMS-P:2.9.4-02	okta IamRole	in
+ISMS-P:2.9.4-02	github 관계 has_role_on (simple-user → organization-full)	out
+ISMS-P:2.9.4-03	gws 관계 applies_to (Policy → Customer)	review
+ISMS-P:2.9.4-03	gws Customer	in
+ISMS-P:2.9.4-03	okta BehaviorRule	in
+ISMS-P:2.9.4-03	okta ThreatInsightConfiguration	in
+ISMS-P:2.9.4-03	slack 200.team_2	in
+ISMS-P:3.1.2-01	slack conversation	review
+ISMS-P:3.1.2-01	atlassian spaces	review
+ISMS-P:3.1.2-01	gws Calendar	review
+ISMS-P:3.1.2-01	gws File	review
+ISMS-P:3.1.2-01	gws Mailbox	in
+ISMS-P:3.1.2-01	atlassian Project	out
+ISMS-P:3.1.2-01	slack Message	out
+ISMS-P:3.1.3-01	gws File	out
+ISMS-P:3.1.3-01	slack 관계 contained_in (conversation → 200.team)	out
+ISMS-P:3.1.3-01	gws Calendar	out
+ISMS-P:3.1.3-01	atlassian spaces	out
+ISMS-P:3.1.3-01	gws Mailbox	out
+ISMS-P:3.1.3-01	gws 관계 contained_in (File → File)	out
+ISMS-P:3.1.3-01	atlassian Project	out
+ISMS-P:3.1.3-01	salesforce Lead	out
+ISMS-P:3.1.4-01	slack 관계 contained_in (Message → conversation)	out
+ISMS-P:3.1.4-01	slack conversation	review
+ISMS-P:3.1.4-01	gws File	review
+ISMS-P:3.1.4-01	gws 관계 contained_in (File → File)	review
+ISMS-P:3.1.4-01	atlassian spaces	review
+ISMS-P:3.1.4-01	slack 관계 contained_in (conversation → 200.team)	review
+ISMS-P:3.1.4-01	slack Message	out
+ISMS-P:3.1.4-01	github Repository	out
+ISMS-P:3.1.4-01	gws Calendar	review
+ISMS-P:3.1.4-01	atlassian Project	out
+ISMS-P:3.1.4-01	salesforce Opportunity	review
+ISMS-P:3.1.4-01	atlassian page	review
+ISMS-P:3.1.4-02	slack 관계 contained_in (Message → conversation)	out
+ISMS-P:3.1.4-02	slack conversation	review
+ISMS-P:3.1.4-02	atlassian spaces	review
+ISMS-P:3.1.4-02	gws File	review
+ISMS-P:3.1.4-02	gws Calendar	review
+ISMS-P:3.1.4-02	gws 관계 contained_in (File → File)	review
+ISMS-P:3.1.4-02	github Repository	out
+ISMS-P:3.1.4-02	gws Mailbox	in
+ISMS-P:3.1.4-02	slack 관계 contained_in (conversation → 200.team)	review
+ISMS-P:3.1.4-02	gws Form	in
+ISMS-P:3.1.4-02	atlassian Project	out
+ISMS-P:3.2.1-01	slack Message	out
+ISMS-P:3.2.1-01	slack 관계 contained_in (Message → conversation)	out
+ISMS-P:3.2.1-01	slack conversation	review
+ISMS-P:3.2.1-01	slack 관계 contained_in (conversation → 200.team)	review
+ISMS-P:3.2.1-01	atlassian spaces	review
+ISMS-P:3.2.1-01	gws File	review
+ISMS-P:3.2.1-01	gws 관계 contained_in (File → File)	review
+ISMS-P:3.2.1-01	gws Calendar	review
+ISMS-P:3.2.1-01	atlassian Project	out
+ISMS-P:3.2.1-01	salesforce Lead	in
+ISMS-P:3.2.1-01	salesforce Opportunity	review
+ISMS-P:3.2.1-01	atlassian page	review
+ISMS-P:3.2.5-04	okta AppUser	out
+ISMS-P:3.2.5-04	slack 관계 member_of (200.members[*] → conversation)	out
+ISMS-P:3.2.5-04	okta AssignedAppLink	out
+ISMS-P:3.2.5-04	atlassian SpacePermission	out
+ISMS-P:3.2.5-04	gws File	out
+ISMS-P:3.2.5-04	gws 관계 member_of (User → OrgUnit)	out
+ISMS-P:3.2.5-04	gws Calendar	out
+ISMS-P:3.2.5-04	okta 관계 contained_in (JsonWebKey → Application)	out
+ISMS-P:3.2.5-04	github 관계 has_role_on (simple-user → Repository)	out
+ISMS-P:3.2.5-04	gws AclRule	out
+ISMS-P:3.2.5-04	okta CustomRole	out
+ISMS-P:3.2.5-04	slack 200.entities[*]	out
+ISMS-P:3.2.5-04	okta 관계 contained_in (CustomRole → User)	out
+ISMS-P:3.2.5-04	okta 관계 has_role_on (User → OrgSetting)	out
+ISMS-P:3.2.5-04	slack 관계 contained_in (conversation → 200.team)	out
+ISMS-P:3.2.5-04	slack conversation	out
+ISMS-P:3.2.5-04	gws 관계 contained_in (File → File)	out
+ISMS-P:3.2.5-04	okta 관계 has_role_on (User → Application)	out
+ISMS-P:3.2.5-04	okta ApplicationGroupAssignment	out
+ISMS-P:3.2.5-04	salesforce ContentDocumentLink	out
+ISMS-P:3.2.5-04	salesforce GroupMember	out
+ISMS-P:3.2.5-04	okta 관계 has_role_on (Group → Application)	out
+ISMS-P:3.2.5-04	atlassian spaces	out
+ISMS-P:3.2.5-04	gws Form	out
+ISMS-P:3.2.5-04	gws Permission	out
+ISMS-P:3.2.5-04	atlassian Project	out
+ISMS-P:3.2.5-04	okta GroupRule	out
+ISMS-P:3.2.5-04	salesforce Opportunity	out
+ISMS-P:3.2.5-04	github 관계 contained_in (deploy-key → Repository)	out
+ISMS-P:3.2.5-04	okta 관계 contained_in (AuthorizationServerJsonWebKey → AuthorizationServer)	out
+ISMS-P:3.2.5-04	okta 관계 contained_in (CustomRole → Group)	out
+ISMS-P:3.2.5-04	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	out
+ISMS-P:3.2.5-04	github 관계 has_role_on (deploy-key → Repository)	out
+ISMS-P:3.2.5-04	github 관계 has_role_on (simple-user → organization-full)	out
+ISMS-P:3.2.5-04	gws 관계 has_role_on (User → File)	out
+ISMS-P:3.2.5-04	okta 관계 has_role_on (Group → OrgSetting)	out
+ISMS-P:3.2.5-04	slack 관계 has_role_on (200.members[*] → defs_enterprise_id)	out
+ISMS-P:3.2.5-05	gws Calendar	out
+ISMS-P:3.2.5-05	gws 관계 applies_to (Policy → Customer)	out
+ISMS-P:3.2.5-05	gws File	out
+ISMS-P:3.2.5-05	gws Policy	out
+ISMS-P:3.2.5-05	gws 관계 contained_in (File → File)	out
+ISMS-P:3.3.1-05	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	review
+ISMS-P:3.3.1-05	external Host	in
+ISMS-P:3.3.1-06	okta AssignedAppLink	out
+ISMS-P:3.3.1-06	atlassian SpacePermission	in
+ISMS-P:3.3.1-06	atlassian 관계 member_of (User → ServerInformation)	review
+ISMS-P:3.3.1-06	salesforce PermissionSetAssignment	in
+ISMS-P:3.3.1-06	atlassian 관계 member_of (User → FoundGroup)	review
+ISMS-P:3.3.1-06	slack 관계 member_of (200.members[*] → 200.team)	review
+ISMS-P:3.3.1-06	okta AppUser	review
+ISMS-P:3.3.1-06	okta User	review
+ISMS-P:3.3.1-06	slack 200.members[*]	review
+ISMS-P:3.3.1-06	salesforce PackageLicense	out
+ISMS-P:3.3.1-06	salesforce 관계 member_of (User → Organization)	review
+ISMS-P:3.3.1-06	okta 관계 member_of (User → OrgSetting)	review
+ISMS-P:3.3.1-06	salesforce User	review
+ISMS-P:3.3.1-06	okta CustomRole	in
+ISMS-P:3.3.1-06	gws 관계 member_of (User → OrgUnit)	review
+ISMS-P:3.3.1-06	okta 관계 member_of (User → Group)	review
+ISMS-P:3.3.1-06	slack 관계 member_of (200.members[*] → conversation)	review
+ISMS-P:3.3.1-06	salesforce 관계 has_role_on (User → Opportunity)	review
+ISMS-P:3.3.1-06	gws User	review
+ISMS-P:3.3.1-06	atlassian User	review
+ISMS-P:3.3.1-06	salesforce PermissionSetLicenseAssign	in
+ISMS-P:3.3.1-06	slack 200.entities[*]	out
+ISMS-P:3.3.1-06	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	review
+ISMS-P:3.3.1-06	atlassian 관계 has_role_on (User → Project)	review
+ISMS-P:3.3.1-06	github public-user	out
+ISMS-P:3.3.1-06	atlassian 관계 has_role_on (User → spaces)	review
+ISMS-P:3.3.1-06	github 관계 has_role_on (simple-user → Repository)	out
+ISMS-P:3.3.1-06	okta 관계 has_role_on (User → OrgSetting)	review
+ISMS-P:3.3.1-06	salesforce 관계 has_role_on (User → Organization)	review
+ISMS-P:3.3.1-06	okta Application	out
+ISMS-P:3.3.1-06	salesforce GroupMember	out
+ISMS-P:3.3.1-06	salesforce 관계 has_role_on (User → Report)	review
+ISMS-P:3.3.1-06	gws Permission	in
+ISMS-P:3.3.1-06	salesforce ContentDocumentLink	in
+ISMS-P:3.3.1-06	slack 관계 has_role_on (200.members[*] → 200.team)	review
+ISMS-P:3.3.1-06	salesforce 관계 member_of (User → Group)	review
+ISMS-P:3.3.1-06	atlassian SharePermission	in
+ISMS-P:3.3.1-06	okta ApplicationGroupAssignment	out
+ISMS-P:3.3.1-06	okta AuthorizationServer	out
+ISMS-P:3.3.1-06	okta OAuth2ScopeConsentGrant	in
+ISMS-P:3.3.1-06	salesforce UserPermissionAccess	in
+ISMS-P:3.3.1-06	slack 200.profile	out
+ISMS-P:3.3.1-06	okta 관계 has_role_on (Group → Application)	out
+ISMS-P:3.3.1-06	okta 관계 has_role_on (Group → OrgSetting)	out
+ISMS-P:3.3.1-06	slack 관계 has_role_on (200.members[*] → defs_enterprise_id)	review
+ISMS-P:3.3.1-06	gws 관계 member_of (User → Customer)	review
+ISMS-P:3.3.4-04	slack defs_app_id	out
+ISMS-P:3.3.4-04	okta Application	out
+ISMS-P:3.4.1-02	gws File	review
+ISMS-P:3.4.1-02	atlassian spaces	review
+ISMS-P:3.4.1-02	slack conversation	review
+ISMS-P:3.4.1-02	gws 관계 applies_to (Policy → Customer)	review
+ISMS-P:3.4.1-02	gws Policy	review
+ISMS-P:3.4.1-02	gws Calendar	review
+ISMS-P:3.4.1-02	atlassian Project	out
+ISMS-P:3.4.1-02	salesforce Lead	in
+ISMS-P:3.4.1-02	gws Mailbox	in
+ISMS-P:3.4.1-03	slack conversation	review
+ISMS-P:3.4.1-03	gws File	review
+ISMS-P:3.4.1-03	atlassian spaces	review
+ISMS-P:3.4.1-03	gws Calendar	review
+ISMS-P:3.4.1-03	gws 관계 applies_to (Policy → Customer)	review
+ISMS-P:3.4.1-03	gws Policy	review
+ISMS-P:3.4.1-03	gws Mailbox	in
+ISMS-P:3.4.1-03	github Repository	out
+ISMS-P:3.4.1-03	gws Form	in
+ISMS-P:3.4.1-03	atlassian Project	out
+ISMS-P:3.4.2-01	slack conversation	review
+ISMS-P:3.4.2-01	gws 관계 applies_to (Policy → Customer)	review
+ISMS-P:3.4.2-01	gws File	review
+ISMS-P:3.4.2-01	github Repository	out
+ISMS-P:3.4.2-01	gws Policy	review
+ISMS-P:3.4.2-01	gws Mailbox	in
+ISMS-P:3.4.2-01	atlassian spaces	review
+ISMS-P:3.4.2-01	gws Form	in
+ISMS-P:3.4.2-01	slack Message	out
+ISMS-P:3.4.2-01	atlassian page	review
+ISMS-P:3.4.2-02	slack 관계 contained_in (Message → conversation)	out
+ISMS-P:3.4.2-02	gws File	review
+ISMS-P:3.4.2-02	slack 관계 contained_in (conversation → 200.team)	review
+ISMS-P:3.4.2-02	atlassian spaces	review
+ISMS-P:3.4.2-02	gws Calendar	review
+ISMS-P:3.4.2-02	slack conversation	review
+ISMS-P:3.4.2-02	slack Message	out
+ISMS-P:3.4.2-02	gws 관계 contained_in (File → File)	review
+ISMS-P:3.4.2-02	gws Mailbox	in
+ISMS-P:3.4.2-02	gws Form	in
+ISMS-P:3.4.2-02	atlassian Project	out
+ISMS-P:3.4.2-03	salesforce PermissionSet	in
+ISMS-P:3.4.2-03	gws Policy	review
+ISMS-P:3.4.2-03	salesforce Profile	in
+ISMS-P:3.4.2-03	gws 관계 applies_to (Policy → Customer)	review
+ISMS-P:3.4.2-03	gws File	review
+ISMS-P:3.4.2-03	gws Role	in
+ISMS-P:3.4.2-03	atlassian ProjectRole	in
+ISMS-P:3.4.2-03	okta ResourceSetResource	out
+ISMS-P:3.4.2-03	salesforce PermissionSetGroup	in
+ISMS-P:3.4.2-03	github organization-role	out
+ISMS-P:3.4.2-03	slack 관계 shared_with (conversation → 200.team)	in
+ISMS-P:3.4.2-03	gws Calendar	review
+ISMS-P:3.4.2-03	atlassian spaces	review
+ISMS-P:3.4.2-03	salesforce ExtlClntAppOauthPlcyCnfg	out
+ISMS-P:3.4.2-03	salesforce ExtlClntAppPlcyCnfg	out
+ISMS-P:3.4.2-03	salesforce 관계 applies_to (ExtlClntAppOauthPlcyCnfg → ExternalClientApplication)	out
+ISMS-P:3.4.2-03	salesforce 관계 applies_to (ExtlClntAppPlcyCnfg → ExternalClientApplication)	out
+ISMS-P:3.4.2-03	atlassian PermissionScheme	in
+ISMS-P:3.4.2-03	okta IamRole	in
+ISMS-P:3.4.2-03	okta ResourceSet	out
+ISMS-P:3.4.2-03	atlassian SecurityScheme	in
+ISMS-P:3.4.2-03	salesforce UserRole	in
+ISMS-P:3.4.2-03	gws Mailbox	in
+ISMS-P:3.4.2-03	atlassian space-roles	out
+ISMS-P:3.4.2-03	github enterprise-role	out
+ISMS-P:3.4.2-03	gws Form	in
+ISMS-P:3.4.2-03	atlassian ApplicationRole	in
+ISMS-P:3.4.2-03	atlassian Permissions	in
+ISMS-P:3.4.2-03	okta ClientPrivilegesSetting	out
+ISMS-P:3.4.2-03	atlassian page	review
+ISMS-P:3.4.2-04	slack 관계 member_of (200.members[*] → conversation)	review
+ISMS-P:3.4.2-04	okta AssignedAppLink	out
+ISMS-P:3.4.2-04	slack 관계 member_of (200.members[*] → 200.team)	review
+ISMS-P:3.4.2-04	okta 관계 member_of (User → OrgSetting)	review
+ISMS-P:3.4.2-04	github public-user	out
+ISMS-P:3.4.2-04	okta ApplicationGroupAssignment	out
+ISMS-P:3.4.2-04	atlassian 관계 member_of (User → ServerInformation)	review
+ISMS-P:3.4.2-04	gws 관계 member_of (User → OrgUnit)	review
+PIPA:admin-23559:annex-7	slack 관계 member_of (200.members[*] → conversation)	out
+PIPA:admin-23559:annex-7	gws Policy	out
+PIPA:admin-23559:annex-7	slack 관계 member_of (200.members[*] → 200.team)	out
+PIPA:admin-23559:annex-7	slack 200.members[*]	out
+PIPA:admin-23559:annex-7	gws 관계 applies_to (Policy → Customer)	out
+PIPA:admin-23559:annex-7	slack 200.bot	out
+PIPA:admin-23559:annex-7	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:admin-23559:annex-7	okta AssignedAppLink	out
+PIPA:admin-23559:annex-7	gws 관계 contained_in (File → File)	out
+PIPA:admin-23559:annex-7	atlassian User	out
+PIPA:admin-23559:annex-7	okta User	out
+PIPA:admin-23559:annex-7	github Repository	out
+PIPA:admin-23559:annex-7	gws Calendar	out
+PIPA:admin-23559:annex-7	gws File	out
+PIPA:admin-23559:annex-7	gws Mailbox	out
+PIPA:admin-23559:annex-7	atlassian 관계 member_of (User → ServerInformation)	out
+PIPA:admin-23559:annex-7	gws 관계 member_of (User → OrgUnit)	out
+PIPA:admin-23559:annex-7	salesforce 관계 has_role_on (User → Report)	out
+PIPA:admin-23559:annex-7	atlassian spaces	out
+PIPA:admin-23559:annex-7	github public-user	out
+PIPA:admin-23559:annex-7	gws Alert	out
+PIPA:admin-23559:annex-7	salesforce BrowserPolicyViolation	out
+PIPA:admin-23559:annex-7	salesforce ContentDocumentLink	out
+PIPA:admin-23559:annex-7	salesforce 관계 member_of (User → Organization)	out
+PIPA:admin-23559:annex-7	salesforce 관계 has_role_on (User → Opportunity)	out
+PIPA:admin-23559:annex-8	slack conversation	out
+PIPA:admin-23559:annex-8	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:admin-23559:annex-8	okta ResourceSetResource	out
+PIPA:admin-23559:annex-8	slack 관계 contained_in (Message → conversation)	out
+PIPA:admin-23559:annex-8	github public-user	out
+PIPA:admin-23559:annex-8	github Repository	out
+PIPA:admin-23559:annex-8	slack Message	out
+PIPA:admin-23559:annex-8	atlassian spaces	out
+PIPA:admin-23559:annex-8	gws Form	out
+PIPA:admin-23559:annex-8	atlassian Project	out
+PIPA:admin-23559:annex-8	salesforce Report	out
+PIPA:admin-23559:annex-8	atlassian page	out
+PIPA:admin-23559:annex-8	gws 관계 contained_in (File → File)	out
+PIPA:admin-23559:annex-9	gws 관계 applies_to (Policy → Customer)	out
+PIPA:admin-23559:annex-9	gws Policy	out
+PIPA:admin-23559:annex-9	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:admin-23559:annex-9	atlassian spaces	out
+PIPA:admin-23559:annex-9	gws File	out
+PIPA:admin-23559:annex-9	github commit	out
+PIPA:admin-23559:annex-9	gws Calendar	out
+PIPA:admin-23559:annex-9	github 관계 contained_in (commit → Repository)	out
+PIPA:admin-23559:annex-9	gws 관계 contained_in (File → File)	out
+PIPA:admin-23559:annex-9	atlassian Project	out
+PIPA:admin-23559:annex-9	gws Mailbox	out
+PIPA:admin-73464:article-10	slack 관계 contained_in (Message → conversation)	out
+PIPA:admin-73464:article-10	slack Message	out
+PIPA:admin-73464:article-10	gws File	review
+PIPA:admin-73464:article-10	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:admin-73464:article-10	gws 관계 contained_in (File → File)	review
+PIPA:admin-73464:article-10	gws Calendar	review
+PIPA:admin-73464:article-10	atlassian spaces	review
+PIPA:admin-73464:article-10	slack conversation	review
+PIPA:admin-73464:article-10	gws Policy	review
+PIPA:admin-73464:article-10	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73464:article-10	gws Form	in
+PIPA:admin-73464:article-10	salesforce Lead	in
+PIPA:admin-73464:article-10	atlassian page	review
+PIPA:admin-73464:article-11	okta ResourceSetResource	out
+PIPA:admin-73464:article-11	okta 관계 contained_in (ResourceSetResource → ResourceSet)	out
+PIPA:admin-73464:article-11	gws File	review
+PIPA:admin-73464:article-11	slack conversation	review
+PIPA:admin-73464:article-11	slack 관계 contained_in (Message → conversation)	out
+PIPA:admin-73464:article-11	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:admin-73464:article-11	atlassian spaces	review
+PIPA:admin-73464:article-11	github organization-role	out
+PIPA:admin-73464:article-11	gws Calendar	review
+PIPA:admin-73464:article-11	salesforce PermissionSetGroup	in
+PIPA:admin-73464:article-11	gws 관계 contained_in (File → File)	review
+PIPA:admin-73464:article-11	salesforce ExtlClntAppPlcyCnfg	out
+PIPA:admin-73464:article-11	salesforce 관계 applies_to (ExtlClntAppOauthPlcyCnfg → ExternalClientApplication)	out
+PIPA:admin-73464:article-11	okta ResourceSet	out
+PIPA:admin-73464:article-11	atlassian SecurityScheme	in
+PIPA:admin-73464:article-11	github enterprise-role	out
+PIPA:admin-73464:article-11	github Repository	out
+PIPA:admin-73464:article-11	atlassian ApplicationRole	in
+PIPA:admin-73464:article-11	atlassian Project	out
+PIPA:admin-73464:article-11	okta ClientPrivilegesSetting	out
+PIPA:admin-73464:article-11	okta IamRole	in
+PIPA:admin-73464:article-11	salesforce ExtlClntAppOauthPlcyCnfg	out
+PIPA:admin-73464:article-11	salesforce Profile	in
+PIPA:admin-73464:article-11	salesforce UserRole	in
+PIPA:admin-73464:article-11	salesforce Lead	in
+PIPA:admin-73464:article-11	atlassian page	review
+PIPA:admin-73464:article-15	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73464:article-15	gws Policy	review
+PIPA:admin-73464:article-15	slack 관계 member_of (200.members[*] → conversation)	review
+PIPA:admin-73464:article-15	slack 200.bot	out
+PIPA:admin-73464:article-15	slack 관계 member_of (200.members[*] → 200.team)	review
+PIPA:admin-73464:article-15	okta BehaviorRule	out
+PIPA:admin-73464:article-15	okta AssignedAppLink	out
+PIPA:admin-73464:article-15	slack 200.entities[*]	out
+PIPA:admin-73464:article-15	github public-user	out
+PIPA:admin-73464:article-15	slack 200.members[*]	review
+PIPA:admin-73464:article-15	salesforce ContentDocumentLink	in
+PIPA:admin-73464:article-15	okta ThreatInsightConfiguration	out
+PIPA:admin-73464:article-17	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73464:article-17	gws Policy	review
+PIPA:admin-73464:article-17	okta AuthenticatorBase	out
+PIPA:admin-73464:article-17	okta BehaviorRule	out
+PIPA:admin-73464:article-17	slack 200.members[*]	review
+PIPA:admin-73464:article-17	github public-user	review
+PIPA:admin-73464:article-17	salesforce ContentDocumentLink	in
+PIPA:admin-73464:article-17	okta User	review
+PIPA:admin-73464:article-55	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:admin-73464:article-55	gws 관계 contained_in (File → File)	review
+PIPA:admin-73464:article-55	atlassian spaces	review
+PIPA:admin-73464:article-55	gws Calendar	review
+PIPA:admin-73464:article-55	gws File	review
+PIPA:admin-73464:article-55	slack 관계 contained_in (Message → conversation)	out
+PIPA:admin-73464:article-55	gws Policy	review
+PIPA:admin-73464:article-55	slack conversation	review
+PIPA:admin-73464:article-55	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73464:article-55	github Repository	out
+PIPA:admin-73464:article-59	gws Policy	review
+PIPA:admin-73464:article-59	okta ResourceSetResource	out
+PIPA:admin-73464:article-59	github organization-role	out
+PIPA:admin-73464:article-59	gws Calendar	review
+PIPA:admin-73464:article-59	gws File	review
+PIPA:admin-73464:article-59	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73464:article-59	atlassian spaces	review
+PIPA:admin-73464:article-59	atlassian ProjectRole	in
+PIPA:admin-73464:article-59	slack conversation	review
+PIPA:admin-73464:article-59	atlassian PermissionScheme	in
+PIPA:admin-73464:article-59	salesforce PermissionSet	in
+PIPA:admin-73464:article-59	salesforce PermissionSetGroup	in
+PIPA:admin-73464:article-59	atlassian space-roles	out
+PIPA:admin-73464:article-59	github enterprise-role	out
+PIPA:admin-73464:article-59	gws Role	in
+PIPA:admin-73464:article-59	atlassian SecurityScheme	in
+PIPA:admin-73464:article-59	salesforce Profile	in
+PIPA:admin-73464:article-59	gws Mailbox	in
+PIPA:admin-73464:article-59	gws Form	in
+PIPA:admin-73464:article-59	atlassian ApplicationRole	in
+PIPA:admin-73464:article-59	atlassian Permissions	in
+PIPA:admin-73464:article-59	atlassian Project	out
+PIPA:admin-73464:article-59	okta ClientPrivilegesSetting	out
+PIPA:admin-73464:article-59	okta IamRole	in
+PIPA:admin-73464:article-59	okta ResourceSet	out
+PIPA:admin-73464:article-59	salesforce ExtlClntAppPlcyCnfg	out
+PIPA:admin-73464:article-59	salesforce UserRole	in
+PIPA:admin-73464:article-59	salesforce Lead	in
+PIPA:admin-73464:article-59	atlassian page	review
+PIPA:admin-73464:article-59	slack 관계 shared_with (conversation → 200.team)	in
+PIPA:admin-73464:article-6	slack 관계 contained_in (Message → conversation)	out
+PIPA:admin-73464:article-6	slack conversation	review
+PIPA:admin-73464:article-6	gws File	review
+PIPA:admin-73464:article-6	atlassian spaces	review
+PIPA:admin-73464:article-6	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:admin-73464:article-6	gws 관계 contained_in (File → File)	review
+PIPA:admin-73464:article-6	github Repository	out
+PIPA:admin-73464:article-6	gws Calendar	review
+PIPA:admin-73464:article-6	atlassian Project	out
+PIPA:admin-73464:article-6	salesforce Opportunity	review
+PIPA:admin-73464:article-7	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73464:article-7	slack conversation	review
+PIPA:admin-73464:article-7	atlassian spaces	review
+PIPA:admin-73464:article-7	gws Calendar	review
+PIPA:admin-73464:article-7	gws File	review
+PIPA:admin-73464:article-7	gws Mailbox	in
+PIPA:admin-73464:article-7	github Repository	out
+PIPA:admin-73464:article-7	atlassian Project	out
+PIPA:admin-73464:article-7	okta AuthorizationServer	out
+PIPA:admin-73464:article-7	atlassian page	review
+PIPA:admin-73464:article-8	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73464:article-8	gws Policy	review
+PIPA:admin-73464:article-8	okta ResourceSetResource	out
+PIPA:admin-73464:article-8	gws Role	in
+PIPA:admin-73464:article-8	salesforce PermissionSetGroup	in
+PIPA:admin-73464:article-8	salesforce UserRole	in
+PIPA:admin-73464:article-8	github enterprise-role	out
+PIPA:admin-73464:article-8	gws Customer	out
+PIPA:admin-73464:article-8	atlassian ApplicationRole	in
+PIPA:admin-73464:article-8	okta ClientPrivilegesSetting	out
+PIPA:admin-73464:article-8	okta IamRole	in
+PIPA:admin-73464:article-8	salesforce PermissionSet	in
+PIPA:admin-73464:article-8	salesforce Profile	in
+PIPA:admin-73464:article-8	slack 200.team_2	out
+PIPA:admin-73485:annex-5	gws Policy	out
+PIPA:admin-73485:annex-5	gws 관계 applies_to (Policy → Customer)	out
+PIPA:admin-73485:annex-5	okta ResourceSetResource	out
+PIPA:admin-73485:annex-5	github public-user	out
+PIPA:admin-73485:annex-5	salesforce ContentDocumentLink	out
+PIPA:admin-73485:annex-5	gws Alert	out
+PIPA:admin-73485:annex-5	atlassian FoundGroup	out
+PIPA:admin-73485:annex-5	salesforce BrowserPolicyViolation	out
+PIPA:admin-73493:annex-1	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73493:annex-1	okta PolicyRule	in
+PIPA:admin-73493:annex-1	gws Policy	review
+PIPA:admin-73493:annex-1	okta BehaviorRule	out
+PIPA:admin-73493:annex-1	salesforce CspTrustedSite	out
+PIPA:admin-73493:annex-1	salesforce IframeWhiteListUrl	out
+PIPA:admin-73493:annex-1	okta Policy	in
+PIPA:admin-73493:annex-1	okta ThreatInsightConfiguration	out
+PIPA:admin-73493:annex-1	salesforce BrowserPolicyViolation	in
+PIPA:admin-73493:annex-1	slack Policy	in
+PIPA:admin-73493:annex-1	salesforce RemoteSiteSetting	in
+PIPA:admin-73493:article-13	slack 관계 contained_in (Message → conversation)	out
+PIPA:admin-73493:article-13	gws File	review
+PIPA:admin-73493:article-13	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:admin-73493:article-13	gws 관계 contained_in (File → File)	review
+PIPA:admin-73493:article-13	gws Calendar	review
+PIPA:admin-73493:article-13	atlassian spaces	review
+PIPA:admin-73493:article-13	slack conversation	review
+PIPA:admin-73493:article-13	gws Policy	review
+PIPA:admin-73493:article-13	gws Form	in
+PIPA:admin-73493:article-13	slack Message	out
+PIPA:admin-73493:article-13	salesforce Lead	in
+PIPA:admin-73493:article-13	gws Mailbox	in
+PIPA:admin-73493:article-16	slack 200.bot	out
+PIPA:admin-73493:article-16	slack 200.members[*]	out
+PIPA:admin-73493:article-16	atlassian User	out
+PIPA:admin-73493:article-16	github public-user	out
+PIPA:admin-73493:article-16	okta AssignedAppLink	out
+PIPA:admin-73493:article-16	salesforce ContentDocumentLink	out
+PIPA:admin-73493:article-5	slack 200.bot	out
+PIPA:admin-73493:article-5	slack 200.members[*]	review
+PIPA:admin-73493:article-5	atlassian User	review
+PIPA:admin-73493:article-5	okta BehaviorRule	out
+PIPA:admin-73493:article-5	gws Policy	review
+PIPA:admin-73493:article-5	okta AuthenticatorBase	in
+PIPA:admin-73493:article-5	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73493:article-5	github public-user	out
+PIPA:admin-73493:article-5	okta JsonEncryptionWebKey	in
+PIPA:admin-73493:article-5	okta Policy	in
+PIPA:admin-73493:article-5	okta PolicyRule	in
+PIPA:admin-73493:article-5	slack 관계 member_of (200.members[*] → conversation)	review
+PIPA:admin-73493:article-5	atlassian 관계 member_of (User → ServerInformation)	review
+PIPA:admin-73493:article-5	slack 관계 member_of (200.members[*] → 200.team)	review
+PIPA:admin-73493:article-6	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73493:article-6	gws Policy	review
+PIPA:admin-73493:article-6	okta BehaviorRule	out
+PIPA:admin-73493:article-6	salesforce CspTrustedSite	out
+PIPA:admin-73493:article-6	okta 관계 applies_to (Policy → Group)	in
+PIPA:admin-73493:article-6	okta NetworkZone	in
+PIPA:admin-73493:article-6	okta Policy	in
+PIPA:admin-73493:article-6	okta PolicyRule	in
+PIPA:admin-73493:article-6	okta TrustedOrigin	in
+PIPA:admin-73493:article-6	okta UserLockoutSettings	in
+PIPA:admin-73493:article-6	salesforce SamlSsoConfig	out
+PIPA:admin-73493:article-6	slack Policy	in
+PIPA:admin-73493:article-6	salesforce RemoteSiteSetting	in
+PIPA:admin-73493:article-6	slack 관계 applies_to (Policy → 200.members[*])	in
+PIPA:admin-73493:article-6-2	salesforce BrowserPolicyViolation	in
+PIPA:admin-73493:article-7	okta PolicyRule	in
+PIPA:admin-73493:article-7	gws Policy	review
+PIPA:admin-73493:article-7	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73493:article-7	okta Policy	in
+PIPA:admin-73493:article-8	gws Policy	review
+PIPA:admin-73493:article-8	gws 관계 applies_to (Policy → Customer)	review
+PIPA:admin-73493:article-8	okta EventHook	in
+PIPA:admin-73493:article-8	okta ThreatInsightConfiguration	in
+PIPA:admin-73687:section-1	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	out
+PIPA:admin-73687:section-1	gws 관계 applies_to (Policy → Customer)	out
+PIPA:admin-73687:section-1	slack 관계 shared_with (conversation → 200.team)	out
+PIPA:admin-73687:section-1	gws Calendar	out
+PIPA:admin-73687:section-1	gws Policy	out
+PIPA:admin-73687:section-1	atlassian spaces	out
+PIPA:admin-73687:section-1	gws File	out
+PIPA:admin-73687:section-1	gws Mailbox	out
+PIPA:admin-73687:section-1	gws Form	out
+PIPA:admin-73687:section-1	salesforce Lead	out
+PIPA:admin-73687:section-2	gws 관계 applies_to (Policy → Customer)	out
+PIPA:admin-73687:section-2	github org-hook	out
+PIPA:admin-73687:section-2	slack Slash Command Request Endpoint	out
+PIPA:admin-73687:section-2	slack 관계 shared_with (conversation → 200.team)	out
+PIPA:admin-73687:section-4	okta ResourceSetResource	out
+PIPA:admin-73687:section-4	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:admin-73687:section-4	gws File	out
+PIPA:admin-73687:section-4	atlassian spaces	out
+PIPA:admin-73687:section-4	gws Calendar	out
+PIPA:admin-73687:section-4	slack conversation	out
+PIPA:admin-73687:section-4	gws 관계 contained_in (File → File)	out
+PIPA:admin-73687:section-4	github organization-role	out
+PIPA:admin-73687:section-4	okta 관계 contained_in (ResourceSetResource → ResourceSet)	out
+PIPA:admin-73687:section-4	okta ResourceSet	out
+PIPA:admin-73687:section-4	gws Mailbox	out
+PIPA:admin-73687:section-4	atlassian space-roles	out
+PIPA:admin-73687:section-4	github enterprise-role	out
+PIPA:admin-73687:section-4	gws Form	out
+PIPA:admin-73687:section-4	atlassian Project	out
+PIPA:admin-73687:section-4	okta ClientPrivilegesSetting	out
+PIPA:admin-73687:section-4	salesforce PermissionSetGroup	out
+PIPA:admin-73687:section-4	salesforce UserRole	out
+PIPA:admin-73687:section-4	salesforce Lead	out
+PIPA:admin-86874:annex-1	gws 관계 applies_to (Policy → Customer)	out
+PIPA:admin-86874:annex-1	gws Policy	out
+PIPA:admin-86874:annex-1	atlassian 관계 contained_in (Domain → Org)	out
+PIPA:admin-86874:annex-1	atlassian Org	out
+PIPA:admin-86874:annex-1	github Enterprise	out
+PIPA:admin-86874:annex-1	gws Customer	out
+PIPA:admin-86874:annex-1	gws Domains	out
+PIPA:admin-86874:annex-1	okta ThreatInsightConfiguration	out
+PIPA:admin-86874:annex-1	salesforce Organization	out
+PIPA:admin-86874:annex-1	slack 200.team_2	out
+PIPA:admin-86874:annex-1	slack 200.team	out
+PIPA:admin-86874:annex-1	slack defs_enterprise_id	out
+PIPA:admin-86874:annex-1	slack 관계 contained_in (200.team → defs_enterprise_id)	out
+PIPA:admin-92176:annex-1	okta AssignedAppLink	out
+PIPA:admin-92176:annex-1	slack 관계 member_of (200.members[*] → conversation)	out
+PIPA:admin-92176:annex-1	atlassian 관계 member_of (User → ServerInformation)	out
+PIPA:admin-92176:annex-1	slack 관계 member_of (200.members[*] → 200.team)	out
+PIPA:admin-92176:annex-1	atlassian 관계 member_of (User → FoundGroup)	out
+PIPA:admin-92176:annex-1	salesforce 관계 member_of (User → Organization)	out
+PIPA:admin-92176:annex-1	slack 관계 contained_in (Message → conversation)	out
+PIPA:admin-92176:annex-1	gws File	out
+PIPA:admin-92176:annex-1	okta 관계 member_of (User → Group)	out
+PIPA:admin-92176:annex-1	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:admin-92176:annex-1	gws 관계 contained_in (File → File)	out
+PIPA:admin-92176:annex-1	atlassian spaces	out
+PIPA:admin-92176:annex-1	okta AppUser	out
+PIPA:admin-92176:annex-1	okta 관계 member_of (User → OrgSetting)	out
+PIPA:admin-92176:annex-1	gws Calendar	out
+PIPA:admin-92176:annex-1	atlassian SpacePermission	out
+PIPA:admin-92176:annex-1	slack 200.entities[*]	out
+PIPA:admin-92176:annex-1	gws 관계 member_of (User → OrgUnit)	out
+PIPA:admin-92176:annex-1	salesforce GroupMember	out
+PIPA:admin-92176:annex-1	slack conversation	out
+PIPA:admin-92176:annex-1	github Repository	out
+PIPA:admin-92176:annex-1	gws Policy	out
+PIPA:admin-92176:annex-1	okta CustomRole	out
+PIPA:admin-92176:annex-1	salesforce ContentDocumentLink	out
+PIPA:admin-92176:annex-1	gws 관계 applies_to (Policy → Customer)	out
+PIPA:admin-92176:annex-1	gws Form	out
+PIPA:admin-92176:annex-1	atlassian Project	out
+PIPA:admin-92176:annex-1	okta ApplicationGroupAssignment	out
+PIPA:admin-92176:annex-1	okta GroupRule	out
+PIPA:admin-92176:annex-1	salesforce PermissionSetLicenseAssign	out
+PIPA:admin-92176:annex-1	okta 관계 applies_to (GroupRule → Group)	out
+PIPA:admin-92176:annex-1	okta 관계 contained_in (CustomRole → Group)	out
+PIPA:admin-92176:annex-1	okta 관계 has_role_on (Group → OrgSetting)	out
+PIPA:admin-92176:annex-1	okta 관계 has_role_on (Group → Application)	out
+PIPA:admin-92176:annex-1	slack 관계 has_role_on (200.members[*] → conversation)	out
+PIPA:admin-92176:annex-1	salesforce 관계 has_role_on (User → Opportunity)	out
+PIPA:admin-92176:article-3	slack 관계 contained_in (Message → conversation)	out
+PIPA:admin-92176:article-3	okta AssignedAppLink	out
+PIPA:admin-92176:article-3	slack conversation	out
+PIPA:admin-92176:article-3	gws File	out
+PIPA:admin-92176:article-3	atlassian spaces	out
+PIPA:admin-92176:article-3	gws Calendar	out
+PIPA:admin-92176:article-3	okta ResourceSetResource	out
+PIPA:admin-92176:article-3	gws 관계 contained_in (File → File)	out
+PIPA:admin-92176:article-3	slack 관계 member_of (200.members[*] → 200.team)	out
+PIPA:admin-92176:article-3	github Repository	out
+PIPA:admin-92176:article-3	github organization-role	out
+PIPA:admin-92176:article-3	gws Form	out
+PIPA:admin-92176:article-3	atlassian Project	out
+PIPA:admin-92176:article-3	okta ClientPrivilegesSetting	out
+PIPA:admin-92176:article-3	salesforce Lead	out
+PIPA:admin-92176:article-3	atlassian 관계 member_of (User → ServerInformation)	out
+PIPA:admin-96010:annex-1	gws Policy	out
+PIPA:admin-96010:annex-1	gws 관계 applies_to (Policy → Customer)	out
+PIPA:admin-96010:annex-1	okta ResourceSetResource	out
+PIPA:admin-96010:annex-1	github public-user	out
+PIPA:admin-96010:annex-1	slack 관계 shared_with (conversation → 200.team)	out
+PIPA:admin-96010:annex-1	salesforce ContentDocumentLink	out
+PIPA:admin-96010:annex-1	github enterprise-role	out
+PIPA:admin-96010:annex-1	github organization-role	out
+PIPA:law-011357:article-15	slack 관계 contained_in (Message → conversation)	out
+PIPA:law-011357:article-15	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:law-011357:article-15	gws File	review
+PIPA:law-011357:article-15	slack conversation	review
+PIPA:law-011357:article-15	atlassian spaces	review
+PIPA:law-011357:article-15	gws 관계 contained_in (File → File)	review
+PIPA:law-011357:article-15	gws Calendar	review
+PIPA:law-011357:article-15	salesforce Lead	in
+PIPA:law-011357:article-16	gws File	review
+PIPA:law-011357:article-17	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011357:article-17	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	review
+PIPA:law-011357:article-17	gws Calendar	review
+PIPA:law-011357:article-17	slack 관계 shared_with (conversation → 200.team)	in
+PIPA:law-011357:article-17	atlassian spaces	review
+PIPA:law-011357:article-17	gws File	review
+PIPA:law-011357:article-17	slack conversation	review
+PIPA:law-011357:article-17	gws Mailbox	in
+PIPA:law-011357:article-17	github org-hook	in
+PIPA:law-011357:article-17	slack Slash Command Request Endpoint	out
+PIPA:law-011357:article-17	salesforce Lead	in
+PIPA:law-011357:article-17	external Host	in
+PIPA:law-011357:article-18	okta AssignedAppLink	out
+PIPA:law-011357:article-18	okta AppUser	review
+PIPA:law-011357:article-18	slack 관계 member_of (200.members[*] → conversation)	review
+PIPA:law-011357:article-18	atlassian 관계 member_of (User → ServerInformation)	review
+PIPA:law-011357:article-18	slack 관계 member_of (200.members[*] → 200.team)	review
+PIPA:law-011357:article-18	salesforce 관계 member_of (User → Organization)	review
+PIPA:law-011357:article-18	okta 관계 member_of (User → OrgSetting)	review
+PIPA:law-011357:article-18	gws Policy	review
+PIPA:law-011357:article-18	gws 관계 member_of (User → OrgUnit)	review
+PIPA:law-011357:article-18	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011357:article-18	slack 200.entities[*]	out
+PIPA:law-011357:article-18	gws 관계 member_of (User → Customer)	review
+PIPA:law-011357:article-18	okta ApplicationGroupAssignment	out
+PIPA:law-011357:article-18	okta GroupRule	out
+PIPA:law-011357:article-18	salesforce GroupMember	out
+PIPA:law-011357:article-18	salesforce PermissionSetLicenseAssign	in
+PIPA:law-011357:article-18	okta 관계 applies_to (GroupRule → Group)	out
+PIPA:law-011357:article-19	gws File	review
+PIPA:law-011357:article-19	okta ResourceSetResource	out
+PIPA:law-011357:article-19	atlassian spaces	review
+PIPA:law-011357:article-19	github organization-role	out
+PIPA:law-011357:article-19	gws Calendar	review
+PIPA:law-011357:article-19	salesforce PermissionSet	in
+PIPA:law-011357:article-19	slack conversation	review
+PIPA:law-011357:article-19	salesforce PermissionSetGroup	in
+PIPA:law-011357:article-19	salesforce Profile	in
+PIPA:law-011357:article-19	github enterprise-role	out
+PIPA:law-011357:article-19	atlassian SecurityScheme	in
+PIPA:law-011357:article-19	github Repository	out
+PIPA:law-011357:article-19	okta ClientPrivilegesSetting	out
+PIPA:law-011357:article-19	okta IamRole	in
+PIPA:law-011357:article-19	okta ResourceSet	out
+PIPA:law-011357:article-19	salesforce UserRole	in
+PIPA:law-011357:article-19	salesforce Lead	in
+PIPA:law-011357:article-19	atlassian page	review
+PIPA:law-011357:article-21	gws Calendar	review
+PIPA:law-011357:article-21	gws 관계 contained_in (File → File)	review
+PIPA:law-011357:article-21	atlassian spaces	review
+PIPA:law-011357:article-21	gws File	review
+PIPA:law-011357:article-21	gws Policy	review
+PIPA:law-011357:article-21	gws Mailbox	in
+PIPA:law-011357:article-21	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011357:article-21	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:law-011357:article-21	slack 관계 contained_in (Message → conversation)	out
+PIPA:law-011357:article-21	slack conversation	review
+PIPA:law-011357:article-21	salesforce Lead	in
+PIPA:law-011357:article-23	slack Message	out
+PIPA:law-011357:article-23	okta 관계 contained_in (ResourceSetResource → ResourceSet)	out
+PIPA:law-011357:article-23	okta ResourceSetResource	out
+PIPA:law-011357:article-23	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:law-011357:article-23	atlassian spaces	review
+PIPA:law-011357:article-23	gws File	review
+PIPA:law-011357:article-23	slack 관계 contained_in (Message → conversation)	out
+PIPA:law-011357:article-23	gws Calendar	review
+PIPA:law-011357:article-23	slack conversation	review
+PIPA:law-011357:article-23	gws 관계 contained_in (File → File)	review
+PIPA:law-011357:article-23	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011357:article-23	github organization-role	out
+PIPA:law-011357:article-23	gws Policy	review
+PIPA:law-011357:article-23	atlassian SecurityScheme	in
+PIPA:law-011357:article-23	okta IamRole	in
+PIPA:law-011357:article-23	okta ResourceSet	out
+PIPA:law-011357:article-23	gws Mailbox	in
+PIPA:law-011357:article-23	salesforce 관계 applies_to (ExtlClntAppOauthPlcyCnfg → ExternalClientApplication)	out
+PIPA:law-011357:article-23	github enterprise-role	out
+PIPA:law-011357:article-23	github Repository	out
+PIPA:law-011357:article-23	gws Form	in
+PIPA:law-011357:article-23	atlassian ApplicationRole	in
+PIPA:law-011357:article-23	atlassian Project	out
+PIPA:law-011357:article-23	atlassian ProjectRole	in
+PIPA:law-011357:article-23	okta ClientPrivilegesSetting	out
+PIPA:law-011357:article-23	salesforce Lead	in
+PIPA:law-011357:article-23	atlassian page	review
+PIPA:law-011357:article-24	okta 관계 contained_in (ResourceSetResource → ResourceSet)	out
+PIPA:law-011357:article-24	gws File	review
+PIPA:law-011357:article-24	slack conversation	review
+PIPA:law-011357:article-24	gws 관계 contained_in (File → File)	review
+PIPA:law-011357:article-24	atlassian spaces	review
+PIPA:law-011357:article-24	gws Calendar	review
+PIPA:law-011357:article-24	okta ResourceSetResource	out
+PIPA:law-011357:article-24	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:law-011357:article-24	gws Policy	review
+PIPA:law-011357:article-24	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011357:article-24	github organization-role	out
+PIPA:law-011357:article-24	slack Message	out
+PIPA:law-011357:article-24	gws Mailbox	in
+PIPA:law-011357:article-24	github enterprise-role	out
+PIPA:law-011357:article-24	atlassian ApplicationRole	in
+PIPA:law-011357:article-24	atlassian Project	out
+PIPA:law-011357:article-24	okta ClientPrivilegesSetting	out
+PIPA:law-011357:article-24-2	gws 관계 contained_in (File → File)	out
+PIPA:law-011357:article-24-2	gws File	out
+PIPA:law-011357:article-24-2	gws Policy	out
+PIPA:law-011357:article-24-2	gws Mailbox	out
+PIPA:law-011357:article-24-2	gws 관계 applies_to (Policy → Customer)	out
+PIPA:law-011357:article-24-2	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:law-011357:article-26	okta AssignedAppLink	out
+PIPA:law-011357:article-26	slack 관계 member_of (200.members[*] → conversation)	review
+PIPA:law-011357:article-26	atlassian 관계 member_of (User → ServerInformation)	review
+PIPA:law-011357:article-26	salesforce PermissionSetAssignment	in
+PIPA:law-011357:article-26	atlassian 관계 member_of (User → FoundGroup)	review
+PIPA:law-011357:article-26	slack 관계 member_of (200.members[*] → 200.team)	review
+PIPA:law-011357:article-26	okta 관계 authenticates_with (User → OAuth2RefreshToken)	in
+PIPA:law-011357:article-26	okta AppUser	review
+PIPA:law-011357:article-26	salesforce 관계 member_of (User → Organization)	review
+PIPA:law-011357:article-26	okta 관계 member_of (User → Group)	review
+PIPA:law-011357:article-26	atlassian SpacePermission	in
+PIPA:law-011357:article-26	atlassian User	review
+PIPA:law-011357:article-26	gws 관계 member_of (User → Customer)	review
+PIPA:law-011357:article-26	salesforce 관계 has_role_on (User → Opportunity)	review
+PIPA:law-011357:article-26	okta User	review
+PIPA:law-011357:article-26	slack 200.members[*]	review
+PIPA:law-011357:article-26	salesforce PermissionSetLicenseAssign	in
+PIPA:law-011357:article-26	okta 관계 member_of (User → OrgSetting)	review
+PIPA:law-011357:article-26	salesforce User	review
+PIPA:law-011357:article-26	slack 200.entities[*]	out
+PIPA:law-011357:article-26	gws Policy	review
+PIPA:law-011357:article-26	okta Application	in
+PIPA:law-011357:article-26	okta OAuth2Scope	in
+PIPA:law-011357:article-26	salesforce GroupMember	out
+PIPA:law-011357:article-26	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011357:article-26	salesforce 관계 member_of (User → Group)	review
+PIPA:law-011357:article-26	salesforce 관계 has_role_on (User → Report)	review
+PIPA:law-011357:article-26	gws User	review
+PIPA:law-011357:article-26	salesforce PackageLicense	out
+PIPA:law-011357:article-26	salesforce 관계 has_role_on (User → Organization)	review
+PIPA:law-011357:article-26	slack 관계 has_role_on (200.members[*] → 200.team)	review
+PIPA:law-011357:article-26	gws 관계 member_of (User → OrgUnit)	review
+PIPA:law-011357:article-26	okta 관계 registered_in (Application → OrgSetting)	in
+PIPA:law-011357:article-26	github public-user	review
+PIPA:law-011357:article-26	gws Permission	in
+PIPA:law-011357:article-26	atlassian SharePermission	in
+PIPA:law-011357:article-26	okta ApplicationGroupAssignment	in
+PIPA:law-011357:article-26	salesforce UserPermissionAccess	in
+PIPA:law-011357:article-26	slack 200.bot	out
+PIPA:law-011357:article-26	slack 관계 has_role_on (200.members[*] → defs_enterprise_id)	review
+PIPA:law-011357:article-28	slack 200.bot	out
+PIPA:law-011357:article-28	github public-user	out
+PIPA:law-011357:article-28	salesforce ContentDocumentLink	in
+PIPA:law-011357:article-28	slack 200.members[*]	review
+PIPA:law-011357:article-28-2	salesforce 관계 has_role_on (User → Organization)	out
+PIPA:law-011357:article-28-2	okta 관계 has_role_on (User → Application)	out
+PIPA:law-011357:article-28-2	atlassian 관계 member_of (User → ServerInformation)	out
+PIPA:law-011357:article-28-2	atlassian 관계 member_of (User → FoundGroup)	out
+PIPA:law-011357:article-28-2	atlassian SpacePermission	out
+PIPA:law-011357:article-28-2	slack 관계 member_of (200.members[*] → conversation)	out
+PIPA:law-011357:article-28-2	salesforce PermissionSetAssignment	out
+PIPA:law-011357:article-28-2	slack 관계 member_of (200.members[*] → 200.team)	out
+PIPA:law-011357:article-28-2	atlassian 관계 has_role_on (User → spaces)	out
+PIPA:law-011357:article-28-2	salesforce 관계 member_of (User → Organization)	out
+PIPA:law-011357:article-28-2	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	out
+PIPA:law-011357:article-28-2	atlassian 관계 has_role_on (User → Project)	out
+PIPA:law-011357:article-28-2	okta AppUser	out
+PIPA:law-011357:article-28-2	salesforce WorkAccess	out
+PIPA:law-011357:article-28-2	gws Permission	out
+PIPA:law-011357:article-28-2	okta 관계 member_of (User → Group)	out
+PIPA:law-011357:article-28-2	salesforce 관계 has_role_on (User → Opportunity)	out
+PIPA:law-011357:article-28-2	okta 관계 member_of (User → OrgSetting)	out
+PIPA:law-011357:article-28-2	gws AclRule	out
+PIPA:law-011357:article-28-2	okta AssignedAppLink	out
+PIPA:law-011357:article-28-2	okta CustomRole	out
+PIPA:law-011357:article-28-2	salesforce PermissionSetLicenseAssign	out
+PIPA:law-011357:article-28-2	slack 200.entities[*]	out
+PIPA:law-011357:article-28-2	okta 관계 contained_in (CustomRole → User)	out
+PIPA:law-011357:article-28-2	salesforce 관계 has_role_on (User → ConnectedApplication)	out
+PIPA:law-011357:article-28-2	gws 관계 member_of (User → Customer)	out
+PIPA:law-011357:article-28-2	gws RoleAssignment	out
+PIPA:law-011357:article-28-2	okta 관계 contained_in (CustomRole → OAuth2Client)	out
+PIPA:law-011357:article-28-2	gws 관계 has_role_on (User → Customer)	out
+PIPA:law-011357:article-28-2	okta 관계 has_role_on (OAuth2Client → OrgSetting)	out
+PIPA:law-011357:article-28-2	salesforce GroupMember	out
+PIPA:law-011357:article-28-2	salesforce SessionPermSetActivation	out
+PIPA:law-011357:article-28-2	gws 관계 has_role_on (User → File)	out
+PIPA:law-011357:article-28-2	okta 관계 has_role_on (User → OrgSetting)	out
+PIPA:law-011357:article-28-2	gws 관계 member_of (User → OrgUnit)	out
+PIPA:law-011357:article-28-2	salesforce 관계 member_of (User → Group)	out
+PIPA:law-011357:article-28-2	salesforce 관계 has_role_on (User → Report)	out
+PIPA:law-011357:article-28-2	salesforce ContentDocumentLink	out
+PIPA:law-011357:article-28-2	github 관계 has_role_on (installation → organization-full)	out
+PIPA:law-011357:article-28-2	slack 관계 has_role_on (200.members[*] → defs_enterprise_id)	out
+PIPA:law-011357:article-28-2	slack 관계 has_role_on (200.members[*] → 200.team)	out
+PIPA:law-011357:article-28-2	gws File	out
+PIPA:law-011357:article-28-2	atlassian SharePermission	out
+PIPA:law-011357:article-28-2	okta ApplicationGroupAssignment	out
+PIPA:law-011357:article-28-2	salesforce UserPermissionAccess	out
+PIPA:law-011357:article-28-2	github 관계 has_role_on (simple-user → organization-full)	out
+PIPA:law-011357:article-28-2	okta 관계 has_role_on (Group → OrgSetting)	out
+PIPA:law-011357:article-28-2	okta 관계 has_role_on (Group → Application)	out
+PIPA:law-011357:article-28-2	slack 관계 has_role_on (200.members[*] → conversation)	out
+PIPA:law-011357:article-28-3	slack defs_app_id	out
+PIPA:law-011357:article-28-3	okta Application	out
+PIPA:law-011357:article-28-3	okta 관계 registered_in (Application → OrgSetting)	out
+PIPA:law-011357:article-28-3	slack 관계 registered_in (defs_app_id → defs_enterprise_id)	out
+PIPA:law-011357:article-28-3	salesforce 관계 registered_in (ConnectedApplication → Organization)	out
+PIPA:law-011357:article-28-3	okta OAuth2Client	out
+PIPA:law-011357:article-28-3	slack 관계 receives_into (credential-row:oauth:url → conversation)	out
+PIPA:law-011357:article-28-3	github installation	out
+PIPA:law-011357:article-28-3	github org-hook	out
+PIPA:law-011357:article-28-3	github webhook-config	out
+PIPA:law-011357:article-28-3	github integration	out
+PIPA:law-011357:article-28-3	slack Slash Command Request Endpoint	out
+PIPA:law-011357:article-28-3	gws Application	out
+PIPA:law-011357:article-28-3	atlassian AutomationRequestEndpoint	out
+PIPA:law-011357:article-28-3	salesforce ConnectedApplication	out
+PIPA:law-011357:article-28-3	github 관계 registered_in (installation → organization-full)	out
+PIPA:law-011357:article-28-3	okta 관계 registered_in (Application → Organization)	out
+PIPA:law-011357:article-28-3	okta EventHook	out
+PIPA:law-011357:article-28-3	salesforce FlowSlackActionEndpoint	out
+PIPA:law-011357:article-28-3	okta 관계 registered_in (Application → Customer)	out
+PIPA:law-011357:article-28-3	okta 관계 registered_in (Application → Enterprise)	out
+PIPA:law-011357:article-28-3	okta 관계 registered_in (Application → organization-full)	out
+PIPA:law-011357:article-28-3	okta 관계 registered_in (Application → defs_enterprise_id)	out
+PIPA:law-011357:article-28-3	salesforce 관계 receives_into (FlowSlackActionEndpoint → conversation)	out
+PIPA:law-011357:article-28-3	salesforce 관계 receives_into (NamedCredential → spaces)	out
+PIPA:law-011357:article-28-3	gws 관계 receives_into (Project → File)	out
+PIPA:law-011357:article-28-3	salesforce 관계 receives_into (WebToLead → Lead)	out
+PIPA:law-011357:article-28-3	slack 관계 receives_into (ChannelEmail → conversation)	out
+PIPA:law-011357:article-28-4	okta AssignedAppLink	out
+PIPA:law-011357:article-28-4	slack 관계 member_of (200.members[*] → conversation)	out
+PIPA:law-011357:article-28-4	gws AclRule	out
+PIPA:law-011357:article-28-4	gws File	out
+PIPA:law-011357:article-28-4	atlassian spaces	out
+PIPA:law-011357:article-28-4	gws Calendar	out
+PIPA:law-011357:article-28-4	atlassian SpacePermission	out
+PIPA:law-011357:article-28-4	github 관계 has_role_on (simple-user → Repository)	out
+PIPA:law-011357:article-28-4	okta AppUser	out
+PIPA:law-011357:article-28-4	salesforce ContentDocumentLink	out
+PIPA:law-011357:article-28-4	slack 200.entities[*]	out
+PIPA:law-011357:article-28-4	gws Mailbox	out
+PIPA:law-011357:article-28-4	github deploy-key	out
+PIPA:law-011357:article-28-4	gws Form	out
+PIPA:law-011357:article-28-4	gws Permission	out
+PIPA:law-011357:article-28-4	atlassian SharePermission	out
+PIPA:law-011357:article-28-4	okta GroupRule	out
+PIPA:law-011357:article-28-4	salesforce WorkAccess	out
+PIPA:law-011357:article-28-4	salesforce Lead	out
+PIPA:law-011357:article-28-4	okta 관계 applies_to (GroupRule → Group)	out
+PIPA:law-011357:article-28-4	github 관계 contained_in (deploy-key → Repository)	out
+PIPA:law-011357:article-28-4	gws 관계 contained_in (File → File)	out
+PIPA:law-011357:article-28-4	okta 관계 contained_in (AuthorizationServerJsonWebKey → AuthorizationServer)	out
+PIPA:law-011357:article-28-4	okta 관계 contained_in (JsonWebKey → Application)	out
+PIPA:law-011357:article-28-4	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:law-011357:article-28-4	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	out
+PIPA:law-011357:article-28-4	github 관계 has_role_on (deploy-key → Repository)	out
+PIPA:law-011357:article-28-5	gws Calendar	out
+PIPA:law-011357:article-28-5	gws File	out
+PIPA:law-011357:article-28-5	atlassian spaces	out
+PIPA:law-011357:article-28-5	gws 관계 contained_in (File → File)	out
+PIPA:law-011357:article-28-5	gws 관계 applies_to (Policy → Customer)	out
+PIPA:law-011357:article-28-5	gws Form	out
+PIPA:law-011357:article-28-5	gws Mailbox	out
+PIPA:law-011357:article-28-5	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:law-011357:article-28-8	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	review
+PIPA:law-011357:article-28-8	github 관계 contained_in (org-hook → Repository)	in
+PIPA:law-011357:article-28-8	slack 관계 shared_with (conversation → 200.team)	in
+PIPA:law-011357:article-28-8	okta 관계 contained_in (ProvisioningConnectionResponse → Application)	out
+PIPA:law-011357:article-29	gws Policy	review
+PIPA:law-011357:article-29	okta ResourceSetResource	out
+PIPA:law-011357:article-29	github public-user	out
+PIPA:law-011357:article-29	gws Alert	out
+PIPA:law-011357:article-29	salesforce BrowserPolicyViolation	in
+PIPA:law-011357:article-29	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011357:article-34-2	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011357:article-34-2	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	review
+PIPA:law-011357:article-34-2	slack 관계 shared_with (conversation → 200.team)	in
+PIPA:law-011357:article-34-2	gws Policy	review
+PIPA:law-011357:article-34-2	gws File	review
+PIPA:law-011357:article-34-2	github Repository	out
+PIPA:law-011357:article-34-2	slack Message	out
+PIPA:law-011357:article-34-2	atlassian spaces	review
+PIPA:law-011357:article-34-2	atlassian page	review
+PIPA:law-011357:article-35	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:law-011357:article-35	gws 관계 contained_in (File → File)	review
+PIPA:law-011357:article-35	atlassian spaces	review
+PIPA:law-011357:article-35	gws Calendar	review
+PIPA:law-011357:article-35	gws File	review
+PIPA:law-011357:article-35	slack conversation	review
+PIPA:law-011357:article-35	atlassian Project	out
+PIPA:law-011357:article-35	salesforce Lead	in
+PIPA:law-011357:article-35	atlassian page	review
+PIPA:law-011357:article-35	slack 관계 contained_in (Message → conversation)	out
+PIPA:law-011357:article-35-2	slack Slash Command Request Endpoint	out
+PIPA:law-011357:article-35-2	github org-hook	in
+PIPA:law-011357:article-35-2	gws Calendar	review
+PIPA:law-011357:article-35-2	atlassian spaces	review
+PIPA:law-011357:article-35-2	github webhook-config	in
+PIPA:law-011357:article-35-2	slack defs_app_id	out
+PIPA:law-011357:article-35-2	gws File	review
+PIPA:law-011357:article-35-2	atlassian AutomationRequestEndpoint	out
+PIPA:law-011357:article-35-2	gws Form	in
+PIPA:law-011357:article-35-2	okta Application	out
+PIPA:law-011357:article-35-2	okta AuthorizationServer	out
+PIPA:law-011357:article-35-2	okta EventHook	in
+PIPA:law-011357:article-35-2	salesforce PackageLicense	out
+PIPA:law-011357:article-35-2	salesforce FlowSlackActionEndpoint	in
+PIPA:law-011357:article-35-2	salesforce Lead	in
+PIPA:law-011357:article-35-2	salesforce RemoteSiteSetting	in
+PIPA:law-011357:article-35-2	salesforce 관계 receives_into (FlowSlackActionEndpoint → conversation)	in
+PIPA:law-011357:article-35-2	salesforce 관계 receives_into (RemoteSiteSetting → Host)	in
+PIPA:law-011357:article-36	gws Calendar	review
+PIPA:law-011357:article-36	atlassian spaces	review
+PIPA:law-011357:article-36	gws File	review
+PIPA:law-011357:article-36	gws Form	in
+PIPA:law-011357:article-36	salesforce Lead	in
+PIPA:law-011357:article-36	gws 관계 contained_in (File → File)	review
+PIPA:law-011357:article-37	okta ResourceSetResource	out
+PIPA:law-011357:article-37	github organization-role	out
+PIPA:law-011357:article-37	gws Calendar	review
+PIPA:law-011357:article-37	atlassian spaces	review
+PIPA:law-011357:article-37	salesforce PermissionSetGroup	in
+PIPA:law-011357:article-37	gws File	review
+PIPA:law-011357:article-37	salesforce ExtlClntAppPlcyCnfg	out
+PIPA:law-011357:article-37	gws Role	in
+PIPA:law-011357:article-37	atlassian ProjectRole	in
+PIPA:law-011357:article-37	github enterprise-role	out
+PIPA:law-011357:article-37	atlassian SecurityScheme	in
+PIPA:law-011357:article-37	okta ResourceSet	out
+PIPA:law-011357:article-37	salesforce PermissionSet	in
+PIPA:law-011357:article-37	salesforce Profile	in
+PIPA:law-011357:article-37	slack conversation	review
+PIPA:law-011357:article-37	github Repository	out
+PIPA:law-011357:article-37	atlassian Permissions	in
+PIPA:law-011357:article-37	atlassian PermissionScheme	in
+PIPA:law-011357:article-37	okta ClientPrivilegesSetting	out
+PIPA:law-011357:article-37	okta IamRole	in
+PIPA:law-011357:article-37	salesforce UserRole	in
+PIPA:law-011357:article-37	salesforce Lead	in
+PIPA:law-011357:article-37	salesforce 관계 applies_to (ExtlClntAppOauthPlcyCnfg → ExternalClientApplication)	out
+PIPA:law-011357:article-59	salesforce 관계 member_of (User → Organization)	review
+PIPA:law-011357:article-59	gws Policy	review
+PIPA:law-011357:article-59	okta ResourceSetResource	out
+PIPA:law-011357:article-59	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011357:article-59	github branches	out
+PIPA:law-011468:article-14-2	gws Policy	review
+PIPA:law-011468:article-14-2	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011468:article-14-2	slack conversation	review
+PIPA:law-011468:article-14-2	gws File	review
+PIPA:law-011468:article-14-2	atlassian spaces	review
+PIPA:law-011468:article-14-2	gws Calendar	review
+PIPA:law-011468:article-14-2	atlassian Project	out
+PIPA:law-011468:article-14-2	slack Message	out
+PIPA:law-011468:article-14-2	salesforce Lead	in
+PIPA:law-011468:article-14-2	atlassian page	review
+PIPA:law-011468:article-15	okta ResourceSetResource	out
+PIPA:law-011468:article-15	gws Policy	review
+PIPA:law-011468:article-15	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011468:article-15	github organization-role	out
+PIPA:law-011468:article-15	okta ClientPrivilegesSetting	out
+PIPA:law-011468:article-15	okta IamRole	in
+PIPA:law-011468:article-15	salesforce UserRole	in
+PIPA:law-011468:article-16	gws File	review
+PIPA:law-011468:article-16	gws 관계 contained_in (File → File)	review
+PIPA:law-011468:article-16	gws Calendar	review
+PIPA:law-011468:article-16	atlassian spaces	review
+PIPA:law-011468:article-16	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011468:article-16	gws Policy	review
+PIPA:law-011468:article-16	gws Mailbox	in
+PIPA:law-011468:article-16	gws Form	in
+PIPA:law-011468:article-16	salesforce Lead	in
+PIPA:law-011468:article-16	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:law-011468:article-21	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011468:article-21	gws Policy	review
+PIPA:law-011468:article-21	slack 관계 member_of (200.members[*] → conversation)	review
+PIPA:law-011468:article-21	gws Calendar	review
+PIPA:law-011468:article-21	atlassian SpacePermission	in
+PIPA:law-011468:article-21	okta BehaviorRule	out
+PIPA:law-011468:article-21	atlassian spaces	review
+PIPA:law-011468:article-21	gws File	review
+PIPA:law-011468:article-21	slack 200.entities[*]	out
+PIPA:law-011468:article-21	slack 관계 member_of (200.members[*] → 200.team)	review
+PIPA:law-011468:article-21	salesforce ContentDocumentLink	in
+PIPA:law-011468:article-21	gws Mailbox	in
+PIPA:law-011468:article-21	slack 관계 contained_in (conversation → 200.team)	review
+PIPA:law-011468:article-21	gws Alert	out
+PIPA:law-011468:article-21	okta ThreatInsightConfiguration	out
+PIPA:law-011468:article-21	gws 관계 contained_in (File → File)	review
+PIPA:law-011468:article-21	github 관계 has_role_on (simple-user → Repository)	out
+PIPA:law-011468:article-21	salesforce 관계 has_role_on (User → Report)	review
+PIPA:law-011468:article-21-2	gws File	out
+PIPA:law-011468:article-21-2	gws Policy	out
+PIPA:law-011468:article-21-2	gws 관계 applies_to (Policy → Customer)	out
+PIPA:law-011468:article-28	salesforce PackageLicense	out
+PIPA:law-011468:article-28	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011468:article-28	okta User	review
+PIPA:law-011468:article-28	gws User	review
+PIPA:law-011468:article-28	salesforce User	review
+PIPA:law-011468:article-28	slack 200.members[*]	review
+PIPA:law-011468:article-28	salesforce 관계 member_of (User → Organization)	review
+PIPA:law-011468:article-28	gws Policy	review
+PIPA:law-011468:article-28	atlassian 관계 member_of (User → ServerInformation)	review
+PIPA:law-011468:article-28	okta 관계 member_of (User → Group)	review
+PIPA:law-011468:article-28	okta 관계 member_of (User → OrgSetting)	review
+PIPA:law-011468:article-28	okta AssignedAppLink	out
+PIPA:law-011468:article-28	gws 관계 member_of (User → Customer)	review
+PIPA:law-011468:article-28	atlassian User	review
+PIPA:law-011468:article-28	okta OAuth2Scope	in
+PIPA:law-011468:article-28	gws 관계 member_of (User → OrgUnit)	review
+PIPA:law-011468:article-28	salesforce PermissionSetAssignment	in
+PIPA:law-011468:article-28	slack 200.entities[*]	out
+PIPA:law-011468:article-28	slack 관계 member_of (200.members[*] → 200.team)	review
+PIPA:law-011468:article-28	github public-user	review
+PIPA:law-011468:article-28	salesforce ContentDocumentLink	in
+PIPA:law-011468:article-28	salesforce GroupMember	out
+PIPA:law-011468:article-28	okta Application	in
+PIPA:law-011468:article-28	okta AppUser	review
+PIPA:law-011468:article-28	okta GroupRule	out
+PIPA:law-011468:article-28	salesforce PermissionSetLicenseAssign	in
+PIPA:law-011468:article-28	okta 관계 applies_to (GroupRule → Group)	out
+PIPA:law-011468:article-29-10	okta ResourceSetResource	out
+PIPA:law-011468:article-29-10	okta 관계 contained_in (ResourceSetResource → ResourceSet)	out
+PIPA:law-011468:article-29-10	github organization-role	out
+PIPA:law-011468:article-29-10	github 관계 contained_in (org-hook → Repository)	in
+PIPA:law-011468:article-29-10	github org-hook	in
+PIPA:law-011468:article-29-10	github enterprise-role	out
+PIPA:law-011468:article-29-10	atlassian PermissionScheme	in
+PIPA:law-011468:article-29-10	atlassian SecurityScheme	in
+PIPA:law-011468:article-29-10	salesforce Profile	in
+PIPA:law-011468:article-29-10	salesforce UserRole	in
+PIPA:law-011468:article-29-10	atlassian Org	out
+PIPA:law-011468:article-29-10	github Enterprise	out
+PIPA:law-011468:article-29-10	github organization-full	out
+PIPA:law-011468:article-29-10	gws Customer	out
+PIPA:law-011468:article-29-10	gws Domains	out
+PIPA:law-011468:article-29-10	atlassian ApplicationRole	in
+PIPA:law-011468:article-29-10	okta ClientPrivilegesSetting	out
+PIPA:law-011468:article-29-10	okta IamRole	in
+PIPA:law-011468:article-29-10	okta OrgSetting	out
+PIPA:law-011468:article-29-10	okta ResourceSet	out
+PIPA:law-011468:article-29-10	salesforce Organization	out
+PIPA:law-011468:article-29-10	salesforce PermissionSetGroup	in
+PIPA:law-011468:article-29-10	slack 200.team_2	out
+PIPA:law-011468:article-29-10	slack 200.team	out
+PIPA:law-011468:article-29-10	slack defs_enterprise_id	out
+PIPA:law-011468:article-29-10	atlassian 관계 contained_in (Domain → Org)	out
+PIPA:law-011468:article-29-10	salesforce 관계 contained_in (UserRole → UserRole)	in
+PIPA:law-011468:article-29-10	slack 관계 contained_in (200.team → defs_enterprise_id)	out
+PIPA:law-011468:article-29-3	okta 관계 contained_in (ProvisioningConnectionResponse → Application)	out
+PIPA:law-011468:article-29-3	slack 관계 receives_into (credential-row:oauth:url → conversation)	out
+PIPA:law-011468:article-29-3	atlassian AutomationRequestEndpoint	out
+PIPA:law-011468:article-29-3	github webhook-config	out
+PIPA:law-011468:article-29-3	slack Slash Command Request Endpoint	out
+PIPA:law-011468:article-29-3	atlassian 관계 contained_in (AutomationRequestEndpoint → AutomationRule)	out
+PIPA:law-011468:article-29-3	github org-hook	out
+PIPA:law-011468:article-29-3	gws File	out
+PIPA:law-011468:article-29-3	okta EventHook	out
+PIPA:law-011468:article-29-3	gws 관계 contained_in (File → File)	out
+PIPA:law-011468:article-29-3	salesforce 관계 contained_in (FlowSlackActionEndpoint → FlowDefinitionView)	out
+PIPA:law-011468:article-29-3	salesforce 관계 receives_into (FlowSlackActionEndpoint → conversation)	out
+PIPA:law-011468:article-29-3	salesforce 관계 receives_into (NamedCredential → spaces)	out
+PIPA:law-011468:article-29-3	gws 관계 receives_into (Project → File)	out
+PIPA:law-011468:article-29-3	salesforce 관계 receives_into (WebToLead → Lead)	out
+PIPA:law-011468:article-29-3	salesforce 관계 receives_into (RemoteSiteSetting → Host)	out
+PIPA:law-011468:article-29-3	gws 관계 receives_into (MailAddress → Mailbox)	out
+PIPA:law-011468:article-29-3	slack 관계 receives_into (ChannelEmail → conversation)	out
+PIPA:law-011468:article-29-5	slack 관계 member_of (200.members[*] → conversation)	out
+PIPA:law-011468:article-29-5	okta AssignedAppLink	out
+PIPA:law-011468:article-29-5	okta 관계 contained_in (PolicyMapping → Policy)	out
+PIPA:law-011468:article-29-5	okta PolicyMapping	out
+PIPA:law-011468:article-29-5	salesforce PermissionSetAssignment	out
+PIPA:law-011468:article-29-5	atlassian SpacePermission	out
+PIPA:law-011468:article-29-5	okta 관계 contained_in (PolicyRule → Policy)	out
+PIPA:law-011468:article-29-5	okta PolicyRule	out
+PIPA:law-011468:article-29-5	gws 관계 applies_to (Policy → Customer)	out
+PIPA:law-011468:article-29-5	gws Policy	out
+PIPA:law-011468:article-29-5	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	out
+PIPA:law-011468:article-29-5	okta Policy	out
+PIPA:law-011468:article-29-5	salesforce WorkAccess	out
+PIPA:law-011468:article-29-5	atlassian 관계 has_role_on (User → spaces)	out
+PIPA:law-011468:article-29-5	okta AuthenticatorMethodBase	out
+PIPA:law-011468:article-29-5	salesforce 관계 has_role_on (User → Opportunity)	out
+PIPA:law-011468:article-29-5	okta BehaviorRule	out
+PIPA:law-011468:article-29-5	gws Calendar	out
+PIPA:law-011468:article-29-5	okta AuthenticatorBase	out
+PIPA:law-011468:article-29-5	salesforce PermissionSetLicenseAssign	out
+PIPA:law-011468:article-29-5	okta 관계 contained_in (AuthenticatorMethodBase → AuthenticatorBase)	out
+PIPA:law-011468:article-29-5	github 관계 has_role_on (simple-user → Repository)	out
+PIPA:law-011468:article-29-5	gws 관계 member_of (User → OrgUnit)	out
+PIPA:law-011468:article-29-5	atlassian spaces	out
+PIPA:law-011468:article-29-5	slack 200.entities[*]	out
+PIPA:law-011468:article-29-5	gws File	out
+PIPA:law-011468:article-29-5	gws 관계 contained_in (File → File)	out
+PIPA:law-011468:article-29-5	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:law-011468:article-29-5	slack 관계 has_role_on (200.members[*] → conversation)	out
+PIPA:law-011468:article-29-5	gws AclRule	out
+PIPA:law-011468:article-29-5	okta CustomRole	out
+PIPA:law-011468:article-29-5	salesforce GroupMember	out
+PIPA:law-011468:article-29-5	okta 관계 applies_to (Policy → Group)	out
+PIPA:law-011468:article-29-5	salesforce 관계 has_role_on (User → Report)	out
+PIPA:law-011468:article-29-5	gws Permission	out
+PIPA:law-011468:article-29-5	salesforce AuthProvider	out
+PIPA:law-011468:article-29-5	salesforce ContentDocumentLink	out
+PIPA:law-011468:article-29-5	gws Mailbox	out
+PIPA:law-011468:article-29-5	okta 관계 applies_to (PolicyRule → User)	out
+PIPA:law-011468:article-29-5	atlassian 관계 has_role_on (User → Project)	out
+PIPA:law-011468:article-29-5	github 관계 has_role_on (installation → organization-full)	out
+PIPA:law-011468:article-29-5	okta 관계 has_role_on (OAuth2Client → OrgSetting)	out
+PIPA:law-011468:article-29-5	okta 관계 has_role_on (Group → Application)	out
+PIPA:law-011468:article-29-5	slack 관계 has_role_on (200.members[*] → 200.team)	out
+PIPA:law-011468:article-29-5	gws Form	out
+PIPA:law-011468:article-29-5	atlassian SharePermission	out
+PIPA:law-011468:article-29-5	okta ApplicationGroupAssignment	out
+PIPA:law-011468:article-29-5	okta GroupRule	out
+PIPA:law-011468:article-29-5	okta UserLockoutSettings	out
+PIPA:law-011468:article-29-5	salesforce SamlSsoConfig	out
+PIPA:law-011468:article-29-5	slack conversation	out
+PIPA:law-011468:article-29-5	slack Policy	out
+PIPA:law-011468:article-29-5	salesforce Lead	out
+PIPA:law-011468:article-29-5	okta 관계 applies_to (GroupRule → Group)	out
+PIPA:law-011468:article-29-5	okta 관계 contained_in (CustomRole → OAuth2Client)	out
+PIPA:law-011468:article-29-5	github 관계 has_role_on (deploy-key → Repository)	out
+PIPA:law-011468:article-29-5	github 관계 has_role_on (simple-user → organization-full)	out
+PIPA:law-011468:article-29-5	gws 관계 has_role_on (User → File)	out
+PIPA:law-011468:article-29-5	okta 관계 has_role_on (Group → OrgSetting)	out
+PIPA:law-011468:article-29-5	okta 관계 has_role_on (User → OrgSetting)	out
+PIPA:law-011468:article-29-5	salesforce 관계 has_role_on (User → Organization)	out
+PIPA:law-011468:article-29-5	slack 관계 has_role_on (200.members[*] → defs_enterprise_id)	out
+PIPA:law-011468:article-30	gws 관계 applies_to (Policy → Customer)	review
+PIPA:law-011468:article-30	gws Policy	review
+PIPA:law-011468:article-30	salesforce 관계 member_of (User → Organization)	review
+PIPA:law-011468:article-30	okta BehaviorRule	out
+PIPA:law-011468:article-30	okta 관계 member_of (User → OrgSetting)	review
+PIPA:law-011468:article-30	slack 관계 member_of (200.members[*] → conversation)	review
+PIPA:law-011468:article-30	okta AssignedAppLink	out
+PIPA:law-011468:article-30	slack 관계 member_of (200.members[*] → 200.team)	review
+PIPA:law-011468:article-30	atlassian 관계 member_of (User → ServerInformation)	review
+PIPA:law-011468:article-30	gws Alert	out
+PIPA:law-011468:article-30	salesforce BrowserPolicyViolation	in
+PIPA:law-011468:article-30	salesforce ContentDocumentLink	in
+PIPA:law-011468:article-30-2	gws Policy	out
+PIPA:law-011468:article-30-2	slack 관계 member_of (200.members[*] → 200.team)	out
+PIPA:law-011468:article-30-2	salesforce 관계 member_of (User → Organization)	out
+PIPA:law-011468:article-30-2	slack 관계 member_of (200.members[*] → conversation)	out
+PIPA:law-011468:article-30-2	gws 관계 applies_to (Policy → Customer)	out
+PIPA:law-011468:article-30-2	slack 200.members[*]	out
+PIPA:law-011468:article-30-2	slack 200.bot	out
+PIPA:law-011468:article-30-2	github public-user	out
+PIPA:law-011468:article-30-2	okta BehaviorRule	out
+PIPA:law-011468:article-30-2	salesforce ContentDocumentLink	out
+PIPA:law-011468:article-30-2	atlassian 관계 member_of (User → ServerInformation)	out
+PIPA:law-011468:article-42-3	okta AssignedAppLink	out
+PIPA:law-011468:article-42-3	slack 관계 member_of (200.members[*] → conversation)	out
+PIPA:law-011468:article-42-3	okta AppUser	out
+PIPA:law-011468:article-42-3	okta 관계 has_role_on (User → Application)	out
+PIPA:law-011468:article-42-3	slack 관계 contained_in (Message → conversation)	out
+PIPA:law-011468:article-42-3	gws File	out
+PIPA:law-011468:article-42-3	slack conversation	out
+PIPA:law-011468:article-42-3	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:law-011468:article-42-3	gws 관계 contained_in (File → File)	out
+PIPA:law-011468:article-42-3	salesforce 관계 has_role_on (User → Opportunity)	out
+PIPA:law-011468:article-42-3	atlassian spaces	out
+PIPA:law-011468:article-42-3	gws 관계 member_of (User → OrgUnit)	out
+PIPA:law-011468:article-42-3	slack 200.entities[*]	out
+PIPA:law-011468:article-42-3	github 관계 has_role_on (simple-user → Repository)	out
+PIPA:law-011468:article-42-3	okta 관계 has_role_on (User → OrgSetting)	out
+PIPA:law-011468:article-42-3	salesforce 관계 has_role_on (User → Organization)	out
+PIPA:law-011468:article-42-3	salesforce GroupMember	out
+PIPA:law-011468:article-42-3	atlassian 관계 has_role_on (User → Project)	out
+PIPA:law-011468:article-42-3	slack 관계 has_role_on (200.members[*] → conversation)	out
+PIPA:law-011468:article-42-3	salesforce 관계 has_role_on (User → Report)	out
+PIPA:law-011468:article-42-3	okta ApplicationGroupAssignment	out
+PIPA:law-011468:article-42-3	salesforce PermissionSetLicenseAssign	out
+PIPA:law-011468:article-42-3	gws Mailbox	out
+PIPA:law-011468:article-42-3	okta 관계 has_role_on (Group → Application)	out
+PIPA:law-011468:article-42-3	slack 관계 has_role_on (200.members[*] → 200.team)	out
+PIPA:law-011468:article-42-3	github Repository	out
+PIPA:law-011468:article-42-3	gws Calendar	out
+PIPA:law-011468:article-42-3	gws Form	out
+PIPA:law-011468:article-42-3	atlassian Project	out
+PIPA:law-011468:article-42-3	okta CustomRole	out
+PIPA:law-011468:article-42-3	okta GroupRule	out
+PIPA:law-011468:article-42-3	salesforce UserPermissionAccess	out
+PIPA:law-011468:article-42-3	salesforce Lead	out
+PIPA:law-011468:article-42-3	okta 관계 applies_to (GroupRule → Group)	out
+PIPA:law-011468:article-42-3	okta 관계 contained_in (CustomRole → Group)	out
+PIPA:law-011468:article-42-3	okta 관계 contained_in (CustomRole → User)	out
+PIPA:law-011468:article-42-3	okta 관계 contained_in (CustomRole → OAuth2Client)	out
+PIPA:law-011468:article-42-3	slack 관계 has_role_on (200.members[*] → defs_enterprise_id)	out
+PIPA:law-011468:article-42-6	slack 관계 contained_in (Message → conversation)	out
+PIPA:law-011468:article-42-6	slack conversation	out
+PIPA:law-011468:article-42-6	gws File	out
+PIPA:law-011468:article-42-6	slack 관계 contained_in (conversation → 200.team)	out
+PIPA:law-011468:article-42-6	gws 관계 contained_in (File → File)	out
+PIPA:law-011468:article-42-6	atlassian spaces	out
+PIPA:law-011468:article-42-6	gws Calendar	out
+PIPA:law-011468:article-42-6	github Repository	out
+PIPA:law-011468:article-42-6	salesforce Lead	out
+PIPA:law-011468:article-42-6	external Host	out
+ISO27001:5.11	github public-user	review
+ISO27001:5.11	slack 200.bot	out
+ISO27001:5.11	atlassian User	review
+ISO27001:5.11	slack 200.members[*]	review
+ISO27001:5.11	slack 관계 member_of (200.members[*] → 200.team)	in
+ISO27001:5.12	slack Message	out
+ISO27001:5.12	slack 관계 contained_in (Message → conversation)	out
+ISO27001:5.12	slack conversation	review
+ISO27001:5.12	atlassian spaces	review
+ISO27001:5.12	salesforce Report	review
+ISO27001:5.12	salesforce Lead	review
+ISO27001:5.12	salesforce Opportunity	review
+ISO27001:5.12	atlassian page	review
+ISO27001:5.14	salesforce FlowDefinitionView	in
+ISO27001:5.14	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:5.14	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	review
+ISO27001:5.14	gws Policy	review
+ISO27001:5.14	salesforce FlowRecord	in
+ISO27001:5.14	okta ProfileMapping	in
+ISO27001:5.14	salesforce FlowRecordVersion	in
+ISO27001:5.14	atlassian 관계 runs_as (AutomationRule → User)	in
+ISO27001:5.14	salesforce GenAiFunctionDefinition	out
+ISO27001:5.14	okta OAuth2Scope	in
+ISO27001:5.14	salesforce ApexClass	out
+ISO27001:5.14	gws Deployment	out
+ISO27001:5.14	gws Project	review
+ISO27001:5.14	gws 관계 runs_as (Project → User)	review
+ISO27001:5.14	github 관계 runs_as (workflow → actions-secret)	in
+ISO27001:5.14	atlassian AutomationRule	in
+ISO27001:5.14	salesforce BotDefinition	out
+ISO27001:5.14	external Host	in
+ISO27001:5.14	slack 관계 shared_with (conversation → 200.team)	in
+ISO27001:5.14	gws 관계 receives_into (Project → File)	review
+ISO27001:5.15	gws Policy	review
+ISO27001:5.15	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:5.15	okta ThreatInsightConfiguration	in
+ISO27001:5.15	salesforce BrowserPolicyViolation	in
+ISO27001:5.16	slack 200.bot	out
+ISO27001:5.16	github public-user	review
+ISO27001:5.16	gws AclRule	in
+ISO27001:5.16	atlassian SharePermission	in
+ISO27001:5.16	salesforce Group	review
+ISO27001:5.18	okta ResourceSetResource	out
+ISO27001:5.19	okta 관계 authenticates_with (User → OAuth2RefreshToken)	in
+ISO27001:5.19	salesforce PackageLicense	out
+ISO27001:5.19	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	out
+ISO27001:5.19	atlassian User	review
+ISO27001:5.19	atlassian SpacePermission	in
+ISO27001:5.19	salesforce User	review
+ISO27001:5.19	okta OAuth2ScopeConsentGrant	in
+ISO27001:5.19	gws AclRule	in
+ISO27001:5.19	slack 200.members[*]	review
+ISO27001:5.19	okta User	review
+ISO27001:5.19	github personal-access-tokens	in
+ISO27001:5.19	gws User	review
+ISO27001:5.19	gws Permission	in
+ISO27001:5.19	okta Application	in
+ISO27001:5.19	github credential-authorizations	in
+ISO27001:5.19	atlassian SharePermission	in
+ISO27001:5.19	salesforce ContentDocumentLink	in
+ISO27001:5.19	github 관계 authenticates_with (simple-user → personal-access-tokens)	in
+ISO27001:5.21	okta Application	in
+ISO27001:5.22	salesforce PackageLicense	in
+ISO27001:5.22	gws Policy	review
+ISO27001:5.22	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:5.22	github personal-access-tokens	in
+ISO27001:5.22	okta Application	in
+ISO27001:5.23	salesforce PackageLicense	in
+ISO27001:5.23	gws Policy	review
+ISO27001:5.23	atlassian Domain	in
+ISO27001:5.25	salesforce BrowserPolicyViolation	in
+ISO27001:5.26	salesforce PackageLicense	in
+ISO27001:5.26	github public-user	review
+ISO27001:5.28	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:5.28	gws Policy	review
+ISO27001:5.28	okta BehaviorRule	in
+ISO27001:5.28	gws Alert	in
+ISO27001:5.28	okta ThreatInsightConfiguration	in
+ISO27001:5.28	salesforce BrowserPolicyViolation	in
+ISO27001:5.3	salesforce ContentDocumentLink	out
+ISO27001:5.3	salesforce ExtlClntAppPlcyCnfg	in
+ISO27001:5.30	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:5.30	gws Policy	review
+ISO27001:5.30	github Enterprise	in
+ISO27001:5.30	gws Customer	in
+ISO27001:5.30	salesforce Organization	in
+ISO27001:5.30	slack 200.team_2	in
+ISO27001:5.30	slack 200.team	in
+ISO27001:5.30	slack defs_enterprise_id	in
+ISO27001:5.30	atlassian 관계 contained_in (Domain → Org)	in
+ISO27001:5.30	slack 관계 contained_in (200.team → defs_enterprise_id)	in
+ISO27001:5.33	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:5.33	gws Policy	review
+ISO27001:5.33	okta BehaviorRule	in
+ISO27001:5.33	gws Alert	in
+ISO27001:5.33	okta ThreatInsightConfiguration	in
+ISO27001:5.33	salesforce BrowserPolicyViolation	in
+ISO27001:5.33	github 관계 contained_in (check-immutable-releases → Repository)	out
+ISO27001:5.34	slack Message	out
+ISO27001:5.34	slack conversation	review
+ISO27001:5.34	slack 관계 contained_in (Message → conversation)	out
+ISO27001:5.34	slack 관계 contained_in (conversation → 200.team)	review
+ISO27001:5.34	gws File	review
+ISO27001:5.34	gws 관계 contained_in (File → File)	review
+ISO27001:5.34	salesforce Opportunity	review
+ISO27001:5.34	atlassian spaces	review
+ISO27001:5.34	github Repository	out
+ISO27001:5.34	gws Calendar	review
+ISO27001:5.34	atlassian Project	out
+ISO27001:5.34	salesforce Report	review
+ISO27001:5.34	atlassian page	review
+ISO27001:5.34	github 관계 has_role_on (deploy-key → Repository)	out
+ISO27001:5.7	gws Policy	review
+ISO27001:5.7	salesforce BrowserPolicyViolation	in
+ISO27001:5.7	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:5.9	slack 관계 contained_in (Message → conversation)	out
+ISO27001:5.9	slack Message	out
+ISO27001:5.9	atlassian Domain	in
+ISO27001:5.9	github commit	out
+ISO27001:5.9	atlassian Org	in
+ISO27001:5.9	okta OrgSetting	in
+ISO27001:5.9	salesforce Organization	in
+ISO27001:5.9	slack defs_enterprise_id	in
+ISO27001:6.5	atlassian User	review
+ISO27001:6.5	slack 200.bot	out
+ISO27001:6.5	slack 200.members[*]	review
+ISO27001:6.5	okta User	review
+ISO27001:6.5	github public-user	review
+ISO27001:6.5	gws Token	in
+ISO27001:6.5	salesforce ContentDocumentLink	out
+ISO27001:6.5	slack 관계 member_of (200.members[*] → 200.team)	in
+ISO27001:6.7	okta PolicyMapping	in
+ISO27001:6.7	gws Policy	review
+ISO27001:6.7	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:6.7	salesforce CspTrustedSite	in
+ISO27001:6.7	okta 관계 applies_to (Policy → Group)	in
+ISO27001:6.7	salesforce IframeWhiteListUrl	in
+ISO27001:6.7	okta Policy	in
+ISO27001:6.7	okta PolicyRule	in
+ISO27001:6.7	okta ThreatInsightConfiguration	in
+ISO27001:6.7	salesforce BrowserPolicyViolation	in
+ISO27001:6.7	slack Policy	in
+ISO27001:7.10	slack 관계 contained_in (conversation → 200.team)	in
+ISO27001:7.10	atlassian spaces	review
+ISO27001:7.10	gws File	review
+ISO27001:7.10	github Repository	in
+ISO27001:7.10	gws Mailbox	review
+ISO27001:7.10	gws Form	review
+ISO27001:7.10	slack conversation	review
+ISO27001:7.10	atlassian page	review
+ISO27001:7.14	gws Policy	review
+ISO27001:7.14	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:8.10	slack Message	out
+ISO27001:8.10	slack 관계 contained_in (Message → conversation)	out
+ISO27001:8.10	slack conversation	review
+ISO27001:8.10	slack 관계 contained_in (conversation → 200.team)	in
+ISO27001:8.10	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:8.10	github Repository	in
+ISO27001:8.10	atlassian spaces	review
+ISO27001:8.10	gws Form	review
+ISO27001:8.10	gws Policy	review
+ISO27001:8.10	atlassian Project	review
+ISO27001:8.10	gws Mailbox	review
+ISO27001:8.11	atlassian SecurityScheme	in
+ISO27001:8.12	gws Policy	review
+ISO27001:8.12	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:8.13	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:8.14	gws Policy	review
+ISO27001:8.14	atlassian Domain	in
+ISO27001:8.14	atlassian 관계 contained_in (Domain → Org)	in
+ISO27001:8.14	atlassian Org	in
+ISO27001:8.14	github Enterprise	in
+ISO27001:8.14	gws Customer	in
+ISO27001:8.14	gws Domains	in
+ISO27001:8.14	salesforce Domain	in
+ISO27001:8.14	salesforce Organization	in
+ISO27001:8.14	slack 200.team_2	in
+ISO27001:8.14	slack 200.team	in
+ISO27001:8.14	slack defs_enterprise_id	in
+ISO27001:8.14	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:8.14	gws 관계 contained_in (Domains → Customer)	in
+ISO27001:8.15	gws Policy	review
+ISO27001:8.15	okta BehaviorRule	in
+ISO27001:8.15	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:8.15	salesforce BrowserPolicyViolation	in
+ISO27001:8.16	gws Alert	in
+ISO27001:8.16	gws Policy	review
+ISO27001:8.16	salesforce BrowserPolicyViolation	in
+ISO27001:8.18	salesforce 관계 has_role_on (User → Organization)	in
+ISO27001:8.18	github organization-role	out
+ISO27001:8.18	okta IamRole	in
+ISO27001:8.18	gws 관계 has_role_on (User → Customer)	in
+ISO27001:8.18	okta 관계 has_role_on (User → OrgSetting)	in
+ISO27001:8.19	salesforce PackageLicense	in
+ISO27001:8.19	okta OAuth2Scope	in
+ISO27001:8.19	github personal-access-tokens	in
+ISO27001:8.19	gws Policy	review
+ISO27001:8.19	github credential-authorizations	in
+ISO27001:8.19	okta Application	in
+ISO27001:8.19	github 관계 authenticates_with (simple-user → personal-access-tokens)	in
+ISO27001:8.2	github organization-role	out
+ISO27001:8.21	gws MailAddress	out
+ISO27001:8.21	gws 관계 receives_into (MailAddress → Mailbox)	review
+ISO27001:8.22	gws 관계 contained_in (OrgUnit → Customer)	in
+ISO27001:8.22	salesforce CspTrustedSite	in
+ISO27001:8.22	salesforce IframeWhiteListUrl	in
+ISO27001:8.22	atlassian Org	in
+ISO27001:8.22	github Enterprise	in
+ISO27001:8.22	github organization-full	out
+ISO27001:8.22	gws Customer	in
+ISO27001:8.22	gws Domains	in
+ISO27001:8.22	salesforce BrowserPolicyViolation	in
+ISO27001:8.22	salesforce Organization	in
+ISO27001:8.22	slack 200.team_2	in
+ISO27001:8.22	slack 200.team	in
+ISO27001:8.22	slack defs_enterprise_id	in
+ISO27001:8.22	atlassian 관계 contained_in (Domain → Org)	in
+ISO27001:8.22	gws 관계 contained_in (Domains → Customer)	in
+ISO27001:8.22	slack 관계 contained_in (200.team → defs_enterprise_id)	in
+ISO27001:8.23	salesforce RemoteSiteSetting	in
+ISO27001:8.25	github 관계 contained_in (commit → Repository)	out
+ISO27001:8.28	github branch-with-protection	in
+ISO27001:8.28	github 관계 contained_in (branch-with-protection → Repository)	in
+ISO27001:8.28	github check-immutable-releases	in
+ISO27001:8.28	github 관계 applies_to (repository-ruleset → Repository)	in
+ISO27001:8.28	github 관계 contained_in (branches → Repository)	in
+ISO27001:8.28	github 관계 contained_in (check-immutable-releases → Repository)	in
+ISO27001:8.29	github commit	out
+ISO27001:8.3	okta ResourceSetResource	out
+ISO27001:8.3	gws Policy	review
+ISO27001:8.30	github public-user	review
+ISO27001:8.30	github 관계 has_role_on (deploy-key → Repository)	out
+ISO27001:8.31	gws 관계 contained_in (OrgUnit → Customer)	in
+ISO27001:8.31	gws Policy	review
+ISO27001:8.31	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:8.31	github check-immutable-releases	out
+ISO27001:8.31	gws OrgUnit	in
+ISO27001:8.31	github 관계 contained_in (check-immutable-releases → Repository)	in
+ISO27001:8.31	github branches	in
+ISO27001:8.31	github repository-ruleset	in
+ISO27001:8.31	gws Customer	in
+ISO27001:8.31	gws Domains	out
+ISO27001:8.31	slack 200.team	in
+ISO27001:8.31	slack defs_enterprise_id	in
+ISO27001:8.31	github 관계 applies_to (repository-ruleset → Repository)	in
+ISO27001:8.31	github 관계 contained_in (branch-with-protection → Repository)	in
+ISO27001:8.31	github 관계 contained_in (branches → Repository)	in
+ISO27001:8.31	gws 관계 contained_in (Domains → Customer)	in
+ISO27001:8.31	slack 관계 contained_in (200.team → defs_enterprise_id)	in
+ISO27001:8.33	gws File	out
+ISO27001:8.33	gws 관계 contained_in (File → File)	review
+ISO27001:8.34	atlassian User	out
+ISO27001:8.34	okta AppUser	out
+ISO27001:8.34	okta 관계 has_role_on (User → Application)	out
+ISO27001:8.34	atlassian 관계 member_of (User → ServerInformation)	out
+ISO27001:8.34	atlassian 관계 member_of (User → FoundGroup)	out
+ISO27001:8.34	slack 200.members[*]	out
+ISO27001:8.34	slack 관계 member_of (200.members[*] → 200.team)	out
+ISO27001:8.34	okta AssignedAppLink	out
+ISO27001:8.34	salesforce 관계 member_of (User → Organization)	out
+ISO27001:8.34	okta 관계 member_of (User → Group)	out
+ISO27001:8.34	gws User	out
+ISO27001:8.34	okta User	out
+ISO27001:8.34	salesforce User	out
+ISO27001:8.34	slack 관계 member_of (200.members[*] → conversation)	out
+ISO27001:8.34	gws Permission	out
+ISO27001:8.34	gws 관계 member_of (User → Customer)	out
+ISO27001:8.34	okta 관계 member_of (User → OrgSetting)	out
+ISO27001:8.34	salesforce 관계 has_role_on (User → Opportunity)	out
+ISO27001:8.34	gws AclRule	out
+ISO27001:8.34	github 관계 has_role_on (simple-user → Repository)	out
+ISO27001:8.34	slack 200.bot	out
+ISO27001:8.34	slack 200.entities[*]	out
+ISO27001:8.34	okta CustomRole	review
+ISO27001:8.34	github 관계 member_of (simple-user → organization-full)	out
+ISO27001:8.34	salesforce SessionPermSetActivation	out
+ISO27001:8.34	salesforce PermissionSetAssignment	review
+ISO27001:8.34	atlassian 관계 has_role_on (SpecialPrincipal → spaces)	out
+ISO27001:8.34	slack 관계 has_role_on (200.members[*] → conversation)	out
+ISO27001:8.34	gws 관계 member_of (User → OrgUnit)	out
+ISO27001:8.34	salesforce 관계 member_of (User → Group)	out
+ISO27001:8.34	salesforce 관계 has_role_on (User → Report)	out
+ISO27001:8.34	salesforce GroupMember	out
+ISO27001:8.34	atlassian 관계 has_role_on (User → spaces)	out
+ISO27001:8.34	gws 관계 has_role_on (User → File)	out
+ISO27001:8.34	slack 관계 has_role_on (200.members[*] → 200.team)	out
+ISO27001:8.34	atlassian SpacePermission	out
+ISO27001:8.34	okta ApplicationGroupAssignment	out
+ISO27001:8.34	slack 200.profile	out
+ISO27001:8.34	github 관계 has_role_on (deploy-key → Repository)	out
+ISO27001:8.34	okta 관계 has_role_on (OAuth2Client → OrgSetting)	out
+ISO27001:8.34	okta 관계 has_role_on (User → OrgSetting)	out
+ISO27001:8.34	slack 관계 has_role_on (200.members[*] → defs_enterprise_id)	out
+ISO27001:8.4	github commit	out
+ISO27001:8.5	gws Policy	review
+ISO27001:8.5	gws 관계 applies_to (Policy → Customer)	review
+ISO27001:8.5	okta BehaviorRule	in
+ISO27001:8.5	okta Policy	in
+ISO27001:8.5	okta PolicyRule	in
+ISO27001:8.6	salesforce UserLicense	in
+ISO27001:8.7	gws 관계 contained_in (File → File)	review
+ISO27001:8.7	gws File	review
+ISO27001:8.7	gws Policy	review
+ISO27001:8.7	github 관계 contained_in (commit → Repository)	out
+ISO27001:8.8	github Repository	in
+ISO27001:8.8	github 관계 contained_in (commit → Repository)	out
+ISO27001:8.8	github 관계 contained_in (workflow → Repository)	in
+ISO27001:8.9	atlassian Domain	in
