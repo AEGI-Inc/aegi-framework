@@ -62,7 +62,6 @@ AEGI는 벤더마다 제각각인 API와 권한 체계를 하나의 기준으로
 
 ### 2. 사내 환경에 바로 도입·실행하기 (9개 SaaS)
 - **기본 수집·정규화·판정 지원 (9개)**: **Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence), Microsoft 365(Entra ID), Google Cloud / Gemini Enterprise, 1Password**
-- **제외**: Snowflake(수집기 엔진 연동 예정), AWS
 - **Splunk 감사 로그 해석**: 기존 6개(Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian)만
 
 - Windows: `runtime\start.cmd`
