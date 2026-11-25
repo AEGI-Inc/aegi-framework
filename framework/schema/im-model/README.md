@@ -1,4 +1,4 @@
-# IM 모델 (Identity and Integration Model)
+# IM 모델 (Information Map 기반 오브젝트 모델)
 
 운영 연결 보완(2026-10-28): Profile 단일 정규화는 main에 적용됐고 approved operation 레지스트리도 수집기에 연결됐다. 아래 도출 기록과 고정 모델 수치는 연구 시점의 근거다. 현재 사용 현황은 [현재 구조](../../docs/architecture/current-state.md)와 엔진 IM_PROFILE_PIPELINE/TOTAL_COLLECTOR를 따른다.
 

@@ -2,7 +2,7 @@
 
 **AEGI Framework**는 여러 SaaS에 흩어진 계정, 권한, 연동, 자동화, 감사 로그를 단일 그래프 모델로 통합해 Cross-SaaS 보안 위협과 컴플라이언스를 판정하는 **기업 도입용 통합 프레임워크 및 실행 패키지**다.
 
-이 저장소는 단순 실행용 솔루션이 아니라, **벤더 명세·테넌트 수집 → Information Map 도출 → IM 모델 정의 → IM Profile 정규화 → 위협 판정·대시보드 실행**까지 AEGI의 전체 방법론·규격·도구·런타임을 하나로 제공한다. 기업 보안팀과 엔지니어는 원리를 투명하게 검토하고, 바로 실행하거나 자사 SaaS 환경에 맞춰 확장할 수 있다.
+이 저장소는 단순 실행용 솔루션이 아니라, **벤더 명세·테넌트 수집 → IM(Information Map) 도출 → IM 오브젝트 모델 정의 → IM Profile 정규화 → 위협 판정·대시보드 실행**까지 AEGI의 전체 방법론·규격·도구·런타임을 하나로 제공한다. 기업 보안팀과 엔지니어는 원리를 투명하게 검토하고, 바로 실행하거나 자사 SaaS 환경에 맞춰 확장할 수 있다.
 
 ---
 
@@ -11,8 +11,8 @@
 ```mermaid
 flowchart LR
   S1["1. 정보 수집<br/>벤더 API·로그 명세<br/>+ 사내 SaaS 읽기 전용 수집"]
-  S2["2. Information Map<br/>벤더 API 구조 분석<br/>식별자 연결 · 정보 지도"]
-  S3["3. IM 모델 (V3.2)<br/>Identity & Integration Model<br/>Interface 9종 · Relation 17종"]
+  S2["2. IM (Information Map)<br/>벤더 API 구조 분석<br/>식별자 연결 · 정보 지도"]
+  S3["3. IM 오브젝트 모델 (V3.2)<br/>Information Map 기반 도출<br/>Interface 9종 · Relation 17종"]
   S4["4. IM Profile 정규화<br/>API 응답 → 통합 그래프<br/>Effective Access · Lineage"]
   S5["5. 위협 판정 · 도입<br/>4대 위협 · 297개 연결 규칙<br/>컴플라이언스 · 대시보드"]
   S1 --> S2 --> S3 --> S4 --> S5
@@ -24,12 +24,12 @@ flowchart LR
 
 AEGI는 벤더마다 제각각인 API와 권한 체계를 하나의 기준으로 묶기 위해 아래 네 가지 핵심 개념을 사용한다.
 
-- **Information Map (정보 지도)**
-  SaaS마다 다른 API 문서(OpenAPI, GraphQL 등)의 요청·응답 구조를 분석해, **어떤 API가 어떤 대상을 다루고 어떤 ID 필드가 같은 실체를 가리키는지(ID 공간)** 정리한 지도다. 사람이 감으로 스키마를 설계하지 않고, 벤더 공식 명세에서 객관적으로 모델을 도출하기 위한 출발점이다.
-- **IM (Identity and Integration Model)**
-  여러 SaaS의 계정·권한·자원·연동·자동화를 벤더에 무관한 하나의 언어로 표현하는 AEGI의 핵심 오브젝트 모델이다(현행 고정본 **V3.2**). 모든 객체를 **Interface 9종**(역할 태그: `Principal`, `Credential`, `Resource`, `Automation` 등)과 **Relation 17종**(객체 간 사실 관계)으로 표준화한다.
+- **IM (Information Map, 정보 지도)**
+  SaaS마다 다른 API 문서(OpenAPI, GraphQL 등)의 요청·응답 구조를 분석해, **어떤 API가 어떤 대상을 다루고 어떤 ID 필드가 같은 실체를 가리키는지(ID 공간)** 정리한 지도다. 사람이 감으로 스키마를 설계하지 않고 벤더 공식 명세에서 객관적으로 모델을 도출하기 위한 출발점이며, 아래의 **IM 오브젝트 모델**과 **IM Profile**은 모두 이 정보 지도(IM)를 바탕으로 만들어져 `IM`이라는 이름을 공유한다.
+- **IM 오브젝트 모델 (IM Object Model V3.2)**
+  Information Map에서 도출한 AEGI의 표준 오브젝트 모델(현행 고정본 **V3.2**)이다. 여러 SaaS의 계정·권한·자원·연동·자동화를 벤더에 무관한 하나의 언어로 통합하며, 모든 객체를 **Interface 9종**(역할 태그: `Principal`, `Credential`, `Resource`, `Automation` 등)과 **Relation 17종**(객체 간 사실 관계)으로 표준화한다.
 - **IM Profile (정규화 계약)**
-  실제 기업 테넌트에서 수집한 원본 API 응답을 IM 모델의 객체(`Object`), 사실 관계(`Relation`), Cross-SaaS 동일인·동일 자동화 연결(`Link`)로 변환하는 선언적 매핑 규칙이다.
+  실제 기업 테넌트에서 수집한 원본 API 응답을 IM 오브젝트 모델의 객체(`Object`), 사실 관계(`Relation`), Cross-SaaS 동일인·동일 자동화 연결(`Link`)로 변환하는 선언적 매핑 규칙이다.
 - **Effective Access & Coverage (실질 접근과 수집 완결성)**
   그룹 상속이나 자동화 실행 위임 등을 합성해 **"누가 실제로 무엇에 접근할 수 있는가"**를 계산한 결과(`Effective Access`)다. 권한 부족이나 API 오류로 못 읽은 영역은 `coverage`에 별도로 기록해, 수집 누락을 "접근 없음"으로 오판하지 않는다.
 

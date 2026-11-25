@@ -2,7 +2,7 @@
 
 > 상태: 과거 기록. 이 판은 지금 수집, 정규화, 탐지의 기준이 아니다. 지금 기준은 고정본 [IM Object Model V3.2](v3.2/README.md)와 엔진 Profile 단일 경로 [`scripts/collect/profile-binding/`](https://github.com/AEGI-Inc/aegi-adapter-engine/tree/main/scripts/collect/profile-binding)([IM Profile 파이프라인](https://github.com/AEGI-Inc/aegi-adapter-engine/blob/main/docs/IM_PROFILE_PIPELINE.md))다. 아래 본문의 「팀 작업은 이 판을 기준」 문장과 `scripts/collect/model-v1/definitions.ts`, `scripts/collect/normalize-v2/`, `npm run model:compile`, `npm run normalize:model-v1` 같은 경로와 명령은 지금 엔진에 없다. 본문은 2026-10-19 기록 그대로 둔다.
 
-새 오브젝트 모델의 공식 명칭을 **IM 모델**(Identity and Integration Model)로 명명한다. 오브젝트 모델 v1은 2026-10-19 사용자 결정으로 고정했다(PR #117). 팀의 수집, 정규화, 탐지 작업은 이 판을 기준으로 한다. 모델을 더 발전시키는 일은 v2로 따로 진행하고, v1 파일은 새 결정 없이 바꾸지 않는다.
+새 오브젝트 모델의 공식 명칭을 **IM 모델**(Information Map 기반 오브젝트 모델)로 명명한다. 오브젝트 모델 v1은 2026-10-19 사용자 결정으로 고정했다(PR #117). 팀의 수집, 정규화, 탐지 작업은 이 판을 기준으로 한다. 모델을 더 발전시키는 일은 v2로 따로 진행하고, v1 파일은 새 결정 없이 바꾸지 않는다.
 
 v2 작업(브랜치 `feat/object-model-v2`, 2026-10-19 사용자 결정): 기준 문서 사본을 aegi-schema `c067b02`판으로 올렸다. v1 고정판(`5e160f0`, 2026-09-27)과 달라진 점은 `triggered_by` 끝점에 Resource와 Integration이 더해진 것과 트리거의 Endpoint 판정 절이다. 같은 날 판단표 1차, 2차의 v2 결정을 적용했다. 연구 Object 타입은 1,977개(같은 대상 분리 4), Cartography 자동 매핑 3개를 바로잡았고, 실행 Profile은 122개(판단표 3차 V2-P1 GitHub 8개, Okta 7개, Google Workspace 7개, V2-P2 GitHub 9개, Okta 10개, Google Workspace 3개, Slack 3개 포함), v1 모델 데이터셋은 객체 294, 관계 272, 보류 0이다. 결정은 `candidate-extraction/ir2/v2/relation_decisions_v2.json`, 기계 적용 꼴은 `v2/research_overrides_v2.json`에 있다.
 

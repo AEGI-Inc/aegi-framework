@@ -1,6 +1,6 @@
 # 03. IM 모델과 오브젝트 도출 (IM Object Model V3.2)
 
-**IM 모델(Identity and Integration Model)**은 여러 SaaS의 서로 다른 객체·권한·신원·연동을 **Interface 9종**과 **Relation 17종(+ 의미 층)**의 닫힌 어휘로 표현하는 AEGI의 핵심 오브젝트 모델이다.
+**IM 오브젝트 모델(Information Map 기반 오브젝트 모델)**은 Information Map(정보 지도)에서 도출한 AEGI의 표준 오브젝트 모델로, 여러 SaaS의 서로 다른 객체·권한·신원·연동을 **Interface 9종**과 **Relation 17종(+ 의미 층)**의 닫힌 어휘로 표현한다.
 
 ---
 
