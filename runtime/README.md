@@ -8,6 +8,8 @@
 
 화면과 판정은 AEGI 대시보드와 같은 코드다. 가져온 원본 커밋은 `vendor/VERSIONS.json`에 있다.
 
+따로 받은 `aegi-solution-0.1.0.zip`은 SaaS 6개를 수집하는 이전 판이다. 차이는 [aegi-solution 압축파일과의 차이](../docs/03-enterprise-adoption/aegi-solution-zip.md)에 있다.
+
 수집한 데이터와 자격증명은 그 PC의 `data/`와 `.env`에만 남는다. 밖으로 나가는 요청은 셋뿐이다.
 - 각 SaaS의 읽기 전용 API
 - Splunk를 연결한 경우 그 Splunk의 검색 REST

@@ -71,6 +71,8 @@ AEGI는 벤더마다 제각각인 API와 권한 체계를 하나의 기준으로
 
 상세 도입 절차는 [기업 도입 가이드](docs/03-enterprise-adoption/adoption-guide.md)와 [런타임 안내](runtime/README.md)를 따른다. SaaS별 최소 읽기 권한은 [수집 가이드](runtime/docs/saas-collection-guide.md)와 [권한 범위 표](runtime/docs/saas-adapter-scopes.md)에 정리되어 있다.
 
+> `aegi-solution-0.1.0.zip`을 따로 받았다면, 그것은 SaaS 6개를 수집하는 이전 판이다. 이 저장소와 무엇이 다른지는 [aegi-solution 압축파일과의 차이](docs/03-enterprise-adoption/aegi-solution-zip.md)에 있다.
+
 ### 3. 자사 SaaS를 프레임워크에 새로 추가하기
 지원 목록 외에 Workday 또는 사내 커스텀 SaaS를 추가하려면 [새 SaaS 추가 플레이북](docs/03-enterprise-adoption/adding-new-saas.md)을 따른다.
 
