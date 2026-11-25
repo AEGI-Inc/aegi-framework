@@ -1,6 +1,10 @@
+# ir2: 수집과 정규화 (IR 설계.md 구현)
+
+`IR 설계.md` 3절의 개체 11종(source, operation, shape, key_decl, id_format, ref_decl, binding, catalog, grant, instance, hole)으로 8개 provider 자료를 옮긴다. 옛 파이프라인(`../normalize_*.py`, `../out/`)은 그대로 두고 건드리지 않는다.
+
 ## Microsoft 365 정보 지도 (2026-11-20)
 
-M365(Microsoft Graph v1.0)를 8개 SaaS와 같은 순서(문서 → IR → 정보 지도 → ID 공간)로 더했다. 고정 모델 V3.2 는 고치지 않았다. Cartography Microsoft 모델은 그대로 두고 대조 기준으로만 쓴다.
+M365(Microsoft Graph v1.0)를 8개 SaaS와 같이 문서, IR, 정보 지도, ID 공간 순서로 더했다. 고정 모델 V3.2 는 고치지 않았다. Cartography Microsoft 모델은 그대로 두고 대조 기준으로만 쓴다.
 
 ```bash
 python run_m365.py --twice        # 등록부 -> norm_m365 -> validate m365, 두 번 돌려 결정론 확인
@@ -11,7 +15,7 @@ python -m unittest test_norm_m365 test_map3_navigation
 ```
 
 - 출처(`collect/catalog.yaml` 의 `m365_*`): Graph v1.0 OpenAPI 와 CSDL, Graph 문서의 권한 표, Management Activity 스키마, Copilot 감사 스키마, Purview 감사 활동, Entra 감사 활동. 원문 스냅샷은 저장소 밖 로컬 폴더(`m365-docs/snapshot_2026-11-20`, 출처별 커밋은 그 폴더 manifest)에 있다.
-- 범위(`lexicons/m365.yaml`): 신원·접근, 메일, OneDrive, SharePoint, Teams, 기기, 보안. OneNote, Planner, Forms, Loop, Lists 는 사용자 결정(11-20)으로 뺐다. `/me` 는 `/users/{id}` 별칭이라 뺐다.
+- 범위(`lexicons/m365.yaml`): 신원과 접근, 메일, OneDrive, SharePoint, Teams, 기기, 보안. OneNote, Planner, Forms, Loop, Lists 는 사용자 결정(11-20)으로 뺐다. `/me` 는 `/users/{id}` 별칭이라 뺐다.
 - `norm_m365.py`: 키는 CSDL `Key`(BaseType 사슬)와 `AlternateKeys`, EntitySet/Singleton 이면 global. 싱글턴에서 단일 포함 탐색만 거쳐 컬렉션 하나로 끝나는 타입은 global(transform). 바인딩은 `x-ms-docs-key-type`, 권한은 문서 권한 표, 감사는 카탈로그. 테넌트 실측(4순위) 폴더가 있으면 `tenant_log.ingest` 로 넣는다.
 - 결과(실측 포함): 동작 12,422, 모양 31,653, 키 1,236. 정보 지도 공간 995, 객체 후보 722, 실측 ID 값 참조 51. Cartography Microsoft 노드 17개 중 14개가 공간에 닿고, 2개(IntuneDetectedApp, M365ServicePlan)는 파생, 1개(DefenderMachine)는 Graph 가 아닌 Defender API 다.
 
@@ -32,8 +36,8 @@ python iface_judge.py judge m365         # out2/iface_calibration.json, out2/obj
 python model_v1.py build m365            # out2/m365/objects/ (out2/v1 은 건드리지 않음)
 ```
 
-- 같은 실체: 같음 15, 다름 44, 하위 유형·변형 181. applicationTemplate(id 가 1st-party 앱 appId 와 같음)과 servicePrincipal 은 application 과 같은 기준으로 다른 실체로 기록했다.
-- 인터페이스: object 474, not_object 118, undecided 130. 객체 타입 468(검토 필요 1), 참조 3,085, 포함 803. Jev 판정과 V3.2 선례가 갈린 6개는 선례로 정했다(`v2/research_overrides_v2.json` M365-I1~I6: namedLocation=Policy, device·managedDevice·administrativeUnit=Resource, domain=Tenant, subscription=Endpoint). 다시 볼 대상이다.
+- 같은 실체: 같음 15, 다름 44, 하위 유형과 변형 181. applicationTemplate(id 가 1st-party 앱 appId 와 같음)과 servicePrincipal 은 application 과 같은 기준으로 다른 실체로 기록했다.
+- 인터페이스: object 474, not_object 118, undecided 130. 객체 타입 468(검토 필요 1), 참조 3,085, 포함 803. Jev 판정과 V3.2 선례가 갈린 6개는 선례로 정했다(`v2/research_overrides_v2.json` M365-I1~I6: namedLocation=Policy, device, managedDevice, administrativeUnit=Resource, domain=Tenant, subscription=Endpoint). 다시 볼 대상이다.
 - 공용 변경: `iface_judge.py judge <p>` 는 그 provider 에 적용되는 원문 사실만 해시 검사한다(관계된 원문이 바뀌면 지금처럼 멈춘다). `model_v1.py build <p>` 는 provider 하나만 돌고 없는 이전 산출물은 `skipped_inputs` 에 적는다(인자 없으면 동작 같음). v2 인터페이스 결정이 원래 undecided 인 후보에 걸리면 review_id 없이 적용된다(전에는 KeyError, 8개 SaaS 실행은 V2-T1 이 undecided 가 아니라 이 경로를 타지 않았다).
 - `test_model_v1.py` 의 기존 시험 7개는 이 저장소에 없는 `out2/v1`, 다른 SaaS 원문 전사가 필요해 main 에서도 실패한다(이번 변경 전과 같음).
 
@@ -54,11 +58,6 @@ python report_model_v1.py
 
 세 명령은 추가 모델 요청 없이 캐시와 고정 소스로만 결과를 재생성한다. 회귀 검사 71개, IR 8개, 두 해시 시드의 파일 64개 일치 결과와 모든 산출물 해시는 `out2/v1/verification.json`, `manifest.json`에 남긴다. 출력 `out2`는 로컬 연구 산출물이므로 소스, 고정 입력과 유효 응답 캐시도 함께 보존해야 재현할 수 있다.
 <!-- model-v1-run:end -->
-
-
-# ir2: 수집과 정규화 (IR 설계.md 구현)
-
-`IR 설계.md` 3절의 개체 11종(source, operation, shape, key_decl, id_format, ref_decl, binding, catalog, grant, instance, hole)으로 8개 provider 자료를 옮긴다. 옛 파이프라인(`../normalize_*.py`, `../out/`)은 그대로 두고 건드리지 않는다.
 
 ## 실행
 
@@ -104,8 +103,8 @@ python -W ignore::ResourceWarning -m unittest discover -s . -p test_map3.py -v
 | `pdftext.py` | PDF 읽기 (pypdf). 쪽 글자를 `cache/` 에 PDF 해시별로 저장 |
 | (지움) `curated.py` | 2026-10-15 사전 판단을 빼며 지웠다 (IR 설계.md 11절) |
 | `norm_github.py` `norm_okta.py` `norm_slack.py` `norm_salesforce.py` `norm_gws.py` `norm_atlassian.py` | provider 변환기. 맨 위 설명에 자료와 규칙 |
-| `validate.py` | 4.2절 게이트 -> `out2/<p>/validation.json`, `out2/<p>/issues.jsonl` (8절 형식) |
-| `compare_v2.py` | 옛 IR 대조 -> `out2/<p>/compare_v2.json`, `out2/compare_v2.md` |
+| `validate.py` | 4.2절 게이트. 출력 `out2/<p>/validation.json`, `out2/<p>/issues.jsonl` (8절 형식) |
+| `compare_v2.py` | 옛 IR 대조. 출력 `out2/<p>/compare_v2.json`, `out2/compare_v2.md` |
 | `run_all.py` | 전체 실행, 결정론 확인 |
 | `collect/catalog.yaml` | 출처 정의 (id, kind, rank, naming, 파일) |
 | `collect/build_registry.py` | 받은 목록(manifest.jsonl)과 정의를 합쳐 `collect/registry.json` |
@@ -140,7 +139,6 @@ python -m playwright install chromium
 
 - PyMuPDF(fitz)가 이 PC 에서 Windows 보안에 막혀 Salesforce PDF 는 pypdf 로 읽는다. 첫 실행은 쪽 글자 추출에 몇 분 걸리고, 이후는 `cache/` 를 쓴다 (`cache/` 는 다시 만들 수 있는 파생물이다).
 - `collect/registry.json` 의 출처 id 를 변환기가 쓴다. 자료를 더하면 `catalog.yaml` 에 적고 `build_registry.py` 를 돌린다.
-
 
 ## 잔여 관계 생성 규칙과 로컬 연산
 

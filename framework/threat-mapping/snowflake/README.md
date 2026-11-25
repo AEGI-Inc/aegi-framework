@@ -1,6 +1,6 @@
 # Snowflake 위협 매핑
 
-Snowflake 객체 40종 중 34종에 위협 61건을 매핑한 초안. 2026-09 표 157건을 Snowflake 객체 기준으로 하나씩 다시 검토하고 Snowflake 고유 위협 3건을 더함.
+Snowflake 객체 40종 중 34종에 위협 61건을 매핑한 초안이다. 2026-09 표 157건을 Snowflake 객체 기준으로 하나씩 다시 검토하고 Snowflake 고유 위협 3건을 더했다.
 
 - 버전 v0, 상태 초안, 담당자 검토 전, 2026-11-25 작성
 - 범위: [snowflake-rest-api-specs](https://github.com/snowflakedb/snowflake-rest-api-specs/tree/990e25d97236a11826c9eed40e587c2b859e5680/specifications) 990e25d(2026-09-10) 명세에서 뽑은 구성 객체 40종. 위협이 없는 객체 6종도 objects.csv에 남김. 관계 5종(Grant, GrantOf, GrantOn, TagAssignment, ServiceRoleGrantTo)은 객체로 세지 않고 notes의 판단 필드에만 씀. 실행 건, 저장 내용, 응답 값 객체 12종은 범위 밖
