@@ -8,7 +8,6 @@
     "node": ">=22.13"
   },
   "scripts": {
-    "sync": "node scripts/sync.mjs",
     "check:safety": "node scripts/check-public-safety.mjs",
     "check:links": "node scripts/check-links.mjs",
     "verify:freeze": "node framework/schema/im-model/model/v3.2/verify-freeze.mjs",

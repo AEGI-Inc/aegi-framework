@@ -210,31 +210,12 @@ Compliance: 「관리자 인증 보호」 검사는 수집 데이터로 로컬�
 npm install
 npm start                                       # bin/aegi.ts start (tsx)
 npm test
-npm run sync -- --dashboard origin/dash-prod    # 옆 폴더 세 저장소를 vendor/ 로 가져오고 화면을 다시 빌드
 npm run release                                 # release/aegi-solution-<버전>/ 와 .zip
 ```
 
 **vendor**
-- `vendor/`는 `scripts/sync.mjs`가 만든 사본이라 손으로 고치지 않는다.
-- 고칠 것은 원래 저장소에서 고치고 다시 `sync`한다.
-- 원래 저장소:
-  - `aegi-adapter-engine`: main
-  - `aegi-dashboard-new`: dash-prod
-  - `aegi-knowledge`: main
-
-**화면 빌드**
-- 화면은 `VITE_AEGI_LOCAL=on`(로컬 설치판)으로 빌드한다.
-- 메뉴는 운영과 같게 그린다. 로컬 서버가 있어야 하는 기능만 켠다:
-  - Splunk·AI 설정 카드
-  - 위협 다시 확인
-  - 빈 데이터셋
-  - 샘플
-  - 수집 실행
-- 공개 데모용 `VITE_AEGI_DEMO`, `VITE_AEGI_PUBLIC_DEMO`는 켜지 않는다.
-
-**patches/**
-- 원래 저장소에 아직 없는 설치판 수정이다.
-- sync가 가져온 뒤 이름 순서로 얹는다. 원래 저장소에 들어가면 해당 패치를 지운다.
+- `vendor/`에는 엔진(`engine`), 대시보드(`dashboard`), IM 모델(`knowledge`) 코드와 미리 빌드한 화면(`web`)이 들어 있다.
+- 처음 가져온 원본 커밋은 `vendor/VERSIONS.json`에 있고, `doctor`가 보여 준다.
 
 **코드 규칙**
 - 설치판 전용 코드는 `src/`, `bin/`에만 둔다.
