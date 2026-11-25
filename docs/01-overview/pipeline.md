@@ -13,7 +13,7 @@ flowchart TB
     B1 --> B2 --> B3 --> B4 --> B5
   end
 
-  subgraph Run["Run-time: 기업 환경 수집 · 정규화 · 판정 (주기적 실행)"]
+  subgraph Run["Run-time: 기업 환경 수집 · 정규화 · 판정 (수동 또는 예약 실행)"]
     R1["읽기 전용 SaaS 수집<br/>runs + raw envelopes"]
     R2["IM Profile 단일 정규화<br/>objects · relations · links · observations · evidence"]
     R3["파생 산출물 계산<br/>effective_access · coverage · lineage_events"]
