@@ -46,7 +46,9 @@ AEGI Framework는 기업의 보안 성숙도와 인프라 여건에 따라 **1�
    - 화면: **Adapters → 이 SaaS 수집 실행**
    - CLI: `runtime\collect.cmd` (macOS/Linux: `./runtime/collect.sh`) 또는 특정 SaaS만 지정:
      ```bash
-     npm --prefix runtime run aegi -- collect --only okta,github
+     runtime\collect.cmd --only okta,github     # Windows (PowerShell, cmd)
+     ./runtime/collect.sh --only okta,github    # macOS / Linux
+     # npm run ... -- --only 형태는 PowerShell 에서 --only 가 npm 설정으로 먹혀 .env 의 SaaS 전부를 수집한다
      ```
 4. **(선택) 감사 로그(Splunk) 및 AI 조사 연동**
    - 사내 Splunk 검색 REST API(`SPLUNK_URL`, `SPLUNK_TOKEN`, `splunk.sources.json`)를 연결하면 Timeline, Event Board, AI 로그 검색이 활성화된다.
