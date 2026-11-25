@@ -2,9 +2,9 @@
 
 이 폴더는 「우리 시험 환경에서 SaaS 끼리 어떻게 이어져 있고, 그것을 무엇으로 확인하는가」를 세 층으로 적는다.
 
-1. **인벤토리**: 지금 환경에서 SaaS1 과 SaaS2 가 A 방식으로 이어져 있다. → [`connection-inventory.md`](connection-inventory.md)
-2. **규칙**: 일반적으로 A 방식이면 이 값과 저 값이 같아야 한다. → [`../connection-rules/<쌍>.yaml`](../connection-rules/)
-3. **정답지**: 이 환경에서 그 값들이 실제로 무엇이었고 같았는가. → [`../test-environment/v3/<쌍>.yaml`](../test-environment/v3/) 의 `checks`
+1. **인벤토리**: 지금 환경에서 SaaS1 과 SaaS2 가 A 방식으로 이어져 있다. → `connection-inventory.md`
+2. **규칙**: 일반적으로 A 방식이면 이 값과 저 값이 같아야 한다. → [`../rules/<쌍>.yaml`](../rules/)
+3. **정답지**: 이 환경에서 그 값들이 실제로 무엇이었고 같았는가. → `../test-environment/v3/<쌍>.yaml` 의 `checks`
 
 ## 어디에 무엇이 있나
 

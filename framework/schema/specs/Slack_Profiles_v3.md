@@ -6,8 +6,8 @@
 
 전부 **run2 실측 응답**에서 나왔다. 호출 기록은 `Slack_Schema_Check_run2.xlsx`, 원문은 `evidence/RUN2/` 에 있다.
 
-- 대상: BoB AEGI Sandbox, enterprise `E0BTXUPK6CS`
-- 워크스페이스: `T0BUSB742RE`, `T0C0S4W1Z1U`
+- 대상: BoB AEGI Sandbox, enterprise `E0EXAMPLE01`
+- 워크스페이스: `T0EXAMPLE01`, `T0EXAMPLE02`
 - 수집 시각: 2026-09-17
 
 ## v2.1에서 바뀐 것 — 한 줄도 안 고쳤다
@@ -43,8 +43,8 @@ Slack 응답의 `team_id` 는 **우리가 어느 워크스페이스에 물어봤
 `users.list` 를 두 워크스페이스에 각각 부르면 같은 사람이 `team_id` 만 다른 두 행으로 나온다.
 
 ```
-U0BTRNDU62F  team_id=T0BUSB742RE
-U0BTRNDU62F  team_id=T0C0S4W1Z1U
+U0BTRNDU62F  team_id=T0EXAMPLE01
+U0BTRNDU62F  team_id=T0EXAMPLE02
 ```
 
 `team_id` 를 테넌트로 잡으면 한 사람이 워크스페이스 수만큼 늘어난다. 그래서 모든 Profile 에서 `references.tenant` 는 enterprise 로 고정하고, 워크스페이스 소속은 `member_of` relation 으로 뺀다.
@@ -263,11 +263,11 @@ date_created:
 
 | user | deleted | teams[] |
 | --- | --- | --- |
-| U0BTRNDU62F | false | `[T0BUSB742RE, T0C0S4W1Z1U]` |
+| U0BTRNDU62F | false | `[T0EXAMPLE01, T0EXAMPLE02]` |
 | U0BTGJXFUFR | true | `[]` |
 | USLACKBOT | false | `[]` |
 
-`deleted: true` 인 5명 전부 빈 배열이고, 예외는 Slackbot 하나다. 그런데 이들도 `users.list(team_id=T0BUSB742RE)` 응답에는 들어 있다.
+`deleted: true` 인 5명 전부 빈 배열이고, 예외는 Slackbot 하나다. 그런데 이들도 `users.list(team_id=T0EXAMPLE01)` 응답에는 들어 있다.
 
 그래서 `member_of` relation 은 `enterprise_user.teams[]` 와 **어느 워크스페이스 목록에서 나왔는지**를 둘 다 근거로 만든다. 전자만 쓰면 삭제된 계정의 과거 소속이 통째로 사라진다.
 
@@ -812,7 +812,7 @@ identifiers:
 
 references:
   tenant:
-    path: team_id            # 실측값이 E0BTXUPK6CS 였다
+    path: team_id            # 실측값이 E0EXAMPLE01 였다
     object_type: enterprise
     kind: direct_id
     status: confirmed
@@ -879,7 +879,7 @@ identifiers:
 
 references:
   tenant:
-    path: team_id            # 실측값이 E0BTXUPK6CS 였다
+    path: team_id            # 실측값이 E0EXAMPLE01 였다
     object_type: enterprise
     kind: direct_id
     status: confirmed

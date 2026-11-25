@@ -537,8 +537,8 @@ cut 도 undecomposed 도 비었는데 그 밖의 level     ->  lint 오류
 
 | | 그룹에서 빼면 | 끊을 지점 | 근거 |
 | --- | --- | --- | --- |
-| Okta 그룹 → 앱 배정 | **즉시 사라진다**(AppUser 404), 다시 넣으면 복귀 | 그룹 멤버십 | `data/okta/trial-5102035/group_cycle_0927` |
-| Okta 그룹 둘 → 같은 앱 | 하나를 빼도 **남는다**(다른 그룹으로) | 그룹 멤버십 **둘 다** | `data/okta/trial-5102035/two_groups_0928` |
+| Okta 그룹 → 앱 배정 | **즉시 사라진다**(AppUser 404), 다시 넣으면 복귀 | 그룹 멤버십 | `data/okta/trial-0000001/group_cycle_0927` |
+| Okta 그룹 둘 → 같은 앱 | 하나를 빼도 **남는다**(다른 그룹으로) | 그룹 멤버십 **둘 다** | `data/okta/trial-0000001/two_groups_0928` |
 | Slack 사용자 그룹 → 기본 채널 | **채널에 남는다**(5분 17초 관찰) | 채널 직접 멤버십 | `data/slack_v2/changes_0927`, `retest_default_channel_0928` |
 | Slack IdP 그룹 → 제한된 비공개 채널 | 91초 뒤 채널 보관(`member_count: -1`)이 첫 분명한 변화, 다시 넣으면 복귀 | 그룹 멤버십 | `data/cross/okta_slack_idp_0927` |
 

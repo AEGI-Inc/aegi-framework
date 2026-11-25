@@ -2,7 +2,7 @@
 
 경로 규칙은 "이런 관계 경로가 있고 이런 조건이면 이런 결론을 낸다"를 적는 형식이다. Effective Access의 합성 규칙과 이벤트 연결 규칙이 같은 형식을 쓴다. 형식은 하나, 규칙 묶음은 둘이다.
 
-상태: 초안. 2026-10-25 작성. 2026-10-26에 첫 규칙 파일 `ontology/access_rules.yaml`(EA 규칙 5개, 초안, aegi-adapter-engine `23098e0` + 고칠 거리 2의 손코드에서 옮김)과 검사 `validation/check_path_rules.py`를 더했다. 엔진에는 이 형식의 일부 문법을 읽는 실행기와 ea:rules-compare가 aegi-adapter-engine#130(10-27 머지)부터 있고, #136(10-28 머지)부터 운영 정규화마다 그림자로 돌아 손코드와 비교한다. 미지원 문법은 보고한다. #147(10-29 머지)부터 운영 EA의 `runs_as_inherits` 일반 행은 실행기 결과이고(`scripts/accessRules/production.ts`), 손코드는 그림자가 견줄 쪽으로 남는다. 다른 규칙은 운영에서도 손코드 결과다. 지금 EA 코드를 이 형식으로 옮겨 본 결과는 [EA 진단표 v1](../reports/EA_Rule_Diagnosis_v1.md)에 있다. 기존 파일에 대한 서술은 aegi-knowledge `4fb8aec`, aegi-adapter-engine `d78062d` 기준이고, 별도 검토 에이전트가 대조했다.
+상태: 초안. 2026-10-25 작성. 2026-10-26에 첫 규칙 파일 `ontology/access_rules.yaml`(EA 규칙 5개, 초안, aegi-adapter-engine `23098e0` + 고칠 거리 2의 손코드에서 옮김)과 검사 `validation/check_path_rules.py`를 더했다. 엔진에는 이 형식의 일부 문법을 읽는 실행기와 ea:rules-compare가 aegi-adapter-engine#130(10-27 머지)부터 있고, #136(10-28 머지)부터 운영 정규화마다 그림자로 돌아 손코드와 비교한다. 미지원 문법은 보고한다. #147(10-29 머지)부터 운영 EA의 `runs_as_inherits` 일반 행은 실행기 결과이고(`scripts/accessRules/production.ts`), 손코드는 그림자가 견줄 쪽으로 남는다. 다른 규칙은 운영에서도 손코드 결과다. 지금 EA 코드를 이 형식으로 옮겨 본 결과는 EA 진단표 v1에 있다. 기존 파일에 대한 서술은 aegi-knowledge `4fb8aec`, aegi-adapter-engine `d78062d` 기준이고, 별도 검토 에이전트가 대조했다.
 
 ## 왜 필요한가
 
@@ -78,7 +78,7 @@
 
 갈래가 있으면 `path` 대신 `any_of: [path, path]`를 쓴다. 갈래마다 결론 행이 따로 나온다(EA 규격 "한 행은 한 경로다").
 
-**"접근을 주는 아무 관계"는 간선 홉으로 받는다.** 관계 이름이나 화면용 표현 등급(`relation_types.yaml` grades)이 아니라 effects가 정한 간선과 방향을 따라가야 한다. 그래야 소속일 뿐인 관계(그룹이나 테넌트로 가는 `member_of`는 M), 방향이 뒤집힌 관계(`owned_by`는 주인에서 자원으로 G), 효과가 없는 관계(`excludes`, `applies_to`, `evaluates`, `permits`)를 접근으로 잘못 세지 않는다. EA 명세 「첫 규칙」과 `check_twohop.py`는 2026-10-25에 `runs_as_inherits`의 둘째 홉을 「접근 등급」에서 이 G 간선으로 바꿨고, 엔진도 같다(aegi-adapter-engine `e33a1dd`, #99). 바꾸기 전의 영향은 [EA 진단표](../reports/EA_Rule_Diagnosis_v1.md) 5장에 있다.
+**"접근을 주는 아무 관계"는 간선 홉으로 받는다.** 관계 이름이나 화면용 표현 등급(`relation_types.yaml` grades)이 아니라 effects가 정한 간선과 방향을 따라가야 한다. 그래야 소속일 뿐인 관계(그룹이나 테넌트로 가는 `member_of`는 M), 방향이 뒤집힌 관계(`owned_by`는 주인에서 자원으로 G), 효과가 없는 관계(`excludes`, `applies_to`, `evaluates`, `permits`)를 접근으로 잘못 세지 않는다. EA 명세 「첫 규칙」과 `check_twohop.py`는 2026-10-25에 `runs_as_inherits`의 둘째 홉을 「접근 등급」에서 이 G 간선으로 바꿨고, 엔진도 같다(aegi-adapter-engine `e33a1dd`, #99). 바꾸기 전의 영향은 EA 진단표 5장에 있다.
 
 ### 규칙 칸
 
@@ -278,4 +278,4 @@ event 규칙은 경로 양끝에 이벤트가 하나씩 붙는다. 이벤트는 
 - [Effective_Access_Schema_v1](Effective_Access_Schema_v1.md): EA 행의 모양과 원칙
 - [Relation_Schema_v3](Relation_Schema_v3.md), `ontology/relation_semantics.yaml`: 관계와 간선
 - [Link_Schema_v3](Link_Schema_v3.md): 동일인 연결 단계
-- [EA 진단표 v1](../reports/EA_Rule_Diagnosis_v1.md): 지금 EA 코드를 이 형식으로 옮겨 본 결과
+- EA 진단표 v1: 지금 EA 코드를 이 형식으로 옮겨 본 결과

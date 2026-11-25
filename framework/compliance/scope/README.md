@@ -18,7 +18,7 @@
 
 ## 카탈로그 매핑
 
-`catalog-mapping/` 은 11-09 부터 진행한 새 방식이다. 인스턴스마다 판정하는 대신 카탈로그 객체 종류 ↔ 항목 매핑을 만든다. 2026-11-11 부터 engine 게시가 이 매핑을 스냅샷 객체 종류에 맞춰 (항목, 종류, 객체 수)로 `compliance_scope` 에 싣는다(knowledge #265, #266). 내용과 이어 할 일은 [`catalog-mapping/HANDOFF-2026-11-11.md`](catalog-mapping/HANDOFF-2026-11-11.md)에 있다.
+`catalog-mapping/` 은 11-09 부터 진행한 새 방식이다. 인스턴스마다 판정하는 대신 카탈로그 객체 종류 ↔ 항목 매핑을 만든다. 2026-11-11 부터 engine 게시가 이 매핑을 스냅샷 객체 종류에 맞춰 (항목, 종류, 객체 수)로 `compliance_scope` 에 싣는다(knowledge #265, #266).
 
 ## 판정 순서
 

@@ -3,7 +3,7 @@
 SaaS마다 객체(계정, 앱, 정책, 자원)별로 생길 수 있는 위협을 같은 형식의 CSV로 모으는 곳이다. 팀이 SaaS를 나눠 맡아 채우고, 이 표를 바탕으로 Cross-SaaS 시나리오와 엔진 위협 판정 규칙을 만든다.
 
 - 상태: 형식 초안(2026-11-24). [microsoft/](microsoft/README.md)(M365), [okta/](okta/README.md), [gws/](gws/README.md), [slack/](slack/README.md), [github/](github/README.md), [salesforce/](salesforce/README.md), [snowflake/](snowflake/README.md), [atlassian/](atlassian/README.md)(Jira, Confluence, Loom, 조직 공통), [onepassword/](onepassword/README.md)(1Password)가 v0로 있다. okta, gws, slack, github 네 개는 9월 표를 옮기고 보완한 것이고 salesforce, snowflake는 9월 표 157건을 그 SaaS 객체에 맞춰 다시 쓰고 검증한 것이다. atlassian, onepassword는 2026-11-24 우리 환경 실측 목록을 이 형식으로 옮기고 9월 표와 공식 문서로 보완한 것이다.
-- 위협 유형의 뜻은 [`schema/ontology/threat_types.yaml`](../schema/ontology/threat_types.yaml), 판정 절차는 Adapter Engine [위협 판정 명세 V2](https://github.com/AEGI-Inc/aegi-adapter-engine/blob/main/docs/spec/AEGI_THREAT_JUDGMENT_V2.md)를 따른다. 이 폴더는 판정 규칙이 아니라 규칙을 만들 재료 목록이다.
+- 위협 유형의 뜻은 [`schema/ontology/threat_types.yaml`](../schema/ontology/threat_types.yaml), 판정 절차는 Adapter Engine [위협 판정 명세 V2](../../specs/AEGI_THREAT_JUDGMENT_V2.md)를 따른다. 이 폴더는 판정 규칙이 아니라 규칙을 만들 재료 목록이다.
 - 출발 자료는 2026-09 「AEGI_Threat_Mapping」(Identity·Integration·Policy·Resource 4갈래 157건, 공유 드라이브 `위협매핑`)이다. 열 이름은 그 표를 따르고 판정에 필요한 칸을 더했다.
 
 ## 폴더와 파일

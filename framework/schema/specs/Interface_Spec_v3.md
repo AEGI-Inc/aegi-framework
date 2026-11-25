@@ -119,7 +119,7 @@ Okta는 아예 구분할 방법이 없다. `/api/v1/users` 전체 스키마에 �
 
 **Assignment는 주체, 대상, 역할 묶음마다 한 건이다(판단표 G4-Q01).** API가 연산 하나마다 행을 주더라도(Confluence 스페이스 권한은 (주체, 연산) 행마다 하나) 같은 주체가 같은 대상에 받은 연산은 Assignment 하나로 합치고 연산 목록은 `properties.permissions` 배열에 둔다. 관계의 역할 칸에도 연산 하나가 아니라 묶음이 들어간다. 그래야 SaaS마다 API 행 크기에 따라 객체 수가 달라지지 않는다(Confluence 스페이스 권한 365 → 약 16, Atlassian has_role_on 611 → 약 57).
 
-**권한 체계의 내용 행은 Assignment가 아니다(판단표 G4-Q02).** "어떤 역할이 어떤 권한을 가진다"는 체계(Policy)의 내용이지 주체에게 대상을 준 기록이 아니다. Jira 권한 체계 항목은 PermissionScheme 의 `properties.permissions`에 담고, 관계는 체계가 적용된 프로젝트와 역할 구성원을 풀어 만든다. Salesforce 권한 세트의 권한, GitHub 조직 역할의 권한이 이미 이렇게 Policy 속성이다. I1의 양끝은 주체 객체와 대상 객체다. Salesforce 내용 행(FieldPermissions, ObjectPermissions 등)을 접는 모양과 크기 정책은 [결정 기록](../../docs/decisions/SALESFORCE_PERMISSION_ROWS_2026-10-28.md)에 있다.
+**권한 체계의 내용 행은 Assignment가 아니다(판단표 G4-Q02).** "어떤 역할이 어떤 권한을 가진다"는 체계(Policy)의 내용이지 주체에게 대상을 준 기록이 아니다. Jira 권한 체계 항목은 PermissionScheme 의 `properties.permissions`에 담고, 관계는 체계가 적용된 프로젝트와 역할 구성원을 풀어 만든다. Salesforce 권한 세트의 권한, GitHub 조직 역할의 권한이 이미 이렇게 Policy 속성이다. I1의 양끝은 주체 객체와 대상 객체다. Salesforce 내용 행(FieldPermissions, ObjectPermissions 등)을 접는 모양과 크기 정책은 결정 기록에 있다.
 
 **시한부 권한 부여는 실재한다.** Salesforce `PermissionSetAssignment.ExpirationDate`가 "권한 집합 배정이 만료되는 날짜"고, Google Workspace `RoleAssignment.expirationDetails.expireTime`은 문서가 "시간 제한에 도달하면 접근을 자동으로 회수한다"고 쓴다. Cloud Identity 그룹 멤버십도 `roles[].expiryDetail.expireTime`을 준다.
 

@@ -1,6 +1,6 @@
 # IM 모델(오브젝트 모델 v1)의 실제 수집 적용
 
-> 상태: 과거 기록. 지금 수집과 정규화는 고정본 [IM Object Model V3.2](v3.2/README.md)와 엔진 Profile 단일 경로 [`scripts/collect/profile-binding/`](https://github.com/AEGI-Inc/aegi-adapter-engine/tree/main/scripts/collect/profile-binding)([IM Profile 파이프라인](https://github.com/AEGI-Inc/aegi-adapter-engine/blob/main/docs/IM_PROFILE_PIPELINE.md))를 따른다. 아래 `npm run model:compile`, `npm run normalize:model-v1`, `scripts/collect/model-v1/definitions.ts` 같은 명령과 경로는 지금 엔진에 없다. 본문은 2026-10-19 기록 그대로 둔다.
+> 상태: 과거 기록. 지금 수집과 정규화는 고정본 [IM Object Model V3.2](v3.2/README.md)와 엔진 Profile 단일 경로 [`scripts/collect/profile-binding/`](../../../../runtime/vendor/engine/scripts/collect/profile-binding)([IM Profile 파이프라인](../../../../specs/IM_PROFILE_PIPELINE.md))를 따른다. 아래 `npm run model:compile`, `npm run normalize:model-v1`, `scripts/collect/model-v1/definitions.ts` 같은 명령과 경로는 지금 엔진에 없다. 본문은 2026-10-19 기록 그대로 둔다.
 
 IM 모델(오브젝트 모델 v1)은 2026-10-19에 고정했다. 무엇이 고정됐는지, SaaS별 준비 상태와 새 SaaS Profile 추가 절차는 [IM 모델(오브젝트 모델 v1) 안내](AEGI_OBJECT_MODEL_V1.md)를 먼저 읽는다. 이 문서는 실행 명령과 4개 SaaS 적용 결과를 다룬다.
 

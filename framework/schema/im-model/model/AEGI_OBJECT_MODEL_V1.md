@@ -1,6 +1,6 @@
 # IM 모델 (오브젝트 모델 v1) 안내
 
-> 상태: 과거 기록. 이 판은 지금 수집, 정규화, 탐지의 기준이 아니다. 지금 기준은 고정본 [IM Object Model V3.2](v3.2/README.md)와 엔진 Profile 단일 경로 [`scripts/collect/profile-binding/`](https://github.com/AEGI-Inc/aegi-adapter-engine/tree/main/scripts/collect/profile-binding)([IM Profile 파이프라인](https://github.com/AEGI-Inc/aegi-adapter-engine/blob/main/docs/IM_PROFILE_PIPELINE.md))다. 아래 본문의 「팀 작업은 이 판을 기준」 문장과 `scripts/collect/model-v1/definitions.ts`, `scripts/collect/normalize-v2/`, `npm run model:compile`, `npm run normalize:model-v1` 같은 경로와 명령은 지금 엔진에 없다. 본문은 2026-10-19 기록 그대로 둔다.
+> 상태: 과거 기록. 이 판은 지금 수집, 정규화, 탐지의 기준이 아니다. 지금 기준은 고정본 [IM Object Model V3.2](v3.2/README.md)와 엔진 Profile 단일 경로 [`scripts/collect/profile-binding/`](../../../../runtime/vendor/engine/scripts/collect/profile-binding)([IM Profile 파이프라인](../../../../specs/IM_PROFILE_PIPELINE.md))다. 아래 본문의 「팀 작업은 이 판을 기준」 문장과 `scripts/collect/model-v1/definitions.ts`, `scripts/collect/normalize-v2/`, `npm run model:compile`, `npm run normalize:model-v1` 같은 경로와 명령은 지금 엔진에 없다. 본문은 2026-10-19 기록 그대로 둔다.
 
 새 오브젝트 모델의 공식 명칭을 **IM 모델**(Information Map 기반 오브젝트 모델)로 명명한다. 오브젝트 모델 v1은 2026-10-19 사용자 결정으로 고정했다(PR #117). 팀의 수집, 정규화, 탐지 작업은 이 판을 기준으로 한다. 모델을 더 발전시키는 일은 v2로 따로 진행하고, v1 파일은 새 결정 없이 바꾸지 않는다.
 

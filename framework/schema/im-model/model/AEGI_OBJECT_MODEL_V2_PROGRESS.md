@@ -1,6 +1,5 @@
 # 오브젝트 모델 v2 작업 정리 (1~6단계, 판단표 3차)
 
-새 세션은 [인계 문서](AEGI_OBJECT_MODEL_V2_HANDOFF.md)부터 읽는다.
 
 작성일: 2026-10-19. 브랜치 `feat/object-model-v2`(origin/main `f0ef4b8` 기준, push 전). v1 고정 기록(`model_v1_freeze.json`, `relation_decisions_step4.json`)은 바꾸지 않았다. 결정 정본은 `candidate-extraction/ir2/v2/relation_decisions_v2.json`이다.
 
@@ -191,7 +190,6 @@ v2 결정은 `candidate-extraction/ir2/v2/research_overrides_v2.json`에 기계 
 | --- | --- |
 | `candidate-extraction/ir2/v2/relation_decisions_v2.json` | v2 결정 37건, 검토 항목 24개, 감사 해당 없음 3개, 단계별 검증 |
 | `candidate-extraction/ir2/v2/profile_triage/` | 세 모델 대조와 판단표 3차 재생성 도구 |
-| `docs/spec/AEGI_OBJECT_MODEL_V2_HANDOFF.md` | 새 세션 인계 |
 | `candidate-extraction/ir2/v2/research_overrides_v2.json` | 연구 코드가 읽는 v2 결정 |
 | `docs/spec/AEGI_OBJECT_MODEL_V1.md`, `AEGI_OBJECT_MODEL_V1_RUNTIME.md` | v2 변경 문단 |
 | `scripts/ontology/crosswalkDifferences.ts` | crosswalk와 일부러 다른 곳 |
