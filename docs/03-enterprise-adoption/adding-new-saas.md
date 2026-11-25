@@ -8,7 +8,7 @@ AEGI Framework의 핵심 강점은 기본 6개 SaaS 외에 **Microsoft 365, Work
 
 ```mermaid
 flowchart LR
-  A["Step 1<br/>벤더 공식 명세 수집"] --> B["Step 2<br/>IR 정규화 &<br/>Information Map"]
+  A["Step 1<br/>벤더 공식 명세 수집"] --> B["Step 2<br/>명세 구조화 &<br/>Information Map"]
   B --> C["Step 3<br/>IM Object · Interface ·<br/>Relation 매핑"]
   C --> D["Step 4<br/>IM Profile &<br/>수집기 등록"]
   D --> E["Step 5<br/>연결 규칙 &<br/>위협 매핑 추가"]
@@ -28,13 +28,13 @@ flowchart LR
 
 ---
 
-## Step 2. IR 정규화 및 Information Map 도출
+## Step 2. 명세 구조화 및 Information Map 도출
 
-1. `framework/schema/im-model/extraction/ir2/`에 `norm_<provider>.py`를 작성해 벤더 명세를 공통 IR(`operation`, `param`, `response shape`)로 변환한다.
+1. `framework/schema/im-model/extraction/ir2/`에 `norm_<provider>.py`를 작성해 벤더 명세를 공통 형식(`operation`, `param`, `response shape`)으로 변환한다.
 2. `ir2/map3.py` 또는 `extract.py` + `info_map.py`를 실행해 후보 오브젝트와 ID 공간, 정보 지도를 생성한다.
 3. 구조만으로 모호한 항목은 `lexicons/<provider>.yaml`에 판단 이유와 함께 명시한다.
 
-상세 설명: [02. IR과 Information Map](../02-methodology/02-ir-and-information-map.md)
+상세 설명: [02. Information Map 도출](../02-methodology/02-ir-and-information-map.md)
 
 ---
 
