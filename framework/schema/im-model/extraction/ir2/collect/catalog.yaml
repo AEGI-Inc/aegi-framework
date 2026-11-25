@@ -99,14 +99,14 @@ sources:
      dir: aegi-schema/data/github/lab_0926, snapshot: "2026-09-26", fetched_at: "2026-09-26", fetch_method: local_upload,
      note: "GHEC 평가판 조직 AEGI-gh-lab-20260904 REST 응답"}
   - {id: okta_tenant_5102035_0925, provider: okta, kind: tenant, rank: 4, naming: rest_json,
-     dir: aegi-schema/data/okta/trial-5102035/raw_0925, snapshot: "2026-09-25", fetched_at: "2026-09-25", fetch_method: local_upload,
-     note: "Okta 평가판 trial-5102035 Management API 응답"}
+     dir: aegi-schema/data/okta/trial-0000001/raw_0925, snapshot: "2026-09-25", fetched_at: "2026-09-25", fetch_method: local_upload,
+     note: "Okta 평가판 trial-0000001 Management API 응답"}
   - {id: okta_tenant_5102035_0926, provider: okta, kind: tenant, rank: 4, naming: rest_json,
-     dir: aegi-schema/data/okta/trial-5102035/raw_0926, snapshot: "2026-09-26", fetched_at: "2026-09-26", fetch_method: local_upload,
-     note: "Okta 평가판 trial-5102035 Management API 응답"}
+     dir: aegi-schema/data/okta/trial-0000001/raw_0926, snapshot: "2026-09-26", fetched_at: "2026-09-26", fetch_method: local_upload,
+     note: "Okta 평가판 trial-0000001 Management API 응답"}
   - {id: okta_tenant_9523037_0927, provider: okta, kind: tenant, rank: 4, naming: rest_json,
-     dir: aegi-schema/data/okta/trial-9523037/raw_0927, snapshot: "2026-09-27", fetched_at: "2026-09-27", fetch_method: local_upload,
-     note: "Okta 평가판 trial-9523037 Management API 응답"}
+     dir: aegi-schema/data/okta/trial-0000002/raw_0927, snapshot: "2026-09-27", fetched_at: "2026-09-27", fetch_method: local_upload,
+     note: "Okta 평가판 trial-0000002 Management API 응답"}
   - {id: slack_tenant_raw, provider: slack, kind: tenant, rank: 4, naming: slack_rpc,
      dir: aegi-schema/data/slack_raw, snapshot: "2026-09-17", fetched_at: "2026-09-17", fetch_method: local_upload,
      note: "테스트 테넌트 실측 응답 (RUN2). Web API, SCIM, 감사 API"}
@@ -227,7 +227,7 @@ sources:
      snapshot: "2026-11-20", fetch_method: prior_snapshot}
   - {id: m365_tenant_20261120, provider: m365, kind: tenant, rank: 4, naming: rest_json,
      dir: data/m365/tenant_20261120, snapshot: "2026-11-20", fetched_at: "2026-11-20",
-     fetch_method: local_upload, note: "M365 E5 체험 테넌트 m365-aegim365 Graph v1.0 읽기 응답"}
+     fetch_method: local_upload, note: "M365 E5 체험 테넌트 Graph v1.0 읽기 응답"}
 
 # 규칙으로 만드는 출처 (파일 이름 접두사)
 rules:

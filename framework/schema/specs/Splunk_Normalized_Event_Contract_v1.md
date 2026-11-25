@@ -32,6 +32,6 @@
 
 ## 표시 이름 사전
 
-기계 판독 가능한 사전은 [`../catalog/splunk-event-labels-v1.json`](../catalog/splunk-event-labels-v1.json)이다. 키는 `provider|event_type`이며 원본 키를 변경하지 않는다. 사전 항목은 검토된 한국어 행위 이름이고, 등록되지 않은 이벤트는 원본 행위 이름으로 표시한다. 항목별 `source`는 공식 공급자 문서를 가리킨다.
+기계 판독 가능한 사전은 `../catalog/splunk-event-labels-v1.json`이다. 키는 `provider|event_type`이며 원본 키를 변경하지 않는다. 사전 항목은 검토된 한국어 행위 이름이고, 등록되지 않은 이벤트는 원본 행위 이름으로 표시한다. 항목별 `source`는 공식 공급자 문서를 가리킨다.
 
 이 계약은 감사 이벤트의 소비자 간 의미만 정의한다. 수집 범위, D1 게시와 보존은 Adapter Engine의 운영 명세를 따른다.

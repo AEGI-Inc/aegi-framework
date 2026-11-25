@@ -27,7 +27,7 @@
 | `activities.yaml` | 관측 9종, 증거 관계 7종 | 대시보드 |
 | `activity_types.yaml` | **사건 사전** (초안) — 원본 사건 종류(`provider|event_type`) 449줄마다 행위, 효과(관계 17종 이름과 자리), 그리고 수집 호출마다 원본 칸 위치. 형식은 명세 `Activity_Schema_v1`, 검사는 `validation/check_activity_types.py`. 엔진은 생성 코드로 읽어 사건 기록(Activity)과 Okta 감사 관측을 만든다 | **이 파일이 정본** (초안). 11-04 운영 로그 418종 분류를 씨앗으로 옮겼다 |
 | `threat_types.yaml` | **위협 유형 넷**. 비인가 접근, 권한 상승, 데이터 반출, 추적성 상실의 뜻, 기준선, 방향, 가르는 기준과 대표 유형 순서, 조직 밖 표시. 엔진은 사본에서 생성한 `THREAT_TYPES`, `THREAT_TYPE_ORDER`로 읽는다 | **이 파일이 정본** (aegi-knowledge#346, 2026-11-19). 그 전에는 엔진 `contract.ts`와 위협 판정 명세 5절 「유형 표」 |
-| `policies.yaml` | 위협 제목 규칙과 제목 검사. 위협 판정은 엔진 [위협 판정 명세 V2](https://github.com/AEGI-Inc/aegi-adapter-engine/blob/main/docs/spec/AEGI_THREAT_JUDGMENT_V2.md)를 따른다 | 대시보드, adapter-engine 위협 제목 |
+| `policies.yaml` | 위협 제목 규칙과 제목 검사. 위협 판정은 엔진 [위협 판정 명세 V2](../../../specs/AEGI_THREAT_JUDGMENT_V2.md)를 따른다 | 대시보드, adapter-engine 위협 제목 |
 | `judgments.yaml` | EA level 넷 | 명세 `Effective_Access_Schema_v1` |
 | | 답 · 사람 구분 · 호출 방식 · 권한 출처 | 대시보드 |
 | `identity.yaml` | Link level 다섯(전이 여부 포함) | 명세 `Link_Schema_v3` |
@@ -62,7 +62,7 @@ npm run build                                                   # 온톨로지 �
 npm run test                                                    # 온톨로지 무결성 검증
 ```
 
-온톨로지 개념 사전의 정본은 이 디렉터리다. 현재 Adapter Engine은 사전을 자체 `ontology/`에 복사하고 출처 커밋을 기록한 뒤 `src/ontology/generated.ts`를 만든다. Knowledge의 `index.ts` 빌드만으로 모든 구현 저장소가 자동 동기화되지는 않는다. 현재 전달 절차는 [저장소 관리](../../docs/repositories/README.md)에 있다. 아래 단계별 명령과 결과는 해당 시점의 기록이며, Python 검사의 원자료 제약은 [자료 지도](../../docs/reference/materials.md)를 확인한다.
+온톨로지 개념 사전의 정본은 이 디렉터리다. 현재 Adapter Engine은 사전을 자체 `ontology/`에 복사하고 출처 커밋을 기록한 뒤 `src/ontology/generated.ts`를 만든다. Knowledge의 `index.ts` 빌드만으로 모든 구현 저장소가 자동 동기화되지는 않는다. 현재 전달 절차는 저장소 관리에 있다. 아래 단계별 명령과 결과는 해당 시점의 기록이며, Python 검사의 원자료 제약은 자료 지도를 확인한다.
 
 
 

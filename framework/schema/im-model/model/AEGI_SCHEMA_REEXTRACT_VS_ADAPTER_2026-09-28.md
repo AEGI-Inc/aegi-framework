@@ -74,7 +74,7 @@
 
 | | 우리 | 규격 |
 | --- | --- | --- |
-| Slack 테넌트 | 워크스페이스 `T0C2NC3C892` | **엔터프라이즈 `E0C2LL4CXL1`** (Slack_Profiles_v3: `team_id` 는 우리가 물어본 곳이지 객체 성질이 아니다) |
+| Slack 테넌트 | 워크스페이스 `T0EXAMPLE03` | **엔터프라이즈 `E0EXAMPLE03`** (Slack_Profiles_v3: `team_id` 는 우리가 물어본 곳이지 객체 성질이 아니다) |
 | Slack 봇 | `bot` B… 한 노드 | `user` U…(채널 멤버십·`acts_as` 대상) + `bot` B…(`bots.info`) 두 노드. 둘을 잇는 어휘는 없다(`null`) |
 | Okta 클라이언트 | `OAuth2Client` 와 `Application` 을 같은 0oa… 로 두 번 | 같음. 역할 배정의 주체를 규격은 `app` 으로 받는다 — 벤더가 두 이름으로 부르는 대상, 규격도 미결 |
 | Okta `service` | `management` | `null` (단일 표면이면 null) |

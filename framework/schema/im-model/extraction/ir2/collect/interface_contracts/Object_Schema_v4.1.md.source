@@ -523,7 +523,7 @@ Slack `users.list` 응답이 그렇다.
 ```json
 { "id": "U0BTRNDU62F",
   "is_admin": true,
-  "enterprise_user": { "enterprise_id": "E0BTXUPK6CS", "is_admin": false } }
+  "enterprise_user": { "enterprise_id": "E0EXAMPLE01", "is_admin": false } }
 ```
 
 루트의 `is_admin`은 **요청한 워크스페이스에서** 관리자라는 뜻이다. 다른 워크스페이스로 같은 호출을 하면 값이 달라진다. `enterprise_user.is_admin`은 엔터프라이즈 전체에 대한 값이다.
@@ -598,7 +598,7 @@ source:
 
 ```yaml
     - api: POST /api/users.list
-      params: { team_id: T0BUSB742RE, limit: "200" }
+      params: { team_id: T0EXAMPLE01, limit: "200" }
       record: members
       as_relation_fired: [is_owner, is_admin, enterprise_user.is_admin]
 ```
@@ -741,8 +741,8 @@ references:
     relation_type: member_of
     basis: computed
     targets:
-      - { value: T0BUSB742RE, object_type: team, obs: [1, 2] }
-      - { value: T0C0S4W1Z1U, object_type: team, obs: [3] }
+      - { value: T0EXAMPLE01, object_type: team, obs: [1, 2] }
+      - { value: T0EXAMPLE02, object_type: team, obs: [3] }
 ```
 
 **`properties.as_relation`이 이걸 필요로 한다.** 불리언은 그 관측의 범위에서만 참이다. Slack 루트 `is_admin`은 **그 호출에 쓴 워크스페이스**에서 관리자라는 뜻이고, 다른 워크스페이스로 같은 호출을 하면 값이 달라진다.
@@ -766,7 +766,7 @@ references:
   tenant:
     kind: direct_id
     status: inferred                  # 가리킨 쪽에서 물려받았다. 관측이 아니다
-    targets: [{ value: E0BTXUPK6CS, object_type: enterprise, obs: [0] }]
+    targets: [{ value: E0EXAMPLE01, object_type: enterprise, obs: [0] }]
 properties: {}
 stub: true
 source:
@@ -807,7 +807,7 @@ Slack `conversations.list`의 `context_team_id`가 그렇다. 이름은 team인�
 Profile이 `object_type: team`이라고 적으면 그 10건이 엔터프라이즈 id를 가진 team 노드를 만든다. 검사가 그걸 잡는다.
 
 ```
-channel.context_team: object_type 을 team 이라고 했는데 값 E0BTXUPK6CS 의 접두사는 enterprise 다
+channel.context_team: object_type 을 team 이라고 했는데 값 E0EXAMPLE01 의 접두사는 enterprise 다
 ```
 
 고치는 방법은 Profile을 `object_type: "@resolve"`로 바꾸는 것이다. 접두사가 실제로 갈리는 자리면 고정할 수 없다.

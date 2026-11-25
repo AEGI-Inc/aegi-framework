@@ -19,7 +19,7 @@ export interface ScenarioEvent extends Omit<DemoHecEvent, 'sourcetype'> {
 
 interface Obs { id: string; occurredAt: string; attributes: Record<string, unknown> }
 
-const GH_ORG_LOGIN = 'aegi-site-r1-org'
+const GH_ORG_LOGIN = 'example-org'
 const mail = (p: { first: string; last: string }) => `${p.first}.${p.last}@${DOMAIN}`.toLowerCase()
 
 export function generateScenarioEvents(observations: Obs[], baseIso: string, seed = 'scenarios'): ScenarioEvent[] {

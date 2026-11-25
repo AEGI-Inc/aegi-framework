@@ -1,27 +1,30 @@
-// README.md 및 docs/ 내 마크다운 상대 링크가 실제 파일/폴더를 가리키는지 검사한다.
+// 저장소 안 모든 마크다운(runtime/vendor, node_modules 제외)의 상대 링크가 실제 파일/폴더를 가리키는지 검사한다.
+// 코드 블록과 인라인 코드 안의 [..](..) 는 링크가 아니라서 건너뛴다.
 import fs from 'node:fs'
 import path from 'node:path'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
-const targets = [path.join(ROOT, 'README.md')]
+const SKIP = new Set(['.git', 'node_modules', path.join('runtime', 'vendor')])
+const targets = []
 
 function collectMarkdown(dir) {
   if (!fs.existsSync(dir)) return
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const full = path.join(dir, entry.name)
-    if (entry.isDirectory()) collectMarkdown(full)
-    else if (entry.name.endsWith('.md')) targets.push(full)
+    if (entry.isDirectory()) {
+      if (!SKIP.has(entry.name) && !SKIP.has(path.relative(ROOT, full))) collectMarkdown(full)
+    } else if (entry.name.endsWith('.md')) targets.push(full)
   }
 }
 
-collectMarkdown(path.join(ROOT, 'docs'))
+collectMarkdown(ROOT)
 
 const linkRe = /\[[^\]]*\]\(([^)]+)\)/g
 const broken = []
 
 for (const file of targets) {
   if (!fs.existsSync(file)) continue
-  const text = fs.readFileSync(file, 'utf8')
+  const text = fs.readFileSync(file, 'utf8').replace(/```[\s\S]*?```/g, '').replace(/`[^`\n]*`/g, '')
   const dir = path.dirname(file)
   for (const match of text.matchAll(linkRe)) {
     const raw = match[1].trim()

@@ -55,7 +55,7 @@ SaaS 두 개가 서로 이어지는 방법 297가지를 한 표로 줄였다. �
 | swa_sign_on | 비밀번호 대신 입력 | 앱 domain = Slack 도메인 (이름) | 환경 밖 |
 | scim_provisioning | Okta → Slack 계정·그룹 | 배정 externalId = Slack 사용자 ID (ID), 그룹 푸시 매핑 = 사용자 그룹 (ID) | 환경 밖, aegico 는 안 씀 |
 | import | Slack 사용자를 Okta 로 | 배정 externalId = Slack 사용자 ID (ID) | 환경 밖 |
-| workflows_slack_connector | Okta Workflows 가 Slack 메시지 받기·보내기 | Slack 의 Okta Workflows 앱 (이름), 연결과 설치 시각 (로그), 흐름 실행 기록의 Team ID (ID) | 환경 밖 (slack-helpdesk = 예전 팀 T0C2NC3C892), aegico 는 안 씀 |
+| workflows_slack_connector | Okta Workflows 가 Slack 메시지 받기·보내기 | Slack 의 Okta Workflows 앱 (이름), 연결과 설치 시각 (로그), 흐름 실행 기록의 Team ID (ID) | 환경 밖 (slack-helpdesk = 예전 팀 T0EXAMPLE03), aegico 는 안 씀 |
 | slash_command_to_workflows | Slack 명령이 Okta Workflows 흐름 주소를 직접 호출 | 명령 주소 호스트 = `<조직>.workflows.okta.com` (이름), 흐름 실행 기록의 team_id·앱 ID (로그), 실행과 Okta 초기화 시각 (로그) | 연결됨 (2026-10-05 시험용 연동, /conn-wf → 시험 흐름), 예전 팀 /reset-mfa 는 환경 밖 |
 | slash_command_via_server | Slack 명령 → 외부 서버 → Okta API | 명령 주소 호스트 (이름), 서버 기록 okta_client_id = Okta 앱 ID (로그) | 연결됨 (/mfa-reset) |
 | email_match | 같은 사람 | Slack 이메일 = Okta login (사람) | 연결됨 |

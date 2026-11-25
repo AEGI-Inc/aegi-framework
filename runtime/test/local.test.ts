@@ -364,7 +364,7 @@ test('OAuth PKCE 연결·취소 시 .env 무오염·state 단일 소모·허용 
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         provider: 'okta',
-        orgUrl: 'https://trial-4568129.okta.com',
+        orgUrl: 'https://trial-0000004.okta.com',
         clientId: 'okta-test-client-id',
         scopes: ['okta.orgs.read', 'okta.users.read'],
       }),
@@ -1037,8 +1037,8 @@ test('Slack OAuth: 단일 포트 HTTP+HTTPS 멀티플렉서 및 명시 Secret �
           ok: true,
           access_token: 'xoxb-test-bot-token-111',
           authed_user: { access_token: 'xoxp-test-user-token-222' },
-          team: { id: 'T0C60HSQ34H', name: 'AEGI Company' },
-          enterprise: { id: 'E0C60HWMGD7', name: 'AEGI Company' },
+          team: { id: 'T0EXAMPLE04', name: 'AEGI Company' },
+          enterprise: { id: 'E0EXAMPLE02', name: 'AEGI Company' },
         },
       }
     }
@@ -1095,7 +1095,7 @@ test('Slack OAuth: 단일 포트 HTTP+HTTPS 멀티플렉서 및 명시 Secret �
     assert.equal(receivedRedirectUri, `https://127.0.0.1:${port}/__aegi/oauth/callback`)
     assert.equal(env.SLACK_COLLECTOR_BOT_TOKEN, 'xoxb-test-bot-token-111')
     assert.equal(env.SLACK_COLLECTOR_USER_TOKEN, 'xoxp-test-user-token-222')
-    assert.equal(env.SLACK_TEAM_ID, 'T0C60HSQ34H')
+    assert.equal(env.SLACK_TEAM_ID, 'T0EXAMPLE04')
   } finally {
     server.close()
     local.close()
@@ -1870,14 +1870,14 @@ test('Slack OAuth: team 이 비고 admin.teams.list 실패 시 SLACK_TEAM_ID 를
     // 수집 직전 resolveSlackTeamId: admin.teams.list 성공 시 T... 저장
     const resolved = await resolveSlackTeamId(env, envFile, async req => {
       if (req.url.includes('admin.teams.list')) {
-        return { status: 200, headers: {}, body: { ok: true, teams: [{ id: 'T0C2NC3C892' }] } }
+        return { status: 200, headers: {}, body: { ok: true, teams: [{ id: 'T0EXAMPLE03' }] } }
       }
       return { status: 404, headers: {}, body: {} }
     })
     assert.equal(resolved.ok, true)
-    assert.equal(resolved.teamId, 'T0C2NC3C892')
-    assert.equal(env.SLACK_TEAM_ID, 'T0C2NC3C892')
-    assert.equal(collectorConfig(env).slack.teamId, 'T0C2NC3C892')
+    assert.equal(resolved.teamId, 'T0EXAMPLE03')
+    assert.equal(env.SLACK_TEAM_ID, 'T0EXAMPLE03')
+    assert.equal(collectorConfig(env).slack.teamId, 'T0EXAMPLE03')
     assert.deepEqual(missingIdentifiers(env, 'slack'), [])
   } finally {
     fs.rmSync(dir, { recursive: true, force: true })

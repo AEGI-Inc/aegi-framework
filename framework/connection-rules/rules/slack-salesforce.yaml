@@ -34,7 +34,7 @@ methods:
     a: slack 감사 salesforce_org_upserted 의 시각 (Enterprise 감사 API)
     b: 'salesforce SetupAuditTrail 의 Action 값. 문서 없음, 화면 관찰: SlackSeamlessAuthApproveConnection, SlackSeamlessAuthActivateConnection, SlackSeamlessAuthRemoveConnection. Display 필드 원문은 화면에서 확인'
     check: 시각이 가깝다. Action 이름은 화면 관찰로만 적었다 (문서 없음, 화면 관찰. SetupAuditTrail 문서는 Action 을 "The category of the change made in Setup." 로 정의하고 예(PermSetCreate)만 든다. Action 목록과 Section 목록이 없다. SlackSeamlessAuth 세 이름은 공식 문서에서 찾지 못했다. 문서상 SetupAuditTrail 은 최근 180일을 보여 준다. 기존 log_time 행의 「남는지 문서에 없음」은 그대로 둔다.)
-    note: SetupAuditTrail Display 에 Slack 팀 ID 가 들어 있다 (「팀 ID E0C60HWMGD7에 대한 Slack 연결 요청이 승인됨」). 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
+    note: SetupAuditTrail Display 에 Slack 팀 ID 가 들어 있다 (「팀 ID E0EXAMPLE02에 대한 Slack 연결 요청이 승인됨」). 2026-10-29 시험 환경 응답에서 확인 (test-environment/v3 checks). 벤더 문서에는 없다
   activity:
   - slack 감사 salesforce_org_upserted, salesforce_org_deleted, salesforce_access_granted·removed, salesforce_permissions_synced
   - salesforce SetupAuditTrail
