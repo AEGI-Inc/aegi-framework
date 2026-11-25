@@ -11,7 +11,7 @@ SaaS 두 개가 서로 이어지는 방법 297가지를 한 표로 줄였다. �
   - 지문: 비밀 주소나 인증서의 해시가 양쪽에서 같다
   - 사람: 같은 사람의 계정이라는 것으로만 이어진다
   - 로그: 감사 로그의 ID 나 시각이 맞는다 (가장 약함)
-- **시험 환경**: 2026-10 시험 환경에서 확인한 결과. 연결됨, 설정만(설정은 있는데 쓴 기록이 없음), 안 씀, 안 보임(본 로그 기간 안에 흔적 없음), 모름(필요한 값을 아직 못 읽음), 환경 밖(상대가 시험 환경 밖), 만들 수 없음, 테넌트 없음(Atlassian·Salesforce·Workday. 아직 시험 테넌트 없음)
+- **시험 환경**: 2026-10 시험 환경 기준 + 2026-11 4회차 수집본(9개 SaaS) 대조 반영. 연결됨, 설정만(설정은 있는데 쓴 기록이 없음), 안 씀, 안 보임(본 로그 기간 안에 흔적 없음), 모름(필요한 값을 아직 못 읽음), 환경 밖(상대가 시험 환경 밖), 만들 수 없음, 테넌트 없음
 
 ## Okta ↔ GitHub
 
@@ -121,7 +121,7 @@ SaaS 두 개가 서로 이어지는 방법 297가지를 한 표로 줄였다. �
 
 | 방법 | 무슨 연동 | 같아야 하는 값 | 시험 환경 |
 |---|---|---|---|
-| saml_sso | Okta 가 Atlassian 로그인 (SAML, Guard) | Atlassian IdP Entity ID = Okta entityID (ID), SP Unique ID (ID), SSO URL·Base URL (이름), 인증서 (지문), 이메일 (사람) | 연결됨 (수집 확인: Okta Atlassian Cloud SAML 앱 + 동일인 링크) |
+| saml_sso | Okta 가 Atlassian 로그인 (SAML, Guard) | Atlassian IdP Entity ID = Okta entityID (ID), SP Unique ID (ID), SSO URL·Base URL (이름), 인증서 (지문), 이메일 (사람) | 설정만 (Okta 쪽 앱만 있음 · 2026-11 4회차) |
 | scim_provisioning | Okta → Atlassian 디렉터리 사용자·그룹 | SCIM base URL 디렉터리 ID (ID), 배정 externalId (ID), email = 관리 계정 email (사람) | 안 씀 (Okta AppUser externalId 0건) |
 | workflows_atlassian_connector | Okta Workflows Atlassian Admin 커넥터 | 연결의 Directory ID (ID), 감사 actor.auth 토큰 (로그) | 안 씀 (Okta Workflows 연결 미확인) |
 | email_match | 같은 사람 | Okta login = Atlassian 계정 email (사람) | 연결됨 (수집 확인: links.json 동일인 링크 9명) |
@@ -193,7 +193,7 @@ SaaS 두 개가 서로 이어지는 방법 297가지를 한 표로 줄였다. �
 
 | 방법 | 무슨 연동 | 같아야 하는 값 | 시험 환경 |
 |---|---|---|---|
-| saml_sso | Okta 가 Salesforce 로그인 (SAML, OIN Salesforce.com) | SamlSsoConfig.Issuer = Okta entityID (ID), LoginUrl·My Domain (이름), 인증서 (지문), FederationIdentifier = login (사람), LoginHistory.AuthenticationServiceId (로그 ID), SSO 시각 (로그) | 연결됨 (수집 확인: Okta Salesforce SAML 앱 + 동일인 링크) |
+| saml_sso | Okta 가 Salesforce 로그인 (SAML, OIN Salesforce.com) | SamlSsoConfig.Issuer = Okta entityID (ID), LoginUrl·My Domain (이름), 인증서 (지문), FederationIdentifier = login (사람), LoginHistory.AuthenticationServiceId (로그 ID), SSO 시각 (로그) | 설정만 (Okta 쪽 앱만, 옛 조직 · 2026-11 4회차) |
 | provisioning | Okta → Salesforce 사용자 생성·변경·비활성화 (API 사용자 username + 비밀번호·토큰) | API 계정 username (이름), externalId = User.Id (ID), userName (사람), push 와 API 로그인 시각 (로그) | 모름 (테넌트 수집됨 · 해당 세부 항목 미수집 또는 미확인) |
 | workflows_salesforce_connector | Okta Workflows Salesforce 커넥터 (OAuth) | OauthToken.AppName·UserId (이름), 연결 생성 시각 (로그) | 안 씀 (Okta Workflows Salesforce 연결 미확인) |
 | salesforce_as_idp_for_okta | Salesforce 계정으로 Okta 로그인 (Okta IdP 유형 Salesforce) | IdP client_id = connected app consumerKey (ID), callbackUrl (이름) | 모름 (테넌트 수집됨 · 해당 세부 항목 미수집 또는 미확인) |
