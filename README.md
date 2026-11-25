@@ -60,10 +60,9 @@ AEGI는 벤더마다 제각각인 API와 권한 체계를 하나의 기준으로
 5. [04. IM Profile 정규화와 Effective Access](docs/02-methodology/04-profile-and-normalization.md)
 6. [05. 위협 판정 · 연결 규칙 · 컴플라이언스](docs/02-methodology/05-threat-and-compliance.md)
 
-### 2. 사내 환경에 바로 도입·실행하기 (10개 지원 SaaS, AWS 제외)
+### 2. 사내 환경에 바로 도입·실행하기 (10개 지원 SaaS)
 - **기본 수집·정규화·판정 지원 (9개)**: **Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence), Microsoft 365(Entra ID), Google Cloud / Gemini Enterprise, 1Password**
 - **연결·자격증명 선반영 (1개)**: **Snowflake** (UI·`.env` 설정 선반영, 수집기 엔진 연동 예정)
-- **제외**: AWS
 
 - Windows: `runtime\start.cmd`
 - macOS / Linux: `./runtime/start.sh`

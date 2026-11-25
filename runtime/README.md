@@ -2,7 +2,7 @@
 
 회사 PC 한 대에 AEGI를 설치해 쓰는 판이다. 클라우드나 DB 서버 없이 그 PC 안에서 모두 돈다.
 - 9개 SaaS 수집·정규화·판정: Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira·Confluence), Microsoft 365(Entra ID), Google Cloud / Gemini Enterprise, 1Password
-- 연결 설정 선반영: Snowflake (수집기 엔진 연동 예정) / 제외: AWS
+- 연결 설정 선반영: Snowflake (수집기 엔진 연동 예정)
 - 정규화와 위협 판정
 - 대시보드
 - AI 질문
