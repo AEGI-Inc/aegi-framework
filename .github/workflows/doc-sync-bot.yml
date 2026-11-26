@@ -34,20 +34,26 @@ jobs:
       - name: Analyze documentation impact and consistency
         id: docs
         continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-4-hydrogen' }}
         run: |
           node scripts/check-docs-sync.mjs \
             --base "${{ github.event.pull_request.base.sha }}" \
             --head "${{ github.event.pull_request.head.sha }}" \
-            --markdown-out doc-sync-comment.md
+            --ai \
+            --markdown-out "${{ runner.temp }}/doc-sync-comment.md"
 
       - name: Post or update sticky PR comment
         uses: actions/github-script@v7
         with:
           script: |
             const fs = require('node:fs')
+            const path = require('node:path')
             const marker = '<!-- aegi-doc-sync-bot -->'
-            let body = fs.existsSync('doc-sync-comment.md')
-              ? fs.readFileSync('doc-sync-comment.md', 'utf8')
+            const reportPath = path.join(process.env.RUNNER_TEMP, 'doc-sync-comment.md')
+            let body = fs.existsSync(reportPath)
+              ? fs.readFileSync(reportPath, 'utf8')
               : `${marker}\n## AEGI 문서 정합성 점검 리포트\n\n리포트 생성에 실패했습니다.\n`
 
             const verifyOk = '${{ steps.verify.outcome }}' === 'success'
@@ -86,16 +92,20 @@ jobs:
         with:
           node-version: 22
 
-      - name: Run doc sync check with auto-fix
+      - name: Run doc sync check with AI auto-fix
         id: sync
         continue-on-error: true
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-4-hydrogen' }}
         run: |
           node scripts/check-docs-sync.mjs \
             --base "${{ github.event.before }}" \
             --head "${{ github.sha }}" \
+            --ai \
             --fix \
-            --markdown-out doc-sync-report.md
-          cat doc-sync-report.md >> "$GITHUB_STEP_SUMMARY"
+            --markdown-out "${{ runner.temp }}/doc-sync-report.md"
+          cat "${{ runner.temp }}/doc-sync-report.md" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Create auto-sync PR if files were auto-fixed
         id: auto_pr
@@ -112,13 +122,13 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
           git add -A
-          git commit -m "docs(bot): auto-sync documentation metrics and paths (${SHORT_SHA})"
+          git commit -m "docs(bot): auto-sync documentation (${SHORT_SHA})"
           git push -u origin "$BRANCH"
           gh pr create \
             --base main \
             --head "$BRANCH" \
             --title "docs(bot): 문서 정합성 자동 동기화 (${SHORT_SHA})" \
-            --body-file doc-sync-report.md
+            --body-file "${{ runner.temp }}/doc-sync-report.md"
           echo "changed=true" >> "$GITHUB_OUTPUT"
 
       - name: Verify repository after merge
