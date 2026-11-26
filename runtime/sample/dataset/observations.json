@@ -141,7 +141,7 @@
       "requester_object": "SLK-U-UA",
       "action": "POST /api/v1/users/{id}/lifecycle/reset_factors",
       "target_object": "OKTA-U-TESTTARGET",
-      "okta_actor": "admin@aegi.site",
+      "okta_actor": "admin@example.com",
       "okta_actor_id": "00u17oo1dupojisBy698",
       "api_token_id": "AT.ngUvTAGYjegPr0FnndWunpIgfbxT4iUL7rglB6VLOSA.oar4jq08eiPJ9ENfs697",
       "result": "success",
@@ -170,7 +170,7 @@
       "requester_object": "SLK-U-UB",
       "action": "POST /api/v1/users/{id}/lifecycle/reset_factors",
       "target_object": "OKTA-U-TESTTARGET",
-      "okta_actor": "admin@aegi.site",
+      "okta_actor": "admin@example.com",
       "result": "success",
       "record": "measured"
     },

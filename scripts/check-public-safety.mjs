@@ -46,6 +46,13 @@ const CONTENT_CHECKS = [
   { name: 'AWS Access Key', re: /\bAKIA(?!IOSFODNN7EXAMPLE)[0-9A-Z]{16}\b/ },
   { name: 'Anthropic Key', re: /\bsk-ant-[A-Za-z0-9_-]{20,}\b/ },
   { name: 'Private Key Block', re: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----\r?\n[A-Za-z0-9+/=]{40,}/ },
+  { name: 'Google API Key', re: /\bAIza[0-9A-Za-z_-]{35}\b/ },
+  { name: 'Google OAuth Client Secret', re: /\bGOCSPX-[0-9A-Za-z_-]{20,}/ },
+  { name: '1Password 서비스 계정 토큰', re: /\bops_[A-Za-z0-9]{40,}/ },
+  { name: 'Google Drive·Docs 링크', re: /\b(?:drive|docs)\.google\.com\/(?:drive\/folders|file\/d|document\/d|spreadsheets\/d|presentation\/d)\/[A-Za-z0-9_-]{10,}/ },
+  { name: '운영 대시보드 주소(dash.aegi.site)', re: /\bdash\.aegi\.site\b/i },
+  { name: '팀 Cloudflare Pages·Workers 주소', re: /\baegi-[a-z0-9-]+\.(?:pages|workers)\.dev\b/i },
+  { name: '개인 메일 주소', re: /[A-Za-z0-9._%+-]+@(?:gmail|naver|daum|hanmail|kakao|nate|outlook|hotmail|icloud)\.(?:com|net)\b/i },
   { name: '내부 시험 도메인(aegi.men)', re: /\baegi\.men\b/i },
   { name: '내부 시험 계정(junsik)', re: /\b(?:dev\.)?junsik\b/i },
 ]
@@ -53,13 +60,22 @@ const CONTENT_CHECKS = [
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'data', 'release', 'web'])
 const TEXT_EXTS = new Set(['.md', '.json', '.jsonl', '.yaml', '.yml', '.ts', '.tsx', '.mts', '.js', '.mjs', '.cjs', '.py', '.sh', '.cmd', '.txt', '.csv', '.tsv', '.sql', '.html'])
 
+// data·web·release 는 실행이 만드는 출력 경로(SKIP_PATHS)에서만 건너뛴다.
+// runtime/engine 안의 data/(데이터셋)와 runtime/web/(미리 빌드한 화면)은 배포에 실리므로 검사한다.
+const OUTPUT_DIR_NAMES = new Set(['data', 'release', 'web'])
+const SKIP_PATHS = new Set(['runtime/data', 'runtime/release'])
+// TEXT_EXTS 에 없는 텍스트 확장자(패치, 표, 줄 단위 JSON, 설정 예시, 서비스 정의)
+const EXTRA_TEXT_EXTS = new Set(['.patch', '.diff', '.csv', '.tsv', '.jsonl', '.example', '.service', '.toml', '.cjs', '.ini', '.cfg'])
+// 저장소의 가장 큰 텍스트 파일은 5MB 를 조금 넘는다. 크기로 건너뛰지 않도록 넉넉히 둔다.
+const MAX_SCAN_BYTES = 64 * 1024 * 1024
+
 function walk(dir, relBase = '') {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const rel = relBase ? `${relBase}/${entry.name}` : entry.name
     const full = path.join(dir, entry.name)
 
     if (entry.isDirectory()) {
-      if (SKIP_DIRS.has(entry.name)) continue
+      if (SKIP_DIRS.has(entry.name) && (!OUTPUT_DIR_NAMES.has(entry.name) || SKIP_PATHS.has(rel))) continue
       if (FORBIDDEN_DIR_NAMES.has(entry.name)) {
         errors.push(`금지 디렉터리 존재: ${rel}`)
         continue
@@ -69,10 +85,11 @@ function walk(dir, relBase = '') {
     }
 
     if (rel === 'scripts/check-public-safety.mjs') continue
-    if (!TEXT_EXTS.has(path.extname(entry.name).toLowerCase())) continue
+    const ext = path.extname(entry.name).toLowerCase()
+    if (!TEXT_EXTS.has(ext) && !EXTRA_TEXT_EXTS.has(ext)) continue
 
     const stat = fs.statSync(full)
-    if (stat.size > 5 * 1024 * 1024) continue
+    if (stat.size > MAX_SCAN_BYTES) continue
 
     const text = fs.readFileSync(full, 'utf8')
     for (const check of CONTENT_CHECKS) {

@@ -1,8 +1,8 @@
-# IM 모델 (Information Map 기반 오브젝트 모델)
+# IM 모델
 
 운영 연결 보완(2026-10-28): Profile 단일 정규화는 main에 적용됐고 approved operation 레지스트리도 수집기에 연결됐다. 아래 도출 기록과 고정 모델 수치는 연구 시점의 근거다. 현재 사용 현황은 현재 구조와 엔진 IM_PROFILE_PIPELINE/TOTAL_COLLECTOR를 따른다.
 
-IM 모델은 Information Map(정보 지도)을 바탕으로 도출해 SaaS의 객체, 권한, 신원, 연동을 인터페이스 9종과 관계 17종으로 표현하는 AEGI의 오브젝트 모델이다. 현행 고정본은 **V3.2**([model/v3.2](model/v3.2/README.md))이며, 이 폴더에는 모델이 **어떻게 도출됐는지**(설계와 조사), **현행 고정본(V3.2)**, **도출 도구**(연구 코드)가 있다.
+IM 모델은 Information Map(정보 지도)을 바탕으로 도출해 SaaS의 객체, 권한, 신원, 연동을 인터페이스 9종과 관계 17종으로 표현하는 AEGI의 오브젝트 모델이다. 현행 고정본은 [V3.2](model/v3.2/README.md)다. 이 폴더에는 모델의 **도출 과정**인 설계와 조사, 현행 고정본 V3.2, 연구 코드인 도출 도구가 있다.
 
 V3.2 고정 뒤의 기록: 객체 타입 보안 관련성 시험 v1은 [relevance](relevance/README.md)에, 사람이 정한 같은 실체 판정은 [identity-decisions-after-v3.2](identity-decisions-after-v3.2.md)에 있다(2026-11-01).
 
@@ -38,7 +38,7 @@ flowchart TB
   V2["v2 진행 (10-19~)<br/>결정 48건, 실행 Profile 122개"]
   L --> R --> C --> M --> S --> I --> O --> V --> F --> P
   F --> V2
-  V2 --> V3["V3 고정 (10-25)<br/>v2 결정, 실측 근거 연결,<br/>고아·중복·Object·Relation 정리"]
+  V2 --> V3["V3 고정 (10-25)<br/>v2 결정, 실측 근거 연결,<br/>고아, 중복, Object, Relation 정리"]
 ```
 
 ## 폴더 안내
@@ -61,10 +61,11 @@ flowchart TB
 | [1단계 판단표](design/1단계%20판단표.html) | 사람 판단을 받은 표(HTML) |
 | [research/](design/research/) | Cartography 온톨로지 비교, 복잡계 모델링 조사 |
 
-### [model/](model/): 현행 고정본 (V3.2)
+### [model/](model/): 고정본 (V3, 현행 V3.2)
 
 | 문서 | 내용 |
 | --- | --- |
+| [v3/](model/v3/README.md) | IM Object Model V3 고정본(2026-10-25): Object 타입 1,980개, Relation 어휘 17종, binding 13건. 이 저장소에는 README만 있고 고정 파일은 aegi-knowledge에 있다 |
 | [v3.2/](model/v3.2/README.md) | IM Object Model V3.2 고정본(2026-10-25): Slack 대체 view 관측 및 runtime catalog 실행 판정 반영. `npm run verify:freeze`로 고정 상태를 확인한다 |
 
 ### [extraction/](extraction/): 도출 도구 (Python 연구 코드)

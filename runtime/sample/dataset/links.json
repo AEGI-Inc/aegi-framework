@@ -23,7 +23,7 @@
     },
     "meta": {
       "person_name": "user-a",
-      "display_name": "user-a@aegi.site"
+      "display_name": "user-a@example.com"
     }
   },
   {
@@ -46,7 +46,7 @@
     },
     "meta": {
       "person_name": "user-b",
-      "display_name": "user-b@aegi.site"
+      "display_name": "user-b@example.com"
     }
   },
   {
@@ -69,7 +69,7 @@
     },
     "meta": {
       "person_name": "user-c",
-      "display_name": "user-c@aegi.site"
+      "display_name": "user-c@example.com"
     }
   },
   {
@@ -92,7 +92,7 @@
     },
     "meta": {
       "person_name": "user-f",
-      "display_name": "user-f@aegi.site"
+      "display_name": "user-f@example.com"
     }
   },
   {
@@ -115,7 +115,7 @@
     },
     "meta": {
       "person_name": "user-e",
-      "display_name": "user-e@aegi.site"
+      "display_name": "user-e@example.com"
     }
   },
   {
