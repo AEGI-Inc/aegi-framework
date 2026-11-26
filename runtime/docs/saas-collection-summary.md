@@ -1,6 +1,7 @@
 # 6대 SaaS 수집 세팅 요약표
 
 > OAuth 연결과 API Key·자격증명 직접 입력을 모두 지원합니다. 기업 환경에서 세팅이 간편한 경로를 1순위로 배치했습니다.
+> 추가 지원 3개 SaaS(**Microsoft 365**, **Google Cloud / Gemini Enterprise**, **1Password**)의 연결 방법은 대시보드 **Adapters** 메뉴의 연결 창 안내를 따릅니다.
 
 ## 1. GitHub
 | 수집 방법 (우선순위 순) | 필요한 계정 (후순위까지) | 발급 방법 |

@@ -36,4 +36,5 @@ npm run check:safety
 검사 항목:
 - 내부 운영/시험 전용 디렉터리(`registry`, `environments`, `env-automation`, `adapter-auto-setup`, `test-environment`, `golden-datasets`) 미포함 여부
 - 개발자 로컬 PC 절대경로(사용자 홈 디렉터리 경로) 미포함 여부
-- 실제 토큰, 키 패턴(GitHub PAT, Slack Token, AWS Key, Anthropic Key, PEM Private Key) 미포함 여부
+- 실제 토큰·키 패턴(GitHub PAT, Slack Token, AWS Key, Anthropic Key, Google API/OAuth Key, 1Password 토큰, PEM Private Key) 미포함 여부
+- 내부 시험 도메인·계정, 팀 운영 주소, 개인 이메일, Google Drive/Docs 공유 링크 미포함 여부

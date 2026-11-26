@@ -16,6 +16,8 @@ AEGI의 정보 수집은 두 층이다. 첫째는 모델을 만들기 위한 **�
 | **Salesforce** | Object Reference, REST/Tooling API, Event/CDC 문서 | `normalize_salesforce.py`, `ir2/norm_salesforce.py` |
 | **Microsoft 365** | Microsoft Graph OpenAPI / 메타데이터 (확장 연구 포함) | `ir2/norm_m365.py` |
 
+위 7개 SaaS 외에 **Google Cloud / Gemini Enterprise, 1Password**도 Run-time 읽기 전용 수집·정규화·판정(총 9개 SaaS)을 지원한다.
+
 설계 근거와 원자료 출처 기록은 아래 문서에 있다.
 - [오브젝트 모델 재설계](../../framework/schema/im-model/design/오브젝트%20모델%20재설계.md)
 - [오브젝트 후보 추출 설계](../../framework/schema/im-model/design/오브젝트%20후보%20추출%20설계.md)

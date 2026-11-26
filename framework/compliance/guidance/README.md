@@ -18,8 +18,8 @@
 | 칸 | 설명 |
 | --- | --- |
 | `item_key` | `compliance/scope/` 와 같은 기준 항목 키 |
-| `framework` | 기준 약칭 (`PIPA`) |
-| `location` | 고시 조문 위치 |
+| `framework` | 기준 약칭 (`PIPA`, `ISMS-P`, `ISO27001`) |
+| `location` | 고시 조문·항목 위치 |
 | `requirement` | 법령과 고시 요구사항 요약 (`text`, `src`) |
 | `auditor_checks` | 심사, 점검에서 확인하는 사항 (`text`, `src`) |
 | `evidence_examples` | 증적 예시 (`text`, `src`, 해설서에 없으면 빈 배열) |
@@ -39,7 +39,7 @@
 
 ## 추천 파일 (`*.recommendations.jsonl`)
 
-- `pipa.recommendations.jsonl` 은 근거 카드와 조치 카드를 요약해 미리 만든 AI 초안이며 사람 검토 전 상태(`basis: "ai_draft"`, `review: "검토 전"`)다.
+- `*.recommendations.jsonl`(PIPA, ISMS-P, ISO 27001)은 근거 카드와 조치 카드를 요약해 미리 만든 AI 초안이며 사람 검토 전 상태(`basis: "ai_draft"`, `review: "검토 전"`)다.
 - 칸: `item_key`, `framework`, `overview`(1~2개), `actions`(2~6개, `finding_ids` 포함), `human_checks`(0~4개), `basis`, `model`, `generated_at`, `review`.
 - `ref` 문법: 같은 `item_key` 근거 카드 문장을 가리키는 `guidance:<칸>[<번호>]` (`requirement`, `auditor_checks`, `evidence_examples`, `common_gaps`, `saas_controls`, 번호 0부터) 또는 조치 카드를 가리키는 `remediation:<finding_id>`.
 - 모든 문장은 `ref` 를 1개 이상 가지며, `actions` 의 각 항목은 근거 카드 `ref` 1개 이상과 `finding_ids` 에 대응하는 `remediation:<id>` 를 함께 가진다.

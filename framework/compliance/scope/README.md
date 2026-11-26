@@ -1,6 +1,6 @@
 # 컴플라이언스 대상 판정 규격
 
-세 기준(ISMS-P, PIPA, ISO 27001) 항목별 SaaS 적용 여부(`*.scope.jsonl`)와 대상 판정 규칙(`rules/`)의 정본이다. Jev 점수는 매핑 작업 기록으로 `catalog-mapping/type-tags/`, `catalog-mapping/value-tags/`의 `*scores*.jsonl`에 있다. 실측 대상 설명, Jev 캐시와 키는 이 저장소에 두지 않는다.
+세 기준(ISMS-P, PIPA, ISO 27001) 항목별 SaaS 적용 여부(`*.scope.jsonl`)와 대상 판정 규칙(`rules/`)의 정본이다. 판정 모델(Jev) 점수는 매핑 작업 기록으로 `catalog-mapping/type-tags/`, `catalog-mapping/value-tags/`의 `*scores*.jsonl`에 있다. 특정 테넌트의 실측 대상 설명과 모델 캐시·키는 이 저장소에 두지 않는다.
 
 ## 파일
 
@@ -18,7 +18,7 @@
 
 ## 카탈로그 매핑
 
-`catalog-mapping/` 은 11-09 부터 진행한 새 방식이다. 인스턴스마다 판정하는 대신 카탈로그 객체 종류와 항목 사이의 매핑을 만든다. 2026-11-11 부터 engine 게시가 이 매핑을 스냅샷 객체 종류에 맞춰 (항목, 종류, 객체 수)로 `compliance_scope` 에 싣는다(knowledge #265, #266).
+`catalog-mapping/`은 2026-11-09부터 적용한 방식이다. 개별 인스턴스마다 판정하는 대신 카탈로그 객체 종류와 컴플라이언스 항목 사이의 매핑을 미리 정의한다. 스냅샷 게시 시 이 매핑을 스냅샷 객체 종류에 맞춰 `(항목, 종류, 객체 수)`로 `compliance_scope` 테이블에 적재한다.
 
 ## 판정 순서
 
@@ -30,11 +30,10 @@
 ## 근거 등급
 
 - `rule`: 규칙 매칭 결과로만 결정 (규칙 밖 제외).
-- `model`: 모델(Jev) 점수 또는 대표 점수 기반 묶음 판정으로 결정.
+- `model`: 판정 모델(Jev) 점수 또는 대표 점수 기반 묶음 판정으로 결정.
 - `human`: 사람의 수동 판정(`bundle-overrides`)으로 결정.
 
 ## 소비자
 
-- engine `npm run publish`(`scripts/compliance-scope/publishScope.ts`)가 `catalog-mapping/` 의 종류별 항목 매핑과 값별 태그 표를 읽는다.
-- 위 `*.scope.jsonl` 과 `rules/` 는 engine `npm run compliance-scope:decide`(`scripts/compliance-scope/decide.ts`)가 읽는다.
-- 판정 결과는 D1 표 `compliance_scope`와 `compliance_scope_runs`에 싣는다.
+- 런타임 엔진(`runtime/engine/`)의 스냅샷 게시 및 컴플라이언스 평가 단계가 `catalog-mapping/`의 종류별 항목 매핑과 값별 태그 표를 읽는다.
+- 판정 결과는 SQLite(또는 D1) 표 `compliance_scope`와 `compliance_scope_runs`에 저장된다.
