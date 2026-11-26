@@ -17,6 +17,7 @@
 
 - **Node.js 22.13 이상**
 - **Python 3**(표준 라이브러리만): 컴플라이언스의 「관리자 인증 보호」 검사에 쓴다. 없으면 그 검사만 실패로 기록된다.
+- 1Password 를 수집할 때만 **1Password CLI(`op`)**: 수집기가 사용자·그룹 목록을 `op` 로 읽는다. 없으면 Adapters 카드에 「op CLI 미설치」가 뜬다. 설치: https://developer.1password.com/docs/cli/get-started/
 - 저장소를 clone해 쓰는 경우에만 **Git**과 처음 한 번 패키지를 받을 **인터넷**이 필요하다. 배포 zip은 바로 실행된다.
 
 ## 설치와 실행
@@ -136,6 +137,8 @@ clone한 폴더는 `node --import tsx bin/aegi.ts <명령>`(또는 `npm run aegi
 | `splunk` | Splunk 인증, 인증서, 출처별 최근 7일 이벤트 수만 점검 |
 | `sample` | 합성 샘플을 올린다 |
 | `reset --yes` | `data/`를 지운다(`.env`는 남긴다) |
+
+Windows PowerShell 에서는 `npm run aegi -- collect --only okta` 처럼 `--` 뒤에 옵션을 주면 PowerShell 의 npm 이 `--` 를 먹어 옵션이 사라진다(이 예에서는 `.env` 의 SaaS 전부를 수집한다). 옵션이 있는 명령은 `node --import tsx bin/aegi.ts collect --only okta` 나 `collect.cmd --only okta` 로 실행한다.
 
 **파일 위치**
 - `.env`는 설치 폴더 최상위에 있다. 다른 파일은 `AEGI_ENV_FILE`로 지정한다.
