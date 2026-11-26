@@ -12,7 +12,7 @@ flowchart TB
     K3["Connection Rules (260)<br/>Threat Mapping, Compliance"]
   end
 
-  subgraph L2["2. Modeling Layer (벤더 문서 → IM 오브젝트)"]
+  subgraph L2["2. Modeling Layer (벤더 문서에서 IM 오브젝트 도출)"]
     M1["Vendor Spec Normalizer<br/>OpenAPI, GraphQL, Docs"]
     M2["명세 구조화, ID 공간, Information Map"]
     M3["IM Object Model V3.2 (Frozen)"]

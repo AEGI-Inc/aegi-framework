@@ -18,7 +18,7 @@ flowchart TB
     R2["IM Profile 단일 정규화<br/>objects, relations, links, observations, evidence"]
     R3["파생 산출물 계산<br/>effective_access, coverage, lineage_events"]
     R4["위협 판정 V2 & 컴플라이언스<br/>위협 유형 4종, Access Gap, Blast Radius, ISMS-P/PIPA/ISO"]
-    R5["스냅샷 게시 & 조사<br/>SQLite → 대시보드, Splunk 타임라인, AI 질의"]
+    R5["스냅샷 게시 & 조사<br/>SQLite, 대시보드, Splunk 타임라인, AI 질의"]
     R1 --> R2 --> R3 --> R4 --> R5
   end
 
