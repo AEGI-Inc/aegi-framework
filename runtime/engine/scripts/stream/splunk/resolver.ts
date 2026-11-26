@@ -12,7 +12,8 @@ interface GraphObjectLike {
   canonical?: { provider?: string; object_type?: string; identifiers?: Record<string, unknown>; properties?: Record<string, unknown> }
 }
 
-const ID_FIELDS = ['id', 'login', 'email', 'primaryEmail', 'full_name', 'key']
+// appId, userPrincipalName 은 microsoft 객체만 가진다(로그인·감사 로그가 앱을 appId 로, 사용자를 UPN 으로 적는다)
+const ID_FIELDS = ['id', 'login', 'email', 'primaryEmail', 'full_name', 'key', 'appId', 'userPrincipalName']
 const PREFIX_PROVIDER: Record<string, EventProvider> = { OKTA: 'okta', GWS: 'gws', GH: 'github', SLK: 'slack', SF: 'salesforce', AT: 'atlassian', JIRA: 'atlassian', CF: 'atlassian' }
 
 /**

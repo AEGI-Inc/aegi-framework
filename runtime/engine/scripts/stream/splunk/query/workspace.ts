@@ -25,7 +25,7 @@ const text = (s: unknown): s is string => typeof s === 'string' && s.length > 0 
 const quote = (s: string) => `"${s.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`
 
 export function validateWorkspace(v: unknown): Workspace {
-  if (!record(v) || !identifier.test(String(v.id)) || !identifier.test(String(v.policyVersion)) || !Array.isArray(v.sources) || !v.sources.length || v.sources.length > 12) fail('invalid_workspace')
+  if (!record(v) || !identifier.test(String(v.id)) || !identifier.test(String(v.policyVersion)) || !Array.isArray(v.sources) || !v.sources.length || v.sources.length > 16) fail('invalid_workspace')
   if (v.limits !== undefined) {
     if (!record(v.limits) || Object.keys(v.limits).length !== 1 || !('maxRangeDays' in v.limits)) fail('invalid_limits')
     const m = v.limits.maxRangeDays

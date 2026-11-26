@@ -1,7 +1,8 @@
 /**
  * 수집기가 받은 원본 감사 로그(OK-12 Okta System Log, GW-10 GWS Reports, GH-17 GitHub 조직 감사 로그,
  * SL-11 Slack Audit Logs, SF-90 Salesforce 설정 감사 기록, JI-90 Jira 감사 기록, CF-90 Confluence 감사 기록,
- * AT-90 Atlassian 조직 감사 기록)를 Splunk HEC 로 보낸다.
+ * AT-90 Atlassian 조직 감사 기록, M365-16 Microsoft Entra 로그인, M365-17 Microsoft Entra 디렉터리 감사,
+ * M365-33 Microsoft 365 통합 감사, OP-03 1Password 감사 이벤트)를 Splunk HEC 로 보낸다.
  * 원본은 바꾸지 않는다. 이벤트 시각은 원본 발생 시각이다. 보낸 원본 키는 장부에 남겨 다시 보내지 않는다.
  */
 import fs from 'fs'
@@ -28,6 +29,12 @@ interface StreamSource {
 const isoSec = (v: unknown): number | null => {
   const ms = typeof v === 'string' ? Date.parse(v) : NaN
   return Number.isNaN(ms) ? null : ms / 1000
+}
+/** 타임존 표시가 없는 ISO 문자열(예: M365-33 CreationTime)은 UTC 로 읽는다 */
+const isoSecUtc = (v: unknown): number | null => {
+  if (typeof v !== 'string' || !v) return null
+  const normalized = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(v) ? v : `${v}Z`
+  return isoSec(normalized)
 }
 const numSec = (v: unknown, scale: number): number | null => (typeof v === 'number' && Number.isFinite(v) ? v / scale : null)
 
@@ -83,6 +90,68 @@ export const STREAM_SOURCES: StreamSource[] = [
     originId: e => (typeof e?.id === 'string' && e.id ? `atlassian-guard:${e.id}` : null),
     time: e => isoSec(e?.attributes?.time),
     event: e => ({ data: [e] }),
+  },
+  {
+    provider: 'microsoft', callId: 'M365-16', index: 'aegi_microsoft', sourcetype: 'azure:aad:signin',
+    items: p => (Array.isArray(p?.value) ? p.value : []),
+    originId: e => (typeof e?.id === 'string' && e.id ? `microsoft:signin:${e.id}` : null),
+    time: e => isoSec(e?.createdDateTime),
+  },
+  {
+    provider: 'microsoft', callId: 'M365-17', index: 'aegi_microsoft', sourcetype: 'azure:aad:audit',
+    items: p => (Array.isArray(p?.value) ? p.value : []),
+    originId: e => (typeof e?.id === 'string' && e.id ? `microsoft:audit:${e.id}` : null),
+    time: e => isoSec(e?.activityDateTime),
+  },
+  {
+    // M365-33 의 AzureActiveDirectory 기록은 M365-16·17 과 같은 사건이라 보내지 않는다
+    provider: 'microsoft', callId: 'M365-33', index: 'aegi_microsoft', sourcetype: 'o365:management:activity',
+    items: p => (Array.isArray(p) ? p.filter((e: any) => typeof e?.Id === 'string' && e.Id && typeof e?.CreationTime === 'string' && e.CreationTime && e?.Workload !== 'AzureActiveDirectory') : []),
+    originId: e => (typeof e?.Id === 'string' && e.Id ? `microsoft:ual:${e.Id}` : null),
+    time: e => isoSecUtc(e?.CreationTime),
+  },
+  {
+    provider: 'onepassword', callId: 'OP-03', index: 'aegi_onepassword', sourcetype: 'onepassword:audit',
+    items: p => (Array.isArray(p?.audit_events) ? p.audit_events : []),
+    originId: e => (typeof e?.id === 'string' && e.id ? `onepassword:${e.id}` : null),
+    time: e => isoSec(e?.create_time),
+  },
+  {
+    provider: 'snowflake', callId: 'SNOW-90', index: 'aegi_snowflake', sourcetype: 'snowflake:login',
+    items: p => (Array.isArray(p?.records) ? p.records : []),
+    originId: e => (e?.EVENT_ID !== undefined && e?.EVENT_ID !== null && e?.EVENT_ID !== '' ? `snowflake:login:${e.EVENT_ID}` : null),
+    time: e => isoSecUtc(e?.EVENT_TIMESTAMP),
+  },
+  {
+    provider: 'snowflake', callId: 'SNOW-91', index: 'aegi_snowflake', sourcetype: 'snowflake:query',
+    items: p => (Array.isArray(p?.records) ? p.records : []),
+    originId: e => (typeof e?.QUERY_ID === 'string' && e.QUERY_ID ? `snowflake:query:${e.QUERY_ID}` : null),
+    time: e => isoSecUtc(e?.START_TIME),
+  },
+  {
+    provider: 'snowflake', callId: 'SNOW-92', index: 'aegi_snowflake', sourcetype: 'snowflake:grant',
+    items: p => {
+      if (!Array.isArray(p?.records)) return []
+      const out: any[] = []
+      for (const r of p.records) {
+        if (!r || typeof r !== 'object') continue
+        if (typeof r.CREATED_ON === 'string' && r.CREATED_ON) out.push({ ...r, ACTION: 'granted', EVENT_TIME: r.CREATED_ON })
+        if (typeof r.DELETED_ON === 'string' && r.DELETED_ON) out.push({ ...r, ACTION: 'revoked', EVENT_TIME: r.DELETED_ON })
+      }
+      return out
+    },
+    originId: e => (e?.GRANTEE_NAME && e?.ROLE && e?.EVENT_TIME && e?.ACTION ? `snowflake:grant:${e.GRANTEE_NAME}:${e.ROLE}:${e.EVENT_TIME}:${e.ACTION}` : null),
+    time: e => isoSecUtc(e?.EVENT_TIME),
+  },
+  {
+    provider: 'gcp', callId: 'GCP-07', index: 'aegi_gcp', sourcetype: 'gcp:gemini:log',
+    items: p => (Array.isArray(p?.entries) ? p.entries : []),
+    originId: e => {
+      const tail = typeof e?.logName === 'string' && e.logName ? e.logName.split('/').pop() : ''
+      return tail && typeof e?.timestamp === 'string' && e.timestamp && typeof e?.insertId === 'string' && e.insertId
+        ? `gcp:${tail}:${e.timestamp}:${e.insertId}` : null
+    },
+    time: e => isoSec(e?.timestamp),
   },
 ]
 

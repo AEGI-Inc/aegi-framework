@@ -4,7 +4,7 @@
  */
 import { sha256 } from './transport'
 import type { EntityResolver, ObjectMatch } from './resolver'
-import { MAPPING_VERSION, SOURCETYPE_PROVIDER, type EntityRef, type EventCategory, type NormalizedEvent } from './types'
+import { canonicalSourcetype, MAPPING_VERSION, providerOfSourcetype, type EntityRef, type EventCategory, type NormalizedEvent } from './types'
 import eventLabels from '../../../ontology/splunk-event-labels-v1.json' with { type: 'json' }
 import { to18 } from '../../collect/shared/sfid'
 import { confluenceId, confluenceTime, isConfluenceAudit } from './confluence'
@@ -52,6 +52,13 @@ function oktaKnown(v: unknown): string | null {
 
 function isoFromEpoch(sec: number | null): string | null {
   return sec === null || !Number.isFinite(sec) ? null : new Date(sec * 1000).toISOString()
+}
+
+function isoUtc(v: unknown): string | null {
+  if (typeof v !== 'string' || !v) return null
+  const normalized = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(v) ? v : `${v}Z`
+  const ms = Date.parse(normalized)
+  return Number.isNaN(ms) ? null : new Date(ms).toISOString()
 }
 
 // category, outcome 판정은 eventClasses.ts 의 표가 정본이다. AI 검색의 SPL 판정도 같은 표에서 만든다
@@ -542,26 +549,565 @@ export function mapAtlassianGuard(raw: Record<string, any>, meta: RowMeta, r: En
   }
 }
 
+const MS_SIGNIN_SKIP = new Set(['id', 'createdDateTime', 'userId', 'userPrincipalName', 'userDisplayName', 'appId', 'appDisplayName', 'ipAddress', 'correlationId', 'status'])
+const MS_AUDIT_SKIP = new Set(['id', 'activityDateTime', 'activityDisplayName', 'category', 'result', 'resultReason', 'correlationId', 'initiatedBy', 'targetResources', 'additionalDetails'])
+/**
+ * 디렉터리 감사 대상의 type → 찾을 객체 종류. Directory 는 테넌트, Role 은 디렉터리 역할의 id 를 적는다.
+ * 관리 단위 추가는 대상 type 을 Manager 로 적고, 도메인 변경은 type 을 비우고 id 에 도메인 이름을 적는다(2026-11 실측).
+ */
+const MS_AUDIT_TARGET_TYPES = new Map<string, string[]>([
+  ...['User', 'Group', 'ServicePrincipal', 'Application', 'Device', 'DirectoryRole', 'AdministrativeUnit', 'Domain'].map(t => [t, [t]] as [string, string[]]),
+  ['Directory', ['Tenant']],
+  ['Role', ['DirectoryRole']],
+  ['Manager', ['User', 'AdministrativeUnit']],
+  ['unknown', ['Domain']],
+])
+const MS_UAL_SKIP = new Set(['Id', 'CreationTime', 'Workload', 'Operation', 'ResultStatus', 'UserKey', 'UserId', 'ClientIP', 'ObjectId', 'ItemType', 'MailboxOwnerUPN'])
+const OP_SKIP = new Set(['id', 'create_time', 'insert_time', 'action', 'actor', 'targets', 'context', 'correlation_id', 'outcome'])
+// 서비스 계정도 대상 type 을 user 로 적는 사건이 있다(vault.access.grant, device.create)
+const OP_TARGET_OBJECT_TYPES: Record<string, string[]> = {
+  user: ['User', 'ServiceAccount'],
+  group: ['Group'],
+  vault: ['Vault'],
+  'vault-item': ['Item'],
+  'service-account': ['ServiceAccount'],
+  account: ['Account'],
+}
+
+/** Microsoft Entra 로그인 로그 (M365-16) */
+export function mapMicrosoftSignIn(raw: Record<string, any>, meta: RowMeta, r: EntityResolver): NormalizedEvent {
+  const err = raw.status?.errorCode !== undefined && raw.status?.errorCode !== null ? String(raw.status.errorCode) : ''
+  const actor: EntityRef | null = raw.userId || raw.userPrincipalName
+    ? {
+        native_id: String(raw.userId ?? raw.userPrincipalName),
+        type: 'User',
+        display: raw.userPrincipalName ?? raw.userDisplayName ?? null,
+        ...keyed(r.lookupOfTypes('microsoft', [['userId', raw.userId], ['userPrincipalName', raw.userPrincipalName]], ['User'])),
+      }
+    : null
+  const targets: EntityRef[] = raw.appId || raw.appDisplayName
+    ? [{
+        native_id: String(raw.appId ?? raw.appDisplayName),
+        type: 'ServicePrincipal',
+        display: raw.appDisplayName ?? null,
+        ...keyed(r.lookupOfTypes('microsoft', [['appId', raw.appId]], ['ServicePrincipal', 'Application'])),
+      }]
+    : []
+  return {
+    origin_key: `microsoft:signin:${raw.id}`,
+    provider: 'microsoft',
+    event_type: 'signIn',
+    category: categoryOf('azure:aad:signin', { err }),
+    title: localizedTitle('microsoft', 'signIn'),
+    occurred_at: isoUtc(raw.createdDateTime),
+    outcome: outcomeOf('azure:aad:signin', { err }),
+    outcome_reason: typeof raw.status?.failureReason === 'string' && raw.status.failureReason ? raw.status.failureReason : null,
+    signal: null,
+    actor,
+    targets,
+    correlation: {
+      session_id: null,
+      transaction_id: raw.correlationId ? String(raw.correlationId) : null,
+      caused_by: [],
+      client_ip: typeof raw.ipAddress === 'string' && raw.ipAddress ? raw.ipAddress : null,
+    },
+    attributes: shortFields(raw, MS_SIGNIN_SKIP),
+    ...common(meta),
+  }
+}
+
+/** Microsoft Entra 디렉터리 감사 로그 (M365-17) */
+export function mapMicrosoftAudit(raw: Record<string, any>, meta: RowMeta, r: EntityResolver): NormalizedEvent {
+  const act = String(raw.activityDisplayName ?? 'unknown')
+  const cat = String(raw.category ?? '')
+  const u = raw.initiatedBy?.user
+  const a = raw.initiatedBy?.app
+  const actor: EntityRef | null = u && (u.id || u.userPrincipalName)
+    ? {
+        native_id: String(u.id ?? u.userPrincipalName),
+        type: 'User',
+        display: u.userPrincipalName ?? u.displayName ?? null,
+        ...keyed(r.lookupOfTypes('microsoft', [['initiatedBy.user.id', u.id], ['initiatedBy.user.userPrincipalName', u.userPrincipalName]], ['User'])),
+      }
+    : a && (a.servicePrincipalId || a.appId || a.displayName)
+      ? {
+          native_id: String(a.servicePrincipalId ?? a.appId ?? a.displayName),
+          type: 'ServicePrincipal',
+          display: a.displayName ?? a.servicePrincipalName ?? null,
+          ...keyed(r.lookupOfTypes('microsoft', [['initiatedBy.app.servicePrincipalId', a.servicePrincipalId], ['initiatedBy.app.appId', a.appId]], ['ServicePrincipal'])),
+        }
+      : null
+  const targets: EntityRef[] = []
+  for (const t of (Array.isArray(raw.targetResources) ? raw.targetResources : []) as Array<Record<string, any>>) {
+    const tType = typeof t?.type === 'string' && t.type ? t.type : 'unknown'
+    const nativeId = t?.id ?? t?.userPrincipalName ?? t?.displayName
+    if (!nativeId) continue
+    const ots = MS_AUDIT_TARGET_TYPES.get(tType)
+    const found = ots ? r.lookupOfTypes('microsoft', [
+      ['targetResources[].id', t.id],
+      ...(tType === 'User' ? [['targetResources[].userPrincipalName', t.userPrincipalName] as const] : []),
+      ...(tType === 'unknown' && !t.id ? [['targetResources[].displayName', t.displayName] as const] : []),
+    ], ots) : null
+    targets.push({
+      native_id: String(nativeId),
+      type: tType,
+      display: t.userPrincipalName ?? t.displayName ?? null,
+      // 종류가 없는 대상은 도메인이 아닐 수 있어 못 찾은 이유를 적지 않는다
+      ...(tType === 'unknown' && found && 'miss' in found ? { object_key: null } : keyed(found)),
+    })
+  }
+  const attributes = shortFields(raw, MS_AUDIT_SKIP)
+  putAttr(attributes, 'category', raw.category)
+  return {
+    origin_key: `microsoft:audit:${raw.id}`,
+    provider: 'microsoft',
+    event_type: act,
+    category: categoryOf('azure:aad:audit', { cat, act }),
+    title: localizedTitle('microsoft', act),
+    occurred_at: isoUtc(raw.activityDateTime),
+    outcome: outcomeOf('azure:aad:audit', { result: String(raw.result ?? '') }),
+    outcome_reason: typeof raw.resultReason === 'string' && raw.resultReason ? raw.resultReason : null,
+    signal: null,
+    actor,
+    targets,
+    correlation: {
+      session_id: null,
+      transaction_id: raw.correlationId ? String(raw.correlationId) : null,
+      caused_by: [],
+      client_ip: typeof u?.ipAddress === 'string' && u.ipAddress ? u.ipAddress : null,
+    },
+    attributes,
+    ...common(meta),
+  }
+}
+
+/** Microsoft 365 통합 감사 로그 (M365-33, 비-AAD) */
+export function mapMicrosoftUal(raw: Record<string, any>, meta: RowMeta, r: EntityResolver): NormalizedEvent {
+  const op = String(raw.Operation ?? 'unknown')
+  const workload = String(raw.Workload ?? '')
+  // UserType 5 는 앱 전용 호출이라 UserKey 가 appId 다. 사람은 UserKey 가 PUID 라 UPN 인 UserId 로 찾는다
+  // UserType 4(시스템)는 UserKey 가 그래프에 있는 앱의 appId 일 때만 앱으로 본다
+  const app = raw.UserType === 5 || raw.UserType === 4 ? r.lookupOfTypes('microsoft', [['UserKey', raw.UserKey]], ['ServicePrincipal']) : null
+  const appActor = raw.UserType === 5 || (app !== null && 'key' in app)
+  const actor: EntityRef | null = raw.UserKey || raw.UserId
+    ? {
+        native_id: String(raw.UserKey ?? raw.UserId),
+        type: appActor ? 'ServicePrincipal' : 'User',
+        display: raw.UserId ?? null,
+        ...keyed(appActor
+          ? app
+          : r.lookupOfTypes('microsoft', [['UserId', raw.UserId], ['UserKey', raw.UserKey]], ['User'])),
+      }
+    : null
+  const targets: EntityRef[] = []
+  if (workload === 'SharePoint' && typeof raw.ObjectId === 'string' && raw.ObjectId) {
+    targets.push({ native_id: raw.ObjectId, type: typeof raw.ItemType === 'string' && raw.ItemType ? raw.ItemType : 'SharePoint', display: raw.ObjectId, object_key: null })
+  } else if (workload === 'Exchange' && typeof raw.MailboxOwnerUPN === 'string' && raw.MailboxOwnerUPN) {
+    targets.push({ native_id: raw.MailboxOwnerUPN, type: 'Mailbox', display: raw.MailboxOwnerUPN, ...keyed(r.lookupOfTypes('microsoft', [['MailboxOwnerUPN', raw.MailboxOwnerUPN]], ['User'])) })
+  }
+  const attributes = shortFields(raw, MS_UAL_SKIP)
+  putAttr(attributes, 'workload', workload)
+  return {
+    origin_key: `microsoft:ual:${raw.Id}`,
+    provider: 'microsoft',
+    event_type: op,
+    category: categoryOf('o365:management:activity', { workload, op }),
+    title: localizedTitle('microsoft', op),
+    occurred_at: isoUtc(raw.CreationTime),
+    outcome: outcomeOf('o365:management:activity', { result: String(raw.ResultStatus ?? '') }),
+    outcome_reason: null,
+    signal: null,
+    actor,
+    targets,
+    correlation: {
+      session_id: null,
+      transaction_id: null,
+      caused_by: [],
+      client_ip: typeof raw.ClientIP === 'string' && raw.ClientIP ? raw.ClientIP : null,
+    },
+    attributes,
+    ...common(meta),
+  }
+}
+
+/** 1Password 감사 이벤트 (OP-03) */
+export function mapOnePassword(raw: Record<string, any>, meta: RowMeta, r: EntityResolver): NormalizedEvent {
+  const action = String(raw.action ?? 'unknown')
+  const actorObj = raw.actor
+  const actorType = actorObj?.type === 'service-account' ? 'ServiceAccount' : 'User'
+  const actor: EntityRef | null = actorObj && (actorObj.id || actorObj.email || actorObj.name)
+    ? {
+        native_id: String(actorObj.id ?? actorObj.email ?? actorObj.name),
+        type: actorType,
+        display: actorObj.email ?? actorObj.name ?? null,
+        ...keyed(r.lookupOfTypes('onepassword', [['actor.id', actorObj.id], ...(actorType === 'User' ? [['actor.email', actorObj.email] as const] : [])], [actorType])),
+      }
+    : null
+  const targets: EntityRef[] = []
+  for (const t of (Array.isArray(raw.targets) ? raw.targets : []) as Array<Record<string, any>>) {
+    const tType = typeof t?.type === 'string' && t.type ? t.type : 'unknown'
+    const p = (t?.payload ?? {}) as Record<string, any>
+    const nativeId = p.uuid ?? p.id ?? p.email ?? p.name
+    if (!nativeId) continue
+    const ots = OP_TARGET_OBJECT_TYPES[tType]
+    targets.push({
+      native_id: String(nativeId),
+      type: tType,
+      display: p.email ?? p.name ?? null,
+      ...(ots
+        ? keyed(r.lookupOfTypes('onepassword', [['targets[].payload.uuid', p.uuid], ['targets[].payload.id', p.id], ...(tType === 'user' ? [['targets[].payload.email', p.email] as const] : [])], ots))
+        : { object_key: null }),
+    })
+  }
+  const ctx = (raw.context ?? {}) as Record<string, any>
+  const attributes = shortFields(raw, OP_SKIP)
+  putAttr(attributes, 'category', raw.category)
+  putAttr(attributes, 'os', ctx.os)
+  putAttr(attributes, 'client', ctx.client)
+  return {
+    origin_key: `onepassword:${raw.id}`,
+    provider: 'onepassword',
+    event_type: action,
+    category: categoryOf('onepassword:audit', { action }),
+    title: localizedTitle('onepassword', action),
+    occurred_at: isoUtc(raw.create_time),
+    outcome: outcomeOf('onepassword:audit', { result: String(raw.outcome?.result ?? '') }),
+    outcome_reason: null,
+    signal: null,
+    actor,
+    targets,
+    correlation: {
+      session_id: ctx.session?.id ? String(ctx.session.id) : null,
+      transaction_id: raw.correlation_id ? String(raw.correlation_id) : null,
+      caused_by: [],
+      client_ip: typeof ctx.location?.ip_address === 'string' && ctx.location.ip_address ? ctx.location.ip_address : null,
+    },
+    attributes,
+    ...common(meta),
+  }
+}
+
+const SNOW_LOGIN_SKIP = new Set(['EVENT_ID', 'EVENT_TIMESTAMP', 'EVENT_TYPE', 'USER_NAME', 'CLIENT_IP', 'IS_SUCCESS', 'ERROR_CODE', 'ERROR_MESSAGE'])
+const SNOW_QUERY_SKIP = new Set(['QUERY_ID', 'QUERY_TYPE', 'SESSION_ID', 'USER_NAME', 'ROLE_NAME', 'WAREHOUSE_NAME', 'DATABASE_NAME', 'SCHEMA_NAME', 'EXECUTION_STATUS', 'ERROR_CODE', 'START_TIME'])
+const SNOW_GRANT_SKIP = new Set(['CREATED_ON', 'DELETED_ON', 'ROLE', 'GRANTED_TO', 'GRANTEE_NAME', 'GRANTED_BY', 'ACTION', 'EVENT_TIME'])
+
+/** Snowflake 로그인 이력 (SNOW-90) */
+export function mapSnowflakeLogin(raw: Record<string, any>, meta: RowMeta, r: EntityResolver): NormalizedEvent {
+  const eventType = String(raw.EVENT_TYPE ?? 'LOGIN')
+  const actor: EntityRef | null = raw.USER_NAME
+    ? {
+        native_id: String(raw.USER_NAME),
+        type: 'User',
+        display: String(raw.USER_NAME),
+        ...keyed(r.lookupOfTypes('snowflake', [['USER_NAME', raw.USER_NAME]], ['User'])),
+      }
+    : null
+  const attributes = shortFields(raw, SNOW_LOGIN_SKIP)
+  return {
+    origin_key: `snowflake:login:${raw.EVENT_ID}`,
+    provider: 'snowflake',
+    event_type: eventType,
+    category: categoryOf('snowflake:login', {}),
+    title: localizedTitle('snowflake', eventType),
+    occurred_at: isoUtc(raw.EVENT_TIMESTAMP),
+    outcome: outcomeOf('snowflake:login', { ok: String(raw.IS_SUCCESS ?? '') }),
+    outcome_reason: typeof raw.ERROR_MESSAGE === 'string' && raw.ERROR_MESSAGE ? raw.ERROR_MESSAGE : raw.ERROR_CODE ? String(raw.ERROR_CODE) : null,
+    signal: null,
+    actor,
+    targets: [],
+    correlation: {
+      session_id: null,
+      transaction_id: null,
+      caused_by: [],
+      client_ip: typeof raw.CLIENT_IP === 'string' && raw.CLIENT_IP ? raw.CLIENT_IP : null,
+    },
+    attributes,
+    ...common(meta),
+  }
+}
+
+/** Snowflake 쿼리 이력 (SNOW-91) */
+export function mapSnowflakeQuery(raw: Record<string, any>, meta: RowMeta, r: EntityResolver): NormalizedEvent {
+  const qt = String(raw.QUERY_TYPE ?? 'QUERY')
+  const actor: EntityRef | null = raw.USER_NAME
+    ? {
+        native_id: String(raw.USER_NAME),
+        type: 'User',
+        display: String(raw.USER_NAME),
+        ...keyed(r.lookupOfTypes('snowflake', [['USER_NAME', raw.USER_NAME]], ['User'])),
+      }
+    : null
+  const targets: EntityRef[] = []
+  if (raw.DATABASE_NAME && raw.SCHEMA_NAME) {
+    const schemaId = `${raw.DATABASE_NAME}.${raw.SCHEMA_NAME}`
+    targets.push({
+      native_id: schemaId,
+      type: 'Schema',
+      display: schemaId,
+      ...keyed(r.lookupOfTypes('snowflake', [['DATABASE_NAME.SCHEMA_NAME', schemaId]], ['Schema'])),
+    })
+  } else if (raw.DATABASE_NAME) {
+    targets.push({
+      native_id: String(raw.DATABASE_NAME),
+      type: 'Database',
+      display: String(raw.DATABASE_NAME),
+      ...keyed(r.lookupOfTypes('snowflake', [['DATABASE_NAME', raw.DATABASE_NAME]], ['Database'])),
+    })
+  }
+  const attributes = shortFields(raw, SNOW_QUERY_SKIP)
+  putAttr(attributes, 'role_name', raw.ROLE_NAME)
+  putAttr(attributes, 'warehouse_name', raw.WAREHOUSE_NAME)
+  return {
+    origin_key: `snowflake:query:${raw.QUERY_ID}`,
+    provider: 'snowflake',
+    event_type: qt,
+    category: categoryOf('snowflake:query', { qt }),
+    title: localizedTitle('snowflake', qt),
+    occurred_at: isoUtc(raw.START_TIME),
+    outcome: outcomeOf('snowflake:query', { st: String(raw.EXECUTION_STATUS ?? '') }),
+    outcome_reason: raw.ERROR_CODE ? String(raw.ERROR_CODE) : null,
+    signal: null,
+    actor,
+    targets,
+    correlation: {
+      session_id: raw.SESSION_ID ? String(raw.SESSION_ID) : null,
+      transaction_id: null,
+      caused_by: [],
+      client_ip: null,
+    },
+    attributes,
+    ...common(meta),
+  }
+}
+
+/** Snowflake 역할 부여·회수 이력 (SNOW-92) */
+export function mapSnowflakeGrant(raw: Record<string, any>, meta: RowMeta, r: EntityResolver): NormalizedEvent {
+  const action = raw.ACTION === 'revoked' ? 'revoked' : 'granted'
+  const eventTime = String(raw.EVENT_TIME ?? (action === 'revoked' ? raw.DELETED_ON : raw.CREATED_ON) ?? '')
+  const eventType = action === 'revoked' ? 'REVOKE_ROLE' : 'GRANT_ROLE'
+  const actor: EntityRef | null = raw.GRANTED_BY
+    ? {
+        native_id: String(raw.GRANTED_BY),
+        type: 'Role',
+        display: String(raw.GRANTED_BY),
+        ...keyed(r.lookupOfTypes('snowflake', [['GRANTED_BY', raw.GRANTED_BY]], ['Role'])),
+      }
+    : null
+  const targets: EntityRef[] = []
+  if (raw.GRANTEE_NAME) {
+    targets.push({
+      native_id: String(raw.GRANTEE_NAME),
+      type: 'User',
+      display: String(raw.GRANTEE_NAME),
+      ...keyed(r.lookupOfTypes('snowflake', [['GRANTEE_NAME', raw.GRANTEE_NAME]], ['User'])),
+    })
+  }
+  if (raw.ROLE) {
+    targets.push({
+      native_id: String(raw.ROLE),
+      type: 'Role',
+      display: String(raw.ROLE),
+      ...keyed(r.lookupOfTypes('snowflake', [['ROLE', raw.ROLE]], ['Role'])),
+    })
+  }
+  const attributes = shortFields(raw, SNOW_GRANT_SKIP)
+  return {
+    origin_key: `snowflake:grant:${raw.GRANTEE_NAME}:${raw.ROLE}:${eventTime}:${action}`,
+    provider: 'snowflake',
+    event_type: eventType,
+    category: categoryOf('snowflake:grant', {}),
+    title: localizedTitle('snowflake', eventType),
+    occurred_at: isoUtc(eventTime),
+    outcome: outcomeOf('snowflake:grant', {}),
+    outcome_reason: null,
+    signal: null,
+    actor,
+    targets,
+    correlation: { session_id: null, transaction_id: null, caused_by: [], client_ip: null },
+    attributes,
+    ...common(meta),
+  }
+}
+
+const GCP_GEMINI_TARGET_RULES: ReadonlyArray<{ source: 'resourceName' | 'requestParent' | 'logMetadataName'; field: string; regex: RegExp; objectType: string }> = [
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(projects\/[^/]+)$/, objectType: 'Project' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(projects\/[^/]+)\//, objectType: 'Project' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(projects\/[^/]+\/locations\/[^/]+\/collections\/[^/]+\/engines\/[^/]+)$/, objectType: 'Engine' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(projects\/[^/]+\/locations\/[^/]+\/collections\/[^/]+\/engines\/[^/]+)\//, objectType: 'Engine' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(.+\/engines\/[^/]+\/assistants\/[^/]+)$/, objectType: 'Assistant' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(.+\/engines\/[^/]+\/assistants\/[^/]+)\//, objectType: 'Assistant' },
+  { source: 'requestParent', field: 'jsonPayload.request.parent', regex: /^(projects\/[^/]+\/locations\/[^/]+\/collections\/[^/]+\/engines\/[^/]+)\//, objectType: 'Engine' },
+  { source: 'requestParent', field: 'jsonPayload.request.parent', regex: /^(.+\/engines\/[^/]+\/assistants\/[^/]+)$/, objectType: 'Assistant' },
+  { source: 'logMetadataName', field: 'jsonPayload.logMetadata.name', regex: /^(projects\/[^/]+\/locations\/[^/]+\/collections\/[^/]+\/engines\/[^/]+)\/assistants\/[^/]+\/agents\/[^/]+$/, objectType: 'Engine' },
+  { source: 'logMetadataName', field: 'jsonPayload.logMetadata.name', regex: /^(.+\/engines\/[^/]+\/assistants\/[^/]+)\/agents\/[^/]+$/, objectType: 'Assistant' },
+  { source: 'logMetadataName', field: 'jsonPayload.logMetadata.name', regex: /^(.+\/assistants\/[^/]+\/agents\/[^/]+)$/, objectType: 'Agent' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(.+\/assistants\/[^/]+\/agents\/[^/]+)$/, objectType: 'Agent' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(.+\/sessions\/[^/]+)$/, objectType: 'Session' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(.+\/dataStores\/[^/]+)$/, objectType: 'DataStore' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(projects\/[^/]+\/locations\/[^/]+\/collections\/[^/]+\/dataConnector)$/, objectType: 'DataConnector' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(.+\/userStores\/[^/]+)$/, objectType: 'UserStore' },
+  { source: 'resourceName', field: 'protoPayload.resourceName', regex: /^(projects\/[^/]+\/locations\/[^/]+\/aclConfig)$/, objectType: 'AclConfig' },
+]
+
+/** GCP Gemini Enterprise 감사 로그 (GCP-07) */
+export function mapGcpGemini(raw: Record<string, any>, meta: RowMeta, r: EntityResolver): NormalizedEvent {
+  const pp = raw.protoPayload
+  const jp = raw.jsonPayload
+  const eventType = String(pp?.methodName ?? jp?.logMetadata?.methodName ?? raw.labels?.['event.name'] ?? raw.labels?.event?.name ?? 'unknown')
+  const logTail = typeof raw.logName === 'string' && raw.logName ? raw.logName.split('/').pop() ?? '' : ''
+
+  const ppEmail = pp?.authenticationInfo?.principalEmail
+  const jpPrincipal = jp?.userIamPrincipal
+  const jpUserId = jp?.['user.id'] ?? jp?.user?.id
+  const actorField = ppEmail ? 'protoPayload.authenticationInfo.principalEmail'
+    : jpPrincipal ? 'jsonPayload.userIamPrincipal'
+    : jpUserId ? 'jsonPayload.user.id' : null
+  const actorEmail = ppEmail ?? jpPrincipal ?? jpUserId
+  const actor: EntityRef | null = actorEmail && actorField
+    ? {
+        native_id: String(actorEmail),
+        type: 'IamMember',
+        display: String(actorEmail),
+        ...keyed(r.lookupOfTypes('gcp', [[actorField, actorEmail]], ['IamMember'])),
+      }
+    : null
+
+  const targets: EntityRef[] = []
+  const seenTargets = new Set<string>()
+  const pushTarget = (field: string, id: string, objectType: string) => {
+    const dedupKey = `${objectType}|${id}`
+    if (seenTargets.has(dedupKey)) return
+    seenTargets.add(dedupKey)
+    targets.push({
+      native_id: id,
+      type: objectType,
+      display: id,
+      ...keyed(r.lookupOfTypes('gcp', [[field, id]], [objectType])),
+    })
+  }
+  const sources = {
+    resourceName: typeof pp?.resourceName === 'string' ? pp.resourceName : '',
+    requestParent: typeof jp?.request?.parent === 'string' ? jp.request.parent : '',
+    logMetadataName: typeof jp?.logMetadata?.name === 'string' ? jp.logMetadata.name : '',
+  }
+  for (const rule of GCP_GEMINI_TARGET_RULES) {
+    const val = sources[rule.source]
+    if (!val) continue
+    const m = rule.regex.exec(val)
+    if (m?.[1]) pushTarget(rule.field, m[1], rule.objectType)
+  }
+  const rl = raw.resource?.labels
+  if (rl?.resource_container && rl?.location && rl?.engine_id && rl?.assistant_id && rl?.agent_id) {
+    const agentPath = `projects/${rl.resource_container}/locations/${rl.location}/collections/default_collection/engines/${rl.engine_id}/assistants/${rl.assistant_id}/agents/${rl.agent_id}`
+    pushTarget('resource.labels', agentPath, 'Agent')
+  }
+
+  const attributes: Record<string, string | number | boolean> = {}
+  const oauthClientId = pp?.authenticationInfo?.oauthInfo?.oauthClientId
+  if (typeof oauthClientId === 'string' && oauthClientId) {
+    putAttr(attributes, 'oauth_client_id', oauthClientId)
+    if (r.isSelfClient(oauthClientId)) putAttr(attributes, 'aegi_self', true)
+  }
+  putAttr(attributes, 'service_name', pp?.serviceName ?? jp?.logMetadata?.serviceName)
+  putAttr(attributes, 'assist_token', jp?.assistToken)
+  putAttr(attributes, 'conversation_id', jp?.['gen_ai.conversation.id'] ?? jp?.gen_ai?.conversation?.id)
+  putAttr(attributes, 'agent_name', jp?.['gen_ai.agent.name'] ?? jp?.gen_ai?.agent?.name)
+
+  return {
+    origin_key: `gcp:${logTail}:${raw.timestamp}:${raw.insertId}`,
+    provider: 'gcp',
+    event_type: eventType,
+    category: categoryOf('gcp:gemini:log', { et: eventType }),
+    title: localizedTitle('gcp', eventType),
+    occurred_at: isoUtc(raw.timestamp),
+    outcome: outcomeOf('gcp:gemini:log', { code: pp?.status?.code !== undefined && pp?.status?.code !== null ? String(pp.status.code) : '' }),
+    outcome_reason: null,
+    signal: null,
+    actor,
+    targets,
+    correlation: {
+      session_id: null,
+      transaction_id: typeof raw.trace === 'string' && raw.trace ? raw.trace : null,
+      caused_by: [],
+      client_ip: typeof pp?.requestMetadata?.callerIp === 'string' && pp.requestMetadata.callerIp ? pp.requestMetadata.callerIp : null,
+    },
+    attributes,
+    ...common(meta),
+  }
+}
+
+const isPlainObject = (v: unknown): v is Record<string, any> =>
+  typeof v === 'object' && v !== null && !Array.isArray(v)
+
+const isGcpLogEntry = (v: unknown): v is Record<string, any> =>
+  isPlainObject(v) && ('protoPayload' in v || 'jsonPayload' in v || 'logName' in v || 'insertId' in v)
+
+/** Pub/Sub 애드온이 data 안에 감싼 Cloud Logging LogEntry 를 푼다 (base64 는 풀지 않는다) */
+function unwrapGcp(raw: Record<string, any>): Record<string, any> {
+  if (isGcpLogEntry(raw.data)) return raw.data
+  if (typeof raw.data === 'string') {
+    try {
+      const parsed = JSON.parse(raw.data)
+      if (isGcpLogEntry(parsed)) return parsed
+    } catch { /* 원문 그대로 둔다 */ }
+  }
+  return raw
+}
+
+const AZURE_SIGNIN_CATEGORIES = new Set([
+  'SignInLogs',
+  'NonInteractiveUserSignInLogs',
+  'ServicePrincipalSignInLogs',
+  'ManagedIdentitySignInLogs',
+])
+
+/** Azure Event Hub 진단 기록(records[] 또는 단건)을 풀어 SignIn/Audit 매퍼로 보낸다 */
+function mapAzureRow(raw: Record<string, any>, canonical: string, full: RowMeta, r: EntityResolver): NormalizedEvent[] {
+  const items = Array.isArray(raw.records) ? raw.records : [raw]
+  const out: NormalizedEvent[] = []
+  for (const rec of items) {
+    if (!isPlainObject(rec)) continue
+    if (typeof rec.category === 'string' && isPlainObject(rec.properties)) {
+      if (AZURE_SIGNIN_CATEGORIES.has(rec.category)) out.push(mapMicrosoftSignIn(rec.properties, full, r))
+      else if (rec.category === 'AuditLogs') out.push(mapMicrosoftAudit(rec.properties, full, r))
+      continue
+    }
+    if (canonical === 'azure:aad:signin') out.push(mapMicrosoftSignIn(rec, full, r))
+    else if (canonical === 'azure:aad:audit') out.push(mapMicrosoftAudit(rec, full, r))
+  }
+  return out
+}
+
 /** Splunk 결과 한 줄 → 정규 이벤트 (원문이 JSON 이 아니면 버리고 사유를 돌려준다) */
 export function mapRow(row: Record<string, string>, meta: Omit<RowMeta, 'indextime'>, r: EntityResolver): { events: NormalizedEvent[]; error?: string } {
-  const provider = SOURCETYPE_PROVIDER[meta.sourcetype]
-  if (!provider) return { events: [], error: `모르는 sourcetype ${meta.sourcetype}` }
+  const canonical = canonicalSourcetype(meta.sourcetype)
+  const provider = canonical ? providerOfSourcetype(canonical) : null
+  if (!canonical || !provider) return { events: [], error: `모르는 sourcetype ${meta.sourcetype}` }
   let raw: Record<string, any>
   try { raw = JSON.parse(row._raw) } catch { return { events: [], error: '원문이 JSON 이 아니다' } }
-  if (meta.sourcetype === 'confluence:audit' && !isConfluenceAudit(raw)) return { events: [], error: 'Confluence REST 감사 기록 형식이 아니다' }
-  const guard = meta.sourcetype === 'atlassian:guard:audit' ? guardRecords(raw) : null
-  if (meta.sourcetype === 'atlassian:guard:audit' && guard === null) return { events: [], error: 'Atlassian Guard 감사 봉투 형식이 아니다' }
+  if (canonical === 'confluence:audit' && !isConfluenceAudit(raw)) return { events: [], error: 'Confluence REST 감사 기록 형식이 아니다' }
+  const guard = canonical === 'atlassian:guard:audit' ? guardRecords(raw) : null
+  if (canonical === 'atlassian:guard:audit' && guard === null) return { events: [], error: 'Atlassian Guard 감사 봉투 형식이 아니다' }
   const indextime = row.aegi_indextime ? Number(row.aegi_indextime) : null
   const full: RowMeta = { ...meta, indextime }
   const hash = sha256(row._raw)
-  const events = guard !== null ? guard.map(e => mapAtlassianGuard(e, full, r))
+  const mapped = guard !== null ? guard.map(e => mapAtlassianGuard(e, full, r))
     : provider === 'okta' ? [mapOkta(raw, full, r)]
     : provider === 'gws' ? mapGws(raw, full, r)
     : provider === 'github' ? [mapGithub(raw, full, r)]
     : provider === 'slack' ? [mapSlack(raw, full, r)]
     : provider === 'salesforce' ? [mapSalesforce(raw, full, r)]
-    : meta.sourcetype === 'confluence:audit' ? [mapConfluence(raw, full, r)]
+    : provider === 'onepassword' ? [mapOnePassword(raw, full, r)]
+    : provider === 'gcp' ? [mapGcpGemini(unwrapGcp(raw), full, r)]
+    : canonical === 'snowflake:login' ? [mapSnowflakeLogin(raw, full, r)]
+    : canonical === 'snowflake:query' ? [mapSnowflakeQuery(raw, full, r)]
+    : canonical === 'snowflake:grant' ? [mapSnowflakeGrant(raw, full, r)]
+    : canonical === 'azure:aad:signin' || canonical === 'azure:aad:audit' || canonical === 'azure:monitor:aad' ? mapAzureRow(raw, canonical, full, r)
+    : canonical === 'o365:management:activity' ? [mapMicrosoftUal(raw, full, r)]
+    : canonical === 'confluence:audit' ? [mapConfluence(raw, full, r)]
     : [mapJira(raw, full, r)]
+  const events = mapped.filter(e => Boolean(e.occurred_at) || e.actor !== null || e.targets.length > 0)
+  if (!events.length) return { events: [], error: '원문에서 시각·행위자·대상을 읽지 못했다. 원문 모양(감싼 JSON)과 sourcetype 을 확인한다' }
   for (const e of events) {
     e.raw_sha256 = hash
     const relationMatches = r.relationMatches(e)

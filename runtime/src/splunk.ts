@@ -64,7 +64,7 @@ export function loadWorkspace(file: string): Workspace {
   } catch (err) {
     const code = err instanceof Error ? err.message : String(err)
     const hint: Record<string, string> = {
-      invalid_workspace: 'sources 가 1~12개 목록이어야 한다',
+      invalid_workspace: 'sources 가 1~16개 목록이어야 한다. 쓰지 않는 SaaS 의 출처는 지운다',
       invalid_source: 'ref, provider, index, sourcetype 이 영문으로 시작하는 80자 이하 이름이고 ref 가 겹치지 않아야 한다',
       invalid_fields: 'fields 는 1~16개, 이름은 소문자_숫자, 값은 JSON 경로여야 한다',
       tenant_isolation_required: 'isolation 은 {"dedicated": true}(이 tenant 전용 index) 또는 {"field": 경로, "value"|"values": tenant id} 여야 한다',
