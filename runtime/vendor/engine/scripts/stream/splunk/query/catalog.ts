@@ -9,6 +9,7 @@
 import type { SearchTransport } from '../transport.ts'
 import { baseSearch, DEDUP_EVENTS } from './spl.ts'
 import { tenantScope, type Source, type Workspace } from './workspace.ts'
+import { fieldShapeSourcetype } from '../types.ts'
 
 export interface CatalogEntry {
   state: 'ready' | 'failed'
@@ -108,7 +109,7 @@ export class SourceCatalog {
       .filter(c => c.category && Number.isFinite(c.count)).sort((a, b) => b.count - a.count)
     entry.fields = (await this.rows(`${raw} | fieldsummary | fields field count | sort - count | head 120`))
       .map(r => r.field).filter((f): f is string => !!f && !internalField(f)).slice(0, CATALOG_LIMITS.fields)
-    if (s.sourcetype === 'gws:reports:activity') {
+    if (fieldShapeSourcetype(s.sourcetype) === 'gws:reports:activity') {
       const parameters: Record<string, string[]> = {}
       for (const row of await this.rows(`${raw} | spath path=events{}.parameters{}.name output=aegi_param | eval aegi_param=mvdedup(aegi_param) | mvexpand aegi_param | stats count by id.applicationName aegi_param | sort - count`)) {
         const app = row['id.applicationName'], p = row.aegi_param

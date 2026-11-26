@@ -170,28 +170,29 @@ Splunk 를 어떻게 설치했는지, 로그를 어느 index 로 받는지는 �
 | --- | --- |
 | `ref` | 출처 이름(AI 가 고르는 이름) |
 | `provider` | `okta`, `github`, `slack`, `gws`, `salesforce`, `atlassian`, `microsoft`, `onepassword`, `snowflake`, `gcp` 중 하나 |
-| `index`, `sourcetype` | 회사 Splunk 의 값. 단 `sourcetype` 은 아래 표의 이름이어야 Timeline, Event Board 가 해석한다 |
+| `index`, `sourcetype` | 회사 Splunk 의 값. `sourcetype` 은 아래 표의 이름(대소문자 무관)이나 공식 애드온 이름이어야 Timeline, Event Board 가 해석한다 |
 | `isolation` | 이 index 가 이 tenant 전용이면 `{"dedicated": true}`. 여러 tenant 가 섞여 있으면 `{"field": "<JSON 경로>", "value": "<tenant id>"}` |
 | `fields` | AI 가 쓰는 필드 이름과 원문 JSON 경로의 대응 |
 
-Timeline 과 Event Board 는 `sourcetype` 이름으로 해석기를 고른다. 표에 없는 sourcetype 은 AI 로그 검색에서만 쓰인다.
+Timeline 과 Event Board 는 `sourcetype` 이름으로 해석기를 고른다. 이름은 대소문자를 가리지 않는다. 표에 없는 sourcetype 은 AI 로그 검색에서만 쓰인다.
 
-| SaaS | `sourcetype` | 원문(`_raw`) |
-| --- | --- | --- |
-| Okta | `okta:im2:log` | System Log API 이벤트 |
-| Google Workspace | `gws:reports:activity` | Reports API activity |
-| GitHub | `github:cloud:audit` | 감사 로그 API 이벤트 |
-| Slack | `slack:audit` | Audit Logs API 이벤트 |
-| Salesforce | `sfdc:setupaudittrail` | SetupAuditTrail 행 |
-| Atlassian | `jira:audit`, `confluence:audit`, `atlassian:guard:audit` | Jira·Confluence 감사 기록, 조직 감사 이벤트 |
-| Microsoft 365 | `azure:aad:signin`, `azure:aad:audit`, `o365:management:activity` | Graph 로그인·디렉터리 감사, Management Activity API |
-| 1Password | `onepassword:audit` | Events API 감사 이벤트 |
-| Snowflake | `snowflake:login`, `snowflake:query`, `snowflake:grant` | ACCOUNT_USAGE 의 로그인·쿼리·권한 부여 기록 행 |
-| Gemini Enterprise (Google Cloud) | `gcp:gemini:log` | Cloud Logging 감사 로그 항목 |
+| SaaS | `sourcetype` | 함께 받는 공식 애드온 이름 | 원문(`_raw`) |
+| --- | --- | --- | --- |
+| Okta | `okta:im2:log` | `OktaIM2:log` | System Log API 이벤트 |
+| Google Workspace | `gws:reports:activity` | `gws:reports:<앱>`(admin, login, drive, token, saml 등) | Reports API activity |
+| GitHub | `github:cloud:audit` | 같은 이름 | 감사 로그 API 이벤트 |
+| Slack | `slack:audit` | | Audit Logs API 이벤트 |
+| Salesforce | `sfdc:setupaudittrail` | `sfdc:SetupAuditTrail` | SetupAuditTrail 행 |
+| Atlassian | `jira:audit`, `confluence:audit`, `atlassian:guard:audit` | `jira:cloud:audit:log`, `jira:audit:log`, `jira:datacenter:audit:log` | Jira·Confluence 감사 기록, 조직 감사 이벤트 |
+| Microsoft 365 | `azure:aad:signin`, `azure:aad:audit`, `o365:management:activity` | `azure:monitor:aad`(Event Hub) | Graph 로그인·디렉터리 감사, Management Activity API. Event Hub 진단 기록(`records[]`, `category`+`properties`)도 푼다 |
+| 1Password | `onepassword:audit` | | Events API 감사 이벤트 |
+| Snowflake | `snowflake:login`, `snowflake:query`, `snowflake:grant` | | ACCOUNT_USAGE 의 로그인·쿼리·권한 부여 기록 행(JSON) |
+| Gemini Enterprise (Google Cloud) | `gcp:gemini:log` | `google:gcp:pubsub:message`(Pub/Sub) | Cloud Logging 감사 로그 항목. Pub/Sub 의 `{"data": <LogEntry>}` 도 푼다 |
 
-- 원문(`_raw`)은 위 표의 JSON 그대로여야 한다. 한 겹 감싼 모양은 오류 없이 내용이 빈 이벤트(시각·행위자·대상 없음, Google Cloud 는 종류도 `unknown`)로 들어간다. Splunk 애드온이 감싸는 대표 예:
-  - Google Cloud Pub/Sub 수집: `{"data": <LogEntry>, ...}`. LogEntry 를 꺼내 `_raw` 로 넣는다
-  - Azure Event Hub 수집: `{"properties": <로그인·감사 기록>, ...}`. Graph API 응답 모양으로 넣는다
+- 원문에서 시각·행위자·대상을 하나도 읽지 못하면 이벤트로 쌓지 않고 출처 상태에 `mapping_errors` 로 표시한다. 조회는 `partial` 로 끝나고 다른 출처는 그대로 보인다. 이 표시가 나오면 그 출처의 원문 모양과 sourcetype 을 확인한다.
+- 원문을 감싼 모양은 위 표에 적은 두 가지(Pub/Sub `data`, Event Hub 진단 기록)만 푼다. Event Hub 진단 기록 중 로그인·감사 이외의 category(예: 위험 사용자)는 버린다.
+- AI 로그 검색은 출처 설정의 `fields` 경로로 검색한다. 감싼 원문이면 `data.protoPayload.methodName` 처럼 감싼 경로로 적는다.
+- 1Password, Slack 의 공식 애드온 sourcetype 이름은 확인하지 못했다. 위 표의 이름과 다르면 Timeline 에 나오지 않는다(AI 로그 검색은 된다).
 - 시각은 ISO 8601 문자열이어야 한다. 시간대가 없으면 UTC 로 읽는다(Snowflake `TIMESTAMP_LTZ` 를 시간대 없이 내보내면 시각이 밀린다). 숫자(epoch)면 이벤트 시각 대신 Splunk `_time` 을 쓴다.
 - 출처는 16개까지다. 넘으면 Splunk 연결 전체를 거절하므로 쓰지 않는 SaaS 의 출처는 지운다. 예시 파일은 16개를 다 쓴다.
 - 이 런타임은 Snowflake 를 수집하지 않아 그래프에 Snowflake 객체가 없다. Snowflake 로그는 보이지만 그래프 객체와 이어지지 않는다.

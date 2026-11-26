@@ -4,7 +4,7 @@
  */
 import { sha256 } from './transport'
 import type { EntityResolver, ObjectMatch } from './resolver'
-import { MAPPING_VERSION, SOURCETYPE_PROVIDER, type EntityRef, type EventCategory, type NormalizedEvent } from './types'
+import { canonicalSourcetype, MAPPING_VERSION, providerOfSourcetype, type EntityRef, type EventCategory, type NormalizedEvent } from './types'
 import eventLabels from '../../../ontology/splunk-event-labels-v1.json' with { type: 'json' }
 import { to18 } from '../../collect/shared/sfid'
 import { confluenceId, confluenceTime, isConfluenceAudit } from './confluence'
@@ -1036,34 +1036,78 @@ export function mapGcpGemini(raw: Record<string, any>, meta: RowMeta, r: EntityR
   }
 }
 
+const isPlainObject = (v: unknown): v is Record<string, any> =>
+  typeof v === 'object' && v !== null && !Array.isArray(v)
+
+const isGcpLogEntry = (v: unknown): v is Record<string, any> =>
+  isPlainObject(v) && ('protoPayload' in v || 'jsonPayload' in v || 'logName' in v || 'insertId' in v)
+
+/** Pub/Sub 애드온이 data 안에 감싼 Cloud Logging LogEntry 를 푼다 (base64 는 풀지 않는다) */
+function unwrapGcp(raw: Record<string, any>): Record<string, any> {
+  if (isGcpLogEntry(raw.data)) return raw.data
+  if (typeof raw.data === 'string') {
+    try {
+      const parsed = JSON.parse(raw.data)
+      if (isGcpLogEntry(parsed)) return parsed
+    } catch { /* 원문 그대로 둔다 */ }
+  }
+  return raw
+}
+
+const AZURE_SIGNIN_CATEGORIES = new Set([
+  'SignInLogs',
+  'NonInteractiveUserSignInLogs',
+  'ServicePrincipalSignInLogs',
+  'ManagedIdentitySignInLogs',
+])
+
+/** Azure Event Hub 진단 기록(records[] 또는 단건)을 풀어 SignIn/Audit 매퍼로 보낸다 */
+function mapAzureRow(raw: Record<string, any>, canonical: string, full: RowMeta, r: EntityResolver): NormalizedEvent[] {
+  const items = Array.isArray(raw.records) ? raw.records : [raw]
+  const out: NormalizedEvent[] = []
+  for (const rec of items) {
+    if (!isPlainObject(rec)) continue
+    if (typeof rec.category === 'string' && isPlainObject(rec.properties)) {
+      if (AZURE_SIGNIN_CATEGORIES.has(rec.category)) out.push(mapMicrosoftSignIn(rec.properties, full, r))
+      else if (rec.category === 'AuditLogs') out.push(mapMicrosoftAudit(rec.properties, full, r))
+      continue
+    }
+    if (canonical === 'azure:aad:signin') out.push(mapMicrosoftSignIn(rec, full, r))
+    else if (canonical === 'azure:aad:audit') out.push(mapMicrosoftAudit(rec, full, r))
+  }
+  return out
+}
+
 /** Splunk 결과 한 줄 → 정규 이벤트 (원문이 JSON 이 아니면 버리고 사유를 돌려준다) */
 export function mapRow(row: Record<string, string>, meta: Omit<RowMeta, 'indextime'>, r: EntityResolver): { events: NormalizedEvent[]; error?: string } {
-  const provider = SOURCETYPE_PROVIDER[meta.sourcetype]
-  if (!provider) return { events: [], error: `모르는 sourcetype ${meta.sourcetype}` }
+  const canonical = canonicalSourcetype(meta.sourcetype)
+  const provider = canonical ? providerOfSourcetype(canonical) : null
+  if (!canonical || !provider) return { events: [], error: `모르는 sourcetype ${meta.sourcetype}` }
   let raw: Record<string, any>
   try { raw = JSON.parse(row._raw) } catch { return { events: [], error: '원문이 JSON 이 아니다' } }
-  if (meta.sourcetype === 'confluence:audit' && !isConfluenceAudit(raw)) return { events: [], error: 'Confluence REST 감사 기록 형식이 아니다' }
-  const guard = meta.sourcetype === 'atlassian:guard:audit' ? guardRecords(raw) : null
-  if (meta.sourcetype === 'atlassian:guard:audit' && guard === null) return { events: [], error: 'Atlassian Guard 감사 봉투 형식이 아니다' }
+  if (canonical === 'confluence:audit' && !isConfluenceAudit(raw)) return { events: [], error: 'Confluence REST 감사 기록 형식이 아니다' }
+  const guard = canonical === 'atlassian:guard:audit' ? guardRecords(raw) : null
+  if (canonical === 'atlassian:guard:audit' && guard === null) return { events: [], error: 'Atlassian Guard 감사 봉투 형식이 아니다' }
   const indextime = row.aegi_indextime ? Number(row.aegi_indextime) : null
   const full: RowMeta = { ...meta, indextime }
   const hash = sha256(row._raw)
-  const events = guard !== null ? guard.map(e => mapAtlassianGuard(e, full, r))
+  const mapped = guard !== null ? guard.map(e => mapAtlassianGuard(e, full, r))
     : provider === 'okta' ? [mapOkta(raw, full, r)]
     : provider === 'gws' ? mapGws(raw, full, r)
     : provider === 'github' ? [mapGithub(raw, full, r)]
     : provider === 'slack' ? [mapSlack(raw, full, r)]
     : provider === 'salesforce' ? [mapSalesforce(raw, full, r)]
     : provider === 'onepassword' ? [mapOnePassword(raw, full, r)]
-    : provider === 'gcp' ? [mapGcpGemini(raw, full, r)]
-    : meta.sourcetype === 'snowflake:login' ? [mapSnowflakeLogin(raw, full, r)]
-    : meta.sourcetype === 'snowflake:query' ? [mapSnowflakeQuery(raw, full, r)]
-    : meta.sourcetype === 'snowflake:grant' ? [mapSnowflakeGrant(raw, full, r)]
-    : meta.sourcetype === 'azure:aad:signin' ? [mapMicrosoftSignIn(raw, full, r)]
-    : meta.sourcetype === 'azure:aad:audit' ? [mapMicrosoftAudit(raw, full, r)]
-    : meta.sourcetype === 'o365:management:activity' ? [mapMicrosoftUal(raw, full, r)]
-    : meta.sourcetype === 'confluence:audit' ? [mapConfluence(raw, full, r)]
+    : provider === 'gcp' ? [mapGcpGemini(unwrapGcp(raw), full, r)]
+    : canonical === 'snowflake:login' ? [mapSnowflakeLogin(raw, full, r)]
+    : canonical === 'snowflake:query' ? [mapSnowflakeQuery(raw, full, r)]
+    : canonical === 'snowflake:grant' ? [mapSnowflakeGrant(raw, full, r)]
+    : canonical === 'azure:aad:signin' || canonical === 'azure:aad:audit' || canonical === 'azure:monitor:aad' ? mapAzureRow(raw, canonical, full, r)
+    : canonical === 'o365:management:activity' ? [mapMicrosoftUal(raw, full, r)]
+    : canonical === 'confluence:audit' ? [mapConfluence(raw, full, r)]
     : [mapJira(raw, full, r)]
+  const events = mapped.filter(e => Boolean(e.occurred_at) || e.actor !== null || e.targets.length > 0)
+  if (!events.length) return { events: [], error: '원문에서 시각·행위자·대상을 읽지 못했다. 원문 모양(감싼 JSON)과 sourcetype 을 확인한다' }
   for (const e of events) {
     e.raw_sha256 = hash
     const relationMatches = r.relationMatches(e)

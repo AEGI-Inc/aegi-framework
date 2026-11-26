@@ -82,8 +82,12 @@ test('새 4개 SaaS 감사 로그가 Timeline 조회로 쌓이고 그래프 객�
 
   // 출처는 16개까지라 예시에서 Guard 출처를 빼고, 표에 없는 sourcetype 출처 하나(AI 검색 전용이어야 한다)를 넣는다
   const example = JSON.parse(fs.readFileSync(path.join(import.meta.dirname, '..', 'splunk.sources.example.json'), 'utf8'))
-  example.sources = example.sources.filter((s: { ref: string }) => s.ref !== 'guard-main')
+  // 출처는 16개까지라 이 시험에서 쓰지 않는 Atlassian·Slack 출처를 빼고, 공식 애드온 이름 출처 3개를 넣는다
+  example.sources = example.sources.filter((s: { ref: string }) => !['guard-main', 'jira-main', 'confluence-main', 'slack-main'].includes(s.ref))
   example.sources.push({ ref: 'm365-custom', provider: 'microsoft', index: 'sec_m365', sourcetype: 'ms:aad:signin', isolation: { dedicated: true }, fields: { actor_id: 'userId' } })
+  example.sources.push({ ref: 'okta-addon', provider: 'okta', index: 'okta_addon', sourcetype: 'OktaIM2:log', isolation: { dedicated: true }, fields: { event_type: 'eventType' } })
+  example.sources.push({ ref: 'gcp-pubsub', provider: 'gcp', index: 'gcp_pubsub', sourcetype: 'google:gcp:pubsub:message', isolation: { dedicated: true }, fields: { event_type: 'data.protoPayload.methodName' } })
+  example.sources.push({ ref: 'aad-eventhub', provider: 'microsoft', index: 'aad_hub', sourcetype: 'azure:monitor:aad', isolation: { dedicated: true }, fields: { event_type: 'records{}.category' } })
   fs.writeFileSync(SOURCES, JSON.stringify(example))
 
   const local = openDb(path.join(process.env.AEGI_DATA_DIR!, 'aegi.sqlite'))
@@ -102,8 +106,16 @@ test('새 4개 SaaS 감사 로그가 Timeline 조회로 쌓이고 그래프 객�
       { index: 'aegi_snowflake', sourcetype: 'snowflake:query', time: now - 1100, raw: { QUERY_ID: 'q-1', START_TIME: iso(now - 1100), QUERY_TYPE: 'UNLOAD', USER_NAME: 'USER_A', DATABASE_NAME: 'ANALYTICS', EXECUTION_STATUS: 'SUCCESS' } },
       { index: 'aegi_snowflake', sourcetype: 'snowflake:grant', time: now - 1200, raw: { ACTION: 'granted', EVENT_TIME: iso(now - 1200), GRANTEE_NAME: 'USER_A', ROLE: 'SYSADMIN', GRANTED_BY: 'ACCOUNTADMIN' } },
       { index: 'aegi_gcp', sourcetype: 'gcp:gemini:log', time: now - 1300, raw: { insertId: 'ins-1', timestamp: iso(now - 1300), logName: 'projects/100/logs/cloudaudit.googleapis.com%2Factivity', protoPayload: { methodName: 'google.cloud.discoveryengine.v1main.AgentService.SetIamPolicy', resourceName: AGENT, authenticationInfo: { principalEmail: 'alice@example.test' }, requestMetadata: { callerIp: '203.0.113.10' }, status: { code: 0 } } } },
-      // 깨진 원문: 시각이 없다. 이 줄 때문에 다른 이벤트 조회가 멈추면 안 된다
+      // 깨진 원문: 시각·행위자·대상이 없다. 빈 이벤트로 쌓지 않고 mapping_errors 로 세며, 다른 이벤트 조회는 멈추지 않는다
       { index: 'aegi_onepassword', sourcetype: 'onepassword:audit', time: now - 950, raw: { id: 'op-broken', action: 'vault.access.grant' } },
+      // 공식 애드온 이름과 감싼 원문
+      { index: 'okta_addon', sourcetype: 'OktaIM2:log', time: now - 400, raw: { uuid: 'ok-1', published: iso(now - 400), eventType: 'user.session.start', actor: { id: 'OKTA-U-ADDON', type: 'User', alternateId: 'alice@example.test' }, outcome: { result: 'SUCCESS' }, target: [] } },
+      { index: 'gcp_pubsub', sourcetype: 'google:gcp:pubsub:message', time: now - 1400, raw: { data: { insertId: 'ins-2', timestamp: iso(now - 1400), logName: 'projects/100/logs/cloudaudit.googleapis.com%2Factivity', protoPayload: { methodName: 'google.cloud.discoveryengine.v1main.AgentService.UpdateAgent', resourceName: AGENT, authenticationInfo: { principalEmail: 'alice@example.test' } } }, attributes: {}, publish_time: iso(now - 1399) } },
+      { index: 'aad_hub', sourcetype: 'azure:monitor:aad', time: now - 500, raw: { records: [
+        { time: iso(now - 500), category: 'SignInLogs', properties: { id: 'si-2', createdDateTime: iso(now - 500), userId: 'u-0001', userPrincipalName: 'alice@example.test', status: { errorCode: 0 } } },
+        { time: iso(now - 510), category: 'AuditLogs', properties: { id: 'au-2', activityDateTime: iso(now - 510), category: 'ApplicationManagement', activityDisplayName: 'Update service principal', result: 'success', initiatedBy: { user: { id: 'u-0001' } }, targetResources: [{ id: 'sp-0001', type: 'ServicePrincipal' }] } },
+        { time: iso(now - 520), category: 'RiskyUsers', properties: { id: 'ru-1' } },
+      ] } },
       // 표에 없는 sourcetype 의 출처: Timeline 은 이 index 를 검색하지 않아야 한다
       { index: 'sec_m365', sourcetype: 'ms:aad:signin', time: now - 600, raw: { id: 'custom-1', createdDateTime: iso(now - 600), userId: 'u-0001' } },
     ]
@@ -112,9 +124,16 @@ test('새 4개 SaaS 감사 로그가 Timeline 조회로 쌓이고 그래프 객�
     const scope = { workspace: WORKSPACE_ID, principal: 'b'.repeat(64), policyVersion: logs.workspace.policyVersion }
     const to = new Date(Math.ceil(Date.now() / 300_000) * 300_000).toISOString(), from = new Date(Date.now() - 86400_000).toISOString()
 
-    const r = await logs.relay.request({ action: 'events', scope, waitSeconds: 15, events: { from, to, providers: ['microsoft', 'onepassword', 'snowflake', 'gcp'] } }, 30_000)
+    const r = await logs.relay.request({ action: 'events', scope, waitSeconds: 15, events: { from, to, providers: ['microsoft', 'onepassword', 'snowflake', 'gcp', 'okta'] } }, 30_000)
     assert.equal(r.status, 200, JSON.stringify(r.body))
-    assert.equal(r.body.state, 'complete', JSON.stringify(r.body))
+    // 깨진 1Password 원문 한 줄만 해석 실패로 드러나고, 나머지 SaaS 는 그대로 끝난다
+    assert.equal(r.body.state, 'partial', JSON.stringify(r.body))
+    const progress = r.body.providers as Array<{ provider: string; state: string; reason?: string }>
+    assert.deepEqual(progress.filter(p => p.reason).map(p => `${p.provider}:${p.reason}`), ['onepassword:mapping_errors'])
+    assert.ok(progress.every(p => p.state === 'complete'))
+    for (const st of ['OktaIM2:log', 'google:gcp:pubsub:message', 'azure:monitor:aad']) {
+      assert.ok(fake.searches.some(s => s.includes(`sourcetype="${st}"`)), `공식 애드온 이름 ${st} 를 그대로 검색한다`)
+    }
 
     assert.ok(!fake.searches.some(s => s.includes('index=sec_m365')), '표에 없는 sourcetype 은 Timeline 이 검색하지 않는다')
     for (const st of ['azure:aad:signin', 'azure:aad:audit', 'o365:management:activity', 'onepassword:audit', 'snowflake:login', 'snowflake:query', 'snowflake:grant', 'gcp:gemini:log']) {
@@ -123,10 +142,14 @@ test('새 4개 SaaS 감사 로그가 Timeline 조회로 쌓이고 그래프 객�
 
     const rows = local.db.prepare('SELECT provider, event_type, object_keys FROM log_event').all() as Array<{ provider: string; event_type: string; object_keys: string }>
     const by = (p: string) => rows.filter(x => x.provider === p)
-    assert.equal(by('microsoft').length, 3, JSON.stringify(rows))
+    assert.equal(by('microsoft').length, 5, JSON.stringify(rows))
     assert.equal(by('snowflake').length, 3)
-    assert.equal(by('gcp').length, 1)
-    assert.ok(by('onepassword').length >= 1)
+    assert.equal(by('gcp').length, 2)
+    assert.equal(by('onepassword').length, 1, '깨진 원문은 빈 이벤트로 쌓이지 않는다')
+    assert.equal(by('okta').length, 1)
+    assert.ok(by('gcp').some(x => x.event_type.endsWith('UpdateAgent') && String(x.object_keys).includes('im:gcp:IamMember:user:alice@example.test')), 'Pub/Sub data 안의 LogEntry 를 풀어 행위자까지 잇는다')
+    assert.ok(by('microsoft').some(x => x.event_type === 'Update service principal' && String(x.object_keys).includes('im:microsoft:ServicePrincipal:sp-0001')), 'Event Hub AuditLogs 기록도 서비스 주체에 이어진다')
+    assert.ok(!by('microsoft').some(x => String(x.event_type).includes('Risky')), '해석하지 않는 진단 category 는 버린다')
     assert.ok(!rows.some(x => x.object_keys?.includes('custom-1')))
 
     const linked = (p: string, key: string) => by(p).some(x => String(x.object_keys).includes(key))

@@ -4,7 +4,7 @@ import { createHash, randomUUID } from 'node:crypto'
 import type { SearchTransport } from '../transport.ts'
 import { mapRow } from '../mapper.ts'
 import { EntityResolver } from '../resolver.ts'
-import { SOURCETYPE_PROVIDER, type GraphRelationRef, type NormalizedEvent } from '../types.ts'
+import { providerOfSourcetype, type GraphRelationRef, type NormalizedEvent } from '../types.ts'
 import { computeEventLinks, ssoAppsFrom, type AppTenant, type EventLink } from '../../../../src/events/eventLinks.ts'
 import type { IdentityLink } from '../../../../src/model/link.ts'
 import { QueryError, tenantScope, checkRange, type Source, type Workspace } from './workspace.ts'
@@ -169,11 +169,14 @@ export class EventService {
     if (own.filter(active).length >= EVENT_LIMITS.concurrency || this.tasks.size >= 8) throw new QueryError('concurrency_limit')
     if (own.filter(j => j.created > this.now() - 600_000).length >= EVENT_LIMITS.searchesPerTenMinutes) throw new QueryError('search_budget_exceeded')
     this.admit()
-    const sources = w.sources.filter(src => SOURCETYPE_PROVIDER[src.sourcetype] && (!request.providers.length || request.providers.includes(SOURCETYPE_PROVIDER[src.sourcetype])))
+    const sources = w.sources.filter(src => {
+      const p = providerOfSourcetype(src.sourcetype)
+      return p && (!request.providers.length || request.providers.includes(p))
+    })
     if (!sources.length) throw new QueryError('no_event_source')
     const j: EventJob = { id: randomUUID(), owner, created: this.now(), expires: this.now() + 3600_000, state: 'queued', request, sids: [], snapshotId: null,
-      sources: sources.map(src => ({ ref: src.ref, provider: SOURCETYPE_PROVIDER[src.sourcetype], resultCount: null, mapped: 0, errors: 0 })),
-      providers: [...new Set(sources.map(src => SOURCETYPE_PROVIDER[src.sourcetype]))].map(provider => ({ provider, state: 'waiting', cached: false })), keys: [], links: [], reasons: [] }
+      sources: sources.map(src => ({ ref: src.ref, provider: providerOfSourcetype(src.sourcetype)!, resultCount: null, mapped: 0, errors: 0 })),
+      providers: [...new Set(sources.map(src => providerOfSourcetype(src.sourcetype)!))].map(provider => ({ provider, state: 'waiting', cached: false })), keys: [], links: [], reasons: [] }
     this.jobs.set(j.id, j); this.save(j)
     const task = Promise.resolve().then(() => this.run(j, sources)).catch(() => { j.state = 'failed'; j.reasons.push('job_storage_failed') })
       .finally(() => { this.tasks.delete(j.id); this.save(j) })

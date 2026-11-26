@@ -37,6 +37,45 @@ export const SOURCETYPE_PROVIDER: Record<string, EventProvider> = {
   'gcp:gemini:log': 'gcp',
 }
 
+const JIRA_ADDON_SOURCETYPES = new Set([
+  'jira:cloud:audit:log',
+  'jira:audit:log',
+  'jira:datacenter:audit:log',
+])
+
+/** 고객 Splunk 애드온의 sourcetype 이름을 정규 이름으로 맞춘다 */
+export function canonicalSourcetype(sourcetype: string): string | null {
+  const s = sourcetype.toLowerCase()
+  if (Object.hasOwn(SOURCETYPE_PROVIDER, s)) return s
+  if (s === 'oktaim2:log') return 'okta:im2:log'
+  if (s.startsWith('gws:reports:')) return 'gws:reports:activity'
+  if (JIRA_ADDON_SOURCETYPES.has(s)) return 'jira:audit'
+  if (s === 'google:gcp:pubsub:message') return 'gcp:gemini:log'
+  if (s === 'azure:monitor:aad') return 'azure:monitor:aad'
+  return null
+}
+
+/**
+ * AI 검색 SPL 의 공통 칸(eventClasses 표)을 고를 sourcetype. 원문 모양이 정규 이름과 같은 별칭(대소문자, OktaIM2:log,
+ * gws:reports:<앱>, Jira 애드온)은 정규 이름을 쓴다. 원문을 감싸는 애드온(Pub/Sub data, Event Hub records/properties)은
+ * 칸 경로가 달라 정규 표를 쓰면 빈 칸으로 걸러지므로 원래 이름을 돌려준다(표 없음 = 공통 칸 없이 검색).
+ */
+export function fieldShapeSourcetype(sourcetype: string): string {
+  const canonical = canonicalSourcetype(sourcetype)
+  if (!canonical || WRAPPED_ADDON_SOURCETYPES.has(sourcetype.toLowerCase())) return sourcetype
+  return canonical
+}
+
+const WRAPPED_ADDON_SOURCETYPES = new Set(['google:gcp:pubsub:message', 'azure:monitor:aad'])
+
+/** sourcetype(공식 애드온 이름 포함) 의 provider 를 돌려준다 */
+export function providerOfSourcetype(sourcetype: string): EventProvider | null {
+  const canonical = canonicalSourcetype(sourcetype)
+  if (!canonical) return null
+  if (canonical === 'azure:monitor:aad') return 'microsoft'
+  return SOURCETYPE_PROVIDER[canonical] ?? null
+}
+
 export interface SplunkConnection {
   /** 검색 REST 주소 (https://host:8089) */
   searchBase: string

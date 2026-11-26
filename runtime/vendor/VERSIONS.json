@@ -79,6 +79,24 @@
         ],
         "note": "적용 뒤 web 다시 빌드"
       }
+    },
+    {
+      "date": "2026-11-26",
+      "what": "Splunk 공식 애드온 sourcetype 별칭과 감싼 원문(Pub/Sub data, Event Hub records/properties) 해석",
+      "engine": {
+        "repo": "AEGI-Inc/aegi-adapter-engine",
+        "commits": [
+          "265255bf"
+        ],
+        "pr": 569,
+        "paths": [
+          "scripts/stream/splunk/types.ts",
+          "scripts/stream/splunk/mapper.ts",
+          "scripts/stream/splunk/query/events.ts",
+          "scripts/stream/splunk/query/spl.ts",
+          "scripts/stream/splunk/query/catalog.ts"
+        ]
+      }
     }
   ]
 }
