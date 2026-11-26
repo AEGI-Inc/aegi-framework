@@ -78,7 +78,7 @@ test('Splunk 연결 설정: 없으면 끄고, https 와 토큰을 요구하고, 
 })
 
 test('출처 설정: 예시 파일과 엔진 Connector 형식을 읽고, tenant 격리 없는 출처는 거절한다', () => {
-  assert.equal(loadWorkspace(SOURCES).sources.length, 8)
+  assert.equal(loadWorkspace(SOURCES).sources.length, 16)
   const dir = process.env.AEGI_DATA_DIR!
   const engineForm = path.join(dir, 'engine-form.json')
   fs.writeFileSync(engineForm, JSON.stringify({ workspaces: [{ id: 'team', policyVersion: 'v7', sources: [{ ref: 'okta', provider: 'okta', index: 'sec_okta', sourcetype: 'OktaIM2:log', isolation: { field: 'tenant', value: 'acme' }, fields: { event_type: 'eventType' } }] }] }))

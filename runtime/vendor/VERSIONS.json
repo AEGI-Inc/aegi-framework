@@ -49,5 +49,36 @@
         "schema/im-model/model/v3.2"
       ]
     }
-  }
+  },
+  "updates": [
+    {
+      "date": "2026-11-26",
+      "what": "Splunk 이벤트 분석 10개 SaaS(M365, 1Password, Snowflake, Gemini Enterprise 추가)",
+      "engine": {
+        "repo": "AEGI-Inc/aegi-adapter-engine",
+        "commits": [
+          "cbfea846",
+          "4034ed62",
+          "8821315f"
+        ],
+        "paths": [
+          "scripts/stream/splunk (시험 파일과 config.aegi.json 제외)",
+          "ontology/splunk-event-labels-v1.json",
+          "ontology/event-label-source.json"
+        ]
+      },
+      "dashboard": {
+        "repo": "AEGI-Inc/aegi-dashboard-new",
+        "commits": [
+          "3f7b396",
+          "75b81d1",
+          "0fd0880",
+          "fdec340",
+          "39371a2",
+          "21bca3b"
+        ],
+        "note": "적용 뒤 web 다시 빌드"
+      }
+    }
+  ]
 }

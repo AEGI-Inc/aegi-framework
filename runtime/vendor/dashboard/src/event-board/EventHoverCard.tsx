@@ -5,7 +5,7 @@ import { useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import type { TimelineEvent } from '../timeline/timelineAnalysis'
 import { formatTime, OUTCOME_LABEL } from '../timeline/timelineAnalysis'
-import { providerName, providerLogoId } from '../findings/providers'
+import { providerLogoId, providerName } from '../findings/providers'
 import ProviderLogo from '../ProviderLogo'
 import type { BoardLink } from './boardLinks'
 

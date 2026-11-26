@@ -23,7 +23,7 @@ const objectSchema = (properties: Record<string, unknown>) => ({ type: 'object',
 const enumeration = (values: string[]) => ({ type: 'string', enum: values })
 const optional = (value: unknown) => ({ anyOf: [value, { type: 'null' }] })
 const entity = { anyOf: [
-  objectSchema({ text: { type: 'string' }, provider: optional(enumeration(['slack', 'github', 'okta', 'gws', 'atlassian', 'salesforce'])) }),
+  objectSchema({ text: { type: 'string' }, provider: optional(enumeration(['slack', 'github', 'okta', 'gws', 'atlassian', 'salesforce', 'microsoft', 'onepassword', 'snowflake', 'gcp'])) }),
   objectSchema({ reference: enumeration(['source', 'target']) }),
 ] }
 const schema = objectSchema({ plan: { anyOf: [
@@ -32,7 +32,7 @@ const schema = objectSchema({ plan: { anyOf: [
   objectSchema({ intent: enumeration(['access_analyze']), entity, target: optional(entity), minimum: optional(enumeration(['read', 'write', 'admin'])), mode: optional(enumeration(['direct', 'derived', 'all'])) }),
   objectSchema({ intent: enumeration(['path_lookup']), entity, target: entity, maxHops: optional({ type: 'integer', minimum: 1, maximum: 12 }), directed: optional({ type: 'boolean' }),
     relationTypes: optional({ type: 'array', items: { type: 'string' } }), identity: optional(enumeration(['all', 'person', 'none'])) }),
-  objectSchema({ intent: enumeration(['credential_risk']), entity: optional(entity), provider: optional(enumeration(['slack', 'github', 'okta', 'gws', 'atlassian', 'salesforce'])) }),
+  objectSchema({ intent: enumeration(['credential_risk']), entity: optional(entity), provider: optional(enumeration(['slack', 'github', 'okta', 'gws', 'atlassian', 'salesforce', 'microsoft', 'onepassword', 'snowflake', 'gcp'])) }),
   objectSchema({ intent: enumeration(['conversation']), answer: { type: 'string' } }),
   objectSchema({ intent: enumeration(['unsupported']) }),
 ] } })

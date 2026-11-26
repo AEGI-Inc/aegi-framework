@@ -12,7 +12,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { CREDENTIAL_KEYS, Credentials, loadConfig, loadEnv } from '../../collect/config'
+import { Credentials, credentialLoadNames, loadConfig, loadEnv } from '../../collect/config'
 import { fetchTransport, HttpLayer } from '../../collect/lib/http'
 import { CollectStore } from '../../collect/lib/store'
 import { Runner } from '../../collect/lib/runner'
@@ -24,9 +24,20 @@ import { pinnedHttpsWire, SearchTransport } from './transport'
 
 /** The audit-log calls ship knows how to send; nothing else is collected. */
 export const AUDIT_CALLS = [...new Set(STREAM_SOURCES.map(s => s.callId))]
-const COLLECT_CREDENTIALS = ['CRED-GH-01', 'CRED-OK-01', 'CRED-SL-01', 'CRED-SL-02', 'CRED-GW-01', 'CRED-SF-01', 'CRED-AT-01', 'CRED-AT-ORG-02'] as const
+const SNOWFLAKE_CALLS = new Set(['SNOW-90', 'SNOW-91', 'SNOW-92'])
+export const SNOWFLAKE_SYNC_INTERVAL_MS = 55 * 60_000
+const SNOWFLAKE_SYNC_FILE = 'snowflake-last-sync.json'
+const COLLECT_CREDENTIALS = ['CRED-GH-01', 'CRED-OK-01', 'CRED-SL-01', 'CRED-SL-02', 'CRED-GW-01', 'CRED-SF-01', 'CRED-AT-01', 'CRED-AT-ORG-02', 'CRED-M365-01', 'CRED-OP-02', 'CRED-SNOW-01', 'CRED-GCP-01'] as const
+export const SYNC_CREDENTIAL_KEY_NAMES = credentialLoadNames(COLLECT_CREDENTIALS)
 const SPLUNK_KEYS = ['SPLUNK_URL', 'SPLUNK_TOKEN', 'SPLUNK_HEC_TOKEN', 'SPLUNK_TLS_SHA256', 'SPLUNK_OKTA_TENANT', 'SPLUNK_GWS_TENANT', 'SPLUNK_HEC_URL']
 const LOCK_STALE_MS = 30 * 60_000
+
+export function shouldRunSnowflakeSync(lastSuccessAt: string | null | undefined, nowMs: number): boolean {
+  if (!lastSuccessAt) return true
+  const prevMs = Date.parse(lastSuccessAt)
+  if (!Number.isFinite(prevMs)) return true
+  return nowMs - prevMs >= SNOWFLAKE_SYNC_INTERVAL_MS
+}
 
 const alive = (pid: number) => { try { process.kill(pid, 0); return true } catch (e) { return (e as NodeJS.ErrnoException).code === 'EPERM' } }
 
@@ -70,18 +81,30 @@ async function main() {
   const release = acquireLock(outDir)
   if (!release) { console.log(`${new Date().toISOString()} 이전 실행이 아직 돌고 있어 건너뛴다`); return }
   try {
-    const names = [...new Set(COLLECT_CREDENTIALS.flatMap(id => [...CREDENTIAL_KEYS[id]]))]
+    const names = SYNC_CREDENTIAL_KEY_NAMES
     const env = await vaultEnv([...names, ...SPLUNK_KEYS])
     const config = loadConfig(path.resolve(arg('--config') ?? 'scripts/collect/collector.config.json'))
     const since = arg('--since')
     if (since !== undefined && !Number.isFinite(Date.parse(since))) throw new Error('--since 는 ISO 시각이어야 한다')
     if (since) config.since = since
-    const ctx: ProviderContext = { config, creds: new Credentials(env, process.cwd()), transport: fetchTransport }
-    const calls = selectCalls(ctx, undefined, AUDIT_CALLS)
     const now = new Date(), runId = newRunId(now)
+    const snowMarkerPath = path.join(outDir, SNOWFLAKE_SYNC_FILE)
+    const lastSnowAt = (() => {
+      try { return (JSON.parse(fs.readFileSync(snowMarkerPath, 'utf8')) as { last_success_at?: string }).last_success_at ?? null } catch { return null }
+    })()
+    const runSnow = shouldRunSnowflakeSync(lastSnowAt, now.getTime())
+    const callIds = runSnow ? AUDIT_CALLS : AUDIT_CALLS.filter(id => !SNOWFLAKE_CALLS.has(id))
+    const ctx: ProviderContext = { config, creds: new Credentials(env, process.cwd()), transport: fetchTransport }
+    const calls = selectCalls(ctx, undefined, callIds)
     const runner = new Runner({ store: new CollectStore(outDir, runId), http: new HttpLayer({ transport: fetchTransport, retryDelayMs: 1000 }),
       period: { since: config.since, until: now.toISOString() }, ignoreCursors: false, log: () => undefined })
-    const run = await runner.runAll(calls, { only: null, calls: AUDIT_CALLS, full: false })
+    const run = await runner.runAll(calls, { only: null, calls: callIds, full: false })
+    if (runSnow) {
+      const snowCalls = run.calls.filter(c => c.provider === 'snowflake')
+      if (snowCalls.some(c => c.completeness === 'full' || c.completeness === 'partial') && snowCalls.every(c => c.completeness !== 'failed')) {
+        fs.writeFileSync(snowMarkerPath, JSON.stringify({ last_success_at: now.toISOString() }) + '\n')
+      }
+    }
     const summary = run.calls.map(c => `${c.call_id}:${c.completeness}${c.record_count ? `(${c.record_count})` : ''}`).join(' ')
     console.log(`${now.toISOString()} 수집 run=${runId} ${summary}`)
     if (args.includes('--dry-run')) return

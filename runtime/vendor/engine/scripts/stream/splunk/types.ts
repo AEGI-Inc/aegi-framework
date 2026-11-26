@@ -1,6 +1,6 @@
 /** Splunk 이벤트 파이프라인 공통 타입 (docs/SPLUNK_TIMELINE_PLAN.md 3절) */
 
-export type EventProvider = 'okta' | 'gws' | 'github' | 'slack' | 'salesforce' | 'atlassian'
+export type EventProvider = 'okta' | 'gws' | 'github' | 'slack' | 'salesforce' | 'atlassian' | 'microsoft' | 'onepassword' | 'snowflake' | 'gcp'
 
 /** 승인된 index → 그 index 에서 검색할 수 있는 sourcetype */
 export type Approved = Record<string, string[]>
@@ -12,6 +12,10 @@ export const APPROVED: Approved = {
   aegi_slack: ['slack:audit'],
   aegi_salesforce: ['sfdc:setupaudittrail'],
   aegi_atlassian: ['jira:audit', 'confluence:audit', 'atlassian:guard:audit'],
+  aegi_microsoft: ['azure:aad:signin', 'azure:aad:audit', 'o365:management:activity'],
+  aegi_onepassword: ['onepassword:audit'],
+  aegi_snowflake: ['snowflake:login', 'snowflake:query', 'snowflake:grant'],
+  aegi_gcp: ['gcp:gemini:log'],
 }
 
 export const SOURCETYPE_PROVIDER: Record<string, EventProvider> = {
@@ -23,6 +27,14 @@ export const SOURCETYPE_PROVIDER: Record<string, EventProvider> = {
   'jira:audit': 'atlassian',
   'confluence:audit': 'atlassian',
   'atlassian:guard:audit': 'atlassian',
+  'azure:aad:signin': 'microsoft',
+  'azure:aad:audit': 'microsoft',
+  'o365:management:activity': 'microsoft',
+  'onepassword:audit': 'onepassword',
+  'snowflake:login': 'snowflake',
+  'snowflake:query': 'snowflake',
+  'snowflake:grant': 'snowflake',
+  'gcp:gemini:log': 'gcp',
 }
 
 export interface SplunkConnection {

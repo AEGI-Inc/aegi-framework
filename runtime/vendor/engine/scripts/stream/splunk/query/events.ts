@@ -81,7 +81,7 @@ const SOURCE_PARALLEL = 4
  * finished lookups are dropped early. Their events stay in the D1 log cache.
  */
 export const EVENT_LIMITS = { maxResults: 100_000, runtimeSeconds: 120, concurrency: 2, searchesPerTenMinutes: 30, jobs: 1000 }
-const PROVIDERS = ['okta', 'gws', 'github', 'slack', 'salesforce', 'atlassian']
+const PROVIDERS = ['okta', 'gws', 'github', 'slack', 'salesforce', 'atlassian', 'microsoft', 'onepassword', 'snowflake', 'gcp']
 const uuid = /^[0-9a-f-]{36}$/
 const active = (j: EventJob) => j.state === 'queued' || j.state === 'running'
 const iso = (v: unknown): v is string => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/.test(v) && Number.isFinite(Date.parse(v))

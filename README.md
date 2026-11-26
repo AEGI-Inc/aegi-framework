@@ -75,7 +75,7 @@ aegi-framework/
 | 구분 | SaaS |
 | --- | --- |
 | 수집, 정규화, 판정 (9개) | Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian(Jira, Confluence), Microsoft 365(Entra ID), Google Cloud / Gemini Enterprise, 1Password |
-| Splunk 감사 로그 해석 (6개) | Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian |
+| Splunk 감사 로그 해석 (10개) | 위 9개와 Snowflake |
 
 아래 명령으로 런타임을 실행하세요.
 

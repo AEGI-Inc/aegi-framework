@@ -98,7 +98,7 @@ macOS, Linux cron(매일 03:00). cron은 `PATH`가 짧으므로 `node`를 전체
 
 ### 6. 감사 로그와 AI (선택)
 
-- **Splunk**: 감사 로그를 쓰는 Timeline, Event Board, AI 로그 검색이 켜진다. Adapters의 「Splunk 연결」 카드나 아래 「Splunk 연결」을 따르세요. 지금은 Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian 6개의 감사 로그만 해석한다.
+- **Splunk**: 감사 로그를 쓰는 Timeline, Event Board, AI 로그 검색이 켜진다. Adapters의 「Splunk 연결」 카드나 아래 「Splunk 연결」을 따르세요. 수집하는 9개 SaaS 와 Snowflake 까지 10개의 감사 로그를 해석한다.
 - **AI 키**: Anthropic, Gemini, OpenAI 중 하나를 넣으면 「AEGI AI에게 질문」이 켜진다. Adapters의 「AI 연결」 카드나 `.env`에 넣으세요.
 
 ### 문제 해결
@@ -169,12 +169,28 @@ Splunk 를 어떻게 설치했는지, 로그를 어느 index 로 받는지는 �
 | 칸 | 뜻 |
 | --- | --- |
 | `ref` | 출처 이름(AI 가 고르는 이름) |
-| `provider` | `okta`, `github`, `slack`, `gws`, `salesforce`, `atlassian` 중 하나. 이 값으로 원문을 해석한다 |
-| `index`, `sourcetype` | 회사 Splunk 의 값 |
+| `provider` | `okta`, `github`, `slack`, `gws`, `salesforce`, `atlassian`, `microsoft`, `onepassword`, `snowflake`, `gcp` 중 하나 |
+| `index`, `sourcetype` | 회사 Splunk 의 값. 단 `sourcetype` 은 아래 표의 이름이어야 Timeline, Event Board 가 해석한다 |
 | `isolation` | 이 index 가 이 tenant 전용이면 `{"dedicated": true}`. 여러 tenant 가 섞여 있으면 `{"field": "<JSON 경로>", "value": "<tenant id>"}` |
 | `fields` | AI 가 쓰는 필드 이름과 원문 JSON 경로의 대응 |
 
-- 원문(`_raw`)은 각 SaaS 감사 로그 API 의 JSON 그대로여야 한다. 다른 모양이면 Timeline 해석이 실패한다(`mapping_errors`).
+Timeline 과 Event Board 는 `sourcetype` 이름으로 해석기를 고른다. 표에 없는 sourcetype 은 AI 로그 검색에서만 쓰인다.
+
+| SaaS | `sourcetype` | 원문(`_raw`) |
+| --- | --- | --- |
+| Okta | `okta:im2:log` | System Log API 이벤트 |
+| Google Workspace | `gws:reports:activity` | Reports API activity |
+| GitHub | `github:cloud:audit` | 감사 로그 API 이벤트 |
+| Slack | `slack:audit` | Audit Logs API 이벤트 |
+| Salesforce | `sfdc:setupaudittrail` | SetupAuditTrail 행 |
+| Atlassian | `jira:audit`, `confluence:audit`, `atlassian:guard:audit` | Jira·Confluence 감사 기록, 조직 감사 이벤트 |
+| Microsoft 365 | `azure:aad:signin`, `azure:aad:audit`, `o365:management:activity` | Graph 로그인·디렉터리 감사, Management Activity API |
+| 1Password | `onepassword:audit` | Events API 감사 이벤트 |
+| Snowflake | `snowflake:login`, `snowflake:query`, `snowflake:grant` | ACCOUNT_USAGE 의 로그인·쿼리·권한 부여 기록 행 |
+| Gemini Enterprise (Google Cloud) | `gcp:gemini:log` | Cloud Logging 감사 로그 항목 |
+
+- 원문(`_raw`)은 위 표의 JSON 그대로여야 한다. 다른 모양이면 Timeline 해석이 실패한다(`mapping_errors`).
+- 이 런타임은 Snowflake 를 수집하지 않아 그래프에 Snowflake 객체가 없다. Snowflake 로그는 보이지만 그래프 객체와 이어지지 않는다.
 - 설치판은 Splunk 에 검색만 한다. 엔진 `SearchTransport` 가 허용하는 경로는 `/services/search/jobs` 와 그 상태, 결과, 취소뿐이고, 설치판은 HEC 전송을 쓰지 않는다.
 - 조회 결과는 `data/aegi.sqlite` 의 로그 캐시에 `AEGI_LOG_CACHE_HOURS`(기본 24) 시간 둔다. 그래프를 새로 게시하면 비운다.
 - `aegi splunk` 는 검색 하나(`| tstats count … by index sourcetype`, 최근 7일)로 인증, 인증서, 출처별 건수와 마지막 시각을 보여 준다. tenant 필드로 거르는 출처는 index 전체 수다.
@@ -200,7 +216,6 @@ Compliance: 「관리자 인증 보호」 검사는 수집 데이터로 로컬�
 
 - **수집 SaaS**: 이 판은 9개를 수집한다. Snowflake, AWS 수집은 넣지 않았다.
 - **연결 문서**: Google Cloud(Gemini), Microsoft 365, 1Password 연결 방법은 `docs/` 문서에 아직 없다. Adapters의 연결 창 안내를 따른다.
-- **Splunk 감사 로그**: Okta, Google Workspace, GitHub, Slack, Salesforce, Atlassian 6개만 해석한다. Google Cloud(Gemini), Microsoft 365, 1Password 감사 로그는 Splunk로 받아도 Timeline, Event Board, AI 로그 검색에 쓰지 않는다.
 - **감사 로그 샘플**: 합성 샘플에는 감사 로그가 없다. 로그 화면은 Splunk를 연결해야 채워진다.
 - **규모**: 화면이 그래프 전체를 브라우저로 받는다. 수천 명 규모 tenant는 무거울 수 있다.
 

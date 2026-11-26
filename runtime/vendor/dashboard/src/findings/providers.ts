@@ -11,6 +11,8 @@ import type { ProviderId } from '../providerOverviewData'
 const LOGO_IDS: Partial<Record<Provider, ProviderId>> = {
   gws: 'google-workspace',
   microsoft: 'microsoft-365',
+  // gcp 는 Gemini Enterprise 를 보려고 붙인 것이라 모든 화면에서 이름은 Gemini Enterprise, 로고는 Gemini 로 그린다(2026-11-26)
+  gcp: 'gemini',
 }
 
 const NAMES: Record<Provider, string> = {
@@ -23,7 +25,7 @@ const NAMES: Record<Provider, string> = {
   aws: 'AWS',
   cloudflare: 'Cloudflare',
   microsoft: 'Microsoft 365',
-  gcp: 'Google Cloud',
+  gcp: 'Gemini Enterprise',
   onepassword: '1Password',
   snowflake: 'Snowflake',
 }

@@ -174,7 +174,7 @@ function flowGap(ms: number): string {
   return ms < 60_000 ? formatDelta(ms) : formatGapDuration(ms)
 }
 import { MatchFacts, Entity, entityLabel } from '../timeline/TimelineDetail'
-import { providerName, providerLogoId } from '../findings/providers'
+import { providerLogoId, providerName } from '../findings/providers'
 import ProviderLogo from '../ProviderLogo'
 import { ChipGroup } from '../ui/ListScreen'
 import { formatKst, utcTitle } from '../utils/time'
@@ -545,7 +545,7 @@ function AddQueryDialog({
   const [period, setPeriod] = useState<'24h' | '7d' | 'custom'>('7d')
   const [customFrom, setCustomFrom] = useState('')
   const [customTo, setCustomTo] = useState('')
-  const [providers, setProviders] = useState<Set<string>>(() => new Set(['slack', 'github', 'okta', 'gws', 'salesforce', 'atlassian']))
+  const [providers, setProviders] = useState<Set<string>>(() => new Set(['slack', 'github', 'okta', 'gws', 'salesforce', 'atlassian', 'microsoft', 'onepassword', 'snowflake', 'gcp']))
   const [selectedObjects, setSelectedObjects] = useState<Set<string>>(new Set())
 
   const availableObjects = useMemo(() => {
@@ -584,7 +584,7 @@ function AddQueryDialog({
     }
 
     const objKeys = Array.from(selectedObjects).slice(0, MAX_SCOPE_OBJECTS)
-    const provs = providers.size < 6 ? Array.from(providers) : undefined
+    const provs = providers.size < 8 ? Array.from(providers) : undefined
     const title = objKeys.length > 0
       ? `${objKeys.map(k => objectLabel(k, graph)).slice(0, 2).join(', ')}${objKeys.length > 2 ? ` 외 ${objKeys.length - 2}개` : ''} 조회`
       : '기간 조회'
@@ -653,7 +653,7 @@ function AddQueryDialog({
           <div className="eb-dialog-field">
             <span className="eb-dialog-label">SaaS 선택</span>
             <div className="eb-dialog-checkbox-group">
-              {(['slack', 'github', 'okta', 'gws', 'salesforce', 'atlassian'] as const).map(p => (
+              {(['slack', 'github', 'okta', 'gws', 'salesforce', 'atlassian', 'microsoft', 'onepassword', 'snowflake', 'gcp'] as const).map(p => (
                 <label key={p} className="eb-dialog-checkbox-item" title={`${providerName(p)} 포함`}>
                   <input
                     type="checkbox"

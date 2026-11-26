@@ -28,7 +28,7 @@ const RELAY_TIMEOUT_MS = 20_000
 const START_WAIT_S = 3
 const MAX_PAGES = 1000
 /** adapter-engine events.ts PROVIDERS 와 같다. 이 밖의 값은 Splunk 소스가 없어 보내지 않는다. */
-export const LOG_PROVIDERS = ['okta', 'gws', 'github', 'slack', 'salesforce', 'atlassian']
+export const LOG_PROVIDERS = ['okta', 'gws', 'github', 'slack', 'salesforce', 'atlassian', 'microsoft', 'onepassword', 'snowflake', 'gcp']
 
 /** 화면과 AI가 구분해 보여 주는 오류 코드 8종 */
 export const LOG_ERRORS = ['connector_unreachable', 'splunk_failed', 'timeout', 'spl_rejected', 'too_many_results', 'd1_write_failed', 'd1_read_failed', 'graph_snapshot_changed'] as const
