@@ -17,8 +17,8 @@ const FORBIDDEN_PATHS = [
   'framework/connection-rules/docs/connection-inventory.md',
   'framework/connection-rules/docs/connection-inventory.csv',
   'framework/connection-rules/docs/measure-v3.md',
-  'runtime/vendor/engine/env-automation',
-  'runtime/vendor/engine/adapter-auto-setup',
+  'runtime/engine/env-automation',
+  'runtime/engine/adapter-auto-setup',
   'runtime/.env',
 ]
 
@@ -58,10 +58,10 @@ const CONTENT_CHECKS = [
 ]
 
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'data', 'release', 'web'])
-const TEXT_EXTS = new Set(['.md', '.json', '.yaml', '.yml', '.ts', '.tsx', '.js', '.mjs', '.py', '.sh', '.cmd', '.txt'])
+const TEXT_EXTS = new Set(['.md', '.json', '.jsonl', '.yaml', '.yml', '.ts', '.tsx', '.mts', '.js', '.mjs', '.cjs', '.py', '.sh', '.cmd', '.txt', '.csv', '.tsv', '.sql', '.html'])
 
 // data·web·release 는 실행이 만드는 출력 경로(SKIP_PATHS)에서만 건너뛴다.
-// runtime/vendor 안의 data/(데이터셋), web/(미리 빌드한 화면)은 배포에 실리므로 검사한다.
+// runtime/engine 안의 data/(데이터셋)와 runtime/web/(미리 빌드한 화면)은 배포에 실리므로 검사한다.
 const OUTPUT_DIR_NAMES = new Set(['data', 'release', 'web'])
 const SKIP_PATHS = new Set(['runtime/data', 'runtime/release'])
 // TEXT_EXTS 에 없는 텍스트 확장자(패치, 표, 줄 단위 JSON, 설정 예시, 서비스 정의)

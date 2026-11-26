@@ -8,24 +8,24 @@ import readline from 'node:readline'
 import { collectorConfig, missingIdentifiers } from './collectorConfig.ts'
 import type { LocalDb } from './db.ts'
 import { clearLogCache } from './logs.ts'
-import { COLLECTED_DIR, DATA_DIR, DATASETS_DIR, ENV_FILE, HOME, IM_MODEL_DIR, SAMPLE_DIR, VENDOR } from './paths.ts'
+import { COLLECTED_DIR, DATA_DIR, DATASETS_DIR, ENGINE_DIR, ENV_FILE, HOME, IM_MODEL_DIR, SAMPLE_DIR } from './paths.ts'
 import { publishDataset, type PublishResult } from './publish.ts'
 import { judgeStandards } from './standards.ts'
 import { readRuns } from './status.ts'
 import { listGitHubOrganizations, resolveGithubAppPem, resolveSlackTeamId } from './oauth.ts'
 import { saveEnvValues } from './env.ts'
-import type { RunRecord } from '../vendor/engine/scripts/collect/lib/store.ts'
+import type { RunRecord } from '../engine/scripts/collect/lib/store.ts'
 // @ts-expect-error 엔진 정규화기는 JS(.mjs)라 타입이 없다
-import { normalizeProfiles } from '../vendor/engine/scripts/collect/profile-binding/runner/normalize.mjs'
+import { normalizeProfiles } from '../engine/scripts/collect/profile-binding/runner/normalize.mjs'
 // @ts-expect-error 위와 같다
-import { parseOptions } from '../vendor/engine/scripts/collect/profile-binding/runner/options.mjs'
+import { parseOptions } from '../engine/scripts/collect/profile-binding/runner/options.mjs'
 
 type Log = (line: string) => void
 
-/** 수집은 엔진 CLI 를 자식 프로세스로 돌린다. 배포 zip 에는 미리 묶은 dist/collect.mjs 가 있고, 저장소에서는 vendor 원본을 tsx 로 돌린다 */
+/** 수집은 엔진 CLI 를 자식 프로세스로 돌린다. 배포 zip 에는 미리 묶은 dist/collect.mjs 가 있고, 저장소에서는 engine 원본을 tsx 로 돌린다 */
 async function runCollector(args: string[], log: Log, extraEnv: Record<string, string> = {}): Promise<void> {
   const bundled = path.join(HOME, 'dist', 'collect.mjs')
-  const source = path.join(VENDOR, 'engine', 'scripts', 'collect', 'run.ts')
+  const source = path.join(ENGINE_DIR, 'scripts', 'collect', 'run.ts')
   const argv = fs.existsSync(bundled) ? [bundled, ...args] : ['--import', 'tsx', source, ...args]
   return new Promise<void>((resolve, reject) => {
     const child = spawn(process.execPath, argv, { stdio: ['ignore', 'pipe', 'pipe'], cwd: HOME, env: { ...process.env, ...extraEnv, AEGI_HOME: HOME } })
@@ -34,7 +34,7 @@ async function runCollector(args: string[], log: Log, extraEnv: Record<string, s
     const rlErr = readline.createInterface({ input: child.stderr, crlfDelay: Infinity })
     rlErr.on('line', line => log(line))
 
-    child.on('error', err => reject(err))
+    child.on('error', err => { rlOut.close(); rlErr.close(); reject(err) })
     child.on('close', code => {
       // 종료 코드 1 은 일부 호출 실패다. 받은 것만으로 계속하고, 받은 것이 없으면 아래에서 멈춘다
       if (code !== 0 && code !== 1) reject(new Error(`수집이 실패했다 (종료 코드 ${code})`))
@@ -81,7 +81,7 @@ export async function collectAndPublish(local: LocalDb, env: Record<string, stri
     }
   }
 
-  const wantsSlack = !opts.only || opts.only.split(',').map(s => s.trim()).includes('slack')
+  const wantsSlack = !onlySet || onlySet.has('slack')
   if (wantsSlack && !env.SLACK_TEAM_ID && (env.SLACK_COLLECTOR_USER_TOKEN || env.SLACK_COLLECTOR_BOT_TOKEN)) {
     const resolved = await resolveSlackTeamId(env, ENV_FILE)
     if (resolved.ok && resolved.teamId) {

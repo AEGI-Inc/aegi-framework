@@ -2,8 +2,8 @@
  * .env 의 tenant 식별값으로 엔진 수집 설정(collector.config.json)을 만든다. 고객은 JSON 을 고치지 않고 .env 만 채운다.
  * 시나리오용 목록(저장소, 채널, Drive 사용자)은 비워 두면 수집기가 전부 찾는다.
  */
-import type { CollectorConfig } from '../vendor/engine/scripts/collect/config.ts'
-import { normalizeOktaOrgUrl, normalizeSalesforceUrl } from '../vendor/engine/scripts/collect/lib/auth.ts'
+import type { CollectorConfig } from '../engine/scripts/collect/config.ts'
+import { normalizeOktaOrgUrl, normalizeSalesforceUrl } from '../engine/scripts/collect/lib/auth.ts'
 
 const list = (v: string | undefined) => (v ?? '').split(/[\s,]+/).map(s => s.trim()).filter(Boolean)
 const host = (url: string | undefined) => { try { return url ? new URL(url).host : undefined } catch { return undefined } }
@@ -98,12 +98,16 @@ export const DEFAULT_OKTA_SCOPES = [
 ]
 
 export function collectorConfig(env: Record<string, string>, now = new Date()): CollectorConfig {
-  const since = env.AEGI_COLLECT_SINCE || new Date(now.getTime() - Number(env.AEGI_COLLECT_DAYS || DEFAULT_SINCE_DAYS) * 86400_000).toISOString().replace(/\.\d+Z$/, 'Z')
+  const parsedDays = Number(env.AEGI_COLLECT_DAYS || DEFAULT_SINCE_DAYS)
+  const days = Number.isFinite(parsedDays) && parsedDays > 0 ? parsedDays : DEFAULT_SINCE_DAYS
+  const since = env.AEGI_COLLECT_SINCE || new Date(now.getTime() - days * 86400_000).toISOString().replace(/\.\d+Z$/, 'Z')
   const gwsScopes = list(env.GWS_GRANTED_SCOPES).map(s => s.replace('https://www.googleapis.com/auth/', ''))
   const hasGwsKey = Boolean(env.GWS_COLLECTOR_SA_KEY || env.GWS_COLLECTOR_SA_KEY_FILE)
   const gwsGrantedScopes = gwsScopes.length ? gwsScopes : (hasGwsKey ? [...DEFAULT_GWS_GRANTED_SCOPES] : [])
   const rawGithubOrgs = env.GITHUB_ORGS || env.GITHUB_ORG || ''
   const githubOrgsList = list(rawGithubOrgs)
+  const oktaScopesList = list(env.OKTA_SCOPES)
+  const gwsReportApps = list(env.GWS_REPORT_APPLICATIONS)
   const config: CollectorConfig = {
     since,
     github: {
@@ -115,7 +119,7 @@ export function collectorConfig(env: Record<string, string>, now = new Date()): 
     },
     okta: {
       orgHost: host(env.OKTA_ORG_URL ? normalizeOktaOrgUrl(env.OKTA_ORG_URL) : undefined),
-      scopes: list(env.OKTA_SCOPES).length ? list(env.OKTA_SCOPES) : [...DEFAULT_OKTA_SCOPES],
+      scopes: oktaScopesList.length ? oktaScopesList : [...DEFAULT_OKTA_SCOPES],
       policyTypes: [
         'OKTA_SIGN_ON',
         'ACCESS_POLICY',
@@ -136,7 +140,7 @@ export function collectorConfig(env: Record<string, string>, now = new Date()): 
     gws: {
       adminSubject: env.GWS_ADMIN_SUBJECT ?? '',
       driveUsers: list(env.GWS_DRIVE_USERS),
-      reportApplications: list(env.GWS_REPORT_APPLICATIONS).length ? list(env.GWS_REPORT_APPLICATIONS) : ['drive', 'token:authorize', 'login', 'admin', 'groups'],
+      reportApplications: gwsReportApps.length ? gwsReportApps : ['drive', 'token:authorize', 'login', 'admin', 'groups'],
       grantedScopes: gwsGrantedScopes,
     },
     worker: { baseUrl: '', tables: [] },

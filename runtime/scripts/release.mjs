@@ -83,7 +83,7 @@ const ENGINE_DATA = [
  * 스냅샷 id 에 들어가므로 저장소 실행과 같은 값이 나오게 싣는다. 아래 fingerprint 검사가 같은지 본다
  */
 const ENGINE_FINGERPRINT = [
-  ['src', f => /\.(ts|tsx)$/.test(f) || (f.endsWith('.json') && !f.startsWith('vendor/engine/src/data/'))],
+  ['src', f => /\.(ts|tsx)$/.test(f) || (f.endsWith('.json') && !f.startsWith('engine/src/data/'))],
   ['scripts/loader/engine.ts'],
   ['scripts/accessRules/production.ts'], ['scripts/accessRules/executor.ts'],
   // 화면 설명 문구 정본: composeDisplayText 가 실행 중에 읽고 engineSha256 이 지문에 넣는다
@@ -96,14 +96,13 @@ fs.mkdirSync(OUT, { recursive: true })
 
 await bundle('bin/aegi.ts', 'dist/aegi.mjs')
 // 수집 CLI 는 자기가 직접 실행됐는지 argv[1] 로 본다. 묶음에서는 원래 경로를 가리키게 둔다
-await bundle('vendor/engine/scripts/collect/run.ts', 'dist/collect.mjs', `process.argv[1] = __aegiPath('vendor/engine/scripts/collect/run.ts');`)
+await bundle('engine/scripts/collect/run.ts', 'dist/collect.mjs', `process.argv[1] = __aegiPath('engine/scripts/collect/run.ts');`)
 
-// 실행 중에 읽는 데이터: 엔진 데이터와 코드 지문용 원본, IM 모델, 대시보드 마이그레이션, 화면
-for (const [p, filter] of [...ENGINE_DATA, ...ENGINE_FINGERPRINT]) copy(`vendor/engine/${p}`, undefined, filter)
-copy('vendor/knowledge')
-copy('vendor/dashboard/server/migrations')
-copy('vendor/web')
-copy('vendor/VERSIONS.json')
+// 실행 중에 읽는 데이터: 엔진 데이터와 코드 지문용 원본, IM 모델 정본, 대시보드 마이그레이션, 화면
+for (const [p, filter] of [...ENGINE_DATA, ...ENGINE_FINGERPRINT]) copy(`engine/${p}`, undefined, filter)
+fs.cpSync(path.resolve(ROOT, '..', 'framework', 'schema', 'im-model', 'model', 'v3.2'), path.join(OUT, 'im-model', 'v3.2'), { recursive: true })
+copy('dashboard/server/migrations')
+copy('web')
 copy('sample')
 for (const doc of ['docs/saas-collection-guide.md', 'docs/saas-collection-summary.md', 'docs/saas-adapter-scopes.md', 'docs/saas-adapter-guide.html']) {
   if (fs.existsSync(path.join(ROOT, doc))) copy(doc)
@@ -112,14 +111,14 @@ for (const f of ['.env.example', 'splunk.sources.example.json', 'README.md', 'st
 fs.writeFileSync(path.join(OUT, 'package.json'), JSON.stringify({ name: 'aegi-solution', version: pkg.version, private: true, type: 'module', engines: pkg.engines,
   scripts: { start: 'node dist/aegi.mjs start', aegi: 'node dist/aegi.mjs' } }, null, 2) + '\n')
 
-// 실은 원본으로 낸 코드 지문이 vendor 전체로 낸 것과 같은지 본다(빠진 파일이 있으면 스냅샷 id 가 달라진다)
+// 실은 원본으로 낸 코드 지문이 engine 전체로 낸 것과 같은지 본다(빠진 파일이 있으면 스냅샷 id 가 달라진다)
 const fingerprint = root => spawnSync(process.execPath, ['--import', 'tsx', '-e',
-  `import(${JSON.stringify(pathToFileURL(path.join(ROOT, 'vendor/engine/scripts/loader/engine.ts')).href)}).then(m => console.log(m.engineSha256(${JSON.stringify(root)})))`],
+  `import(${JSON.stringify(pathToFileURL(path.join(ROOT, 'engine/scripts/loader/engine.ts')).href)}).then(m => console.log(m.engineSha256(${JSON.stringify(root)})))`],
 { cwd: ROOT, encoding: 'utf8' })
-const [full, shipped] = [path.join(ROOT, 'vendor', 'engine'), path.join(OUT, 'vendor', 'engine')].map(fingerprint)
+const [full, shipped] = [path.join(ROOT, 'engine'), path.join(OUT, 'engine')].map(fingerprint)
 if (full.status !== 0 || shipped.status !== 0 || full.stdout.trim() !== shipped.stdout.trim()) {
   console.error(full.stderr, shipped.stderr)
-  throw new Error(`코드 지문이 다르다: vendor ${full.stdout.trim()} / 배포 ${shipped.stdout.trim()}`)
+  throw new Error(`코드 지문이 다르다: engine ${full.stdout.trim()} / 배포 ${shipped.stdout.trim()}`)
 }
 
 // 묶음이 뜨는지 확인한다(데이터 폴더는 임시로)

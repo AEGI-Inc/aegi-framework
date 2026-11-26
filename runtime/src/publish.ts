@@ -6,17 +6,26 @@
 import crypto from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
-import { aggregatesOf, computeSnapshot, engineSha256, type ComputedSnapshot, type DatasetFiles } from '../vendor/engine/scripts/loader/engine.ts'
-import { composeDisplayText } from '../vendor/engine/scripts/displayText/compose.ts'
-import { loadCanonical, readCache } from '../vendor/engine/scripts/displayText/files.ts'
-import { effectiveAccessDrift, refreshEffectiveAccess } from '../vendor/engine/scripts/loader/fromCurrent.ts'
-import { bundleFromFiles, sameBundle } from '../vendor/engine/scripts/loader/kv.ts'
-import { bundleFromSnapshot, getHead, loadSnapshot, pruneSnapshots, setHead } from '../vendor/engine/scripts/loader/snapshot.ts'
-import type { SqlExecutor } from '../vendor/engine/scripts/loader/sql.ts'
-import { readApprovals } from '../vendor/engine/scripts/loader/approvalRows.ts'
-import { gapSummary } from '../vendor/engine/src/detection/threat/threatGap.ts'
-import { ONTOLOGY_SOURCE } from '../vendor/engine/src/ontology/generated.ts'
-import { readVersions } from './versions.ts'
+import { aggregatesOf, computeSnapshot, engineSha256, type ComputedSnapshot, type DatasetFiles } from '../engine/scripts/loader/engine.ts'
+import { composeDisplayText } from '../engine/scripts/displayText/compose.ts'
+import { loadCanonical, readCache } from '../engine/scripts/displayText/files.ts'
+import { effectiveAccessDrift, refreshEffectiveAccess } from '../engine/scripts/loader/fromCurrent.ts'
+import { bundleFromFiles, sameBundle } from '../engine/scripts/loader/kv.ts'
+import { bundleFromSnapshot, getHead, loadSnapshot, pruneSnapshots, setHead } from '../engine/scripts/loader/snapshot.ts'
+import type { SqlExecutor } from '../engine/scripts/loader/sql.ts'
+import { readApprovals } from '../engine/scripts/loader/approvalRows.ts'
+import { gapSummary } from '../engine/src/detection/threat/threatGap.ts'
+import { ONTOLOGY_SOURCE } from '../engine/src/ontology/generated.ts'
+import { HOME } from './paths.ts'
+
+function runtimeVersion(): string | null {
+  try {
+    const pkg = JSON.parse(fs.readFileSync(path.join(HOME, 'package.json'), 'utf8')) as { version?: string }
+    return pkg.version ?? null
+  } catch {
+    return null
+  }
+}
 
 export interface PublishResult { snapshotId: string; reused: boolean; findings: number; accessGaps: number; blast: number }
 
@@ -69,7 +78,7 @@ export async function publishDataset(exec: SqlExecutor, datasetDir: string, opts
   const head = await getHead(exec)
   const loaded = await loadSnapshot(exec, computed, {
     datasetName: opts.name ?? path.basename(datasetDir),
-    engineVersion: readVersions()?.sources.engine?.commit ?? null,
+    engineVersion: runtimeVersion(),
     knowledgeVersion: ONTOLOGY_SOURCE.commit.slice(0, 7),
   })
   const publishedAt = new Date().toISOString()

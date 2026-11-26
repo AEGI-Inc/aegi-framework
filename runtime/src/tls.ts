@@ -16,7 +16,8 @@ export interface LocalTlsBundle {
 
 function derLen(len: number): Buffer {
   if (len < 128) return Buffer.from([len])
-  const hex = len.toString(16).padStart(len > 255 ? 4 : 2, '0')
+  const rawHex = len.toString(16)
+  const hex = rawHex.length % 2 ? `0${rawHex}` : rawHex
   const bytes = Buffer.from(hex, 'hex')
   return Buffer.concat([Buffer.from([0x80 | bytes.length]), bytes])
 }
@@ -48,6 +49,7 @@ function derUtcTime(d: Date): Buffer {
 
 function derInt(buf: Buffer | number): Buffer {
   let b = Buffer.isBuffer(buf) ? buf : Buffer.from([buf])
+  while (b.length > 1 && b[0] === 0x00 && !(b[1]! & 0x80)) b = b.subarray(1)
   if (b[0]! & 0x80) b = Buffer.concat([Buffer.from([0x00]), b])
   return derTlv(0x02, b)
 }
@@ -215,8 +217,7 @@ export function ensureLocalTls(): LocalTlsBundle {
  */
 export function attachHttpAndHttpsMultiplexer(server: http.Server, secureContext: tls.SecureContext): void {
   const listeners = server.listeners('connection') as Array<(socket: net.Socket) => void>
-  const httpConnListener = listeners[0]
-  if (!httpConnListener) return
+  if (!listeners.length) return
 
   server.removeAllListeners('connection')
   server.on('connection', (socket: net.Socket) => {
@@ -233,9 +234,9 @@ export function attachHttpAndHttpsMultiplexer(server: http.Server, secureContext
         tlsSocket.on('error', () => {
           socket.destroy()
         })
-        httpConnListener.call(server, tlsSocket)
+        for (const l of listeners) l.call(server, tlsSocket)
       } else {
-        httpConnListener.call(server, socket)
+        for (const l of listeners) l.call(server, socket)
       }
     }
     socket.on('readable', onReadable)

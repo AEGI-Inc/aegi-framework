@@ -18,7 +18,7 @@ flowchart LR
 
 - Profile 형식 규격: [Profile_Schema_v4.2.md](../../framework/schema/specs/Profile_Schema_v4.2.md)
 - 단일 정규화 파이프라인 명세: [IM_PROFILE_PIPELINE.md](../../specs/IM_PROFILE_PIPELINE.md)
-- 실행기 코드 위치: `runtime/vendor/engine/scripts/collect/profile-binding/`
+- 실행기 코드 위치: `runtime/engine/scripts/collect/profile-binding/`
 
 ## 2. 정규화 출력 데이터셋
 

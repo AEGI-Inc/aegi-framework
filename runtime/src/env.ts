@@ -1,8 +1,7 @@
 import fs from 'node:fs'
-import path from 'node:path'
-import { resolveReasoningEffort, type ProviderName, type ReasoningEffort } from '../vendor/dashboard/src/assistant/reasoning.ts'
-import { atomicUpdateEnvFile, parseEnvFile } from '../vendor/engine/scripts/collect/config.ts'
-import { DATA_DIR, ENV_FILE, HOME } from './paths.ts'
+import { resolveReasoningEffort, type ProviderName, type ReasoningEffort } from '../dashboard/src/assistant/reasoning.ts'
+import { atomicUpdateEnvFile, parseEnvFile } from '../engine/scripts/collect/config.ts'
+import { ENV_FILE } from './paths.ts'
 
 /** 대시보드 UI(/__aegi/local-token, /__aegi/oauth/*)가 읽거나 쓸 수 있는 SaaS 자격증명·식별값 환경변수 화이트리스트 */
 export const ALLOWED_ENV_KEYS = new Set([
@@ -263,12 +262,12 @@ export function localTokenStatus(env: Record<string, string>, aiTest: AiTestReco
   }
 }
 
-/** AI 설정. AEGI_ASSISTANT_* 가 없으면 흔한 이름(ANTHROPIC_API_KEY, GEMINI_API_KEY, OPENAI_API_KEY)에서 고른다 */
 /** 127.0.0.1 밖으로 열 때 쓰는 접속 비밀번호. 예전 이름 AEGI_DEMO_PASSWORD 도 읽는다 */
 export function accessPassword(env: Record<string, string>): string {
   return env.AEGI_PASSWORD || env.AEGI_DEMO_PASSWORD || ''
 }
 
+/** AI 설정. AEGI_ASSISTANT_* 가 없으면 흔한 이름(ANTHROPIC_API_KEY, GEMINI_API_KEY, OPENAI_API_KEY)에서 고른다 */
 export function assistantEnv(env: Record<string, string>) {
   if (env.AEGI_ASSISTANT_API_KEY) {
     return { AEGI_ASSISTANT_API_KEY: env.AEGI_ASSISTANT_API_KEY, AEGI_ASSISTANT_MODEL: env.AEGI_ASSISTANT_MODEL || defaultModel(env.AEGI_ASSISTANT_PROVIDER),

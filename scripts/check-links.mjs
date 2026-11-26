@@ -1,10 +1,10 @@
-// 저장소 안 모든 마크다운(runtime/vendor, node_modules 제외)의 상대 링크가 실제 파일/폴더를 가리키는지 검사한다.
+// 저장소 안 모든 마크다운(runtime/engine, runtime/dashboard, node_modules 제외)의 상대 링크가 실제 파일/폴더를 가리키는지 검사한다.
 // 코드 블록과 인라인 코드 안의 [..](..) 는 링크가 아니라서 건너뛴다.
 import fs from 'node:fs'
 import path from 'node:path'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
-const SKIP = new Set(['.git', 'node_modules', path.join('runtime', 'vendor')])
+const SKIP = new Set(['.git', 'node_modules', path.join('runtime', 'engine'), path.join('runtime', 'dashboard')])
 const targets = []
 
 function collectMarkdown(dir) {

@@ -6,7 +6,7 @@
 - 대시보드
 - AI 질문
 
-화면과 판정은 AEGI 대시보드와 같은 코드다. 가져온 원본 커밋은 `vendor/VERSIONS.json`에 있다.
+화면과 판정은 `runtime/dashboard/`, `runtime/engine/`에서 직접 관리한다.
 
 수집한 데이터와 자격증명은 그 PC의 `data/`와 `.env`에만 남는다. 밖으로 나가는 요청은 넷뿐이다.
 - 각 SaaS의 읽기 API(조회 호출만)
@@ -217,22 +217,21 @@ npm test
 npm run release                                 # release/aegi-solution-<버전>/ 와 .zip
 ```
 
-**vendor**
-- `vendor/`에는 엔진(`engine`), 대시보드(`dashboard`), IM 모델(`knowledge`) 코드와 미리 빌드한 화면(`web`)이 들어 있다.
-- 처음 가져온 원본 커밋은 `vendor/VERSIONS.json`에 있고, `doctor`가 보여 준다.
-
-**코드 규칙**
-- 설치판 전용 코드는 `src/`, `bin/`에만 둔다.
-- vendor 코드는 바꾸지 않는다. 인터페이스(D1Like, SqlExecutor, Relay)에 로컬 구현을 끼운다.
+**폴더 구성**
+- `src/`, `bin/`: 로컬 실행 서버, OAuth, CLI, SQLite 어댑터
+- `engine/`: SaaS 수집기, IM Profile 정규화기, 위협·컴플라이언스 판정 엔진
+- `dashboard/`: 대시보드 서버 핸들러 및 프론트엔드 소스
+- `web/`: 미리 빌드한 대시보드 정적 화면
+- IM 모델 정본은 저장소 루트의 `../framework/schema/im-model/model/v3.2`를 직접 참조한다.
 
 **release**
 - esbuild로 두 파일을 만든다.
   - `dist/aegi.mjs`: 서버, 정규화, 판정
   - `dist/collect.mjs`: 엔진 수집 CLI
 - 같은 경로로 싣는 것은 셋이다.
-  - 실행 중에 읽는 데이터 파일
+  - 실행 중에 읽는 데이터 파일 (`engine/` 데이터, `im-model/v3.2`, `dashboard/server/migrations`, `web/`)
   - 판정 코드 지문(`engineSha256`)이 읽는 원본
   - 고객용 연동 안내 문서(`docs/`)
 - 만든 뒤 두 가지를 확인한다.
-  - 실은 원본의 코드 지문이 vendor 전체와 같은지
+  - 실은 원본의 코드 지문이 `engine/` 전체와 같은지
   - `doctor`로 묶음이 뜨는지
