@@ -48,10 +48,11 @@ const CONTENT_CHECKS = [
   { name: 'Private Key Block', re: /-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----\r?\n[A-Za-z0-9+/=]{40,}/ },
   { name: '내부 시험 도메인(aegi.men)', re: /\baegi\.men\b/i },
   { name: '내부 시험 계정(junsik)', re: /\b(?:dev\.)?junsik\b/i },
+  { name: '내부 GitHub 조직(aegi-r3)', re: /\baegi-r3\b/i },
 ]
 
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'data', 'release', 'web'])
-const TEXT_EXTS = new Set(['.md', '.json', '.yaml', '.yml', '.ts', '.tsx', '.js', '.mjs', '.py', '.sh', '.cmd', '.txt'])
+const TEXT_EXTS = new Set(['.md', '.json', '.yaml', '.yml', '.ts', '.tsx', '.js', '.mjs', '.py', '.sh', '.cmd', '.txt', '.html'])
 
 function walk(dir, relBase = '') {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
