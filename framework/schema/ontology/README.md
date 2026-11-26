@@ -4,6 +4,8 @@
 
 명세는 "왜 이렇게 정했나"를 설명하고, 사전은 값을 쥐고, 검사는 둘이 같은지 본다. 이 문서의 0단계 결과는 과거 이력이다. 이후 관계 의미, 연결 규칙과 역할 표가 추가되었으며 초안과 미결 상태는 각 블록의 표시를 따른다.
 
+이 문서의 `validation/`, `reports/` 경로와 `python validation/...`, `npm run build`, `npm run test` 명령은 aegi-knowledge `schema/` 기준이고 이 저장소에는 없다. `collect/slack/`은 aegi-knowledge에도 없는 옛 경로다.
+
 ## 파일
 
 | 파일 | 무엇 | 어디서 옮겼나 |

@@ -61,10 +61,11 @@ flowchart TB
 | [1단계 판단표](design/1단계%20판단표.html) | 사람 판단을 받은 표(HTML) |
 | [research/](design/research/) | Cartography 온톨로지 비교, 복잡계 모델링 조사 |
 
-### [model/](model/): 현행 고정본 (V3.2)
+### [model/](model/): 고정본 (V3, 현행 V3.2)
 
 | 문서 | 내용 |
 | --- | --- |
+| [v3/](model/v3/README.md) | IM Object Model V3 고정본(2026-10-25): Object 타입 1,980개, Relation 어휘 17종, binding 13건. 이 저장소에는 README만 있고 고정 파일은 aegi-knowledge에 있다 |
 | [v3.2/](model/v3.2/README.md) | IM Object Model V3.2 고정본(2026-10-25): Slack 대체 view 관측 및 runtime catalog 실행 판정 반영. `npm run verify:freeze`로 고정 상태를 확인한다 |
 
 ### [extraction/](extraction/): 도출 도구 (Python 연구 코드)

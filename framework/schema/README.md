@@ -52,7 +52,7 @@ Relation은 벤더가 준 사실이고, Link와 Effective Access는 **우리가 
 
 당시 내용과 `data/README.md`는 삭제 전 커밋 `0eae77a^`의 이력에 남아 있다. 이력의 원자료를 현재 환경의 자료로 사용하지 않는다.
 
-fixtures/slack/에는 회귀 기준선 **127노드, 191관계**와 재생 코드가 남아 있다. 기대 결과가 남아 있는 것과 원본부터 재현할 수 있는 것은 다르다. 입력과 검증의 제약은 자료 지도에 정리했다.
+회귀 기준선 **127노드, 191관계**와 재생 코드는 aegi-knowledge `schema/fixtures/slack/`에 있고 이 저장소에는 없다. 기대 결과가 남아 있는 것과 원본부터 재현할 수 있는 것은 다르다. 입력과 검증의 제약은 자료 지도에 정리했다.
 
 ## 개념 사전
 
@@ -61,7 +61,7 @@ fixtures/slack/에는 회귀 기준선 **127노드, 191관계**와 재생 코드
 | [ontology/](ontology/) | interface, 관계, 간선, 능력, 불확실성, 정책, 판정과 연결 규칙을 기계가 읽는 YAML로 관리한다. 이후 변경과 초안은 각 파일의 상태를 따른다 |
 | catalog/splunk-event-labels-v1.json | 공급자와 원본 행위 이름별 한국어 표시 이름 사전. 원본 이벤트 이름은 보존 |
 
-검사와 Slack 수집기가 어휘를 여기서 읽는다. 명세 문서의 같은 표와 다르면 `validation/check_ontology.py` 가 실패한다.
+검사와 Slack 수집기가 어휘를 여기서 읽는다. 명세 문서의 같은 표와 다르면 aegi-knowledge의 `schema/validation/check_ontology.py` 가 실패한다.
 
 ## IM 모델의 도출 근거
 
@@ -73,18 +73,18 @@ fixtures/slack/에는 회귀 기준선 **127노드, 191관계**와 재생 코드
 
 | | 무엇 |
 | --- | --- |
-| validation/ | 문서와 사전, Profile, 원자료를 대조하는 스크립트와 당시 기준선. 일부 입력은 제거됨. 이 저장소에는 없음 |
+| validation/ | 문서와 사전, Profile, 원자료를 대조하는 스크립트와 당시 기준선. 일부 입력은 제거됨. aegi-knowledge `schema/validation/`에 있고 이 저장소에는 없다 |
 
 ```bash
-# 저장소 루트에서 실행하는 기본 검사
+# aegi-knowledge 저장소 루트에서 실행하는 기본 검사. 이 저장소의 검사는 npm run verify
 npm test
 npm run build
 npm run lint
 ```
 
-추가 Python 검사는 `python schema/validation/run_all.py`, Slack 재생은 `python schema/fixtures/slack/run.py`다. `schema/validation/`과 `schema/fixtures/`는 이 저장소에 없다. `pyyaml`, `openpyxl`과 필요한 원자료를 확보한 뒤 실행한다. `run_all.py`는 `validation/baseline.txt`와 대조하며, 입력이 없거나 검사가 끝까지 돌지 못하면 통과로 볼 수 없다. 현재 npm 검사 범위와 CI 상태는 개발 안내에 있다.
+추가 Python 검사는 `python schema/validation/run_all.py`, Slack 재생은 `python schema/fixtures/slack/run.py`다. `schema/validation/`과 `schema/fixtures/`는 aegi-knowledge에 있고 이 저장소에는 없다. `pyyaml`, `openpyxl`과 필요한 원자료를 확보한 뒤 실행한다. `run_all.py`는 `validation/baseline.txt`와 대조하며, 입력이 없거나 검사가 끝까지 돌지 못하면 통과로 볼 수 없다. 현재 npm 검사 범위와 CI 상태는 개발 안내에 있다.
 
-**검사가 없던 동안 같은 실수가 두 번 났다.** `basis` 의 기본값을 바꾼 것과 `parent_fanout` 불변식을 `spec` 게이트 없이 넣은 것이다. 둘 다 침묵의 뜻을 바꿔서 기존 Profile 을 무효로 만들었고 사람 눈으로는 안 잡혔다. `validation/README.md` 에 무엇을 재는지와 지금 남은 위반 62건이 있다.
+**검사가 없던 동안 같은 실수가 두 번 났다.** `basis` 의 기본값을 바꾼 것과 `parent_fanout` 불변식을 `spec` 게이트 없이 넣은 것이다. 둘 다 침묵의 뜻을 바꿔서 기존 Profile 을 무효로 만들었고 사람 눈으로는 안 잡혔다. aegi-knowledge `schema/validation/README.md` 에 무엇을 재는지와 지금 남은 위반 62건이 있다.
 
 ## 요약 문서
 
