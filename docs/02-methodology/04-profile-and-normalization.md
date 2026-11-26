@@ -39,5 +39,5 @@ flowchart LR
 ## 3. 사실과 추론의 분리 원칙
 
 - **Relation**은 벤더 API가 돌려준 설정 사실이다.
-- **Link**와 **Effective Access**는 여러 사실을 조합해 계산한 결론이다.
+- **Link**와 **Effective Access(EA)**는 여러 사실을 조합해 계산한 결론이다.
 - **EA 행이 없다고 해서 "접근 불가"를 단정하지 않는다.** `coverage.json`과 `undecomposed` 필드를 함께 검토해 미확인 영역을 드러낸다.

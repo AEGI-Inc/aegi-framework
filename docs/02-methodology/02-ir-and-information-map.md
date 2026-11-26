@@ -17,8 +17,8 @@ flowchart LR
   IDS --> IM["3. Information Map<br/>자리, 결정자, 항목 지도<br/>참조 방향과 구조 시각화"]
 ```
 
-### 1단계 벤더 명세 구조화
-벤더별 `normalize_<provider>.py`와 `ir2/norm_<provider>.py`가 각 API의 오퍼레이션(경로, 메서드), 요청 파라미터, 응답 shape, 감사 이벤트 유형을 공통 JSONL 형식(`ir/*.jsonl`)으로 변환한다.
+### 1단계 벤더 명세 구조화 (IR: Intermediate Representation)
+벤더별 `normalize_<provider>.py`와 `ir2/norm_<provider>.py`가 각 API의 오퍼레이션(경로, 메서드), 요청 파라미터, 응답 shape, 감사 이벤트 유형을 공통 중간 표현(IR, Intermediate Representation) JSONL 형식(`ir/*.jsonl`)으로 변환한다.
 - 상세 설계 문서: [IR 설계.md](../../framework/schema/im-model/design/IR%20설계.md)
 - 구현 코드: [ir2/ir_schema.py](../../framework/schema/im-model/extraction/ir2/ir_schema.py), [ir2/README.md](../../framework/schema/im-model/extraction/ir2/README.md)
 
