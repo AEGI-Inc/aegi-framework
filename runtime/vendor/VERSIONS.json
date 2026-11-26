@@ -62,7 +62,7 @@
           "8821315f"
         ],
         "paths": [
-          "scripts/stream/splunk (시험 파일과 config.aegi.json 제외)",
+          "scripts/stream/splunk (시험 파일, config.aegi.json, HEC 전송 CLI sync.ts 제외. sync.ts 는 가져오지 않은 수집기 변경에 기대어 옛 판 유지)",
           "ontology/splunk-event-labels-v1.json",
           "ontology/event-label-source.json"
         ]

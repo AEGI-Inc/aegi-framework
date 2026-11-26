@@ -81,6 +81,7 @@ async function doctor(local: LocalDb, env: Record<string, string>) {
   const python = findPython()
   console.log(`  ${ok(!!python)} Python 3: ${python ?? '없음 (컴플라이언스 「관리자 인증 보호」 검사와 기준별 설정 판정을 건너뛴다)'}`)
   console.log(`  ${ok(!!versions)} 코드: ${versions ? Object.entries(versions.sources).map(([k, v]) => `${k} ${v.commit.slice(0, 7)}`).join(', ') : 'vendor/VERSIONS.json 없음'}`)
+  for (const u of versions?.updates ?? []) console.log(`      + ${u.date} ${u.what}`)
   console.log(`  ${ok(fs.existsSync(ENV_FILE))} 설정 파일: ${ENV_FILE}${fs.existsSync(ENV_FILE) ? '' : ' (없음. .env.example 을 복사한다)'}`)
   const ai = assistantEnv(env)
   console.log(`  ${ok(!!ai.AEGI_ASSISTANT_API_KEY)} AI: ${ai.AEGI_ASSISTANT_API_KEY ? `${ai.AEGI_ASSISTANT_PROVIDER ?? 'anthropic'} / ${ai.AEGI_ASSISTANT_MODEL}` : '키 없음 (AI 질문 기능이 꺼진다)'}`)
