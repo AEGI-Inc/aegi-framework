@@ -9,22 +9,22 @@ import http from 'node:http'
 import path from 'node:path'
 import { randomBytes } from 'node:crypto'
 import { spawnSync } from 'node:child_process'
-import { AUTH_KEY, handleMeasured, issueSession, pbkdf2, SESSION_COOKIE, SESSION_TTL_S, type KvLike, type MeasuredEnv } from '../vendor/dashboard/server/measured.ts'
-import type { Transport } from '../vendor/engine/scripts/collect/lib/http.ts'
-import { processOne } from '../vendor/engine/scripts/compliance/worker.ts'
+import { AUTH_KEY, handleMeasured, issueSession, pbkdf2, SESSION_COOKIE, SESSION_TTL_S, type KvLike, type MeasuredEnv } from '../dashboard/server/measured.ts'
+import type { Transport } from '../engine/scripts/collect/lib/http.ts'
+import { processOne } from '../engine/scripts/compliance/worker.ts'
 import type { LocalDb } from './db.ts'
 import { accessPassword, assistantEnv, localTokenStatus, reloadEnvFromDisk, saveEnvValues, type AiTestRecord } from './env.ts'
 import { fetchAiModels, runAiTest } from './aiTest.ts'
 import { WORKSPACE_ID, createLogServices, type LogServices } from './logs.ts'
 import { handleOAuthCallback, listGitHubOrganizations, renderCallbackHtml, revokeAndDisconnectProvider, startOAuth, testCredentialConnection, type OAuthProvider } from './oauth.ts'
-import { VENDOR, WEB_DIR } from './paths.ts'
+import { ENGINE_DIR, WEB_DIR } from './paths.ts'
 import { collectAndPublish, publishSample } from './pipeline.ts'
 import { findPython } from './standards.ts'
 import { collectorStatus } from './status.ts'
 import { checkSplunk, ensureSplunkSourcesFile } from './splunk.ts'
 import { attachHttpAndHttpsMultiplexer, ensureLocalTls } from './tls.ts'
-import type { Wire } from '../vendor/engine/scripts/stream/splunk/transport.ts'
-import type { Relay } from '../vendor/dashboard/server/splunkRelay.ts'
+import type { Wire } from '../engine/scripts/stream/splunk/transport.ts'
+import type { Relay } from '../dashboard/server/splunkRelay.ts'
 
 export const DEFAULT_PORT = 5199
 
@@ -89,7 +89,12 @@ async function readJsonBody(req: http.IncomingMessage, limitBytes = 64 * 1024): 
   }
   const raw = Buffer.concat(chunks).toString('utf8').trim()
   if (!raw) return {}
-  const parsed = JSON.parse(raw)
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(raw)
+  } catch {
+    throw Object.assign(new Error('올바른 JSON 형식이 아닙니다.'), { status: 400, code: 'invalid_json' })
+  }
   if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) {
     throw Object.assign(new Error('JSON 객체가 필요합니다.'), { status: 400, code: 'invalid_json' })
   }
@@ -98,9 +103,9 @@ async function readJsonBody(req: http.IncomingMessage, limitBytes = 64 * 1024): 
 
 export function maskSecrets(line: string): string {
   return line
-    .replace(/(xox[abp]-)[^\s,;'"]+/gi, '$1***')
-    .replace(/(ghp_)[^\s,;'"]+/gi, '$1***')
-    .replace(/(gho_)[^\s,;'"]+/gi, '$1***')
+    .replace(/(xox[abprs]-)[^\s,;'"]+/gi, '$1***')
+    .replace(/(gh[pousr]_)[^\s,;'"]+/gi, '$1***')
+    .replace(/(sk-ant-)[^\s,;'"]+/gi, '$1***')
     .replace(/(Bearer\s+)[^\s,;'"]+/gi, '$1***')
     .replace(/-----BEGIN[^\r\n]*/gi, '-----BEGIN***')
 }
@@ -132,7 +137,7 @@ export async function startServer(o: ServerOptions): Promise<http.Server> {
   const deps: { splunkRelay?: Relay } = currentLogs ? { splunkRelay: currentLogs.relay } : {}
 
   // 엔진 pythonEvaluate 와 같은 일을 하되, Python 은 설치판의 findPython(AEGI_PYTHON 우선)으로 찾는다
-  const CHECKS_PY = path.join(VENDOR, 'engine', 'scripts', 'compliance', 'checks.py')
+  const CHECKS_PY = path.join(ENGINE_DIR, 'scripts', 'compliance', 'checks.py')
 
   const evaluate = async (check: string, objects: unknown[], policy: unknown): Promise<unknown> => {
     const python = findPython({ ...process.env, ...o.env })
@@ -241,12 +246,22 @@ export async function startServer(o: ServerOptions): Promise<http.Server> {
     }
   }
 
+  const syncAssistantEnv = () => {
+    delete env.AEGI_ASSISTANT_API_KEY
+    delete env.AEGI_ASSISTANT_MODEL
+    delete env.AEGI_ASSISTANT_PROVIDER
+    delete env.AEGI_ASSISTANT_BASE_URL
+    delete env.AEGI_ASSISTANT_REASONING_EFFORT
+    Object.assign(env, assistantEnv(o.env))
+  }
+
   const server = http.createServer(async (req, res) => {
     try {
       const url = new URL(req.url ?? '/', `http://${req.headers.host ?? `${o.host}:${o.port}`}`)
       if (url.pathname.startsWith('/api/measured/')) return await api(req, res, url)
 
       if (url.pathname === '/__aegi/collector-status') {
+        if (!isLoopbackAddress(req.socket.remoteAddress)) return send(res, 403, '{"error":"loopback_only"}', TYPES['.json']!)
         const port = actualPort()
         const statusPayload = {
           ...collectorStatus(o.env),
@@ -277,11 +292,11 @@ export async function startServer(o: ServerOptions): Promise<http.Server> {
           try {
             if (body.disconnect === true && typeof body.provider === 'string') {
               const disconnectOutcome = await revokeAndDisconnectProvider(body.provider, values, o.env, undefined, o.oauthTransport)
-              Object.assign(env, assistantEnv(o.env))
+              syncAssistantEnv()
               return send(res, 200, JSON.stringify({ ...buildLocalTokenPayload(), disconnectOutcome }), TYPES['.json']!)
             }
             saveEnvValues(values, o.env)
-            Object.assign(env, assistantEnv(o.env))
+            syncAssistantEnv()
             if (Object.keys(values).some(k => k.startsWith('AEGI_ASSISTANT_') || k.endsWith('_API_KEY'))) {
               lastAiTest = null
             }
@@ -352,8 +367,8 @@ export async function startServer(o: ServerOptions): Promise<http.Server> {
         if (!isAllowedOrigin(req)) return send(res, 403, '{"error":"bad_origin"}', TYPES['.json']!)
         let queryEnv = o.env
         if (req.method === 'POST') {
-          const body = await readJsonBody(req).catch(() => ({}))
-          if (body && typeof body.token === 'string' && body.token.trim()) {
+          const body = await readJsonBody(req).catch((): Record<string, unknown> => ({}))
+          if (typeof body.token === 'string' && body.token.trim()) {
             queryEnv = { ...o.env, GITHUB_OWNER_TOKEN: body.token.trim() }
           }
         }
@@ -503,6 +518,12 @@ export async function startServer(o: ServerOptions): Promise<http.Server> {
       if (url.pathname.startsWith('/api/')) return send(res, 404, '{"error":"not_found"}', TYPES['.json']!)
       return serveStatic(res, url.pathname)
     } catch (err) {
+      const e = err as Error & { status?: number; code?: string }
+      if (e?.status && e.status >= 400 && e.status < 500) {
+        if (!res.headersSent) send(res, e.status, JSON.stringify({ error: e.code || 'bad_request', detail: e.message }), TYPES['.json']!)
+        else res.end()
+        return
+      }
       console.error(`[서버] ${req.method} ${req.url}: ${err instanceof Error ? err.stack : err}`)
       if (!res.headersSent) send(res, 500, '{"error":"local_server_failed"}', TYPES['.json']!)
       else res.end()
@@ -532,17 +553,25 @@ export async function startServer(o: ServerOptions): Promise<http.Server> {
   }
 
   function serveStatic(res: http.ServerResponse, pathname: string) {
-    const rel = decodeURIComponent(pathname).replace(/^\/+/, '')
-    let file = path.resolve(WEB_DIR, rel)
-    if (!file.startsWith(WEB_DIR)) return send(res, 403, 'forbidden', TYPES['.txt']!)
+    let rel: string
+    try {
+      rel = decodeURIComponent(pathname).replace(/^\/+/, '')
+    } catch {
+      return send(res, 400, 'bad request', TYPES['.txt']!)
+    }
+    const webRoot = path.resolve(WEB_DIR)
+    let file = path.resolve(webRoot, rel)
+    if (file !== webRoot && !file.startsWith(webRoot + path.sep)) return send(res, 403, 'forbidden', TYPES['.txt']!)
     if (!rel || !existsSync(file) || statSync(file).isDirectory()) {
       // 화면 주소(#graph 등)는 index.html 이 받는다. 확장자가 있는 없는 파일은 404
       if (path.extname(rel)) return send(res, 404, 'not found', TYPES['.txt']!)
-      file = path.join(WEB_DIR, 'index.html')
+      file = path.join(webRoot, 'index.html')
     }
     const immutable = rel.startsWith('assets/')
     res.writeHead(200, { 'Content-Type': TYPES[path.extname(file)] ?? 'application/octet-stream', 'Cache-Control': immutable ? 'public, max-age=31536000, immutable' : 'no-cache' })
-    createReadStream(file).pipe(res)
+    const stream = createReadStream(file)
+    stream.on('error', () => { if (!res.writableEnded) res.end() })
+    stream.pipe(res)
   }
 
   attachHttpAndHttpsMultiplexer(server, ensureLocalTls().secureContext)

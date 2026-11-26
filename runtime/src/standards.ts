@@ -7,10 +7,10 @@ import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import type { LocalDb } from './db.ts'
-import { DATA_DIR, VENDOR } from './paths.ts'
-import { publishAssessment } from '../vendor/engine/scripts/standards/history.ts'
+import { DATA_DIR, ENGINE_DIR } from './paths.ts'
+import { publishAssessment } from '../engine/scripts/standards/history.ts'
 
-const RUN_ALL = path.join(VENDOR, 'engine', 'scripts', 'standards', 'run_all.py')
+const RUN_ALL = path.join(ENGINE_DIR, 'scripts', 'standards', 'run_all.py')
 
 /** 쓸 수 있는 Python 3. AEGI_PYTHON 이 있으면 그것만 본다 */
 export function findPython(env: Record<string, string | undefined> = process.env): string | null {

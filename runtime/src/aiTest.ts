@@ -1,6 +1,6 @@
-import { providerKind, resolveProvider, type ModelTurn } from '../vendor/dashboard/server/assistant/provider.ts'
-import { AssistantError, type AssistantEnv } from '../vendor/dashboard/server/assistant/planner.ts'
-import { resolveReasoningEffort, type ProviderName, type ReasoningEffort } from '../vendor/dashboard/src/assistant/reasoning.ts'
+import { providerKind, resolveProvider, type ModelTurn } from '../dashboard/server/assistant/provider.ts'
+import { AssistantError, type AssistantEnv } from '../dashboard/server/assistant/planner.ts'
+import { resolveReasoningEffort, type ProviderName, type ReasoningEffort } from '../dashboard/src/assistant/reasoning.ts'
 import { assistantEnv, defaultModel, type AiTestRecord } from './env.ts'
 import { maskSecrets } from './server.ts'
 
@@ -106,7 +106,7 @@ export async function runAiTest(
   }
 
   const startedAt = Date.now()
-  let lastErrorResponse: { status: number; bodyText: string } | null = null
+  const lastError: { response: { status: number; bodyText: string } | null } = { response: null }
 
   const wrappedFetch: typeof fetch = async (input, init) => {
     const baseFetch = customFetch ?? fetch
@@ -115,7 +115,7 @@ export async function runAiTest(
       try {
         const clone = res.clone()
         const text = await clone.text()
-        lastErrorResponse = { status: res.status, bodyText: text }
+        lastError.response = { status: res.status, bodyText: text }
       } catch {
         // ignore clone error
       }
@@ -169,6 +169,7 @@ export async function runAiTest(
     return { result, record }
   } catch (err) {
     const ms = Date.now() - startedAt
+    const lastErrorResponse = lastError.response
     let status: number | undefined = lastErrorResponse?.status
     let code: string
     let message: string | undefined

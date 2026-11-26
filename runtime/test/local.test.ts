@@ -20,12 +20,12 @@ const { publishEmpty, publishSample } = await import('../src/pipeline.ts')
 const { createLogServices, WORKSPACE_ID } = await import('../src/logs.ts')
 const { splunkSettings, loadWorkspace, checkSplunk } = await import('../src/splunk.ts')
 const { startServer } = await import('../src/server.ts')
-const { handleOAuthCallback, startOAuth, testCredentialConnection } = await import('../src/oauth.ts')
+const { handleOAuthCallback, renderCallbackHtml, revokeAndDisconnectProvider, startOAuth, testCredentialConnection } = await import('../src/oauth.ts')
 const { collectorConfig, missingIdentifiers } = await import('../src/collectorConfig.ts')
 const { failedDetectors, findPython, judgeStandards } = await import('../src/standards.ts')
-const { logCatalog, runLogTool } = await import('../vendor/dashboard/server/assistant/logTools.ts')
-type Wire = import('../vendor/engine/scripts/stream/splunk/transport.ts').Wire
-type WireRequest = import('../vendor/engine/scripts/stream/splunk/transport.ts').WireRequest
+const { logCatalog, runLogTool } = await import('../dashboard/server/assistant/logTools.ts')
+type Wire = import('../engine/scripts/stream/splunk/transport.ts').Wire
+type WireRequest = import('../engine/scripts/stream/splunk/transport.ts').WireRequest
 
 const ENV = { SPLUNK_URL: 'https://splunk.example.com:8089', SPLUNK_TOKEN: 'search-token' }
 
@@ -1569,7 +1569,7 @@ test('testCredentialConnection(CRED-GW-01 DWD): 21개 DWD 스코프를 점검해
 })
 
 test('collectorConfig Okta 기본 scope 와 CRED-AT-ORG-01 키 폴백', async () => {
-  const { Credentials, credentialKeyNames } = await import('../vendor/engine/scripts/collect/config.ts')
+  const { Credentials, credentialKeyNames } = await import('../engine/scripts/collect/config.ts')
   const c = collectorConfig({ OKTA_ORG_URL: 'https://demo.okta.com' })
   assert.ok(c.okta.scopes.includes('okta.securityEventsProviders.read'))
   assert.ok(c.okta.scopes.includes('ssf.read'))
@@ -1676,8 +1676,8 @@ test('testCredentialConnection authMode=oauth 는 수동 키가 있어도 OAuth 
 })
 
 test('gwsCalls OAuth 전용 자격증명(SA 키 없음)에서도 크래시 없이 실행되고 DWD 전용 스코프는 건너뛴다', async () => {
-  const { Credentials } = await import('../vendor/engine/scripts/collect/config.ts')
-  const { gwsCalls } = await import('../vendor/engine/scripts/collect/providers/gws.ts')
+  const { Credentials } = await import('../engine/scripts/collect/config.ts')
+  const { gwsCalls } = await import('../engine/scripts/collect/providers/gws.ts')
   const creds = new Credentials(
     {
       GWS_COLLECTOR_CLIENT_ID: 'gws-cid',
@@ -1722,11 +1722,11 @@ test('gwsCalls OAuth 전용 자격증명(SA 키 없음)에서도 크래시 없�
 
 
 test('GW-07 소유 파일 권한 요청을 최대 8개 동시 워커로 실행하고 모든 원본 페이지를 손실 없이 저장한다', async () => {
-  const { Credentials } = await import('../vendor/engine/scripts/collect/config.ts')
-  const { gwsCalls } = await import('../vendor/engine/scripts/collect/providers/gws.ts')
-  const { HttpLayer } = await import('../vendor/engine/scripts/collect/lib/http.ts')
-  const { CollectStore } = await import('../vendor/engine/scripts/collect/lib/store.ts')
-  const { Runner } = await import('../vendor/engine/scripts/collect/lib/runner.ts')
+  const { Credentials } = await import('../engine/scripts/collect/config.ts')
+  const { gwsCalls } = await import('../engine/scripts/collect/providers/gws.ts')
+  const { HttpLayer } = await import('../engine/scripts/collect/lib/http.ts')
+  const { CollectStore } = await import('../engine/scripts/collect/lib/store.ts')
+  const { Runner } = await import('../engine/scripts/collect/lib/runner.ts')
 
   const creds = new Credentials(
     {
@@ -1788,7 +1788,7 @@ test('GW-07 소유 파일 권한 요청을 최대 8개 동시 워커로 실행�
 })
 
 test('rateLimitWaitSeconds: Retry-After 우선, 없으면 x-rate-limit-reset, 둘 다 없으면 지수 백오프', async () => {
-  const { rateLimitWaitSeconds } = await import('../vendor/engine/scripts/collect/lib/http.ts')
+  const { rateLimitWaitSeconds } = await import('../engine/scripts/collect/lib/http.ts')
   const nowMs = 1_700_000_000_500
   assert.equal(
     rateLimitWaitSeconds({ status: 429, headers: { 'retry-after': '12', 'x-rate-limit-reset': '1700000050' }, body: {} }, 1, nowMs),
@@ -1933,8 +1933,8 @@ test('신규 4종(GCP·1Password·M365·Snowflake): collectorConfig 생성, ALLO
 
 test('PR #45 리뷰 수정: GITHUB_APP_PRIVATE_KEY env 폴백 + ENV_FILE 회전 토큰 보존, CRED-SL-01 team.info 우선, salesforceAuth 공유, CRED-AWS-01 STS 확인', async () => {
   // 1. Credentials env 폴백 + ENV_FILE 회전 토큰 기록
-  const { Credentials, loadEnv } = await import('../vendor/engine/scripts/collect/config.ts')
-  const { salesforceAuth } = await import('../vendor/engine/scripts/collect/providers/salesforce.ts')
+  const { Credentials, loadEnv } = await import('../engine/scripts/collect/config.ts')
+  const { salesforceAuth } = await import('../engine/scripts/collect/providers/salesforce.ts')
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'aegi-pr45-'))
   const prevKey = process.env.GITHUB_APP_PRIVATE_KEY
   try {
@@ -2019,3 +2019,96 @@ test('PR #45 리뷰 수정: GITHUB_APP_PRIVATE_KEY env 폴백 + ENV_FILE 회전 
   assert.equal(awsFail.ok, false)
   assert.match(awsFail.detail, /invalid/i)
 })
+
+test('코드 감사 회귀: OAuth XSS 이스케이프, Okta DPoP 기본 스코프, GCP revoke, 잘못된 AEGI_COLLECT_DAYS, 서버 400 응답 및 AI 키 삭제 반영', async () => {
+  // 1. renderCallbackHtml: </script> 탈출 XSS 차단
+  const html = renderCallbackHtml(5199, { ok: false, provider: 'okta', error: '</script><script>alert(1)</script>' })
+  assert.ok(!html.includes('</script><script>'), 'HTML must not allow </script> breakout inside script block')
+  assert.ok(html.includes('\\u003c/script>'), 'script JSON should escape < as \\u003c')
+
+  // 2. CRED-OK-01 DPoP: OKTA_SCOPES 미설정 시 DEFAULT_OKTA_SCOPES.split 크래시가 나지 않아야 함
+  const { privateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 })
+  const pem = privateKey.export({ type: 'pkcs8', format: 'pem' }) as string
+  const oktaDpop = await testCredentialConnection(
+    'CRED-OK-01',
+    {
+      OKTA_ORG_URL: 'https://demo.okta.com',
+      OKTA_COLLECTOR_CLIENT_ID: '0oa_test',
+      OKTA_COLLECTOR_KEY_ID: 'kid_1',
+      OKTA_COLLECTOR_PRIVATE_KEY: pem,
+    },
+    {},
+    undefined,
+    async () => ({ status: 401, headers: {}, body: { error: 'invalid_client' } }),
+  )
+  assert.equal(oktaDpop.ok, false)
+  assert.ok(!oktaDpop.detail.includes('split is not a function'), `unexpected crash: ${oktaDpop.detail}`)
+
+  // 3. collectorConfig: 잘못된 AEGI_COLLECT_DAYS 문자열이 와도 크래시 없이 기본 30일로 폴백
+  const now = new Date('2026-11-26T00:00:00Z')
+  const cfg = collectorConfig({ AEGI_COLLECT_DAYS: 'not-a-number' }, now)
+  assert.equal(cfg.since, '2026-10-27T00:00:00Z')
+
+  // 4. revokeAndDisconnectProvider('gcp'): Google OAuth revoke 엔드포인트 호출
+  const revokedUrls: string[] = []
+  const tmpEnvFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'aegi-gcp-revoke-')), '.env')
+  const gcpEnv: Record<string, string> = { GCP_COLLECTOR_REFRESH_TOKEN: '1//gcp-refresh-token' }
+  const gcpRes = await revokeAndDisconnectProvider(
+    'gcp',
+    { GCP_COLLECTOR_REFRESH_TOKEN: '' },
+    gcpEnv,
+    tmpEnvFile,
+    async req => {
+      revokedUrls.push(req.url)
+      return { status: 200, headers: {}, body: {} }
+    },
+  )
+  assert.ok(revokedUrls.includes('https://oauth2.googleapis.com/revoke'), 'gcp disconnect should call Google revoke endpoint')
+  assert.equal(gcpRes.revoked.length, 1)
+
+  // 5. server: 잘못된 JSON 본문(400), 잘못된 퍼센트 인코딩 경로(400), AI 키 삭제 시 서버 메모리 반영
+  const local = openDb(':memory:')
+  await migrate(local)
+  await publishEmpty(local, () => undefined)
+  const serverEnv: Record<string, string> = { OPENAI_API_KEY: 'sk-test-initial-key-12345' }
+  const srv = await startServer({ host: '127.0.0.1', port: 0, env: serverEnv, local, logs: null })
+  const addr = srv.address() as { port: number }
+  const base = `http://127.0.0.1:${addr.port}`
+  try {
+    const badJson = await fetch(`${base}/__aegi/local-token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: '{invalid-json',
+    })
+    assert.equal(badJson.status, 400)
+
+    const badUri = await fetch(`${base}/%E0%A4%A`)
+    assert.equal(badUri.status, 400)
+
+    // AI 키 삭제 전에는 aiReady: true, 삭제 후에는 aiReady: false 및 /api/measured/assistant/chat 503 not_configured
+    const beforeToken = await fetch(`${base}/__aegi/local-token`).then(r => r.json()) as { aiReady?: boolean }
+    assert.equal(beforeToken.aiReady, true)
+
+    const clearRes = await fetch(`${base}/__aegi/local-token`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ values: { OPENAI_API_KEY: '' } }),
+    })
+    assert.equal(clearRes.status, 200)
+    const afterToken = await clearRes.json() as { aiReady?: boolean }
+    assert.equal(afterToken.aiReady, false)
+
+    const chatAfterClear = await fetch(`${base}/api/measured/assistant/plan`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Origin: base },
+      body: JSON.stringify({ question: 'hello' }),
+    })
+    assert.equal(chatAfterClear.status, 503)
+    const chatBody = await chatAfterClear.json() as { error?: string }
+    assert.equal(chatBody.error, 'not_configured')
+  } finally {
+    srv.close()
+    local.close()
+  }
+})
+

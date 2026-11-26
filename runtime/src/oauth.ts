@@ -2,7 +2,7 @@ import { createHash, createPrivateKey, createSign, randomBytes } from 'node:cryp
 import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
-import { atomicUpdateEnvFile } from '../vendor/engine/scripts/collect/config.ts'
+import { atomicUpdateEnvFile } from '../engine/scripts/collect/config.ts'
 import {
   atlassianBasicAuth,
   awsSigV4Auth,
@@ -17,9 +17,9 @@ import {
   oktaSswsAuth,
   salesforceClientCredentialsAuth,
   type GoogleKey,
-} from '../vendor/engine/scripts/collect/lib/auth.ts'
-import { fetchTransport, type Transport } from '../vendor/engine/scripts/collect/lib/http.ts'
-import { sha256Hex } from '../vendor/engine/scripts/collect/lib/sanitize.ts'
+} from '../engine/scripts/collect/lib/auth.ts'
+import { fetchTransport, type Transport } from '../engine/scripts/collect/lib/http.ts'
+import { sha256Hex } from '../engine/scripts/collect/lib/sanitize.ts'
 import { DEFAULT_OKTA_SCOPES } from './collectorConfig.ts'
 import { saveEnvValues } from './env.ts'
 import { DATA_DIR, ENV_FILE, HOME } from './paths.ts'
@@ -412,21 +412,29 @@ function formatOAuthError(provider: OAuthProvider, errCode: string, errDesc: str
   return `OAuth 인증 실패 (${detail})`
 }
 
+function escapeHtml(s: string): string {
+  return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;')
+}
+
+function safeJsonForScript(value: unknown): string {
+  return JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029')
+}
+
 export function renderCallbackHtml(port: number, payload: { ok: boolean; provider?: OAuthProvider; fingerprint?: string; error?: string }): string {
   const targetOrigin = `http://127.0.0.1:${port}`
   const safeTitle = payload.ok ? 'OAuth 연결 완료' : 'OAuth 연결 실패'
   const safeMsg = payload.ok
     ? `동의 및 갱신 토큰 저장이 완료되었습니다${payload.fingerprint ? ` (토큰 지문: ${payload.fingerprint})` : ''}. 이 창은 자동으로 닫힙니다.`
     : payload.error || 'OAuth 연결 중 오류가 발생했습니다.'
-  const msgJson = JSON.stringify({ type: 'aegi-oauth-done', ...payload })
-  const originJson = JSON.stringify(targetOrigin)
+  const msgJson = safeJsonForScript({ type: 'aegi-oauth-done', ...payload })
+  const originJson = safeJsonForScript(targetOrigin)
   const doneQuery = new URLSearchParams({
     ok: payload.ok ? '1' : '0',
     ...(payload.provider ? { provider: payload.provider } : {}),
     ...(payload.fingerprint ? { fingerprint: payload.fingerprint } : {}),
     ...(payload.error ? { error: payload.error } : {}),
   }).toString()
-  const httpDoneUrlJson = JSON.stringify(`${targetOrigin}/__aegi/oauth/done?${doneQuery}`)
+  const httpDoneUrlJson = safeJsonForScript(`${targetOrigin}/__aegi/oauth/done?${doneQuery}`)
   return `<!doctype html>
 <html lang="ko">
 <head>
@@ -443,7 +451,7 @@ export function renderCallbackHtml(port: number, payload: { ok: boolean; provide
 <body>
   <div class="card">
     <h1>${safeTitle}</h1>
-    <p>${safeMsg.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>
+    <p>${escapeHtml(safeMsg)}</p>
     <button type="button" onclick="window.close()">창 닫기</button>
   </div>
   <script>
@@ -736,8 +744,8 @@ export async function handleOAuthCallback(query: URLSearchParams, opts: HandleCa
           GITHUB_APP_PRIVATE_KEY: manifestData.pem,
         }
         saveEnvValues(updates, opts.env, opts.envFile ?? ENV_FILE)
-        const installUrl = `${manifestData.html_url || `https://github.com/apps/${manifestData.slug}`}/installations/new`
-        const safeSlug = manifestData.slug.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        const installUrl = escapeHtml(`${manifestData.html_url || `https://github.com/apps/${manifestData.slug}`}/installations/new`)
+        const safeSlug = escapeHtml(manifestData.slug)
         return {
           status: 200,
           ok: true,
@@ -861,7 +869,9 @@ export async function handleOAuthCallback(query: URLSearchParams, opts: HandleCa
             ? (opts.env.AEGI_GITHUB_TOKEN_URL || 'https://github.com/login/oauth/access_token')
             : entry.provider === 'atlassian'
               ? (opts.env.AEGI_ATLASSIAN_TOKEN_URL || 'https://auth.atlassian.com/oauth/token')
-              : (opts.env.AEGI_GWS_TOKEN_URL || 'https://oauth2.googleapis.com/token')
+              : entry.provider === 'gcp'
+                ? (opts.env.AEGI_GCP_TOKEN_URL || 'https://oauth2.googleapis.com/token')
+                : (opts.env.AEGI_GWS_TOKEN_URL || 'https://oauth2.googleapis.com/token')
 
   const form: Record<string, string> = {
     grant_type: 'authorization_code',
@@ -1140,23 +1150,20 @@ export async function testCredentialConnection(
     if (credentialId === 'CRED-OK-01') {
       const orgUrl = normalizeOktaOrgUrl(merged.OKTA_ORG_URL ?? '')
       if (!orgUrl) return { ok: false, detail: 'OKTA_ORG_URL이 필요합니다.' }
+      const oktaProbes: EndpointProbe[] = [
+        { label: 'users', url: `${orgUrl}/api/v1/users?limit=1` },
+        { label: 'groups', url: `${orgUrl}/api/v1/groups?limit=1` },
+        { label: 'apps', url: `${orgUrl}/api/v1/apps?limit=1` },
+        { label: 'policies', url: `${orgUrl}/api/v1/policies?type=OKTA_SIGN_ON&limit=1` },
+        { label: 'logs', url: `${orgUrl}/api/v1/logs?limit=1` },
+        { label: 'roles', url: `${orgUrl}/api/v1/iam/roles?limit=1`, optionalStatuses: [404, 501] },
+      ]
       if (authMode !== 'oauth' && merged.OKTA_API_TOKEN) {
         const auth = oktaSswsAuth('CRED-OK-01', merged.OKTA_API_TOKEN)
         const headers = await auth.headers('GET', `${orgUrl}/api/v1/org`)
         const res = await transport({ method: 'GET', url: `${orgUrl}/api/v1/org`, headers: { Accept: 'application/json', ...headers } })
         if (res.status !== 200) return { ok: false, detail: `Okta 응답 HTTP ${res.status}` }
-        const { okList, deniedList, skippedList } = await runPermissionProbes(
-          [
-            { label: 'users', url: `${orgUrl}/api/v1/users?limit=1` },
-            { label: 'groups', url: `${orgUrl}/api/v1/groups?limit=1` },
-            { label: 'apps', url: `${orgUrl}/api/v1/apps?limit=1` },
-            { label: 'policies', url: `${orgUrl}/api/v1/policies?type=OKTA_SIGN_ON&limit=1` },
-            { label: 'logs', url: `${orgUrl}/api/v1/logs?limit=1` },
-            { label: 'roles', url: `${orgUrl}/api/v1/iam/roles?limit=1`, optionalStatuses: [404, 501] },
-          ],
-          u => auth.headers('GET', u),
-          transport,
-        )
+        const { okList, deniedList, skippedList } = await runPermissionProbes(oktaProbes, u => auth.headers('GET', u), transport)
         if (deniedList.length > 0) {
           return {
             ok: false,
@@ -1168,6 +1175,7 @@ export async function testCredentialConnection(
       }
       const clientId = merged.OKTA_COLLECTOR_CLIENT_ID
       if (!clientId) return { ok: false, detail: 'OKTA_API_TOKEN 또는 OKTA_COLLECTOR_CLIENT_ID가 필요합니다.' }
+      const oktaScopes = merged.OKTA_SCOPES ? merged.OKTA_SCOPES.split(/[\s,]+/).filter(Boolean) : [...DEFAULT_OKTA_SCOPES]
       const auth = (authMode !== 'oauth' && merged.OKTA_COLLECTOR_PRIVATE_KEY)
         ? oktaDpopAuth({
             ref: 'CRED-OK-01',
@@ -1175,7 +1183,7 @@ export async function testCredentialConnection(
             clientId,
             keyId: merged.OKTA_COLLECTOR_KEY_ID ?? '',
             privateKeyPem: merged.OKTA_COLLECTOR_PRIVATE_KEY,
-            scopes: (merged.OKTA_SCOPES ?? DEFAULT_OKTA_SCOPES).split(/[\s,]+/).filter(Boolean),
+            scopes: oktaScopes,
             transport,
           })
         : merged.OKTA_COLLECTOR_REFRESH_TOKEN
@@ -1199,18 +1207,7 @@ export async function testCredentialConnection(
       const headers = await auth.headers('GET', `${orgUrl}/api/v1/org`)
       const res = await transport({ method: 'GET', url: `${orgUrl}/api/v1/org`, headers: { Accept: 'application/json', ...headers } })
       if (res.status !== 200) return { ok: false, detail: `Okta 응답 HTTP ${res.status}` }
-      const { okList, deniedList, skippedList } = await runPermissionProbes(
-        [
-          { label: 'users', url: `${orgUrl}/api/v1/users?limit=1` },
-          { label: 'groups', url: `${orgUrl}/api/v1/groups?limit=1` },
-          { label: 'apps', url: `${orgUrl}/api/v1/apps?limit=1` },
-          { label: 'policies', url: `${orgUrl}/api/v1/policies?type=OKTA_SIGN_ON&limit=1` },
-          { label: 'logs', url: `${orgUrl}/api/v1/logs?limit=1` },
-          { label: 'roles', url: `${orgUrl}/api/v1/iam/roles?limit=1`, optionalStatuses: [404, 501] },
-        ],
-        u => auth.headers('GET', u),
-        transport,
-      )
+      const { okList, deniedList, skippedList } = await runPermissionProbes(oktaProbes, u => auth.headers('GET', u), transport)
       if (deniedList.length > 0) {
         return {
           ok: false,
@@ -1879,6 +1876,7 @@ export async function testCredentialConnection(
         clientSecret: merged.GCP_COLLECTOR_CLIENT_SECRET?.trim() || undefined,
         refreshToken,
         transport,
+        onRotate: ({ refreshToken: nextToken }) => saveEnvValues({ GCP_COLLECTOR_REFRESH_TOKEN: nextToken }, env, envFile),
       })
       const url = 'https://cloudresourcemanager.googleapis.com/v3/projects:search?pageSize=5'
       const headers = await auth.headers('GET', url)
@@ -2051,15 +2049,7 @@ export async function revokeAndDisconnectProvider(
 
       if (installIds.length > 0 && pem && appId) {
         try {
-          const nowSec = Math.floor(Date.now() / 1000)
-          const b64url = (v: string | Buffer) => Buffer.from(v).toString('base64url')
-          const unsigned = `${b64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' }))}.${b64url(
-            JSON.stringify({ iat: nowSec - 60, exp: nowSec + 540, iss: appId }),
-          )}`
-          const signer = createSign('RSA-SHA256')
-          signer.update(unsigned)
-          const sig = signer.sign(pem.replace(/\\n/g, '\n'), 'base64url')
-          const jwt = `${unsigned}.${sig}`
+          const jwt = githubAppJwt(appId, pem.replace(/\\n/g, '\n'))
 
           for (const item of installIds) {
             const res = await transport({
@@ -2104,8 +2094,8 @@ export async function revokeAndDisconnectProvider(
           // ignore
         }
       }
-    } else if (provider === 'gws') {
-      const token = env.GWS_COLLECTOR_REFRESH_TOKEN
+    } else if (provider === 'gws' || provider === 'gcp') {
+      const token = provider === 'gcp' ? env.GCP_COLLECTOR_REFRESH_TOKEN : env.GWS_COLLECTOR_REFRESH_TOKEN
       if (token) {
         const res = await transport({
           method: 'POST',
@@ -2114,9 +2104,9 @@ export async function revokeAndDisconnectProvider(
           body: new URLSearchParams({ token }).toString(),
         })
         if (res.status === 200) {
-          revoked.push('Google OAuth 갱신 토큰 서버 폐기 완료')
+          revoked.push(`${provider === 'gcp' ? 'GCP' : 'Google'} OAuth 갱신 토큰 서버 폐기 완료`)
         } else {
-          warnings.push(`Google 토큰 폐기 응답 HTTP ${res.status}`)
+          warnings.push(`${provider === 'gcp' ? 'GCP' : 'Google'} 토큰 폐기 응답 HTTP ${res.status}`)
         }
       }
     } else if (provider === 'slack') {

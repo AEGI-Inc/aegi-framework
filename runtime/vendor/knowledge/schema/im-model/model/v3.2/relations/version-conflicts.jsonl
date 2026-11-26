@@ -1,1 +1,0 @@
-{"im_revision":"r3","relation_type":"triggered_by","kind":"template_differs","v1_template":"Automation --> Principal | Endpoint","current_spec":"Automation --> Principal | Endpoint | Resource | Integration","status":"resolved_adopt_current_spec","resolution":"V3 는 현행 Relation_Schema_v3 템플릿을 따른다. v1 어휘는 갱신 전 표다"}

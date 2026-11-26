@@ -7,8 +7,8 @@
 import fs from 'node:fs'
 import https from 'node:https'
 import path from 'node:path'
-import { TransportError, pinnedHttpsWire, SearchTransport, type Wire } from '../vendor/engine/scripts/stream/splunk/transport.ts'
-import { validateWorkspace, type Workspace } from '../vendor/engine/scripts/stream/splunk/query/workspace.ts'
+import { TransportError, pinnedHttpsWire, SearchTransport, type Wire } from '../engine/scripts/stream/splunk/transport.ts'
+import { validateWorkspace, type Workspace } from '../engine/scripts/stream/splunk/query/workspace.ts'
 import { ENV_FILE } from './paths.ts'
 
 export const WORKSPACE_ID = 'local'

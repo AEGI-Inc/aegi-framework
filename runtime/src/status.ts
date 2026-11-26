@@ -5,11 +5,11 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { CREDENTIAL_KEYS, credentialKeyNames, Credentials, type CredentialId } from '../vendor/engine/scripts/collect/config.ts'
-import type { CollectorStatus, CallState, KeyState } from '../vendor/engine/scripts/collect/credentialStatus.ts'
-import { fetchTransport } from '../vendor/engine/scripts/collect/lib/http.ts'
-import type { RunRecord } from '../vendor/engine/scripts/collect/lib/store.ts'
-import { selectCalls } from '../vendor/engine/scripts/collect/run.ts'
+import { CREDENTIAL_KEYS, credentialKeyNames, Credentials, type CredentialId } from '../engine/scripts/collect/config.ts'
+import type { CollectorStatus, CallState, KeyState } from '../engine/scripts/collect/credentialStatus.ts'
+import { fetchTransport } from '../engine/scripts/collect/lib/http.ts'
+import type { RunRecord } from '../engine/scripts/collect/lib/store.ts'
+import { selectCalls } from '../engine/scripts/collect/run.ts'
 import { collectorConfig } from './collectorConfig.ts'
 import { COLLECTED_DIR, ENV_FILE } from './paths.ts'
 

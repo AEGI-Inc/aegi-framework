@@ -12,22 +12,21 @@
 import { execFile } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
-import { getHead, getSnapshot } from '../vendor/engine/scripts/loader/snapshot.ts'
+import { getHead, getSnapshot } from '../engine/scripts/loader/snapshot.ts'
 import { missingIdentifiers } from '../src/collectorConfig.ts'
 import { migrate, openDb, type LocalDb } from '../src/db.ts'
 import { accessPassword, assistantEnv, loadEnv } from '../src/env.ts'
 import { createLogServices } from '../src/logs.ts'
 import { checkSplunk, tlsLabel } from '../src/splunk.ts'
-import { DATA_DIR, DB_FILE, ENV_FILE, WEB_DIR } from '../src/paths.ts'
+import { DATA_DIR, DB_FILE, ENV_FILE, HOME, WEB_DIR } from '../src/paths.ts'
 import { collectAndPublish, importCollection, publishEmpty, publishSample } from '../src/pipeline.ts'
 import { buildPortWarning, startServer } from '../src/server.ts'
 import { collectorStatus } from '../src/status.ts'
-import { readVersions } from '../src/versions.ts'
 import { findPython } from '../src/standards.ts'
 
 const args = process.argv.slice(2)
 const command = args[0] && !args[0].startsWith('--') ? args[0] : 'start'
-const option = (name: string) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : undefined }
+const option = (name: string) => { const i = args.indexOf(name); const v = i >= 0 ? args[i + 1] : undefined; return v && !v.startsWith('--') ? v : undefined }
 const log = (line: string) => console.log(`  ${line}`)
 
 function checkNode() {
@@ -51,18 +50,20 @@ async function serve(local: LocalDb, env: Record<string, string>) {
   if (!fs.existsSync(WEB_DIR)) throw new Error(`화면 빌드가 없다: ${WEB_DIR}`)
   const host = option('--host') ?? env.AEGI_HOST ?? '127.0.0.1'
   const port = Number(option('--port') ?? env.AEGI_PORT ?? 5199)
+  if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error(`올바른 포트 번호(1~65535)가 아니다: ${option('--port') ?? env.AEGI_PORT}`)
   if (host !== '127.0.0.1' && host !== 'localhost' && !accessPassword(env)) throw new Error('127.0.0.1 밖으로 열려면 .env 에 AEGI_PASSWORD 를 둔다')
   // Splunk 설정이 틀려도(출처 설정 파일 없음 등) 서버는 띄우고 로그 기능만 끈다. 화면의 Splunk 카드에서 고친다
   let logs: ReturnType<typeof createLogServices> = null
   try { logs = createLogServices(local, env) } catch (err) { console.log(`[주의] Splunk 를 켜지 못했다: ${err instanceof Error ? err.message : err}`) }
   await startServer({ host, port, env, local, logs })
   const snap = await current(local)
+  const ai = assistantEnv(env)
   const url = `http://${host === '0.0.0.0' ? '127.0.0.1' : host}:${port}/`
   console.log(`\nAEGI: ${url}`)
   const snapLabel = snap ? (snap.dataset_name === 'empty' ? '연결 전(빈 데이터)' : snap.dataset_name) : '없음'
   console.log(`  데이터: ${snapLabel} (${snap?.id ?? '-'})`)
   console.log(`  Splunk: ${logs ? `${logs.settings.searchBase}, 출처 ${logs.workspace.sources.length}개 (점검: aegi splunk)` : '꺼짐 (.env 에 SPLUNK_URL, SPLUNK_TOKEN 을 넣으면 Timeline 과 AI 로그 검색이 켜진다)'}`)
-  console.log(`  AI: ${assistantEnv(env).AEGI_ASSISTANT_API_KEY ? `${assistantEnv(env).AEGI_ASSISTANT_PROVIDER ?? 'anthropic'} / ${assistantEnv(env).AEGI_ASSISTANT_MODEL}` : '꺼짐 (.env 에 ANTHROPIC_API_KEY 등을 넣는다)'}`)
+  console.log(`  AI: ${ai.AEGI_ASSISTANT_API_KEY ? `${ai.AEGI_ASSISTANT_PROVIDER ?? 'anthropic'} / ${ai.AEGI_ASSISTANT_MODEL}` : '꺼짐 (.env 에 ANTHROPIC_API_KEY 등을 넣는다)'}`)
   console.log(`  로그인: ${accessPassword(env) ? '비밀번호(AEGI_PASSWORD)' : '생략 (이 PC 에서만 열림)'}`)
   const portWarn = buildPortWarning(port)
   if (portWarn) console.log(`  [주의] ${portWarn}`)
@@ -75,12 +76,13 @@ async function serve(local: LocalDb, env: Record<string, string>) {
 
 async function doctor(local: LocalDb, env: Record<string, string>) {
   const ok = (b: boolean) => (b ? '✓' : '✗')
-  const versions = readVersions()
+  const pkgPath = path.join(HOME, 'package.json')
+  const runtimeVer = fs.existsSync(pkgPath) ? ((JSON.parse(fs.readFileSync(pkgPath, 'utf8')) as { version?: string }).version ?? 'unknown') : 'unknown'
   console.log(`AEGI 점검`)
   console.log(`  ${ok(true)} Node ${process.versions.node}`)
   const python = findPython()
   console.log(`  ${ok(!!python)} Python 3: ${python ?? '없음 (컴플라이언스 「관리자 인증 보호」 검사와 기준별 설정 판정을 건너뛴다)'}`)
-  console.log(`  ${ok(!!versions)} 코드: ${versions ? Object.entries(versions.sources).map(([k, v]) => `${k} ${v.commit.slice(0, 7)}`).join(', ') : 'vendor/VERSIONS.json 없음'}`)
+  console.log(`  ${ok(true)} 런타임 버전: ${runtimeVer}`)
   console.log(`  ${ok(fs.existsSync(ENV_FILE))} 설정 파일: ${ENV_FILE}${fs.existsSync(ENV_FILE) ? '' : ' (없음. .env.example 을 복사한다)'}`)
   const ai = assistantEnv(env)
   console.log(`  ${ok(!!ai.AEGI_ASSISTANT_API_KEY)} AI: ${ai.AEGI_ASSISTANT_API_KEY ? `${ai.AEGI_ASSISTANT_PROVIDER ?? 'anthropic'} / ${ai.AEGI_ASSISTANT_MODEL}` : '키 없음 (AI 질문 기능이 꺼진다)'}`)
@@ -135,34 +137,40 @@ async function main() {
     return
   }
   const local = await open()
-  if (command === 'doctor') return doctor(local, env)
-  if (command === 'splunk') { if (!(await splunk(local, env))) process.exitCode = 1; return }
-  if (command === 'sample') { console.log('샘플 게시'); await publishSample(local, log); return }
-  if (command === 'collect') {
-    console.log('수집과 게시')
-    const r = await collectAndPublish(local, env, log, { only: option('--only') })
-    console.log(`완료: 위협 ${r.findings}, 권한 차집합 ${r.accessGaps}, 피해 범위 ${r.blast}`)
-    if (args.includes('--serve')) await serve(local, env)
-    return
-  }
-  if (command === 'import') {
-    const raw = option('--raw')
-    if (!raw) throw new Error('aegi import --raw <수집 폴더> [--run <run id>]')
-    console.log('수집 원본 가져오기')
-    const r = await importCollection(local, path.resolve(raw), option('--run'), log)
-    console.log(`완료: 위협 ${r.findings}, 권한 차집합 ${r.accessGaps}, 피해 범위 ${r.blast}`)
-    if (args.includes('--serve')) await serve(local, env)
-    return
-  }
-  if (command === 'start') {
-    if (!(await current(local))) {
-      console.log('아직 데이터가 없다. 화면의 Adapters 에서 SaaS 를 연결하고 수집한다. 샘플을 보려면 aegi sample')
-      await publishEmpty(local, log)
+  let serving = false
+  try {
+    if (command === 'doctor') { await doctor(local, env); return }
+    if (command === 'splunk') { if (!(await splunk(local, env))) process.exitCode = 1; return }
+    if (command === 'sample') { console.log('샘플 게시'); await publishSample(local, log); return }
+    if (command === 'collect') {
+      console.log('수집과 게시')
+      const r = await collectAndPublish(local, env, log, { only: option('--only') })
+      console.log(`완료: 위협 ${r.findings}, 권한 차집합 ${r.accessGaps}, 피해 범위 ${r.blast}`)
+      if (args.includes('--serve')) { await serve(local, env); serving = true }
+      return
     }
-    await serve(local, env)
-    return
+    if (command === 'import') {
+      const raw = option('--raw')
+      if (!raw) throw new Error('aegi import --raw <수집 폴더> [--run <run id>]')
+      console.log('수집 원본 가져오기')
+      const r = await importCollection(local, path.resolve(raw), option('--run'), log)
+      console.log(`완료: 위협 ${r.findings}, 권한 차집합 ${r.accessGaps}, 피해 범위 ${r.blast}`)
+      if (args.includes('--serve')) { await serve(local, env); serving = true }
+      return
+    }
+    if (command === 'start') {
+      if (!(await current(local))) {
+        console.log('아직 데이터가 없다. 화면의 Adapters 에서 SaaS 를 연결하고 수집한다. 샘플을 보려면 aegi sample')
+        await publishEmpty(local, log)
+      }
+      await serve(local, env)
+      serving = true
+      return
+    }
+    throw new Error(`모르는 명령 ${command}. start | collect | import | doctor | splunk | sample | reset`)
+  } finally {
+    if (!serving) local.close()
   }
-  throw new Error(`모르는 명령 ${command}. start | collect | import | doctor | splunk | sample | reset`)
 }
 
 main().catch(err => {

@@ -51,13 +51,13 @@ flowchart LR
 
 ## Step 4. IM Profile 작성 및 읽기 전용 수집기 연결
 
-1. [Profile_Schema_v4.2.md](../../framework/schema/specs/Profile_Schema_v4.2.md) 형식에 따라 `runtime/vendor/engine/scripts/collect/profile-binding/overlays/<provider>/`에 Profile/Overlay를 추가한다.
-2. 읽기 전용 API 호출 정의를 수집기(`runtime/vendor/engine/scripts/collect/`)에 등록한다.
+1. [Profile_Schema_v4.2.md](../../framework/schema/specs/Profile_Schema_v4.2.md) 형식에 따라 `runtime/engine/scripts/collect/profile-binding/overlays/<provider>/`에 Profile/Overlay를 추가한다.
+2. 읽기 전용 API 호출 정의를 수집기(`runtime/engine/scripts/collect/`)에 등록한다.
 3. 완료된 수집 run에 대해 정규화 검증을 실행한다.
    ```bash
    # 먼저 런타임 패키지를 설치한다: npm run runtime:install
    # 정규화 결과 및 형식/EA/OpenLineage 스키마 무결성 검사 (파일 미생성 dry-run)
-   node runtime/vendor/engine/scripts/collect/profile-binding/runner/normalize.mjs --raw <수집폴더> --run <run-id> --out <출력폴더> --check
+   node runtime/engine/scripts/collect/profile-binding/runner/normalize.mjs --raw <수집폴더> --run <run-id> --out <출력폴더> --check
    ```
 
 ---

@@ -17,8 +17,8 @@ const FORBIDDEN_PATHS = [
   'framework/connection-rules/docs/connection-inventory.md',
   'framework/connection-rules/docs/connection-inventory.csv',
   'framework/connection-rules/docs/measure-v3.md',
-  'runtime/vendor/engine/env-automation',
-  'runtime/vendor/engine/adapter-auto-setup',
+  'runtime/engine/env-automation',
+  'runtime/engine/adapter-auto-setup',
   'runtime/.env',
 ]
 
@@ -51,7 +51,7 @@ const CONTENT_CHECKS = [
 ]
 
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'data', 'release', 'web'])
-const TEXT_EXTS = new Set(['.md', '.json', '.yaml', '.yml', '.ts', '.tsx', '.js', '.mjs', '.py', '.sh', '.cmd', '.txt'])
+const TEXT_EXTS = new Set(['.md', '.json', '.jsonl', '.yaml', '.yml', '.ts', '.tsx', '.mts', '.js', '.mjs', '.cjs', '.py', '.sh', '.cmd', '.txt', '.csv', '.tsv', '.sql', '.html'])
 
 function walk(dir, relBase = '') {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
