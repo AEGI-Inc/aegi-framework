@@ -1,7 +1,7 @@
 import { ALLOWED_RELATION_TYPES } from '../model/relation'
 
 // 데이터에 들어온 SaaS. 새 SaaS를 연동하면 여기에도 더해야 AI가 그 SaaS로 좁혀 찾는다
-export const PROVIDERS = ['slack', 'github', 'okta', 'gws', 'atlassian', 'salesforce'] as const
+export const PROVIDERS = ['slack', 'github', 'okta', 'gws', 'atlassian', 'salesforce', 'microsoft', 'onepassword', 'snowflake', 'gcp'] as const
 export type AssistantProvider = typeof PROVIDERS[number]
 export type EntitySelector = { text: string; provider?: AssistantProvider; reference?: never }
   | { reference: 'source' | 'target'; text?: never; provider?: never }
@@ -87,8 +87,8 @@ export function localFixturePlan(question: string, context = emptyConversation()
     const clean = text.trim().replace(/(?:의|은|는|이|가)$/, '').trim()
     if (/^(그 사람|그 계정|이 사람|이 계정|이 객체|그 객체|그 사용자)$/.test(clean) && context.focus.source) return { reference: 'source' }
     if (/^(그 대상|이 대상|그 자원|이 자원)$/.test(clean) && context.focus.target) return { reference: 'target' }
-    const provider: AssistantProvider | undefined = /github/i.test(clean) ? 'github' : /okta/i.test(clean) ? 'okta' : /slack/i.test(clean) ? 'slack' : /google|workspace|gws/i.test(clean) ? 'gws' : /atlassian/i.test(clean) ? 'atlassian' : /salesforce/i.test(clean) ? 'salesforce' : undefined
-    return { text: clean.replace(/(?:GitHub|Okta|Slack|Google Workspace|GWS|Atlassian|Salesforce)/gi, '').trim(), ...(provider ? { provider } : {}) }
+    const provider: AssistantProvider | undefined = /github/i.test(clean) ? 'github' : /okta/i.test(clean) ? 'okta' : /slack/i.test(clean) ? 'slack' : /google|workspace|gws/i.test(clean) ? 'gws' : /atlassian/i.test(clean) ? 'atlassian' : /salesforce/i.test(clean) ? 'salesforce' : /microsoft|m365|entra|office/i.test(clean) ? 'microsoft' : /1password|onepassword/i.test(clean) ? 'onepassword' : /snowflake/i.test(clean) ? 'snowflake' : /gemini/i.test(clean) ? 'gcp' : undefined
+    return { text: clean.replace(/(?:GitHub|Okta|Slack|Google Workspace|GWS|Atlassian|Salesforce|Microsoft|M365|Entra|1Password|OnePassword|Snowflake|Gemini Enterprise|Gemini)/gi, '').trim(), ...(provider ? { provider } : {}) }
   }
   if (/경로|연결선/.test(question)) {
     const pair = question.match(/^(.+?)(?:에서|부터)\s*(.+?)(?:까지|로|으로)\s*(?:가는\s*)?(?:경로|연결선)/)

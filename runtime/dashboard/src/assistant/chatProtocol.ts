@@ -11,7 +11,7 @@ export const CHAT_ROUNDS = 6
 export const TOOL_LIMIT = 16
 export const TOOL_OUTPUT_LIMIT = 16_384
 export const ANSWER_LIMIT = 8000
-const providers = ['slack', 'github', 'okta', 'gws', 'atlassian', 'salesforce']
+const providers = ['slack', 'github', 'okta', 'gws', 'atlassian', 'salesforce', 'microsoft', 'onepassword', 'snowflake', 'gcp']
 /** 자주 비교하는 속성 (값 하나인 고정 목록 속성). search_objects property 는 객체 사실에 보이는 이름이면 다 받는다(propertyRules filterablePropertyName) */
 export const FILTER_PROPERTIES = ['is_private', 'public', 'visibility', 'is_admin', 'is_owner', 'is_suspended', 'status', 'type', 'role', 'role_name', 'role_type', 'sign_on_mode', 'signOnMode', 'perm_ModifyAllData', 'perm_ManageUsers', 'perm_AuthorApex', 'perm_ViewAllData']
 const string = { type: 'string' }

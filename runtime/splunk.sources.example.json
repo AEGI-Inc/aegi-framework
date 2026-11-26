@@ -16,6 +16,22 @@
     { "ref": "confluence-main", "provider": "atlassian", "index": "aegi_atlassian", "sourcetype": "confluence:audit", "isolation": { "dedicated": true },
       "fields": { "event_type": "summary", "actor_id": "author.accountId", "client_ip": "remoteAddress", "occurred_at": "creationDate", "category": "category", "object_name": "affectedObject.name", "object_type": "affectedObject.objectType" } },
     { "ref": "guard-main", "provider": "atlassian", "index": "aegi_atlassian", "sourcetype": "atlassian:guard:audit", "isolation": { "dedicated": true },
-      "fields": { "event_type": "data{}.attributes.action", "actor_id": "data{}.attributes.actor.id", "client_ip": "data{}.attributes.location.ip", "occurred_at": "data{}.attributes.time", "event_id": "data{}.id" } }
+      "fields": { "event_type": "data{}.attributes.action", "actor_id": "data{}.attributes.actor.id", "client_ip": "data{}.attributes.location.ip", "occurred_at": "data{}.attributes.time", "event_id": "data{}.id" } },
+    { "ref": "m365-signin", "provider": "microsoft", "index": "aegi_microsoft", "sourcetype": "azure:aad:signin", "isolation": { "dedicated": true },
+      "fields": { "actor_id": "userId", "actor_login": "userPrincipalName", "client_ip": "ipAddress", "outcome_reason": "status.failureReason", "occurred_at": "createdDateTime" } },
+    { "ref": "m365-audit", "provider": "microsoft", "index": "aegi_microsoft", "sourcetype": "azure:aad:audit", "isolation": { "dedicated": true },
+      "fields": { "event_type": "activityDisplayName", "actor_id": "initiatedBy.user.id", "actor_login": "initiatedBy.user.userPrincipalName", "client_ip": "initiatedBy.user.ipAddress", "outcome": "result", "outcome_reason": "resultReason", "occurred_at": "activityDateTime" } },
+    { "ref": "m365-ual", "provider": "microsoft", "index": "aegi_microsoft", "sourcetype": "o365:management:activity", "isolation": { "dedicated": true },
+      "fields": { "event_type": "Operation", "actor_id": "UserKey", "actor_login": "UserId", "client_ip": "ClientIP", "outcome": "ResultStatus", "occurred_at": "CreationTime" } },
+    { "ref": "onepassword-main", "provider": "onepassword", "index": "aegi_onepassword", "sourcetype": "onepassword:audit", "isolation": { "dedicated": true },
+      "fields": { "event_type": "action", "actor_id": "actor.id", "actor_login": "actor.email", "client_ip": "context.location.ip_address", "outcome": "outcome.result", "occurred_at": "create_time" } },
+    { "ref": "snowflake-login", "provider": "snowflake", "index": "aegi_snowflake", "sourcetype": "snowflake:login", "isolation": { "dedicated": true },
+      "fields": { "event_type": "EVENT_TYPE", "actor_id": "USER_NAME", "actor_login": "USER_NAME", "client_ip": "CLIENT_IP", "outcome": "IS_SUCCESS", "outcome_reason": "ERROR_MESSAGE", "occurred_at": "EVENT_TIMESTAMP" } },
+    { "ref": "snowflake-query", "provider": "snowflake", "index": "aegi_snowflake", "sourcetype": "snowflake:query", "isolation": { "dedicated": true },
+      "fields": { "event_type": "QUERY_TYPE", "actor_id": "USER_NAME", "actor_login": "USER_NAME", "outcome": "EXECUTION_STATUS", "outcome_reason": "ERROR_CODE", "occurred_at": "START_TIME" } },
+    { "ref": "snowflake-grant", "provider": "snowflake", "index": "aegi_snowflake", "sourcetype": "snowflake:grant", "isolation": { "dedicated": true },
+      "fields": { "event_type": "ACTION", "actor_id": "GRANTED_BY", "actor_login": "GRANTED_BY", "occurred_at": "EVENT_TIME" } },
+    { "ref": "gcp-gemini", "provider": "gcp", "index": "aegi_gcp", "sourcetype": "gcp:gemini:log", "isolation": { "dedicated": true },
+      "fields": { "event_type": "protoPayload.methodName", "actor_id": "protoPayload.authenticationInfo.principalEmail", "actor_login": "protoPayload.authenticationInfo.principalEmail", "client_ip": "protoPayload.requestMetadata.callerIp", "occurred_at": "timestamp" } }
   ]
 }

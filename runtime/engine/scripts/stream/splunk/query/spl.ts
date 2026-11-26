@@ -1,5 +1,6 @@
 import { QueryError, tenantScope, type Source, type Workspace } from './workspace.ts'
 import { commonFieldPipes, EVENT_CATEGORIES, MATCH_OUTCOMES, matchPipe } from '../eventClasses.ts'
+import { fieldShapeSourcetype } from '../types.ts'
 
 /**
  * AI search with free SPL. The AI names the approved sources and writes the pipeline after them; this service writes the
@@ -103,7 +104,7 @@ export const DEDUP_EVENTS = 'dedup keepempty=true aegi_event_id'
 
 export function baseSearch(source: Source, from: string, to: string, match = '') {
   return [`search index=${source.index} sourcetype="${source.sourcetype}" earliest=${Date.parse(from) / 1000} latest=${Date.parse(to) / 1000}`,
-    ...tenantScope(source), 'eval aegi_indextime=_indextime', ...commonFieldPipes(source.sourcetype), ...(match ? [match] : [])].join(' | ')
+    ...tenantScope(source), 'eval aegi_indextime=_indextime', ...commonFieldPipes(fieldShapeSourcetype(source.sourcetype)), ...(match ? [match] : [])].join(' | ')
 }
 
 /** matchCategories, matchOutcomes: distinct values of a closed list, or absent */
@@ -129,7 +130,7 @@ export function compileSpl(input: unknown, workspace: Workspace) {
   if (pipeline && !pipeline.startsWith('|')) throw new QueryError('invalid_spl')
   const commands = refuseUnsafe(pipeline)
   // A source that does not record the matched outcome is not searched and is reported, so "no record" never reads as zero.
-  const matched = named.map(s => ({ s, match: matchPipe(s.sourcetype, categories, outcomes) }))
+  const matched = named.map(s => ({ s, match: matchPipe(fieldShapeSourcetype(s.sourcetype), categories, outcomes) }))
   const sources = matched.filter(m => m.match !== null).map(m => m.s)
   const notRecordedSources = matched.filter(m => m.match === null).map(m => m.s.ref)
   if (!sources.length) throw new QueryError('not_recorded')

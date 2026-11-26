@@ -47,10 +47,10 @@ export async function handleConnector(request: Request, env: ConnectorEnv, relay
   return json(result.status, result.body)
 }
 
-const ID_FIELDS = ['id', 'login', 'email', 'primaryEmail', 'full_name', 'key']
+const ID_FIELDS = ['id', 'login', 'email', 'primaryEmail', 'full_name', 'key', 'appId', 'userPrincipalName']
 
 /**
- * Identifiers only: provider and the identifier values the engine resolver matches on, never other object fields
+ * Identifiers only: provider, object type and the identifier values the engine resolver matches on, never other object fields
  * (이름 일치(D1)에 쓰는 SF 권한 집합 Label 과 Flow ApiName 만 예외).
  * SQL picks the fields so the Worker parses a few small strings per object (free plan: 10 ms CPU per request).
  * Numeric identifiers (GitHub ids) are kept: the engine matches them only inside the object type the mapper names.
@@ -61,19 +61,19 @@ export async function graphIndex(db: D1Like) {
   const snapshotId = await currentSnapshotId(db)
   if (!snapshotId) throw new Error('no_snapshot')
   const picks = ID_FIELDS.map(f => `'${f}', json_extract(detail, '$.canonical.identifiers.${f}.value')`).join(', ')
-  const objects = (await db.prepare(`SELECT id, json_extract(detail, '$.canonical.provider') AS provider, json_object(${picks}) AS ids,
+  const objects = (await db.prepare(`SELECT id, json_extract(detail, '$.canonical.provider') AS provider, json_extract(detail, '$.canonical.object_type') AS type, json_object(${picks}) AS ids,
     CASE json_extract(detail, '$.canonical.object_type')
       WHEN 'PermissionSet' THEN json_object('Label', json_extract(detail, '$.canonical.properties.Label'))
       WHEN 'FlowDefinitionView' THEN json_object('ApiName', json_extract(detail, '$.canonical.properties.ApiName'))
       ELSE NULL END AS props
     FROM snap_objects WHERE snapshot_id = ?`)
-    .bind(snapshotId).all<{ id: string; provider: string | null; ids: string; props: string | null }>()).results.map(r => {
+    .bind(snapshotId).all<{ id: string; provider: string | null; type: string | null; ids: string; props: string | null }>()).results.map(r => {
     const values = JSON.parse(r.ids) as Record<string, unknown>
     const identifiers = Object.fromEntries(Object.entries(values).filter(([, v]) => (typeof v === 'string' && v) || (typeof v === 'number' && Number.isFinite(v))).map(([k, v]) => [k, { value: v }]))
     const parsedProps = r.props ? JSON.parse(r.props) as Record<string, unknown> : null
     const properties = parsedProps ? Object.fromEntries(Object.entries(parsedProps).filter(([, v]) => typeof v === 'string' && v)) : null
     const hasProps = properties && Object.keys(properties).length > 0
-    return { fixture_key: r.id, canonical: { provider: r.provider ?? undefined, identifiers, ...(hasProps ? { properties } : {}) } }
+    return { fixture_key: r.id, canonical: { provider: r.provider ?? undefined, ...(r.type ? { object_type: r.type } : {}), identifiers, ...(hasProps ? { properties } : {}) } }
   })
   const links = (await db.prepare('SELECT detail FROM snap_links WHERE snapshot_id = ? ORDER BY ord').bind(snapshotId).all<{ detail: string }>()).results.map(r => JSON.parse(r.detail) as unknown)
   const relations = (await db.prepare(`SELECT id, type, from_key AS "from", to_key AS "to", json_extract(detail, '$.canonical.references.role.value') AS role
