@@ -10,11 +10,14 @@ AEGI Framework는 기업 보안팀이 민감한 SaaS 권한과 계정 정보를 
 
 ## 2. 데이터 경계와 외부 통신 최소화
 
-`runtime/` 실행 시 수집된 원본 데이터, 정규화 그래프, 판정 결과, 자격증명은 모두 도입 기업의 로컬이나 사내 디렉터리(`runtime/data/`, `runtime/.env`)에만 저장된다. 외부로 나가는 네트워크 요청은 아래 세 가지뿐이다. 별도 텔레메트리나 외부 전송은 없다.
+`runtime/` 실행 시 수집된 원본 데이터, 정규화 그래프, 판정 결과, 자격증명은 모두 도입 기업의 로컬이나 사내 디렉터리(`runtime/data/`, `runtime/.env`)에만 저장된다. 외부로 나가는 네트워크 요청은 아래 네 가지뿐이다. 별도 텔레메트리는 없다.
 
-1. 도입 기업이 설정한 각 SaaS의 읽기 전용 API
+1. 도입 기업이 설정한 각 SaaS의 읽기 API. 수집기는 조회 호출만 보낸다.
 2. 도입 기업이 연결한 사내 Splunk 검색 REST API(선택)
 3. 도입 기업이 API 키를 직접 입력한 AI 제공자 API(선택)
+   - 보내는 것: 사용자의 질문과, AI가 답하려고 부른 조회 도구의 결과. 도구는 그래프 객체, 관계, 계정, 동일인 연결, 자격증명 피해 범위, 설정 점검, 컴플라이언스 항목을 돌려주고, Splunk를 연결했다면 감사 로그 검색 결과도 돌려준다. 곧 계정 이름, 이메일, 권한, 로그 이벤트 같은 수집 데이터 일부가 그 AI 제공자에게 간다(`runtime/vendor/dashboard/server/assistant/provider.ts`, `runtime/vendor/dashboard/src/assistant/chatProtocol.ts`).
+   - 자격증명(`.env`의 키와 토큰)은 보내지 않는다. AI 키를 넣지 않으면 이 요청은 없다.
+4. 대시보드를 연 브라우저가 화면 글꼴(Pretendard)을 `cdn.jsdelivr.net`에서 받는다(`runtime/vendor/web/index.html`). 수집 데이터는 담기지 않는다. 이 주소가 막힌 망에서는 글꼴이 CSS의 대체 글꼴(`Malgun Gothic` 등 OS 기본 글꼴)로 바뀐다.
 
 ## 3. 자격증명과 비밀값 보호
 
