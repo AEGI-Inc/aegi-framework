@@ -1,8 +1,0 @@
-# Placeholder configuration only. Provision the tunnel and hostname before use.
-# https://developers.cloudflare.com/tunnel/features/locally-managed-tunnels/configuration-file/
-tunnel: REPLACE_WITH_TUNNEL_UUID
-credentials-file: /etc/cloudflared/REPLACE_WITH_TUNNEL_UUID.json
-ingress:
-  - hostname: splunk-query.example.invalid
-    service: http://127.0.0.1:8090
-  - service: http_status:404
