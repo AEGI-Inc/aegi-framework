@@ -34,7 +34,7 @@ flowchart LR
 aegi-framework/
 ├── docs/                          프레임워크 안내서
 │   ├── 01-overview/               아키텍처, 전체 파이프라인
-│   ├── 02-methodology/            단계별 방법론 5편
+│   ├── 02-methodology/            단계별 방법론 6편
 │   └── 03-enterprise-adoption/    도입 가이드, 새 SaaS 추가, 보안 원칙
 ├── framework/                     규격 본체
 │   ├── schema/                    의미 규격과 온톨로지
@@ -69,6 +69,7 @@ aegi-framework/
 4. [IM 모델과 오브젝트 도출](docs/02-methodology/03-im-object-modeling.md): V3.2
 5. [IM Profile 정규화와 Effective Access](docs/02-methodology/04-profile-and-normalization.md)
 6. [위협 판정, 연결 규칙, 컴플라이언스](docs/02-methodology/05-threat-and-compliance.md)
+7. [SaaS API 변경 감시](docs/02-methodology/06-api-change-watch.md): 벤더 API 변경과 수집 결과 어긋남 찾기
 
 ### 사내 도입
 
