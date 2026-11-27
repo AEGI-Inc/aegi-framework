@@ -109,20 +109,22 @@ export interface ExceptionDialogProps {
   destinations?: OutsideDestination[]
   /** 이 예외를 더하면 새로 가려지는 위협 수. 목적지 전체는 다른 위협까지 가리므로 전체 위협으로 센다 */
   countHidden?: (drafts: ThreatException[]) => number
+  /** 처음 채울 사유. 「같은 사유로 예외」가 전 오탐 예외의 사유를 넘긴다 */
+  initial?: { reasonCategory: ExceptionReasonCategory; reason: string; reference?: string }
 }
 
 /** 고를 수 있는 범위. 저장된 옛 범위(이번 발생, 선택 대상)는 새로 만들지 않는다 */
 const SCOPES: DraftScope[] = ['finding', 'destination']
 
-export default function ExceptionDialog({ view, dataset, now, onCancel, onSubmit, destinations = [], countHidden }: ExceptionDialogProps) {
+export default function ExceptionDialog({ view, dataset, now, onCancel, onSubmit, destinations = [], countHidden, initial }: ExceptionDialogProps) {
   const finding = view.original
 
   // 기본은 '위협 전체'다.
   const defaultScope: DraftScope = 'finding'
   const [scope, setScope] = useState<DraftScope>(defaultScope)
-  const [reasonCategory, setReasonCategory] = useState<ExceptionReasonCategory>('business_justified')
-  const [reason, setReason] = useState('')
-  const [reference, setReference] = useState('')
+  const [reasonCategory, setReasonCategory] = useState<ExceptionReasonCategory>(initial?.reasonCategory ?? 'business_justified')
+  const [reason, setReason] = useState(initial?.reason ?? '')
+  const [reference, setReference] = useState(initial?.reference ?? '')
   const [actor, setActor] = useState(loadActor)
   const [approver, setApprover] = useState('')
   const [expiryChoice, setExpiryChoice] = useState<ExpiryChoice>(String(DEFAULT_EXPIRY_DAYS) as ExpiryChoice)

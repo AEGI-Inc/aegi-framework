@@ -41,22 +41,38 @@ const ORBIT_LEVELS: ReadonlySet<SemanticLevel> = new Set(['tenant', 'scope'])
  * 월드 크기로 두면 이름표 자리에 밀려 화면 맞춤 배율이 내려가 원이 점처럼 작아진다
  */
 const TENANT_PX = { base: 14, perRoot: 1.2, hub: 26 }
+/**
+ * SaaS 단계 원 크기(화면 px). 조직 단계와 같은 까닭이다. 원을 월드 크기로 잡으면 SaaS가 열 개쯤일 때
+ * 화면 맞춤 배율이 너무 내려가 원은 점이 되고 이름표를 읽을 수 없다
+ */
+const ECOSYSTEM_PX = { base: 20, perRoot: 1.25 }
 
 /** 조직 이름표 아래 줄: 그 SaaS의 무엇인지(SaaS 이름은 가운데 원에 있다) */
 const TENANT_KIND: Record<string, string> = {
   'okta|org': '조직',
   'gws|Customer': '도메인',
+  'gws|Domains': '도메인',
   'slack|enterprise': '엔터프라이즈',
   'slack|workspace': '워크스페이스',
+  'slack|defs_enterprise_id': '엔터프라이즈',
+  'slack|200.team': '워크스페이스',
+  'slack|200.invites[*].acceptances[*].accepting_team': '워크스페이스',
   'github|Organization': '조직',
   'github|Enterprise': '엔터프라이즈',
   'atlassian|site': '사이트',
+  'atlassian|Domain': '도메인',
+  'microsoft|Domain': '도메인',
+  'microsoft|Tenant': '테넌트',
+  'gcp|Project': '프로젝트',
   'salesforce|Organization': '조직',
+}
+/** 조직 객체의 수집 타입을 사람이 읽는 말로. 수집 타입(200.team, Customer 등)을 화면에 그대로 쓰지 않는다. 표에 없으면 조직 */
+export function tenantKindLabel(provider: string, objectType: string | undefined): string {
+  return (objectType && TENANT_KIND[`${provider}|${objectType}`]) ?? '조직'
 }
 export function tenantKind(node: SemanticNode): string {
   if (node.service) return '서비스'
-  const type = node.rawObject?.canonical.object_type
-  return (type && TENANT_KIND[`${node.provider}|${type}`]) ?? '조직'
+  return tenantKindLabel(node.provider, node.rawObject?.canonical.object_type)
 }
 
 export type ProviderLink = [string, string, number]
@@ -96,7 +112,7 @@ const pairKey = (a: string, b: string) => (a < b ? `${a}|${b}` : `${b}|${a}`)
  * - 연결 없는 SaaS: 이어진 묶음 오른쪽 한 줄, 위에서 아래로
  * - 연결이 하나도 없으면 예전 두 줄 격자
  */
-export function providerPlan(present: Iterable<string>, links: ProviderLink[]): ProviderPlan {
+export function providerPlan(present: Iterable<string>, links: ProviderLink[], stretch = 1): ProviderPlan {
   const order = orderedProviders(present)
   const linked = new Set(links.flatMap(([a, b]) => [a, b]))
   const ring = order.filter(provider => linked.has(provider))
@@ -115,7 +131,7 @@ export function providerPlan(present: Iterable<string>, links: ProviderLink[]): 
     const radius = ring.length === 2 ? 0.55 : 0.62 + 0.06 * (ring.length - 3)
     ring.forEach((provider, i) => {
       const angle = (-135 - (i * 360) / ring.length) * (Math.PI / 180)
-      at.set(provider, { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius })
+      at.set(provider, { x: Math.cos(angle) * radius * stretch, y: Math.sin(angle) * radius })
     })
   }
   const xs = [...at.values()].map(p => p.x)
@@ -214,10 +230,11 @@ function textReach(lines: LabelLine[], width: number): Reach {
  * SaaS: side 쪽에 두 줄. 조직, 그룹: SaaS 가운데에서 바깥쪽(angle)에 한 줄.
  * reach 는 원과 이름표를 함께 담는 길이(자리 잡기와 화면 맞춤이 같은 값을 쓴다), text 는 이름표 글자만 담는 길이.
  */
-export function circleLabel(node: SemanticNode, side: LabelSide, angle: number | undefined, lp: number): { lines: LabelLine[]; reach: Reach; text: Reach } {
+export function circleLabel(node: SemanticNode, side: LabelSide, angle: number | undefined, lp: number, nameOnly = false): { lines: LabelLine[]; reach: Reach; text: Reach } {
   const radius = circleRadius(node)
   const circle = { l: radius, r: radius, t: radius, b: radius }
-  const [name, meta] = circleLabelLines(node)
+  const [name, fullMeta] = circleLabelLines(node)
+  const meta = nameOnly ? '' : fullMeta
   const gap = LABEL_PX.gap * lp
   if (ORBIT_LEVELS.has(node.level)) {
     const a = angle ?? Math.PI / 2
@@ -318,7 +335,7 @@ function orbitLayout(children: SemanticNode[], px: number, hubName: Reach, hubLp
 }
 
 /** SaaS 단계 이름표 쪽: 이어진 묶음 바깥쪽(위나 아래가 먼저), 오른쪽 줄과 격자는 아래 */
-function providerSide(plan: ProviderPlan, provider: string): LabelSide {
+function providerSide(plan: ProviderPlan, provider: string, sideways = 0.2): LabelSide {
   if (plan.grid || plan.column.includes(provider)) return 'below'
   const ring = [...plan.at].filter(([id]) => !plan.column.includes(id)).map(([, p]) => p)
   if (ring.length < 2) return 'below'
@@ -326,7 +343,7 @@ function providerSide(plan: ProviderPlan, provider: string): LabelSide {
   const cy = ring.reduce((sum, p) => sum + p.y, 0) / ring.length
   const p = plan.at.get(provider)!
   const dx = p.x - cx, dy = p.y - cy
-  if (Math.abs(dy) < 0.2 * Math.hypot(dx, dy)) return dx < 0 ? 'left' : 'right'
+  if (Math.abs(dy) < sideways * Math.hypot(dx, dy)) return dx < 0 ? 'left' : 'right'
   return dy < 0 ? 'above' : 'below'
 }
 
@@ -342,7 +359,7 @@ interface Laid {
   height: number
 }
 
-function layoutOnce(byProvider: Map<string, SemanticNode[]>, level: SemanticLevel, plan: ProviderPlan, zoom: number): Laid {
+function layoutOnce(byProvider: Map<string, SemanticNode[]>, level: SemanticLevel, plan: ProviderPlan, zoom: number, linkGapScale = 1, sideways = 0.2, nameOnly = false): Laid {
   const px = labelPx(level, zoom)
   const hubLp = hubLabelPx(zoom)
   const local = new Map<string, Point>()
@@ -352,9 +369,10 @@ function layoutOnce(byProvider: Map<string, SemanticNode[]>, level: SemanticLeve
   const reach = new Map<string, Reach>()
   const tenant = level === 'tenant'
   const hubRadius = tenant ? TENANT_PX.hub * px : HUB_RADIUS
+  const screenSize = tenant ? TENANT_PX : level === 'ecosystem' ? ECOSYSTEM_PX : null
   for (const [provider, all] of byProvider) {
-    const list = tenant
-      ? all.map(node => ({ ...node, radius: (TENANT_PX.base + TENANT_PX.perRoot * Math.sqrt(Math.min(Math.max(node.objectCount, 1), 400))) * px }))
+    const list = screenSize
+      ? all.map(node => ({ ...node, radius: (screenSize.base + screenSize.perRoot * Math.sqrt(Math.min(Math.max(node.objectCount, 1), 400))) * px }))
       : all
     for (const node of list) if (node.radius) radii.set(node.id, node.radius)
     if (ORBIT_LEVELS.has(level)) {
@@ -372,14 +390,14 @@ function layoutOnce(byProvider: Map<string, SemanticNode[]>, level: SemanticLeve
       continue
     }
     // SaaS 단계: SaaS마다 원 하나
-    const side = providerSide(plan, provider)
+    const side = providerSide(plan, provider, sideways)
     for (const node of list) {
       local.set(node.id, { x: 0, y: 0 })
       sides.set(node.id, side)
     }
-    reach.set(provider, circleLabel(list[0], side, undefined, px).reach)
+    reach.set(provider, circleLabel(list[0], side, undefined, px, nameOnly).reach)
   }
-  const linkGap = level === 'ecosystem' ? (a: string, b: string) => (plan.pairs.has(pairKey(a, b)) ? LINK_GAP_PX * px : 0) : undefined
+  const linkGap = level === 'ecosystem' ? (a: string, b: string) => (plan.pairs.has(pairKey(a, b)) ? LINK_GAP_PX * linkGapScale * px : 0) : undefined
   const centers = placeProviders(plan, reach, CLUSTER_GAP_PX * px, linkGap)
   let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity
   for (const [provider, c] of centers) {
@@ -426,6 +444,8 @@ export interface CircleLayout {
   frames: WorldRect[]
   /** 자리를 잡은 배율. 화면 맞춤이 이 배율 이상으로 맞춘다 */
   zoom: number
+  /** SaaS 단계에서 칸이 좁아 이름표를 이름 한 줄로 줄였다(객체, 관계 수는 커서를 올리면 보인다) */
+  nameOnly: boolean
 }
 
 /**
@@ -437,14 +457,49 @@ export function layoutCircleLevel(nodes: SemanticNode[], level: SemanticLevel, l
   const byProvider = new Map<string, SemanticNode[]>()
   for (const node of nodes) byProvider.set(node.provider, [...(byProvider.get(node.provider) ?? []), node])
   for (const list of byProvider.values()) list.sort((a, b) => b.objectCount - a.objectCount || a.label.localeCompare(b.label) || a.id.localeCompare(b.id))
-  const plan = providerPlan(byProvider.keys(), links.filter(([a, b]) => byProvider.has(a) && byProvider.has(b)))
+  const linked = links.filter(([a, b]) => byProvider.has(a) && byProvider.has(b))
   const width = Math.max(view.width, 320), height = Math.max(view.height, 240)
   const steps = ZOOM_STEPS.filter(step => step <= 1).slice().reverse()
+  const fits = (laid: Laid, step: number) => (laid.width + FIT_PADDING * 2) * step <= width && (laid.height + FIT_PADDING * 2) * step <= height
+  let plan = providerPlan(byProvider.keys(), linked)
   let zoom = steps[steps.length - 1]
   let laid = layoutOnce(byProvider, level, plan, zoom)
-  for (const step of steps) {
+  let placed = false
+  /* SaaS 단계에서 SaaS가 많아 이름표를 화면 크기로 담을 수 없으면 고리를 그래프 칸 가로세로 비율만큼 옆으로 늘리고
+     이어진 SaaS 사이 틈을 줄이고 대각선 자리 이름표를 옆에 달아 본다. 그래프 칸은 가로로 넓은데 고리는 둥글어 세로가 먼저
+     모자란다. 그래도 모자라면 이름표를 이름 한 줄로 줄인다.
+     이름표가 화면 크기로 들어가는 첫 배치를 쓰고, 없으면 이름 한 줄 배치 중 가장 큰 배율로 들어가는 배치를 쓴다 */
+  let nameOnly = false
+  let gapScale = 1
+  let sideways = 0.2
+  if (level === 'ecosystem') {
+    const stretch = Math.min(1.8, Math.max(1, (width / height) * 0.8))
+    /* [가로 늘림, 틈 배율, 옆 이름표 기준, 이름 한 줄] */
+    const tries: Array<[number, number, number, boolean]> = [
+      [1, 1, 0.2, false], [stretch, 1, 0.2, false], [stretch, 0.5, 0.2, false], [stretch, 0.5, 0.75, false],
+      [stretch, 0.5, 0.2, true], [stretch, 0.5, 0.75, true], [1, 0.5, 0.75, true],
+    ]
+    let best: { plan: ProviderPlan; step: number; gap: number; side: number; short: boolean } | null = null
+    for (const [wide, gap, side, short] of tries) {
+      const tryPlan = providerPlan(byProvider.keys(), linked, wide)
+      const step = steps.find(s => fits(layoutOnce(byProvider, level, tryPlan, s, gap, side, short), s))
+      if (step === undefined) continue
+      if (step >= LABEL_FLOOR.ecosystem) { best = { plan: tryPlan, step, gap, side, short }; break }
+      if (short && (!best || !best.short || step > best.step)) best = { plan: tryPlan, step, gap, side, short }
+    }
+    if (best) {
+      plan = best.plan
+      zoom = best.step
+      gapScale = best.gap
+      sideways = best.side
+      nameOnly = best.short
+      laid = layoutOnce(byProvider, level, plan, zoom, gapScale, sideways, nameOnly)
+      placed = true
+    }
+  }
+  if (!placed) for (const step of steps) {
     const next = layoutOnce(byProvider, level, plan, step)
-    if ((next.width + FIT_PADDING * 2) * step <= width && (next.height + FIT_PADDING * 2) * step <= height) {
+    if (fits(next, step)) {
       zoom = step
       laid = next
       break
@@ -461,8 +516,8 @@ export function layoutCircleLevel(nodes: SemanticNode[], level: SemanticLevel, l
   const hubs = ORBIT_LEVELS.has(level) ? [...laid.centers].map(([provider, c]) => ({ provider, x: c.x, y: c.y })) : []
   const rect = (at: Point, r: Reach): WorldRect => ({ x: at.x - r.l, y: at.y - r.t, width: r.l + r.r, height: r.t + r.b })
   const frames = [
-    ...positioned.map(node => rect(node, circleLabel(node, laid.sides.get(node.id) ?? 'below', laid.angles.get(node.id), px).reach)),
+    ...positioned.map(node => rect(node, circleLabel(node, laid.sides.get(node.id) ?? 'below', laid.angles.get(node.id), px, nameOnly).reach)),
     ...hubs.map(hub => rect(hub, hubLabel(hub.provider, hubLp, laid.hubRadius).reach)),
   ]
-  return { nodes: positioned, hubs, hubRadius: laid.hubRadius, sides: laid.sides, angles: laid.angles, frames, zoom }
+  return { nodes: positioned, hubs, hubRadius: laid.hubRadius, sides: laid.sides, angles: laid.angles, frames, zoom, nameOnly }
 }

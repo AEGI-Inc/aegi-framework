@@ -20,9 +20,9 @@ export interface OrbItem {
 
 const W = 860
 const MIN_H = 440
-/** 넓은 화면에서 키우는 상한과, 키울 때 넘지 않을 화면 높이 비율 */
+/** 넓은 화면에서 키우는 상한과, 키울 때 넘지 않을 화면 높이 비율. 그래프 아래 목록 첫 줄이 첫 화면에 보이게 화면 높이의 절반까지만 키운다 */
 const MAX_SCALE = 1.5
-const HEIGHT_SHARE = 0.75
+const HEIGHT_SHARE = 0.5
 /** 원 지름: 처음 둘레, 가운데, 가지, 지나온 노드 */
 const D_RING = 64
 const D_FOCUS = 84
@@ -116,7 +116,7 @@ export default function OrbGraph({ label, ring, past, focus, kids, onRing, onPas
           <button type="button" className="ex-btn" onClick={onReset} title="고른 것을 지우고 처음 둘레 화면으로">처음으로</button>
         </div>
       )}
-      <div className="scb-tree" style={{ width: W, height: H, transform: scale !== 1 ? `scale(${scale})` : undefined }}>
+      <div className="scb-tree" style={{ width: W, height: H, marginLeft: Math.max(0, (box.width - W * scale) / 2), transform: scale !== 1 ? `scale(${scale})` : undefined }}>
         <svg width={W} height={H} key={linesKey} className="scb-tree-lines" aria-hidden="true">
           {focus && past.map((_, i) => (
             <line key={i} x1={Math.max(0, pastX(i))} y1={cy} x2={i === past.length - 1 ? FOCUS_CX : pastX(i + 1)} y2={cy} />

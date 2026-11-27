@@ -78,9 +78,33 @@ export interface ThreatException {
     severity: FindingV2['severity']
     subjectKeys: string[]
     checkStates: Record<string, FindingCheck['state']>
+    /** 오탐 판정 재사용(exceptions/falsePositiveHints.ts)에 쓰는 원인 후보. 경로가 없는 옛 판정과 옛 기록은 없다 */
+    pattern?: FalsePositivePattern
   }
   history: ExceptionHistoryEntry[]
 }
+
+/**
+ * 예외 등록 당시 위협의 원인 후보. 지문이 바뀌어도 비슷한 위협을 찾을 수 있게 지문과 따로 둔다.
+ * D1 에는 detail JSON 의 snapshot 안에 들어가 마이그레이션이 없다.
+ */
+export interface FalsePositivePattern {
+  /** 연동 지점과 대상 키(엔진 계약 point, target) */
+  point: string
+  target: string
+  primaryType: string
+  /** 경로 간선 종류 순서 */
+  hopKinds: string[]
+  /** 판정 근거 이름 전부와 그 가운데 확인이 아닌 것(모름, 추정) */
+  reasons: string[]
+  uncertain: string[]
+  /** 새로 권한이 생기는 사람(누구나 뺌). 많으면 앞 MAX_PATTERN_PERSONS 명 */
+  persons: string[]
+  occurrence: '발생 가능' | '발생'
+  certainty: '확정' | '미확정'
+}
+
+export const MAX_PATTERN_PERSONS = 200
 
 export const SCOPE_LABELS: Record<ExceptionScope, string> = {
   occurrence: '이번 발생',
@@ -200,6 +224,7 @@ export function exceptionProblem(value: unknown): string | null {
   if (v.revokedAt !== undefined && !isIso(v.revokedAt)) return 'revokedAt'
   const snap = v.snapshot as Record<string, unknown> | undefined
   if (!snap || typeof snap !== 'object' || !isStr(snap.findingId) || !isStr(snap.title) || !isStr(snap.severity) || !isStrArray(snap.subjectKeys) || !snap.checkStates || typeof snap.checkStates !== 'object') return 'snapshot'
+  if (snap.pattern !== undefined && !isPattern(snap.pattern)) return 'snapshot'
   if (!Array.isArray(v.history) || v.history.some(h => !h || typeof h !== 'object' || !isIso((h as ExceptionHistoryEntry).at) || !isStr((h as ExceptionHistoryEntry).action))) return 'history'
   return null
 }
@@ -226,6 +251,15 @@ export function approverProblem(scope: ExceptionScope, reason: ExceptionReasonCa
   if (!name) return approverRequired(scope, reason) ? `${RESTRICTED_NAMES}는 승인자 이름 필요` : null
   if (name === actor.trim()) return '승인자는 처리자와 다른 사람이어야 함'
   return null
+}
+
+function isPattern(value: unknown): value is FalsePositivePattern {
+  const p = value as Record<string, unknown> | null
+  if (!p || typeof p !== 'object') return false
+  if (![p.point, p.target, p.primaryType].every(v => isStr(v) && v.length <= 1000)) return false
+  if (![p.hopKinds, p.reasons, p.uncertain].every(v => isStrArray(v) && v.length <= 100)) return false
+  if (!isStrArray(p.persons) || p.persons.length > MAX_PATTERN_PERSONS) return false
+  return (p.occurrence === '발생 가능' || p.occurrence === '발생') && (p.certainty === '확정' || p.certainty === '미확정')
 }
 
 export function isThreatException(value: unknown): value is ThreatException {

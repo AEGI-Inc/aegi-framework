@@ -142,8 +142,11 @@ export function defaultBoardView(): BoardView {
   }
 }
 
+/** 이름을 정하지 않은 보드의 제목. 다른 화면에서 위협을 넘겨받으면 이 제목만 위협 이름으로 바꾼다 */
+export const DEFAULT_BOARD_TITLE = '새 이벤트 조사'
+
 /** 새 V3 빈 보드 생성 */
-export function emptyBoardV3(now = new Date().toISOString(), title = '새 이벤트 조사'): BoardV3 {
+export function emptyBoardV3(now = new Date().toISOString(), title = DEFAULT_BOARD_TITLE): BoardV3 {
   return {
     version: 3,
     title,

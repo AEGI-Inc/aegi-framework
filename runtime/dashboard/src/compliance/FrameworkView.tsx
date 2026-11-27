@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
+import { type CSSProperties, type ReactNode, useEffect, useMemo, useRef, useState } from 'react'
 import type { StandardResults } from '../config-findings/standardResultsStore'
 import type { GraphStoreV2 } from '../model/graph'
 import { objectLabel } from '../blast-radius/blastLabels'
@@ -296,7 +296,8 @@ export default function FrameworkView({
           </div>
         )}
       </div>
-      <div className="comp-summary-cards">{framework.groups.map(g => {
+      {/* 대분류 수만큼 칸을 나눈다(최대 셋). 셋보다 적어 카드가 넓으면 두 도넛 칸 폭을 440px 로 막아 옆으로 놓는다 */}
+      <div className="comp-summary-cards" style={{ '--comp-summary-cols': Math.min(3, framework.groups.length), '--comp-summary-main-max': framework.groups.length < 3 ? '440px' : '1fr' } as CSSProperties}>{framework.groups.map(g => {
         const gDist = groupDistributions.get(g.no) ?? {
           counts: { fail: 0, pass: 0, unknown: 0, person: 0, uninspected: 0 },
           total: 0,

@@ -68,6 +68,8 @@ export default function GraphSideDock({
 }: GraphSideDockProps) {
   const drag = useRef<{ x: number; width: number; last: number } | null>(null)
   const show = (next: SideTab) => { onTab(next); onOpenChange(true) }
+  /* 보이는 탭. 고른 탭(tab)은 그대로 두고, 보일 상세가 없는 동안만 탐지 결과를 보인다. 같은 칸을 다시 고르면 상세로 돌아온다 */
+  const shown: SideTab = tab === 'detail' && hasDetail ? 'detail' : 'findings'
 
   if (!open) {
     return (
@@ -75,12 +77,12 @@ export default function GraphSideDock({
         <button type="button" className="gx-side-rail-open" onClick={() => onOpenChange(true)} aria-label="패널 펼치기" title="패널 펼치기">
           <PanelRightOpen size={18} aria-hidden="true" />
         </button>
-        <button type="button" className={tab === 'findings' ? 'is-active' : ''} onClick={() => show('findings')} aria-label={`탐지 결과 ${findingCount}개`} title="탐지 결과">
+        <button type="button" className={shown === 'findings' ? 'is-active' : ''} onClick={() => show('findings')} aria-label={`탐지 결과 ${findingCount}개`} title="탐지 결과">
           <TriangleAlert size={18} aria-hidden="true" />
           <b>{findingCount}</b>
         </button>
         {hasDetail && (
-          <button type="button" className={tab === 'detail' ? 'is-active' : ''} onClick={() => show('detail')} aria-label="상세" title={detailLabel ? `상세: ${detailLabel}` : '상세'}>
+          <button type="button" className={shown === 'detail' ? 'is-active' : ''} onClick={() => show('detail')} aria-label="상세" title={detailLabel ? `상세: ${detailLabel}` : '상세'}>
             <Info size={18} aria-hidden="true" />
           </button>
         )}
@@ -121,11 +123,11 @@ export default function GraphSideDock({
         }}
       />
       <div className="gx-side-tabs" role="tablist" aria-label="오른쪽 패널 내용">
-        <button type="button" role="tab" aria-selected={tab === 'findings'} onClick={() => onTab('findings')}>
+        <button type="button" role="tab" aria-selected={shown === 'findings'} onClick={() => onTab('findings')}>
           탐지 결과 <span className="fn-count-tag">{findingCount}</span>
         </button>
         {hasDetail && (
-          <button type="button" role="tab" aria-selected={tab === 'detail'} onClick={() => onTab('detail')} title={detailLabel}>
+          <button type="button" role="tab" aria-selected={shown === 'detail'} onClick={() => onTab('detail')} title={detailLabel}>
             상세
           </button>
         )}
@@ -134,7 +136,7 @@ export default function GraphSideDock({
         </button>
       </div>
       <div className="gx-side-body" role="tabpanel">
-        {tab === 'detail' && hasDetail ? detail : findings}
+        {shown === 'detail' ? detail : findings}
       </div>
     </aside>
   )

@@ -5,7 +5,7 @@ import { subjectParticle } from './findings/headcount'
 import type { GraphStoreV2 } from './model/graph'
 import type { EvidenceStore, EvidenceObservation, FindingEvidenceLink } from './model/evidence'
 import ProviderLogo from './ProviderLogo'
-import { Activity, ArrowRight, Check, Copy, ShieldOff, Waypoints } from 'lucide-react'
+import { Activity, ArrowRight, Check, Copy, History, ShieldOff, Waypoints } from 'lucide-react'
 import { DetailButton, DetailCrumb, DetailGroup, DetailPager } from './ui/DetailBar'
 import { useRelatedEventCount } from './timeline/relatedEvents'
 import { scenarioTag, findingTagKey, tagClass } from './findings/scenarioTags'
@@ -19,7 +19,8 @@ import ThreatAccessGapPanel from './findings/ThreatAccessGapPanel'
 import type { FindingView } from './exceptions/applyExceptions'
 import { RevokeForm } from './exceptions/ExceptionsPage'
 import { expiryText } from './exceptions/format'
-import { REASON_LABELS, SCOPE_LABELS } from './model/exception'
+import { REASON_LABELS, SCOPE_LABELS, type ThreatException } from './model/exception'
+import { HINT_LABELS, MATCH_LEVEL_LABELS, type FalsePositiveHint } from './exceptions/falsePositiveHints'
 import { formatKst, utcTitle } from './utils/time'
 import { reportSentence } from './findings/reportSentence'
 import EffectiveAccessPanel, { EffectiveAccessDetail } from './findings/EffectiveAccessPanel'
@@ -55,6 +56,10 @@ export interface FindingDetailProps {
   onException?: () => void
   onRevokeExceptions?: (ids: string[], actor: string, note?: string) => void
   onOpenException?: (exceptionId: string) => void
+  /** 전에 오탐으로 처리한 위협과 비슷하면 그 근거(exceptions/falsePositiveHints.ts). 표시만 하고 가리지 않는다 */
+  fpHint?: FalsePositiveHint
+  /** 「같은 사유로 예외」: 그 오탐 예외의 사유를 채운 예외 창을 연다 */
+  onExceptionLike?: (exception: ThreatException) => void
   /** 제목 칸 바로 아래에 둘 처리 칸 (처리 상태, 담당자, 메모) */
   handlingSlot?: ReactNode
   /** 위협 목록 순서의 이전, 다음. 기록을 쌓지 않고 옮긴다 */
@@ -89,6 +94,8 @@ export default function FindingDetail({
   onException,
   onRevokeExceptions,
   onOpenException,
+  fpHint,
+  onExceptionLike,
   handlingSlot,
   pager,
   collectedAt,
@@ -495,6 +502,51 @@ export default function FindingDetail({
                     예외 취소{view.applied.length > 1 ? ` (${view.applied.length}건)` : ''}
                   </button>
                 )}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 전에 사람이 오탐으로 처리한 위협과 원인이 비슷하면 그 근거와 사유를 보인다. 가리지 않고 사람이 확인한다 */}
+        {fpHint && exceptionState !== 'excepted' && (
+          <div className={`fd-exception-banner fd-fp-hint is-${fpHint.strength}`} role="status">
+            <div className="fd-exception-banner-head">
+              <History size={14} strokeWidth={2} aria-hidden="true" />
+              <b>{HINT_LABELS[fpHint.strength]}</b>
+            </div>
+            <ul className="fd-exception-list">
+              {fpHint.matches.slice(0, 3).map(m => (
+                <li key={m.exception.id}>
+                  <span className="fd-exception-what">
+                    <em className="ex-reason-chip r-false_positive">{MATCH_LEVEL_LABELS[m.level]}</em>
+                    <small>
+                      {m.because}, {m.exception.snapshot.title}, {m.exception.actor}, {formatKst(m.exception.createdAt)}
+                    </small>
+                  </span>
+                  <span className="fd-exception-reason">“{m.exception.reason}”</span>
+                  {onOpenException && (
+                    <button type="button" className="ex-link" onClick={() => onOpenException(m.exception.id)}>
+                      예외 관리에서 보기
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+            {fpHint.counterFindingIds.length > 0 && (
+              <p className="fd-fp-counter">
+                실제 위협으로 처리한 비슷한 위협 {fpHint.counterFindingIds.length}건
+                {onSelectFinding && fpHint.counterFindingIds.slice(0, 3).map(id => (
+                  <button key={id} type="button" className="ex-link" onClick={() => onSelectFinding(id)}>
+                    {id}
+                  </button>
+                ))}
+              </p>
+            )}
+            {onExceptionLike && (
+              <div className="fd-exception-actions">
+                <button type="button" className="ex-btn" onClick={() => onExceptionLike(fpHint.matches[0].exception)}>
+                  같은 사유로 예외
+                </button>
               </div>
             )}
           </div>

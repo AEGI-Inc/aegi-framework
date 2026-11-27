@@ -85,7 +85,7 @@
 }
 
 .integration-card-head .collect-badge { margin-left: auto; }
-.collect-badge.is-ok { background: #15803d; }
+.collect-badge.is-ok { background: var(--color-success-text); }
 .collect-badge.is-stale { background: var(--color-caution); }
 .collect-badge.is-none { background: var(--color-severity-low); }
 .collect-badge.is-sample { background: var(--color-icon); }
@@ -106,7 +106,7 @@
 .integration-card-collect > b { font-weight: var(--font-weight-medium); }
 
 .collect-stat.is-full {
-  color: #15803d;
+  color: var(--color-success-text);
 }
 
 .collect-stat.is-partial {

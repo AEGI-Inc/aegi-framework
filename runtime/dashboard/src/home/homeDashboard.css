@@ -6,7 +6,7 @@
    ========================================================================== */
 
 .home-dashboard-v9 {
-  --home-bg: #f6f9fc;
+  --home-bg: var(--color-bg-app);
   --home-panel: #ffffff;
   --home-text: var(--color-text-primary);
   min-height: 100vh;
@@ -52,6 +52,9 @@
 }
 
 .home-v9-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
   border: 0;
   background: none;
   color: var(--color-select);
@@ -62,7 +65,7 @@
 }
 
 .home-v9-link:hover {
-  color: #1e40af;
+  color: var(--color-select);
 }
 
 .home-v9-path-provider {

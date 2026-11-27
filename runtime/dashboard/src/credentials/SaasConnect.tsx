@@ -408,7 +408,7 @@ const GROUPS: Record<string, GroupSpec[]> = {
   microsoft: [
     {
       id: 'CRED-M365-01',
-      label: 'Microsoft Entra ID 앱 등록 (Client Credentials · Graph 애플리케이션 권한 20종 관리자 동의 · 로그인 기록은 Entra ID P1 이상)',
+      label: 'Microsoft Entra ID 앱 등록 (Client Credentials · Graph 애플리케이션 권한 27종, Office 365 Management API 권한 3종 관리자 동의 · 로그인 기록은 Entra ID P1 이상)',
       fields: [
         { env: 'M365_TENANT_ID', label: 'Directory (Tenant) ID', placeholder: '00000000-0000-0000-0000-000000000000' },
         { env: 'M365_CLIENT_ID', label: 'Application (Client) ID', placeholder: '00000000-0000-0000-0000-000000000000' },

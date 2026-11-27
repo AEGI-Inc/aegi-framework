@@ -4,8 +4,8 @@
    ========================================================================= */
 
 .br-page {
-  --br-admin: #b91c1c;
-  --br-inferred: #92400e;
+  --br-admin: var(--color-danger-text);
+  --br-inferred: var(--color-caution);
   --br-line: var(--color-card-line, #cbd5e1);
 }
 
@@ -13,6 +13,8 @@
 .br-grid { grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.9fr) minmax(0, 1.3fr) minmax(0, 1.3fr) 96px 16px; }
 
 .br-cred { display: flex; align-items: center; gap: 10px; min-width: 0; }
+/* 이름은 두 줄까지 보이고 넘치면 말줄임 */
+.br-cred-name { display: -webkit-box; min-width: 0; overflow: hidden; overflow-wrap: anywhere; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; }
 
 .br-reach { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .br-reach-top { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
@@ -65,10 +67,7 @@
 /* 전체 현황: 숫자 한 줄과 두 가정의 분포 */
 .br-overview { margin-bottom: var(--space-gap); background: var(--color-surface); border: 1px solid var(--color-card-line); }
 .br-overview-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; min-height: 52px; padding: 8px 16px; background: var(--color-card-head-bg); border-bottom: 1px solid var(--color-card-line); }
-.br-overview-head h2 { margin: 0; font-size: var(--font-size-md); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
-.br-overview-head > span { display: inline-flex; align-items: baseline; gap: 6px; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
-.br-overview-head > span > b { font-size: var(--font-size-lg); font-variant-numeric: tabular-nums; }
-.br-overview-head > .br-overview-saas { align-items: center; }
+.br-overview-head h2 { margin: 0; font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
 .br-overview-head > .br-overview-hero { margin-left: auto; }
 .br-overview-hero .lst-hero { gap: 8px; }
 .br-overview-hero .lst-hero span { font-size: var(--font-size-sm); }
@@ -127,7 +126,7 @@
 /* 상세 */
 .br-scopes { margin: 10px 0 0; font-size: var(--font-size-sm, 13px); color: var(--color-text-primary); }
 .br-scopes span { font-weight: var(--font-weight-bold, 700); margin-right: 6px; }
-.br-scopes code { font-family: var(--font-family-mono); font-size: 12px; word-break: break-all; }
+.br-scopes code { font-family: var(--font-family-mono); font-size: var(--font-size-sm); word-break: break-all; }
 
 .br-stats {
   display: grid;
@@ -211,7 +210,7 @@
 
 /* 고른 객체까지의 경로 */
 .br-path { padding: 14px 16px; border: 1px solid var(--br-line); background: #fff; }
-.br-path .lst-h2 { font-size: var(--font-size-md, 15px); }
+.br-path .lst-h2 { font-size: var(--font-size-lg); }
 .br-path-list { margin: 0 0 12px; padding: 0; list-style: none; counter-reset: hop; }
 .br-path-list li { position: relative; padding: 0 0 4px 26px; counter-increment: hop; }
 .br-path-list li::before {
@@ -244,5 +243,5 @@
 .br-summary-row { display: grid; grid-template-columns: 92px minmax(0, 1fr); gap: 8px; align-items: start; font-size: var(--font-size-sm, 13px); color: var(--color-text-primary); }
 .br-summary-row > span:first-child { font-weight: var(--font-weight-bold, 700); }
 .br-summary .br-reach-top b.is-admin { color: var(--color-danger-text); }
-.br-summary .br-certainty { color: #92400e; border-color: #d6a35c; }
+.br-summary .br-certainty { color: var(--color-caution); border-color: #d6a35c; }
 .br-summary-open { justify-self: start; }

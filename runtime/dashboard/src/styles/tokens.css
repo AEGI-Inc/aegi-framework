@@ -49,6 +49,7 @@
   --color-warning-bg: #fffbeb;
   --color-success: #16a34a;
   --color-success-bg: #f0fdf4;
+  --color-success-text: #15803d; /* 흰 바탕 글자와 흰 글자 배지 바탕(대비 5.0:1). --color-success 는 3.3:1 이라 글자에 쓰지 않는다 */
 
   /* Neutrals & Surfaces */
   --color-bg-app: #f8fafc;
@@ -93,6 +94,16 @@
   /* 카드 제목 칸. 옅은 회색 바탕과 진한 아래 선으로 내용과 가른다. 카드 테두리도 같은 선 색을 쓴다. */
   --color-card-head-bg: #eef2f6;
   --color-card-line: #cbd5e1;
+
+  /* 위협 분류 배지 바탕(흰 글씨). 분류마다 한 색이고 모든 화면이 같은 순서로 쓴다(src/styles/features/scenarioTag.css) */
+  --color-category-1: #0057d9;
+  --color-category-2: #b54708;
+  --color-category-3: #8e24aa;
+  --color-category-4: #00875a;
+  --color-category-5: #00838f;
+  --color-category-6: #3949ab;
+  --color-category-7: #9a6700;
+  --color-category-8: #5f7f00;
 
   /* 화면 간격. Overview에 맞춘 값을 모든 화면이 쓴다.
      page-x: 화면 좌우 바깥 여백, gap: 화면 이름 줄과 내용 사이, 카드와 카드 사이 */

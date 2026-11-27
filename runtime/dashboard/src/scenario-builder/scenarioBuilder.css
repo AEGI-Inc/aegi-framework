@@ -13,7 +13,7 @@
 .scb-path li { display: inline-flex; align-items: center; gap: 6px; color: var(--color-text-primary); }
 .scb-path code, .scb-analysis code { font-family: var(--font-family-mono); font-size: var(--font-size-xs); color: var(--color-text-primary); }
 .scb-score { font-size: var(--font-size-sm); }
-.scb-link { padding: 0; border: 0; background: none; color: var(--color-text-primary); text-decoration: underline; cursor: pointer; text-align: left; font-size: var(--font-size-sm); }
+.scb-link { display: inline-flex; align-items: center; min-height: 24px; padding: 0; border: 0; background: none; color: var(--color-text-primary); text-decoration: underline; cursor: pointer; text-align: left; font-size: var(--font-size-sm); }
 
 /* 그래프 아래: 분석, 담은 경로 */
 .scb-below { display: flex; flex-direction: column; gap: var(--space-gap); margin-top: var(--space-gap); }
@@ -26,7 +26,7 @@
 .scb-analysis h2 { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 0 0 8px; font-size: var(--font-size-md); font-weight: var(--font-weight-bold); }
 .scb-analysis h3 { margin: 12px 0 4px; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
 .scb-analysis .lst-seg { margin-bottom: 8px; }
-.scb-saved h2 { margin: 0 0 4px; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
+.scb-saved h2 { margin: 0 0 4px; font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); }
 .scb-side h4 { margin: 8px 0 4px; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
 .scb-saved ul, .scb-side ul { list-style: none; margin: 0; padding: 0; }
 .scb-saved li, .scb-side li { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 2px 0; font-size: var(--font-size-sm); }
@@ -60,9 +60,9 @@
 .scb-tree-trail { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 6px; font-size: var(--font-size-sm); }
 .scb-tree-trail button + button::before { content: '›'; margin-right: 6px; color: var(--color-text-secondary); }
 .scb-tree-trail button[aria-current] { font-weight: var(--font-weight-bold); }
-.scb-tree-wrap { position: relative; overflow: hidden; }
+.scb-tree-wrap { position: relative; overflow: hidden; border: 1px solid var(--color-border); background: var(--color-surface); }
 .scb-tree-back { position: absolute; top: 8px; left: 8px; z-index: 2; display: flex; gap: 6px; }
-.scb-tree { position: relative; transform-origin: top left; border: 1px solid var(--color-border); background: var(--color-surface); transition: height 0.3s ease; }
+.scb-tree { position: relative; transform-origin: top left; transition: height 0.3s ease; }
 .scb-tree-lines { position: absolute; inset: 0; animation: scb-tree-fade 0.3s ease 0.3s both; }
 .scb-tree-lines line { stroke: var(--color-border); stroke-width: 2; }
 .scb-tree-lines line.is-empty { stroke-dasharray: 4 4; }
@@ -87,7 +87,8 @@
 .scb-orb.is-right .scb-orb-text { top: 0; transform: translateY(-50%); align-items: flex-start; text-align: left; max-width: 260px; }
 .scb-orb-name { max-width: 260px; overflow: hidden; text-overflow: ellipsis; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
 .scb-orb.is-past .scb-orb-name { font-size: var(--font-size-xs); font-weight: var(--font-weight-regular); color: var(--color-text-secondary); max-width: 110px; }
-.scb-orb.is-empty { opacity: 0.45; }
+/* 연결이 없는 원은 원과 로고만 흐리게 한다. 이름은 글자 대비를 지키려고 흐리지 않는다 */
+.scb-orb.is-empty .scb-orb-dot { opacity: 0.45; }
 .scb-orb.is-focus.is-on .scb-orb-dot { outline: 2px solid var(--color-select); outline-offset: 3px; }
 .scb-orb.scb-risk-High .scb-orb-dot { border-color: var(--color-danger); }
 .scb-orb.scb-risk-Medium .scb-orb-dot { border-color: var(--color-warning); }
@@ -113,7 +114,7 @@
 .scb-links-bar-label { flex: none; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); }
 .scb-links-query { flex: 1 1 auto; min-width: 0; padding: 7px 10px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-primary); font: inherit; }
 .scb-links-results { display: flex; flex-direction: column; gap: 6px; }
-.scb-links-results h2 { margin: 0; font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
+.scb-links-results h2 { margin: 0; font-size: var(--font-size-lg); font-weight: var(--font-weight-bold); color: var(--color-text-primary); }
 .scb-links-results h2 small { margin-left: 6px; font-size: var(--font-size-xs); font-weight: var(--font-weight-regular); color: var(--color-text-secondary); }
 .scb-links-results ul { display: flex; flex-direction: column; gap: 8px; margin: 0; padding: 0; list-style: none; }
 .scb-links-row {
@@ -133,7 +134,7 @@
 /* 한 줄의 객체 상자는 같은 폭(기준 200px)이고, 칸이 모자라면 모두 같은 비율로 줄어 한 줄을 지킨다. 긴 이름은 말줄임 */
 .scb-links-chain { display: flex; flex: 1 1 auto; flex-wrap: nowrap; align-items: center; gap: 10px; min-width: 0; font-size: var(--font-size-sm); }
 .scb-links-step { display: contents; }
-.scb-links-node { display: inline-grid; grid-template-columns: 20px minmax(0, 1fr); column-gap: 8px; row-gap: 2px; align-items: center; flex: 0 1 200px; min-width: 0; }
+.scb-links-node { display: inline-grid; grid-template-columns: 20px minmax(0, 1fr); column-gap: 8px; row-gap: 2px; align-items: center; flex: 0 1 auto; min-width: 0; max-width: 340px; }
 .scb-links-node b { grid-column: 2; overflow: hidden; text-overflow: ellipsis; font-size: var(--font-size-md); white-space: nowrap; }
 .scb-links-node small { grid-column: 2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: var(--font-size-xs); color: var(--color-text-secondary); }
 .scb-links-node .scb-logo { grid-row: span 2; }
@@ -147,3 +148,4 @@
 .scb-found-actions .ex-btn { justify-content: center; height: 38px; width: 100%; }
 .scb-found-detail { margin-top: -1px; padding: 18px 20px; border: 1px solid var(--color-select); border-top: 0; background: var(--color-surface); box-shadow: inset 4px 0 0 var(--color-select); }
 .scb-effect-line { margin: 4px 0; font-size: var(--font-size-sm); color: var(--color-text-primary); overflow-wrap: anywhere; }
+.scb-results-anchor { height: 0; margin-bottom: -10px; scroll-margin-top: 72px; }

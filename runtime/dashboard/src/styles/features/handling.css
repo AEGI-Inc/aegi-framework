@@ -17,7 +17,7 @@
 .hd-badge.new { color: #fff; background: var(--color-select-fill); border-color: var(--color-select-fill); }
 .hd-badge.ack { color: var(--color-text-primary); background: var(--color-surface); border-color: var(--color-text-primary); }
 .hd-badge.doing { color: #fff; background: var(--color-caution); border-color: var(--color-caution); }
-.hd-badge.done { color: #fff; background: #15803d; border-color: #15803d; }
+.hd-badge.done { color: #fff; background: var(--color-success-text); border-color: var(--color-success-text); }
 
 /* 위협 상세의 처리 칸 */
 .hd-editor {

@@ -46,7 +46,7 @@
 .finding-navigator-shell .fn-finding-row:hover { background: var(--color-bg-app); }
 .finding-navigator-shell .fn-finding-row.selected { background: var(--color-surface); border-color: var(--color-border); }
 
-.finding-navigator-shell .fn-checkbox-label { display: inline-flex; padding-top: 2px; background: transparent; border: 0; cursor: pointer; }
+.finding-navigator-shell .fn-checkbox-label { display: inline-flex; align-items: center; justify-content: center; min-width: 24px; min-height: 24px; background: transparent; border: 0; cursor: pointer; }
 .finding-navigator-shell .fn-checkbox {
   appearance: none; -webkit-appearance: none; position: relative; width: 16px; height: 16px; margin: 0;
   border: 1.5px solid var(--color-text-placeholder); border-radius: 0; background: var(--color-surface); cursor: pointer;

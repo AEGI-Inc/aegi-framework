@@ -7,6 +7,7 @@ import type {
   ThreatException,
 } from '../model/exception'
 import { fingerprintOf } from './applyExceptions'
+import { falsePositivePatternOf } from './falsePositiveHints'
 import { findingTagKey } from '../findings/scenarioTags'
 import { loadExceptions, MEMORY_WARNING, newDecisionId, newExceptionId, saveExceptions, subscribeExceptions } from './store'
 import { remote, RemoteError } from './remote'
@@ -32,12 +33,14 @@ export interface ExceptionDraft {
 
 /** 등록 당시 모습. 재검토 신호(심각도 상승, 추정에서 확인)를 이것과 비교해 낸다. subjectKeys 는 저장 형식 때문에 빈 목록으로 둔다 */
 export function snapshotOf(finding: FindingV2): ThreatException['snapshot'] {
+  const pattern = falsePositivePatternOf(finding)
   return {
     findingId: finding.id,
     title: finding.title,
     severity: finding.severity,
     subjectKeys: [],
     checkStates: Object.fromEntries((finding.checks ?? []).map(c => [c.id, c.state])),
+    ...(pattern ? { pattern } : {}),
   }
 }
 

@@ -12,14 +12,14 @@
    8개를 넘으면 색만으로는 가르기 어려우니 아이콘을 붙이거나 비슷한 분류끼리
    한 색을 쓴다. 기타는 미분류용이다. */
 :root {
-  --scenario-tag-1: #0057d9; /* 파랑 */
-  --scenario-tag-2: #b54708; /* 주황. #d35400 은 흰 글씨 대비 4.17:1 이라 5.43:1 로 짙게 */
-  --scenario-tag-3: #8e24aa; /* 보라 */
-  --scenario-tag-4: #00875a; /* 초록 */
-  --scenario-tag-5: #00838f; /* 청록 */
-  --scenario-tag-6: #3949ab; /* 남색 */
-  --scenario-tag-7: #9a6700; /* 황토 */
-  --scenario-tag-8: #5f7f00; /* 올리브 */
+  --scenario-tag-1: var(--color-category-1); /* 파랑 */
+  --scenario-tag-2: var(--color-category-2); /* 주황. #d35400 은 흰 글씨 대비 4.17:1 이라 5.43:1 로 짙게 */
+  --scenario-tag-3: var(--color-category-3); /* 보라 */
+  --scenario-tag-4: var(--color-category-4); /* 초록 */
+  --scenario-tag-5: var(--color-category-5); /* 청록 */
+  --scenario-tag-6: var(--color-category-6); /* 남색 */
+  --scenario-tag-7: var(--color-category-7); /* 황토 */
+  --scenario-tag-8: var(--color-category-8); /* 올리브 */
   --scenario-tag-other: #455a64; /* 회청 · 기타 */
 }
 
