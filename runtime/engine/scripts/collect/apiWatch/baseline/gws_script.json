@@ -1,0 +1,112 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:42.741Z",
+  "ops": {
+    "op:gws_script:script.projects.deployments.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_script:script.projects.deployments.list",
+      "params": {
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "scriptId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "v1/projects/{scriptId}/deployments",
+      "response": {
+        "deployments": {
+          "type": "array"
+        },
+        "deployments[]": {
+          "type": "object"
+        },
+        "deployments[].deploymentConfig": {
+          "type": "object"
+        },
+        "deployments[].deploymentConfig.description": {
+          "type": "string"
+        },
+        "deployments[].deploymentConfig.manifestFileName": {
+          "type": "string"
+        },
+        "deployments[].deploymentConfig.scriptId": {
+          "type": "string"
+        },
+        "deployments[].deploymentConfig.versionNumber": {
+          "type": "integer"
+        },
+        "deployments[].deploymentId": {
+          "type": "string"
+        },
+        "deployments[].entryPoints": {
+          "type": "array"
+        },
+        "deployments[].entryPoints[]": {
+          "type": "object"
+        },
+        "deployments[].updateTime": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_script:script.projects.versions.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_script:script.projects.versions.list",
+      "params": {
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "scriptId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "v1/projects/{scriptId}/versions",
+      "response": {
+        "nextPageToken": {
+          "type": "string"
+        },
+        "versions": {
+          "type": "array"
+        },
+        "versions[]": {
+          "type": "object"
+        },
+        "versions[].createTime": {
+          "type": "string"
+        },
+        "versions[].description": {
+          "type": "string"
+        },
+        "versions[].scriptId": {
+          "type": "string"
+        },
+        "versions[].versionNumber": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "revision": "20261005",
+  "snapshot_sha256": "5facf8cf8c71b226c87b4cf02ffdfb774afda2fc17f8a619325857c9868a9c64",
+  "source": "gws_script",
+  "unmatched": [],
+  "version": "v1"
+}

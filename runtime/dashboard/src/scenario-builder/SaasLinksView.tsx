@@ -1,5 +1,5 @@
 import type { InvestigationPath } from '../semantic-graph/investigationQuery'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import ProviderLogo from '../ProviderLogo'
 import { providerLogoId, providerName } from '../findings/providers'
 import type { PathStep, ScenarioGraph } from './scenarioGraph'
@@ -123,7 +123,12 @@ export default function SaasLinksView({ sg, onSelectObject, onOpenPath }: Props)
   const enter = (l: Level) => setPath(p => (p.length && levelId(p[p.length - 1]) === levelId(l) ? p : [...p, l]))
   const goTo = (i: number) => setPath(p => p.slice(0, i + 1))
 
-  const search = () => setApplied(query.trim())
+  /* 검색 단추나 Enter 로 찾으면 그래프 아래 결과 목록을 화면 위쪽으로 올린다 */
+  const resultsRef = useRef<HTMLDivElement>(null)
+  const search = () => {
+    setApplied(query.trim())
+    requestAnimationFrame(() => resultsRef.current?.scrollIntoView({ block: 'start', behavior: 'smooth' }))
+  }
 
   // 결과는 고른 단계와 이름 검색 글이 바뀌면 바로 다시 만든다
   const shown = useMemo(() => {
@@ -186,6 +191,7 @@ export default function SaasLinksView({ sg, onSelectObject, onOpenPath }: Props)
         onReset={() => setPath([])}
         onKid={id => { const l = kidLevels.find(k => levelId(k) === id); if (l) enter(l) }}
       />
+      <div ref={resultsRef} className="scb-results-anchor" aria-hidden="true" />
       {shown.chains && <LinkResults key={`chains:${shown.label}`} title="이어지는 연결" empty="앞 구간이 도착한 객체에서 다음 구간이 이어지는 연결은 없음" sg={sg} saas={shown.saas} label={shown.label} found={shown.chains} query={shown.query} directed onSelectObject={onSelectObject} onOpenPath={onOpenPath} />}
       <LinkResults key={shown.label} title={shown.chains ? '구간별 연결' : path.length || applied ? '검색 결과' : '전체 연결'} sg={sg} saas={shown.saas} label={shown.label} found={shown.found} query={shown.query} directed onSelectObject={onSelectObject} onOpenPath={onOpenPath} />
     </div>

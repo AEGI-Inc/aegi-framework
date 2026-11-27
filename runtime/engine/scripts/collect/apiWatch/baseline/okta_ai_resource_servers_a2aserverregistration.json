@@ -1,0 +1,240 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:45.233Z",
+  "ops": {
+    "op:okta_ai_resource_servers_a2aserverregistration:listA2AServerAuthorizationServers": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_ai_resource_servers_a2aserverregistration:listA2AServerAuthorizationServers",
+      "params": {
+        "a2aServerId": {
+          "in": "path",
+          "required": true
+        },
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/resource-servers/api/v1/a2a-servers/{a2aServerId}/authorization-servers",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.parent": {
+          "type": "object"
+        },
+        "_links.parent.hints": {
+          "type": "object"
+        },
+        "_links.parent.hints.allow": {
+          "type": "array"
+        },
+        "_links.parent.href": {
+          "type": "string"
+        },
+        "_links.parent.name": {
+          "type": "string"
+        },
+        "_links.parent.templated": {
+          "type": "boolean"
+        },
+        "_links.parent.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[]._links": {
+          "type": "object"
+        },
+        "data[]._links.self": {
+          "type": "object"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].issuer": {
+          "type": "string"
+        },
+        "data[].lastUpdated": {
+          "type": "string"
+        },
+        "data[].metadata": {
+          "type": "object"
+        },
+        "data[].metadata.authorizationEndpoint": {
+          "type": "string"
+        },
+        "data[].metadata.grantTypesSupported": {
+          "type": "array"
+        },
+        "data[].metadata.tokenEndpoint": {
+          "type": "string"
+        },
+        "data[].orn": {
+          "type": "string"
+        },
+        "data[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_ai_resource_servers_a2aserverregistration:listA2AServers": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_ai_resource_servers_a2aserverregistration:listA2AServers",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "search": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/resource-servers/api/v1/a2a-servers",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[]._links": {
+          "type": "object"
+        },
+        "data[]._links.ai-agent": {
+          "type": "object"
+        },
+        "data[]._links.authorization-servers": {
+          "type": "object"
+        },
+        "data[]._links.self": {
+          "type": "object"
+        },
+        "data[].a2aServerId": {
+          "type": "string"
+        },
+        "data[].created": {
+          "type": "string"
+        },
+        "data[].lastUpdated": {
+          "type": "string"
+        },
+        "data[].orn": {
+          "type": "string"
+        },
+        "data[].resourceUrl": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "1e7c40256802087f6cebeef97df4a274f1d642064d58e7dad1628276c29e9e59",
+  "source": "okta_ai_resource_servers_a2aserverregistration",
+  "unmatched": []
+}

@@ -16,6 +16,22 @@ export interface RawRun {
   pages: Envelope[]
 }
 
+export function loadRawRun(root: string, runId: string): RawRun {
+  const record = JSON.parse(fs.readFileSync(path.join(root, 'runs', `${runId}.json`), 'utf8')) as RunRecord
+  const pages: Envelope[] = []
+  const rawDir = path.join(root, 'raw', record.run_id)
+  if (fs.existsSync(rawDir)) {
+    for (const provider of fs.readdirSync(rawDir)) {
+      const dir = path.join(rawDir, provider)
+      if (!fs.statSync(dir).isDirectory()) continue
+      for (const file of fs.readdirSync(dir).filter(x => x.endsWith('.json')).sort()) {
+        pages.push(JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')) as Envelope)
+      }
+    }
+  }
+  return { record, pages }
+}
+
 export class RawSet {
   constructor(public runs: RawRun[]) {
     this.runs.sort((a, b) => a.record.run_id.localeCompare(b.record.run_id))
@@ -26,19 +42,7 @@ export class RawSet {
     if (!fs.existsSync(runsDir)) return new RawSet([])
     const runs: RawRun[] = []
     for (const f of fs.readdirSync(runsDir).filter(f => f.endsWith('.json'))) {
-      const record = JSON.parse(fs.readFileSync(path.join(runsDir, f), 'utf8')) as RunRecord
-      const pages: Envelope[] = []
-      const rawDir = path.join(root, 'raw', record.run_id)
-      if (fs.existsSync(rawDir)) {
-        for (const provider of fs.readdirSync(rawDir)) {
-          const dir = path.join(rawDir, provider)
-          if (!fs.statSync(dir).isDirectory()) continue
-          for (const file of fs.readdirSync(dir).filter(x => x.endsWith('.json')).sort()) {
-            pages.push(JSON.parse(fs.readFileSync(path.join(dir, file), 'utf8')) as Envelope)
-          }
-        }
-      }
-      runs.push({ record, pages })
+      runs.push(loadRawRun(root, f.slice(0, -5)))
     }
     return new RawSet(runs)
   }

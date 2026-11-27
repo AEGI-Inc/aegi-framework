@@ -9,7 +9,7 @@
  */
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { CREDENTIAL_KEYS, Credentials, loadConfig } from '../collect/config'
+import { CREDENTIAL_KEYS, Credentials, credentialLoadNames, loadConfig, type CredentialId } from '../collect/config'
 import { fetchTransport, HttpLayer } from '../collect/lib/http'
 import { CollectStore } from '../collect/lib/store'
 import { Runner } from '../collect/lib/runner'
@@ -32,7 +32,7 @@ async function main(): Promise<void> {
   const key = masterKey()
   const env: Record<string, string> = {}
   // 필수 키 말고, 있으면 쓰는 키(Slack 설정 토큰 갱신용)도 읽는다
-  const names = [...new Set([...Object.values(CREDENTIAL_KEYS).flat(), 'SLACK_CONFIG_REFRESH_TOKEN'])]
+  const names = [...new Set([...credentialLoadNames(Object.keys(CREDENTIAL_KEYS) as CredentialId[]), 'SLACK_CONFIG_REFRESH_TOKEN'])]
   const fromKv = args.includes('--kv')
   for (const name of names) {
     const payload = fromKv ? await getVaultSecret(name) : loadLocal(name)

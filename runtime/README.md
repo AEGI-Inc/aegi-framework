@@ -234,6 +234,7 @@ Compliance: 「관리자 인증 보호」 검사는 수집 데이터로 로컬�
 npm install
 npm start                                       # bin/aegi.ts start (tsx)
 npm test
+npm run web:build                               # dashboard/ 소스로 web/ 를 다시 빌드 (화면을 고쳤으면 같은 커밋에 넣는다)
 npm run release                                 # release/aegi-solution-<버전>/ 와 .zip
 ```
 
@@ -241,7 +242,7 @@ npm run release                                 # release/aegi-solution-<버전>
 - `src/`, `bin/`: 로컬 실행 서버, OAuth, CLI, SQLite 어댑터
 - `engine/`: SaaS 수집기, IM Profile 정규화기, 위협·컴플라이언스 판정 엔진
 - `dashboard/`: 대시보드 서버 핸들러 및 프론트엔드 소스
-- `web/`: 미리 빌드한 대시보드 정적 화면
+- `web/`: 미리 빌드한 대시보드 정적 화면. `dashboard/src` 를 고치면 `npm run web:build` 로 다시 만든다. 같은 소스면 같은 파일이 나온다
 - IM 모델 정본은 저장소 루트의 `../framework/schema/im-model/model/v3.2`를 직접 참조한다.
 
 **release**

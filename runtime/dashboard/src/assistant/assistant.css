@@ -25,11 +25,13 @@ button:is(:hover, :focus-visible, :active) .assistant-ai-eye,
 /* 우측 하단 AI 단추. 로고만 있는 56px 정원형 플로팅 액션 버튼(FAB). */
 .assistant-launcher-wrap { position: fixed; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); z-index: 80; }
 .assistant-launcher-wrap.is-graph { position: absolute; z-index: 24; }
+/* 아래 끝 내용이 오른쪽 아래 AI 단추에 가려지지 않게 단추 높이만큼 더 내려 볼 수 있게 한다 */
+.app-shell:has(> .assistant-launcher-wrap) > .app-content { padding-bottom: 88px; }
 .assistant-launcher { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; min-height: 56px; padding: 0; border: 1px solid var(--color-card-line, #cbd5e1); border-radius: 50%; background: var(--color-surface, #ffffff); box-shadow: 0 4px 14px rgba(15, 23, 42, 0.12); color: var(--color-text-primary, #0f172a); cursor: pointer; transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease, color 160ms ease; }
 .assistant-launcher:hover { transform: translateY(-2px); border-color: var(--color-select, #1d4ed8); box-shadow: 0 6px 18px rgba(15, 23, 42, 0.18); color: var(--color-select, #1d4ed8); }
 .assistant-launcher:focus-visible { outline: 2px solid var(--color-select, #1d4ed8); outline-offset: 3px; }
 /* 숨기기 ×. 단추 오른쪽 위 모서리에 작은 원으로 두고, 단추를 가리키거나 초점이 있을 때만 보인다. */
-.assistant-launcher-hide { position: absolute; top: -6px; right: -6px; display: grid; place-items: center; width: 20px; height: 20px; padding: 0; border: 1px solid var(--color-card-line); border-radius: var(--radius-full); background: var(--color-surface); color: var(--color-text-primary); cursor: pointer; opacity: 0; transition: opacity .12s ease; z-index: 1; }
+.assistant-launcher-hide { position: absolute; top: -8px; right: -8px; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 1px solid var(--color-card-line); border-radius: var(--radius-full); background: var(--color-surface); color: var(--color-text-primary); cursor: pointer; opacity: 0; transition: opacity .12s ease; z-index: 1; }
 .assistant-launcher-wrap:hover .assistant-launcher-hide, .assistant-launcher-wrap:focus-within .assistant-launcher-hide { opacity: 1; }
 .assistant-launcher-hide:hover { border-color: var(--color-select); }
 .assistant-launcher-hide:focus-visible { outline: 2px solid var(--color-select); outline-offset: 2px; }

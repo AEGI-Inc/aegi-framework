@@ -106,6 +106,9 @@
   "microsoft": {
     "tenantId": "00000000-0000-0000-0000-000000000000"
   },
+  "snowflake": {
+    "accountIdentifier": "ORG-ACCT"
+  },
   "normalize": {
     "people": {
       "admin": "<관리자 이메일>",

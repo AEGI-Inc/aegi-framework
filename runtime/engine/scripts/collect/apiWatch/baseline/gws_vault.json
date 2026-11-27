@@ -1,0 +1,303 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:43.240Z",
+  "ops": {
+    "op:gws_vault:vault.matters.holds.accounts.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_vault:vault.matters.holds.accounts.list",
+      "params": {
+        "holdId": {
+          "in": "path",
+          "required": true
+        },
+        "matterId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "v1/matters/{matterId}/holds/{holdId}/accounts",
+      "response": {
+        "accounts": {
+          "type": "array"
+        },
+        "accounts[]": {
+          "type": "object"
+        },
+        "accounts[].accountId": {
+          "type": "string"
+        },
+        "accounts[].email": {
+          "type": "string"
+        },
+        "accounts[].firstName": {
+          "type": "string"
+        },
+        "accounts[].holdTime": {
+          "type": "string"
+        },
+        "accounts[].lastName": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_vault:vault.matters.holds.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_vault:vault.matters.holds.list",
+      "params": {
+        "matterId": {
+          "in": "path",
+          "required": true
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "view": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "v1/matters/{matterId}/holds",
+      "response": {
+        "holds": {
+          "type": "array"
+        },
+        "holds[]": {
+          "type": "object"
+        },
+        "holds[].accounts": {
+          "type": "array"
+        },
+        "holds[].accounts[]": {
+          "type": "object"
+        },
+        "holds[].corpus": {
+          "type": "string"
+        },
+        "holds[].holdId": {
+          "type": "string"
+        },
+        "holds[].name": {
+          "type": "string"
+        },
+        "holds[].orgUnit": {
+          "type": "object"
+        },
+        "holds[].orgUnit.holdTime": {
+          "type": "string"
+        },
+        "holds[].orgUnit.orgUnitId": {
+          "type": "string"
+        },
+        "holds[].query": {
+          "type": "object"
+        },
+        "holds[].query.calendarQuery": {
+          "type": "object"
+        },
+        "holds[].query.driveQuery": {
+          "type": "object"
+        },
+        "holds[].query.geminiQuery": {
+          "type": "object"
+        },
+        "holds[].query.groupsQuery": {
+          "type": "object"
+        },
+        "holds[].query.hangoutsChatQuery": {
+          "type": "object"
+        },
+        "holds[].query.mailQuery": {
+          "type": "object"
+        },
+        "holds[].query.voiceQuery": {
+          "type": "object"
+        },
+        "holds[].updateTime": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_vault:vault.matters.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_vault:vault.matters.list",
+      "params": {
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "state": {
+          "in": "query",
+          "required": false
+        },
+        "view": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "v1/matters",
+      "response": {
+        "matters": {
+          "type": "array"
+        },
+        "matters[]": {
+          "type": "object"
+        },
+        "matters[].description": {
+          "type": "string"
+        },
+        "matters[].matterId": {
+          "type": "string"
+        },
+        "matters[].matterPermissions": {
+          "type": "array"
+        },
+        "matters[].matterPermissions[]": {
+          "type": "object"
+        },
+        "matters[].matterRegion": {
+          "type": "string"
+        },
+        "matters[].name": {
+          "type": "string"
+        },
+        "matters[].state": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_vault:vault.matters.savedQueries.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_vault:vault.matters.savedQueries.list",
+      "params": {
+        "matterId": {
+          "in": "path",
+          "required": true
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "v1/matters/{matterId}/savedQueries",
+      "response": {
+        "nextPageToken": {
+          "type": "string"
+        },
+        "savedQueries": {
+          "type": "array"
+        },
+        "savedQueries[]": {
+          "type": "object"
+        },
+        "savedQueries[].createTime": {
+          "type": "string"
+        },
+        "savedQueries[].displayName": {
+          "type": "string"
+        },
+        "savedQueries[].matterId": {
+          "type": "string"
+        },
+        "savedQueries[].query": {
+          "type": "object"
+        },
+        "savedQueries[].query.accountInfo": {
+          "type": "object"
+        },
+        "savedQueries[].query.calendarOptions": {
+          "type": "object"
+        },
+        "savedQueries[].query.corpus": {
+          "type": "string"
+        },
+        "savedQueries[].query.dataScope": {
+          "type": "string"
+        },
+        "savedQueries[].query.driveDocumentInfo": {
+          "type": "object"
+        },
+        "savedQueries[].query.driveOptions": {
+          "type": "object"
+        },
+        "savedQueries[].query.endTime": {
+          "type": "string"
+        },
+        "savedQueries[].query.geminiOptions": {
+          "type": "object"
+        },
+        "savedQueries[].query.hangoutsChatInfo": {
+          "type": "object"
+        },
+        "savedQueries[].query.hangoutsChatOptions": {
+          "type": "object"
+        },
+        "savedQueries[].query.mailOptions": {
+          "type": "object"
+        },
+        "savedQueries[].query.method": {
+          "type": "string"
+        },
+        "savedQueries[].query.orgUnitInfo": {
+          "type": "object"
+        },
+        "savedQueries[].query.searchMethod": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "savedQueries[].query.sharedDriveInfo": {
+          "type": "object"
+        },
+        "savedQueries[].query.sitesUrlInfo": {
+          "type": "object"
+        },
+        "savedQueries[].query.startTime": {
+          "type": "string"
+        },
+        "savedQueries[].query.teamDriveInfo": {
+          "deprecated": true,
+          "type": "object"
+        },
+        "savedQueries[].query.terms": {
+          "type": "string"
+        },
+        "savedQueries[].query.timeZone": {
+          "type": "string"
+        },
+        "savedQueries[].query.voiceOptions": {
+          "type": "object"
+        },
+        "savedQueries[].savedQueryId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "revision": "20261006",
+  "snapshot_sha256": "22b2208cda9d5b1c3b312e8cad092992bd2d9a1f896d766758e47cbf42eccc2f",
+  "source": "gws_vault",
+  "unmatched": [],
+  "version": "v1"
+}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react'
 import { Mail, UserRound, Users } from 'lucide-react'
 import ProviderLogo from '../ProviderLogo'
 import { objectGlyph } from '../semantic-graph/nodeGlyphs'
@@ -83,6 +83,8 @@ export default function ThreatPathGraph({ layout, selectedId, onSelect, onClearS
   const fit = canvasWidth > 0 ? Math.min(1, canvasWidth / layout.width) : 1
   const offsetX = canvasWidth > 0 ? Math.max(0, (canvasWidth - layout.width * fit) / 2) : 0
   const scale = zoom * fit
+  /* 판을 줄여 넣어도 그림 안 글자는 처음 화면에서 토큰 크기(하한 11px)로 보이게 글자만 그만큼 키운다. 확대, 축소는 그대로 따른다 */
+  const textScale = Math.max(1, 1 / fit)
 
   const zoomAround = (next: number, cursor: Point) => {
     const clamped = clamp(next, ZOOM_MIN, ZOOM_MAX)
@@ -201,7 +203,7 @@ export default function ThreatPathGraph({ layout, selectedId, onSelect, onClearS
 
       <div
         className="tpg-world"
-        style={{ width: layout.width, height: layout.height, transform: `translate(${offsetX + pan.x}px, ${pan.y}px) scale(${scale})` }}
+        style={{ width: layout.width, height: layout.height, transform: `translate(${offsetX + pan.x}px, ${pan.y}px) scale(${scale})`, '--tpg-text': textScale } as CSSProperties}
       >
         {layout.lanes.map(lane => (
           <div key={lane.id} className="tpg-lane" data-provider={lane.provider} style={{ top: lane.top, height: lane.height }}>

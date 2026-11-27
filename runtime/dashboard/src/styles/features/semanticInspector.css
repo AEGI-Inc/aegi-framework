@@ -28,7 +28,7 @@
 .sz-inspector-float .szi-tabs { display: flex; gap: 4px; margin-top: 6px; border-bottom: 1px solid #e2e8f0; }
 
 /* 개요 */
-.sz-inspector-float .szi-overview { display: grid; gap: 8px; font-size: 12px; }
+.sz-inspector-float .szi-overview { display: grid; gap: 8px; font-size: var(--font-size-sm); }
 /* 경로 시작, 도착. 정해 둔 쪽은 채운다 */
 .sz-inspector-float .szi-path-ends { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 6px; }
 .sz-inspector-float .szi-path-btn {
@@ -101,7 +101,7 @@
 .sz-inspector-float .szi-finding-open {
   width: 100%;
   padding: 6px;
-  background: #b91c1c;
+  background: var(--color-danger-text);
   color: #ffffff;
   border: 0;
   border-radius: var(--radius-md, 4px);
@@ -127,7 +127,7 @@
 .sz-inspector-float .szi-facts { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 12px; margin: 0; padding-top: 6px; border-top: 1px solid #e2e8f0; font-size: var(--font-size-sm); color: var(--color-text-primary); }
 .sz-inspector-float .szi-facts dt { font-weight: var(--font-weight-regular); }
 .sz-inspector-float .szi-facts dd { margin: 0; min-width: 0; overflow-wrap: anywhere; font-weight: var(--font-weight-medium); }
-.sz-inspector-float .szi-bar-row { display: grid; grid-template-columns: 78px 1fr 28px; align-items: center; gap: 6px; font-size: 11.5px; color: #0f172a; }
+.sz-inspector-float .szi-bar-row { display: grid; grid-template-columns: 78px 1fr 28px; align-items: center; gap: 6px; font-size: var(--font-size-xs); color: #0f172a; }
 .sz-inspector-float .szi-bar-row i { height: 6px; background: #f1f5f9; display: block; }
 .sz-inspector-float .szi-bar-row i b { display: block; height: 100%; background: var(--color-select); }
 .sz-inspector-float .szi-bar-row em { font-style: normal; text-align: right; font-family: var(--font-family-mono); }
@@ -138,16 +138,16 @@
 /* 박스와 글씨는 흰 바탕과 검정으로 두고, 뜻은 그림 색이 맡는다 */
 .sz-inspector-float .szi-sec-title > svg { color: var(--color-danger-text); }
 .sz-inspector-float .szi-sec-ea .szi-sec-title > svg { color: #1d4ed8; }
-.sz-inspector-float .szi-sec-title { display: flex; align-items: center; gap: 6px; font-weight: 700; color: #0f172a; font-size: 12.5px; }
+.sz-inspector-float .szi-sec-title { display: flex; align-items: center; gap: 6px; font-weight: 700; color: #0f172a; font-size: var(--font-size-sm); }
 .sz-inspector-float .szi-sec-ea .szi-sec-title { color: #0f172a; }
 .sz-inspector-float .szi-sec-group { display: grid; gap: 4px; }
 .sz-inspector-float .szi-sec-label { font-size: 11px; font-weight: 700; color: #0f172a; }
-.sz-inspector-float .szi-sec-row { display: grid; grid-template-columns: auto 1fr auto; align-items: start; gap: 6px; width: 100%; padding: 6px 8px; border: 1px solid #e2e8f0; background: #fff; font: inherit; font-size: 12px; line-height: 1.45; text-align: left; color: #0f172a; cursor: pointer; }
-.sz-inspector-float .szi-sec-row:hover { border-color: var(--color-select); background: #f8fbff; }
+.sz-inspector-float .szi-sec-row { display: grid; grid-template-columns: auto 1fr auto; align-items: start; gap: 6px; width: 100%; padding: 6px 8px; border: 1px solid #e2e8f0; background: #fff; font: inherit; font-size: var(--font-size-sm); line-height: 1.45; text-align: left; color: #0f172a; cursor: pointer; }
+.sz-inspector-float .szi-sec-row:hover { border-color: var(--color-select); background: var(--color-bg-app); }
 .sz-inspector-float .szi-sec-row > svg { margin-top: 2px; color: #64748b; }
 .sz-inspector-float .szi-sec-row small { display: block; margin-top: 2px; color: #0f172a; font-size: 11px; }
 .sz-inspector-float .szi-sec-row.is-finding > svg:first-child { color: var(--color-danger-text); }
-.sz-inspector-float .szi-sec-row.is-ea > svg:first-child { color: #2563eb; }
+.sz-inspector-float .szi-sec-row.is-ea > svg:first-child { color: var(--color-select); }
 .sz-inspector-float .szi-sec-num { min-width: 34px; padding: 1px 4px; background: #b42318; color: #fff; font-size: 11px; text-align: center; border-color: #b42318; }
 .sz-inspector-float .szi-more-note { font-size: 11px; color: #0f172a; }
 /* Effective Access 목록 한 칸: 판정 배지(effectiveAccess.css)와 닿는 방식, 경로 한 줄 */
@@ -161,13 +161,13 @@
 /* 관계 · 구성 · 연결 목록 */
 .sz-inspector-float .szi-conn-group { display: grid; gap: 4px; }
 .sz-inspector-float .szi-conn-group > header { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; color: #0f172a; }
-.sz-inspector-float .szi-conn-group > header strong { font-size: 12.5px; color: #0f172a; }
+.sz-inspector-float .szi-conn-group > header strong { font-size: var(--font-size-sm); color: #0f172a; }
 .sz-inspector-float .szi-conn-group > header small { margin-left: auto; font-size: var(--font-size-xs); color: #0f172a; }
 .sz-inspector-float .szi-conn-group.dir-link > header { color: var(--color-text-primary, #0f172a); }
 .sz-inspector-float .szi-conn-type { display: grid; gap: 3px; }
 .sz-inspector-float .szi-conn-type-label { display: flex; align-items: center; gap: 6px; margin-top: 2px; font-size: var(--font-size-xs); font-weight: var(--font-weight-medium); color: var(--color-text-primary); }
 .sz-inspector-float .szi-conn-group ul, .sz-inspector-float .szi-edge-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 3px; }
-.sz-inspector-float .szi-conn-item { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; width: 100%; padding: 5px 8px; border: 1px solid #e2e8f0; background: #fff; font: inherit; font-size: 12px; text-align: left; cursor: pointer; color: #0f172a; }
+.sz-inspector-float .szi-conn-item { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; width: 100%; padding: 5px 8px; border: 1px solid #e2e8f0; background: #fff; font: inherit; font-size: var(--font-size-sm); text-align: left; cursor: pointer; color: #0f172a; }
 .sz-inspector-float .szi-conn-item:hover { border-color: var(--color-select); background: var(--color-card-head-bg); }
 .sz-inspector-float .szi-conn-item.is-evidence { border-color: var(--color-card-line); }
 .sz-inspector-float .szi-conn-item > svg:last-child { margin-left: auto; color: #94a3b8; }
@@ -175,7 +175,7 @@
 .sz-inspector-float .szi-conn-name { font-weight: 600; min-width: 0; overflow-wrap: anywhere; }
 .sz-inspector-float .szi-conn-item small { color: #0f172a; font-size: 11px; }
 .sz-inspector-float .szi-flip { transform: rotate(180deg); }
-.sz-inspector-float .szi-kv { display: grid; grid-template-columns: 84px 1fr; gap: 4px 8px; margin: 0; font-size: 12px; }
+.sz-inspector-float .szi-kv { display: grid; grid-template-columns: 84px 1fr; gap: 4px 8px; margin: 0; font-size: var(--font-size-sm); }
 .sz-inspector-float .szi-kv dt { color: #0f172a; }
 .sz-inspector-float .szi-kv dd { margin: 0; min-width: 0; overflow-wrap: anywhere; font-weight: 600; }
 .sz-inspector-float .szi-kv dd small { display: block; font-weight: 400; color: #0f172a; }
@@ -189,7 +189,7 @@
 
 /* Effective Access 상세 */
 .sz-ea-inspector .szi-ea-help { display: inline-flex; margin-left: 6px; vertical-align: -2px; color: #0f172a; cursor: help; }
-.sz-ea-inspector .szi-ea-icon { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; background: #fff; color: #2563eb; border: 1px solid var(--color-card-line); flex-shrink: 0; }
+.sz-ea-inspector .szi-ea-icon { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; background: #fff; color: var(--color-select); border: 1px solid var(--color-card-line); flex-shrink: 0; }
 /* 제목 아래 한 줄(수준 · 두 끝 이름)은 한글이 섞여 고정폭 글꼴에서 네모로 보일 수 있어 본문 글꼴로 쓴다 */
 .sz-inspector-float .szi-title-text small, .sz-edge-inspector .sz-inspector-title small { font-family: inherit; }
 

@@ -358,7 +358,7 @@
 }
 .fd-note-copy:hover { border-color: var(--color-select); }
 .fd-note-copy:focus-visible { outline: 2px solid var(--color-select); outline-offset: 1px; }
-.fd-note-copy.done { border-color: #15803d; color: #15803d; }
+.fd-note-copy.done { border-color: var(--color-success-text); color: var(--color-success-text); }
 
 .fd-rail-note p {
   margin: 8px 0 0;
@@ -429,7 +429,7 @@
 
 .ea-summary:hover {
   border-color: var(--color-select);
-  background: #f8fbff;
+  background: var(--color-bg-app);
 }
 
 .ea-summary:focus-visible {
@@ -458,7 +458,7 @@
 }
 
 .ea-summary-marks .is-warn {
-  color: #92400e;
+  color: var(--color-caution);
 }
 
 .ea-summary-marks .is-cut {
@@ -553,7 +553,7 @@
   padding: 0 5px;
   border: 1px solid var(--color-card-line);
   background: #fff;
-  font-size: 12px;
+  font-size: var(--font-size-sm);
   font-style: normal;
   font-weight: 700;
   color: #0f172a;
@@ -696,7 +696,7 @@
   white-space: nowrap;
 }
 
-.fd-record-badge.measured { background: #15803d; }
+.fd-record-badge.measured { background: var(--color-success-text); }
 .fd-record-badge.synthetic { background: var(--color-caution); }
 
 /* 보고서용 문장: 줄바꿈 없이 한 문단으로 읽히게 */

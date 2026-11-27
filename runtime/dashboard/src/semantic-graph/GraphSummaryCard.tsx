@@ -7,6 +7,8 @@ import { scopeGlyph } from './nodeGlyphs'
 import type { SemanticNode } from './types'
 
 const BADGE_PX = 12
+/** 이름 한 줄 이름표의 가장 작은 글자 크기(화면 px). 가장 작은 글자 크기 단계(11px)다 */
+const NAME_ONLY_MIN_SCREEN_PX = 11
 
 const logoId = (provider: string) => (provider === 'gws' ? 'google-workspace' : provider) as ProviderId
 
@@ -21,7 +23,7 @@ function LabelText({ line, lp }: { line: LabelLine; lp: number }) {
  * 흰 원에 SaaS 색 테두리, 안에 로고(SaaS, 조직) 또는 종류 그림(그룹). 원 크기는 안에 든 객체 수.
  * 이름표 자리는 circleLevels 가 정한다: SaaS는 side 쪽, 조직, 그룹은 SaaS 가운데에서 바깥쪽(angle).
  */
-export default function GraphSummaryCard({ node, color, side, angle, selected, neighbor, finding, showBadge, query, path, zoom }: {
+export default function GraphSummaryCard({ node, color, side, angle, selected, neighbor, finding, showBadge, query, path, zoom, nameOnly = false }: {
   node: SemanticNode
   color: string
   side: LabelSide
@@ -34,17 +36,19 @@ export default function GraphSummaryCard({ node, color, side, angle, selected, n
   query: boolean
   path: boolean
   zoom: number
+  /** 칸이 좁아 이름표를 이름 한 줄로 그린다 */
+  nameOnly?: boolean
 }) {
   const r = circleRadius(node)
   const px = 1 / Math.max(zoom, 0.05)
   // 이름표는 바닥 배율보다 멀리서 그래프와 함께 작아진다. 화면에서 너무 작으면 읽을 수 없어 그리지 않는다(커서를 올리면 이름이 뜬다)
   const lp = labelPx(node.level, zoom)
-  const readable = LABEL_PX.scope * lp * zoom >= LABEL_MIN_SCREEN_PX
+  const readable = (nameOnly ? LABEL_PX.name : LABEL_PX.scope) * lp * zoom >= (nameOnly ? NAME_ONLY_MIN_SCREEN_PX : LABEL_MIN_SCREEN_PX)
   const stroke = finding ? '#b42318' : query ? 'var(--color-graph-query)' : path ? 'var(--color-text-primary)' : color
   const strokeWidth = (finding || selected ? 3.4 : neighbor ? 3 : 2.4) * px
   const Glyph = scopeGlyph(node.scopeKind)
   const icon = node.level === 'scope' ? r * 1.3 : r * 1.2
-  const label = readable ? circleLabel(node, side, angle, lp).lines.map((line, i) => <LabelText key={i} line={line} lp={lp} />) : null
+  const label = readable ? circleLabel(node, side, angle, lp, nameOnly).lines.map((line, i) => <LabelText key={i} line={line} lp={lp} />) : null
   const badgeH = 20 * px
   const badgeW = (String(node.findingCount).length * 7.5 + 11) * px
   const bx = r * Math.SQRT1_2, by = -r * Math.SQRT1_2

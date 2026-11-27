@@ -294,6 +294,7 @@
 
 .eb-self-toggle {
   margin-left: auto;
+  min-height: 24px;
   padding: 4px 8px;
   border: 1px solid var(--color-border);
   border-radius: 0;
@@ -445,7 +446,7 @@
 }
 
 .eb-subject-actions .eb-btn-xs {
-  height: 22px;
+  height: 24px;
   padding: 0 8px;
 }
 
@@ -580,6 +581,7 @@
 }
 
 .eb-source-summary summary {
+  padding: 6px 0;
   cursor: pointer;
   font-weight: var(--font-weight-medium);
 }
@@ -1270,6 +1272,7 @@
 }
 
 .eb-btn-xs {
+  min-height: 24px;
   padding: 1px 4px;
   font-size: var(--font-size-xs);
 }
@@ -1666,6 +1669,10 @@
 
   .ei-actionbar .lst-actionbar-row {
     column-gap: 8px;
+  }
+
+  .ei-actionbar .eb-search-field {
+    flex-basis: 170px;
   }
 }
 
@@ -2471,7 +2478,7 @@ body.eb-side-resizing {
   color: var(--color-select);
 }
 
-/* 접으면 탭은 로고만 보이게 세로로 쌓고, 누르면 그 탭으로 편다 */
+/* 접으면 탭을 세로로 쌓고 아이콘 아래 이름을 세로로 쓴다. 누르면 그 탭으로 편다 */
 .eb-side-panel.is-collapsed .eb-side-tabs {
   flex-direction: column;
   border-bottom: none;
@@ -2487,9 +2494,12 @@ body.eb-side-resizing {
 
 .eb-side-panel.is-collapsed .eb-side-tab {
   flex: none;
+  flex-direction: column;
+  gap: 6px;
   width: 44px;
-  height: 42px;
-  padding: 0;
+  height: auto;
+  min-height: 42px;
+  padding: 12px 0;
   border-bottom: 1px solid var(--color-border);
   border-left: 3px solid transparent;
   justify-content: center;
@@ -2502,15 +2512,11 @@ body.eb-side-resizing {
 }
 
 .eb-side-panel.is-collapsed .eb-side-tab-label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+  overflow: visible;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 0;
+  line-height: 1;
 }
 
 .eb-side-body {

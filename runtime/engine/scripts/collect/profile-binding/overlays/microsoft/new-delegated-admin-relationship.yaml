@@ -1,0 +1,40 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: DelegatedAdminRelationship
+interfaces: [Assignment]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-GDAP-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-20
+        request: {kind: delegatedAdminRelationships}
+        items: value
+    id_expr: id
+    properties:
+      displayName: displayName
+      status: status
+      customer_tenant_id: customer.tenantId
+      customer_name: customer.displayName
+      unified_role_ids: {op: pluck, field: roleDefinitionId, of: accessDetails.unifiedRoles}
+      duration: duration
+      endDateTime: endDateTime
+      autoExtendDuration: autoExtendDuration
+      createdDateTime: createdDateTime
+    display: "{displayName|customer_name|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

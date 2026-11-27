@@ -1,0 +1,265 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:47.381Z",
+  "ops": {
+    "op:okta_ai_resource_servers_virtualmcpserverresource:listVirtualMCPServerTools": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_ai_resource_servers_virtualmcpserverresource:listVirtualMCPServerTools",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "virtualMcpServerId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/resource-servers/api/v1/virtual-mcp-servers/{virtualMcpServerId}/tools",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.parent": {
+          "type": "object"
+        },
+        "_links.parent.hints": {
+          "type": "object"
+        },
+        "_links.parent.hints.allow": {
+          "type": "array"
+        },
+        "_links.parent.href": {
+          "type": "string"
+        },
+        "_links.parent.name": {
+          "type": "string"
+        },
+        "_links.parent.templated": {
+          "type": "boolean"
+        },
+        "_links.parent.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[]._embedded": {
+          "type": "object"
+        },
+        "data[]._embedded.inputSchema": {
+          "type": "object"
+        },
+        "data[].connectionOrn": {
+          "type": "string"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].profile": {
+          "type": "object"
+        },
+        "data[].profile.alias": {
+          "type": "string"
+        },
+        "data[].profile.description": {
+          "type": "string"
+        },
+        "data[].profile.name": {
+          "type": "string"
+        },
+        "data[].sourceOrn": {
+          "type": "string"
+        },
+        "data[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_ai_resource_servers_virtualmcpserverresource:listVirtualMCPServers": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_ai_resource_servers_virtualmcpserverresource:listVirtualMCPServers",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/resource-servers/api/v1/virtual-mcp-servers",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[]._embedded": {
+          "type": "object"
+        },
+        "data[]._embedded.attachedAgents": {
+          "type": "array"
+        },
+        "data[]._embedded.connectedResources": {
+          "type": "array"
+        },
+        "data[]._links": {
+          "type": "object"
+        },
+        "data[]._links.authorization-servers": {
+          "type": "object"
+        },
+        "data[]._links.self": {
+          "type": "object"
+        },
+        "data[]._links.tools": {
+          "type": "object"
+        },
+        "data[].created": {
+          "type": "string"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].lastUpdated": {
+          "type": "string"
+        },
+        "data[].orn": {
+          "type": "string"
+        },
+        "data[].profile": {
+          "type": "object"
+        },
+        "data[].profile.description": {
+          "type": "string"
+        },
+        "data[].profile.displayName": {
+          "type": "string"
+        },
+        "data[].resourcePath": {
+          "type": "string"
+        },
+        "data[].resourceUrl": {
+          "type": "string"
+        },
+        "data[].status": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "0bd699f8ba614418a22ac5a3ddf123f385e442d58dced3398921f7aeedf1d471",
+  "source": "okta_ai_resource_servers_virtualmcpserverresource",
+  "unmatched": []
+}

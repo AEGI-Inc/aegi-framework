@@ -47,6 +47,14 @@ runtime_rules:
       appRoles: appRoles
       createdDateTime: createdDateTime
       tags: tags
+      web_redirect_uris: web.redirectUris
+      spa_redirect_uris: spa.redirectUris
+      public_client_redirect_uris: publicClient.redirectUris
+      implicit_grant_access_token: web.implicitGrantSettings.enableAccessTokenIssuance
+      implicit_grant_id_token: web.implicitGrantSettings.enableIdTokenIssuance
+      is_fallback_public_client: isFallbackPublicClient
+      password_credential_count: {op: count, of: passwordCredentials}
+      key_credential_count: {op: count, of: keyCredentials}
     display: "{displayName|appId|id}"
     relations:
       - type: contained_in

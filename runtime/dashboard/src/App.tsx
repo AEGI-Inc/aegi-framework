@@ -9,7 +9,7 @@ import { providerLogoId, providerName, sortProviders, SUPPORTED_PROVIDERS } from
 import { withPathProviders } from './findings/findingPath'
 import type { FindingV2 } from './model/findingV2'
 import ProviderLogo from './ProviderLogo'
-import ThreatIndex from './findings/ThreatIndex'
+import ThreatIndex, { chooseThreatList } from './findings/ThreatIndex'
 import AccessGapsPage from './findings/AccessGapsPage'
 import ExceptionDialog from './exceptions/ExceptionDialog'
 import type { ProviderId } from './providerOverviewData'
@@ -23,6 +23,7 @@ import { useHandling } from './handling/useHandling'
 import { useRemediationProgress } from './handling/useRemediationProgress'
 import { destinationsByFinding, outsideDestinations } from './findings/outsideDestinations'
 import { formatKst } from './utils/time'
+import { tenantKindLabel } from './semantic-graph/circleLevels'
 import { COLLECTION_STATE_LABEL, collectionState, latestCollectedByProvider, type ProviderCollection } from './model/collectionFreshness'
 import HandlingEditor from './handling/HandlingEditor'
 import NotFound from './ui/NotFound'
@@ -47,6 +48,7 @@ import { isPublicDemo } from './publicDemo'
 import { opensOnLanding } from './tutorial/tutorialStorage'
 import { applyExceptions, fingerprintOf } from './exceptions/applyExceptions'
 import { buildExceptions, snapshotOf, useExceptions, type ExceptionDraft } from './exceptions/useExceptions'
+import { falsePositiveHints, likeExceptionDraft } from './exceptions/falsePositiveHints'
 import { saveActor } from './exceptions/store'
 import Toast, { type ToastMessage } from './exceptions/Toast'
 import { useCredentials } from './credentials/useCredentials'
@@ -60,7 +62,7 @@ import { threatCsv } from './findings/threatCsv'
 import { downloadText } from './utils/csv'
 
 import { flushSync } from 'react-dom'
-import ThreatViewSwitch, { type ThreatView } from './findings/ThreatViewSwitch'
+import ThreatViewSwitch, { type ThreatTab, type ThreatView } from './findings/ThreatViewSwitch'
 import SaasConnect from './credentials/SaasConnect'
 import DemoSettingsCards from './credentials/DemoSettingsCards'
 import { adapterCardState } from './credentials/adapterCardState'
@@ -386,6 +388,11 @@ export default function App() {
   /* 위협 처리 상태. 배포본의 실측은 팀 공용 D1, 그 밖에는 이 브라우저에 둔다(예외와 같은 곳) */
   const handlingApi = useHandling(activeDataset, EXCEPTION_BACKEND)
   const handlingNotice = handlingApi.notice
+  /* 전에 오탐으로 처리한 위협과 원인이 비슷한 열린 위협. 표시만 하고 가리지 않는다 */
+  const fpHints = useMemo(
+    () => falsePositiveHints(exceptionResult.views, exceptionsApi.exceptions, fp => handlingApi.byFingerprint.get(fp)?.state),
+    [exceptionResult, exceptionsApi.exceptions, handlingApi.byFingerprint],
+  )
   useEffect(() => {
     if (handlingNotice) setToast({ id: handlingNotice.id, text: handlingNotice.text })
   }, [handlingNotice])
@@ -411,7 +418,7 @@ export default function App() {
     }
     return result
   }, [now])
-  const [exceptionTarget, setExceptionTarget] = useState<{ findingId: string } | null>(null)
+  const [exceptionTarget, setExceptionTarget] = useState<{ findingId: string; like?: ThreatException } | null>(null)
   const [toast, setToast] = useState<ToastMessage | null>(null)
   // 서버 저장이 실패하면(충돌·로그인 만료 등) 이유를 알림으로 띄운다
   const exceptionNotice = exceptionsApi.notice
@@ -603,17 +610,20 @@ export default function App() {
     setToast({ id: Date.now(), text: `예외 ${items.length}건 가져오기 완료` })
   }
 
-  /* Threat Analysis 제목 줄의 위협, 예외 보기 */
-  const threatViewSwitch = (view: ThreatView) => (
+  /* Threat Analysis 제목 줄의 위협, 설정 점검, 예외 탭. 위협 목록 화면은 목록 종류 바꾸기(onList)를 넘기고,
+     예외 화면에서 위협이나 설정 점검을 고르면 그 목록으로 간다 */
+  const threatViewSwitch = (tab: ThreatTab, onList?: (config: boolean) => void) => (
     <ThreatViewSwitch
-      view={view}
+      tab={tab}
       threatCount={visibleFindings.length}
+      configCount={threatConfigRows?.length ?? 0}
       exceptionCount={exceptionResult.summary.active}
       exceptionReview={exceptionResult.summary.review}
       onChange={next => {
-        if (next === view) return
+        if (next === tab) return
         if (next === 'exceptions') goThreatExceptions()
-        else goThreatFinding()
+        else if (onList) onList(next === 'config')
+        else { chooseThreatList(next === 'config'); goThreatFinding() }
       }}
     />
   )
@@ -905,8 +915,9 @@ export default function App() {
             onException={findingId => setExceptionTarget({ findingId })}
             onOpenExceptions={() => goThreatExceptions()}
             handling={handlingApi.byFingerprint}
+            fpHints={fpHints}
             syntheticOf={finding => finding.evidenceObservationIds.filter(id => aegiData.evidenceStore.observationsById.get(id)?.provenance.record === 'synthetic').length}
-            viewSwitch={threatViewSwitch('threats')}
+            viewSwitch={list => threatViewSwitch(list.config ? 'config' : 'threats', list.onList)}
             configRows={threatConfigRows}
             onOpenConfig={row => { if (row.config) goThreatConfig({ provider: row.config.provider, findingId: row.config.findingId }) }}
             onExport={list => downloadText(`aegi-threats-${new Date().toISOString().slice(0, 10)}.csv`, threatCsv(list, {
@@ -954,6 +965,8 @@ export default function App() {
             onException={() => setExceptionTarget({ findingId: currentFinding.id })}
             onRevokeExceptions={revokeExceptions}
             onOpenException={id => goThreatExceptions(id)}
+            fpHint={fpHints.get(currentFinding.id)}
+            onExceptionLike={like => setExceptionTarget({ findingId: currentFinding.id, like })}
             graph={aegiData.graph}
             evidenceStore={aegiData.evidenceStore}
             onOpenEvents={goRelatedEvents}
@@ -1079,6 +1092,7 @@ export default function App() {
           onSubmit={submitException}
           destinations={destinationsOfFinding.get(exceptionTarget.findingId)}
           countHidden={countNewlyHidden}
+          initial={exceptionTarget.like ? likeExceptionDraft(exceptionTarget.like) : undefined}
         />
       )}
       {toast && <Toast key={toast.id} toast={toast} onClose={closeToast} />}
@@ -1193,12 +1207,12 @@ function AdaptersHead({ rows, collection, connections, onConnectionChange, datas
                 <span className="integration-card-name" title={item.tenantKey}>
                   <b>{item.name}</b>
                   <small>
-                    {item.term ? `${item.displayName}, ${item.term}` : (item.displayName !== item.name ? item.displayName : '미연동')}
+                    {item.term ? `${item.displayName}, ${tenantKindLabel(item.provider, item.term)}` : (item.displayName !== item.name ? item.displayName : '미연동')}
                   </small>
                 </span>
                 {card.sample
                   ? <b className="collect-badge is-sample">샘플</b>
-                  : <b className={`collect-badge is-${state}`}>{COLLECTION_STATE_LABEL[state]}</b>}
+                  : <b className={`collect-badge is-${state}`}>{ADAPTER_STATE_LABEL[state]}</b>}
               </div>
               {card.showCollection && (
                 <p className="integration-card-collect">
@@ -1206,11 +1220,11 @@ function AdaptersHead({ rows, collection, connections, onConnectionChange, datas
                   <b>
                     {collected?.callStats && collected.callStats.total > 0 ? (
                       <>
-                        <span className="collect-stat is-full">full({collected.callStats.full})</span>
-                        {' / '}
-                        <span className="collect-stat is-partial">partial({collected.callStats.partial})</span>
-                        {' / '}
-                        <span className="collect-stat is-fail">fail({collected.callStats.failed})</span>
+                        <span className="collect-stat is-full">전체 수집 {collected.callStats.full}</span>
+                        {', '}
+                        <span className="collect-stat is-partial">부분 수집 {collected.callStats.partial}</span>
+                        {', '}
+                        <span className="collect-stat is-fail">실패 {collected.callStats.failed}</span>
                       </>
                     ) : (
                       '기록 없음'
@@ -1262,6 +1276,9 @@ function AdaptersHead({ rows, collection, connections, onConnectionChange, datas
     </>
   )
 }
+
+/** Adapters 카드 배지. 카드 아래 「연결 안 됨」(이 콘솔의 실시간 수집 연결)과 헷갈리지 않게 수집 상태임을 밝힌다 */
+const ADAPTER_STATE_LABEL: Record<keyof typeof COLLECTION_STATE_LABEL, string> = { ...COLLECTION_STATE_LABEL, ok: `수집 ${COLLECTION_STATE_LABEL.ok}` }
 
 /** 팀 로그인 세션을 끝낸다. */
 function LogoutButton() {

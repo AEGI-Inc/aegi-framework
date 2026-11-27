@@ -1,0 +1,246 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:37.820Z",
+  "ops": {
+    "op:gws_calendar:calendar.calendarList.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_calendar:calendar.calendarList.list",
+      "params": {
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "minAccessRole": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "showDeleted": {
+          "in": "query",
+          "required": false
+        },
+        "showHidden": {
+          "in": "query",
+          "required": false
+        },
+        "showOwnOrganizationOnly": {
+          "in": "query",
+          "required": false
+        },
+        "syncToken": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "users/me/calendarList",
+      "response": {
+        "etag": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array"
+        },
+        "items[]": {
+          "type": "object"
+        },
+        "items[].accessRole": {
+          "type": "string"
+        },
+        "items[].autoAcceptInvitations": {
+          "type": "boolean"
+        },
+        "items[].backgroundColor": {
+          "type": "string"
+        },
+        "items[].colorId": {
+          "type": "string"
+        },
+        "items[].conferenceProperties": {
+          "type": "object"
+        },
+        "items[].conferenceProperties.allowedConferenceSolutionTypes": {
+          "type": "array"
+        },
+        "items[].dataOwner": {
+          "type": "string"
+        },
+        "items[].defaultReminders": {
+          "type": "array"
+        },
+        "items[].defaultReminders[]": {
+          "type": "object"
+        },
+        "items[].deleted": {
+          "type": "boolean"
+        },
+        "items[].description": {
+          "type": "string"
+        },
+        "items[].etag": {
+          "type": "string"
+        },
+        "items[].foregroundColor": {
+          "type": "string"
+        },
+        "items[].hidden": {
+          "type": "boolean"
+        },
+        "items[].id": {
+          "type": "string"
+        },
+        "items[].kind": {
+          "type": "string"
+        },
+        "items[].location": {
+          "type": "string"
+        },
+        "items[].notificationSettings": {
+          "type": "object"
+        },
+        "items[].notificationSettings.notifications": {
+          "type": "array"
+        },
+        "items[].primary": {
+          "type": "boolean"
+        },
+        "items[].selected": {
+          "type": "boolean"
+        },
+        "items[].summary": {
+          "type": "string"
+        },
+        "items[].summaryOverride": {
+          "type": "string"
+        },
+        "items[].timeZone": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        },
+        "nextSyncToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_calendar:calendar.calendars.get": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_calendar:calendar.calendars.get",
+      "params": {
+        "calendarId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "calendars/{calendarId}",
+      "response": {
+        "autoAcceptInvitations": {
+          "type": "boolean"
+        },
+        "conferenceProperties": {
+          "type": "object"
+        },
+        "conferenceProperties.allowedConferenceSolutionTypes": {
+          "type": "array"
+        },
+        "conferenceProperties.allowedConferenceSolutionTypes[]": {
+          "type": "string"
+        },
+        "dataOwner": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "labelProperties": {
+          "type": "object"
+        },
+        "labelProperties.eventLabels": {
+          "type": "array"
+        },
+        "labelProperties.eventLabels[]": {
+          "type": "object"
+        },
+        "labelProperties.eventLabels[].backgroundColor": {
+          "type": "string"
+        },
+        "labelProperties.eventLabels[].id": {
+          "type": "string"
+        },
+        "labelProperties.eventLabels[].name": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "timeZone": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_calendar:calendar.colors.get": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_calendar:calendar.colors.get",
+      "params": {},
+      "path": "colors",
+      "response": {
+        "calendar": {
+          "type": "object"
+        },
+        "calendar.<key>": {
+          "type": "object"
+        },
+        "calendar.<key>.background": {
+          "type": "string"
+        },
+        "calendar.<key>.foreground": {
+          "type": "string"
+        },
+        "event": {
+          "type": "object"
+        },
+        "event.<key>": {
+          "type": "object"
+        },
+        "event.<key>.background": {
+          "type": "string"
+        },
+        "event.<key>.foreground": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "updated": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "revision": "20261005",
+  "snapshot_sha256": "7f811b47a12f2677bea3a43e76c078b419451a405d03c1321115437e5b9100cc",
+  "source": "gws_calendar",
+  "unmatched": [],
+  "version": "v3"
+}

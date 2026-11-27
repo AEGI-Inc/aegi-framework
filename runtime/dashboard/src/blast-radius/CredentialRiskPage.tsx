@@ -296,8 +296,6 @@ export default function CredentialRiskPage({ credentials, graph, onSelectObject 
           <section className="br-overview" aria-label="전체 현황">
             <div className="br-overview-head">
               <h2>전체 현황</h2>
-              <span><b>{credentials.length}</b>자격증명</span>
-              {providerList.map(p => <span key={p} className="br-overview-saas"><Logo provider={p} /><b>{providerCount(p)}</b>{providerName(p)}</span>)}
               <span className="br-overview-hero">
                 <Hero label="관리자 권한 노출" count={adminCount} unit="개" onClick={() => changeView('admin')} none="관리자 권한 노출 자격증명 없음" />
               </span>
@@ -335,7 +333,7 @@ export default function CredentialRiskPage({ credentials, graph, onSelectObject 
                     <span className="br-cred">
                       <Logo provider={c.provider} />
                       <span className="lst-main">
-                        <b className="lst-clip" title={objectLabel(c.key, graph)}>{objectLabel(c.key, graph)}</b>
+                        <b className="br-cred-name" title={objectLabel(c.key, graph)}>{objectLabel(c.key, graph)}</b>
                         <span className="lst-text lst-clip" title={objectIdLabel(c.key, graph)}>{objectTypeLabel(c.key, graph)} <code>{objectIdLabel(c.key, graph)}</code></span>
                       </span>
                     </span>

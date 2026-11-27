@@ -408,7 +408,7 @@ const GROUPS: Record<string, GroupSpec[]> = {
   microsoft: [
     {
       id: 'CRED-M365-01',
-      label: 'Microsoft Entra ID 앱 등록 (Client Credentials · Graph 애플리케이션 권한 20종 관리자 동의 · 로그인 기록은 Entra ID P1 이상)',
+      label: 'Microsoft Entra ID 앱 등록 (Client Credentials · Graph 애플리케이션 권한 27종, Office 365 Management API 권한 3종 관리자 동의 · 로그인 기록은 Entra ID P1 이상)',
       fields: [
         { env: 'M365_TENANT_ID', label: 'Directory (Tenant) ID', placeholder: '00000000-0000-0000-0000-000000000000' },
         { env: 'M365_CLIENT_ID', label: 'Application (Client) ID', placeholder: '00000000-0000-0000-0000-000000000000' },
@@ -881,6 +881,26 @@ export default function SaasConnect({
       setTimeout(() => el.classList.remove('sc-field-error-highlight'), 3000)
     }
   }, [])
+
+  // GitHub App Manifest 폼에 붙일 일회용 state. 서버는 이 state 와 함께 돌아온 code 만 변환한다(다른 사이트의 CSRF 방지).
+  // state 는 10분 동안 한 번만 쓰이므로 9분마다, 그리고 폼을 보낸 뒤에 새로 받는다.
+  const [manifestState, setManifestState] = useState<string | null>(null)
+  const refreshManifestState = useCallback(async () => {
+    if (provider !== 'github') return
+    try {
+      const res = await fetch('/__aegi/github/manifest-state', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' })
+      const data = res.ok ? ((await res.json()) as { state?: string }) : null
+      setManifestState(typeof data?.state === 'string' ? data.state : null)
+    } catch {
+      setManifestState(null)
+    }
+  }, [provider])
+  useEffect(() => {
+    if (provider !== 'github') return
+    void refreshManifestState()
+    const timer = window.setInterval(() => { void refreshManifestState() }, 9 * 60 * 1000)
+    return () => window.clearInterval(timer)
+  }, [provider, refreshManifestState])
 
   const loadGithubOrgs = useCallback(async (tokenOverride?: string) => {
     if (provider !== 'github') return
@@ -2415,9 +2435,18 @@ export default function SaasConnect({
                         default_events: [],
                       })
                       return (
-                        <form action={manifestAction} method="post" target="_blank" style={{ margin: 0 }}>
+                        <form
+                          action={manifestState ? `${manifestAction}?state=${encodeURIComponent(manifestState)}` : manifestAction}
+                          method="post"
+                          target="_blank"
+                          style={{ margin: 0 }}
+                          onSubmit={event => {
+                            if (!manifestState) { event.preventDefault(); return }
+                            window.setTimeout(() => { void refreshManifestState() }, 0)
+                          }}
+                        >
                           <input type="hidden" name="manifest" value={manifestPayload} />
-                          <button type="submit" className="ex-btn primary">
+                          <button type="submit" className="ex-btn primary" disabled={!manifestState}>
                             새 GitHub App 생성 (Manifest) ↗
                           </button>
                         </form>

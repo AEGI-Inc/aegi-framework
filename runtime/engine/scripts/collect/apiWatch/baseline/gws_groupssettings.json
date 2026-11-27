@@ -1,0 +1,214 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:42.206Z",
+  "ops": {
+    "op:gws_groupssettings:groupsSettings.groups.get": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_groupssettings:groupsSettings.groups.get",
+      "params": {
+        "groupUniqueId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "{groupUniqueId}",
+      "response": {
+        "allowExternalMembers": {
+          "type": "string"
+        },
+        "allowGoogleCommunication": {
+          "type": "string"
+        },
+        "allowWebPosting": {
+          "type": "string"
+        },
+        "archiveOnly": {
+          "type": "string"
+        },
+        "customFooterText": {
+          "type": "string"
+        },
+        "customReplyTo": {
+          "type": "string"
+        },
+        "customRolesEnabledForSettingsToBeMerged": {
+          "type": "string"
+        },
+        "defaultMessageDenyNotificationText": {
+          "type": "string"
+        },
+        "default_sender": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "enableCollaborativeInbox": {
+          "type": "string"
+        },
+        "favoriteRepliesOnTop": {
+          "type": "string"
+        },
+        "includeCustomFooter": {
+          "type": "string"
+        },
+        "includeInGlobalAddressList": {
+          "type": "string"
+        },
+        "isArchived": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "maxMessageBytes": {
+          "type": "integer"
+        },
+        "membersCanPostAsTheGroup": {
+          "type": "string"
+        },
+        "messageDisplayFont": {
+          "type": "string"
+        },
+        "messageModerationLevel": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "primaryLanguage": {
+          "type": "string"
+        },
+        "replyTo": {
+          "type": "string"
+        },
+        "sendMessageDenyNotification": {
+          "type": "string"
+        },
+        "showInGroupDirectory": {
+          "type": "string"
+        },
+        "spamModerationLevel": {
+          "type": "string"
+        },
+        "whoCanAdd": {
+          "type": "string"
+        },
+        "whoCanAddExternalMembers": {
+          "type": "string"
+        },
+        "whoCanAddReferences": {
+          "type": "string"
+        },
+        "whoCanApproveMembers": {
+          "type": "string"
+        },
+        "whoCanApproveMessages": {
+          "type": "string"
+        },
+        "whoCanAssignTopics": {
+          "type": "string"
+        },
+        "whoCanAssistContent": {
+          "type": "string"
+        },
+        "whoCanBanUsers": {
+          "type": "string"
+        },
+        "whoCanContactOwner": {
+          "type": "string"
+        },
+        "whoCanDeleteAnyPost": {
+          "type": "string"
+        },
+        "whoCanDeleteTopics": {
+          "type": "string"
+        },
+        "whoCanDiscoverGroup": {
+          "type": "string"
+        },
+        "whoCanEnterFreeFormTags": {
+          "type": "string"
+        },
+        "whoCanHideAbuse": {
+          "type": "string"
+        },
+        "whoCanInvite": {
+          "type": "string"
+        },
+        "whoCanJoin": {
+          "type": "string"
+        },
+        "whoCanLeaveGroup": {
+          "type": "string"
+        },
+        "whoCanLockTopics": {
+          "type": "string"
+        },
+        "whoCanMakeTopicsSticky": {
+          "type": "string"
+        },
+        "whoCanMarkDuplicate": {
+          "type": "string"
+        },
+        "whoCanMarkFavoriteReplyOnAnyTopic": {
+          "type": "string"
+        },
+        "whoCanMarkFavoriteReplyOnOwnTopic": {
+          "type": "string"
+        },
+        "whoCanMarkNoResponseNeeded": {
+          "type": "string"
+        },
+        "whoCanModerateContent": {
+          "type": "string"
+        },
+        "whoCanModerateMembers": {
+          "type": "string"
+        },
+        "whoCanModifyMembers": {
+          "type": "string"
+        },
+        "whoCanModifyTagsAndCategories": {
+          "type": "string"
+        },
+        "whoCanMoveTopicsIn": {
+          "type": "string"
+        },
+        "whoCanMoveTopicsOut": {
+          "type": "string"
+        },
+        "whoCanPostAnnouncements": {
+          "type": "string"
+        },
+        "whoCanPostMessage": {
+          "type": "string"
+        },
+        "whoCanTakeTopics": {
+          "type": "string"
+        },
+        "whoCanUnassignTopic": {
+          "type": "string"
+        },
+        "whoCanUnmarkFavoriteReplyOnAnyTopic": {
+          "type": "string"
+        },
+        "whoCanViewGroup": {
+          "type": "string"
+        },
+        "whoCanViewMembership": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "revision": "20220614",
+  "snapshot_sha256": "0958ad9483d0bbfe176c5f2682db9598bbcf1b889d181c162b21b231ad52b6c6",
+  "source": "gws_groupssettings",
+  "unmatched": [],
+  "version": "v1"
+}

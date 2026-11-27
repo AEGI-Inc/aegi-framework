@@ -11,6 +11,7 @@
     "start": "node --max-old-space-size=1024 --import tsx bin/aegi.ts start",
     "aegi": "node --max-old-space-size=1024 --import tsx bin/aegi.ts",
     "test": "node --import tsx --test test/*.test.ts",
+    "web:build": "node scripts/build-web.mjs",
     "release": "node scripts/release.mjs"
   },
   "dependencies": {

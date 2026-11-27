@@ -87,6 +87,7 @@ export function m365ClientCredentialsAuth(opts: {
   tenantId: string
   clientId: string
   clientSecret: string
+  scope?: string
   transport: Transport
   now?: () => number
 }): Auth {
@@ -98,7 +99,7 @@ export function m365ClientCredentialsAuth(opts: {
       grant_type: 'client_credentials',
       client_id: opts.clientId,
       client_secret: opts.clientSecret,
-      scope: 'https://graph.microsoft.com/.default',
+      scope: opts.scope ?? 'https://graph.microsoft.com/.default',
     }).toString()
     const res = await opts.transport({
       method: 'POST',

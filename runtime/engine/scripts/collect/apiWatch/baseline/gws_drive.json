@@ -1,0 +1,306 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:40.588Z",
+  "ops": {
+    "op:gws_drive:drive.apps.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_drive:drive.apps.list",
+      "params": {
+        "appFilterExtensions": {
+          "in": "query",
+          "required": false
+        },
+        "appFilterMimeTypes": {
+          "in": "query",
+          "required": false
+        },
+        "languageCode": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "apps",
+      "response": {
+        "defaultAppIds": {
+          "type": "array"
+        },
+        "defaultAppIds[]": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array"
+        },
+        "items[]": {
+          "type": "object"
+        },
+        "items[].authorized": {
+          "type": "boolean"
+        },
+        "items[].createInFolderTemplate": {
+          "type": "string"
+        },
+        "items[].createUrl": {
+          "type": "string"
+        },
+        "items[].hasDriveWideScope": {
+          "type": "boolean"
+        },
+        "items[].icons": {
+          "type": "array"
+        },
+        "items[].icons[]": {
+          "type": "object"
+        },
+        "items[].id": {
+          "type": "string"
+        },
+        "items[].installed": {
+          "type": "boolean"
+        },
+        "items[].kind": {
+          "type": "string"
+        },
+        "items[].longDescription": {
+          "type": "string"
+        },
+        "items[].name": {
+          "type": "string"
+        },
+        "items[].objectType": {
+          "type": "string"
+        },
+        "items[].openUrlTemplate": {
+          "type": "string"
+        },
+        "items[].primaryFileExtensions": {
+          "type": "array"
+        },
+        "items[].primaryFileExtensions[]": {
+          "type": "string"
+        },
+        "items[].primaryMimeTypes": {
+          "type": "array"
+        },
+        "items[].primaryMimeTypes[]": {
+          "type": "string"
+        },
+        "items[].productId": {
+          "type": "string"
+        },
+        "items[].productUrl": {
+          "type": "string"
+        },
+        "items[].secondaryFileExtensions": {
+          "type": "array"
+        },
+        "items[].secondaryFileExtensions[]": {
+          "type": "string"
+        },
+        "items[].secondaryMimeTypes": {
+          "type": "array"
+        },
+        "items[].secondaryMimeTypes[]": {
+          "type": "string"
+        },
+        "items[].shortDescription": {
+          "type": "string"
+        },
+        "items[].supportsCreate": {
+          "type": "boolean"
+        },
+        "items[].supportsImport": {
+          "type": "boolean"
+        },
+        "items[].supportsMultiOpen": {
+          "type": "boolean"
+        },
+        "items[].supportsOfflineCreate": {
+          "type": "boolean"
+        },
+        "items[].useByDefault": {
+          "type": "boolean"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "selfLink": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_drive:drive.teamdrives.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_drive:drive.teamdrives.list",
+      "params": {
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "q": {
+          "in": "query",
+          "required": false
+        },
+        "useDomainAdminAccess": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "teamdrives",
+      "response": {
+        "kind": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        },
+        "teamDrives": {
+          "type": "array"
+        },
+        "teamDrives[]": {
+          "type": "object"
+        },
+        "teamDrives[].backgroundImageFile": {
+          "type": "object"
+        },
+        "teamDrives[].backgroundImageFile.id": {
+          "type": "string"
+        },
+        "teamDrives[].backgroundImageFile.width": {
+          "type": "number"
+        },
+        "teamDrives[].backgroundImageFile.xCoordinate": {
+          "type": "number"
+        },
+        "teamDrives[].backgroundImageFile.yCoordinate": {
+          "type": "number"
+        },
+        "teamDrives[].backgroundImageLink": {
+          "type": "string"
+        },
+        "teamDrives[].capabilities": {
+          "type": "object"
+        },
+        "teamDrives[].capabilities.canAddChildren": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canChangeCopyRequiresWriterPermissionRestriction": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canChangeDomainUsersOnlyRestriction": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canChangeDownloadRestriction": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canChangeSharingFoldersRequiresOrganizerPermissionRestriction": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canChangeTeamDriveBackground": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canChangeTeamMembersOnlyRestriction": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canComment": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canCopy": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canDeleteChildren": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canDeleteTeamDrive": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canDownload": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canEdit": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canListChildren": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canManageMembers": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canReadRevisions": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canRemoveChildren": {
+          "deprecated": true,
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canRename": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canRenameTeamDrive": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canResetTeamDriveRestrictions": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canShare": {
+          "type": "boolean"
+        },
+        "teamDrives[].capabilities.canTrashChildren": {
+          "type": "boolean"
+        },
+        "teamDrives[].colorRgb": {
+          "type": "string"
+        },
+        "teamDrives[].createdTime": {
+          "type": "string"
+        },
+        "teamDrives[].id": {
+          "type": "string"
+        },
+        "teamDrives[].kind": {
+          "type": "string"
+        },
+        "teamDrives[].name": {
+          "type": "string"
+        },
+        "teamDrives[].orgUnitId": {
+          "type": "string"
+        },
+        "teamDrives[].restrictions": {
+          "type": "object"
+        },
+        "teamDrives[].restrictions.adminManagedRestrictions": {
+          "type": "boolean"
+        },
+        "teamDrives[].restrictions.copyRequiresWriterPermission": {
+          "type": "boolean"
+        },
+        "teamDrives[].restrictions.domainUsersOnly": {
+          "type": "boolean"
+        },
+        "teamDrives[].restrictions.downloadRestriction": {
+          "type": "object"
+        },
+        "teamDrives[].restrictions.sharingFoldersRequiresOrganizerPermission": {
+          "type": "boolean"
+        },
+        "teamDrives[].restrictions.teamMembersOnly": {
+          "type": "boolean"
+        },
+        "teamDrives[].themeId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "revision": "20261005",
+  "snapshot_sha256": "5854dcd247f1df20107017cb9f0a38de1fa2bcd34984718764f6356338b61e3c",
+  "source": "gws_drive",
+  "unmatched": [],
+  "version": "v3"
+}

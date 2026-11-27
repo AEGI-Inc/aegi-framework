@@ -1,0 +1,66 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:39.519Z",
+  "ops": {
+    "op:gws_datatransfer:datatransfer.applications.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_datatransfer:datatransfer.applications.list",
+      "params": {
+        "customerId": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "admin/datatransfer/v1/applications",
+      "response": {
+        "applications": {
+          "type": "array"
+        },
+        "applications[]": {
+          "type": "object"
+        },
+        "applications[].etag": {
+          "type": "string"
+        },
+        "applications[].id": {
+          "type": "string"
+        },
+        "applications[].kind": {
+          "type": "string"
+        },
+        "applications[].name": {
+          "type": "string"
+        },
+        "applications[].transferParams": {
+          "type": "array"
+        },
+        "applications[].transferParams[]": {
+          "type": "object"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "revision": "20261004",
+  "snapshot_sha256": "f28e5a2a0488a7aaaea0213195888532ddb8845a5f7f2d11c52b2b8140f214c6",
+  "source": "gws_datatransfer",
+  "unmatched": [],
+  "version": "datatransfer_v1"
+}

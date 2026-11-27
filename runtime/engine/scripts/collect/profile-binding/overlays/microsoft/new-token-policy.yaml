@@ -1,0 +1,65 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: TokenPolicy
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-TOKPOL-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-24
+        request:
+          kind:
+            - tokenLifetimePolicies
+            - tokenIssuancePolicies
+            - claimsMappingPolicies
+            - homeRealmDiscoveryPolicies
+            - activityBasedTimeoutPolicies
+        items: value
+    id_expr: id
+    properties:
+      policy_kind: $req.kind
+      displayName: displayName
+      definition: definition
+      isOrganizationDefault: isOrganizationDefault
+    display: "{displayName|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+  - id: applies_to
+    kind: relation
+    sources:
+      - call: M365-24
+        request: {kind: appliesTo}
+        items: value
+    vars:
+      target_type:
+        op: map
+        of: "@odata.type"
+        table:
+          '#microsoft.graph.application': application
+          '#microsoft.graph.servicePrincipal': sp
+        default: {const: sp}
+    relations:
+      - type: applies_to
+        source: {type: TokenPolicy, id: $req.policy}
+        target:
+          switch: $vars.target_type
+          cases:
+            application: {type: Application, id: id}
+            sp: {type: ServicePrincipal, id: id}
+        basis: stated
+        require: [source, target]

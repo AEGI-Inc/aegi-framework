@@ -47,6 +47,7 @@ import {
   type SubjectCard,
   type LinkKind,
   type BoardPin,
+  DEFAULT_BOARD_TITLE,
 } from './boardV3'
 import {
   buildAxis,
@@ -1544,6 +1545,7 @@ export default function EventBoardPage({
           }
           setBoard(b => ({
             ...b,
+            title: b.title === DEFAULT_BOARD_TITLE ? tc.title : b.title,
             subjects: [...b.subjects, threatSubj],
             sources: [...b.sources, newSource],
           }))
@@ -1581,6 +1583,7 @@ export default function EventBoardPage({
           }
           setBoard(b => ({
             ...b,
+            title: b.title === DEFAULT_BOARD_TITLE ? built.title : b.title,
             subjects: [...b.subjects, threatSubj],
             sources: [...b.sources, newSource],
           }))
@@ -1701,6 +1704,15 @@ export default function EventBoardPage({
     return Array.from(map.values())
   }, [board.sources, board.view.hiddenSources, board.marked, sourceResults])
   allBoardEventsRef.current = allBoardEvents
+  /* 보드가 빈 이유: 불러오는 중, 켜 둔 출처의 조회 기간에 이벤트 없음, 필터에 걸림 */
+  const shownSources = board.sources.filter(src => !board.view.hiddenSources.includes(src.id))
+  const emptyBoardReason = shownSources.some(src => src.kind === 'query' && sourceResults[src.id]?.loading)
+    ? '출처에서 이벤트를 불러오는 중입니다.'
+    : allBoardEvents.length > 0
+      ? '필터 조건에 맞는 이벤트가 없습니다.'
+      : shownSources.length > 0
+        ? `출처 ${shownSources.length}개의 조회 기간에 이벤트가 없습니다.`
+        : '보드에 표시할 이벤트가 없습니다.'
 
   const allEngineLinks = useMemo(() => {
     const map = new Map<string, EventLink>()
@@ -2684,7 +2696,7 @@ export default function EventBoardPage({
         >
           {visibleEvents.length === 0 ? (
             <div className="eb-empty-board">
-              <p>보드에 표시할 이벤트가 없습니다.</p>
+              <p>{emptyBoardReason}</p>
               <span className="eb-empty-hint">출처를 추가하거나 필터 조건을 변경하세요.</span>
               {timeRange && (
                 <button

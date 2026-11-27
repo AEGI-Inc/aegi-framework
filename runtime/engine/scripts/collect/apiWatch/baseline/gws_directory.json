@@ -1,0 +1,931 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:40.040Z",
+  "ops": {
+    "op:gws_directory:admin.customers.chrome.printServers.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_directory:admin.customers.chrome.printServers.list",
+      "params": {
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "orgUnitId": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "admin/directory/v1/customers/{customersId}/chrome/printServers",
+      "response": {
+        "nextPageToken": {
+          "type": "string"
+        },
+        "printServers": {
+          "type": "array"
+        },
+        "printServers[]": {
+          "type": "object"
+        },
+        "printServers[].createTime": {
+          "type": "string"
+        },
+        "printServers[].description": {
+          "type": "string"
+        },
+        "printServers[].displayName": {
+          "type": "string"
+        },
+        "printServers[].id": {
+          "type": "string"
+        },
+        "printServers[].name": {
+          "type": "string"
+        },
+        "printServers[].orgUnitId": {
+          "type": "string"
+        },
+        "printServers[].uri": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_directory:admin.customers.chrome.printers.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_directory:admin.customers.chrome.printers.list",
+      "params": {
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "orgUnitId": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "admin/directory/v1/customers/{customersId}/chrome/printers",
+      "response": {
+        "nextPageToken": {
+          "type": "string"
+        },
+        "printers": {
+          "type": "array"
+        },
+        "printers[]": {
+          "type": "object"
+        },
+        "printers[].auxiliaryMessages": {
+          "type": "array"
+        },
+        "printers[].auxiliaryMessages[]": {
+          "type": "object"
+        },
+        "printers[].createTime": {
+          "type": "string"
+        },
+        "printers[].description": {
+          "type": "string"
+        },
+        "printers[].displayName": {
+          "type": "string"
+        },
+        "printers[].id": {
+          "type": "string"
+        },
+        "printers[].makeAndModel": {
+          "type": "string"
+        },
+        "printers[].name": {
+          "type": "string"
+        },
+        "printers[].orgUnitId": {
+          "type": "string"
+        },
+        "printers[].uri": {
+          "type": "string"
+        },
+        "printers[].useDriverlessConfig": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:gws_directory:directory.chromeosdevices.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_directory:directory.chromeosdevices.list",
+      "params": {
+        "customerId": {
+          "in": "path",
+          "required": true
+        },
+        "includeChildOrgunits": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "orgUnitPath": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "projection": {
+          "in": "query",
+          "required": false
+        },
+        "query": {
+          "in": "query",
+          "required": false
+        },
+        "sortOrder": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "admin/directory/v1/customer/{customerId}/devices/chromeos",
+      "response": {
+        "chromeosdevices": {
+          "type": "array"
+        },
+        "chromeosdevices[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].activeTimeRanges": {
+          "type": "array"
+        },
+        "chromeosdevices[].activeTimeRanges[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].annotatedAssetId": {
+          "type": "string"
+        },
+        "chromeosdevices[].annotatedLocation": {
+          "type": "string"
+        },
+        "chromeosdevices[].annotatedUser": {
+          "type": "string"
+        },
+        "chromeosdevices[].autoUpdateExpiration": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "chromeosdevices[].autoUpdateThrough": {
+          "type": "string"
+        },
+        "chromeosdevices[].backlightInfo": {
+          "type": "array"
+        },
+        "chromeosdevices[].backlightInfo[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].bluetoothAdapterInfo": {
+          "type": "array"
+        },
+        "chromeosdevices[].bluetoothAdapterInfo[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].bootMode": {
+          "type": "string"
+        },
+        "chromeosdevices[].chromeOsType": {
+          "type": "string"
+        },
+        "chromeosdevices[].cpuInfo": {
+          "type": "array"
+        },
+        "chromeosdevices[].cpuInfo[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].cpuStatusReports": {
+          "type": "array"
+        },
+        "chromeosdevices[].cpuStatusReports[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].deprovisionReason": {
+          "type": "string"
+        },
+        "chromeosdevices[].deviceFiles": {
+          "type": "array"
+        },
+        "chromeosdevices[].deviceFiles[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].deviceId": {
+          "type": "string"
+        },
+        "chromeosdevices[].deviceLicenseType": {
+          "type": "string"
+        },
+        "chromeosdevices[].diskSpaceUsage": {
+          "type": "object"
+        },
+        "chromeosdevices[].diskSpaceUsage.capacityBytes": {
+          "type": "string"
+        },
+        "chromeosdevices[].diskSpaceUsage.usedBytes": {
+          "type": "string"
+        },
+        "chromeosdevices[].diskVolumeReports": {
+          "type": "array"
+        },
+        "chromeosdevices[].diskVolumeReports[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].dockMacAddress": {
+          "type": "string"
+        },
+        "chromeosdevices[].etag": {
+          "type": "string"
+        },
+        "chromeosdevices[].ethernetMacAddress": {
+          "type": "string"
+        },
+        "chromeosdevices[].ethernetMacAddress0": {
+          "type": "string"
+        },
+        "chromeosdevices[].extendedSupportEligible": {
+          "type": "boolean"
+        },
+        "chromeosdevices[].extendedSupportEnabled": {
+          "type": "boolean"
+        },
+        "chromeosdevices[].extendedSupportStart": {
+          "type": "string"
+        },
+        "chromeosdevices[].fanInfo": {
+          "type": "array"
+        },
+        "chromeosdevices[].fanInfo[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].firmwareVersion": {
+          "type": "string"
+        },
+        "chromeosdevices[].firstEnrollmentTime": {
+          "type": "string"
+        },
+        "chromeosdevices[].kind": {
+          "type": "string"
+        },
+        "chromeosdevices[].lastDeprovisionTimestamp": {
+          "type": "string"
+        },
+        "chromeosdevices[].lastEnrollmentTime": {
+          "type": "string"
+        },
+        "chromeosdevices[].lastKnownNetwork": {
+          "type": "array"
+        },
+        "chromeosdevices[].lastKnownNetwork[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].lastSync": {
+          "type": "string"
+        },
+        "chromeosdevices[].macAddress": {
+          "type": "string"
+        },
+        "chromeosdevices[].manufactureDate": {
+          "type": "string"
+        },
+        "chromeosdevices[].meid": {
+          "type": "string"
+        },
+        "chromeosdevices[].model": {
+          "type": "string"
+        },
+        "chromeosdevices[].notes": {
+          "type": "string"
+        },
+        "chromeosdevices[].orderNumber": {
+          "type": "string"
+        },
+        "chromeosdevices[].orgUnitId": {
+          "type": "string"
+        },
+        "chromeosdevices[].orgUnitPath": {
+          "type": "string"
+        },
+        "chromeosdevices[].osUpdateStatus": {
+          "type": "object"
+        },
+        "chromeosdevices[].osUpdateStatus.rebootTime": {
+          "type": "string"
+        },
+        "chromeosdevices[].osUpdateStatus.state": {
+          "type": "string"
+        },
+        "chromeosdevices[].osUpdateStatus.targetKioskAppVersion": {
+          "type": "string"
+        },
+        "chromeosdevices[].osUpdateStatus.targetOsVersion": {
+          "type": "string"
+        },
+        "chromeosdevices[].osUpdateStatus.updateCheckTime": {
+          "type": "string"
+        },
+        "chromeosdevices[].osUpdateStatus.updateTime": {
+          "type": "string"
+        },
+        "chromeosdevices[].osVersion": {
+          "type": "string"
+        },
+        "chromeosdevices[].osVersionCompliance": {
+          "type": "string"
+        },
+        "chromeosdevices[].platformVersion": {
+          "type": "string"
+        },
+        "chromeosdevices[].recentUsers": {
+          "type": "array"
+        },
+        "chromeosdevices[].recentUsers[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].screenshotFiles": {
+          "type": "array"
+        },
+        "chromeosdevices[].screenshotFiles[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].serialNumber": {
+          "type": "string"
+        },
+        "chromeosdevices[].status": {
+          "type": "string"
+        },
+        "chromeosdevices[].supportEndDate": {
+          "type": "string"
+        },
+        "chromeosdevices[].systemRamFreeReports": {
+          "type": "array"
+        },
+        "chromeosdevices[].systemRamFreeReports[]": {
+          "type": "object"
+        },
+        "chromeosdevices[].systemRamTotal": {
+          "type": "string"
+        },
+        "chromeosdevices[].tpmVersionInfo": {
+          "type": "object"
+        },
+        "chromeosdevices[].tpmVersionInfo.family": {
+          "type": "string"
+        },
+        "chromeosdevices[].tpmVersionInfo.firmwareVersion": {
+          "type": "string"
+        },
+        "chromeosdevices[].tpmVersionInfo.manufacturer": {
+          "type": "string"
+        },
+        "chromeosdevices[].tpmVersionInfo.specLevel": {
+          "type": "string"
+        },
+        "chromeosdevices[].tpmVersionInfo.tpmModel": {
+          "type": "string"
+        },
+        "chromeosdevices[].tpmVersionInfo.vendorSpecific": {
+          "type": "string"
+        },
+        "chromeosdevices[].willAutoRenew": {
+          "type": "boolean"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_directory:directory.domains.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_directory:directory.domains.list",
+      "params": {
+        "customer": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "admin/directory/v1/customer/{customer}/domains",
+      "response": {
+        "domains": {
+          "type": "array"
+        },
+        "domains[]": {
+          "type": "object"
+        },
+        "domains[].creationTime": {
+          "type": "string"
+        },
+        "domains[].domainAliases": {
+          "type": "array"
+        },
+        "domains[].domainAliases[]": {
+          "type": "object"
+        },
+        "domains[].domainName": {
+          "type": "string"
+        },
+        "domains[].etag": {
+          "type": "string"
+        },
+        "domains[].isPrimary": {
+          "type": "boolean"
+        },
+        "domains[].kind": {
+          "type": "string"
+        },
+        "domains[].verified": {
+          "type": "boolean"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_directory:directory.mobiledevices.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_directory:directory.mobiledevices.list",
+      "params": {
+        "customerId": {
+          "in": "path",
+          "required": true
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "projection": {
+          "in": "query",
+          "required": false
+        },
+        "query": {
+          "in": "query",
+          "required": false
+        },
+        "sortOrder": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "admin/directory/v1/customer/{customerId}/devices/mobile",
+      "response": {
+        "etag": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "mobiledevices": {
+          "type": "array"
+        },
+        "mobiledevices[]": {
+          "type": "object"
+        },
+        "mobiledevices[].adbStatus": {
+          "type": "boolean"
+        },
+        "mobiledevices[].applications": {
+          "type": "array"
+        },
+        "mobiledevices[].applications[]": {
+          "type": "object"
+        },
+        "mobiledevices[].basebandVersion": {
+          "type": "string"
+        },
+        "mobiledevices[].bootloaderVersion": {
+          "type": "string"
+        },
+        "mobiledevices[].brand": {
+          "type": "string"
+        },
+        "mobiledevices[].buildNumber": {
+          "type": "string"
+        },
+        "mobiledevices[].defaultLanguage": {
+          "type": "string"
+        },
+        "mobiledevices[].developerOptionsStatus": {
+          "type": "boolean"
+        },
+        "mobiledevices[].deviceCompromisedStatus": {
+          "type": "string"
+        },
+        "mobiledevices[].deviceId": {
+          "type": "string"
+        },
+        "mobiledevices[].devicePasswordStatus": {
+          "type": "string"
+        },
+        "mobiledevices[].email": {
+          "type": "array"
+        },
+        "mobiledevices[].email[]": {
+          "type": "string"
+        },
+        "mobiledevices[].encryptionStatus": {
+          "type": "string"
+        },
+        "mobiledevices[].etag": {
+          "type": "string"
+        },
+        "mobiledevices[].firstSync": {
+          "type": "string"
+        },
+        "mobiledevices[].hardware": {
+          "type": "string"
+        },
+        "mobiledevices[].hardwareId": {
+          "type": "string"
+        },
+        "mobiledevices[].imei": {
+          "type": "string"
+        },
+        "mobiledevices[].kernelVersion": {
+          "type": "string"
+        },
+        "mobiledevices[].kind": {
+          "type": "string"
+        },
+        "mobiledevices[].lastSync": {
+          "type": "string"
+        },
+        "mobiledevices[].managedAccountIsOnOwnerProfile": {
+          "type": "boolean"
+        },
+        "mobiledevices[].manufacturer": {
+          "type": "string"
+        },
+        "mobiledevices[].meid": {
+          "type": "string"
+        },
+        "mobiledevices[].model": {
+          "type": "string"
+        },
+        "mobiledevices[].name": {
+          "type": "array"
+        },
+        "mobiledevices[].name[]": {
+          "type": "string"
+        },
+        "mobiledevices[].networkOperator": {
+          "type": "string"
+        },
+        "mobiledevices[].os": {
+          "type": "string"
+        },
+        "mobiledevices[].otherAccountsInfo": {
+          "type": "array"
+        },
+        "mobiledevices[].otherAccountsInfo[]": {
+          "type": "string"
+        },
+        "mobiledevices[].privilege": {
+          "type": "string"
+        },
+        "mobiledevices[].releaseVersion": {
+          "type": "string"
+        },
+        "mobiledevices[].resourceId": {
+          "type": "string"
+        },
+        "mobiledevices[].securityPatchLevel": {
+          "type": "string"
+        },
+        "mobiledevices[].serialNumber": {
+          "type": "string"
+        },
+        "mobiledevices[].status": {
+          "type": "string"
+        },
+        "mobiledevices[].supportsWorkProfile": {
+          "type": "boolean"
+        },
+        "mobiledevices[].type": {
+          "type": "string"
+        },
+        "mobiledevices[].unknownSourcesStatus": {
+          "type": "boolean"
+        },
+        "mobiledevices[].userAgent": {
+          "type": "string"
+        },
+        "mobiledevices[].wifiMacAddress": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_directory:directory.orgunits.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_directory:directory.orgunits.list",
+      "params": {
+        "customerId": {
+          "in": "path",
+          "required": true
+        },
+        "orgUnitPath": {
+          "in": "query",
+          "required": false
+        },
+        "type": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "admin/directory/v1/customer/{customerId}/orgunits",
+      "response": {
+        "etag": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "organizationUnits": {
+          "type": "array"
+        },
+        "organizationUnits[]": {
+          "type": "object"
+        },
+        "organizationUnits[].blockInheritance": {
+          "deprecated": true,
+          "type": "boolean"
+        },
+        "organizationUnits[].description": {
+          "type": "string"
+        },
+        "organizationUnits[].etag": {
+          "type": "string"
+        },
+        "organizationUnits[].kind": {
+          "type": "string"
+        },
+        "organizationUnits[].name": {
+          "type": "string"
+        },
+        "organizationUnits[].orgUnitId": {
+          "type": "string"
+        },
+        "organizationUnits[].orgUnitPath": {
+          "type": "string"
+        },
+        "organizationUnits[].parentOrgUnitId": {
+          "type": "string"
+        },
+        "organizationUnits[].parentOrgUnitPath": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_directory:directory.resources.buildings.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_directory:directory.resources.buildings.list",
+      "params": {
+        "customer": {
+          "in": "path",
+          "required": true
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "admin/directory/v1/customer/{customer}/resources/buildings",
+      "response": {
+        "buildings": {
+          "type": "array"
+        },
+        "buildings[]": {
+          "type": "object"
+        },
+        "buildings[].address": {
+          "type": "object"
+        },
+        "buildings[].address.addressLines": {
+          "type": "array"
+        },
+        "buildings[].address.administrativeArea": {
+          "type": "string"
+        },
+        "buildings[].address.languageCode": {
+          "type": "string"
+        },
+        "buildings[].address.locality": {
+          "type": "string"
+        },
+        "buildings[].address.postalCode": {
+          "type": "string"
+        },
+        "buildings[].address.regionCode": {
+          "type": "string"
+        },
+        "buildings[].address.sublocality": {
+          "type": "string"
+        },
+        "buildings[].buildingId": {
+          "type": "string"
+        },
+        "buildings[].buildingName": {
+          "type": "string"
+        },
+        "buildings[].coordinates": {
+          "type": "object"
+        },
+        "buildings[].coordinates.latitude": {
+          "type": "number"
+        },
+        "buildings[].coordinates.longitude": {
+          "type": "number"
+        },
+        "buildings[].description": {
+          "type": "string"
+        },
+        "buildings[].etags": {
+          "type": "string"
+        },
+        "buildings[].floorNames": {
+          "type": "array"
+        },
+        "buildings[].floorNames[]": {
+          "type": "string"
+        },
+        "buildings[].kind": {
+          "type": "string"
+        },
+        "etag": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_directory:directory.resources.calendars.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_directory:directory.resources.calendars.list",
+      "params": {
+        "customer": {
+          "in": "path",
+          "required": true
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "query": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "admin/directory/v1/customer/{customer}/resources/calendars",
+      "response": {
+        "etag": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array"
+        },
+        "items[]": {
+          "type": "object"
+        },
+        "items[].buildingId": {
+          "type": "string"
+        },
+        "items[].capacity": {
+          "type": "integer"
+        },
+        "items[].etags": {
+          "type": "string"
+        },
+        "items[].featureInstances": {
+          "type": "any"
+        },
+        "items[].floorName": {
+          "type": "string"
+        },
+        "items[].floorSection": {
+          "type": "string"
+        },
+        "items[].generatedResourceName": {
+          "type": "string"
+        },
+        "items[].kind": {
+          "type": "string"
+        },
+        "items[].resourceCategory": {
+          "type": "string"
+        },
+        "items[].resourceDescription": {
+          "type": "string"
+        },
+        "items[].resourceEmail": {
+          "type": "string"
+        },
+        "items[].resourceId": {
+          "type": "string"
+        },
+        "items[].resourceName": {
+          "type": "string"
+        },
+        "items[].resourceType": {
+          "type": "string"
+        },
+        "items[].userVisibleDescription": {
+          "type": "string"
+        },
+        "kind": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "revision": "20261004",
+  "snapshot_sha256": "1e9e712f93724eda21b42482988ed84de4698fd5ec7de992e88145519f8ec3d5",
+  "source": "gws_directory",
+  "unmatched": [],
+  "version": "directory_v1"
+}

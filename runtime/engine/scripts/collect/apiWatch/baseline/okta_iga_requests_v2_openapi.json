@@ -1,0 +1,608 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:52.860Z",
+  "ops": {
+    "op:okta_iga_requests_v2_openapi:getOrgRequestSettingsV2": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_iga_requests_v2_openapi:getOrgRequestSettingsV2",
+      "params": {},
+      "path": "/governance/api/v2/request-settings",
+      "response": {
+        "integrations": {
+          "type": "object"
+        },
+        "integrations.settings": {
+          "type": "array"
+        },
+        "integrations.settings[]": {
+          "type": "object"
+        },
+        "integrations.settings[].canApproveRequest": {
+          "type": "boolean"
+        },
+        "integrations.settings[].canInitiateRequest": {
+          "type": "boolean"
+        },
+        "integrations.settings[].integrationId": {
+          "type": "string"
+        },
+        "integrations.settings[].notifications": {
+          "type": "object"
+        },
+        "integrations.settings[].type": {
+          "type": "string"
+        },
+        "longTimePastProvisioned": {
+          "type": "boolean"
+        },
+        "provisioningStatus": {
+          "type": "string"
+        },
+        "requestExperiences": {
+          "type": "array"
+        },
+        "requestExperiences[]": {
+          "type": "string"
+        },
+        "resourceCatalogVisibility": {
+          "type": "object"
+        },
+        "resourceCatalogVisibility.onlyFor": {
+          "type": "array"
+        },
+        "resourceCatalogVisibility.onlyFor[]": {
+          "type": "object"
+        },
+        "resourceCatalogVisibility.onlyFor[].id": {
+          "type": "string"
+        },
+        "resourceCatalogVisibility.onlyFor[].type": {
+          "type": "string"
+        },
+        "resourceCatalogVisibility.visible": {
+          "type": "boolean"
+        },
+        "subprocessorsAcknowledged": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:okta_iga_requests_v2_openapi:getRequestV2": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_iga_requests_v2_openapi:getRequestV2",
+      "params": {
+        "requestId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/governance/api/v2/requests/{requestId}",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.<key>": {
+          "type": "object"
+        },
+        "_links.<key>.hints": {
+          "type": "object"
+        },
+        "_links.<key>.hints.<key>": {
+          "type": "array"
+        },
+        "_links.<key>.href": {
+          "type": "string"
+        },
+        "_links.<key>.method": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "_links.<key>.name": {
+          "type": "string"
+        },
+        "_links.<key>.rel": {
+          "type": "string"
+        },
+        "_links.<key>.templated": {
+          "type": "boolean"
+        },
+        "_links.<key>.title": {
+          "type": "string"
+        },
+        "_links.<key>.type": {
+          "type": "string"
+        },
+        "_links.approvalCondition": {
+          "type": "object"
+        },
+        "_links.approvalCondition.hints": {
+          "type": "object"
+        },
+        "_links.approvalCondition.hints.<key>": {
+          "type": "array"
+        },
+        "_links.approvalCondition.href": {
+          "type": "string"
+        },
+        "_links.approvalCondition.method": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "_links.approvalCondition.name": {
+          "type": "string"
+        },
+        "_links.approvalCondition.rel": {
+          "type": "string"
+        },
+        "_links.approvalCondition.templated": {
+          "type": "boolean"
+        },
+        "_links.approvalCondition.title": {
+          "type": "string"
+        },
+        "_links.approvalCondition.type": {
+          "type": "string"
+        },
+        "_links.approvalSequence": {
+          "type": "object"
+        },
+        "_links.approvalSequence.hints": {
+          "type": "object"
+        },
+        "_links.approvalSequence.hints.<key>": {
+          "type": "array"
+        },
+        "_links.approvalSequence.href": {
+          "type": "string"
+        },
+        "_links.approvalSequence.method": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "_links.approvalSequence.name": {
+          "type": "string"
+        },
+        "_links.approvalSequence.rel": {
+          "type": "string"
+        },
+        "_links.approvalSequence.templated": {
+          "type": "boolean"
+        },
+        "_links.approvalSequence.title": {
+          "type": "string"
+        },
+        "_links.approvalSequence.type": {
+          "type": "string"
+        },
+        "_links.catalogEntry": {
+          "type": "object"
+        },
+        "_links.catalogEntry.hints": {
+          "type": "object"
+        },
+        "_links.catalogEntry.hints.<key>": {
+          "type": "array"
+        },
+        "_links.catalogEntry.href": {
+          "type": "string"
+        },
+        "_links.catalogEntry.method": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "_links.catalogEntry.name": {
+          "type": "string"
+        },
+        "_links.catalogEntry.rel": {
+          "type": "string"
+        },
+        "_links.catalogEntry.templated": {
+          "type": "boolean"
+        },
+        "_links.catalogEntry.title": {
+          "type": "string"
+        },
+        "_links.catalogEntry.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.<key>": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.method": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.rel": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.title": {
+          "type": "string"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "accessDuration": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "createdBy": {
+          "type": "string"
+        },
+        "grantStatus": {
+          "type": "string"
+        },
+        "granted": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
+        },
+        "lastUpdatedBy": {
+          "type": "string"
+        },
+        "requestApproval": {
+          "type": "object"
+        },
+        "requestApproval.decided": {
+          "type": "string"
+        },
+        "requestApproval.decisions": {
+          "type": "array"
+        },
+        "requestApproval.decisions[]": {
+          "type": "object"
+        },
+        "requestApproval.decisions[].decided": {
+          "type": "string"
+        },
+        "requestApproval.decisions[].deciderDelegated": {
+          "type": "boolean"
+        },
+        "requestApproval.decisions[].deciderEscalated": {
+          "type": "boolean"
+        },
+        "requestApproval.decisions[].deciderId": {
+          "type": "string"
+        },
+        "requestApproval.decisions[].deciderName": {
+          "type": "string"
+        },
+        "requestApproval.decisions[].decision": {
+          "type": "string"
+        },
+        "requestApproval.decisions[].originalDeciderEmail": {
+          "type": "string"
+        },
+        "requestApproval.decisions[].originalDeciderFullName": {
+          "type": "string"
+        },
+        "requestApproval.decisions[].originalDeciderId": {
+          "type": "string"
+        },
+        "requestApproval.externalRequestId": {
+          "type": "string"
+        },
+        "requestApproval.permalinkId": {
+          "type": "integer"
+        },
+        "requestApproval.providerDescription": {
+          "type": "string"
+        },
+        "requestApproval.providerName": {
+          "type": "string"
+        },
+        "requestApproval.status": {
+          "type": "string"
+        },
+        "requestApproval.type": {
+          "type": "string"
+        },
+        "requested": {
+          "type": "object"
+        },
+        "requested.accessScopeId": {
+          "type": "string"
+        },
+        "requested.accessScopeType": {
+          "type": "string"
+        },
+        "requested.entryId": {
+          "type": "string"
+        },
+        "requested.resourceId": {
+          "type": "string"
+        },
+        "requested.resourceType": {
+          "type": "string"
+        },
+        "requestedBy": {
+          "type": "object"
+        },
+        "requestedBy.externalId": {
+          "type": "string"
+        },
+        "requestedBy.type": {
+          "type": "string"
+        },
+        "requestedFor": {
+          "type": "object"
+        },
+        "requestedFor.externalId": {
+          "type": "string"
+        },
+        "requestedFor.type": {
+          "type": "string"
+        },
+        "requesterFieldValues": {
+          "type": "array"
+        },
+        "requesterFieldValues[]": {
+          "type": "object"
+        },
+        "requesterFieldValues[].id": {
+          "type": "string"
+        },
+        "requesterFieldValues[].label": {
+          "type": "string"
+        },
+        "requesterFieldValues[].type": {
+          "type": "string"
+        },
+        "requesterFieldValues[].value": {
+          "type": "string"
+        },
+        "requesterFieldValues[].values": {
+          "type": "array"
+        },
+        "requesterFieldValues[].values[]": {
+          "type": "string"
+        },
+        "resolved": {
+          "type": "string"
+        },
+        "revocationScheduled": {
+          "type": "string"
+        },
+        "revocationStatus": {
+          "type": "string"
+        },
+        "revoked": {
+          "type": "string"
+        },
+        "riskAssessment": {
+          "type": "object"
+        },
+        "riskAssessment.requestSubmissionType": {
+          "type": "string"
+        },
+        "riskAssessment.riskRules": {
+          "type": "array"
+        },
+        "riskAssessment.riskRules[]": {
+          "type": "object"
+        },
+        "riskAssessment.riskRules[].description": {
+          "type": "string"
+        },
+        "riskAssessment.riskRules[].name": {
+          "type": "string"
+        },
+        "riskAssessment.riskRules[].resourceName": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_iga_requests_v2_openapi:listAllRequestsV2": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_iga_requests_v2_openapi:listAllRequestsV2",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/governance/api/v2/requests",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.<key>": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.method": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.rel": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.title": {
+          "type": "string"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.<key>": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.method": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.rel": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.title": {
+          "type": "string"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[]._links": {
+          "type": "object"
+        },
+        "data[]._links.<key>": {
+          "type": "object"
+        },
+        "data[]._links.approvalCondition": {
+          "type": "object"
+        },
+        "data[]._links.approvalSequence": {
+          "type": "object"
+        },
+        "data[]._links.catalogEntry": {
+          "type": "object"
+        },
+        "data[]._links.self": {
+          "type": "object"
+        },
+        "data[].created": {
+          "type": "string"
+        },
+        "data[].createdBy": {
+          "type": "string"
+        },
+        "data[].grantStatus": {
+          "type": "string"
+        },
+        "data[].granted": {
+          "type": "string"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].lastUpdated": {
+          "type": "string"
+        },
+        "data[].lastUpdatedBy": {
+          "type": "string"
+        },
+        "data[].requested": {
+          "type": "object"
+        },
+        "data[].requested.accessScopeId": {
+          "type": "string"
+        },
+        "data[].requested.accessScopeType": {
+          "type": "string"
+        },
+        "data[].requested.entryId": {
+          "type": "string"
+        },
+        "data[].requested.resourceId": {
+          "type": "string"
+        },
+        "data[].requested.resourceType": {
+          "type": "string"
+        },
+        "data[].requestedBy": {
+          "type": "object"
+        },
+        "data[].requestedBy.externalId": {
+          "type": "string"
+        },
+        "data[].requestedBy.type": {
+          "type": "string"
+        },
+        "data[].requestedFor": {
+          "type": "object"
+        },
+        "data[].requestedFor.externalId": {
+          "type": "string"
+        },
+        "data[].requestedFor.type": {
+          "type": "string"
+        },
+        "data[].resolved": {
+          "type": "string"
+        },
+        "data[].revocationStatus": {
+          "type": "string"
+        },
+        "data[].revoked": {
+          "type": "string"
+        },
+        "data[].status": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "d8f88abec141ef415d785ce258cad03cce0f09ab531233389e8aac304dc5e75e",
+  "source": "okta_iga_requests_v2_openapi",
+  "unmatched": []
+}

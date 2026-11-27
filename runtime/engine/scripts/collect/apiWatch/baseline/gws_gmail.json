@@ -1,0 +1,369 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:41.675Z",
+  "ops": {
+    "op:gws_gmail:gmail.users.labels.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_gmail:gmail.users.labels.list",
+      "params": {
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "gmail/v1/users/{userId}/labels",
+      "response": {
+        "labels": {
+          "type": "array"
+        },
+        "labels[]": {
+          "type": "object"
+        },
+        "labels[].color": {
+          "type": "object"
+        },
+        "labels[].color.backgroundColor": {
+          "type": "string"
+        },
+        "labels[].color.textColor": {
+          "type": "string"
+        },
+        "labels[].id": {
+          "type": "string"
+        },
+        "labels[].labelListVisibility": {
+          "type": "string"
+        },
+        "labels[].messageListVisibility": {
+          "type": "string"
+        },
+        "labels[].messagesTotal": {
+          "type": "integer"
+        },
+        "labels[].messagesUnread": {
+          "type": "integer"
+        },
+        "labels[].name": {
+          "type": "string"
+        },
+        "labels[].threadsTotal": {
+          "type": "integer"
+        },
+        "labels[].threadsUnread": {
+          "type": "integer"
+        },
+        "labels[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_gmail:gmail.users.settings.cse.identities.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_gmail:gmail.users.settings.cse.identities.list",
+      "params": {
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "gmail/v1/users/{userId}/settings/cse/identities",
+      "response": {
+        "cseIdentities": {
+          "type": "array"
+        },
+        "cseIdentities[]": {
+          "type": "object"
+        },
+        "cseIdentities[].emailAddress": {
+          "type": "string"
+        },
+        "cseIdentities[].primaryKeyPairId": {
+          "type": "string"
+        },
+        "cseIdentities[].signAndEncryptKeyPairs": {
+          "type": "object"
+        },
+        "cseIdentities[].signAndEncryptKeyPairs.encryptionKeyPairId": {
+          "type": "string"
+        },
+        "cseIdentities[].signAndEncryptKeyPairs.signingKeyPairId": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_gmail:gmail.users.settings.cse.keypairs.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_gmail:gmail.users.settings.cse.keypairs.list",
+      "params": {
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "gmail/v1/users/{userId}/settings/cse/keypairs",
+      "response": {
+        "cseKeyPairs": {
+          "type": "array"
+        },
+        "cseKeyPairs[]": {
+          "type": "object"
+        },
+        "cseKeyPairs[].disableTime": {
+          "type": "string"
+        },
+        "cseKeyPairs[].enablementState": {
+          "type": "string"
+        },
+        "cseKeyPairs[].keyPairId": {
+          "type": "string"
+        },
+        "cseKeyPairs[].pem": {
+          "type": "string"
+        },
+        "cseKeyPairs[].pkcs7": {
+          "type": "string"
+        },
+        "cseKeyPairs[].privateKeyMetadata": {
+          "type": "array"
+        },
+        "cseKeyPairs[].privateKeyMetadata[]": {
+          "type": "object"
+        },
+        "cseKeyPairs[].subjectEmailAddresses": {
+          "type": "array"
+        },
+        "cseKeyPairs[].subjectEmailAddresses[]": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_gmail:gmail.users.settings.filters.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_gmail:gmail.users.settings.filters.list",
+      "params": {
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "gmail/v1/users/{userId}/settings/filters",
+      "response": {
+        "filter": {
+          "type": "array"
+        },
+        "filter[]": {
+          "type": "object"
+        },
+        "filter[].action": {
+          "type": "object"
+        },
+        "filter[].action.addLabelIds": {
+          "type": "array"
+        },
+        "filter[].action.forward": {
+          "type": "string"
+        },
+        "filter[].action.removeLabelIds": {
+          "type": "array"
+        },
+        "filter[].criteria": {
+          "type": "object"
+        },
+        "filter[].criteria.excludeChats": {
+          "type": "boolean"
+        },
+        "filter[].criteria.from": {
+          "type": "string"
+        },
+        "filter[].criteria.hasAttachment": {
+          "type": "boolean"
+        },
+        "filter[].criteria.negatedQuery": {
+          "type": "string"
+        },
+        "filter[].criteria.query": {
+          "type": "string"
+        },
+        "filter[].criteria.size": {
+          "type": "integer"
+        },
+        "filter[].criteria.sizeComparison": {
+          "type": "string"
+        },
+        "filter[].criteria.subject": {
+          "type": "string"
+        },
+        "filter[].criteria.to": {
+          "type": "string"
+        },
+        "filter[].id": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_gmail:gmail.users.settings.forwardingAddresses.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_gmail:gmail.users.settings.forwardingAddresses.list",
+      "params": {
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "gmail/v1/users/{userId}/settings/forwardingAddresses",
+      "response": {
+        "forwardingAddresses": {
+          "type": "array"
+        },
+        "forwardingAddresses[]": {
+          "type": "object"
+        },
+        "forwardingAddresses[].forwardingEmail": {
+          "type": "string"
+        },
+        "forwardingAddresses[].verificationStatus": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_gmail:gmail.users.settings.sendAs.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_gmail:gmail.users.settings.sendAs.list",
+      "params": {
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "gmail/v1/users/{userId}/settings/sendAs",
+      "response": {
+        "sendAs": {
+          "type": "array"
+        },
+        "sendAs[]": {
+          "type": "object"
+        },
+        "sendAs[].displayName": {
+          "type": "string"
+        },
+        "sendAs[].isDefault": {
+          "type": "boolean"
+        },
+        "sendAs[].isPrimary": {
+          "type": "boolean"
+        },
+        "sendAs[].replyToAddress": {
+          "type": "string"
+        },
+        "sendAs[].sendAsEmail": {
+          "type": "string"
+        },
+        "sendAs[].signature": {
+          "type": "string"
+        },
+        "sendAs[].smtpMsa": {
+          "type": "object"
+        },
+        "sendAs[].smtpMsa.host": {
+          "type": "string"
+        },
+        "sendAs[].smtpMsa.password": {
+          "type": "string"
+        },
+        "sendAs[].smtpMsa.port": {
+          "type": "integer"
+        },
+        "sendAs[].smtpMsa.securityMode": {
+          "type": "string"
+        },
+        "sendAs[].smtpMsa.username": {
+          "type": "string"
+        },
+        "sendAs[].treatAsAlias": {
+          "type": "boolean"
+        },
+        "sendAs[].verificationStatus": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_gmail:gmail.users.settings.sendAs.smimeInfo.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_gmail:gmail.users.settings.sendAs.smimeInfo.list",
+      "params": {
+        "sendAsEmail": {
+          "in": "path",
+          "required": true
+        },
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "gmail/v1/users/{userId}/settings/sendAs/{sendAsEmail}/smimeInfo",
+      "response": {
+        "smimeInfo": {
+          "type": "array"
+        },
+        "smimeInfo[]": {
+          "type": "object"
+        },
+        "smimeInfo[].encryptedKeyPassword": {
+          "type": "string"
+        },
+        "smimeInfo[].expiration": {
+          "type": "string"
+        },
+        "smimeInfo[].id": {
+          "type": "string"
+        },
+        "smimeInfo[].isDefault": {
+          "type": "boolean"
+        },
+        "smimeInfo[].issuerCn": {
+          "type": "string"
+        },
+        "smimeInfo[].pem": {
+          "type": "string"
+        },
+        "smimeInfo[].pkcs12": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "revision": "20261005",
+  "snapshot_sha256": "453b3727161d79db6d95c74376b236e87451ecaad4c34844884efa0634ac18b4",
+  "source": "gws_gmail",
+  "unmatched": [],
+  "version": "v1"
+}

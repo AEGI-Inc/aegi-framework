@@ -1,0 +1,92 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:35.224Z",
+  "ops": {
+    "op:confluence_openapi_v2:getAdminKey": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:confluence_openapi_v2:getAdminKey",
+      "params": {},
+      "path": "/admin-key",
+      "response": {
+        "accountId": {
+          "type": "string"
+        },
+        "expirationTime": {
+          "type": "string"
+        }
+      }
+    },
+    "op:confluence_openapi_v2:getAvailableSpaceRoles": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:confluence_openapi_v2:getAvailableSpaceRoles",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "principal-id": {
+          "in": "query",
+          "required": false
+        },
+        "principal-type": {
+          "in": "query",
+          "required": false
+        },
+        "role-type": {
+          "in": "query",
+          "required": false
+        },
+        "space-id": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/space-roles",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.base": {
+          "type": "string"
+        },
+        "_links.next": {
+          "type": "string"
+        },
+        "results": {
+          "type": "array"
+        },
+        "results[]": {
+          "type": "object"
+        },
+        "results[].description": {
+          "type": "string"
+        },
+        "results[].id": {
+          "type": "string"
+        },
+        "results[].name": {
+          "type": "string"
+        },
+        "results[].spacePermissions": {
+          "type": "array"
+        },
+        "results[].spacePermissions[]": {
+          "type": "string"
+        },
+        "results[].type": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "edb639bbc700ee451a996acd2568e51db4ceab954449427537df30f0ce20ca08",
+  "source": "confluence_openapi_v2",
+  "unmatched": [],
+  "version": "2.0.0"
+}

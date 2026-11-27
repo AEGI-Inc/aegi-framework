@@ -1,0 +1,44 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: ExternalConnection
+interfaces: [Integration]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-EXTCONN-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-27
+        request: {kind: connections}
+        items: value
+    id_expr: id
+    properties:
+      name: name
+      description: description
+      state: state
+      connectorId: connectorId
+      authorized_app_ids: configuration.authorizedAppIds
+    display: "{name|id}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: has_role_on
+        each: configuration.authorizedAppIds
+        source: {type: ServicePrincipal, lookup: appId, value: $item}
+        target: $self
+        role:
+          name: {const: authorized_app}
+        basis: stated
+        require: [source, target]

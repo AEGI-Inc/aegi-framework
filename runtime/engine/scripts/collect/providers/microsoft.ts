@@ -1,8 +1,8 @@
-import { buildUrl, CallError, type CallApi, type CallDef } from '../lib/runner'
+import { buildUrl, CallError, httpClassifier, type CallApi, type CallDef, type Classifier } from '../lib/runner'
 import { m365ClientCredentialsAuth, TokenError } from '../lib/auth'
 import type { Auth } from '../lib/http'
 import { missingCredential } from '../config'
-import { maxIso, streamStart, type ProviderContext } from './common'
+import { maxIso, streamStart, type DnsResolver, type ProviderContext } from './common'
 
 const GRAPH = 'https://graph.microsoft.com/v1.0'
 // Node fetch 는 Accept-Language: * 를 보내는데, roleEligibilitySchedules 는 이를 400(CultureNotFoundException)으로 거절한다(2026-11-20 실측)
@@ -63,26 +63,50 @@ function parseM365Creds(raw: string): { tenantId?: string; clientId: string; cli
 export function microsoftCalls(ctx: ProviderContext): CallDef[] {
   const { config, creds, transport } = ctx
   let cachedAuth: Auth | null = null
+  let cachedMgmtAuth: Auth | null = null
 
-  const getAuth = (): Auth => {
-    if (cachedAuth) return cachedAuth
+  const resolveCreds = () => {
     const parsed = parseM365Creds(creds.require('m365/collector-app.json'))
     const tenantId = parsed.tenantId || config.microsoft?.tenantId || ''
     if (!tenantId) throw new TokenError('M365 tenantId 가 없다')
+    return { ...parsed, tenantId }
+  }
+
+  const getAuth = (): Auth => {
+    if (cachedAuth) return cachedAuth
+    const { tenantId, clientId, clientSecret } = resolveCreds()
     cachedAuth = m365ClientCredentialsAuth({
       ref: 'CRED-M365-01',
       tenantId,
-      clientId: parsed.clientId,
-      clientSecret: parsed.clientSecret,
+      clientId,
+      clientSecret,
       transport,
     })
     return cachedAuth
+  }
+
+  const getMgmtAuth = (): Auth => {
+    if (cachedMgmtAuth) return cachedMgmtAuth
+    const { tenantId, clientId, clientSecret } = resolveCreds()
+    cachedMgmtAuth = m365ClientCredentialsAuth({
+      ref: 'CRED-M365-01',
+      tenantId,
+      clientId,
+      clientSecret,
+      scope: 'https://manage.office.com/.default',
+      transport,
+    })
+    return cachedMgmtAuth
   }
 
   const state = {
     users: [] as Array<{ id: string }>,
     usersDone: false,
     siteDriveIds: [] as string[],
+    domains: [] as Array<{ id: string; isVerified?: boolean }>,
+    domainsDone: false,
+    teamIds: [] as string[],
+    teamsDone: false,
   }
 
   const unavailable = () =>
@@ -91,11 +115,11 @@ export function microsoftCalls(ctx: ProviderContext): CallDef[] {
 
   const url = (path: string) => (path.startsWith('http') ? path : `${GRAPH}${path}`)
 
-  const get = (api: CallApi, path: string, params: Record<string, unknown> = {}, extra: object = {}) =>
-    api.get({ ...extra, url: url(path), auth: getAuth(), headers: GRAPH_HEADERS, params })
+  const get = (api: CallApi, path: string, params: Record<string, unknown> = {}, extra: { headers?: Record<string, string>; [k: string]: unknown } = {}) =>
+    api.get({ ...extra, url: url(path), auth: getAuth(), headers: extra.headers ? { ...GRAPH_HEADERS, ...extra.headers } : GRAPH_HEADERS, params })
 
-  const list = (api: CallApi, path: string, params: Record<string, unknown> = {}, extra: object = {}) =>
-    api.list({ ...extra, url: url(path), auth: getAuth(), headers: GRAPH_HEADERS, paginate: { kind: 'graph' }, items: b => b?.value ?? [], params })
+  const list = (api: CallApi, path: string, params: Record<string, unknown> = {}, extra: { headers?: Record<string, string>; [k: string]: unknown } = {}) =>
+    api.list({ ...extra, url: url(path), auth: getAuth(), headers: extra.headers ? { ...GRAPH_HEADERS, ...extra.headers } : GRAPH_HEADERS, paginate: { kind: 'graph' }, items: b => b?.value ?? [], params })
 
   const call = (id: string, title: string, run: (api: CallApi) => Promise<void>, depends?: () => string | null): CallDef => ({
     id,
@@ -157,12 +181,13 @@ export function microsoftCalls(ctx: ProviderContext): CallDef[] {
       }
     }),
 
-    call('M365-05', 'Applications (owners)', async api => {
+    call('M365-05', 'Applications (owners, federatedIdentityCredentials)', async api => {
       const apps = await list(api, '/applications?$top=999', { kind: 'applications' })
       for (const a of apps) {
         if (!a?.id) continue
         const aid = encodeURIComponent(a.id)
         await api.optional(`app_owners:${a.id}`, () => list(api, `/applications/${aid}/owners?$select=id`, { app: a.id, kind: 'owners' }))
+        await api.optional(`app_federatedIdentityCredentials:${a.id}`, () => list(api, `/applications/${aid}/federatedIdentityCredentials`, { app: a.id, kind: 'federatedIdentityCredentials' }))
       }
     }),
 
@@ -209,7 +234,8 @@ export function microsoftCalls(ctx: ProviderContext): CallDef[] {
 
     call('M365-10', 'Licenses and Domains', async api => {
       await list(api, '/subscribedSkus', { kind: 'subscribedSkus' })
-      await list(api, '/domains', { kind: 'domains' })
+      state.domains = await list(api, '/domains', { kind: 'domains' })
+      state.domainsDone = true
     }),
 
     call('M365-11', 'ConditionalAccess (policies, namedLocations)', async api => {
@@ -236,13 +262,17 @@ export function microsoftCalls(ctx: ProviderContext): CallDef[] {
 
     call('M365-14', 'Teams (details, channels, members)', async api => {
       const teams = await list(api, `/groups?${new URLSearchParams({ $filter: "resourceProvisioningOptions/Any(x:x eq 'Team')", $select: 'id,displayName' })}`, { kind: 'team_groups' })
+      const teamIds: string[] = []
       for (const t of teams) {
         if (!t?.id) continue
+        teamIds.push(t.id)
         const tid = encodeURIComponent(t.id)
         await api.optional(`team:${t.id}`, () => get(api, `/teams/${tid}`, { team: t.id, kind: 'team' }))
         await api.optional(`team_channels:${t.id}`, () => list(api, `/teams/${tid}/channels`, { team: t.id, kind: 'channels' }))
         await api.optional(`team_members:${t.id}`, () => list(api, `/teams/${tid}/members`, { team: t.id, kind: 'members' }))
       }
+      state.teamIds = teamIds
+      state.teamsDone = true
     }),
 
     call('M365-15', 'Drive items and sharing permissions', async api => {
@@ -314,5 +344,311 @@ export function microsoftCalls(ctx: ProviderContext): CallDef[] {
       await api.optional('security_alerts_v2', () => list(api, '/security/alerts_v2', { kind: 'alerts_v2' }))
       await api.optional('security_incidents', () => list(api, '/security/incidents', { kind: 'incidents' }))
     }),
+
+    call('M365-19', 'Cross-tenant access policy', async api => {
+      await api.optional('crossTenantAccessPolicy', () => get(api, '/policies/crossTenantAccessPolicy', { kind: 'crossTenantAccessPolicy' }))
+      await api.optional('crossTenantAccessPolicy_default', () => get(api, '/policies/crossTenantAccessPolicy/default', { kind: 'default' }))
+      const partners = await api.optional('crossTenantAccessPolicy_partners', () => list(api, '/policies/crossTenantAccessPolicy/partners', { kind: 'partners' }))
+      for (const p of partners ?? []) {
+        if (!p?.tenantId) continue
+        await api.optional(`crossTenantPartner_identitySync:${p.tenantId}`, () =>
+          get(api, `/policies/crossTenantAccessPolicy/partners/${encodeURIComponent(p.tenantId)}/identitySynchronization`, { partner: p.tenantId, kind: 'identitySynchronization' }),
+        )
+      }
+    }),
+
+    call('M365-20', 'Delegated admin relationships', async api => {
+      await api.optional('delegatedAdminRelationships', () => list(api, '/tenantRelationships/delegatedAdminRelationships', { kind: 'delegatedAdminRelationships' }))
+    }),
+
+    call('M365-21', 'Directory synchronization', async api => {
+      await api.optional('onPremisesSynchronization', () => list(api, '/directory/onPremisesSynchronization', { kind: 'onPremisesSynchronization' }))
+    }),
+
+    call('M365-22', 'Role management policies', async api => {
+      const filter = "scopeId eq '/' and scopeType eq 'DirectoryRole'"
+      await api.optional('roleManagementPolicies', () =>
+        list(api, buildUrl(`${GRAPH}/policies/roleManagementPolicies`, { $filter: filter, $expand: 'rules' }), { kind: 'roleManagementPolicies' }),
+      )
+      await api.optional('roleManagementPolicyAssignments', () =>
+        list(api, buildUrl(`${GRAPH}/policies/roleManagementPolicyAssignments`, { $filter: filter }), { kind: 'roleManagementPolicyAssignments' }),
+      )
+    }),
+
+    call('M365-23', 'Tenant authorization and authentication policies', async api => {
+      await api.optional('authorizationPolicy', () => get(api, '/policies/authorizationPolicy', { kind: 'authorizationPolicy' }))
+      await api.optional('authenticationMethodsPolicy', () => get(api, '/policies/authenticationMethodsPolicy', { kind: 'authenticationMethodsPolicy' }))
+      await api.optional('securityDefaults', () => get(api, '/policies/identitySecurityDefaultsEnforcementPolicy', { kind: 'securityDefaults' }))
+      const pgPolicies = await api.optional('permissionGrantPolicies', () => list(api, '/policies/permissionGrantPolicies', { kind: 'permissionGrantPolicies' }))
+      for (const p of pgPolicies ?? []) {
+        if (!p?.id) continue
+        const pid = encodeURIComponent(p.id)
+        await api.optional(`permissionGrantPolicy_includes:${p.id}`, () => list(api, `/policies/permissionGrantPolicies/${pid}/includes`, { policy: p.id, kind: 'includes' }))
+        await api.optional(`permissionGrantPolicy_excludes:${p.id}`, () => list(api, `/policies/permissionGrantPolicies/${pid}/excludes`, { policy: p.id, kind: 'excludes' }))
+      }
+      await api.optional('adminConsentRequestPolicy', () => get(api, '/policies/adminConsentRequestPolicy', { kind: 'adminConsentRequestPolicy' }))
+    }),
+
+    call('M365-24', 'Application token and sign-in policies', async api => {
+      const policyKinds = [
+        'tokenLifetimePolicies',
+        'tokenIssuancePolicies',
+        'claimsMappingPolicies',
+        'homeRealmDiscoveryPolicies',
+        'activityBasedTimeoutPolicies',
+      ]
+      for (const policyKind of policyKinds) {
+        const policies = await api.optional(policyKind, () => list(api, `/policies/${policyKind}`, { kind: policyKind }))
+        for (const p of policies ?? []) {
+          if (!p?.id) continue
+          await api.optional(`${policyKind}_appliesTo:${p.id}`, () =>
+            list(api, `/policies/${policyKind}/${encodeURIComponent(p.id)}/appliesTo`, { policy: p.id, policy_kind: policyKind, kind: 'appliesTo' }),
+          )
+        }
+      }
+    }),
+
+    call('M365-25', 'Domain federation and certificate-based auth', async api => {
+      for (const d of state.domains) {
+        if (!d?.id) continue
+        await api.optional(`domain_federationConfiguration:${d.id}`, () =>
+          list(api, `/domains/${encodeURIComponent(d.id)}/federationConfiguration`, { domain: d.id, kind: 'federationConfiguration' }),
+        )
+      }
+      const { tenantId } = resolveCreds()
+      await api.optional('certificateBasedAuthConfiguration', () =>
+        list(api, `/organization/${encodeURIComponent(tenantId)}/certificateBasedAuthConfiguration`, { kind: 'certificateBasedAuthConfiguration' }),
+      )
+    }, () => (state.domainsDone ? null : 'depends_on:M365-10')),
+
+    call('M365-26', 'Teams apps and resource-specific consent', async api => {
+      for (const teamId of state.teamIds) {
+        const tid = encodeURIComponent(teamId)
+        await api.optional(`team_installedApps:${teamId}`, () =>
+          list(api, `/teams/${tid}/installedApps?$expand=teamsAppDefinition,teamsApp`, { team: teamId, kind: 'installedApps' }),
+        )
+        await api.optional(`team_permissionGrants:${teamId}`, () =>
+          list(api, `/teams/${tid}/permissionGrants`, { team: teamId, kind: 'permissionGrants' }),
+        )
+      }
+    }, () => (state.teamsDone ? null : 'depends_on:M365-14')),
+
+    call('M365-27', 'Graph connectors', async api => {
+      await api.optional('connections', () => list(api, '/external/connections', { kind: 'connections' }))
+    }),
+
+    call('M365-28', 'SharePoint tenant settings', async api => {
+      await api.optional('sharepointSettings', () => get(api, '/admin/sharepoint/settings', { kind: 'sharepointSettings' }))
+    }),
+
+    call('M365-29', 'Mailbox rules and settings', async api => {
+      const mailboxClassify: Classifier = res => {
+        const code = (res.body as any)?.error?.code
+        if (code === 'MailboxNotEnabledForRESTAPI' || res.status === 404) {
+          return { kind: 'not_found', code: code ?? 'http_404' }
+        }
+        return httpClassifier(res)
+      }
+      const targets = state.users.slice(0, USER_CAP)
+      if (state.users.length > USER_CAP) api.partial(`users_capped:${USER_CAP}`)
+      for (const u of targets) {
+        if (!u?.id) continue
+        const uid = encodeURIComponent(u.id)
+        await api.optional(`messageRules:${u.id}`, () =>
+          list(api, `/users/${uid}/mailFolders/inbox/messageRules`, { user: u.id, kind: 'messageRules' }, { classify: mailboxClassify }),
+        )
+        await api.optional(`mailboxSettings:${u.id}`, () =>
+          get(api, `/users/${uid}/mailboxSettings`, { user: u.id, kind: 'mailboxSettings' }, { classify: mailboxClassify }),
+        )
+      }
+    }, () => (state.usersDone ? null : 'depends_on:M365-02')),
+
+    call('M365-30', 'Directory group settings', async api => {
+      await api.optional('groupSettings', () => list(api, '/groupSettings', { kind: 'groupSettings' }))
+    }),
+
+    call('M365-31', 'BitLocker and LAPS metadata', async api => {
+      await api.optional('bitlockerRecoveryKeys', () =>
+        list(
+          api,
+          '/informationProtection/bitlocker/recoveryKeys',
+          { kind: 'bitlockerRecoveryKeys' },
+          { headers: { ...GRAPH_HEADERS, 'ocp-client-name': 'AEGI Collector', 'ocp-client-version': '1.0' } },
+        ),
+      )
+      await api.optional('deviceLocalCredentials', () =>
+        list(api, '/directory/deviceLocalCredentials', { kind: 'deviceLocalCredentials' }),
+      )
+    }),
+
+    call('M365-32', 'Authentication method registration details', async api => {
+      await api.optional('userRegistrationDetails', () =>
+        list(api, '/reports/authenticationMethods/userRegistrationDetails', { kind: 'userRegistrationDetails' }),
+      )
+    }),
+
+    call('M365-33', 'Unified audit log (Management Activity API)', async api => {
+      const { tenantId } = resolveCreds()
+      const auth = getMgmtAuth()
+      const contentTypes = ['Audit.AzureActiveDirectory', 'Audit.Exchange', 'Audit.SharePoint', 'Audit.General']
+      const DAY_MS = 24 * 60 * 60 * 1000
+      const untilMs = Date.parse(api.period.until)
+      const sevenDaysAgoMs = untilMs - 7 * DAY_MS
+      const fmt = (ms: number) => new Date(ms).toISOString().slice(0, 19)
+
+      for (const ct of contentTypes) {
+        const stream = `microsoft.unifiedAudit.${ct}`
+        const prevCursor = api.cursor(stream)?.last_event_at ?? null
+        const rawStartMs = Date.parse(streamStart(api, stream, config.since))
+        let startMs = Math.max(Number.isFinite(rawStartMs) ? rawStartMs : sevenDaysAgoMs, sevenDaysAgoMs)
+        const creationTimes: string[] = []
+        let firstFailedStartMs: number | null = null
+        const mgmtClassify: Classifier = res => {
+          const code = (res.body as any)?.error?.code
+          if (typeof code === 'string' && /^AF2002[23]$/.test(code)) {
+            return { kind: 'partial', code: `subscription_disabled:${ct}` }
+          }
+          return httpClassifier(res)
+        }
+
+        while (startMs < untilMs) {
+          const endMs = Math.min(startMs + DAY_MS, untilMs)
+          const feedUrl = buildUrl(
+            `https://manage.office.com/api/v1.0/${encodeURIComponent(tenantId)}/activity/feed/subscriptions/content`,
+            {
+              contentType: ct,
+              startTime: fmt(startMs),
+              endTime: fmt(endMs),
+              PublisherIdentifier: tenantId,
+            },
+          )
+          const blobs = await api.optional(`audit_feed:${ct}:${fmt(startMs)}`, () =>
+            api.list({
+              url: feedUrl,
+              auth,
+              paginate: { kind: 'o365-mgmt' },
+              items: b => (Array.isArray(b) ? b : []),
+              params: { contentType: ct, kind: 'feed', startTime: fmt(startMs), endTime: fmt(endMs) },
+              classify: mgmtClassify,
+            }),
+          )
+          if (blobs === null) {
+            if (firstFailedStartMs === null) firstFailedStartMs = startMs
+          } else {
+            for (const blob of blobs) {
+              const contentUri = blob?.contentUri
+              if (typeof contentUri !== 'string' || !contentUri.startsWith('https://manage.office.com/')) continue
+              const events = await api.optional(`audit_content:${ct}:${blob.contentId ?? ''}`, () =>
+                api.get({
+                  url: contentUri,
+                  auth,
+                  params: { contentType: ct, kind: 'content' },
+                }),
+              )
+              if (events === null) {
+                if (firstFailedStartMs === null) firstFailedStartMs = startMs
+              } else if (Array.isArray(events)) {
+                for (const ev of events) {
+                  if (typeof ev?.CreationTime === 'string') creationTimes.push(ev.CreationTime)
+                }
+              }
+            }
+          }
+          startMs = endMs
+        }
+
+        const last = maxIso(creationTimes)
+        let nextLast: string | null
+        if (firstFailedStartMs === null) {
+          nextLast = last ?? prevCursor
+        } else {
+          const prevMs = prevCursor ? Date.parse(prevCursor) : Number.NaN
+          const candidateMs = last ? Math.min(Date.parse(last), firstFailedStartMs) : prevMs
+          if (Number.isFinite(candidateMs)) {
+            const flooredMs = Number.isFinite(prevMs) ? Math.max(candidateMs, prevMs) : candidateMs
+            nextLast = new Date(flooredMs).toISOString()
+          } else {
+            nextLast = prevCursor
+          }
+        }
+        api.setCursor(stream, { cursor: null, last_event_at: nextLast })
+      }
+    }),
+
+    call('M365-34', 'Domain DNS mail authentication', async api => {
+      let resolver: DnsResolver
+      if (ctx.dnsResolver) {
+        resolver = ctx.dnsResolver
+      } else {
+        try {
+          resolver = await import('node:dns/promises')
+        } catch {
+          api.partial('dns_unavailable')
+          return
+        }
+      }
+
+      const queryDns = async <T>(record: string, fn: () => Promise<T>, fallback: T): Promise<{ ok: true; value: T } | { ok: false }> => {
+        try {
+          return { ok: true, value: await fn() }
+        } catch (err: any) {
+          if (err?.code === 'ENODATA' || err?.code === 'ENOTFOUND') return { ok: true, value: fallback }
+          const code = typeof err?.code === 'string' && err.code ? err.code : 'unknown'
+          api.partial(`dns_error:${record}:${code}`)
+          return { ok: false }
+        }
+      }
+
+      for (const d of state.domains) {
+        if (!d?.id || !d?.isVerified) continue
+        const domain = d.id
+        const txtRes = await queryDns('spf', () => resolver.resolveTxt(domain), [])
+        if (txtRes.ok) {
+          const txtRecords = txtRes.value.map(parts => parts.join(''))
+          api.record({
+            endpoint: `dns TXT ${domain}`,
+            params: { domain, kind: 'dns', record: 'spf' },
+            body: { domain, records: txtRecords, spf: txtRecords.filter(r => r.startsWith('v=spf1')) },
+          })
+        }
+
+        const dmarcRes = await queryDns('dmarc', () => resolver.resolveTxt(`_dmarc.${domain}`), [])
+        if (dmarcRes.ok) {
+          const dmarcRecords = dmarcRes.value.map(parts => parts.join(''))
+          api.record({
+            endpoint: `dns TXT _dmarc.${domain}`,
+            params: { domain, kind: 'dns', record: 'dmarc' },
+            body: { domain, records: dmarcRecords },
+          })
+        }
+
+        const sel1Res = await queryDns('dkim_selector1', () => resolver.resolveCname(`selector1._domainkey.${domain}`), [])
+        if (sel1Res.ok) {
+          api.record({
+            endpoint: `dns CNAME selector1._domainkey.${domain}`,
+            params: { domain, kind: 'dns', record: 'dkim_selector1' },
+            body: { domain, targets: sel1Res.value },
+          })
+        }
+
+        const sel2Res = await queryDns('dkim_selector2', () => resolver.resolveCname(`selector2._domainkey.${domain}`), [])
+        if (sel2Res.ok) {
+          api.record({
+            endpoint: `dns CNAME selector2._domainkey.${domain}`,
+            params: { domain, kind: 'dns', record: 'dkim_selector2' },
+            body: { domain, targets: sel2Res.value },
+          })
+        }
+
+        const mxRes = await queryDns('mx', () => resolver.resolveMx(domain), [])
+        if (mxRes.ok) {
+          api.record({
+            endpoint: `dns MX ${domain}`,
+            params: { domain, kind: 'dns', record: 'mx' },
+            body: { domain, records: mxRes.value },
+          })
+        }
+      }
+    }, () => (state.domainsDone ? null : 'depends_on:M365-10')),
   ]
 }

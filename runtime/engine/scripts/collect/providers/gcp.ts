@@ -16,7 +16,7 @@
  * - Discovery Engine 은 Discovery 문서에 호스트가 있는 위치(global, us)만 받는다. 다른 위치의 호스트 규칙은 확인하지 않았다.
  */
 import { CallError, type CallApi, type CallDef, buildUrl } from '../lib/runner'
-import { oauthRefreshTokenAuth } from '../lib/auth'
+import { googleDwdAuthFactory, oauthRefreshTokenAuth, type GoogleKey } from '../lib/auth'
 import type { Auth } from '../lib/http'
 import { missingCredential } from '../config'
 import type { ProviderContext } from './common'
@@ -38,6 +38,112 @@ export const GCP_SCOPE = 'https://www.googleapis.com/auth/cloud-platform'
 export const GCP_FANOUT_LIMIT = 200
 /** 양이 많을 수 있는 목록(세션·문서·기억)의 페이지 상한. 넘으면 partial(max_pages) */
 export const GCP_MAX_PAGES = 5
+const LOGGING_URL = 'https://logging.googleapis.com/v2/entries:list'
+const GCP_LOG_MAX_PAGES = 20
+/** Cloud Logging 은 항목이 늦게 들어올 수 있다. 커서보다 이만큼 앞부터 다시 읽고, 겹친 항목은 전송 장부가 거른다 */
+const GCP_LOG_LOOKBACK_MS = 15 * 60_000
+
+export function geminiLogStart(lastEventAt: string | null | undefined, since: string): string {
+  const ms = lastEventAt ? Date.parse(lastEventAt) : NaN
+  return Number.isFinite(ms) ? new Date(ms - GCP_LOG_LOOKBACK_MS).toISOString() : since
+}
+
+const GEMINI_LOG_FILTER =
+  '(logName:("gemini_enterprise_user_activity" OR "connector_activity" OR "gen_ai.client.inference.operation.details") OR ' +
+  '(logName:"cloudaudit.googleapis.com%2Factivity" AND protoPayload.serviceName="discoveryengine.googleapis.com") OR ' +
+  '(logName:"cloudaudit.googleapis.com%2Fdata_access" AND protoPayload.serviceName="discoveryengine.googleapis.com" AND ' +
+  '(protoPayload.methodName:".StreamAssist" OR protoPayload.methodName:".Search" OR protoPayload.methodName:".AcquireAccessToken" OR protoPayload.methodName:".AcquireAndStoreRefreshToken")))'
+
+const isRec = (v: unknown): v is Record<string, any> => !!v && typeof v === 'object' && !Array.isArray(v)
+const pickKeys = (src: unknown, keys: string[]): Record<string, unknown> | undefined => {
+  if (!isRec(src)) return undefined
+  const out: Record<string, unknown> = {}
+  for (const k of keys) if (src[k] !== undefined) out[k] = src[k]
+  return Object.keys(out).length ? out : undefined
+}
+const readDotted = (src: Record<string, any>, dotted: string): unknown => {
+  if (src[dotted] !== undefined) return src[dotted]
+  let cur: any = src
+  for (const part of dotted.split('.')) {
+    if (!isRec(cur)) return undefined
+    cur = cur[part]
+  }
+  return cur
+}
+const setIf = (out: Record<string, unknown>, key: string, val: unknown) => {
+  if (val !== undefined) out[key] = val
+}
+
+/** Cloud Logging 항목에서 허용 칸만 남긴다. 프롬프트·답변·검색어·문서 이름·인자·status.message 등은 버린다 */
+export function sanitizeLoggingEntry(entry: unknown): Record<string, unknown> | unknown {
+  if (!isRec(entry)) return entry
+  const out: Record<string, unknown> = {}
+  for (const k of ['insertId', 'timestamp', 'receiveTimestamp', 'logName', 'severity', 'trace']) {
+    if (entry[k] !== undefined) out[k] = entry[k]
+  }
+  if (isRec(entry.resource)) {
+    const res = pickKeys(entry.resource, ['type', 'labels'])
+    if (res) out.resource = res
+  }
+  if (isRec(entry.labels)) {
+    const evName = readDotted(entry.labels, 'event.name')
+    if (evName !== undefined) out.labels = { 'event.name': evName }
+  }
+  if (isRec(entry.protoPayload)) {
+    const pp = entry.protoPayload
+    const pOut: Record<string, unknown> = {}
+    for (const k of ['serviceName', 'methodName', 'resourceName']) setIf(pOut, k, pp[k])
+    if (isRec(pp.status) && pp.status.code !== undefined) pOut.status = { code: pp.status.code }
+    if (isRec(pp.authenticationInfo)) {
+      const ai: Record<string, unknown> = {}
+      setIf(ai, 'principalEmail', pp.authenticationInfo.principalEmail)
+      const oauth = pickKeys(pp.authenticationInfo.oauthInfo, ['oauthClientId'])
+      if (oauth) ai.oauthInfo = oauth
+      if (Object.keys(ai).length) pOut.authenticationInfo = ai
+    }
+    setIf(pOut, 'requestMetadata', pickKeys(pp.requestMetadata, ['callerIp']))
+    setIf(pOut, 'request', pickKeys(pp.request, ['@type', 'name', 'parent', 'resource']))
+    setIf(pOut, 'response', pickKeys(pp.response, ['name']))
+    if (Array.isArray(pp.authorizationInfo)) {
+      pOut.authorizationInfo = pp.authorizationInfo.map((a: unknown) => pickKeys(a, ['permission', 'granted', 'resource']) ?? {})
+    }
+    if (isRec(pp.serviceData) && isRec(pp.serviceData.policyDelta) && Array.isArray(pp.serviceData.policyDelta.bindingDeltas)) {
+      pOut.serviceData = {
+        policyDelta: {
+          bindingDeltas: pp.serviceData.policyDelta.bindingDeltas.map((d: unknown) => pickKeys(d, ['action', 'role', 'member']) ?? {}),
+        },
+      }
+    }
+    if (Object.keys(pOut).length) out.protoPayload = pOut
+  }
+  if (isRec(entry.jsonPayload)) {
+    const jp = entry.jsonPayload
+    const jOut: Record<string, unknown> = {}
+    for (const k of ['assistToken', 'userIamPrincipal']) setIf(jOut, k, jp[k])
+    setIf(jOut, 'logMetadata', pickKeys(jp.logMetadata, ['methodName', 'name', 'serviceName', 'timestamp']))
+    if (isRec(jp.request)) {
+      const rOut: Record<string, unknown> = {}
+      setIf(rOut, 'name', jp.request.name)
+      setIf(rOut, 'parent', jp.request.parent)
+      if (isRec(jp.request.policy) && Array.isArray(jp.request.policy.bindings)) {
+        rOut.policy = { bindings: jp.request.policy.bindings.map((b: unknown) => pickKeys(b, ['role', 'members']) ?? {}) }
+      }
+      setIf(rOut, 'actionExecutionParams', pickKeys(jp.request.actionExecutionParams, ['actionName', 'agentName']))
+      if (Object.keys(rOut).length) jOut.request = rOut
+    }
+    setIf(jOut, 'dataConnectorInfo', pickKeys(jp.dataConnectorInfo, ['agent', 'connectorType', 'tool']))
+    for (const dk of ['user.id', 'gen_ai.agent.name', 'gen_ai.conversation.id']) {
+      setIf(jOut, dk, readDotted(jp, dk))
+    }
+    if (Object.keys(jOut).length) out.jsonPayload = jOut
+  }
+  return out
+}
+
+export function sanitizeLoggingResponse(body: any): any {
+  if (!isRec(body) || !Array.isArray(body.entries)) return body
+  return { ...body, entries: body.entries.map(sanitizeLoggingEntry) }
+}
 
 /** 저장 전에 버리는 키: 비밀값, 키 자료, 본문 */
 export const GCP_DROP_KEYS = [
@@ -96,11 +202,18 @@ export function agentDefinitions(body: any): any {
 interface Project { name: string; projectId: string; parent?: string }
 interface Sub { kind: string; path: string; items: string; drop?: string[]; maxPages?: number; transform?: (body: any) => any; query?: Record<string, string>; /** 기능이 꺼진 저장소·앱은 400 으로 거절한다. 그 400 은 부분 실패로 세지 않고 기록만 남긴다 */ featureGated?: boolean }
 
-export function gcpCalls(ctx: ProviderContext): CallDef[] {
-  const { config, creds, transport } = ctx
-  const g = config.gcp
-  let cached: Auth | null = null
-  const auth = (): Auth => (cached ??= oauthRefreshTokenAuth({
+/**
+ * CRED-GCP-01 인증. 서비스 계정 키(GCP_COLLECTOR_SA_KEY)가 있으면 그 계정 자신으로 JWT 를 교환한다.
+ * 없으면 사람이 동의한 갱신 토큰을 쓴다. 갱신 토큰은 조직의 Google Cloud 재인증 정책에 걸리면 invalid_rapt 로 거절된다(2026-11-26)
+ */
+export function gcpAuthFor(ctx: ProviderContext): Auth {
+  const { creds, transport } = ctx
+  const sa = creds.get('GCP_COLLECTOR_SA_KEY')
+  if (sa) {
+    const key = JSON.parse(sa) as GoogleKey
+    return googleDwdAuthFactory({ ref: 'CRED-GCP-01', key, transport })(key.client_email, [GCP_SCOPE])
+  }
+  return oauthRefreshTokenAuth({
     ref: 'CRED-GCP-01',
     tokenUrl: 'https://oauth2.googleapis.com/token',
     clientId: creds.require('GCP_COLLECTOR_CLIENT_ID'),
@@ -108,7 +221,14 @@ export function gcpCalls(ctx: ProviderContext): CallDef[] {
     refreshToken: creds.require('GCP_COLLECTOR_REFRESH_TOKEN'),
     transport,
     onRotate: ({ refreshToken }) => creds.set('GCP_COLLECTOR_REFRESH_TOKEN', refreshToken),
-  }))
+  })
+}
+
+export function gcpCalls(ctx: ProviderContext): CallDef[] {
+  const { config, creds } = ctx
+  const g = config.gcp
+  let cached: Auth | null = null
+  const auth = (): Auth => (cached ??= gcpAuthFor(ctx))
 
   const state = {
     projects: [] as Project[],
@@ -152,7 +272,11 @@ export function gcpCalls(ctx: ProviderContext): CallDef[] {
     provider: 'gcp',
     title,
     credential: 'CRED-GCP-01',
-    unavailable: () => missingCredential(creds, 'CRED-GCP-01') ?? (g?.projects?.length || g?.discoverProjects ? null : 'config_missing:gcp.projects') ?? (id !== 'GCP-01' && !state.projectsDone ? 'dependency:GCP-01' : null),
+    unavailable: () =>
+      missingCredential(creds, 'CRED-GCP-01') ??
+      (id === 'GCP-07'
+        ? (g?.projects?.length ? null : 'config_missing:gcp.projects')
+        : ((g?.projects?.length || g?.discoverProjects ? null : 'config_missing:gcp.projects') ?? (id !== 'GCP-01' && !state.projectsDone ? 'dependency:GCP-01' : null))),
     run,
   })
 
@@ -380,6 +504,51 @@ export function gcpCalls(ctx: ProviderContext): CallDef[] {
           }
         }
       }
+    }),
+
+    call('GCP-07', 'Gemini Enterprise 감사 로그 (Cloud Logging)', async api => {
+      const resourceNames = (g?.projects ?? []).map(p => (p.startsWith('projects/') ? p : `projects/${p}`))
+      const stream = 'gcp:logging:gemini'
+      const since = geminiLogStart(api.cursor(stream)?.last_event_at, api.period.since)
+      const until = api.period.until
+      const filter = `timestamp >= "${since}" AND timestamp < "${until}" AND ${GEMINI_LOG_FILTER}`
+      let pageToken: string | undefined
+      let pages = 0
+      let maxTs: string | null = null
+      let maxMs = -Infinity
+      for (;;) {
+        pages++
+        const body: any = await api.get({
+          url: LOGGING_URL,
+          auth: auth(),
+          method: 'POST',
+          readOnlyPost: 'gcp-log',
+          body: JSON.stringify({
+            resourceNames,
+            filter,
+            orderBy: 'timestamp asc',
+            pageSize: 1000,
+            ...(pageToken ? { pageToken } : {}),
+          }),
+          params: { kind: 'logging_entries', page: pages },
+          transform: sanitizeLoggingResponse,
+        })
+        if (!body) break
+        for (const e of body.entries ?? []) {
+          const ts = e?.timestamp
+          if (typeof ts === 'string') {
+            const ms = Date.parse(ts)
+            if (Number.isFinite(ms) && ms > maxMs) { maxMs = ms; maxTs = ts }
+          }
+        }
+        pageToken = typeof body.nextPageToken === 'string' && body.nextPageToken ? body.nextPageToken : undefined
+        if (!pageToken) break
+        if (pages >= GCP_LOG_MAX_PAGES) {
+          api.partial(`max_pages:${GCP_LOG_MAX_PAGES}`)
+          break
+        }
+      }
+      if (maxTs) api.setCursor(stream, { cursor: null, last_event_at: maxTs })
     }),
   ]
 }

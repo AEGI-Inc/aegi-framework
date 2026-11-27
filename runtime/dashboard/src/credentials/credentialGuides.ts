@@ -394,7 +394,7 @@ export const CREDENTIAL_GUIDES: Record<string, CredentialGuide> = {
     sources: [{ title: 'Microsoft Entra 관리 센터 ↗', url: 'https://entra.microsoft.com/' }],
   },
   M365_CLIENT_ID: {
-    summary: 'Entra 앱 등록 Application (Client) ID (Graph 애플리케이션 권한 20종 + 관리자 동의)',
+    summary: 'Entra 앱 등록 Application (Client) ID (Graph 애플리케이션 권한 27종, Office 365 Management API 권한 3종, 관리자 동의)',
     steps: [],
     sources: [{ title: 'Entra 앱 등록 콘솔 ↗', url: 'https://entra.microsoft.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade' }],
   },

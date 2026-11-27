@@ -233,8 +233,8 @@
 .mn-legend i.query { background: #b45309; }
 .mn-legend i.identity { height: 0; border-top: 2px dashed #1e1b4b; background: transparent; }
 .mn-legend i.policy { height: 0; border-top: 2px dashed #64748b; background: transparent; }
-.mn-legend i.ea { background: #2563eb; box-shadow: 0 0 6px 1px #60a5fa; }
-.mn-legend i.nest { width: 14px; height: 11px; border: 1.5px solid #b8c4d3; background: #f6f8fa; }
+.mn-legend i.ea { background: var(--color-select); box-shadow: 0 0 6px 1px #60a5fa; }
+.mn-legend i.nest { width: 14px; height: 11px; border: 1.5px solid #b8c4d3; background: var(--color-bg-app); }
 
 /* 마우스 동작: 누르는 것은 키 모양으로 */
 .mn-keys {

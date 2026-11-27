@@ -1,0 +1,35 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: DirectorySync
+interfaces: [Integration]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-DIRSYNC-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-21
+        request: {kind: onPremisesSynchronization}
+        items: value
+    id_expr: id
+    properties:
+      features: features
+      accidentalDeletionPrevention: configuration.accidentalDeletionPrevention
+      synchronizationInterval: configuration.synchronizationInterval
+      customerRequestedSynchronizationInterval: configuration.customerRequestedSynchronizationInterval
+    display: "{id}"
+    relations:
+      - type: registered_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

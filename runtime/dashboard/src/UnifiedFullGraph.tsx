@@ -1,4 +1,4 @@
-import type { Provider } from './model/object'
+import type { FixtureObject, Provider } from './model/object'
 import type { ProviderCollection } from './model/collectionFreshness'
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type FocusEvent, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent, type ReactNode, type WheelEvent as ReactWheelEvent } from 'react'
 import ProviderLogo from './ProviderLogo'
@@ -71,6 +71,9 @@ import GraphSideDock, { readSideLayout, readSideWidth, saveSideLayout, SIDE_RAIL
 import { ChevronDown, ArrowLeft, ArrowRight, ChevronRight, ListFilter, Maximize2, Minus, Plus, Search } from 'lucide-react'
 import { setShowPlatformDefaults, showPlatformDefaults } from './model/platformDefaults'
 import { hasLocalServer } from './demoMode'
+import { getInitialGraphTarget } from './appRouting'
+import { shownKind } from './utils/objectPhrase'
+import { SCOPE_KIND_LABEL } from './semantic-graph/nodeInsight'
 
 export interface UnifiedFullGraphProps {
   eventEvidence?: AssistantEventGraph
@@ -618,6 +621,8 @@ export default function UnifiedFullGraph({
   /* 범례 폭. 막대 옆에 범례가 들어갈 자리가 있는지 재는 데 쓴다. 범례는 보일 선이 없으면 그리지 않아
      ref 콜백으로 붙었다 떨어질 때마다 다시 잰다 */
   const [legendWidth, setLegendWidth] = useState(0)
+  /* 주소에 마지막으로 적은 표시 수준과 객체 */
+  const urlSyncRef = useRef<{ level: SemanticLevel; objectKey: string | null } | null>(null)
   const legendObserver = useRef<ResizeObserver | null>(null)
   const legendRef = useCallback((element: HTMLDivElement | null) => {
     legendObserver.current?.disconnect()
@@ -640,16 +645,24 @@ export default function UnifiedFullGraph({
       selectedNode: selectedSemanticNodeId, selectedObject: selectedObjectKey, selectedEdge: selectedEdgeId,
       camera: { zoom, pan },
     })
-    /* 보던 객체와 표시 수준을 주소에도 남긴다(기록은 쌓지 않음). 링크를 받은 동료가 SaaS 요약 대신 같은 객체를 연다 */
+    /* 보던 표시 수준과 객체를 주소에 남긴다. 링크를 받은 동료가 SaaS 요약 대신 같은 객체를 연다.
+       표시 수준이나 보는 객체가 바뀌면 방문 기록을 하나 쌓아 브라우저 뒤로 가기가 직전 단계로 돌아온다.
+       처음 열 때와 뒤로, 앞으로 가기로 돌아온 때는 주소만 맞춘다 */
     const hash = window.location.hash
     if (hash.toLowerCase().startsWith('#graph')) {
       const params = new URLSearchParams()
-      const objectKey = selectedObjectKey ?? focusObjectKey
+      const objectKey = semanticLevel === 'object' ? (selectedObjectKey ?? focusObjectKey) || null : null
       if (objectKey) params.set('object', objectKey)
-      if (semanticLevel !== 'ecosystem' && !objectKey) params.set('level', semanticLevel)
+      else if (semanticLevel !== 'ecosystem') params.set('level', semanticLevel)
       const query = params.toString()
       const next = query ? `#graph?${query}` : '#graph'
-      if (hash !== next) window.history.replaceState(window.history.state, '', next)
+      const last = urlSyncRef.current
+      const step = last !== null && (last.level !== semanticLevel || (objectKey !== null && objectKey !== last.objectKey))
+      if (hash !== next) {
+        if (step) window.history.pushState({ aegiFrom: hash }, '', next)
+        else window.history.replaceState(window.history.state, '', next)
+      }
+      urlSyncRef.current = { level: semanticLevel, objectKey }
     }
   }, [semanticLevel, focusObjectKey, targetObjectKey, expandedObjectKeys,
     queryObjectKeys, queryRelationKeys, queryLinkIds, queryExecuted, queryPath, selectedFindingIds,
@@ -1276,9 +1289,30 @@ export default function UnifiedFullGraph({
     return state
   }, [projected.nodes, transitionFrom, transitionProgress, dotMode, dotPositions])
 
+  /* 브라우저 뒤로, 앞으로 가기로 그래프 주소끼리 오가면 주소의 표시 수준과 객체로 되돌린다 */
+  useEffect(() => {
+    if (evidenceMode) return
+    const onPop = () => {
+      if (!window.location.hash.toLowerCase().startsWith('#graph')) return
+      const target = getInitialGraphTarget()
+      const key = target.objectKey && currentGraph.objectsByKey.has(target.objectKey) ? target.objectKey : null
+      const level: SemanticLevel = key ? 'object' : (target.level ?? 'ecosystem')
+      urlSyncRef.current = { level, objectKey: key }
+      revealNodeRef.current = null
+      setSemanticLevel(level)
+      setSelectedEdgeId(null)
+      setSelectedObjectKey(key)
+      setSelectedSemanticNodeId(key)
+      if (key) setFocusObjectKey(key)
+    }
+    window.addEventListener('popstate', onPop)
+    return () => window.removeEventListener('popstate', onPop)
+  }, [evidenceMode, currentGraph])
+
   const changeSemanticLevel = (nextLevel: SemanticLevel) => {
     revealNodeRef.current = null
     if (nextLevel === semanticLevel) return
+    pushHistory()
     setTransitionFrom(projected)
     setTransitionProgress(0)
     setSemanticLevel(nextLevel)
@@ -1460,7 +1494,7 @@ export default function UnifiedFullGraph({
     const trail = nestFrames
       .filter(frame => frame.provider === provider && contains(frame))
       .sort((a, b) => a.depth - b.depth)
-      .map(frame => ({ id: frame.id, label: frame.label, kind: frame.objectType }))
+      .map(frame => ({ id: frame.id, label: frame.label, kind: shownKind(currentGraph.objectsByKey.get(frame.id) as FixtureObject | undefined) || frame.objectType }))
     return { provider, providers: [provider], trail: trail.slice(-3) }
   }, [viewLocationEnabled, viewportSize, inspectorRightInset, pan, zoom, projected.nodes, clusterFrames, nestFrames])
 
@@ -1788,6 +1822,9 @@ export default function UnifiedFullGraph({
   }
 
   /* 선택한 칸, 선, Effective Access 결과의 상세. 근거 그래프에서는 캔버스 위에 뜨고, 그 밖에서는 오른쪽 패널의 상세 탭이다 */
+  /* 보기 단위를 바꿔 고른 칸이 화면에 없으면 상세 탭을 감추고 탐지 결과를 둔다 */
+  const detailReady = inspectorOpen && Boolean(selectedNode || selectedEdge || selectedEaRows?.length
+    || (focusedFinding && !(selectedSemanticNodeId || selectedEdgeId || selectedEaRowIds?.length)))
   const inspectorPanel = !inspectorOpen ? null : focusedFinding && !(selectedSemanticNodeId || selectedEdgeId || selectedEaRowIds?.length) ? (
       <FindingSummary finding={focusedFinding} onClose={() => setFocusedFindingId(null)} onOpenThreat={onOpenThreat} />
   ) : (
@@ -2249,7 +2286,7 @@ export default function UnifiedFullGraph({
           <div className="gx-scope-hint">
             <span>
               <b>조사 범위</b> 객체 {currentGraph.objectsByKey.size}개 중 {scopedObjects.size}개
-              {focusObjectKey && <small> 기준 {focusObjectKey}</small>}
+              {focusObjectKey && <small> 기준 {nodesById.get(focusObjectKey)?.label ?? String(currentGraph.objectsByKey.get(focusObjectKey)?.fixture_meta?.display_name ?? focusObjectKey)}</small>}
             </span>
             <button type="button" onClick={returnToAllObjects}>전체 객체 보기</button>
           </div>
@@ -2658,7 +2695,7 @@ export default function UnifiedFullGraph({
                   <g className="fg-node-body">
                     <GraphSummaryCard node={node} color={pColor} side={projected.circle?.sides.get(node.id) ?? 'below'} angle={projected.circle?.angles.get(node.id)}
                       selected={isSelected} neighbor={selectedNeighbors.has(node.id)} finding={Boolean(hasSelectedFinding)}
-                      showBadge={hasAnyFinding} query={onQuery} path={Boolean(onPath)} zoom={zoom} />
+                      showBadge={hasAnyFinding} query={onQuery} path={Boolean(onPath)} zoom={zoom} nameOnly={projected.circle?.nameOnly} />
                     <GraphEventBadge count={eventCount} zoom={zoom} x={0} y={-circleRadius(node)} />
                   </g>
                 </g>
@@ -2880,7 +2917,7 @@ export default function UnifiedFullGraph({
         tab={sideTab}
         width={sideWidth}
         findingCount={findings.length}
-        hasDetail={inspectorOpen}
+        hasDetail={detailReady}
         detailLabel={selectedNode?.label ?? focusedFinding?.title}
         onTab={setSideTab}
         onOpenChange={setSideOpen}
@@ -3019,10 +3056,12 @@ function ViewLocationBar({ canGoBack = false, onGoBack, canGoForward = false, on
       for (const key of chain) {
         const object = graph.objectsByKey.get(key)
         const name = nodesById.get(key)?.label ?? object?.fixture_meta?.display_name ?? object?.canonical.properties?.name ?? key
-        trail.push({ id: key, label: String(name), kind: object?.canonical.object_type })
+        trail.push({ id: key, label: String(name), kind: shownKind(object as FixtureObject | undefined) || object?.canonical.object_type })
       }
     }
-    trail.push({ id: node.id, label: node.label, kind: level === 'object' ? node.objectType : level === 'scope' ? node.scopeKind : undefined })
+    trail.push({ id: node.id, label: node.label, kind: level === 'object'
+      ? shownKind(graph.objectsByKey.get(node.id) as FixtureObject | undefined) || node.objectType
+      : level === 'scope' && node.scopeKind ? SCOPE_KIND_LABEL[node.scopeKind] : undefined })
     return { provider: node.provider, providers: [node.provider], trail: trail.slice(-4) }
   }, [enabled, hoveredId, nodesById, level, containment, graph])
   const location = hovered ?? center

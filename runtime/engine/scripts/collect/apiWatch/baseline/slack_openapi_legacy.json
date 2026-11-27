@@ -1,0 +1,214 @@
+{
+  "format": "slack_doc",
+  "made_at": "2026-11-26T06:18:54.618Z",
+  "ops": {
+    "op:slack_openapi_legacy:conversations.list": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_cursor",
+        "invalid_form_data",
+        "invalid_limit",
+        "invalid_post_type",
+        "invalid_types",
+        "method_deprecated",
+        "method_not_supported_for_channel_type",
+        "missing_argument",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 2: 20+ per minute"
+      ],
+      "op": "op:slack_openapi_legacy:conversations.list",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "exclude_archived": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "team_id": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        },
+        "types": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "conversations.list",
+      "response": {}
+    },
+    "op:slack_openapi_legacy:team.info": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "enterprise_not_found",
+        "fail_to_get_teams_for_restricted_user",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "missing_user",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "org_not_found",
+        "ratelimited",
+        "request_timeout",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "team_not_found",
+        "team_not_on_enterprise",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required",
+        "user_not_found"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 3: 50+ per minute"
+      ],
+      "op": "op:slack_openapi_legacy:team.info",
+      "params": {
+        "domain": {
+          "in": "query",
+          "required": false
+        },
+        "team": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "team.info",
+      "response": {}
+    },
+    "op:slack_openapi_legacy:users.list": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_cursor",
+        "invalid_form_data",
+        "invalid_post_type",
+        "limit_required",
+        "method_deprecated",
+        "missing_argument",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "Retrieving a workspace's presence with this method is now deprecated.",
+        "rate_limit: Tier 2: 20+ per minute",
+        "users:read is no longer a sufficient scope for this data field."
+      ],
+      "op": "op:slack_openapi_legacy:users.list",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "include_locale": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "team_id": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "users.list",
+      "response": {}
+    }
+  },
+  "snapshot_sha256": "b27080181a1c1cb16d28b06e5d83b57984f8e0b3ee4046d6b4a43c0245222150",
+  "source": "slack_openapi_legacy",
+  "unmatched": []
+}

@@ -1,0 +1,38 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: PartnerTenant
+interfaces: [Tenant]
+identity:
+  primary:
+    - {name: id, expr: tenantId, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-PARTNER-TENANT-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-19
+        request: {kind: partners}
+        items: value
+    id_expr: tenantId
+    properties:
+      tenant_id: tenantId
+      is_service_provider: isServiceProvider
+    display: "{tenantId}"
+    relations:
+      - type: trusts
+        source: $tenant
+        target: $self
+        basis: stated
+        properties:
+          via_policy:
+            ref: {type: CrossTenantAccessPartner, id: tenantId}
+            prop: $key
+          inbound_trust: inboundTrust
+        require: [source, target]

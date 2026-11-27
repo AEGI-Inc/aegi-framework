@@ -1,0 +1,104 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:48.463Z",
+  "ops": {
+    "op:okta_ai_workload_principals_agentpublickey:listAgentJwk": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_ai_workload_principals_agentpublickey:listAgentJwk",
+      "params": {
+        "agentId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/workload-principals/api/v1/ai-agents/{agentId}/credentials/jwks",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[]._links": {
+          "type": "object"
+        },
+        "data[]._links.activate": {
+          "type": "object"
+        },
+        "data[]._links.deactivate": {
+          "type": "object"
+        },
+        "data[]._links.delete": {
+          "type": "object"
+        },
+        "data[].alg": {
+          "type": "string"
+        },
+        "data[].created": {
+          "type": "string"
+        },
+        "data[].crv": {
+          "type": "string"
+        },
+        "data[].e": {
+          "type": "string"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].kid": {
+          "type": "string"
+        },
+        "data[].kty": {
+          "type": "string"
+        },
+        "data[].lastUpdated": {
+          "type": "string"
+        },
+        "data[].n": {
+          "type": "string"
+        },
+        "data[].status": {
+          "type": "string"
+        },
+        "data[].use": {
+          "type": "string"
+        },
+        "data[].x": {
+          "type": "string"
+        },
+        "data[].y": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "6a2cbed342570941dbaa88ba415d4092bc7877ca8700c2de3863760d480f5a23",
+  "source": "okta_ai_workload_principals_agentpublickey",
+  "unmatched": []
+}

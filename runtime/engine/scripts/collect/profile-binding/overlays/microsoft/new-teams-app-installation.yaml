@@ -1,0 +1,39 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: teams
+object_type: TeamsAppInstallation
+interfaces: [Integration]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-TAPP-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-26
+        request: {kind: installedApps}
+        items: value
+    id_expr: id
+    properties:
+      team_id: $req.team
+      teams_app_id: teamsAppDefinition.teamsAppId
+      displayName: teamsAppDefinition.displayName
+      version: teamsAppDefinition.version
+      publishingState: teamsAppDefinition.publishingState
+      distribution_method: teamsApp.distributionMethod
+      authorization: teamsAppDefinition.authorization
+      createdBy: createdBy
+    display: "{teamsAppDefinition.displayName|teamsAppDefinition.teamsAppId|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Group, id: $req.team}
+        basis: stated
+        require: [target]

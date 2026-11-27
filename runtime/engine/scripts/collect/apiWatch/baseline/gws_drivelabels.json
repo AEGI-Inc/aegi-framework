@@ -1,0 +1,256 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:41.107Z",
+  "ops": {
+    "op:gws_drivelabels:drivelabels.labels.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_drivelabels:drivelabels.labels.list",
+      "params": {
+        "customer": {
+          "in": "query",
+          "required": false
+        },
+        "languageCode": {
+          "in": "query",
+          "required": false
+        },
+        "minimumRole": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "publishedOnly": {
+          "in": "query",
+          "required": false
+        },
+        "useAdminAccess": {
+          "in": "query",
+          "required": false
+        },
+        "view": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "v2/labels",
+      "response": {
+        "labels": {
+          "type": "array"
+        },
+        "labels[]": {
+          "type": "object"
+        },
+        "labels[].appliedCapabilities": {
+          "type": "object"
+        },
+        "labels[].appliedCapabilities.canApply": {
+          "type": "boolean"
+        },
+        "labels[].appliedCapabilities.canRead": {
+          "type": "boolean"
+        },
+        "labels[].appliedCapabilities.canRemove": {
+          "type": "boolean"
+        },
+        "labels[].appliedLabelPolicy": {
+          "type": "object"
+        },
+        "labels[].appliedLabelPolicy.copyMode": {
+          "type": "string"
+        },
+        "labels[].createTime": {
+          "type": "string"
+        },
+        "labels[].creator": {
+          "type": "object"
+        },
+        "labels[].creator.person": {
+          "type": "string"
+        },
+        "labels[].customer": {
+          "type": "string"
+        },
+        "labels[].disableTime": {
+          "type": "string"
+        },
+        "labels[].disabler": {
+          "type": "object"
+        },
+        "labels[].disabler.person": {
+          "type": "string"
+        },
+        "labels[].displayHints": {
+          "type": "object"
+        },
+        "labels[].displayHints.disabled": {
+          "type": "boolean"
+        },
+        "labels[].displayHints.hiddenInSearch": {
+          "type": "boolean"
+        },
+        "labels[].displayHints.priority": {
+          "type": "string"
+        },
+        "labels[].displayHints.shownInApply": {
+          "type": "boolean"
+        },
+        "labels[].enabledAppSettings": {
+          "type": "object"
+        },
+        "labels[].enabledAppSettings.enabledApps": {
+          "type": "array"
+        },
+        "labels[].fields": {
+          "type": "array"
+        },
+        "labels[].fields[]": {
+          "type": "object"
+        },
+        "labels[].id": {
+          "type": "string"
+        },
+        "labels[].labelType": {
+          "type": "string"
+        },
+        "labels[].learnMoreUri": {
+          "type": "string"
+        },
+        "labels[].lifecycle": {
+          "type": "object"
+        },
+        "labels[].lifecycle.disabledPolicy": {
+          "type": "object"
+        },
+        "labels[].lifecycle.hasUnpublishedChanges": {
+          "type": "boolean"
+        },
+        "labels[].lifecycle.state": {
+          "type": "string"
+        },
+        "labels[].lockStatus": {
+          "type": "object"
+        },
+        "labels[].lockStatus.locked": {
+          "type": "boolean"
+        },
+        "labels[].name": {
+          "type": "string"
+        },
+        "labels[].properties": {
+          "type": "object"
+        },
+        "labels[].properties.description": {
+          "type": "string"
+        },
+        "labels[].properties.title": {
+          "type": "string"
+        },
+        "labels[].publishTime": {
+          "type": "string"
+        },
+        "labels[].publisher": {
+          "type": "object"
+        },
+        "labels[].publisher.person": {
+          "type": "string"
+        },
+        "labels[].revisionCreateTime": {
+          "type": "string"
+        },
+        "labels[].revisionCreator": {
+          "type": "object"
+        },
+        "labels[].revisionCreator.person": {
+          "type": "string"
+        },
+        "labels[].revisionId": {
+          "type": "string"
+        },
+        "labels[].schemaCapabilities": {
+          "type": "object"
+        },
+        "labels[].schemaCapabilities.canDelete": {
+          "type": "boolean"
+        },
+        "labels[].schemaCapabilities.canDisable": {
+          "type": "boolean"
+        },
+        "labels[].schemaCapabilities.canEnable": {
+          "type": "boolean"
+        },
+        "labels[].schemaCapabilities.canUpdate": {
+          "type": "boolean"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_drivelabels:drivelabels.labels.permissions.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_drivelabels:drivelabels.labels.permissions.list",
+      "params": {
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        },
+        "useAdminAccess": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "v2/labels/{labelsId}/permissions",
+      "response": {
+        "labelPermissions": {
+          "type": "array"
+        },
+        "labelPermissions[]": {
+          "type": "object"
+        },
+        "labelPermissions[].audience": {
+          "type": "string"
+        },
+        "labelPermissions[].email": {
+          "type": "string"
+        },
+        "labelPermissions[].group": {
+          "type": "string"
+        },
+        "labelPermissions[].name": {
+          "type": "string"
+        },
+        "labelPermissions[].person": {
+          "type": "string"
+        },
+        "labelPermissions[].role": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "revision": "20261014",
+  "snapshot_sha256": "691860bea280805c017dd6ccd0f0bbfedad5b464561bc4605204999c4abe803e",
+  "source": "gws_drivelabels",
+  "unmatched": [],
+  "version": "v2"
+}

@@ -10,7 +10,7 @@
   max-width: 196px;
   height: 34px;
   padding: 0 8px 0 10px;
-  border: 1px solid #d7e0e9;
+  border: 1px solid var(--color-card-line);
   border-radius: 0;
   background: #ffffff;
   box-sizing: border-box;

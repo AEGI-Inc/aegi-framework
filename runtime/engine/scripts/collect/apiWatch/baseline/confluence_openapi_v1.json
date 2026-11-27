@@ -1,0 +1,1036 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:34.674Z",
+  "ops": {
+    "op:confluence_openapi_v1:getBlueprintTemplates": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:confluence_openapi_v1:getBlueprintTemplates",
+      "params": {
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "spaceKey": {
+          "in": "query",
+          "required": false
+        },
+        "start": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/wiki/rest/api/template/blueprint",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.<key>": {
+          "type": "object"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "results": {
+          "type": "array"
+        },
+        "results[]": {
+          "type": "object"
+        },
+        "results[]._expandable": {
+          "type": "object"
+        },
+        "results[]._expandable.body": {
+          "type": "string"
+        },
+        "results[]._links": {
+          "type": "object"
+        },
+        "results[]._links.<key>": {
+          "type": "object"
+        },
+        "results[].body": {
+          "type": "object"
+        },
+        "results[].body.anonymous_export_view": {
+          "type": "object"
+        },
+        "results[].body.atlas_doc_format": {
+          "type": "object"
+        },
+        "results[].body.editor": {
+          "type": "object"
+        },
+        "results[].body.editor2": {
+          "type": "object"
+        },
+        "results[].body.export_view": {
+          "type": "object"
+        },
+        "results[].body.storage": {
+          "type": "object"
+        },
+        "results[].body.styled_view": {
+          "type": "object"
+        },
+        "results[].body.view": {
+          "type": "object"
+        },
+        "results[].body.wiki": {
+          "type": "object"
+        },
+        "results[].description": {
+          "type": "string"
+        },
+        "results[].editorVersion": {
+          "type": "string"
+        },
+        "results[].labels": {
+          "type": "array"
+        },
+        "results[].labels[]": {
+          "type": "object"
+        },
+        "results[].name": {
+          "type": "string"
+        },
+        "results[].originalTemplate": {
+          "type": "object"
+        },
+        "results[].originalTemplate.moduleKey": {
+          "type": "string"
+        },
+        "results[].originalTemplate.pluginKey": {
+          "type": "string"
+        },
+        "results[].referencingBlueprint": {
+          "type": "string"
+        },
+        "results[].space": {
+          "type": "object"
+        },
+        "results[].templateId": {
+          "type": "string"
+        },
+        "results[].templateType": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "start": {
+          "type": "integer"
+        }
+      }
+    },
+    "op:confluence_openapi_v1:getCurrentUser": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:confluence_openapi_v1:getCurrentUser",
+      "params": {
+        "expand": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/wiki/rest/api/user/current",
+      "response": {
+        "_expandable": {
+          "type": "object"
+        },
+        "_expandable.details": {
+          "type": "string"
+        },
+        "_expandable.operations": {
+          "type": "string"
+        },
+        "_expandable.personalSpace": {
+          "type": "string"
+        },
+        "_links": {
+          "type": "object"
+        },
+        "_links.<key>": {
+          "type": "object"
+        },
+        "accountId": {
+          "type": "string"
+        },
+        "accountType": {
+          "type": "string"
+        },
+        "details": {
+          "type": "object"
+        },
+        "details.business": {
+          "type": "object"
+        },
+        "details.business.department": {
+          "type": "string"
+        },
+        "details.business.location": {
+          "type": "string"
+        },
+        "details.business.position": {
+          "type": "string"
+        },
+        "details.personal": {
+          "type": "object"
+        },
+        "details.personal.email": {
+          "type": "string"
+        },
+        "details.personal.im": {
+          "type": "string"
+        },
+        "details.personal.phone": {
+          "type": "string"
+        },
+        "details.personal.website": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "externalCollaborator": {
+          "type": "boolean"
+        },
+        "isExternalCollaborator": {
+          "type": "boolean"
+        },
+        "isGuest": {
+          "type": "boolean"
+        },
+        "operations": {
+          "type": "array"
+        },
+        "operations[]": {
+          "type": "object"
+        },
+        "operations[].operation": {
+          "type": "string"
+        },
+        "operations[].targetType": {
+          "type": "string"
+        },
+        "personalSpace": {
+          "type": "object"
+        },
+        "personalSpace._expandable": {
+          "type": "object"
+        },
+        "personalSpace._expandable.description": {
+          "type": "string"
+        },
+        "personalSpace._expandable.history": {
+          "type": "string"
+        },
+        "personalSpace._expandable.homepage": {
+          "type": "string"
+        },
+        "personalSpace._expandable.icon": {
+          "type": "string"
+        },
+        "personalSpace._expandable.identifiers": {
+          "type": "string"
+        },
+        "personalSpace._expandable.lookAndFeel": {
+          "type": "string"
+        },
+        "personalSpace._expandable.metadata": {
+          "type": "string"
+        },
+        "personalSpace._expandable.operations": {
+          "type": "string"
+        },
+        "personalSpace._expandable.permissions": {
+          "type": "string"
+        },
+        "personalSpace._expandable.settings": {
+          "type": "string"
+        },
+        "personalSpace._expandable.theme": {
+          "type": "string"
+        },
+        "personalSpace._links": {
+          "type": "object"
+        },
+        "personalSpace._links.<key>": {
+          "type": "object"
+        },
+        "personalSpace.alias": {
+          "type": "string"
+        },
+        "personalSpace.description": {
+          "type": "object"
+        },
+        "personalSpace.description._expandable": {
+          "type": "object"
+        },
+        "personalSpace.description._expandable.plain": {
+          "type": "string"
+        },
+        "personalSpace.description._expandable.view": {
+          "type": "string"
+        },
+        "personalSpace.description.plain": {
+          "type": "object"
+        },
+        "personalSpace.description.plain.embeddedContent": {
+          "type": "array"
+        },
+        "personalSpace.description.plain.representation": {
+          "type": "string"
+        },
+        "personalSpace.description.plain.value": {
+          "type": "string"
+        },
+        "personalSpace.description.view": {
+          "type": "object"
+        },
+        "personalSpace.description.view.embeddedContent": {
+          "type": "array"
+        },
+        "personalSpace.description.view.representation": {
+          "type": "string"
+        },
+        "personalSpace.description.view.value": {
+          "type": "string"
+        },
+        "personalSpace.history": {
+          "type": "object"
+        },
+        "personalSpace.history.createdDate": {
+          "type": "string"
+        },
+        "personalSpace.homepage": {
+          "type": "object"
+        },
+        "personalSpace.homepage._expandable": {
+          "type": "object"
+        },
+        "personalSpace.homepage._expandable.ancestors": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.body": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.childTypes": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.children": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.container": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.descendants": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.extensions": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.history": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.macroRenderedOutput": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.metadata": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.operations": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.restrictions": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.schedulePublishDate": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.schedulePublishInfo": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.space": {
+          "type": "string"
+        },
+        "personalSpace.homepage._expandable.version": {
+          "type": "string"
+        },
+        "personalSpace.homepage._links": {
+          "type": "object"
+        },
+        "personalSpace.homepage._links.<key>": {
+          "type": "object"
+        },
+        "personalSpace.homepage.ancestors": {
+          "type": "array"
+        },
+        "personalSpace.homepage.body": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body._expandable": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.anonymous_export_view": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.atlas_doc_format": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.dynamic": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.editor": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.editor2": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.export_view": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.raw": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.storage": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.styled_view": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.view": {
+          "type": "object"
+        },
+        "personalSpace.homepage.body.wiki": {
+          "type": "object"
+        },
+        "personalSpace.homepage.childTypes": {
+          "type": "object"
+        },
+        "personalSpace.homepage.childTypes._expandable": {
+          "type": "object"
+        },
+        "personalSpace.homepage.childTypes.attachment": {
+          "type": "object"
+        },
+        "personalSpace.homepage.childTypes.comment": {
+          "type": "object"
+        },
+        "personalSpace.homepage.childTypes.page": {
+          "type": "object"
+        },
+        "personalSpace.homepage.children": {
+          "type": "object"
+        },
+        "personalSpace.homepage.children._expandable": {
+          "type": "object"
+        },
+        "personalSpace.homepage.children._links": {
+          "type": "object"
+        },
+        "personalSpace.homepage.children.attachment": {
+          "type": "object"
+        },
+        "personalSpace.homepage.children.comment": {
+          "type": "object"
+        },
+        "personalSpace.homepage.children.database": {
+          "type": "object"
+        },
+        "personalSpace.homepage.children.embed": {
+          "type": "object"
+        },
+        "personalSpace.homepage.children.folder": {
+          "type": "object"
+        },
+        "personalSpace.homepage.children.page": {
+          "type": "object"
+        },
+        "personalSpace.homepage.children.whiteboard": {
+          "type": "object"
+        },
+        "personalSpace.homepage.container": {
+          "type": "object"
+        },
+        "personalSpace.homepage.descendants": {
+          "type": "object"
+        },
+        "personalSpace.homepage.descendants._expandable": {
+          "type": "object"
+        },
+        "personalSpace.homepage.descendants._links": {
+          "type": "object"
+        },
+        "personalSpace.homepage.descendants.attachment": {
+          "type": "object"
+        },
+        "personalSpace.homepage.descendants.comment": {
+          "type": "object"
+        },
+        "personalSpace.homepage.descendants.database": {
+          "type": "object"
+        },
+        "personalSpace.homepage.descendants.embed": {
+          "type": "object"
+        },
+        "personalSpace.homepage.descendants.folder": {
+          "type": "object"
+        },
+        "personalSpace.homepage.descendants.page": {
+          "type": "object"
+        },
+        "personalSpace.homepage.descendants.whiteboard": {
+          "type": "object"
+        },
+        "personalSpace.homepage.extensions": {
+          "type": "object"
+        },
+        "personalSpace.homepage.history": {
+          "type": "object"
+        },
+        "personalSpace.homepage.history._expandable": {
+          "type": "object"
+        },
+        "personalSpace.homepage.history._links": {
+          "type": "object"
+        },
+        "personalSpace.homepage.history.contributors": {
+          "type": "object"
+        },
+        "personalSpace.homepage.history.createdDate": {
+          "type": "string"
+        },
+        "personalSpace.homepage.history.lastUpdated": {
+          "type": "object"
+        },
+        "personalSpace.homepage.history.latest": {
+          "type": "boolean"
+        },
+        "personalSpace.homepage.history.nextVersion": {
+          "type": "object"
+        },
+        "personalSpace.homepage.history.previousVersion": {
+          "type": "object"
+        },
+        "personalSpace.homepage.id": {
+          "type": "string"
+        },
+        "personalSpace.homepage.macroRenderedOutput": {
+          "type": "object"
+        },
+        "personalSpace.homepage.macroRenderedOutput.<key>": {
+          "type": "object"
+        },
+        "personalSpace.homepage.metadata": {
+          "type": "object"
+        },
+        "personalSpace.homepage.metadata.currentuser": {
+          "type": "object"
+        },
+        "personalSpace.homepage.metadata.frontend": {
+          "type": "object"
+        },
+        "personalSpace.homepage.metadata.labels": {
+          "type": "object"
+        },
+        "personalSpace.homepage.metadata.properties": {
+          "type": "object"
+        },
+        "personalSpace.homepage.operations": {
+          "type": "array"
+        },
+        "personalSpace.homepage.operations[]": {
+          "type": "object"
+        },
+        "personalSpace.homepage.restrictions": {
+          "type": "object"
+        },
+        "personalSpace.homepage.restrictions._expandable": {
+          "type": "object"
+        },
+        "personalSpace.homepage.restrictions._links": {
+          "type": "object"
+        },
+        "personalSpace.homepage.restrictions.read": {
+          "type": "object"
+        },
+        "personalSpace.homepage.restrictions.update": {
+          "type": "object"
+        },
+        "personalSpace.homepage.status": {
+          "type": "string"
+        },
+        "personalSpace.homepage.title": {
+          "type": "string"
+        },
+        "personalSpace.homepage.type": {
+          "type": "string"
+        },
+        "personalSpace.homepage.version": {
+          "type": "object"
+        },
+        "personalSpace.homepage.version._expandable": {
+          "type": "object"
+        },
+        "personalSpace.homepage.version._links": {
+          "type": "object"
+        },
+        "personalSpace.homepage.version.collaborators": {
+          "type": "object"
+        },
+        "personalSpace.homepage.version.confRev": {
+          "type": "string"
+        },
+        "personalSpace.homepage.version.contentTypeModified": {
+          "type": "boolean"
+        },
+        "personalSpace.homepage.version.friendlyWhen": {
+          "type": "string"
+        },
+        "personalSpace.homepage.version.message": {
+          "type": "string"
+        },
+        "personalSpace.homepage.version.minorEdit": {
+          "type": "boolean"
+        },
+        "personalSpace.homepage.version.number": {
+          "type": "integer"
+        },
+        "personalSpace.homepage.version.syncRev": {
+          "type": "string"
+        },
+        "personalSpace.homepage.version.syncRevSource": {
+          "type": "string"
+        },
+        "personalSpace.homepage.version.when": {
+          "type": "string"
+        },
+        "personalSpace.icon": {
+          "type": "object"
+        },
+        "personalSpace.icon.height": {
+          "type": "integer"
+        },
+        "personalSpace.icon.isDefault": {
+          "type": "boolean"
+        },
+        "personalSpace.icon.path": {
+          "type": "string"
+        },
+        "personalSpace.icon.width": {
+          "type": "integer"
+        },
+        "personalSpace.id": {
+          "type": "integer"
+        },
+        "personalSpace.key": {
+          "type": "string"
+        },
+        "personalSpace.lookAndFeel": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.bordersAndDividers": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.bordersAndDividers.color": {
+          "type": "string"
+        },
+        "personalSpace.lookAndFeel.content": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.content.body": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.content.container": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.content.header": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.content.screen": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.header": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.header.backgroundColor": {
+          "type": "string"
+        },
+        "personalSpace.lookAndFeel.header.button": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.header.primaryNavigation": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.header.search": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.header.secondaryNavigation": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.headings": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.headings.color": {
+          "type": "string"
+        },
+        "personalSpace.lookAndFeel.horizontalHeader": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.horizontalHeader.backgroundColor": {
+          "type": "string"
+        },
+        "personalSpace.lookAndFeel.horizontalHeader.button": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.horizontalHeader.primaryNavigation": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.horizontalHeader.search": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.horizontalHeader.secondaryNavigation": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.links": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.links.color": {
+          "type": "string"
+        },
+        "personalSpace.lookAndFeel.menus": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.menus.color": {
+          "type": "string"
+        },
+        "personalSpace.lookAndFeel.menus.hoverOrFocus": {
+          "type": "object"
+        },
+        "personalSpace.lookAndFeel.spaceReference": {
+          "type": "object"
+        },
+        "personalSpace.metadata": {
+          "type": "object"
+        },
+        "personalSpace.metadata._expandable": {
+          "type": "object"
+        },
+        "personalSpace.metadata.labels": {
+          "type": "object"
+        },
+        "personalSpace.metadata.labels._links": {
+          "type": "object"
+        },
+        "personalSpace.metadata.labels.limit": {
+          "type": "integer"
+        },
+        "personalSpace.metadata.labels.results": {
+          "type": "array"
+        },
+        "personalSpace.metadata.labels.size": {
+          "type": "integer"
+        },
+        "personalSpace.metadata.labels.start": {
+          "type": "integer"
+        },
+        "personalSpace.name": {
+          "type": "string"
+        },
+        "personalSpace.operations": {
+          "type": "array"
+        },
+        "personalSpace.operations[]": {
+          "type": "object"
+        },
+        "personalSpace.operations[].operation": {
+          "type": "string"
+        },
+        "personalSpace.operations[].targetType": {
+          "type": "string"
+        },
+        "personalSpace.permissions": {
+          "type": "array"
+        },
+        "personalSpace.permissions[]": {
+          "type": "object"
+        },
+        "personalSpace.permissions[].anonymousAccess": {
+          "type": "boolean"
+        },
+        "personalSpace.permissions[].id": {
+          "type": "integer"
+        },
+        "personalSpace.permissions[].operation": {
+          "type": "object"
+        },
+        "personalSpace.permissions[].subjects": {
+          "type": "object"
+        },
+        "personalSpace.permissions[].unlicensedAccess": {
+          "type": "boolean"
+        },
+        "personalSpace.settings": {
+          "type": "object"
+        },
+        "personalSpace.settings._links": {
+          "type": "object"
+        },
+        "personalSpace.settings._links.<key>": {
+          "type": "object"
+        },
+        "personalSpace.settings.contentMode": {
+          "type": "string"
+        },
+        "personalSpace.settings.editor": {
+          "type": "object"
+        },
+        "personalSpace.settings.editor.blogpost": {
+          "type": "string"
+        },
+        "personalSpace.settings.editor.default": {
+          "type": "string"
+        },
+        "personalSpace.settings.editor.page": {
+          "type": "string"
+        },
+        "personalSpace.settings.routeOverrideEnabled": {
+          "type": "boolean"
+        },
+        "personalSpace.settings.spaceKey": {
+          "type": "string"
+        },
+        "personalSpace.status": {
+          "type": "string"
+        },
+        "personalSpace.theme": {
+          "type": "object"
+        },
+        "personalSpace.theme._links": {
+          "type": "object"
+        },
+        "personalSpace.theme._links.<key>": {
+          "type": "object"
+        },
+        "personalSpace.theme.description": {
+          "type": "string"
+        },
+        "personalSpace.theme.icon": {
+          "type": "object"
+        },
+        "personalSpace.theme.icon.height": {
+          "type": "integer"
+        },
+        "personalSpace.theme.icon.isDefault": {
+          "type": "boolean"
+        },
+        "personalSpace.theme.icon.path": {
+          "type": "string"
+        },
+        "personalSpace.theme.icon.width": {
+          "type": "integer"
+        },
+        "personalSpace.theme.name": {
+          "type": "string"
+        },
+        "personalSpace.theme.themeKey": {
+          "type": "string"
+        },
+        "personalSpace.type": {
+          "type": "string"
+        },
+        "profilePicture": {
+          "type": "object"
+        },
+        "profilePicture.height": {
+          "type": "integer"
+        },
+        "profilePicture.isDefault": {
+          "type": "boolean"
+        },
+        "profilePicture.path": {
+          "type": "string"
+        },
+        "profilePicture.width": {
+          "type": "integer"
+        },
+        "publicName": {
+          "type": "string"
+        },
+        "timeZone": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "userKey": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        }
+      }
+    },
+    "op:confluence_openapi_v1:getGroupMembershipsForUser": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:confluence_openapi_v1:getGroupMembershipsForUser",
+      "params": {
+        "accountId": {
+          "in": "query",
+          "required": true
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "start": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/wiki/rest/api/user/memberof",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.<key>": {
+          "type": "object"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "results": {
+          "type": "array"
+        },
+        "results[]": {
+          "type": "object"
+        },
+        "results[]._links": {
+          "type": "object"
+        },
+        "results[]._links.<key>": {
+          "type": "object"
+        },
+        "results[].id": {
+          "type": "string"
+        },
+        "results[].managedBy": {
+          "type": "string"
+        },
+        "results[].name": {
+          "type": "string"
+        },
+        "results[].type": {
+          "type": "string"
+        },
+        "results[].usageType": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "start": {
+          "type": "integer"
+        },
+        "totalSize": {
+          "type": "integer"
+        }
+      }
+    },
+    "op:confluence_openapi_v1:getSystemInfo": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:confluence_openapi_v1:getSystemInfo",
+      "params": {},
+      "path": "/wiki/rest/api/settings/systemInfo",
+      "response": {
+        "baseUrl": {
+          "type": "string"
+        },
+        "cloudId": {
+          "type": "string"
+        },
+        "commitHash": {
+          "type": "string"
+        },
+        "defaultLocale": {
+          "type": "string"
+        },
+        "defaultTimeZone": {
+          "type": "string"
+        },
+        "edition": {
+          "type": "string"
+        },
+        "fallbackBaseUrl": {
+          "type": "string"
+        },
+        "microsPerimeter": {
+          "type": "string"
+        },
+        "siteTitle": {
+          "type": "string"
+        }
+      }
+    },
+    "op:confluence_openapi_v1:getUserProperties": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:confluence_openapi_v1:getUserProperties",
+      "params": {
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "start": {
+          "in": "query",
+          "required": false
+        },
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/wiki/rest/api/user/{userId}/property",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.<key>": {
+          "type": "object"
+        },
+        "limit": {
+          "type": "integer"
+        },
+        "results": {
+          "type": "array"
+        },
+        "results[]": {
+          "type": "object"
+        },
+        "results[].key": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "start": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "6c66a606fa7535268512f07f599fe1e3f9de2ba0b1da7eb6ead405509875577e",
+  "source": "confluence_openapi_v1",
+  "unmatched": [],
+  "version": "1.0.0"
+}

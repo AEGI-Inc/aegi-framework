@@ -12,7 +12,7 @@ import fs from 'fs'
 import path from 'path'
 import type { LabelHit, SanitizeStats } from './sanitize'
 
-export type Provider = 'github' | 'okta' | 'slack' | 'gws' | 'salesforce' | 'atlassian' | 'worker' | 'aws' | 'gcp' | 'microsoft' | 'onepassword'
+export type Provider = 'github' | 'okta' | 'slack' | 'gws' | 'salesforce' | 'atlassian' | 'worker' | 'aws' | 'gcp' | 'microsoft' | 'onepassword' | 'snowflake'
 export type Completeness = 'full' | 'partial' | 'best_effort' | 'failed' | 'skipped'
 
 export interface Envelope {
@@ -68,6 +68,8 @@ export interface CallRecord {
   reasons: string[]
   /** 404 처럼 기록만 하고 넘어간 것 */
   notes: string[]
+  /** 응답 헤더(Deprecation·Sunset·Warning·버전 불일치)와 Slack warnings 기록 */
+  api_warnings?: string[]
 }
 
 export interface RunRecord {

@@ -1,0 +1,59 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: exchange
+object_type: MessageRule
+interfaces: [Automation]
+identity:
+  primary:
+    - {name: user, expr: $req.user, stability: stable}
+    - {name: id, expr: id, stability: stable}
+  scope: parent
+fields: {}
+runtime_key: M365-MSGRULE-{user}-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-29
+        request: {kind: messageRules}
+        items: value
+    id_expr: id
+    parts:
+      user: $req.user
+    properties:
+      displayName: displayName
+      sequence: sequence
+      isEnabled: isEnabled
+      hasError: hasError
+      isReadOnly: isReadOnly
+      user_id: $req.user
+      forward_to: {op: pluck, field: emailAddress.address, of: actions.forwardTo}
+      redirect_to: {op: pluck, field: emailAddress.address, of: actions.redirectTo}
+      forward_as_attachment_to: {op: pluck, field: emailAddress.address, of: actions.forwardAsAttachmentTo}
+      forwards:
+        op: concat
+        of:
+          - {op: pluck, field: emailAddress.address, of: actions.forwardTo}
+          - {op: pluck, field: emailAddress.address, of: actions.redirectTo}
+          - {op: pluck, field: emailAddress.address, of: actions.forwardAsAttachmentTo}
+      delete: actions.delete
+      permanent_delete: actions.permanentDelete
+      move_to_folder: actions.moveToFolder
+      mark_as_read: actions.markAsRead
+      conditions: conditions
+    display: "{displayName|id}"
+    relations:
+      - type: runs_as
+        source: $self
+        target: {type: User, id: $req.user}
+        basis: stated
+        require: [source, target]
+      - type: contained_in
+        source: $self
+        target: {type: User, id: $req.user}
+        basis: stated
+        require: [target]

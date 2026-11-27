@@ -1,0 +1,6115 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:54.049Z",
+  "ops": {
+    "op:okta_management_openapi:getAllCrossAppAccessConnections": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:getAllCrossAppAccessConnections",
+      "params": {
+        "activeAppsOnly": {
+          "in": "query",
+          "required": false
+        },
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "appId": {
+          "in": "path",
+          "required": true
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "requestingAppId": {
+          "in": "query",
+          "required": false
+        },
+        "requestingAppName": {
+          "in": "query",
+          "required": false
+        },
+        "resourceAppId": {
+          "in": "query",
+          "required": false
+        },
+        "resourceAppName": {
+          "in": "query",
+          "required": false
+        },
+        "status": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/apps/{appId}/cwo/connections",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].requestingAppInstanceId": {
+          "type": "string"
+        },
+        "[].resourceAppInstanceId": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:getAppleAppSiteAssociationWellKnownURI": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:getAppleAppSiteAssociationWellKnownURI",
+      "params": {},
+      "path": "/.well-known/apple-app-site-association",
+      "response": {}
+    },
+    "op:okta_management_openapi:getClientPrivilegesSetting": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:getClientPrivilegesSetting",
+      "params": {},
+      "path": "/api/v1/org/settings/clientPrivilegesSetting",
+      "response": {
+        "clientPrivilegesSetting": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:okta_management_openapi:getCurrentConfiguration": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:getCurrentConfiguration",
+      "params": {},
+      "path": "/api/v1/threats/configuration",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "excludeZones": {
+          "type": "array"
+        },
+        "excludeZones[]": {
+          "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:getDefaultProvisioningConnectionForApplication": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:getDefaultProvisioningConnectionForApplication",
+      "params": {
+        "appId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/apps/{appId}/connections/default",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.activate": {
+          "type": "object"
+        },
+        "_links.activate.hints": {
+          "type": "object"
+        },
+        "_links.activate.hints.allow": {
+          "type": "array"
+        },
+        "_links.activate.href": {
+          "type": "string"
+        },
+        "_links.activate.name": {
+          "type": "string"
+        },
+        "_links.activate.templated": {
+          "type": "boolean"
+        },
+        "_links.activate.type": {
+          "type": "string"
+        },
+        "_links.authorize": {
+          "type": "object"
+        },
+        "_links.authorize.hints": {
+          "type": "object"
+        },
+        "_links.authorize.hints.allow": {
+          "type": "array"
+        },
+        "_links.authorize.hints.guidance": {
+          "type": "array"
+        },
+        "_links.authorize.href": {
+          "type": "string"
+        },
+        "_links.deactivate": {
+          "type": "object"
+        },
+        "_links.deactivate.hints": {
+          "type": "object"
+        },
+        "_links.deactivate.hints.allow": {
+          "type": "array"
+        },
+        "_links.deactivate.href": {
+          "type": "string"
+        },
+        "_links.deactivate.name": {
+          "type": "string"
+        },
+        "_links.deactivate.templated": {
+          "type": "boolean"
+        },
+        "_links.deactivate.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "authScheme": {
+          "type": "string"
+        },
+        "baseUrl": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "object"
+        },
+        "profile.authScheme": {
+          "type": "string"
+        },
+        "profile.signing": {
+          "type": "object"
+        },
+        "profile.signing.rotationMode": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:getGroupSchema": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:getGroupSchema",
+      "params": {},
+      "path": "/api/v1/meta/schemas/group/default",
+      "response": {
+        "$schema": {
+          "type": "string"
+        },
+        "_links": {
+          "type": "object"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "definitions": {
+          "type": "object"
+        },
+        "definitions.base": {
+          "type": "object"
+        },
+        "definitions.base.id": {
+          "type": "string"
+        },
+        "definitions.base.properties": {
+          "type": "object"
+        },
+        "definitions.base.properties.description": {
+          "type": "object"
+        },
+        "definitions.base.properties.name": {
+          "type": "object"
+        },
+        "definitions.base.required": {
+          "type": "array"
+        },
+        "definitions.base.required[]": {
+          "type": "string"
+        },
+        "definitions.base.type": {
+          "type": "string"
+        },
+        "definitions.custom": {
+          "type": "object"
+        },
+        "definitions.custom.id": {
+          "type": "string"
+        },
+        "definitions.custom.properties": {
+          "type": "object"
+        },
+        "definitions.custom.properties.<key>": {
+          "type": "object"
+        },
+        "definitions.custom.required": {
+          "type": "array"
+        },
+        "definitions.custom.required[]": {
+          "type": "string"
+        },
+        "definitions.custom.type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "object"
+        },
+        "properties.profile": {
+          "type": "object"
+        },
+        "properties.profile.allOf": {
+          "type": "array"
+        },
+        "properties.profile.allOf[]": {
+          "type": "object"
+        },
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:getRateLimitSettingsPerClient": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:getRateLimitSettingsPerClient",
+      "params": {},
+      "path": "/api/v1/rate-limit-settings/per-client",
+      "response": {
+        "defaultMode": {
+          "type": "string"
+        },
+        "useCaseModeOverrides": {
+          "type": "object"
+        },
+        "useCaseModeOverrides.LOGIN_PAGE": {
+          "type": "string"
+        },
+        "useCaseModeOverrides.OAUTH2_AUTHORIZE": {
+          "type": "string"
+        },
+        "useCaseModeOverrides.OIE_APP_INTENT": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:getUserLockoutSettings": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:getUserLockoutSettings",
+      "params": {},
+      "path": "/attack-protection/api/v1/user-lockout-settings",
+      "response": {
+        "preventBruteForceLockoutFromUnknownDevices": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:okta_management_openapi:getWebAuthnWellKnownURI": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:getWebAuthnWellKnownURI",
+      "params": {},
+      "path": "/.well-known/webauthn",
+      "response": {}
+    },
+    "op:okta_management_openapi:getWellKnownAppAuthenticatorConfiguration": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:getWellKnownAppAuthenticatorConfiguration",
+      "params": {
+        "oauthClientId": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "/.well-known/app-authenticator-configuration",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].appAuthenticatorEnrollEndpoint": {
+          "type": "string"
+        },
+        "[].authenticatorId": {
+          "type": "string"
+        },
+        "[].createdDate": {
+          "type": "string"
+        },
+        "[].key": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].orgId": {
+          "type": "string"
+        },
+        "[].settings": {
+          "type": "object"
+        },
+        "[].settings.userVerification": {
+          "type": "string"
+        },
+        "[].supportedMethods": {
+          "type": "array"
+        },
+        "[].supportedMethods[]": {
+          "type": "object"
+        },
+        "[].supportedMethods[].settings": {
+          "type": "object"
+        },
+        "[].supportedMethods[].status": {
+          "type": "string"
+        },
+        "[].supportedMethods[].type": {
+          "type": "string"
+        },
+        "[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAllCustomAAGUIDs": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAllCustomAAGUIDs",
+      "params": {
+        "authenticatorId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/authenticators/{authenticatorId}/aaguids",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].aaguid": {
+          "type": "string"
+        },
+        "[].attestationRootCertificates": {
+          "type": "array"
+        },
+        "[].attestationRootCertificates[]": {
+          "type": "object"
+        },
+        "[].attestationRootCertificates[].exp": {
+          "type": "string"
+        },
+        "[].attestationRootCertificates[].iss": {
+          "type": "string"
+        },
+        "[].attestationRootCertificates[].x5c": {
+          "type": "string"
+        },
+        "[].attestationRootCertificates[].x5t#S256": {
+          "type": "string"
+        },
+        "[].authenticatorCharacteristics": {
+          "type": "object"
+        },
+        "[].authenticatorCharacteristics.fipsCompliant": {
+          "type": "boolean"
+        },
+        "[].authenticatorCharacteristics.hardwareProtected": {
+          "type": "boolean"
+        },
+        "[].authenticatorCharacteristics.platformAttached": {
+          "type": "boolean"
+        },
+        "[].name": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAllCustomTelephonyProviderCredentials": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAllCustomTelephonyProviderCredentials",
+      "params": {},
+      "path": "/api/v1/telephony-providers",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].enabled": {
+          "type": "boolean"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].isPrimaryProvider": {
+          "type": "boolean"
+        },
+        "[].providerCapability": {
+          "type": "string"
+        },
+        "[].providerName": {
+          "type": "string"
+        },
+        "[].providerSettings": {
+          "type": "object"
+        },
+        "[].providerSettings.call": {
+          "type": "object"
+        },
+        "[].providerSettings.call.telesignService": {
+          "type": "string"
+        },
+        "[].providerSettings.call.twilioCallerId": {
+          "type": "string"
+        },
+        "[].providerSettings.call.twilioPhoneNumber": {
+          "type": "string"
+        },
+        "[].providerSettings.call.twilioVerifySid": {
+          "type": "string"
+        },
+        "[].providerSettings.sms": {
+          "type": "object"
+        },
+        "[].providerSettings.sms.telesignService": {
+          "type": "string"
+        },
+        "[].providerSettings.sms.twilioMessageSid": {
+          "type": "string"
+        },
+        "[].providerSettings.sms.twilioPhoneNumber": {
+          "type": "string"
+        },
+        "[].providerSettings.sms.twilioVerifySid": {
+          "type": "string"
+        },
+        "[].providerSid": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAppLinks": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAppLinks",
+      "params": {
+        "id": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/users/{id}/appLinks",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].appAssignmentId": {
+          "type": "string"
+        },
+        "[].appInstanceId": {
+          "type": "string"
+        },
+        "[].appName": {
+          "type": "string"
+        },
+        "[].credentialsSetup": {
+          "type": "boolean"
+        },
+        "[].hidden": {
+          "type": "boolean"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].label": {
+          "type": "string"
+        },
+        "[].linkUrl": {
+          "type": "string"
+        },
+        "[].logoUrl": {
+          "type": "string"
+        },
+        "[].sortOrder": {
+          "type": "integer"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAppServiceAccounts": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAppServiceAccounts",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "match": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/privileged-access/api/v1/service-accounts",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].containerGlobalName": {
+          "type": "string"
+        },
+        "[].containerInstanceName": {
+          "type": "string"
+        },
+        "[].containerOrn": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].description": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].ownerGroupIds": {
+          "type": "array"
+        },
+        "[].ownerGroupIds[]": {
+          "type": "string"
+        },
+        "[].ownerUserIds": {
+          "type": "array"
+        },
+        "[].ownerUserIds[]": {
+          "type": "string"
+        },
+        "[].password": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].statusDetail": {
+          "type": "string"
+        },
+        "[].username": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listApplicationKeys": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listApplicationKeys",
+      "params": {
+        "appId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/apps/{appId}/credentials/keys",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].e": {
+          "type": "string"
+        },
+        "[].expiresAt": {
+          "type": "string"
+        },
+        "[].kid": {
+          "type": "string"
+        },
+        "[].kty": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].n": {
+          "type": "string"
+        },
+        "[].use": {
+          "type": "string"
+        },
+        "[].x5c": {
+          "type": "array"
+        },
+        "[].x5c[]": {
+          "type": "string"
+        },
+        "[].x5t#S256": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAssignedRolesForUser": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAssignedRolesForUser",
+      "params": {
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/users/{userId}/roles",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._embedded": {
+          "type": "object"
+        },
+        "[]._embedded.targets": {
+          "type": "object"
+        },
+        "[]._embedded.targets.catalog": {
+          "type": "object"
+        },
+        "[]._embedded.targets.groups": {
+          "type": "array"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.assignee": {
+          "type": "object"
+        },
+        "[]._links.assignee.hints": {
+          "type": "object"
+        },
+        "[]._links.assignee.href": {
+          "type": "string"
+        },
+        "[]._links.assignee.name": {
+          "type": "string"
+        },
+        "[]._links.assignee.templated": {
+          "type": "boolean"
+        },
+        "[]._links.assignee.type": {
+          "type": "string"
+        },
+        "[]._links.member": {
+          "type": "object"
+        },
+        "[]._links.member.hints": {
+          "type": "object"
+        },
+        "[]._links.member.href": {
+          "type": "string"
+        },
+        "[]._links.member.name": {
+          "type": "string"
+        },
+        "[]._links.member.templated": {
+          "type": "boolean"
+        },
+        "[]._links.member.type": {
+          "type": "string"
+        },
+        "[]._links.permissions": {
+          "type": "object"
+        },
+        "[]._links.permissions.hints": {
+          "type": "object"
+        },
+        "[]._links.permissions.href": {
+          "type": "string"
+        },
+        "[]._links.permissions.name": {
+          "type": "string"
+        },
+        "[]._links.permissions.templated": {
+          "type": "boolean"
+        },
+        "[]._links.permissions.type": {
+          "type": "string"
+        },
+        "[]._links.resource-set": {
+          "type": "object"
+        },
+        "[]._links.resource-set.hints": {
+          "type": "object"
+        },
+        "[]._links.resource-set.href": {
+          "type": "string"
+        },
+        "[]._links.resource-set.name": {
+          "type": "string"
+        },
+        "[]._links.resource-set.templated": {
+          "type": "boolean"
+        },
+        "[]._links.resource-set.type": {
+          "type": "string"
+        },
+        "[]._links.role": {
+          "type": "object"
+        },
+        "[]._links.role.hints": {
+          "type": "object"
+        },
+        "[]._links.role.href": {
+          "type": "string"
+        },
+        "[]._links.role.name": {
+          "type": "string"
+        },
+        "[]._links.role.templated": {
+          "type": "boolean"
+        },
+        "[]._links.role.type": {
+          "type": "string"
+        },
+        "[].assignmentType": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].label": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].resource-set": {
+          "type": "string"
+        },
+        "[].role": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAuthenticatorEnrollments": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAuthenticatorEnrollments",
+      "params": {
+        "discloseIdentifiers": {
+          "in": "query",
+          "required": false
+        },
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/users/{userId}/authenticator-enrollments",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.authenticator": {
+          "type": "object"
+        },
+        "_links.authenticator.hints": {
+          "type": "object"
+        },
+        "_links.authenticator.hints.allow": {
+          "type": "array"
+        },
+        "_links.authenticator.href": {
+          "type": "string"
+        },
+        "_links.authenticator.name": {
+          "type": "string"
+        },
+        "_links.authenticator.templated": {
+          "type": "boolean"
+        },
+        "_links.authenticator.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "_links.user": {
+          "type": "object"
+        },
+        "_links.user.hints": {
+          "type": "object"
+        },
+        "_links.user.hints.allow": {
+          "type": "array"
+        },
+        "_links.user.href": {
+          "type": "string"
+        },
+        "_links.user.name": {
+          "type": "string"
+        },
+        "_links.user.templated": {
+          "type": "boolean"
+        },
+        "_links.user.type": {
+          "type": "string"
+        },
+        "created": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "key": {
+          "type": "string"
+        },
+        "lastUpdated": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "profile": {
+          "type": "object"
+        },
+        "profile.phoneNumber": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAuthenticatorMethods": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAuthenticatorMethods",
+      "params": {
+        "authenticatorId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/authenticators/{authenticatorId}/methods",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.activate": {
+          "type": "object"
+        },
+        "[]._links.activate.hints": {
+          "type": "object"
+        },
+        "[]._links.activate.href": {
+          "type": "string"
+        },
+        "[]._links.activate.name": {
+          "type": "string"
+        },
+        "[]._links.activate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.activate.type": {
+          "type": "string"
+        },
+        "[]._links.deactivate": {
+          "type": "object"
+        },
+        "[]._links.deactivate.hints": {
+          "type": "object"
+        },
+        "[]._links.deactivate.href": {
+          "type": "string"
+        },
+        "[]._links.deactivate.name": {
+          "type": "string"
+        },
+        "[]._links.deactivate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.deactivate.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAuthorizationServerKeys": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAuthorizationServerKeys",
+      "params": {
+        "authServerId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/authorizationServers/{authServerId}/credentials/keys",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].alg": {
+          "type": "string"
+        },
+        "[].e": {
+          "type": "string"
+        },
+        "[].kid": {
+          "type": "string"
+        },
+        "[].kty": {
+          "type": "string"
+        },
+        "[].n": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].use": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAuthorizationServerPolicies": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAuthorizationServerPolicies",
+      "params": {
+        "authServerId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/authorizationServers/{authServerId}/policies",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.activate": {
+          "type": "object"
+        },
+        "[]._links.activate.hints": {
+          "type": "object"
+        },
+        "[]._links.activate.href": {
+          "type": "string"
+        },
+        "[]._links.activate.name": {
+          "type": "string"
+        },
+        "[]._links.activate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.activate.type": {
+          "type": "string"
+        },
+        "[]._links.deactivate": {
+          "type": "object"
+        },
+        "[]._links.deactivate.hints": {
+          "type": "object"
+        },
+        "[]._links.deactivate.href": {
+          "type": "string"
+        },
+        "[]._links.deactivate.name": {
+          "type": "string"
+        },
+        "[]._links.deactivate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.deactivate.type": {
+          "type": "string"
+        },
+        "[]._links.rules": {
+          "type": "object"
+        },
+        "[]._links.rules.hints": {
+          "type": "object"
+        },
+        "[]._links.rules.href": {
+          "type": "string"
+        },
+        "[]._links.rules.name": {
+          "type": "string"
+        },
+        "[]._links.rules.templated": {
+          "type": "boolean"
+        },
+        "[]._links.rules.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].conditions": {
+          "type": "object"
+        },
+        "[].conditions.clients": {
+          "type": "object"
+        },
+        "[].conditions.clients.include": {
+          "type": "array"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].description": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].priority": {
+          "type": "integer"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].system": {
+          "type": "boolean"
+        },
+        "[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAuthorizationServerPolicyRules": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAuthorizationServerPolicyRules",
+      "params": {
+        "authServerId": {
+          "in": "path",
+          "required": true
+        },
+        "policyId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/authorizationServers/{authServerId}/policies/{policyId}/rules",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.activate": {
+          "type": "object"
+        },
+        "[]._links.activate.hints": {
+          "type": "object"
+        },
+        "[]._links.activate.href": {
+          "type": "string"
+        },
+        "[]._links.activate.name": {
+          "type": "string"
+        },
+        "[]._links.activate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.activate.type": {
+          "type": "string"
+        },
+        "[]._links.deactivate": {
+          "type": "object"
+        },
+        "[]._links.deactivate.hints": {
+          "type": "object"
+        },
+        "[]._links.deactivate.href": {
+          "type": "string"
+        },
+        "[]._links.deactivate.name": {
+          "type": "string"
+        },
+        "[]._links.deactivate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.deactivate.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].actions": {
+          "type": "object"
+        },
+        "[].actions.token": {
+          "type": "object"
+        },
+        "[].actions.token.accessTokenLifetimeMinutes": {
+          "type": "integer"
+        },
+        "[].actions.token.inlineHook": {
+          "type": "object"
+        },
+        "[].actions.token.refreshTokenLifetimeMinutes": {
+          "type": "integer"
+        },
+        "[].actions.token.refreshTokenWindowMinutes": {
+          "type": "integer"
+        },
+        "[].conditions": {
+          "type": "object"
+        },
+        "[].conditions.grantTypes": {
+          "type": "object"
+        },
+        "[].conditions.grantTypes.include": {
+          "type": "array"
+        },
+        "[].conditions.people": {
+          "type": "object"
+        },
+        "[].conditions.people.groups": {
+          "type": "object"
+        },
+        "[].conditions.people.users": {
+          "type": "object"
+        },
+        "[].conditions.scopes": {
+          "type": "object"
+        },
+        "[].conditions.scopes.include": {
+          "type": "array"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].priority": {
+          "type": "integer"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].system": {
+          "type": "boolean"
+        },
+        "[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listAuthorizationServers": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listAuthorizationServers",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "q": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/authorizationServers",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.claims": {
+          "type": "object"
+        },
+        "[]._links.claims.hints": {
+          "type": "object"
+        },
+        "[]._links.claims.href": {
+          "type": "string"
+        },
+        "[]._links.claims.name": {
+          "type": "string"
+        },
+        "[]._links.claims.templated": {
+          "type": "boolean"
+        },
+        "[]._links.claims.type": {
+          "type": "string"
+        },
+        "[]._links.deactivate": {
+          "type": "object"
+        },
+        "[]._links.deactivate.hints": {
+          "type": "object"
+        },
+        "[]._links.deactivate.href": {
+          "type": "string"
+        },
+        "[]._links.deactivate.name": {
+          "type": "string"
+        },
+        "[]._links.deactivate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.deactivate.type": {
+          "type": "string"
+        },
+        "[]._links.metadata": {
+          "type": "array"
+        },
+        "[]._links.metadata[]": {
+          "type": "object"
+        },
+        "[]._links.policies": {
+          "type": "object"
+        },
+        "[]._links.policies.hints": {
+          "type": "object"
+        },
+        "[]._links.policies.href": {
+          "type": "string"
+        },
+        "[]._links.policies.name": {
+          "type": "string"
+        },
+        "[]._links.policies.templated": {
+          "type": "boolean"
+        },
+        "[]._links.policies.type": {
+          "type": "string"
+        },
+        "[]._links.rotateKey": {
+          "type": "object"
+        },
+        "[]._links.rotateKey.hints": {
+          "type": "object"
+        },
+        "[]._links.rotateKey.href": {
+          "type": "string"
+        },
+        "[]._links.rotateKey.name": {
+          "type": "string"
+        },
+        "[]._links.rotateKey.templated": {
+          "type": "boolean"
+        },
+        "[]._links.rotateKey.type": {
+          "type": "string"
+        },
+        "[]._links.scopes": {
+          "type": "object"
+        },
+        "[]._links.scopes.hints": {
+          "type": "object"
+        },
+        "[]._links.scopes.href": {
+          "type": "string"
+        },
+        "[]._links.scopes.name": {
+          "type": "string"
+        },
+        "[]._links.scopes.templated": {
+          "type": "boolean"
+        },
+        "[]._links.scopes.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].accessTokenEncryptedResponseAlgorithm": {
+          "type": "string"
+        },
+        "[].audiences": {
+          "type": "array"
+        },
+        "[].audiences[]": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].credentials": {
+          "type": "object"
+        },
+        "[].credentials.signing": {
+          "type": "object"
+        },
+        "[].credentials.signing.kid": {
+          "type": "string"
+        },
+        "[].credentials.signing.lastRotated": {
+          "type": "string"
+        },
+        "[].credentials.signing.nextRotation": {
+          "type": "string"
+        },
+        "[].credentials.signing.rotationMode": {
+          "type": "string"
+        },
+        "[].credentials.signing.use": {
+          "type": "string"
+        },
+        "[].description": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].issuer": {
+          "type": "string"
+        },
+        "[].issuerMode": {
+          "type": "string"
+        },
+        "[].jwks": {
+          "type": "object"
+        },
+        "[].jwks.keys": {
+          "type": "array"
+        },
+        "[].jwks.keys[]": {
+          "type": "object"
+        },
+        "[].jwks_uri": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listBehaviorDetectionRules": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listBehaviorDetectionRules",
+      "params": {},
+      "path": "/api/v1/behaviors",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._link": {
+          "type": "object"
+        },
+        "[]._link.self": {
+          "type": "object"
+        },
+        "[]._link.self.hints": {
+          "type": "object"
+        },
+        "[]._link.self.href": {
+          "type": "string"
+        },
+        "[]._link.self.name": {
+          "type": "string"
+        },
+        "[]._link.self.templated": {
+          "type": "boolean"
+        },
+        "[]._link.self.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listBrandThemes": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listBrandThemes",
+      "params": {
+        "brandId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/brands/{brandId}/themes",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].backgroundImage": {
+          "type": "string"
+        },
+        "[].emailTemplateTouchPointVariant": {
+          "type": "string"
+        },
+        "[].endUserDashboardTouchPointVariant": {
+          "type": "string"
+        },
+        "[].errorPageTouchPointVariant": {
+          "type": "string"
+        },
+        "[].favicon": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].loadingPageTouchPointVariant": {
+          "type": "string"
+        },
+        "[].logo": {
+          "type": "string"
+        },
+        "[].primaryColorContrastHex": {
+          "type": "string"
+        },
+        "[].primaryColorHex": {
+          "type": "string"
+        },
+        "[].secondaryColorContrastHex": {
+          "type": "string"
+        },
+        "[].secondaryColorHex": {
+          "type": "string"
+        },
+        "[].signInPageTouchPointVariant": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listBrands": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listBrands",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "q": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/brands",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._embedded": {
+          "type": "object"
+        },
+        "[]._embedded.domains": {
+          "type": "array"
+        },
+        "[]._embedded.domains[]": {
+          "type": "object"
+        },
+        "[]._embedded.emailDomain": {
+          "type": "object"
+        },
+        "[]._embedded.emailDomain.displayName": {
+          "type": "string"
+        },
+        "[]._embedded.emailDomain.dnsValidationRecords": {
+          "type": "array"
+        },
+        "[]._embedded.emailDomain.domain": {
+          "type": "string"
+        },
+        "[]._embedded.emailDomain.id": {
+          "type": "string"
+        },
+        "[]._embedded.emailDomain.userName": {
+          "type": "string"
+        },
+        "[]._embedded.emailDomain.validationStatus": {
+          "type": "string"
+        },
+        "[]._embedded.emailDomain.validationSubdomain": {
+          "type": "string"
+        },
+        "[]._embedded.themes": {
+          "type": "array"
+        },
+        "[]._embedded.themes[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[]._links.themes": {
+          "type": "object"
+        },
+        "[]._links.themes.hints": {
+          "type": "object"
+        },
+        "[]._links.themes.href": {
+          "type": "string"
+        },
+        "[]._links.themes.name": {
+          "type": "string"
+        },
+        "[]._links.themes.templated": {
+          "type": "boolean"
+        },
+        "[]._links.themes.type": {
+          "type": "string"
+        },
+        "[].agreeToCustomPrivacyPolicy": {
+          "type": "boolean"
+        },
+        "[].customPrivacyPolicyUrl": {
+          "type": "string"
+        },
+        "[].defaultApp": {
+          "type": "object"
+        },
+        "[].defaultApp.appInstanceId": {
+          "type": "string"
+        },
+        "[].defaultApp.appLinkName": {
+          "type": "string"
+        },
+        "[].defaultApp.classicApplicationUri": {
+          "type": "string"
+        },
+        "[].emailDomainId": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].isDefault": {
+          "type": "boolean"
+        },
+        "[].locale": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].removePoweredByOkta": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:okta_management_openapi:listBundleEntitlementValues": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listBundleEntitlementValues",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "bundleId": {
+          "in": "path",
+          "required": true
+        },
+        "entitlementId": {
+          "in": "path",
+          "required": true
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/iam/governance/bundles/{bundleId}/entitlements/{entitlementId}/values",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.bundle": {
+          "type": "object"
+        },
+        "_links.bundle.hints": {
+          "type": "object"
+        },
+        "_links.bundle.hints.allow": {
+          "type": "array"
+        },
+        "_links.bundle.href": {
+          "type": "string"
+        },
+        "_links.bundle.name": {
+          "type": "string"
+        },
+        "_links.bundle.templated": {
+          "type": "boolean"
+        },
+        "_links.bundle.type": {
+          "type": "string"
+        },
+        "_links.entitlements": {
+          "type": "object"
+        },
+        "_links.entitlements.hints": {
+          "type": "object"
+        },
+        "_links.entitlements.hints.allow": {
+          "type": "array"
+        },
+        "_links.entitlements.href": {
+          "type": "string"
+        },
+        "_links.entitlements.name": {
+          "type": "string"
+        },
+        "_links.entitlements.templated": {
+          "type": "boolean"
+        },
+        "_links.entitlements.type": {
+          "type": "string"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "entitlementValues": {
+          "type": "array"
+        },
+        "entitlementValues[]": {
+          "type": "object"
+        },
+        "entitlementValues[]._links": {
+          "type": "object"
+        },
+        "entitlementValues[]._links.app": {
+          "type": "object"
+        },
+        "entitlementValues[]._links.group": {
+          "type": "object"
+        },
+        "entitlementValues[]._links.resource-set": {
+          "type": "object"
+        },
+        "entitlementValues[].id": {
+          "type": "string"
+        },
+        "entitlementValues[].name": {
+          "type": "string"
+        },
+        "entitlementValues[].value": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listBundleEntitlements": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listBundleEntitlements",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "bundleId": {
+          "in": "path",
+          "required": true
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/iam/governance/bundles/{bundleId}/entitlements",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.bundle": {
+          "type": "object"
+        },
+        "_links.bundle.hints": {
+          "type": "object"
+        },
+        "_links.bundle.hints.allow": {
+          "type": "array"
+        },
+        "_links.bundle.href": {
+          "type": "string"
+        },
+        "_links.bundle.name": {
+          "type": "string"
+        },
+        "_links.bundle.templated": {
+          "type": "boolean"
+        },
+        "_links.bundle.type": {
+          "type": "string"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "entitlements": {
+          "type": "array"
+        },
+        "entitlements[]": {
+          "type": "object"
+        },
+        "entitlements[]._links": {
+          "type": "object"
+        },
+        "entitlements[]._links.values": {
+          "type": "object"
+        },
+        "entitlements[].description": {
+          "type": "string"
+        },
+        "entitlements[].id": {
+          "type": "string"
+        },
+        "entitlements[].name": {
+          "type": "string"
+        },
+        "entitlements[].role": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listCaptchaInstances": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listCaptchaInstances",
+      "params": {},
+      "path": "/api/v1/captchas",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].secretKey": {
+          "type": "string"
+        },
+        "[].siteKey": {
+          "type": "string"
+        },
+        "[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listCsrsForApplication": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listCsrsForApplication",
+      "params": {
+        "appId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/apps/{appId}/credentials/csrs",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.publish": {
+          "type": "object"
+        },
+        "[]._links.publish.hints": {
+          "type": "object"
+        },
+        "[]._links.publish.href": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].csr": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].kty": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listCsrsForIdentityProvider": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listCsrsForIdentityProvider",
+      "params": {
+        "idpId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/idps/{idpId}/credentials/csrs",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.publish": {
+          "type": "object"
+        },
+        "[]._links.publish.hints": {
+          "type": "object"
+        },
+        "[]._links.publish.href": {
+          "type": "string"
+        },
+        "[]._links.publish.name": {
+          "type": "string"
+        },
+        "[]._links.publish.templated": {
+          "type": "boolean"
+        },
+        "[]._links.publish.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].csr": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].kty": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listCustomDomains": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listCustomDomains",
+      "params": {},
+      "path": "/api/v1/domains",
+      "response": {
+        "domains": {
+          "type": "array"
+        },
+        "domains[]": {
+          "type": "object"
+        },
+        "domains[]._links": {
+          "type": "object"
+        },
+        "domains[]._links.brand": {
+          "type": "object"
+        },
+        "domains[]._links.certificate": {
+          "type": "object"
+        },
+        "domains[]._links.self": {
+          "type": "object"
+        },
+        "domains[]._links.verify": {
+          "type": "object"
+        },
+        "domains[].brandId": {
+          "type": "string"
+        },
+        "domains[].certificateSourceType": {
+          "type": "string"
+        },
+        "domains[].dnsRecords": {
+          "type": "array"
+        },
+        "domains[].dnsRecords[]": {
+          "type": "object"
+        },
+        "domains[].domain": {
+          "type": "string"
+        },
+        "domains[].id": {
+          "type": "string"
+        },
+        "domains[].publicCertificate": {
+          "type": "object"
+        },
+        "domains[].publicCertificate.expiration": {
+          "type": "string"
+        },
+        "domains[].publicCertificate.fingerprint": {
+          "type": "string"
+        },
+        "domains[].publicCertificate.subject": {
+          "type": "string"
+        },
+        "domains[].validationStatus": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listDefaultDevicePostureChecks": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listDefaultDevicePostureChecks",
+      "params": {},
+      "path": "/api/v1/device-posture-checks/default",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].createdBy": {
+          "type": "string"
+        },
+        "[].createdDate": {
+          "type": "string"
+        },
+        "[].description": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdate": {
+          "type": "string"
+        },
+        "[].lastUpdatedBy": {
+          "type": "string"
+        },
+        "[].mappingType": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].platform": {
+          "type": "string"
+        },
+        "[].query": {
+          "type": "string"
+        },
+        "[].remediationSettings": {
+          "type": "object"
+        },
+        "[].remediationSettings.link": {
+          "type": "object"
+        },
+        "[].remediationSettings.link.customUrl": {
+          "type": "string"
+        },
+        "[].remediationSettings.link.defaultUrl": {
+          "type": "string"
+        },
+        "[].remediationSettings.message": {
+          "type": "object"
+        },
+        "[].remediationSettings.message.customText": {
+          "type": "string"
+        },
+        "[].remediationSettings.message.defaultI18nKey": {
+          "type": "string"
+        },
+        "[].type": {
+          "type": "string"
+        },
+        "[].variableName": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listDeviceIntegrations": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listDeviceIntegrations",
+      "params": {},
+      "path": "/api/v1/device-integrations",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.activate": {
+          "type": "object"
+        },
+        "[]._links.activate.hints": {
+          "type": "object"
+        },
+        "[]._links.activate.href": {
+          "type": "string"
+        },
+        "[]._links.activate.name": {
+          "type": "string"
+        },
+        "[]._links.activate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.activate.type": {
+          "type": "string"
+        },
+        "[]._links.deactivate": {
+          "type": "object"
+        },
+        "[]._links.deactivate.hints": {
+          "type": "object"
+        },
+        "[]._links.deactivate.href": {
+          "type": "string"
+        },
+        "[]._links.deactivate.name": {
+          "type": "string"
+        },
+        "[]._links.deactivate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.deactivate.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].displayName": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].metadata": {
+          "type": "object"
+        },
+        "[].metadata.enrollmentUrl": {
+          "type": "string"
+        },
+        "[].metadata.idpId": {
+          "type": "string"
+        },
+        "[].metadata.provider": {
+          "type": "string"
+        },
+        "[].metadata.serviceAccountEmail": {
+          "type": "string"
+        },
+        "[].metadata.serviceAccountName": {
+          "type": "string"
+        },
+        "[].metadata.type": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].platform": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listDeviceOSAccounts": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listDeviceOSAccounts",
+      "params": {
+        "deviceId": {
+          "in": "path",
+          "required": true
+        },
+        "expand": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/devices/{deviceId}/os-accounts",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._embedded": {
+          "type": "object"
+        },
+        "[]._embedded.accountLinkedEnrollments": {
+          "type": "array"
+        },
+        "[]._embedded.accountLinkedEnrollments[]": {
+          "type": "object"
+        },
+        "[]._embedded.users": {
+          "type": "array"
+        },
+        "[]._embedded.users[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.device": {
+          "type": "object"
+        },
+        "[]._links.device.hints": {
+          "type": "object"
+        },
+        "[]._links.device.href": {
+          "type": "string"
+        },
+        "[]._links.device.name": {
+          "type": "string"
+        },
+        "[]._links.device.templated": {
+          "type": "boolean"
+        },
+        "[]._links.device.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].deviceId": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastSeenAt": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].platform": {
+          "type": "string"
+        },
+        "[].profile": {
+          "type": "object"
+        },
+        "[].profile.GUID": {
+          "type": "string"
+        },
+        "[].profile.accountUuid": {
+          "type": "string"
+        },
+        "[].profile.directoryJoinStatus": {
+          "type": "string"
+        },
+        "[].profile.downLevelUsername": {
+          "type": "string"
+        },
+        "[].profile.fullName": {
+          "type": "string"
+        },
+        "[].profile.qualifiedUsername": {
+          "type": "string"
+        },
+        "[].profile.securityId": {
+          "type": "string"
+        },
+        "[].profile.type": {
+          "type": "string"
+        },
+        "[].profile.upn": {
+          "type": "string"
+        },
+        "[].profile.username": {
+          "type": "string"
+        },
+        "[].resourceAlternateId": {
+          "type": "string"
+        },
+        "[].resourceDisplayName": {
+          "type": "object"
+        },
+        "[].resourceDisplayName.sensitive": {
+          "type": "boolean"
+        },
+        "[].resourceDisplayName.value": {
+          "type": "string"
+        },
+        "[].resourceId": {
+          "type": "string"
+        },
+        "[].resourceType": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listDevices": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listDevices",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "search": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/devices",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._embedded": {
+          "type": "object"
+        },
+        "[]._embedded.users": {
+          "type": "array"
+        },
+        "[]._embedded.users[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.activate": {
+          "type": "object"
+        },
+        "[]._links.activate.hints": {
+          "type": "object"
+        },
+        "[]._links.activate.href": {
+          "type": "string"
+        },
+        "[]._links.activate.name": {
+          "type": "string"
+        },
+        "[]._links.activate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.activate.type": {
+          "type": "string"
+        },
+        "[]._links.deactivate": {
+          "type": "object"
+        },
+        "[]._links.deactivate.hints": {
+          "type": "object"
+        },
+        "[]._links.deactivate.href": {
+          "type": "string"
+        },
+        "[]._links.deactivate.name": {
+          "type": "string"
+        },
+        "[]._links.deactivate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.deactivate.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[]._links.suspend": {
+          "type": "object"
+        },
+        "[]._links.suspend.hints": {
+          "type": "object"
+        },
+        "[]._links.suspend.href": {
+          "type": "string"
+        },
+        "[]._links.suspend.name": {
+          "type": "string"
+        },
+        "[]._links.suspend.templated": {
+          "type": "boolean"
+        },
+        "[]._links.suspend.type": {
+          "type": "string"
+        },
+        "[]._links.unsuspend": {
+          "type": "object"
+        },
+        "[]._links.unsuspend.hints": {
+          "type": "object"
+        },
+        "[]._links.unsuspend.href": {
+          "type": "string"
+        },
+        "[]._links.unsuspend.name": {
+          "type": "string"
+        },
+        "[]._links.unsuspend.templated": {
+          "type": "boolean"
+        },
+        "[]._links.unsuspend.type": {
+          "type": "string"
+        },
+        "[]._links.users": {
+          "type": "object"
+        },
+        "[]._links.users.hints": {
+          "type": "object"
+        },
+        "[]._links.users.href": {
+          "type": "string"
+        },
+        "[]._links.users.name": {
+          "type": "string"
+        },
+        "[]._links.users.templated": {
+          "type": "boolean"
+        },
+        "[]._links.users.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].profile": {
+          "type": "object"
+        },
+        "[].profile.diskEncryptionType": {
+          "type": "string"
+        },
+        "[].profile.displayName": {
+          "type": "string"
+        },
+        "[].profile.imei": {
+          "type": "string"
+        },
+        "[].profile.integrityJailbreak": {
+          "type": "boolean"
+        },
+        "[].profile.managed": {
+          "type": "boolean"
+        },
+        "[].profile.manufacturer": {
+          "type": "string"
+        },
+        "[].profile.meid": {
+          "type": "string"
+        },
+        "[].profile.model": {
+          "type": "string"
+        },
+        "[].profile.osVersion": {
+          "type": "string"
+        },
+        "[].profile.platform": {
+          "type": "string"
+        },
+        "[].profile.registered": {
+          "type": "boolean"
+        },
+        "[].profile.secureHardwarePresent": {
+          "type": "boolean"
+        },
+        "[].profile.serialNumber": {
+          "type": "string"
+        },
+        "[].profile.sid": {
+          "type": "string"
+        },
+        "[].profile.tpmPublicKeyHash": {
+          "type": "string"
+        },
+        "[].profile.udid": {
+          "type": "string"
+        },
+        "[].resourceAlternateId": {
+          "type": "string"
+        },
+        "[].resourceDisplayName": {
+          "type": "object"
+        },
+        "[].resourceDisplayName.sensitive": {
+          "type": "boolean"
+        },
+        "[].resourceDisplayName.value": {
+          "type": "string"
+        },
+        "[].resourceId": {
+          "type": "string"
+        },
+        "[].resourceType": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listEmailCustomizations": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listEmailCustomizations",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "brandId": {
+          "in": "path",
+          "required": true
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "templateName": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/brands/{brandId}/templates/email/{templateName}/customizations",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.preview": {
+          "type": "object"
+        },
+        "[]._links.preview.hints": {
+          "type": "object"
+        },
+        "[]._links.preview.href": {
+          "type": "string"
+        },
+        "[]._links.preview.name": {
+          "type": "string"
+        },
+        "[]._links.preview.templated": {
+          "type": "boolean"
+        },
+        "[]._links.preview.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[]._links.template": {
+          "type": "object"
+        },
+        "[]._links.template.hints": {
+          "type": "object"
+        },
+        "[]._links.template.href": {
+          "type": "string"
+        },
+        "[]._links.template.name": {
+          "type": "string"
+        },
+        "[]._links.template.templated": {
+          "type": "boolean"
+        },
+        "[]._links.template.type": {
+          "type": "string"
+        },
+        "[]._links.test": {
+          "type": "object"
+        },
+        "[]._links.test.hints": {
+          "type": "object"
+        },
+        "[]._links.test.href": {
+          "type": "string"
+        },
+        "[]._links.test.name": {
+          "type": "string"
+        },
+        "[]._links.test.templated": {
+          "type": "boolean"
+        },
+        "[]._links.test.type": {
+          "type": "string"
+        },
+        "[].body": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].isDefault": {
+          "type": "boolean"
+        },
+        "[].language": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].subject": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listEmailDomains": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listEmailDomains",
+      "params": {
+        "expand": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/email-domains",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._embedded": {
+          "type": "object"
+        },
+        "[]._embedded.brands": {
+          "type": "array"
+        },
+        "[]._embedded.brands[]": {
+          "type": "object"
+        },
+        "[].displayName": {
+          "type": "string"
+        },
+        "[].dnsValidationRecords": {
+          "type": "array"
+        },
+        "[].dnsValidationRecords[]": {
+          "type": "object"
+        },
+        "[].dnsValidationRecords[].fqdn": {
+          "type": "string"
+        },
+        "[].dnsValidationRecords[].recordType": {
+          "type": "string"
+        },
+        "[].dnsValidationRecords[].verificationValue": {
+          "type": "string"
+        },
+        "[].domain": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].userName": {
+          "type": "string"
+        },
+        "[].validationStatus": {
+          "type": "string"
+        },
+        "[].validationSubdomain": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listEmailTemplates": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listEmailTemplates",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "brandId": {
+          "in": "path",
+          "required": true
+        },
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/brands/{brandId}/templates/email",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._embedded": {
+          "type": "object"
+        },
+        "[]._embedded.customizationCount": {
+          "type": "integer"
+        },
+        "[]._embedded.settings": {
+          "type": "object"
+        },
+        "[]._embedded.settings._links": {
+          "type": "object"
+        },
+        "[]._embedded.settings.recipients": {
+          "type": "string"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.customizations": {
+          "type": "object"
+        },
+        "[]._links.customizations.hints": {
+          "type": "object"
+        },
+        "[]._links.customizations.href": {
+          "type": "string"
+        },
+        "[]._links.customizations.name": {
+          "type": "string"
+        },
+        "[]._links.customizations.templated": {
+          "type": "boolean"
+        },
+        "[]._links.customizations.type": {
+          "type": "string"
+        },
+        "[]._links.defaultContent": {
+          "type": "object"
+        },
+        "[]._links.defaultContent.hints": {
+          "type": "object"
+        },
+        "[]._links.defaultContent.href": {
+          "type": "string"
+        },
+        "[]._links.defaultContent.name": {
+          "type": "string"
+        },
+        "[]._links.defaultContent.templated": {
+          "type": "boolean"
+        },
+        "[]._links.defaultContent.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[]._links.settings": {
+          "type": "object"
+        },
+        "[]._links.settings.hints": {
+          "type": "object"
+        },
+        "[]._links.settings.href": {
+          "type": "string"
+        },
+        "[]._links.settings.name": {
+          "type": "string"
+        },
+        "[]._links.settings.templated": {
+          "type": "boolean"
+        },
+        "[]._links.settings.type": {
+          "type": "string"
+        },
+        "[]._links.test": {
+          "type": "object"
+        },
+        "[]._links.test.hints": {
+          "type": "object"
+        },
+        "[]._links.test.href": {
+          "type": "string"
+        },
+        "[]._links.test.name": {
+          "type": "string"
+        },
+        "[]._links.test.templated": {
+          "type": "boolean"
+        },
+        "[]._links.test.type": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listFederatedClaims": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listFederatedClaims",
+      "params": {
+        "appId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/apps/{appId}/federated-claims",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].expression": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listGovernanceBundles": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listGovernanceBundles",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/iam/governance/bundles",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "bundles": {
+          "type": "array"
+        },
+        "bundles[]": {
+          "type": "object"
+        },
+        "bundles[]._links": {
+          "type": "object"
+        },
+        "bundles[]._links.entitlements": {
+          "type": "object"
+        },
+        "bundles[]._links.self": {
+          "type": "object"
+        },
+        "bundles[].description": {
+          "type": "string"
+        },
+        "bundles[].id": {
+          "type": "string"
+        },
+        "bundles[].name": {
+          "type": "string"
+        },
+        "bundles[].orn": {
+          "type": "string"
+        },
+        "bundles[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listGroupOwners": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listGroupOwners",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "groupId": {
+          "in": "path",
+          "required": true
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "search": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/groups/{groupId}/owners",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].displayName": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].originId": {
+          "type": "string"
+        },
+        "[].originType": {
+          "type": "string"
+        },
+        "[].resolved": {
+          "type": "boolean"
+        },
+        "[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listGroupPushMappings": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listGroupPushMappings",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "appId": {
+          "in": "path",
+          "required": true
+        },
+        "lastUpdated": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "sourceGroupId": {
+          "in": "query",
+          "required": false
+        },
+        "status": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/apps/{appId}/group-push/mappings",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.app": {
+          "type": "object"
+        },
+        "[]._links.app.hints": {
+          "type": "object"
+        },
+        "[]._links.app.href": {
+          "type": "string"
+        },
+        "[]._links.app.name": {
+          "type": "string"
+        },
+        "[]._links.app.templated": {
+          "type": "boolean"
+        },
+        "[]._links.app.type": {
+          "type": "string"
+        },
+        "[]._links.sourceGroup": {
+          "type": "object"
+        },
+        "[]._links.sourceGroup.hints": {
+          "type": "object"
+        },
+        "[]._links.sourceGroup.href": {
+          "type": "string"
+        },
+        "[]._links.sourceGroup.name": {
+          "type": "string"
+        },
+        "[]._links.sourceGroup.templated": {
+          "type": "boolean"
+        },
+        "[]._links.sourceGroup.type": {
+          "type": "string"
+        },
+        "[]._links.targetGroup": {
+          "type": "object"
+        },
+        "[]._links.targetGroup.hints": {
+          "type": "object"
+        },
+        "[]._links.targetGroup.href": {
+          "type": "string"
+        },
+        "[]._links.targetGroup.name": {
+          "type": "string"
+        },
+        "[]._links.targetGroup.templated": {
+          "type": "boolean"
+        },
+        "[]._links.targetGroup.type": {
+          "type": "string"
+        },
+        "[].appConfig": {
+          "type": "object"
+        },
+        "[].appConfig.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].errorSummary": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastPush": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].sourceGroupId": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].targetGroupId": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listHookKeys": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listHookKeys",
+      "params": {},
+      "path": "/api/v1/hook-keys",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].isUsed": {
+          "type": "string"
+        },
+        "[].keyId": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listIdentityProviders": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listIdentityProviders",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "q": {
+          "in": "query",
+          "required": false
+        },
+        "type": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/idps",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.acs": {
+          "type": "object"
+        },
+        "[]._links.acs.hints": {
+          "type": "object"
+        },
+        "[]._links.acs.href": {
+          "type": "string"
+        },
+        "[]._links.acs.name": {
+          "type": "string"
+        },
+        "[]._links.acs.templated": {
+          "type": "boolean"
+        },
+        "[]._links.acs.type": {
+          "type": "string"
+        },
+        "[]._links.activate": {
+          "type": "object"
+        },
+        "[]._links.activate.hints": {
+          "type": "object"
+        },
+        "[]._links.activate.href": {
+          "type": "string"
+        },
+        "[]._links.activate.name": {
+          "type": "string"
+        },
+        "[]._links.activate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.activate.type": {
+          "type": "string"
+        },
+        "[]._links.authorize": {
+          "type": "object"
+        },
+        "[]._links.authorize.hints": {
+          "type": "object"
+        },
+        "[]._links.authorize.href": {
+          "type": "string"
+        },
+        "[]._links.authorize.name": {
+          "type": "string"
+        },
+        "[]._links.authorize.templated": {
+          "type": "boolean"
+        },
+        "[]._links.authorize.type": {
+          "type": "string"
+        },
+        "[]._links.clientRedirectUri": {
+          "type": "object"
+        },
+        "[]._links.clientRedirectUri.hints": {
+          "type": "object"
+        },
+        "[]._links.clientRedirectUri.href": {
+          "type": "string"
+        },
+        "[]._links.clientRedirectUri.name": {
+          "type": "string"
+        },
+        "[]._links.clientRedirectUri.templated": {
+          "type": "boolean"
+        },
+        "[]._links.clientRedirectUri.type": {
+          "type": "string"
+        },
+        "[]._links.deactivate": {
+          "type": "object"
+        },
+        "[]._links.deactivate.hints": {
+          "type": "object"
+        },
+        "[]._links.deactivate.href": {
+          "type": "string"
+        },
+        "[]._links.deactivate.name": {
+          "type": "string"
+        },
+        "[]._links.deactivate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.deactivate.type": {
+          "type": "string"
+        },
+        "[]._links.keys": {
+          "type": "object"
+        },
+        "[]._links.keys.hints": {
+          "type": "object"
+        },
+        "[]._links.keys.href": {
+          "type": "string"
+        },
+        "[]._links.keys.name": {
+          "type": "string"
+        },
+        "[]._links.keys.templated": {
+          "type": "boolean"
+        },
+        "[]._links.keys.type": {
+          "type": "string"
+        },
+        "[]._links.metadata": {
+          "type": "object"
+        },
+        "[]._links.metadata.hints": {
+          "type": "object"
+        },
+        "[]._links.metadata.href": {
+          "type": "string"
+        },
+        "[]._links.metadata.name": {
+          "type": "string"
+        },
+        "[]._links.metadata.templated": {
+          "type": "boolean"
+        },
+        "[]._links.metadata.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[]._links.users": {
+          "type": "object"
+        },
+        "[]._links.users.hints": {
+          "type": "object"
+        },
+        "[]._links.users.href": {
+          "type": "string"
+        },
+        "[]._links.users.name": {
+          "type": "string"
+        },
+        "[]._links.users.templated": {
+          "type": "boolean"
+        },
+        "[]._links.users.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].issuerMode": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].policy": {
+          "type": "object"
+        },
+        "[].policy.accountLink": {
+          "type": "object"
+        },
+        "[].policy.accountLink.action": {
+          "type": "string"
+        },
+        "[].policy.accountLink.filter": {
+          "type": "object"
+        },
+        "[].policy.maxClockSkew": {
+          "type": "integer"
+        },
+        "[].policy.provisioning": {
+          "type": "object"
+        },
+        "[].policy.provisioning.action": {
+          "type": "string"
+        },
+        "[].policy.provisioning.conditions": {
+          "type": "object"
+        },
+        "[].policy.provisioning.groups": {
+          "type": "object"
+        },
+        "[].policy.provisioning.profileMaster": {
+          "type": "boolean"
+        },
+        "[].policy.subject": {
+          "type": "object"
+        },
+        "[].policy.subject.filter": {
+          "type": "string"
+        },
+        "[].policy.subject.matchAttribute": {
+          "type": "string"
+        },
+        "[].policy.subject.matchType": {
+          "type": "string"
+        },
+        "[].policy.subject.userNameTemplate": {
+          "type": "object"
+        },
+        "[].policy.trustClaims": {
+          "type": "boolean"
+        },
+        "[].properties": {
+          "type": "object"
+        },
+        "[].properties.aalValue": {
+          "type": "string"
+        },
+        "[].properties.additionalAmr": {
+          "type": "array"
+        },
+        "[].properties.additionalAmr[]": {
+          "type": "string"
+        },
+        "[].properties.allowDynamicUserMatching": {
+          "type": "boolean"
+        },
+        "[].properties.allowUserUpdates": {
+          "type": "boolean"
+        },
+        "[].properties.ialValue": {
+          "type": "string"
+        },
+        "[].properties.idvMetadata": {
+          "type": "object"
+        },
+        "[].properties.idvMetadata.privacyPolicy": {
+          "type": "string"
+        },
+        "[].properties.idvMetadata.termsOfUse": {
+          "type": "string"
+        },
+        "[].properties.idvMetadata.vendorDisplayName": {
+          "type": "string"
+        },
+        "[].properties.inquiryTemplateId": {
+          "type": "string"
+        },
+        "[].protocol": {
+          "type": "object"
+        },
+        "[].protocol.algorithms": {
+          "type": "object"
+        },
+        "[].protocol.algorithms.request": {
+          "type": "object"
+        },
+        "[].protocol.algorithms.response": {
+          "type": "object"
+        },
+        "[].protocol.credentials": {
+          "type": "object"
+        },
+        "[].protocol.credentials.bearer": {
+          "type": "object"
+        },
+        "[].protocol.credentials.client": {
+          "type": "object"
+        },
+        "[].protocol.credentials.signing": {
+          "type": "object"
+        },
+        "[].protocol.credentials.trust": {
+          "type": "object"
+        },
+        "[].protocol.endpoints": {
+          "type": "object"
+        },
+        "[].protocol.endpoints.acs": {
+          "type": "object"
+        },
+        "[].protocol.endpoints.authorization": {
+          "type": "object"
+        },
+        "[].protocol.endpoints.jwks": {
+          "type": "object"
+        },
+        "[].protocol.endpoints.par": {
+          "type": "object"
+        },
+        "[].protocol.endpoints.slo": {
+          "type": "object"
+        },
+        "[].protocol.endpoints.sso": {
+          "type": "object"
+        },
+        "[].protocol.endpoints.token": {
+          "type": "object"
+        },
+        "[].protocol.endpoints.userInfo": {
+          "type": "object"
+        },
+        "[].protocol.issuer": {
+          "type": "object"
+        },
+        "[].protocol.issuer.url": {
+          "type": "string"
+        },
+        "[].protocol.oktaIdpOrgUrl": {
+          "type": "string"
+        },
+        "[].protocol.relayState": {
+          "type": "object"
+        },
+        "[].protocol.relayState.format": {
+          "type": "string"
+        },
+        "[].protocol.scopes": {
+          "type": "array"
+        },
+        "[].protocol.scopes[]": {
+          "type": "string"
+        },
+        "[].protocol.settings": {
+          "type": "object"
+        },
+        "[].protocol.settings.honorPersistentNameId": {
+          "type": "boolean"
+        },
+        "[].protocol.settings.nameFormat": {
+          "type": "string"
+        },
+        "[].protocol.settings.participateSlo": {
+          "type": "boolean"
+        },
+        "[].protocol.settings.sendApplicationContext": {
+          "type": "boolean"
+        },
+        "[].protocol.type": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listJwk": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listJwk",
+      "params": {
+        "appId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/apps/{appId}/credentials/jwks",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.activate": {
+          "type": "object"
+        },
+        "[]._links.activate.hints": {
+          "type": "object"
+        },
+        "[]._links.activate.href": {
+          "type": "string"
+        },
+        "[]._links.activate.name": {
+          "type": "string"
+        },
+        "[]._links.activate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.activate.type": {
+          "type": "string"
+        },
+        "[]._links.deactivate": {
+          "type": "object"
+        },
+        "[]._links.deactivate.hints": {
+          "type": "object"
+        },
+        "[]._links.deactivate.href": {
+          "type": "string"
+        },
+        "[]._links.deactivate.name": {
+          "type": "string"
+        },
+        "[]._links.deactivate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.deactivate.type": {
+          "type": "string"
+        },
+        "[]._links.delete": {
+          "type": "object"
+        },
+        "[]._links.delete.hints": {
+          "type": "object"
+        },
+        "[]._links.delete.href": {
+          "type": "string"
+        },
+        "[]._links.delete.name": {
+          "type": "string"
+        },
+        "[]._links.delete.templated": {
+          "type": "boolean"
+        },
+        "[]._links.delete.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].e": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].kid": {
+          "type": "string"
+        },
+        "[].kty": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].n": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].use": {
+          "type": "string"
+        },
+        "[].x": {
+          "type": "string"
+        },
+        "[].y": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listLinkedObjectDefinitions": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listLinkedObjectDefinitions",
+      "params": {},
+      "path": "/api/v1/meta/schemas/user/linkedObjects",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[].associated": {
+          "type": "object"
+        },
+        "[].associated.description": {
+          "type": "string"
+        },
+        "[].associated.name": {
+          "type": "string"
+        },
+        "[].associated.title": {
+          "type": "string"
+        },
+        "[].associated.type": {
+          "type": "string"
+        },
+        "[].primary": {
+          "type": "object"
+        },
+        "[].primary.description": {
+          "type": "string"
+        },
+        "[].primary.name": {
+          "type": "string"
+        },
+        "[].primary.title": {
+          "type": "string"
+        },
+        "[].primary.type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listLogEvents": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listLogEvents",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "q": {
+          "in": "query",
+          "required": false
+        },
+        "since": {
+          "in": "query",
+          "required": false
+        },
+        "sortOrder": {
+          "in": "query",
+          "required": false
+        },
+        "until": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/logs",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].actor": {
+          "type": "object"
+        },
+        "[].actor.alternateId": {
+          "type": "string"
+        },
+        "[].actor.detailEntry": {
+          "type": "object"
+        },
+        "[].actor.displayName": {
+          "type": "string"
+        },
+        "[].actor.id": {
+          "type": "string"
+        },
+        "[].actor.type": {
+          "type": "string"
+        },
+        "[].authenticationContext": {
+          "type": "object"
+        },
+        "[].authenticationContext.authenticationProvider": {
+          "type": "string"
+        },
+        "[].authenticationContext.authenticationStep": {
+          "type": "integer"
+        },
+        "[].authenticationContext.credentialProvider": {
+          "type": "string"
+        },
+        "[].authenticationContext.credentialType": {
+          "type": "string"
+        },
+        "[].authenticationContext.externalSessionId": {
+          "type": "string"
+        },
+        "[].authenticationContext.interface": {
+          "type": "string"
+        },
+        "[].authenticationContext.issuer": {
+          "type": "object"
+        },
+        "[].authenticationContext.issuer.id": {
+          "type": "string"
+        },
+        "[].authenticationContext.issuer.type": {
+          "type": "string"
+        },
+        "[].client": {
+          "type": "object"
+        },
+        "[].client.device": {
+          "type": "string"
+        },
+        "[].client.geographicalContext": {
+          "type": "object"
+        },
+        "[].client.geographicalContext.city": {
+          "type": "string"
+        },
+        "[].client.geographicalContext.country": {
+          "type": "string"
+        },
+        "[].client.geographicalContext.geolocation": {
+          "type": "object"
+        },
+        "[].client.geographicalContext.postalCode": {
+          "type": "string"
+        },
+        "[].client.geographicalContext.state": {
+          "type": "string"
+        },
+        "[].client.id": {
+          "type": "string"
+        },
+        "[].client.ipAddress": {
+          "type": "string"
+        },
+        "[].client.userAgent": {
+          "type": "object"
+        },
+        "[].client.userAgent.browser": {
+          "type": "string"
+        },
+        "[].client.userAgent.os": {
+          "type": "string"
+        },
+        "[].client.userAgent.rawUserAgent": {
+          "type": "string"
+        },
+        "[].client.zone": {
+          "type": "string"
+        },
+        "[].debugContext": {
+          "type": "object"
+        },
+        "[].debugContext.debugData": {
+          "type": "object"
+        },
+        "[].displayMessage": {
+          "type": "string"
+        },
+        "[].eventType": {
+          "type": "string"
+        },
+        "[].legacyEventType": {
+          "type": "string"
+        },
+        "[].outcome": {
+          "type": "object"
+        },
+        "[].outcome.reason": {
+          "type": "string"
+        },
+        "[].outcome.result": {
+          "type": "string"
+        },
+        "[].published": {
+          "type": "string"
+        },
+        "[].request": {
+          "type": "object"
+        },
+        "[].request.ipChain": {
+          "type": "array"
+        },
+        "[].request.ipChain[]": {
+          "type": "object"
+        },
+        "[].securityContext": {
+          "type": "object"
+        },
+        "[].securityContext.asNumber": {
+          "type": "integer"
+        },
+        "[].securityContext.asOrg": {
+          "type": "string"
+        },
+        "[].securityContext.botProtection": {
+          "type": "object"
+        },
+        "[].securityContext.botProtection.level": {
+          "type": "string"
+        },
+        "[].securityContext.domain": {
+          "type": "string"
+        },
+        "[].securityContext.ipDetails": {
+          "type": "object"
+        },
+        "[].securityContext.ipDetails.asNumber": {
+          "type": "integer"
+        },
+        "[].securityContext.ipDetails.asOrg": {
+          "type": "string"
+        },
+        "[].securityContext.ipDetails.domain": {
+          "type": "string"
+        },
+        "[].securityContext.ipDetails.ipServiceCategories": {
+          "type": "array"
+        },
+        "[].securityContext.ipDetails.isp": {
+          "type": "string"
+        },
+        "[].securityContext.isProxy": {
+          "type": "boolean"
+        },
+        "[].securityContext.isp": {
+          "type": "string"
+        },
+        "[].securityContext.risk": {
+          "type": "object"
+        },
+        "[].securityContext.risk.detectionName": {
+          "type": "string"
+        },
+        "[].securityContext.risk.issuer": {
+          "type": "string"
+        },
+        "[].securityContext.risk.level": {
+          "type": "string"
+        },
+        "[].securityContext.risk.previousLevel": {
+          "type": "string"
+        },
+        "[].securityContext.risk.reasons": {
+          "type": "array"
+        },
+        "[].securityContext.userBehaviors": {
+          "type": "array"
+        },
+        "[].securityContext.userBehaviors[]": {
+          "type": "object"
+        },
+        "[].severity": {
+          "type": "string"
+        },
+        "[].target": {
+          "type": "array"
+        },
+        "[].target[]": {
+          "type": "object"
+        },
+        "[].target[].alternateId": {
+          "type": "string"
+        },
+        "[].target[].changeDetails": {
+          "type": "object"
+        },
+        "[].target[].detailEntry": {
+          "type": "object"
+        },
+        "[].target[].displayName": {
+          "type": "string"
+        },
+        "[].target[].id": {
+          "type": "string"
+        },
+        "[].target[].type": {
+          "type": "string"
+        },
+        "[].transaction": {
+          "type": "object"
+        },
+        "[].transaction.detail": {
+          "type": "object"
+        },
+        "[].transaction.id": {
+          "type": "string"
+        },
+        "[].transaction.type": {
+          "type": "string"
+        },
+        "[].uuid": {
+          "type": "string"
+        },
+        "[].version": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listOAuth2Claims": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listOAuth2Claims",
+      "params": {
+        "authServerId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/authorizationServers/{authServerId}/claims",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].alwaysIncludeInToken": {
+          "type": "boolean"
+        },
+        "[].claimType": {
+          "type": "string"
+        },
+        "[].conditions": {
+          "type": "object"
+        },
+        "[].conditions.scopes": {
+          "type": "array"
+        },
+        "[].conditions.scopes[]": {
+          "type": "string"
+        },
+        "[].group_filter_type": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].system": {
+          "type": "boolean"
+        },
+        "[].value": {
+          "type": "string"
+        },
+        "[].valueType": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listOAuth2ResourceServerJsonWebKeys": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listOAuth2ResourceServerJsonWebKeys",
+      "params": {
+        "authServerId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/authorizationServers/{authServerId}/resourceservercredentials/keys",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.activate": {
+          "type": "object"
+        },
+        "[]._links.activate.hints": {
+          "type": "object"
+        },
+        "[]._links.activate.href": {
+          "type": "string"
+        },
+        "[]._links.activate.name": {
+          "type": "string"
+        },
+        "[]._links.activate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.activate.type": {
+          "type": "string"
+        },
+        "[]._links.delete": {
+          "type": "object"
+        },
+        "[]._links.delete.hints": {
+          "type": "object"
+        },
+        "[]._links.delete.href": {
+          "type": "string"
+        },
+        "[]._links.delete.name": {
+          "type": "string"
+        },
+        "[]._links.delete.templated": {
+          "type": "boolean"
+        },
+        "[]._links.delete.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].e": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].kid": {
+          "type": "string"
+        },
+        "[].kty": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].n": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].use": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listOAuth2Scopes": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listOAuth2Scopes",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "authServerId": {
+          "in": "path",
+          "required": true
+        },
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "q": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/authorizationServers/{authServerId}/scopes",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].consent": {
+          "type": "string"
+        },
+        "[].default": {
+          "type": "boolean"
+        },
+        "[].description": {
+          "type": "string"
+        },
+        "[].displayName": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].metadataPublish": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].optional": {
+          "type": "boolean"
+        },
+        "[].system": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:okta_management_openapi:listOktaManagedUserAccounts": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listOktaManagedUserAccounts",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "match": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/privileged-access/api/v1/okta-service-accounts",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].description": {
+          "type": "string"
+        },
+        "[].email": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].oktaUserId": {
+          "type": "string"
+        },
+        "[].ownerGroupIds": {
+          "type": "array"
+        },
+        "[].ownerGroupIds[]": {
+          "type": "string"
+        },
+        "[].ownerUserIds": {
+          "type": "array"
+        },
+        "[].ownerUserIds[]": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].statusDetail": {
+          "type": "string"
+        },
+        "[].username": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listOktaSupportCases": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listOktaSupportCases",
+      "params": {},
+      "path": "/api/v1/org/privacy/oktaSupport/cases",
+      "response": {
+        "supportCases": {
+          "type": "array"
+        },
+        "supportCases[]": {
+          "type": "object"
+        },
+        "supportCases[].caseNumber": {
+          "type": "string"
+        },
+        "supportCases[].impersonation": {
+          "type": "object"
+        },
+        "supportCases[].impersonation.expiration": {
+          "type": "string"
+        },
+        "supportCases[].impersonation.status": {
+          "type": "string"
+        },
+        "supportCases[].selfAssigned": {
+          "type": "object"
+        },
+        "supportCases[].selfAssigned.status": {
+          "type": "string"
+        },
+        "supportCases[].subject": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listPolicyMappings": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listPolicyMappings",
+      "params": {
+        "policyId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/policies/{policyId}/mappings",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.application": {
+          "type": "object"
+        },
+        "[]._links.application.hints": {
+          "type": "object"
+        },
+        "[]._links.application.href": {
+          "type": "string"
+        },
+        "[]._links.application.name": {
+          "type": "string"
+        },
+        "[]._links.application.templated": {
+          "type": "boolean"
+        },
+        "[]._links.application.type": {
+          "type": "string"
+        },
+        "[]._links.policy": {
+          "type": "object"
+        },
+        "[]._links.policy.hints": {
+          "type": "object"
+        },
+        "[]._links.policy.href": {
+          "type": "string"
+        },
+        "[]._links.policy.name": {
+          "type": "string"
+        },
+        "[]._links.policy.templated": {
+          "type": "boolean"
+        },
+        "[]._links.policy.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listPrincipalRateLimitEntities": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listPrincipalRateLimitEntities",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "filter": {
+          "in": "query",
+          "required": true
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/principal-rate-limits",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].createdBy": {
+          "type": "string"
+        },
+        "[].createdDate": {
+          "type": "string"
+        },
+        "[].defaultConcurrencyPercentage": {
+          "type": "integer"
+        },
+        "[].defaultPercentage": {
+          "type": "integer"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdate": {
+          "type": "string"
+        },
+        "[].lastUpdatedBy": {
+          "type": "string"
+        },
+        "[].orgId": {
+          "type": "string"
+        },
+        "[].principalId": {
+          "type": "string"
+        },
+        "[].principalType": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listProfileMappings": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listProfileMappings",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "sourceId": {
+          "in": "query",
+          "required": false
+        },
+        "targetId": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/mappings",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].source": {
+          "type": "object"
+        },
+        "[].source._links": {
+          "type": "object"
+        },
+        "[].source._links.schema": {
+          "type": "object"
+        },
+        "[].source._links.self": {
+          "type": "object"
+        },
+        "[].source.id": {
+          "type": "string"
+        },
+        "[].source.name": {
+          "type": "string"
+        },
+        "[].source.type": {
+          "type": "string"
+        },
+        "[].target": {
+          "type": "object"
+        },
+        "[].target._links": {
+          "type": "object"
+        },
+        "[].target._links.schema": {
+          "type": "object"
+        },
+        "[].target._links.self": {
+          "type": "object"
+        },
+        "[].target.id": {
+          "type": "string"
+        },
+        "[].target.name": {
+          "type": "string"
+        },
+        "[].target.type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listPushProviders": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listPushProviders",
+      "params": {
+        "type": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/push-providers",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdatedDate": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].providerType": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listRealmAssignments": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listRealmAssignments",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/realm-assignments",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].actions": {
+          "type": "object"
+        },
+        "[].actions.assignUserToRealm": {
+          "type": "object"
+        },
+        "[].actions.assignUserToRealm.realmId": {
+          "type": "string"
+        },
+        "[].conditions": {
+          "type": "object"
+        },
+        "[].conditions.expression": {
+          "type": "object"
+        },
+        "[].conditions.expression.value": {
+          "type": "string"
+        },
+        "[].conditions.profileSourceId": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].domains": {
+          "type": "array"
+        },
+        "[].domains[]": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].isDefault": {
+          "type": "boolean"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].priority": {
+          "type": "integer"
+        },
+        "[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listRealms": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listRealms",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "search": {
+          "in": "query",
+          "required": false
+        },
+        "sortBy": {
+          "in": "query",
+          "required": false
+        },
+        "sortOrder": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/realms",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].isDefault": {
+          "type": "boolean"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].profile": {
+          "type": "object"
+        },
+        "[].profile.domains": {
+          "type": "array"
+        },
+        "[].profile.domains[]": {
+          "type": "string"
+        },
+        "[].profile.name": {
+          "type": "string"
+        },
+        "[].profile.realmType": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listResourceSetResources": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listResourceSetResources",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "resourceSetIdOrLabel": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/api/v1/iam/resource-sets/{resourceSetIdOrLabel}/resources",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.resource-set": {
+          "type": "object"
+        },
+        "_links.resource-set.hints": {
+          "type": "object"
+        },
+        "_links.resource-set.hints.allow": {
+          "type": "array"
+        },
+        "_links.resource-set.href": {
+          "type": "string"
+        },
+        "_links.resource-set.name": {
+          "type": "string"
+        },
+        "_links.resource-set.templated": {
+          "type": "boolean"
+        },
+        "_links.resource-set.type": {
+          "type": "string"
+        },
+        "resources": {
+          "type": "array"
+        },
+        "resources[]": {
+          "type": "object"
+        },
+        "resources[]._links": {
+          "type": "object"
+        },
+        "resources[]._links.groups": {
+          "type": "object"
+        },
+        "resources[]._links.resource": {
+          "type": "object"
+        },
+        "resources[]._links.self": {
+          "type": "object"
+        },
+        "resources[]._links.users": {
+          "type": "object"
+        },
+        "resources[].conditions": {
+          "type": "object"
+        },
+        "resources[].conditions.Exclude": {
+          "type": "object"
+        },
+        "resources[].created": {
+          "type": "string"
+        },
+        "resources[].id": {
+          "type": "string"
+        },
+        "resources[].lastUpdated": {
+          "type": "string"
+        },
+        "resources[].orn": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listScopeConsentGrants": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listScopeConsentGrants",
+      "params": {
+        "appId": {
+          "in": "path",
+          "required": true
+        },
+        "expand": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/apps/{appId}/grants",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._embedded": {
+          "type": "object"
+        },
+        "[]._embedded.scope": {
+          "type": "object"
+        },
+        "[]._embedded.scope.id": {
+          "type": "string"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.app": {
+          "type": "object"
+        },
+        "[]._links.app.href": {
+          "type": "string"
+        },
+        "[]._links.app.title": {
+          "type": "string"
+        },
+        "[]._links.authorizationServer": {
+          "type": "object"
+        },
+        "[]._links.authorizationServer.href": {
+          "type": "string"
+        },
+        "[]._links.authorizationServer.title": {
+          "type": "string"
+        },
+        "[]._links.client": {
+          "type": "object"
+        },
+        "[]._links.client.href": {
+          "type": "string"
+        },
+        "[]._links.client.title": {
+          "type": "string"
+        },
+        "[]._links.scope": {
+          "type": "object"
+        },
+        "[]._links.scope.href": {
+          "type": "string"
+        },
+        "[]._links.scope.title": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[]._links.user": {
+          "type": "object"
+        },
+        "[]._links.user.href": {
+          "type": "string"
+        },
+        "[]._links.user.title": {
+          "type": "string"
+        },
+        "[].clientId": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].createdBy": {
+          "type": "object"
+        },
+        "[].createdBy.id": {
+          "type": "string"
+        },
+        "[].createdBy.type": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].issuer": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].scopeId": {
+          "type": "string"
+        },
+        "[].source": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].userId": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listSmsTemplates": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listSmsTemplates",
+      "params": {
+        "templateType": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/templates/sms",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].template": {
+          "type": "string"
+        },
+        "[].translations": {
+          "type": "object"
+        },
+        "[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listUISchemas": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listUISchemas",
+      "params": {},
+      "path": "/api/v1/meta/uischemas",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].uiSchema": {
+          "type": "object"
+        },
+        "[].uiSchema.buttonLabel": {
+          "type": "string"
+        },
+        "[].uiSchema.elements": {
+          "type": "array"
+        },
+        "[].uiSchema.elements[]": {
+          "type": "object"
+        },
+        "[].uiSchema.label": {
+          "type": "string"
+        },
+        "[].uiSchema.type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listUserTypes": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listUserTypes",
+      "params": {},
+      "path": "/api/v1/meta/types/user",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.schema": {
+          "type": "object"
+        },
+        "[]._links.schema.hints": {
+          "type": "object"
+        },
+        "[]._links.schema.href": {
+          "type": "string"
+        },
+        "[]._links.schema.name": {
+          "type": "string"
+        },
+        "[]._links.schema.templated": {
+          "type": "boolean"
+        },
+        "[]._links.schema.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].createdBy": {
+          "type": "string"
+        },
+        "[].default": {
+          "type": "boolean"
+        },
+        "[].description": {
+          "type": "string"
+        },
+        "[].displayName": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].lastUpdatedBy": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listUsersWithRoleAssignments": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listUsersWithRoleAssignments",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/iam/assignees/users",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "value": {
+          "type": "array"
+        },
+        "value[]": {
+          "type": "object"
+        },
+        "value[]._links": {
+          "type": "object"
+        },
+        "value[]._links.roles": {
+          "type": "object"
+        },
+        "value[]._links.self": {
+          "type": "object"
+        },
+        "value[].id": {
+          "type": "string"
+        },
+        "value[].orn": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listWebAuthnPreregistrationFactors": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listWebAuthnPreregistrationFactors",
+      "params": {
+        "userId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/webauthn-registration/api/v1/users/{userId}/enrollments",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].factorType": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].profile": {
+          "type": "object"
+        },
+        "[].provider": {
+          "type": "string"
+        },
+        "[].status": {
+          "type": "string"
+        },
+        "[].vendorName": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_management_openapi:listYubikeyOtpTokens": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_management_openapi:listYubikeyOtpTokens",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "forDownload": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "sortBy": {
+          "in": "query",
+          "required": false
+        },
+        "sortOrder": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/api/v1/org/factors/yubikey_token/tokens",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[]._embedded": {
+          "type": "object"
+        },
+        "[]._embedded.<key>": {
+          "type": "object"
+        },
+        "[]._links": {
+          "type": "object"
+        },
+        "[]._links.activate": {
+          "type": "object"
+        },
+        "[]._links.activate.hints": {
+          "type": "object"
+        },
+        "[]._links.activate.href": {
+          "type": "string"
+        },
+        "[]._links.activate.name": {
+          "type": "string"
+        },
+        "[]._links.activate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.activate.type": {
+          "type": "string"
+        },
+        "[]._links.cancel": {
+          "type": "object"
+        },
+        "[]._links.cancel.hints": {
+          "type": "object"
+        },
+        "[]._links.cancel.href": {
+          "type": "string"
+        },
+        "[]._links.cancel.name": {
+          "type": "string"
+        },
+        "[]._links.cancel.templated": {
+          "type": "boolean"
+        },
+        "[]._links.cancel.type": {
+          "type": "string"
+        },
+        "[]._links.deactivate": {
+          "type": "object"
+        },
+        "[]._links.deactivate.hints": {
+          "type": "object"
+        },
+        "[]._links.deactivate.href": {
+          "type": "string"
+        },
+        "[]._links.deactivate.name": {
+          "type": "string"
+        },
+        "[]._links.deactivate.templated": {
+          "type": "boolean"
+        },
+        "[]._links.deactivate.type": {
+          "type": "string"
+        },
+        "[]._links.enroll": {
+          "type": "object"
+        },
+        "[]._links.enroll.hints": {
+          "type": "object"
+        },
+        "[]._links.enroll.href": {
+          "type": "string"
+        },
+        "[]._links.enroll.name": {
+          "type": "string"
+        },
+        "[]._links.enroll.templated": {
+          "type": "boolean"
+        },
+        "[]._links.enroll.type": {
+          "type": "string"
+        },
+        "[]._links.factor": {
+          "type": "object"
+        },
+        "[]._links.factor.hints": {
+          "type": "object"
+        },
+        "[]._links.factor.href": {
+          "type": "string"
+        },
+        "[]._links.factor.name": {
+          "type": "string"
+        },
+        "[]._links.factor.templated": {
+          "type": "boolean"
+        },
+        "[]._links.factor.type": {
+          "type": "string"
+        },
+        "[]._links.poll": {
+          "type": "object"
+        },
+        "[]._links.poll.hints": {
+          "type": "object"
+        },
+        "[]._links.poll.href": {
+          "type": "string"
+        },
+        "[]._links.poll.name": {
+          "type": "string"
+        },
+        "[]._links.poll.templated": {
+          "type": "boolean"
+        },
+        "[]._links.poll.type": {
+          "type": "string"
+        },
+        "[]._links.qrcode": {
+          "type": "object"
+        },
+        "[]._links.qrcode.hints": {
+          "type": "object"
+        },
+        "[]._links.qrcode.href": {
+          "type": "string"
+        },
+        "[]._links.qrcode.name": {
+          "type": "string"
+        },
+        "[]._links.qrcode.templated": {
+          "type": "boolean"
+        },
+        "[]._links.qrcode.type": {
+          "type": "string"
+        },
+        "[]._links.question": {
+          "type": "object"
+        },
+        "[]._links.question.hints": {
+          "type": "object"
+        },
+        "[]._links.question.href": {
+          "type": "string"
+        },
+        "[]._links.question.name": {
+          "type": "string"
+        },
+        "[]._links.question.templated": {
+          "type": "boolean"
+        },
+        "[]._links.question.type": {
+          "type": "string"
+        },
+        "[]._links.resend": {
+          "type": "object"
+        },
+        "[]._links.resend.hints": {
+          "type": "object"
+        },
+        "[]._links.resend.href": {
+          "type": "string"
+        },
+        "[]._links.resend.name": {
+          "type": "string"
+        },
+        "[]._links.resend.templated": {
+          "type": "boolean"
+        },
+        "[]._links.resend.type": {
+          "type": "string"
+        },
+        "[]._links.self": {
+          "type": "object"
+        },
+        "[]._links.self.hints": {
+          "type": "object"
+        },
+        "[]._links.self.href": {
+          "type": "string"
+        },
+        "[]._links.self.name": {
+          "type": "string"
+        },
+        "[]._links.self.templated": {
+          "type": "boolean"
+        },
+        "[]._links.self.type": {
+          "type": "string"
+        },
+        "[]._links.send": {
+          "type": "object"
+        },
+        "[]._links.send.hints": {
+          "type": "object"
+        },
+        "[]._links.send.href": {
+          "type": "string"
+        },
+        "[]._links.send.name": {
+          "type": "string"
+        },
+        "[]._links.send.templated": {
+          "type": "boolean"
+        },
+        "[]._links.send.type": {
+          "type": "string"
+        },
+        "[]._links.user": {
+          "type": "object"
+        },
+        "[]._links.user.hints": {
+          "type": "object"
+        },
+        "[]._links.user.href": {
+          "type": "string"
+        },
+        "[]._links.user.name": {
+          "type": "string"
+        },
+        "[]._links.user.templated": {
+          "type": "boolean"
+        },
+        "[]._links.user.type": {
+          "type": "string"
+        },
+        "[]._links.verify": {
+          "type": "object"
+        },
+        "[]._links.verify.hints": {
+          "type": "object"
+        },
+        "[]._links.verify.href": {
+          "type": "string"
+        },
+        "[]._links.verify.name": {
+          "type": "string"
+        },
+        "[]._links.verify.templated": {
+          "type": "boolean"
+        },
+        "[]._links.verify.type": {
+          "type": "string"
+        },
+        "[].created": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].lastUpdated": {
+          "type": "string"
+        },
+        "[].lastVerified": {
+          "type": "string"
+        },
+        "[].profile": {
+          "type": "object"
+        },
+        "[].profile.<key>": {
+          "type": "object"
+        },
+        "[].status": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "369421cbcbeb838b8ce376e3b24e66c4564db3562ba526c8aa1c43612afe7a25",
+  "source": "okta_management_openapi",
+  "unmatched": [],
+  "version": "2026.09.2"
+}

@@ -37,7 +37,7 @@
 }
 
 .ex-btn.primary:hover:not(:disabled) {
-  background: #1e40af;
+  background: var(--color-select);
   color: #fff;
 }
 
@@ -185,6 +185,26 @@ textarea.ex-input {
 .ex-state-badge.excepted {
   background: #fff;
   color: #0f172a;
+}
+
+/* 전에 오탐으로 처리한 위협과 비슷함 (exceptions/falsePositiveHints.ts). 표시만 한다 */
+.ex-state-badge.fp-hint {
+  background: #fff;
+  color: var(--color-text-primary, #0f172a);
+}
+
+.ex-state-badge.fp-hint.is-likely {
+  border-color: var(--color-text-primary, #0f172a);
+}
+
+.fd-fp-counter {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: baseline;
+  font-size: var(--font-size-sm, 13px);
+  color: var(--color-text-primary, #0f172a);
 }
 
 /* ---- Threat Analysis 목록 ---------------------------------------------- */
@@ -437,7 +457,7 @@ textarea.ex-input {
   gap: 8px;
   padding: 12px 18px;
   border-top: 1px solid var(--color-border-subtle, #f1f5f9);
-  background: #fbfcfe;
+  background: var(--color-bg-app);
 }
 
 .ex-field {
@@ -860,7 +880,7 @@ textarea.ex-input {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  color: #166534;
+  color: var(--color-success-text);
 }
 
 /* 저장 위치 안내 · 서버로 올리기 */
@@ -877,12 +897,12 @@ textarea.ex-input {
 
 /* 예외 목록 칸 (공용 목록 부품 위에) */
 .ex-grid { grid-template-columns: 18px minmax(0, 0.75fr) minmax(0, 1.5fr) 96px minmax(0, 1.2fr) 88px 100px 112px 16px; }
-.ex-grid .ex-title { font-size: 14px; }
+.ex-grid .ex-title { font-size: var(--font-size-md); }
 /* 한 번에 등록한 예외 묶음(결정) 줄과 펼친 안쪽 줄 */
 .ex-decision-chevron { transition: transform 0.15s; }
 .ex-decision-chevron.is-open { transform: rotate(180deg); }
 .lst-row.is-member > .lst-main:nth-child(2) { padding-left: 18px; }
-.ex-grid .ex-reason-cat { font-size: 14px; }
+.ex-grid .ex-reason-cat { font-size: var(--font-size-sm); }
 .ex-cell-check { display: inline-flex; align-items: center; }
 .ex-fp-grid { grid-template-columns: minmax(0, 1fr) 90px 90px 140px; }
 .ex-fp-grid > span:nth-child(n + 2) { text-align: right; }

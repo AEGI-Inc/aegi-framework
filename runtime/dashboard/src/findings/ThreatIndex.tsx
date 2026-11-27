@@ -11,6 +11,7 @@ import { engineRow, sortRows, type ThreatRow } from './threatRows'
 import { LiveCount, readListMemory, scrollBox, writeListMemory } from '../ui/ListScreen'
 import { HANDLING_LABEL, HANDLING_STATES, type HandlingState, type ThreatHandling } from '../model/handling'
 import HandlingBadge from '../handling/HandlingBadge'
+import { HINT_LABELS, type FalsePositiveHint } from '../exceptions/falsePositiveHints'
 import type { Severity } from './severity'
 import type { GraphStoreV2 } from '../model/graph'
 import type { EvidenceStore } from '../model/evidence'
@@ -81,6 +82,11 @@ export function openThreatListWith(patch: Pick<Partial<ListMemory>, 'tags' | 'se
   remember({ tags: [], saas: [], query: '', severities: [], handling: [], scrollTop: 0, ...patch, configList: Boolean(patch.tags?.includes('config_gap')) })
 }
 
+/** 예외 화면의 제목 줄 탭에서 위협이나 설정 점검을 골라 위협 목록 화면을 열 때. 나머지 거르기는 그대로 */
+export function chooseThreatList(config: boolean) {
+  remember({ configList: config })
+}
+
 /** 다른 화면이 전체 건수를 보여 주고 목록을 열 때. 미확정 위협까지 보여 건수를 맞춘다 */
 export function includeUnconfirmedInList() {
   remember({ showUnconfirmed: true })
@@ -97,10 +103,12 @@ export interface ThreatIndexProps {
   onOpenExceptions?: () => void
   /** 지문 → 처리 상태 기록. 기록이 없으면 New다 */
   handling?: Map<string, ThreatHandling>
+  /** 위협 ID → 전에 오탐으로 처리한 위협과 비슷한 근거. 행에 배지만 붙인다 */
+  fpHints?: Map<string, FalsePositiveHint>
   /** 처리하던 위협 중 이번 수집에서 사라진 것 (다음 수집에서 사라지면 해결됨으로 본다) */
   gone?: ThreatHandling[]
-  /** 제목 줄의 위협, 조치 보기 바꾸기 */
-  viewSwitch?: ReactNode
+  /** 제목 줄의 위협, 설정 점검, 예외 탭. 지금 목록이 설정 점검인지와 목록 종류 바꾸기를 받아 그린다 */
+  viewSwitch?: (list: { config: boolean; onList: (config: boolean) => void }) => ReactNode
   /** 지금 보이는(거른) 행을 CSV 로 내려받는다. 있으면 제목 줄에 「CSV 내보내기」가 생긴다 */
   onExport?: (visible: ThreatRow[]) => void
   /** 최신 기준별 판정의 위반 행(threatRows.configRows). null 이면 판정 이력을 불러오지 않은 것이다 */
@@ -129,6 +137,7 @@ export default function ThreatIndex({
   onException,
   onOpenExceptions,
   handling = new Map(),
+  fpHints,
   gone = [],
   syntheticOf,
   onExport,
@@ -286,7 +295,7 @@ export default function ThreatIndex({
     <main className="threat-index" ref={pageRef}>
       <header className="ti-topbar page-title-bar page-title-bar-inset">
         <h1>Threat</h1>
-        {viewSwitch}
+        {viewSwitch?.({ config: configList, onList: setConfigList })}
         {onExport && visible.length > 0 && (
           <button type="button" className="ti-export" onClick={() => onExport(visible)}>
             <Download size={14} strokeWidth={2} aria-hidden="true" /> CSV 내보내기 ({visible.length}건)
@@ -297,14 +306,6 @@ export default function ThreatIndex({
       {/* 거르기. 검색 줄에 목록을 넓히는 스위치(예외 포함, 추정 포함)를 두고,
           아래 흰 칸에 심각도, 처리 상태 / 분류, SaaS 를 두 열로 맞춘다. 고른 조건은 AND 로 겹쳐 걸린다 */}
       <div className="ti-filterbar ti-filterbar-stack">
-        <div className="ti-list-tabs" role="group" aria-label="목록 종류">
-          <button type="button" className={!configList ? 'on' : ''} aria-pressed={!configList} onClick={() => setConfigList(false)}>
-            위협 <em>{engineFindings.length}</em>
-          </button>
-          <button type="button" className={configList ? 'on' : ''} aria-pressed={configList} onClick={() => setConfigList(true)}>
-            설정 점검 <em>{configRows?.length ?? 0}</em>
-          </button>
-        </div>
         <div className="ti-filter-row">
         <div className="ti-search">
           <Search size={14} strokeWidth={2} aria-hidden="true" />
@@ -525,6 +526,14 @@ export default function ThreatIndex({
                       늘어날수록 제목이 밀려 들어간다. */}
                   <span className="ti-tag-row">
                     {state === 'excepted' && <span className="ex-state-badge excepted">예외 처리됨</span>}
+                    {(() => {
+                      const hint = state === 'open' && finding ? fpHints?.get(finding.id) : undefined
+                      return hint && (
+                        <span className={`ex-state-badge fp-hint is-${hint.strength}`} title={hint.matches[0].because}>
+                          {HINT_LABELS[hint.strength]}
+                        </span>
+                      )
+                    })()}
                     {tags.map(tag => (
                       <span key={tag.key} className={`scenario-tag-badge sc-${tag.key}`} title={tag.description}>
                         {tag.label}
