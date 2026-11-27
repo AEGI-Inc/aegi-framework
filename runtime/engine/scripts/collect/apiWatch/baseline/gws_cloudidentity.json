@@ -1,0 +1,262 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:38.946Z",
+  "ops": {
+    "op:gws_cloudidentity:cloudidentity.devices.deviceUsers.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_cloudidentity:cloudidentity.devices.deviceUsers.list",
+      "params": {
+        "customer": {
+          "in": "query",
+          "required": false
+        },
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "v1/devices/{devicesId}/deviceUsers",
+      "response": {
+        "deviceUsers": {
+          "type": "array"
+        },
+        "deviceUsers[]": {
+          "type": "object"
+        },
+        "deviceUsers[].compromisedState": {
+          "type": "string"
+        },
+        "deviceUsers[].createTime": {
+          "type": "string"
+        },
+        "deviceUsers[].firstSyncTime": {
+          "type": "string"
+        },
+        "deviceUsers[].languageCode": {
+          "type": "string"
+        },
+        "deviceUsers[].lastSyncTime": {
+          "type": "string"
+        },
+        "deviceUsers[].managementState": {
+          "type": "string"
+        },
+        "deviceUsers[].name": {
+          "type": "string"
+        },
+        "deviceUsers[].passwordState": {
+          "type": "string"
+        },
+        "deviceUsers[].userAgent": {
+          "type": "string"
+        },
+        "deviceUsers[].userEmail": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_cloudidentity:cloudidentity.devices.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_cloudidentity:cloudidentity.devices.list",
+      "params": {
+        "customer": {
+          "in": "query",
+          "required": false
+        },
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "view": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "v1/devices",
+      "response": {
+        "devices": {
+          "type": "array"
+        },
+        "devices[]": {
+          "type": "object"
+        },
+        "devices[].androidSpecificAttributes": {
+          "type": "object"
+        },
+        "devices[].androidSpecificAttributes.ctsProfileMatch": {
+          "type": "boolean"
+        },
+        "devices[].androidSpecificAttributes.enabledUnknownSources": {
+          "type": "boolean"
+        },
+        "devices[].androidSpecificAttributes.hasPotentiallyHarmfulApps": {
+          "type": "boolean"
+        },
+        "devices[].androidSpecificAttributes.ownerProfileAccount": {
+          "type": "boolean"
+        },
+        "devices[].androidSpecificAttributes.ownershipPrivilege": {
+          "type": "string"
+        },
+        "devices[].androidSpecificAttributes.supportsWorkProfile": {
+          "type": "boolean"
+        },
+        "devices[].androidSpecificAttributes.verifiedBoot": {
+          "type": "boolean"
+        },
+        "devices[].androidSpecificAttributes.verifyAppsEnabled": {
+          "type": "boolean"
+        },
+        "devices[].assetTag": {
+          "type": "string"
+        },
+        "devices[].basebandVersion": {
+          "type": "string"
+        },
+        "devices[].bootloaderVersion": {
+          "type": "string"
+        },
+        "devices[].brand": {
+          "type": "string"
+        },
+        "devices[].buildNumber": {
+          "type": "string"
+        },
+        "devices[].compromisedState": {
+          "type": "string"
+        },
+        "devices[].createTime": {
+          "type": "string"
+        },
+        "devices[].deviceId": {
+          "type": "string"
+        },
+        "devices[].deviceType": {
+          "type": "string"
+        },
+        "devices[].enabledDeveloperOptions": {
+          "type": "boolean"
+        },
+        "devices[].enabledUsbDebugging": {
+          "type": "boolean"
+        },
+        "devices[].encryptionState": {
+          "type": "string"
+        },
+        "devices[].endpointVerificationSpecificAttributes": {
+          "type": "object"
+        },
+        "devices[].endpointVerificationSpecificAttributes.additionalSignals": {
+          "type": "object"
+        },
+        "devices[].endpointVerificationSpecificAttributes.browserAttributes": {
+          "type": "array"
+        },
+        "devices[].endpointVerificationSpecificAttributes.certificateAttributes": {
+          "type": "array"
+        },
+        "devices[].hostname": {
+          "type": "string"
+        },
+        "devices[].imei": {
+          "type": "string"
+        },
+        "devices[].kernelVersion": {
+          "type": "string"
+        },
+        "devices[].lastSyncTime": {
+          "type": "string"
+        },
+        "devices[].managementState": {
+          "type": "string"
+        },
+        "devices[].manufacturer": {
+          "type": "string"
+        },
+        "devices[].meid": {
+          "type": "string"
+        },
+        "devices[].model": {
+          "type": "string"
+        },
+        "devices[].name": {
+          "type": "string"
+        },
+        "devices[].networkOperator": {
+          "type": "string"
+        },
+        "devices[].osVersion": {
+          "type": "string"
+        },
+        "devices[].otherAccounts": {
+          "type": "array"
+        },
+        "devices[].otherAccounts[]": {
+          "type": "string"
+        },
+        "devices[].ownerType": {
+          "type": "string"
+        },
+        "devices[].releaseVersion": {
+          "type": "string"
+        },
+        "devices[].securityPatchTime": {
+          "type": "string"
+        },
+        "devices[].serialNumber": {
+          "type": "string"
+        },
+        "devices[].unifiedDeviceId": {
+          "type": "string"
+        },
+        "devices[].wifiMacAddresses": {
+          "type": "array"
+        },
+        "devices[].wifiMacAddresses[]": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "revision": "20261007",
+  "snapshot_sha256": "69a6e55943234d654cd83b8a4b9358afd23c3cd8cd37463bb198abf783a113c7",
+  "source": "gws_cloudidentity",
+  "unmatched": [],
+  "version": "v1"
+}

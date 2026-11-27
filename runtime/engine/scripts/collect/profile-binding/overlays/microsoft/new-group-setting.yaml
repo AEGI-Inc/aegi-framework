@@ -1,0 +1,54 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: GroupSetting
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-GRPSET-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-30
+        request: {kind: groupSettings}
+        items: value
+    id_expr: id
+    vars:
+      s_banned_pw: {op: find, of: values, where: {path: $item.name, eq: EnableBannedPasswordCheck}}
+      s_banned_mode: {op: find, of: values, where: {path: $item.name, eq: BannedPasswordCheckOnPremisesMode}}
+      s_lockout_thresh: {op: find, of: values, where: {path: $item.name, eq: LockoutThreshold}}
+      s_lockout_dur: {op: find, of: values, where: {path: $item.name, eq: LockoutDurationInSeconds}}
+      s_group_create: {op: find, of: values, where: {path: $item.name, eq: EnableGroupCreation}}
+      s_guests_access: {op: find, of: values, where: {path: $item.name, eq: AllowGuestsToAccessGroups}}
+      s_add_guests: {op: find, of: values, where: {path: $item.name, eq: AllowToAddGuests}}
+    properties:
+      displayName: displayName
+      templateId: templateId
+      values: values
+      banned_password_check: $vars.s_banned_pw.value
+      banned_password_check_on_prem_mode: $vars.s_banned_mode.value
+      lockout_threshold: $vars.s_lockout_thresh.value
+      lockout_duration_seconds: $vars.s_lockout_dur.value
+      group_creation_allowed: $vars.s_group_create.value
+      guests_can_access_groups: $vars.s_guests_access.value
+      allow_to_add_guests: $vars.s_add_guests.value
+    display: "{displayName|templateId|id}"
+    relations:
+      - type: applies_to
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

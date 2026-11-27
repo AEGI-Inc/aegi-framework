@@ -1,0 +1,57 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: PermissionGrantPolicy
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-PGP-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-23
+        request: {kind: permissionGrantPolicies}
+        items: value
+    id_expr: id
+    properties:
+      displayName: displayName
+      description: description
+      includeAllPreApprovedApplications: includeAllPreApprovedApplications
+      resourceScopeType: resourceScopeType
+    display: "{displayName|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+  - id: includes_enrich
+    kind: enrich
+    sources:
+      - call: M365-23
+        request: {kind: includes}
+        items: (root)
+    target:
+      type: PermissionGrantPolicy
+      id: $req.policy
+    set:
+      includes: value
+  - id: excludes_enrich
+    kind: enrich
+    sources:
+      - call: M365-23
+        request: {kind: excludes}
+        items: (root)
+    target:
+      type: PermissionGrantPolicy
+      id: $req.policy
+    set:
+      excludes: value

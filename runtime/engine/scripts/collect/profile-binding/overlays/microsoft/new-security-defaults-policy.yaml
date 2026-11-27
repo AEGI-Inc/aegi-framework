@@ -1,0 +1,38 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: SecurityDefaultsPolicy
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-SECDEF-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-23
+        request: {kind: securityDefaults}
+        items: (root)
+    id_expr: id
+    properties:
+      isEnabled: isEnabled
+      controlTypes: controlTypes
+    display: "{displayName|id}"
+    relations:
+      - type: applies_to
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

@@ -7,6 +7,7 @@
  *   401·403·404 의 판단은 호출 실행기(runner.ts)가 한다.
  */
 import { fetchTransport, parseNextLink, redact, sleep, type HttpRequest, type HttpResponse, type Transport } from '../../setup/core'
+import { SNOWFLAKE_LOG_STATEMENTS } from './snowflakeStatements'
 
 export { fetchTransport, parseNextLink, redact, type HttpRequest, type HttpResponse, type Transport }
 
@@ -20,12 +21,16 @@ export interface Auth {
 
 export class ReadOnlyViolation extends Error {}
 
+export type ReadOnlyPostKind = 'graphql' | 'snowflake-log' | 'gcp-log'
+
 export interface SendOptions {
   method?: 'GET' | 'POST'
   body?: string
   headers?: Record<string, string>
   /** POST 를 허용하는 읽기 호출의 종류 */
-  readOnlyPost?: 'graphql'
+  readOnlyPost?: ReadOnlyPostKind
+  /** 최종 응답을 받았을 때 호출되는 콜백 */
+  onResponse?: (req: HttpRequest, res: HttpResponse) => void
 }
 
 export interface HttpLayerOptions {
@@ -35,6 +40,8 @@ export interface HttpLayerOptions {
   maxRetry429?: number
   /** 지금 시각(ms). x-rate-limit-reset 까지 남은 시간을 잴 때 쓴다 (테스트에서 고정) */
   now?: () => number
+  /** 모든 최종 응답에 대해 호출되는 콜백 */
+  onResponse?: (req: HttpRequest, res: HttpResponse) => void
 }
 
 /** x-rate-limit-reset 을 따라 기다리는 가장 긴 시간(초). Okta 한도 창은 1분이라, 시계가 어긋나도 이보다 오래 멈추지 않는다 */
@@ -66,7 +73,7 @@ export class HttpLayer {
 
   async send(url: string, auth: Auth | null, options: SendOptions = {}): Promise<HttpResponse> {
     const method = options.method ?? 'GET'
-    if (method !== 'GET' && !(options.readOnlyPost === 'graphql' && isGraphqlQuery(options.body))) {
+    if (method !== 'GET' && !isAllowedReadOnlyPost(url, options.body, options.readOnlyPost)) {
       throw new ReadOnlyViolation(`수집기는 쓰기 요청을 보내지 않는다: ${method} ${url}`)
     }
     let serverRetries = 0
@@ -91,9 +98,48 @@ export class HttpLayer {
         authRetried = true
         continue
       }
+      options.onResponse?.(req, res)
+      this.opts.onResponse?.(req, res)
       return res
     }
   }
+}
+
+const GCP_LOG_BODY_KEYS = new Set(['resourceNames', 'filter', 'orderBy', 'pageSize', 'pageToken'])
+const SNOWFLAKE_LOG_BODY_KEYS = new Set(['statement', 'timeout', 'bindings'])
+
+function parseJsonObject(body: string | undefined): Record<string, unknown> | null {
+  if (!body) return null
+  let parsed: unknown
+  try { parsed = JSON.parse(body) } catch { return null }
+  if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) return null
+  return parsed as Record<string, unknown>
+}
+
+export function isGcpLogListRequest(url: string, body: string | undefined): boolean {
+  if (url !== 'https://logging.googleapis.com/v2/entries:list') return false
+  const obj = parseJsonObject(body)
+  if (!obj) return false
+  return Object.keys(obj).every(k => GCP_LOG_BODY_KEYS.has(k))
+}
+
+export function isSnowflakeLogStatementRequest(url: string, body: string | undefined): boolean {
+  if (url.includes('?')) return false
+  let u: URL
+  try { u = new URL(url) } catch { return false }
+  if (u.protocol !== 'https:' || !u.hostname.endsWith('.snowflakecomputing.com') || u.hostname.length <= '.snowflakecomputing.com'.length) return false
+  if (u.pathname !== '/api/v2/statements' || u.search !== '') return false
+  const obj = parseJsonObject(body)
+  if (!obj) return false
+  if (!Object.keys(obj).every(k => SNOWFLAKE_LOG_BODY_KEYS.has(k))) return false
+  return typeof obj.statement === 'string' && SNOWFLAKE_LOG_STATEMENTS.includes(obj.statement)
+}
+
+export function isAllowedReadOnlyPost(url: string, body: string | undefined, kind: ReadOnlyPostKind | undefined): boolean {
+  if (kind === 'graphql') return isGraphqlQuery(body)
+  if (kind === 'gcp-log') return isGcpLogListRequest(url, body)
+  if (kind === 'snowflake-log') return isSnowflakeLogStatementRequest(url, body)
+  return false
 }
 
 /** 익명 조회(`{ ... }`)나 `query` 연산만 허용. mutation·subscription 은 거부 */

@@ -1,0 +1,177 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:49.017Z",
+  "ops": {
+    "op:okta_ai_workload_principals_agentregistration:listAIAgents": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_ai_workload_principals_agentregistration:listAIAgents",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "ownerOrn": {
+          "in": "query",
+          "required": false
+        },
+        "providerId": {
+          "in": "query",
+          "required": false
+        },
+        "search": {
+          "in": "query",
+          "required": false
+        },
+        "sortOrder": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/workload-principals/api/v1/ai-agents",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[]._embedded": {
+          "type": "object"
+        },
+        "data[]._embedded.sources": {
+          "type": "object"
+        },
+        "data[]._links": {
+          "type": "object"
+        },
+        "data[]._links.delegationLinks": {
+          "type": "object"
+        },
+        "data[]._links.providers": {
+          "type": "array"
+        },
+        "data[]._links.resourceServer": {
+          "type": "object"
+        },
+        "data[]._links.self": {
+          "type": "object"
+        },
+        "data[].appId": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "data[].created": {
+          "type": "string"
+        },
+        "data[].externalId": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].lastUpdated": {
+          "type": "string"
+        },
+        "data[].oauthClient": {
+          "type": "object"
+        },
+        "data[].oauthClient.clientId": {
+          "type": "string"
+        },
+        "data[].oauthClient.type": {
+          "type": "string"
+        },
+        "data[].platform": {
+          "deprecated": true,
+          "type": "string"
+        },
+        "data[].profile": {
+          "type": "object"
+        },
+        "data[].profile.description": {
+          "type": "string"
+        },
+        "data[].profile.externalId": {
+          "type": "string"
+        },
+        "data[].profile.name": {
+          "type": "string"
+        },
+        "data[].profile.platform": {
+          "type": "string"
+        },
+        "data[].signOnProvider": {
+          "type": "object"
+        },
+        "data[].signOnProvider.appInstanceId": {
+          "type": "string"
+        },
+        "data[].status": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "5c4e45046bceef3ffc77c71af084a3ddc375ff688067f6e7438b9e6c6326fc8c",
+  "source": "okta_ai_workload_principals_agentregistration",
+  "unmatched": []
+}

@@ -1,0 +1,450 @@
+sources:
+
+  - id: atlassian_admin_api_access
+    provider: atlassian
+    format: openapi
+    watch: spec_url
+    url: https://developer.atlassian.com/cloud/admin/api-access/swagger.v3.json
+    baseline: baseline/atlassian_admin_api_access.json
+    snapshot_file: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__admin__api-access__swagger.v3.json
+    pinned: null
+    sunset: null
+
+  - id: atlassian_admin_organization
+    provider: atlassian
+    format: openapi
+    watch: spec_url
+    url: https://developer.atlassian.com/cloud/admin/organization/swagger.v3.json
+    baseline: baseline/atlassian_admin_organization.json
+    snapshot_file: atlassian_api_list/snapshot_2026-10-13/raw/developer.atlassian.com__cloud__admin__organization__swagger.v3.json
+    pinned: null
+    sunset: null
+
+  - id: confluence_openapi_v1
+    provider: confluence
+    format: openapi
+    watch: spec_url
+    url: https://developer.atlassian.com/cloud/confluence/swagger.v3.json
+    baseline: baseline/confluence_openapi_v1.json
+    snapshot_file: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__confluence__swagger.v3.json
+    pinned: '/wiki/rest/api'
+    sunset: null
+
+  - id: confluence_openapi_v2
+    provider: confluence
+    format: openapi
+    watch: spec_url
+    url: https://dac-static.atlassian.com/cloud/confluence/openapi-v2.v3.json
+    baseline: baseline/confluence_openapi_v2.json
+    snapshot_file: atlassian_api_list/snapshot_2026-10-12/raw/dac-static.atlassian.com__cloud__confluence__openapi-v2.v3.json
+    pinned: '/wiki/api/v2'
+    sunset: null
+
+  - id: gh_graphql_ghec_2026_10_13
+    provider: github
+    format: graphql
+    watch: spec_url
+    url: https://docs.github.com/public/ghec/schema.docs.graphql
+    baseline: baseline/gh_graphql_ghec_2026_10_13.json
+    snapshot_file: github_api_list/snapshot_2026-10-13/raw/docs.github.com__public__ghec__schema.docs.graphql
+    pinned: null
+    sunset: null
+
+  - id: gh_rest_ghec_next_2026_03_10_latest
+    provider: github
+    format: openapi
+    watch: repo
+    repo: github/rest-api-description
+    path: descriptions-next/ghec/ghec.2026-03-10.json
+    url: https://raw.githubusercontent.com/github/rest-api-description/main/descriptions-next/ghec/ghec.2026-03-10.json
+    baseline: baseline/gh_rest_ghec_next_2026_03_10_latest.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/raw.githubusercontent.com__github__rest-api-description__main__descriptions-next__ghec__ghec.2026-03-10.json
+    pinned: null
+    sunset: '2028-03-10'
+
+  - id: gws_alertcenter
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://alertcenter.googleapis.com/$discovery/rest?version=v1beta1
+    baseline: baseline/gws_alertcenter.json
+    snapshot_file: gws_api_list/snapshot_2026-10-13/raw/alertcenter.googleapis.com__discovery__rest__version__v1beta1
+    pinned: null
+    sunset: null
+
+  - id: gws_calendar
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest
+    baseline: baseline/gws_calendar.json
+    snapshot_file: gws_api_list/snapshot_2026-10-13/raw/www.googleapis.com__discovery__v1__apis__calendar__v3__rest
+    pinned: '/calendar/v3'
+    sunset: null
+
+  - id: gws_chromemanagement
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://chromemanagement.googleapis.com/$discovery/rest?version=v1
+    baseline: baseline/gws_chromemanagement.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/chromemanagement.googleapis.com__discovery__rest__version__v1
+    pinned: null
+    sunset: null
+
+  - id: gws_cloudidentity
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://cloudidentity.googleapis.com/$discovery/rest?version=v1
+    baseline: baseline/gws_cloudidentity.json
+    snapshot_file: gws_api_list/snapshot_2026-10-13/raw/cloudidentity.googleapis.com__discovery__rest__version__v1
+    pinned: 'cloudidentity.googleapis.com/v1'
+    sunset: null
+
+  - id: gws_datatransfer
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://admin.googleapis.com/$discovery/rest?version=datatransfer_v1
+    baseline: baseline/gws_datatransfer.json
+    snapshot_file: gws_api_list/snapshot_2026-10-13/raw/admin.googleapis.com__discovery__rest__version__datatransfer_v1
+    pinned: null
+    sunset: null
+
+  - id: gws_directory
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://admin.googleapis.com/$discovery/rest?version=directory_v1
+    baseline: baseline/gws_directory.json
+    snapshot_file: gws_api_list/snapshot_2026-10-13/raw/admin.googleapis.com__discovery__rest__version__directory_v1
+    pinned: '/admin/directory/v1'
+    sunset: null
+
+  - id: gws_drive
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://www.googleapis.com/discovery/v1/apis/drive/v3/rest
+    baseline: baseline/gws_drive.json
+    snapshot_file: gws_api_list/snapshot_2026-10-13/raw/www.googleapis.com__discovery__v1__apis__drive__v3__rest
+    pinned: '/drive/v3'
+    sunset: null
+
+  - id: gws_drivelabels
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://drivelabels.googleapis.com/$discovery/rest?version=v2
+    baseline: baseline/gws_drivelabels.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/drivelabels.googleapis.com__discovery__rest__version__v2
+    pinned: null
+    sunset: null
+
+  - id: gws_gmail
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://gmail.googleapis.com/$discovery/rest?version=v1
+    baseline: baseline/gws_gmail.json
+    snapshot_file: gws_api_list/snapshot_2026-10-13/raw/gmail.googleapis.com__discovery__rest__version__v1
+    pinned: '/gmail/v1'
+    sunset: null
+
+  - id: gws_groupssettings
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://groupssettings.googleapis.com/$discovery/rest?version=v1
+    baseline: baseline/gws_groupssettings.json
+    snapshot_file: gws_api_list/snapshot_2026-10-13/raw/groupssettings.googleapis.com__discovery__rest__version__v1
+    pinned: '/groups/v1'
+    sunset: null
+
+  - id: gws_script
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://www.googleapis.com/discovery/v1/apis/script/v1/rest
+    baseline: baseline/gws_script.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/www.googleapis.com__discovery__v1__apis__script__v1__rest
+    pinned: 'script.googleapis.com/v1'
+    sunset: null
+
+  - id: gws_vault
+    provider: gws
+    format: discovery
+    watch: spec_url
+    url: https://www.googleapis.com/discovery/v1/apis/vault/v1/rest
+    baseline: baseline/gws_vault.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/www.googleapis.com__discovery__v1__apis__vault__v1__rest
+    pinned: null
+    sunset: null
+
+  - id: jira_openapi_v3
+    provider: jira
+    format: openapi
+    watch: spec_url
+    url: https://developer.atlassian.com/cloud/jira/platform/swagger-v3.v3.json
+    baseline: baseline/jira_openapi_v3.json
+    snapshot_file: atlassian_api_list/snapshot_2026-10-12/raw/developer.atlassian.com__cloud__jira__platform__swagger-v3.v3.json
+    pinned: '/rest/api/3'
+    sunset: null
+
+  - id: jira_software_openapi
+    provider: jira
+    format: openapi
+    watch: spec_url
+    url: https://developer.atlassian.com/cloud/jira/software/swagger.v3.json
+    baseline: baseline/jira_software_openapi.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.atlassian.com__cloud__jira__software__swagger.v3.json
+    pinned: null
+    sunset: null
+
+  - id: jsm_openapi
+    provider: jira
+    format: openapi
+    watch: spec_url
+    url: https://developer.atlassian.com/cloud/jira/service-desk/swagger.v3.json
+    baseline: baseline/jsm_openapi.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.atlassian.com__cloud__jira__service-desk__swagger.v3.json
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_resource_servers_a2aserverregistration
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/a2aserverregistration.yaml
+    baseline: baseline/okta_ai_resource_servers_a2aserverregistration.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-resource-servers__tags__a2aserverregistration.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_resource_servers_apiserverregistration
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/apiserverregistration.yaml
+    baseline: baseline/okta_ai_resource_servers_apiserverregistration.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-resource-servers__tags__apiserverregistration.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_resource_servers_mcpserverregistration
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/mcpserverregistration.yaml
+    baseline: baseline/okta_ai_resource_servers_mcpserverregistration.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-resource-servers__tags__mcpserverregistration.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_resource_servers_resourceserverclientauthsettings
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/resourceserverclientauthsettings.yaml
+    baseline: baseline/okta_ai_resource_servers_resourceserverclientauthsettings.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-resource-servers__tags__resourceserverclientauthsettings.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_resource_servers_virtualmcpserverresource
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-resource-servers/tags/virtualmcpserverresource.yaml
+    baseline: baseline/okta_ai_resource_servers_virtualmcpserverresource.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-resource-servers__tags__virtualmcpserverresource.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_workload_principals_agentproviders
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/agentproviders.yaml
+    baseline: baseline/okta_ai_workload_principals_agentproviders.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-workload-principals__tags__agentproviders.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_workload_principals_agentpublickey
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/agentpublickey.yaml
+    baseline: baseline/okta_ai_workload_principals_agentpublickey.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-workload-principals__tags__agentpublickey.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_workload_principals_agentregistration
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/agentregistration.yaml
+    baseline: baseline/okta_ai_workload_principals_agentregistration.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-workload-principals__tags__agentregistration.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_workload_principals_delegationlinks
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/delegationlinks.yaml
+    baseline: baseline/okta_ai_workload_principals_delegationlinks.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-workload-principals__tags__delegationlinks.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_workload_principals_virtualmcpconnections
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/virtualmcpconnections.yaml
+    baseline: baseline/okta_ai_workload_principals_virtualmcpconnections.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-workload-principals__tags__virtualmcpconnections.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_ai_workload_principals_virtualmcpregistration
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/secures-ai/openapi/secures-ai-workload-principals/tags/virtualmcpregistration.yaml
+    baseline: baseline/okta_ai_workload_principals_virtualmcpregistration.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__secures-ai__openapi__secures-ai-workload-principals__tags__virtualmcpregistration.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_iga_openapi
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/iga/openapi/governance-production-reference.yaml
+    baseline: baseline/okta_iga_openapi.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__iga__openapi__governance-production-reference.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_iga_requests_v1_openapi
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/iga/openapi/governance-production-requests-admin-v1-reference.yaml
+    baseline: baseline/okta_iga_requests_v1_openapi.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__iga__openapi__governance-production-requests-admin-v1-reference.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_iga_requests_v2_openapi
+    provider: okta
+    format: openapi
+    watch: spec_url
+    url: https://developer.okta.com/docs/api/_spec/iga/openapi/governance-production-requests-admin-v2-reference.yaml
+    baseline: baseline/okta_iga_requests_v2_openapi.json
+    snapshot_file: aegi-dashboard/candidate-extraction/ir2/collect/snapshots/snapshot_2026-10-15/raw/developer.okta.com__docs__api___spec__iga__openapi__governance-production-requests-admin-v2-reference.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_management_openapi
+    provider: okta
+    format: openapi
+    watch: repo
+    repo: okta/okta-management-openapi-spec
+    path: dist/current/management-minimal.yaml
+    url: https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/management-minimal.yaml
+    baseline: baseline/okta_management_openapi.json
+    snapshot_file: okta_api_list/snapshot_2026-10-13/raw/raw.githubusercontent.com__okta__okta-management-openapi-spec__master__dist__current__management-minimal.yaml
+    pinned: null
+    sunset: null
+
+  - id: okta_oauth_openapi
+    provider: okta
+    format: openapi
+    watch: repo
+    repo: okta/okta-management-openapi-spec
+    path: dist/current/oauth-minimal.yaml
+    url: https://raw.githubusercontent.com/okta/okta-management-openapi-spec/master/dist/current/oauth-minimal.yaml
+    baseline: baseline/okta_oauth_openapi.json
+    snapshot_file: okta_api_list/snapshot_2026-10-13/raw/raw.githubusercontent.com__okta__okta-management-openapi-spec__master__dist__current__oauth-minimal.yaml
+    pinned: null
+    sunset: null
+
+  - id: sf_object_reference
+    provider: salesforce
+    format: sf_object_reference
+    watch: live
+    url: https://resources.docs.salesforce.com/latest/latest/en-us/sfdc/pdf/object_reference.pdf
+    baseline: baseline/sf_object_reference.json
+    snapshot_file: salesforce_api_list/snapshot_2026-10-12/raw/resources.docs.salesforce.com__latest__latest__en-us__sfdc__pdf__object_reference.pdf
+    pinned: null
+    sunset: null
+
+  - id: slack_docs_methods
+    provider: slack
+    format: slack_doc
+    watch: doc_page
+    url: https://docs.slack.dev/reference/methods
+    baseline: baseline/slack_docs_methods.json
+    snapshot_file: slack_api_list/docs_snapshot_2026-10-12/raw/reference__methods__*
+    pinned: null
+    sunset: null
+
+  - id: slack_inventory
+    provider: slack
+    format: slack_doc
+    watch: none               # audit.logs.get 메서드 문서 주소가 404 (Audit Logs API 는 다른 문서)
+    url: null
+    baseline: baseline/slack_inventory.json
+    snapshot_file: slack_api_list/Slack_API_Methods_v1_final.xlsx
+    pinned: null
+    sunset: null
+
+  - id: slack_openapi_legacy
+    provider: slack
+    format: slack_doc
+    watch: doc_page
+    url: https://github.com/slackapi/slack-api-specs
+    baseline: baseline/slack_openapi_legacy.json
+    snapshot_file: slack_api_list/slack_openapi.json
+    pinned: null
+    sunset: null
+
+changelogs:
+  - id: github_changelog
+    provider: github
+    feed: https://github.blog/changelog/feed/
+    keywords: [REST API, GraphQL, audit log, deprecat, breaking, sunset, fine-grained, Copilot, Actions, rulesets, SCIM, SAML]
+  - id: slack_changelog
+    provider: slack
+    feed: https://docs.slack.dev/changelog/rss.xml
+    keywords: [deprecat, rate limit, retire, sunset, breaking, admin., conversations., users., team.]
+  - id: gws_updates
+    provider: gws
+    feed: https://workspaceupdates.googleblog.com/feeds/posts/default
+    keywords: [Admin SDK, API, Reports, audit, Directory, Drive API, Gmail API, Vault, Calendar API, Chrome, deprecat]
+  - id: aws_whats_new
+    provider: aws
+    feed: https://aws.amazon.com/about-aws/whats-new/recent/feed/
+    keywords: [IAM, Identity Center, Organizations, CloudTrail, STS, deprecat]
+  - id: okta_developer_blog
+    provider: okta
+    feed: https://developer.okta.com/feed.xml
+    keywords: [API, EOL, deprecat, Management API, Identity Governance, Cross App Access, breaking]
+  # atlassian: developer changelog 는 RSS 주소를 못 찾음(11-18). 대신 스펙 주소 감시(A)로 본다
+
+live:
+  - id: github_api_versions
+    provider: github
+    url: https://api.github.com/versions
+    pinned: '2022-11-28'      # scripts/collect/lib/auth.ts GITHUB_HEADERS 와 같아야 함
+  - id: salesforce_api_versions
+    provider: salesforce
+    url_from_config: salesforce.instanceHost   # https://<instanceHost>/services/data/
+    pinned_from_config: salesforce.apiVersion

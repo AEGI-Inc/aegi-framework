@@ -13,6 +13,7 @@ import { awsCalls } from './providers/aws'
 import { gcpCalls } from './providers/gcp'
 import { microsoftCalls } from './providers/microsoft'
 import { onepasswordCalls } from './providers/onepassword'
+import { snowflakeLogCalls } from './providers/snowflakeLogs'
 import { guardTenants } from './tenant'
 
 export const PROVIDERS: Record<Provider, CallFactory> = {
@@ -27,6 +28,7 @@ export const PROVIDERS: Record<Provider, CallFactory> = {
   gcp: gcpCalls,
   microsoft: microsoftCalls,
   onepassword: ctx => onepasswordCalls(ctx),
+  snowflake: ctx => snowflakeLogCalls(ctx),
 }
 
 export function newRunId(now = new Date()): string {

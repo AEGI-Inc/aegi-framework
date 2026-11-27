@@ -1,0 +1,97 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: RoleManagementPolicy
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-RMP-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-22
+        request: {kind: roleManagementPolicies}
+        items: value
+    id_expr: id
+    vars:
+      enablement_end_user:
+        op: find
+        of: rules
+        where: {path: $item.id, eq: Enablement_EndUser_Assignment}
+      approval_end_user:
+        op: find
+        of: rules
+        where: {path: $item.id, eq: Approval_EndUser_Assignment}
+      expiration_end_user:
+        op: find
+        of: rules
+        where: {path: $item.id, eq: Expiration_EndUser_Assignment}
+      expiration_admin_elig:
+        op: find
+        of: rules
+        where: {path: $item.id, eq: Expiration_Admin_Eligibility}
+      expiration_admin_assign:
+        op: find
+        of: rules
+        where: {path: $item.id, eq: Expiration_Admin_Assignment}
+      auth_ctx_end_user:
+        op: find
+        of: rules
+        where: {path: $item.id, eq: AuthenticationContext_EndUser_Assignment}
+    properties:
+      displayName: displayName
+      isOrganizationDefault: isOrganizationDefault
+      lastModifiedDateTime: lastModifiedDateTime
+      rules: rules
+      activation_requires_mfa:
+        if:
+          path: $vars.enablement_end_user
+          defined: true
+        then:
+          if:
+            path: $vars.enablement_end_user.enabledRules
+            contains: MultiFactorAuthentication
+          then: {const: true}
+          else: {const: false}
+      activation_requires_justification:
+        if:
+          path: $vars.enablement_end_user
+          defined: true
+        then:
+          if:
+            path: $vars.enablement_end_user.enabledRules
+            contains: Justification
+          then: {const: true}
+          else: {const: false}
+      activation_requires_approval: $vars.approval_end_user.setting.isApprovalRequired
+      activation_max_duration: $vars.expiration_end_user.maximumDuration
+      eligible_expiration_required: $vars.expiration_admin_elig.isExpirationRequired
+      active_expiration_required: $vars.expiration_admin_assign.isExpirationRequired
+      activation_auth_context_enabled: $vars.auth_ctx_end_user.isEnabled
+    display: "{displayName|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+  - id: assignments
+    kind: relation
+    sources:
+      - call: M365-22
+        request: {kind: roleManagementPolicyAssignments}
+        items: value
+    relations:
+      - type: evaluates
+        source: {type: DirectoryRole, id: roleDefinitionId}
+        target: {type: RoleManagementPolicy, id: policyId}
+        basis: stated
+        require: [source, target]

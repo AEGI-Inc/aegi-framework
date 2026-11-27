@@ -1,0 +1,49 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: DomainFederation
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [signingCertificate, nextSigningCertificate]
+runtime_key: M365-DOMFED-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-25
+        request: {kind: federationConfiguration}
+        items: value
+    id_expr: id
+    properties:
+      domain: $req.domain
+      issuerUri: issuerUri
+      passiveSignInUri: passiveSignInUri
+      activeSignInUri: activeSignInUri
+      metadataExchangeUri: metadataExchangeUri
+      preferredAuthenticationProtocol: preferredAuthenticationProtocol
+      federatedIdpMfaBehavior: federatedIdpMfaBehavior
+      promptLoginBehavior: promptLoginBehavior
+      isSignedAuthenticationRequestRequired: isSignedAuthenticationRequestRequired
+      signingCertificateUpdateStatus: signingCertificateUpdateStatus
+      signing_certificate_present: {op: exists, of: signingCertificate}
+    display: "{issuerUri|domain|id}"
+    relations:
+      - type: applies_to
+        source: $self
+        target: {type: Domain, id: $req.domain}
+        basis: stated
+        require: [target]
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

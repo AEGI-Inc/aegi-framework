@@ -9,7 +9,7 @@
  * - 못 본 것(봇이 채널에 없음 등)은 partial 과 사유로 남긴다. 0건으로 적지 않는다.
  */
 import { Sanitizer, DEFAULT_RULES, mergeRules, sha256Hex, type LabelHit } from './sanitize'
-import { bodyText, parseNextLink, rateLimitRemaining, shortError, type Auth, type HttpLayer, type HttpResponse } from './http'
+import { bodyText, parseNextLink, rateLimitRemaining, shortError, type Auth, type HttpLayer, type HttpRequest, type HttpResponse, type ReadOnlyPostKind } from './http'
 import { ScopedAuthError, TokenError } from './auth'
 import type { CallRecord, CollectStore, Completeness, CursorState, EnvelopeOperation, LabelEntry, Provider, RunRecord } from './store'
 
@@ -57,6 +57,7 @@ export interface GetOptions {
   method?: 'GET' | 'POST'
   body?: string
   headers?: Record<string, string>
+  readOnlyPost?: ReadOnlyPostKind
   /** 수집 API 목록 호출이 실행한 IR operation. 원본 봉투에 그대로 남는다 */
   operation?: EnvelopeOperation
   /** 저장 전에 응답이 설정의 테넌트인지 본다. 사유를 돌려주면 저장하지 않고 TenantMismatchError 로 멈춘다 */
@@ -88,6 +89,7 @@ export type Paginate =
   | { kind: 'atlassian-admin' }
   | { kind: 'aws'; style: 'iam' | 'ec2' | 'rds' | 'lambda' }
   | { kind: 'graph' }
+  | { kind: 'o365-mgmt' }
 
 export interface ListOptions extends GetOptions {
   paginate: Paginate
@@ -252,7 +254,20 @@ export class Runner {
     }
 
     async function fetchPage(opts: GetOptions): Promise<{ res: HttpResponse; payload: unknown } | null> {
-      const res = await self.opts.http.send(opts.url, opts.auth, { method: opts.method, body: opts.body, headers: opts.headers, readOnlyPost: opts.method === 'POST' ? 'graphql' : undefined })
+      const res = await self.opts.http.send(opts.url, opts.auth, {
+        method: opts.method,
+        body: opts.body,
+        headers: opts.headers,
+        readOnlyPost: opts.method === 'POST' ? (opts.readOnlyPost ?? 'graphql') : undefined,
+        onResponse: (req, res) =>
+          collectApiWarnings(
+            call.provider,
+            req,
+            res,
+            rec,
+            typeof res.body === 'object' && res.body !== null ? res.body : undefined,
+          ),
+      })
       rec.http_status = res.status
       rec.rate_limit_remaining = rateLimitRemaining(res)
       const verdict = (opts.classify ?? httpClassifier)(res)
@@ -481,6 +496,16 @@ function nextUrl(p: Paginate, current: string, res: HttpResponse, payload: any, 
         return undefined
       }
     }
+    case 'o365-mgmt': {
+      const next = res.headers['nextpageuri'] ?? res.headers['NextPageUri']
+      if (typeof next !== 'string' || !next) return undefined
+      try {
+        const u = new URL(next)
+        return u.protocol === 'https:' && u.hostname === 'manage.office.com' ? u.toString() : undefined
+      } catch {
+        return undefined
+      }
+    }
   }
 }
 
@@ -494,6 +519,56 @@ export function buildUrl(base: string, query: Record<string, string | number | b
   const u = new URL(base)
   for (const [k, v] of Object.entries(query)) if (v !== undefined) u.searchParams.set(k, String(v))
   return u.toString()
+}
+
+function findHeader(headers: Record<string, string>, name: string): string | undefined {
+  const target = name.toLowerCase()
+  for (const [k, v] of Object.entries(headers)) {
+    if (k.toLowerCase() === target && typeof v === 'string' && v.trim()) return v.trim()
+  }
+  return undefined
+}
+
+function collectApiWarnings(
+  provider: Provider,
+  req: HttpRequest,
+  res: HttpResponse,
+  rec: CallRecord,
+  parsedPayload?: unknown,
+): void {
+  const found: string[] = []
+  for (const h of ['deprecation', 'sunset', 'warning'] as const) {
+    const val = findHeader(res.headers, h)
+    if (val) found.push(`header:${h}=${val.slice(0, 200)}`)
+  }
+  const requestedGhVer = findHeader(req.headers, 'x-github-api-version')
+  const selectedGhVer = findHeader(res.headers, 'x-github-api-version-selected')
+  if (requestedGhVer && selectedGhVer && selectedGhVer !== requestedGhVer) {
+    found.push(`header:x-github-api-version-selected=${selectedGhVer.slice(0, 200)}`)
+  }
+  if (provider === 'slack') {
+    let body: any = parsedPayload !== undefined ? parsedPayload : res.body
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body) } catch { body = null }
+    }
+    if (body && typeof body === 'object') {
+      if (typeof body.warning === 'string' && body.warning.trim()) {
+        for (const part of body.warning.split(',')) {
+          const code = part.trim()
+          if (code) found.push(`slack:${code}`)
+        }
+      }
+      const metaWarnings = body.response_metadata?.warnings
+      if (Array.isArray(metaWarnings)) {
+        for (const w of metaWarnings) {
+          if (typeof w === 'string' && w.trim()) found.push(`slack:${w.trim()}`)
+        }
+      }
+    }
+  }
+  if (found.length === 0) return
+  const merged = new Set([...(rec.api_warnings ?? []), ...found])
+  rec.api_warnings = [...merged].sort().slice(0, 20)
 }
 
 function stripQuery(url: string): string {

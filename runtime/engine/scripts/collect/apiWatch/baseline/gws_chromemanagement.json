@@ -1,0 +1,888 @@
+{
+  "format": "discovery",
+  "made_at": "2026-11-26T05:53:38.381Z",
+  "ops": {
+    "op:gws_chromemanagement:chromemanagement.customers.apps.countChromeAppRequests": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_chromemanagement:chromemanagement.customers.apps.countChromeAppRequests",
+      "params": {
+        "customer": {
+          "in": "path",
+          "required": true
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "orgUnitId": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "v1/customers/{customersId}/apps:countChromeAppRequests",
+      "response": {
+        "nextPageToken": {
+          "type": "string"
+        },
+        "requestedApps": {
+          "type": "array"
+        },
+        "requestedApps[]": {
+          "type": "object"
+        },
+        "requestedApps[].appDetails": {
+          "type": "string"
+        },
+        "requestedApps[].appId": {
+          "type": "string"
+        },
+        "requestedApps[].detailUri": {
+          "type": "string"
+        },
+        "requestedApps[].displayName": {
+          "type": "string"
+        },
+        "requestedApps[].iconUri": {
+          "type": "string"
+        },
+        "requestedApps[].latestRequestTime": {
+          "type": "string"
+        },
+        "requestedApps[].requestCount": {
+          "type": "string"
+        },
+        "totalSize": {
+          "type": "integer"
+        }
+      }
+    },
+    "op:gws_chromemanagement:chromemanagement.customers.chromeBrowsers.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_chromemanagement:chromemanagement.customers.chromeBrowsers.list",
+      "params": {
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "v1/customers/{customersId}/chromeBrowsers",
+      "response": {
+        "chromeBrowsers": {
+          "type": "array"
+        },
+        "chromeBrowsers[]": {
+          "type": "object"
+        },
+        "chromeBrowsers[].annotatedAssetId": {
+          "type": "string"
+        },
+        "chromeBrowsers[].annotatedLocation": {
+          "type": "string"
+        },
+        "chromeBrowsers[].annotatedNotes": {
+          "type": "string"
+        },
+        "chromeBrowsers[].annotatedUser": {
+          "type": "string"
+        },
+        "chromeBrowsers[].attestationCredential": {
+          "type": "object"
+        },
+        "chromeBrowsers[].attestationCredential.keyRotationTime": {
+          "type": "string"
+        },
+        "chromeBrowsers[].attestationCredential.keyTrustLevel": {
+          "type": "string"
+        },
+        "chromeBrowsers[].attestationCredential.keyType": {
+          "type": "string"
+        },
+        "chromeBrowsers[].attestationCredential.publicKey": {
+          "type": "string"
+        },
+        "chromeBrowsers[].browserPermanentId": {
+          "type": "string"
+        },
+        "chromeBrowsers[].browserVersions": {
+          "type": "array"
+        },
+        "chromeBrowsers[].browserVersions[]": {
+          "type": "string"
+        },
+        "chromeBrowsers[].browsers": {
+          "type": "array"
+        },
+        "chromeBrowsers[].browsers[]": {
+          "type": "object"
+        },
+        "chromeBrowsers[].deviceIdentifiersHistory": {
+          "type": "object"
+        },
+        "chromeBrowsers[].deviceIdentifiersHistory.deviceIdCollision": {
+          "type": "boolean"
+        },
+        "chromeBrowsers[].deviceIdentifiersHistory.lastDeviceIdCollisionDetectionTime": {
+          "type": "string"
+        },
+        "chromeBrowsers[].deviceIdentifiersHistory.records": {
+          "type": "array"
+        },
+        "chromeBrowsers[].extensionCount": {
+          "type": "string"
+        },
+        "chromeBrowsers[].lastActivityTime": {
+          "type": "string"
+        },
+        "chromeBrowsers[].lastDeviceUser": {
+          "type": "string"
+        },
+        "chromeBrowsers[].lastDeviceUsers": {
+          "type": "array"
+        },
+        "chromeBrowsers[].lastDeviceUsers[]": {
+          "type": "object"
+        },
+        "chromeBrowsers[].lastPolicyFetchTime": {
+          "type": "string"
+        },
+        "chromeBrowsers[].lastRegistrationTime": {
+          "type": "string"
+        },
+        "chromeBrowsers[].lastStatusReportTime": {
+          "type": "string"
+        },
+        "chromeBrowsers[].machineExtensionPolicies": {
+          "type": "array"
+        },
+        "chromeBrowsers[].machineExtensionPolicies[]": {
+          "type": "object"
+        },
+        "chromeBrowsers[].machineName": {
+          "type": "string"
+        },
+        "chromeBrowsers[].machinePolicies": {
+          "type": "array"
+        },
+        "chromeBrowsers[].machinePolicies[]": {
+          "type": "object"
+        },
+        "chromeBrowsers[].name": {
+          "type": "string"
+        },
+        "chromeBrowsers[].omahaRecentFetchTime": {
+          "type": "string"
+        },
+        "chromeBrowsers[].orgUnitId": {
+          "type": "string"
+        },
+        "chromeBrowsers[].osArchitecture": {
+          "type": "string"
+        },
+        "chromeBrowsers[].osPlatform": {
+          "type": "string"
+        },
+        "chromeBrowsers[].osPlatformVersion": {
+          "type": "string"
+        },
+        "chromeBrowsers[].osVersion": {
+          "type": "string"
+        },
+        "chromeBrowsers[].policyCount": {
+          "type": "string"
+        },
+        "chromeBrowsers[].serialNumber": {
+          "type": "string"
+        },
+        "chromeBrowsers[].virtualDeviceId": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_chromemanagement:chromemanagement.customers.connectorConfigs.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_chromemanagement:chromemanagement.customers.connectorConfigs.list",
+      "params": {
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "v1/customers/{customersId}/connectorConfigs",
+      "response": {
+        "connectorConfigs": {
+          "type": "array"
+        },
+        "connectorConfigs[]": {
+          "type": "object"
+        },
+        "connectorConfigs[].details": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.crowdStrikeConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.crowdStrikeFalconNextGenConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.crowdStrikeXdrConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.deviceTrustConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.googleSecOpsConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.mipLabelConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.paloAltoNetworksConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.pubSubConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.pubSubXdrConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.secureGatewayConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].details.splunkConfig": {
+          "type": "object"
+        },
+        "connectorConfigs[].displayName": {
+          "type": "string"
+        },
+        "connectorConfigs[].name": {
+          "type": "string"
+        },
+        "connectorConfigs[].status": {
+          "type": "object"
+        },
+        "connectorConfigs[].status.failureStartTime": {
+          "type": "string"
+        },
+        "connectorConfigs[].status.state": {
+          "type": "string"
+        },
+        "connectorConfigs[].status.updateTime": {
+          "type": "string"
+        },
+        "connectorConfigs[].type": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_chromemanagement:chromemanagement.customers.enrollmentTokens.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_chromemanagement:chromemanagement.customers.enrollmentTokens.list",
+      "params": {
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "v1/customers/{customersId}/enrollmentTokens",
+      "response": {
+        "enrollmentTokens": {
+          "type": "array"
+        },
+        "enrollmentTokens[]": {
+          "type": "object"
+        },
+        "enrollmentTokens[].createTime": {
+          "type": "string"
+        },
+        "enrollmentTokens[].creatorId": {
+          "type": "string"
+        },
+        "enrollmentTokens[].customerId": {
+          "type": "string"
+        },
+        "enrollmentTokens[].name": {
+          "type": "string"
+        },
+        "enrollmentTokens[].orgUnitId": {
+          "type": "string"
+        },
+        "enrollmentTokens[].revokeTime": {
+          "type": "string"
+        },
+        "enrollmentTokens[].revokerId": {
+          "type": "string"
+        },
+        "enrollmentTokens[].state": {
+          "type": "string"
+        },
+        "enrollmentTokens[].token": {
+          "type": "string"
+        },
+        "enrollmentTokens[].tokenPermanentId": {
+          "type": "string"
+        },
+        "enrollmentTokens[].tokenType": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_chromemanagement:chromemanagement.customers.profiles.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_chromemanagement:chromemanagement.customers.profiles.list",
+      "params": {
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "v1/customers/{customersId}/profiles",
+      "response": {
+        "chromeBrowserProfiles": {
+          "type": "array"
+        },
+        "chromeBrowserProfiles[]": {
+          "type": "object"
+        },
+        "chromeBrowserProfiles[].affiliationState": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].annotatedLocation": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].annotatedUser": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].attestationCredential": {
+          "type": "object"
+        },
+        "chromeBrowserProfiles[].attestationCredential.keyRotationTime": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].attestationCredential.keyTrustLevel": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].attestationCredential.keyType": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].attestationCredential.publicKey": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].browserChannel": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].browserVersion": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].deviceInfo": {
+          "type": "object"
+        },
+        "chromeBrowserProfiles[].deviceInfo.affiliatedDeviceId": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].deviceInfo.deviceType": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].deviceInfo.hostname": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].deviceInfo.machine": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].displayName": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].etag": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].extensionCount": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].firstEnrollmentTime": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].identityProvider": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].lastActivityTime": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].lastPolicyFetchTime": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].lastPolicySyncTime": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].lastStatusReportTime": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].name": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].osPlatformType": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].osPlatformVersion": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].osVersion": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].policyCount": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].profileId": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].profilePermanentId": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].reportingData": {
+          "type": "object"
+        },
+        "chromeBrowserProfiles[].reportingData.browserExecutablePath": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].reportingData.extensionData": {
+          "type": "array"
+        },
+        "chromeBrowserProfiles[].reportingData.extensionPolicyData": {
+          "type": "array"
+        },
+        "chromeBrowserProfiles[].reportingData.installedBrowserVersion": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].reportingData.policyData": {
+          "type": "array"
+        },
+        "chromeBrowserProfiles[].reportingData.profilePath": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].supportsFcmNotifications": {
+          "type": "boolean"
+        },
+        "chromeBrowserProfiles[].userEmail": {
+          "type": "string"
+        },
+        "chromeBrowserProfiles[].userId": {
+          "type": "string"
+        },
+        "nextPageToken": {
+          "type": "string"
+        },
+        "totalSize": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_chromemanagement:chromemanagement.customers.telemetry.devices.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_chromemanagement:chromemanagement.customers.telemetry.devices.list",
+      "params": {
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        },
+        "readMask": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "v1/customers/{customersId}/telemetry/devices",
+      "response": {
+        "devices": {
+          "type": "array"
+        },
+        "devices[]": {
+          "type": "object"
+        },
+        "devices[].appReport": {
+          "type": "array"
+        },
+        "devices[].appReport[]": {
+          "type": "object"
+        },
+        "devices[].audioStatusReport": {
+          "type": "array"
+        },
+        "devices[].audioStatusReport[]": {
+          "type": "object"
+        },
+        "devices[].batteryInfo": {
+          "type": "array"
+        },
+        "devices[].batteryInfo[]": {
+          "type": "object"
+        },
+        "devices[].batteryStatusReport": {
+          "type": "array"
+        },
+        "devices[].batteryStatusReport[]": {
+          "type": "object"
+        },
+        "devices[].bootPerformanceReport": {
+          "type": "array"
+        },
+        "devices[].bootPerformanceReport[]": {
+          "type": "object"
+        },
+        "devices[].cpuInfo": {
+          "type": "array"
+        },
+        "devices[].cpuInfo[]": {
+          "type": "object"
+        },
+        "devices[].cpuStatusReport": {
+          "type": "array"
+        },
+        "devices[].cpuStatusReport[]": {
+          "type": "object"
+        },
+        "devices[].customer": {
+          "type": "string"
+        },
+        "devices[].deviceId": {
+          "type": "string"
+        },
+        "devices[].graphicsInfo": {
+          "type": "object"
+        },
+        "devices[].graphicsInfo.adapterInfo": {
+          "type": "object"
+        },
+        "devices[].graphicsInfo.displayDevices": {
+          "type": "array"
+        },
+        "devices[].graphicsInfo.eprivacySupported": {
+          "type": "boolean"
+        },
+        "devices[].graphicsInfo.touchScreenInfo": {
+          "type": "object"
+        },
+        "devices[].graphicsStatusReport": {
+          "type": "array"
+        },
+        "devices[].graphicsStatusReport[]": {
+          "type": "object"
+        },
+        "devices[].heartbeatStatusReport": {
+          "type": "array"
+        },
+        "devices[].heartbeatStatusReport[]": {
+          "type": "object"
+        },
+        "devices[].kioskAppStatusReport": {
+          "type": "array"
+        },
+        "devices[].kioskAppStatusReport[]": {
+          "type": "object"
+        },
+        "devices[].memoryInfo": {
+          "type": "object"
+        },
+        "devices[].memoryInfo.availableRamBytes": {
+          "type": "string"
+        },
+        "devices[].memoryInfo.totalMemoryEncryption": {
+          "type": "object"
+        },
+        "devices[].memoryInfo.totalRamBytes": {
+          "type": "string"
+        },
+        "devices[].memoryStatusReport": {
+          "type": "array"
+        },
+        "devices[].memoryStatusReport[]": {
+          "type": "object"
+        },
+        "devices[].name": {
+          "type": "string"
+        },
+        "devices[].networkBandwidthReport": {
+          "type": "array"
+        },
+        "devices[].networkBandwidthReport[]": {
+          "type": "object"
+        },
+        "devices[].networkDiagnosticsReport": {
+          "type": "array"
+        },
+        "devices[].networkDiagnosticsReport[]": {
+          "type": "object"
+        },
+        "devices[].networkInfo": {
+          "type": "object"
+        },
+        "devices[].networkInfo.networkDevices": {
+          "type": "array"
+        },
+        "devices[].networkStatusReport": {
+          "type": "array"
+        },
+        "devices[].networkStatusReport[]": {
+          "type": "object"
+        },
+        "devices[].orgUnitId": {
+          "type": "string"
+        },
+        "devices[].osUpdateStatus": {
+          "type": "array"
+        },
+        "devices[].osUpdateStatus[]": {
+          "type": "object"
+        },
+        "devices[].peripheralsReport": {
+          "type": "array"
+        },
+        "devices[].peripheralsReport[]": {
+          "type": "object"
+        },
+        "devices[].runtimeCountersReport": {
+          "type": "array"
+        },
+        "devices[].runtimeCountersReport[]": {
+          "type": "object"
+        },
+        "devices[].serialNumber": {
+          "type": "string"
+        },
+        "devices[].storageInfo": {
+          "type": "object"
+        },
+        "devices[].storageInfo.availableDiskBytes": {
+          "type": "string"
+        },
+        "devices[].storageInfo.totalDiskBytes": {
+          "type": "string"
+        },
+        "devices[].storageInfo.volume": {
+          "type": "array"
+        },
+        "devices[].storageStatusReport": {
+          "type": "array"
+        },
+        "devices[].storageStatusReport[]": {
+          "type": "object"
+        },
+        "devices[].thunderboltInfo": {
+          "type": "array"
+        },
+        "devices[].thunderboltInfo[]": {
+          "type": "object"
+        },
+        "nextPageToken": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_chromemanagement:chromemanagement.customers.telemetry.notificationConfigs.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_chromemanagement:chromemanagement.customers.telemetry.notificationConfigs.list",
+      "params": {
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "v1/customers/{customersId}/telemetry/notificationConfigs",
+      "response": {
+        "nextPageToken": {
+          "type": "string"
+        },
+        "telemetryNotificationConfigs": {
+          "type": "array"
+        },
+        "telemetryNotificationConfigs[]": {
+          "type": "object"
+        },
+        "telemetryNotificationConfigs[].customer": {
+          "type": "string"
+        },
+        "telemetryNotificationConfigs[].filter": {
+          "type": "object"
+        },
+        "telemetryNotificationConfigs[].filter.deviceId": {
+          "type": "string"
+        },
+        "telemetryNotificationConfigs[].filter.deviceOrgUnitId": {
+          "type": "string"
+        },
+        "telemetryNotificationConfigs[].filter.telemetryEventNotificationFilter": {
+          "type": "object"
+        },
+        "telemetryNotificationConfigs[].filter.userEmail": {
+          "type": "string"
+        },
+        "telemetryNotificationConfigs[].filter.userOrgUnitId": {
+          "type": "string"
+        },
+        "telemetryNotificationConfigs[].googleCloudPubsubTopic": {
+          "type": "string"
+        },
+        "telemetryNotificationConfigs[].name": {
+          "type": "string"
+        }
+      }
+    },
+    "op:gws_chromemanagement:chromemanagement.customers.telemetry.users.list": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:gws_chromemanagement:chromemanagement.customers.telemetry.users.list",
+      "params": {
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        },
+        "pageToken": {
+          "in": "query",
+          "required": false
+        },
+        "parent": {
+          "in": "path",
+          "required": true
+        },
+        "readMask": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "v1/customers/{customersId}/telemetry/users",
+      "response": {
+        "nextPageToken": {
+          "type": "string"
+        },
+        "telemetryUsers": {
+          "type": "array"
+        },
+        "telemetryUsers[]": {
+          "type": "object"
+        },
+        "telemetryUsers[].customer": {
+          "type": "string"
+        },
+        "telemetryUsers[].name": {
+          "type": "string"
+        },
+        "telemetryUsers[].orgUnitId": {
+          "type": "string"
+        },
+        "telemetryUsers[].userDevice": {
+          "type": "array"
+        },
+        "telemetryUsers[].userDevice[]": {
+          "type": "object"
+        },
+        "telemetryUsers[].userEmail": {
+          "type": "string"
+        },
+        "telemetryUsers[].userId": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "revision": "20261015",
+  "snapshot_sha256": "be526cae2abc7372c4f5b8e5a3e958f4bfdd12d0656de11e1a5a03144362002c",
+  "source": "gws_chromemanagement",
+  "unmatched": [],
+  "version": "v1"
+}

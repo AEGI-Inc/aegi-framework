@@ -1,0 +1,48 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: CertificateBasedAuthConfiguration
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+privacy:
+  secret_leaf_names: [certificate]
+runtime_key: M365-CBA-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-25
+        request: {kind: certificateBasedAuthConfiguration}
+        items: value
+    id_expr: id
+    properties:
+      certificate_authorities:
+        op: map_each
+        of: certificateAuthorities
+        value:
+          object:
+            issuer: $item.issuer
+            issuerSki: $item.issuerSki
+            isRootAuthority: $item.isRootAuthority
+            certificateRevocationListUrl: $item.certificateRevocationListUrl
+            deltaCertificateRevocationListUrl: $item.deltaCertificateRevocationListUrl
+    display: "{id}"
+    relations:
+      - type: applies_to
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]

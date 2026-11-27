@@ -1,0 +1,61 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: AuthenticationMethod
+interfaces: [Credential]
+identity:
+  primary:
+    - {name: user, expr: $req.user, stability: stable}
+    - {name: id, expr: id, stability: stable}
+  scope: parent
+fields: {}
+privacy:
+  secret_leaf_names: [phoneNumber, emailAddress, temporaryAccessPass]
+runtime_key: M365-AUTHM-{user}-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-03
+        request: {kind: authentication_methods}
+        items: value
+    id_expr: id
+    parts:
+      user: $req.user
+    properties:
+      method_type:
+        op: replace
+        of:
+          op: strip_prefix
+          of: "@odata.type"
+          prefix: "#microsoft.graph."
+        pattern: "AuthenticationMethod$"
+        with: ""
+      displayName: displayName
+      createdDateTime: createdDateTime
+      deviceTag: deviceTag
+      model: model
+      phoneType: phoneType
+      aaGuid: aaGuid
+      keyStrength: keyStrength
+      isUsable: isUsable
+      isUsableOnce: isUsableOnce
+      lifetimeInMinutes: lifetimeInMinutes
+      startDateTime: startDateTime
+      user_id: $req.user
+    display: "{displayName|method_type|id}"
+    relations:
+      - type: authenticates_with
+        source: {type: User, id: $req.user}
+        target: $self
+        basis: stated
+        require: [source, target]
+      - type: contained_in
+        source: $self
+        target: {type: User, id: $req.user}
+        basis: stated
+        require: [target]

@@ -1,0 +1,1072 @@
+{
+  "format": "slack_doc",
+  "made_at": "2026-11-26T06:18:53.324Z",
+  "ops": {
+    "op:slack_docs_methods:admin.apps.approved.list": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "app_management_app_not_installed_on_org",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "feature_not_enabled",
+        "internal_error",
+        "invalid_actor",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_cursor",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed",
+        "not_allowed_token_type",
+        "not_an_admin",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "restricted_action",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "team_not_found",
+        "token_expired",
+        "token_revoked",
+        "too_many_teams_provided",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 2: 20+ per minute"
+      ],
+      "op": "op:slack_docs_methods:admin.apps.approved.list",
+      "params": {
+        "certified": {
+          "in": "query",
+          "required": false
+        },
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "enterprise_id": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "team_id": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "admin.apps.approved.list",
+      "response": {}
+    },
+    "op:slack_docs_methods:admin.apps.config.lookup": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_args",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 2: 20+ per minute"
+      ],
+      "op": "op:slack_docs_methods:admin.apps.config.lookup",
+      "params": {
+        "app_ids": {
+          "in": "query",
+          "required": false
+        },
+        "rich_link_preview_types": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "admin.apps.config.lookup",
+      "response": {}
+    },
+    "op:slack_docs_methods:admin.apps.requests.list": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "app_management_app_not_installed_on_org",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "enterprise_not_found",
+        "fatal_error",
+        "feature_not_enabled",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_cursor",
+        "invalid_form_data",
+        "invalid_post_type",
+        "invalid_scopes",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "no_team_or_enterprise_provided",
+        "not_allowed",
+        "not_allowed_token_type",
+        "not_an_admin",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "restricted_action",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "team_not_found",
+        "token_expired",
+        "token_revoked",
+        "too_many_teams_provided",
+        "two_factor_setup_required",
+        "user_is_restricted"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 2: 20+ per minute"
+      ],
+      "op": "op:slack_docs_methods:admin.apps.requests.list",
+      "params": {
+        "certified": {
+          "in": "query",
+          "required": false
+        },
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "enterprise_id": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "team_id": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "admin.apps.requests.list",
+      "response": {}
+    },
+    "op:slack_docs_methods:admin.apps.restricted.list": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "app_management_app_not_installed_on_org",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "feature_not_enabled",
+        "internal_error",
+        "invalid_actor",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_cursor",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed",
+        "not_allowed_token_type",
+        "not_an_admin",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "restricted_action",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "team_not_found",
+        "token_expired",
+        "token_revoked",
+        "too_many_teams_provided",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 2: 20+ per minute"
+      ],
+      "op": "op:slack_docs_methods:admin.apps.restricted.list",
+      "params": {
+        "certified": {
+          "in": "query",
+          "required": false
+        },
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "enterprise_id": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "team_id": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "admin.apps.restricted.list",
+      "response": {}
+    },
+    "op:slack_docs_methods:admin.auth.policy.getEntities": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "feature_not_enabled",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_cursor",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_an_admin",
+        "not_authed",
+        "org_login_required",
+        "policy_not_found",
+        "ratelimited",
+        "request_timeout",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 4: 100+ per minute"
+      ],
+      "op": "op:slack_docs_methods:admin.auth.policy.getEntities",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "entity_type": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "policy_name": {
+          "in": "query",
+          "required": true
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "admin.auth.policy.getEntities",
+      "response": {}
+    },
+    "op:slack_docs_methods:admin.conversations.ekm.listOriginalConnectedChannelInfo": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_cursor",
+        "invalid_form_data",
+        "invalid_limit",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_an_admin",
+        "not_authed",
+        "not_enabled",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "restricted_action",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required",
+        "unsupported_arguments"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 2: 20+ per minute"
+      ],
+      "op": "op:slack_docs_methods:admin.conversations.ekm.listOriginalConnectedChannelInfo",
+      "params": {
+        "channel_ids": {
+          "in": "query",
+          "required": false
+        },
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "team_ids": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "admin.conversations.ekm.listOriginalConnectedChannelInfo",
+      "response": {}
+    },
+    "op:slack_docs_methods:admin.functions.list": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_cursor",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "restricted_action",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 2: 20+ per minute"
+      ],
+      "op": "op:slack_docs_methods:admin.functions.list",
+      "params": {
+        "app_ids": {
+          "in": "query",
+          "required": true
+        },
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "include_non_distributed_functions": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "team_id": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "admin.functions.list",
+      "response": {}
+    },
+    "op:slack_docs_methods:admin.teams.settings.info": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "failed_to_fetch_info",
+        "fatal_error",
+        "feature_not_enabled",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "team_not_found",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 3: 50+ per minute"
+      ],
+      "op": "op:slack_docs_methods:admin.teams.settings.info",
+      "params": {
+        "team_id": {
+          "in": "query",
+          "required": true
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "admin.teams.settings.info",
+      "response": {}
+    },
+    "op:slack_docs_methods:admin.workflows.search": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_cursor",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 2: 20+ per minute"
+      ],
+      "op": "op:slack_docs_methods:admin.workflows.search",
+      "params": {
+        "app_id": {
+          "in": "query",
+          "required": false
+        },
+        "collaborator_ids": {
+          "in": "query",
+          "required": false
+        },
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "is_sales_elevate": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "no_collaborators": {
+          "in": "query",
+          "required": false
+        },
+        "num_trigger_ids": {
+          "in": "query",
+          "required": false
+        },
+        "publish_status": {
+          "in": "query",
+          "required": false
+        },
+        "query": {
+          "in": "query",
+          "required": false
+        },
+        "sort": {
+          "in": "query",
+          "required": false
+        },
+        "sort_dir": {
+          "in": "query",
+          "required": false
+        },
+        "source": {
+          "in": "query",
+          "required": false
+        },
+        "step_function_ids": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        },
+        "trigger_type_id": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "admin.workflows.search",
+      "response": {}
+    },
+    "op:slack_docs_methods:bots.info": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "bot_not_found",
+        "bots_not_found",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_argument",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "team_not_found",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 3: 50+ per minute"
+      ],
+      "op": "op:slack_docs_methods:bots.info",
+      "params": {
+        "bot": {
+          "in": "query",
+          "required": false
+        },
+        "team_id": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "bots.info",
+      "response": {}
+    },
+    "op:slack_docs_methods:conversations.listConnectInvites": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "restricted_action",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 1: 1+ per minute"
+      ],
+      "op": "op:slack_docs_methods:conversations.listConnectInvites",
+      "params": {
+        "count": {
+          "in": "query",
+          "required": false
+        },
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "team_id": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "conversations.listConnectInvites",
+      "response": {}
+    },
+    "op:slack_docs_methods:conversations.requestSharedInvite.list": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_cursor",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_authed",
+        "not_implemented",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "restricted_action",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 2: 20+ per minute"
+      ],
+      "op": "op:slack_docs_methods:conversations.requestSharedInvite.list",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "include_approved": {
+          "in": "query",
+          "required": false
+        },
+        "include_denied": {
+          "in": "query",
+          "required": false
+        },
+        "include_expired": {
+          "in": "query",
+          "required": false
+        },
+        "invite_ids": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        },
+        "user_id": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "conversations.requestSharedInvite.list",
+      "response": {}
+    },
+    "op:slack_docs_methods:functions.distributions.permissions.list": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "app_not_found",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "function_not_found",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required",
+        "unknown_method",
+        "user_not_found"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 3: 50+ per minute"
+      ],
+      "op": "op:slack_docs_methods:functions.distributions.permissions.list",
+      "params": {
+        "function_app_id": {
+          "in": "query",
+          "required": false
+        },
+        "function_callback_id": {
+          "in": "query",
+          "required": false
+        },
+        "function_id": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        }
+      },
+      "path": "functions.distributions.permissions.list",
+      "response": {}
+    },
+    "op:slack_docs_methods:team.externalTeams.list": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_form_data",
+        "invalid_post_type",
+        "invalid_workspace_filter",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "restricted_action",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required",
+        "user_cannot_manage_workspace"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 2: 20+ per minute"
+      ],
+      "op": "op:slack_docs_methods:team.externalTeams.list",
+      "params": {
+        "connection_status_filter": {
+          "in": "query",
+          "required": false
+        },
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "slack_connect_pref_filter": {
+          "in": "query",
+          "required": false
+        },
+        "sort_direction": {
+          "in": "query",
+          "required": false
+        },
+        "sort_field": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        },
+        "workspace_filter": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "team.externalTeams.list",
+      "response": {}
+    },
+    "op:slack_docs_methods:users.profile.get": {
+      "deprecated": false,
+      "errors": [
+        "access_denied",
+        "accesslimited",
+        "account_inactive",
+        "deprecated_endpoint",
+        "ekm_access_denied",
+        "enterprise_is_restricted",
+        "fatal_error",
+        "internal_error",
+        "invalid_arg_name",
+        "invalid_arguments",
+        "invalid_array_arg",
+        "invalid_auth",
+        "invalid_charset",
+        "invalid_form_data",
+        "invalid_post_type",
+        "method_deprecated",
+        "missing_post_type",
+        "missing_scope",
+        "no_permission",
+        "not_allowed_token_type",
+        "not_authed",
+        "org_login_required",
+        "ratelimited",
+        "request_timeout",
+        "service_unavailable",
+        "team_access_not_granted",
+        "team_added_to_org",
+        "token_expired",
+        "token_revoked",
+        "two_factor_setup_required",
+        "user_not_found"
+      ],
+      "method": "RPC",
+      "notes": [
+        "rate_limit: Tier 4: 100+ per minute",
+        "users:read is no longer a sufficient scope for this data field."
+      ],
+      "op": "op:slack_docs_methods:users.profile.get",
+      "params": {
+        "include_labels": {
+          "in": "query",
+          "required": false
+        },
+        "token": {
+          "in": "query",
+          "required": true
+        },
+        "user": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "users.profile.get",
+      "response": {}
+    }
+  },
+  "snapshot_sha256": "35ea2baa68bd6b1cdafbf2d3100cde8716ec0d39c5dc90bbb80a7be92ffcd1f7",
+  "source": "slack_docs_methods",
+  "unmatched": []
+}

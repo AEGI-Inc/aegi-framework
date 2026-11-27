@@ -1,0 +1,46 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: teams
+object_type: ResourceSpecificPermissionGrant
+interfaces: [Assignment]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-RSC-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-26
+        request: {kind: permissionGrants}
+        items: value
+    id_expr: id
+    properties:
+      team_id: $req.team
+      clientAppId: clientAppId
+      clientId: clientId
+      permission: permission
+      permissionType: permissionType
+      resourceAppId: resourceAppId
+    display: "{permission|clientAppId|id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: Group, id: $req.team}
+        basis: stated
+        require: [target]
+      - type: has_role_on
+        source: {type: ServicePrincipal, lookup: appId, value: clientAppId}
+        target: {type: Group, id: $req.team}
+        role:
+          name: permission
+        basis: stated
+        properties:
+          via_assignment: $self
+        require: [source, target]

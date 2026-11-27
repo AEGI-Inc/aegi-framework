@@ -1,0 +1,57 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: CrossTenantAccessPartner
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: tenantId, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-CTAP-PARTNER-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-19
+        request: {kind: partners}
+        items: value
+    id_expr: tenantId
+    properties:
+      isServiceDefault: isServiceDefault
+      inboundTrust: inboundTrust
+      b2bCollaborationInbound: b2bCollaborationInbound
+      b2bCollaborationOutbound: b2bCollaborationOutbound
+      b2bDirectConnectInbound: b2bDirectConnectInbound
+      b2bDirectConnectOutbound: b2bDirectConnectOutbound
+      automaticUserConsentSettings: automaticUserConsentSettings
+      tenantRestrictions: tenantRestrictions
+      isServiceProvider: isServiceProvider
+      isInMultiTenantOrganization: isInMultiTenantOrganization
+    display: "{tenantId}"
+    relations:
+      - type: applies_to
+        source: $self
+        target: {type: PartnerTenant, id: tenantId}
+        basis: stated
+        require: [target]
+      - type: contained_in
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+  - id: identity_sync_enrich
+    kind: enrich
+    sources:
+      - call: M365-19
+        request: {kind: identitySynchronization}
+        items: (root)
+    target:
+      type: CrossTenantAccessPartner
+      id: $req.partner
+    set:
+      user_sync_inbound_allowed: userSyncInbound.isSyncAllowed

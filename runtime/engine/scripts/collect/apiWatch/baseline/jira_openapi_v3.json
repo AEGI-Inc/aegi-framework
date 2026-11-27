@@ -1,0 +1,2376 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:43.745Z",
+  "ops": {
+    "op:jira_openapi_v3:getAllApplicationRoles": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getAllApplicationRoles",
+      "params": {},
+      "path": "/rest/api/3/applicationrole",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].defaultGroups": {
+          "type": "array"
+        },
+        "[].defaultGroupsDetails": {
+          "type": "array"
+        },
+        "[].defaultGroupsDetails[]": {
+          "type": "object"
+        },
+        "[].defaultGroupsDetails[].groupId": {
+          "type": "string"
+        },
+        "[].defaultGroupsDetails[].name": {
+          "type": "string"
+        },
+        "[].defaultGroupsDetails[].self": {
+          "type": "string"
+        },
+        "[].defaultGroups[]": {
+          "type": "string"
+        },
+        "[].defined": {
+          "type": "boolean"
+        },
+        "[].groupDetails": {
+          "type": "array"
+        },
+        "[].groupDetails[]": {
+          "type": "object"
+        },
+        "[].groupDetails[].groupId": {
+          "type": "string"
+        },
+        "[].groupDetails[].name": {
+          "type": "string"
+        },
+        "[].groupDetails[].self": {
+          "type": "string"
+        },
+        "[].groups": {
+          "type": "array"
+        },
+        "[].groups[]": {
+          "type": "string"
+        },
+        "[].hasUnlimitedSeats": {
+          "type": "boolean"
+        },
+        "[].key": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].numberOfSeats": {
+          "type": "integer"
+        },
+        "[].platform": {
+          "type": "boolean"
+        },
+        "[].remainingSeats": {
+          "type": "integer"
+        },
+        "[].selectedByDefault": {
+          "type": "boolean"
+        },
+        "[].userCount": {
+          "type": "integer"
+        },
+        "[].userCountDescription": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getAllDashboards": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getAllDashboards",
+      "params": {
+        "filter": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/dashboard",
+      "response": {
+        "dashboards": {
+          "type": "array"
+        },
+        "dashboards[]": {
+          "type": "object"
+        },
+        "dashboards[].automaticRefreshMs": {
+          "type": "integer"
+        },
+        "dashboards[].description": {
+          "type": "string"
+        },
+        "dashboards[].editPermissions": {
+          "type": "array"
+        },
+        "dashboards[].editPermissions[]": {
+          "type": "object"
+        },
+        "dashboards[].id": {
+          "type": "string"
+        },
+        "dashboards[].isFavourite": {
+          "type": "boolean"
+        },
+        "dashboards[].isWritable": {
+          "type": "boolean"
+        },
+        "dashboards[].name": {
+          "type": "string"
+        },
+        "dashboards[].owner": {
+          "type": "object"
+        },
+        "dashboards[].owner.accountId": {
+          "type": "string"
+        },
+        "dashboards[].owner.active": {
+          "type": "boolean"
+        },
+        "dashboards[].owner.avatarUrls": {
+          "type": "object"
+        },
+        "dashboards[].owner.displayName": {
+          "type": "string"
+        },
+        "dashboards[].owner.key": {
+          "type": "string"
+        },
+        "dashboards[].owner.name": {
+          "type": "string"
+        },
+        "dashboards[].owner.self": {
+          "type": "string"
+        },
+        "dashboards[].popularity": {
+          "type": "integer"
+        },
+        "dashboards[].rank": {
+          "type": "integer"
+        },
+        "dashboards[].self": {
+          "type": "string"
+        },
+        "dashboards[].sharePermissions": {
+          "type": "array"
+        },
+        "dashboards[].sharePermissions[]": {
+          "type": "object"
+        },
+        "dashboards[].systemDashboard": {
+          "type": "boolean"
+        },
+        "dashboards[].view": {
+          "type": "string"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "next": {
+          "type": "string"
+        },
+        "prev": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getAllFieldConfigurationSchemes": {
+      "deprecated": true,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getAllFieldConfigurationSchemes",
+      "params": {
+        "id": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/fieldconfigurationscheme",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].description": {
+          "type": "string"
+        },
+        "values[].id": {
+          "type": "string"
+        },
+        "values[].name": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getAllPermissions": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getAllPermissions",
+      "params": {},
+      "path": "/rest/api/3/permissions",
+      "response": {
+        "permissions": {
+          "type": "object"
+        },
+        "permissions.<key>": {
+          "type": "object"
+        },
+        "permissions.<key>.deprecatedKey": {
+          "type": "boolean"
+        },
+        "permissions.<key>.description": {
+          "type": "string"
+        },
+        "permissions.<key>.havePermission": {
+          "type": "boolean"
+        },
+        "permissions.<key>.id": {
+          "type": "string"
+        },
+        "permissions.<key>.key": {
+          "type": "string"
+        },
+        "permissions.<key>.name": {
+          "type": "string"
+        },
+        "permissions.<key>.type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getAllProjectCategories": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getAllProjectCategories",
+      "params": {},
+      "path": "/rest/api/3/projectCategory",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].description": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].self": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getAllScreenTabs": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getAllScreenTabs",
+      "params": {
+        "projectKey": {
+          "in": "query",
+          "required": false
+        },
+        "screenId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/rest/api/3/screens/{screenId}/tabs",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].id": {
+          "type": "integer"
+        },
+        "[].name": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getAllStatuses": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getAllStatuses",
+      "params": {
+        "projectIdOrKey": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/rest/api/3/project/{projectIdOrKey}/statuses",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].self": {
+          "type": "string"
+        },
+        "[].statuses": {
+          "type": "array"
+        },
+        "[].statuses[]": {
+          "type": "object"
+        },
+        "[].statuses[].description": {
+          "type": "string"
+        },
+        "[].statuses[].iconUrl": {
+          "type": "string"
+        },
+        "[].statuses[].id": {
+          "type": "string"
+        },
+        "[].statuses[].name": {
+          "type": "string"
+        },
+        "[].statuses[].scope": {
+          "type": "object"
+        },
+        "[].statuses[].self": {
+          "type": "string"
+        },
+        "[].statuses[].statusCategory": {
+          "type": "object"
+        },
+        "[].subtask": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getAllUserDataClassificationLevels": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getAllUserDataClassificationLevels",
+      "params": {
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "status": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/classification-levels",
+      "response": {
+        "classifications": {
+          "type": "array"
+        },
+        "classifications[]": {
+          "type": "object"
+        },
+        "classifications[].color": {
+          "type": "string"
+        },
+        "classifications[].description": {
+          "type": "string"
+        },
+        "classifications[].guideline": {
+          "type": "string"
+        },
+        "classifications[].guidelineADF": {
+          "type": "string"
+        },
+        "classifications[].id": {
+          "type": "string"
+        },
+        "classifications[].name": {
+          "type": "string"
+        },
+        "classifications[].rank": {
+          "type": "integer"
+        },
+        "classifications[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getAllWorkflowSchemes": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getAllWorkflowSchemes",
+      "params": {
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/workflowscheme",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].defaultWorkflow": {
+          "type": "string"
+        },
+        "values[].description": {
+          "type": "string"
+        },
+        "values[].draft": {
+          "type": "boolean"
+        },
+        "values[].id": {
+          "type": "integer"
+        },
+        "values[].issueTypeMappings": {
+          "type": "object"
+        },
+        "values[].issueTypeMappings.<key>": {
+          "type": "string"
+        },
+        "values[].issueTypes": {
+          "type": "object"
+        },
+        "values[].issueTypes.<key>": {
+          "type": "object"
+        },
+        "values[].lastModified": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser": {
+          "type": "object"
+        },
+        "values[].lastModifiedUser.accountId": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser.accountType": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser.active": {
+          "type": "boolean"
+        },
+        "values[].lastModifiedUser.appType": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser.applicationRoles": {
+          "type": "object"
+        },
+        "values[].lastModifiedUser.avatarUrls": {
+          "type": "object"
+        },
+        "values[].lastModifiedUser.displayName": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser.emailAddress": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser.expand": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser.groups": {
+          "type": "object"
+        },
+        "values[].lastModifiedUser.guest": {
+          "type": "boolean"
+        },
+        "values[].lastModifiedUser.key": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser.locale": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser.name": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser.self": {
+          "type": "string"
+        },
+        "values[].lastModifiedUser.timeZone": {
+          "type": "string"
+        },
+        "values[].name": {
+          "type": "string"
+        },
+        "values[].originalDefaultWorkflow": {
+          "type": "string"
+        },
+        "values[].originalIssueTypeMappings": {
+          "type": "object"
+        },
+        "values[].originalIssueTypeMappings.<key>": {
+          "type": "string"
+        },
+        "values[].self": {
+          "type": "string"
+        },
+        "values[].updateDraftIfNeeded": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getAvailableTimeTrackingImplementations": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getAvailableTimeTrackingImplementations",
+      "params": {},
+      "path": "/rest/api/3/configuration/timetracking/list",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].key": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].url": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getDefaultEditor": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getDefaultEditor",
+      "params": {},
+      "path": "/rest/api/3/workflows/defaultEditor",
+      "response": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getDefaultWorkflow": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getDefaultWorkflow",
+      "params": {
+        "id": {
+          "in": "path",
+          "required": true
+        },
+        "returnDraftIfExists": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/workflowscheme/{id}/default",
+      "response": {
+        "updateDraftIfNeeded": {
+          "type": "boolean"
+        },
+        "workflow": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getDynamicWebhooksForApp": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getDynamicWebhooksForApp",
+      "params": {
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/webhook",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].events": {
+          "type": "array"
+        },
+        "values[].events[]": {
+          "type": "string"
+        },
+        "values[].expirationDate": {
+          "type": "integer"
+        },
+        "values[].fieldIdsFilter": {
+          "type": "array"
+        },
+        "values[].fieldIdsFilter[]": {
+          "type": "string"
+        },
+        "values[].id": {
+          "type": "integer"
+        },
+        "values[].issuePropertyKeysFilter": {
+          "type": "array"
+        },
+        "values[].issuePropertyKeysFilter[]": {
+          "type": "string"
+        },
+        "values[].jqlFilter": {
+          "type": "string"
+        },
+        "values[].url": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getFeaturesForProject": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getFeaturesForProject",
+      "params": {
+        "projectIdOrKey": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/rest/api/3/project/{projectIdOrKey}/features",
+      "response": {
+        "features": {
+          "type": "array"
+        },
+        "features[]": {
+          "type": "object"
+        },
+        "features[].feature": {
+          "type": "string"
+        },
+        "features[].imageUri": {
+          "type": "string"
+        },
+        "features[].localisedDescription": {
+          "type": "string"
+        },
+        "features[].localisedName": {
+          "type": "string"
+        },
+        "features[].prerequisites": {
+          "type": "array"
+        },
+        "features[].prerequisites[]": {
+          "type": "string"
+        },
+        "features[].projectId": {
+          "type": "integer"
+        },
+        "features[].state": {
+          "type": "string"
+        },
+        "features[].toggleLocked": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getIssueTypeScreenSchemes": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getIssueTypeScreenSchemes",
+      "params": {
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "id": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "queryString": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/issuetypescreenscheme",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].description": {
+          "type": "string"
+        },
+        "values[].id": {
+          "type": "string"
+        },
+        "values[].name": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getNotificationSchemes": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getNotificationSchemes",
+      "params": {
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "id": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "onlyDefault": {
+          "in": "query",
+          "required": false
+        },
+        "projectId": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/notificationscheme",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].description": {
+          "type": "string"
+        },
+        "values[].expand": {
+          "type": "string"
+        },
+        "values[].id": {
+          "type": "integer"
+        },
+        "values[].name": {
+          "type": "string"
+        },
+        "values[].notificationSchemeEvents": {
+          "type": "array"
+        },
+        "values[].notificationSchemeEvents[]": {
+          "type": "object"
+        },
+        "values[].projects": {
+          "type": "array"
+        },
+        "values[].projects[]": {
+          "type": "integer"
+        },
+        "values[].scope": {
+          "type": "object"
+        },
+        "values[].scope.project": {
+          "type": "object"
+        },
+        "values[].scope.type": {
+          "type": "string"
+        },
+        "values[].self": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getPlans": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getPlans",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "includeArchived": {
+          "in": "query",
+          "required": false
+        },
+        "includeTrashed": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/plans/plan",
+      "response": {
+        "cursor": {
+          "type": "string"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "nextPageCursor": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].id": {
+          "type": "string"
+        },
+        "values[].issueSources": {
+          "type": "array"
+        },
+        "values[].issueSources[]": {
+          "type": "object"
+        },
+        "values[].name": {
+          "type": "string"
+        },
+        "values[].scenarioId": {
+          "type": "string"
+        },
+        "values[].status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getPrioritySchemes": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getPrioritySchemes",
+      "params": {
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "onlyDefault": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "priorityId": {
+          "in": "query",
+          "required": false
+        },
+        "schemeId": {
+          "in": "query",
+          "required": false
+        },
+        "schemeName": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/priorityscheme",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].default": {
+          "type": "boolean"
+        },
+        "values[].defaultPriorityId": {
+          "type": "string"
+        },
+        "values[].description": {
+          "type": "string"
+        },
+        "values[].id": {
+          "type": "string"
+        },
+        "values[].isDefault": {
+          "type": "boolean"
+        },
+        "values[].name": {
+          "type": "string"
+        },
+        "values[].priorities": {
+          "type": "object"
+        },
+        "values[].priorities.isLast": {
+          "type": "boolean"
+        },
+        "values[].priorities.maxResults": {
+          "type": "integer"
+        },
+        "values[].priorities.nextPage": {
+          "type": "string"
+        },
+        "values[].priorities.self": {
+          "type": "string"
+        },
+        "values[].priorities.startAt": {
+          "type": "integer"
+        },
+        "values[].priorities.total": {
+          "type": "integer"
+        },
+        "values[].priorities.values": {
+          "type": "array"
+        },
+        "values[].projects": {
+          "type": "object"
+        },
+        "values[].projects.isLast": {
+          "type": "boolean"
+        },
+        "values[].projects.maxResults": {
+          "type": "integer"
+        },
+        "values[].projects.nextPage": {
+          "type": "string"
+        },
+        "values[].projects.self": {
+          "type": "string"
+        },
+        "values[].projects.startAt": {
+          "type": "integer"
+        },
+        "values[].projects.total": {
+          "type": "integer"
+        },
+        "values[].projects.values": {
+          "type": "array"
+        },
+        "values[].self": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getProjectComponents": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getProjectComponents",
+      "params": {
+        "componentSource": {
+          "in": "query",
+          "required": false
+        },
+        "projectIdOrKey": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/rest/api/3/project/{projectIdOrKey}/components",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].ari": {
+          "type": "string"
+        },
+        "[].assignee": {
+          "type": "object"
+        },
+        "[].assignee.accountId": {
+          "type": "string"
+        },
+        "[].assignee.accountType": {
+          "type": "string"
+        },
+        "[].assignee.active": {
+          "type": "boolean"
+        },
+        "[].assignee.appType": {
+          "type": "string"
+        },
+        "[].assignee.applicationRoles": {
+          "type": "object"
+        },
+        "[].assignee.applicationRoles.callback": {
+          "type": "object"
+        },
+        "[].assignee.applicationRoles.items": {
+          "type": "array"
+        },
+        "[].assignee.applicationRoles.max-results": {
+          "type": "integer"
+        },
+        "[].assignee.applicationRoles.pagingCallback": {
+          "type": "object"
+        },
+        "[].assignee.applicationRoles.size": {
+          "type": "integer"
+        },
+        "[].assignee.avatarUrls": {
+          "type": "object"
+        },
+        "[].assignee.avatarUrls.16x16": {
+          "type": "string"
+        },
+        "[].assignee.avatarUrls.24x24": {
+          "type": "string"
+        },
+        "[].assignee.avatarUrls.32x32": {
+          "type": "string"
+        },
+        "[].assignee.avatarUrls.48x48": {
+          "type": "string"
+        },
+        "[].assignee.displayName": {
+          "type": "string"
+        },
+        "[].assignee.emailAddress": {
+          "type": "string"
+        },
+        "[].assignee.expand": {
+          "type": "string"
+        },
+        "[].assignee.groups": {
+          "type": "object"
+        },
+        "[].assignee.groups.callback": {
+          "type": "object"
+        },
+        "[].assignee.groups.items": {
+          "type": "array"
+        },
+        "[].assignee.groups.max-results": {
+          "type": "integer"
+        },
+        "[].assignee.groups.pagingCallback": {
+          "type": "object"
+        },
+        "[].assignee.groups.size": {
+          "type": "integer"
+        },
+        "[].assignee.guest": {
+          "type": "boolean"
+        },
+        "[].assignee.key": {
+          "type": "string"
+        },
+        "[].assignee.locale": {
+          "type": "string"
+        },
+        "[].assignee.name": {
+          "type": "string"
+        },
+        "[].assignee.self": {
+          "type": "string"
+        },
+        "[].assignee.timeZone": {
+          "type": "string"
+        },
+        "[].assigneeType": {
+          "type": "string"
+        },
+        "[].description": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].isAssigneeTypeValid": {
+          "type": "boolean"
+        },
+        "[].lead": {
+          "type": "object"
+        },
+        "[].lead.accountId": {
+          "type": "string"
+        },
+        "[].lead.accountType": {
+          "type": "string"
+        },
+        "[].lead.active": {
+          "type": "boolean"
+        },
+        "[].lead.appType": {
+          "type": "string"
+        },
+        "[].lead.applicationRoles": {
+          "type": "object"
+        },
+        "[].lead.applicationRoles.callback": {
+          "type": "object"
+        },
+        "[].lead.applicationRoles.items": {
+          "type": "array"
+        },
+        "[].lead.applicationRoles.max-results": {
+          "type": "integer"
+        },
+        "[].lead.applicationRoles.pagingCallback": {
+          "type": "object"
+        },
+        "[].lead.applicationRoles.size": {
+          "type": "integer"
+        },
+        "[].lead.avatarUrls": {
+          "type": "object"
+        },
+        "[].lead.avatarUrls.16x16": {
+          "type": "string"
+        },
+        "[].lead.avatarUrls.24x24": {
+          "type": "string"
+        },
+        "[].lead.avatarUrls.32x32": {
+          "type": "string"
+        },
+        "[].lead.avatarUrls.48x48": {
+          "type": "string"
+        },
+        "[].lead.displayName": {
+          "type": "string"
+        },
+        "[].lead.emailAddress": {
+          "type": "string"
+        },
+        "[].lead.expand": {
+          "type": "string"
+        },
+        "[].lead.groups": {
+          "type": "object"
+        },
+        "[].lead.groups.callback": {
+          "type": "object"
+        },
+        "[].lead.groups.items": {
+          "type": "array"
+        },
+        "[].lead.groups.max-results": {
+          "type": "integer"
+        },
+        "[].lead.groups.pagingCallback": {
+          "type": "object"
+        },
+        "[].lead.groups.size": {
+          "type": "integer"
+        },
+        "[].lead.guest": {
+          "type": "boolean"
+        },
+        "[].lead.key": {
+          "type": "string"
+        },
+        "[].lead.locale": {
+          "type": "string"
+        },
+        "[].lead.name": {
+          "type": "string"
+        },
+        "[].lead.self": {
+          "type": "string"
+        },
+        "[].lead.timeZone": {
+          "type": "string"
+        },
+        "[].leadAccountId": {
+          "type": "string"
+        },
+        "[].leadUserName": {
+          "type": "string"
+        },
+        "[].metadata": {
+          "type": "object"
+        },
+        "[].metadata.<key>": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].project": {
+          "type": "string"
+        },
+        "[].projectId": {
+          "type": "integer"
+        },
+        "[].realAssignee": {
+          "type": "object"
+        },
+        "[].realAssignee.accountId": {
+          "type": "string"
+        },
+        "[].realAssignee.accountType": {
+          "type": "string"
+        },
+        "[].realAssignee.active": {
+          "type": "boolean"
+        },
+        "[].realAssignee.appType": {
+          "type": "string"
+        },
+        "[].realAssignee.applicationRoles": {
+          "type": "object"
+        },
+        "[].realAssignee.applicationRoles.callback": {
+          "type": "object"
+        },
+        "[].realAssignee.applicationRoles.items": {
+          "type": "array"
+        },
+        "[].realAssignee.applicationRoles.max-results": {
+          "type": "integer"
+        },
+        "[].realAssignee.applicationRoles.pagingCallback": {
+          "type": "object"
+        },
+        "[].realAssignee.applicationRoles.size": {
+          "type": "integer"
+        },
+        "[].realAssignee.avatarUrls": {
+          "type": "object"
+        },
+        "[].realAssignee.avatarUrls.16x16": {
+          "type": "string"
+        },
+        "[].realAssignee.avatarUrls.24x24": {
+          "type": "string"
+        },
+        "[].realAssignee.avatarUrls.32x32": {
+          "type": "string"
+        },
+        "[].realAssignee.avatarUrls.48x48": {
+          "type": "string"
+        },
+        "[].realAssignee.displayName": {
+          "type": "string"
+        },
+        "[].realAssignee.emailAddress": {
+          "type": "string"
+        },
+        "[].realAssignee.expand": {
+          "type": "string"
+        },
+        "[].realAssignee.groups": {
+          "type": "object"
+        },
+        "[].realAssignee.groups.callback": {
+          "type": "object"
+        },
+        "[].realAssignee.groups.items": {
+          "type": "array"
+        },
+        "[].realAssignee.groups.max-results": {
+          "type": "integer"
+        },
+        "[].realAssignee.groups.pagingCallback": {
+          "type": "object"
+        },
+        "[].realAssignee.groups.size": {
+          "type": "integer"
+        },
+        "[].realAssignee.guest": {
+          "type": "boolean"
+        },
+        "[].realAssignee.key": {
+          "type": "string"
+        },
+        "[].realAssignee.locale": {
+          "type": "string"
+        },
+        "[].realAssignee.name": {
+          "type": "string"
+        },
+        "[].realAssignee.self": {
+          "type": "string"
+        },
+        "[].realAssignee.timeZone": {
+          "type": "string"
+        },
+        "[].realAssigneeType": {
+          "type": "string"
+        },
+        "[].self": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getProjectIssueSecurityScheme": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getProjectIssueSecurityScheme",
+      "params": {
+        "projectKeyOrId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/rest/api/3/project/{projectKeyOrId}/issuesecuritylevelscheme",
+      "response": {
+        "defaultSecurityLevelId": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "levels": {
+          "type": "array"
+        },
+        "levels[]": {
+          "type": "object"
+        },
+        "levels[].description": {
+          "type": "string"
+        },
+        "levels[].id": {
+          "type": "string"
+        },
+        "levels[].isDefault": {
+          "type": "boolean"
+        },
+        "levels[].issueSecuritySchemeId": {
+          "type": "string"
+        },
+        "levels[].name": {
+          "type": "string"
+        },
+        "levels[].self": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getProjectRole": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getProjectRole",
+      "params": {
+        "excludeInactiveUsers": {
+          "in": "query",
+          "required": false
+        },
+        "id": {
+          "in": "path",
+          "required": true
+        },
+        "projectIdOrKey": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/rest/api/3/project/{projectIdOrKey}/role/{id}",
+      "response": {
+        "actors": {
+          "type": "array"
+        },
+        "actors[]": {
+          "type": "object"
+        },
+        "actors[].actorGroup": {
+          "type": "object"
+        },
+        "actors[].actorGroup.displayName": {
+          "type": "string"
+        },
+        "actors[].actorGroup.groupId": {
+          "type": "string"
+        },
+        "actors[].actorGroup.name": {
+          "type": "string"
+        },
+        "actors[].actorUser": {
+          "type": "object"
+        },
+        "actors[].actorUser.accountId": {
+          "type": "string"
+        },
+        "actors[].avatarUrl": {
+          "type": "string"
+        },
+        "actors[].displayName": {
+          "type": "string"
+        },
+        "actors[].id": {
+          "type": "integer"
+        },
+        "actors[].name": {
+          "type": "string"
+        },
+        "actors[].type": {
+          "type": "string"
+        },
+        "admin": {
+          "type": "boolean"
+        },
+        "currentUserRole": {
+          "type": "boolean"
+        },
+        "default": {
+          "type": "boolean"
+        },
+        "description": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "roleConfigurable": {
+          "type": "boolean"
+        },
+        "scope": {
+          "type": "object"
+        },
+        "scope.project": {
+          "type": "object"
+        },
+        "scope.project.avatarUrls": {
+          "type": "object"
+        },
+        "scope.project.avatarUrls.16x16": {
+          "type": "string"
+        },
+        "scope.project.avatarUrls.24x24": {
+          "type": "string"
+        },
+        "scope.project.avatarUrls.32x32": {
+          "type": "string"
+        },
+        "scope.project.avatarUrls.48x48": {
+          "type": "string"
+        },
+        "scope.project.id": {
+          "type": "string"
+        },
+        "scope.project.key": {
+          "type": "string"
+        },
+        "scope.project.name": {
+          "type": "string"
+        },
+        "scope.project.projectCategory": {
+          "type": "object"
+        },
+        "scope.project.projectCategory.description": {
+          "type": "string"
+        },
+        "scope.project.projectCategory.id": {
+          "type": "string"
+        },
+        "scope.project.projectCategory.name": {
+          "type": "string"
+        },
+        "scope.project.projectCategory.self": {
+          "type": "string"
+        },
+        "scope.project.projectTypeKey": {
+          "type": "string"
+        },
+        "scope.project.self": {
+          "type": "string"
+        },
+        "scope.project.simplified": {
+          "type": "boolean"
+        },
+        "scope.type": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "translatedName": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getProjectVersions": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getProjectVersions",
+      "params": {
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "projectIdOrKey": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/rest/api/3/project/{projectIdOrKey}/versions",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].approvers": {
+          "type": "array"
+        },
+        "[].approvers[]": {
+          "type": "object"
+        },
+        "[].approvers[].accountId": {
+          "type": "string"
+        },
+        "[].approvers[].declineReason": {
+          "type": "string"
+        },
+        "[].approvers[].description": {
+          "type": "string"
+        },
+        "[].approvers[].status": {
+          "type": "string"
+        },
+        "[].archived": {
+          "type": "boolean"
+        },
+        "[].description": {
+          "type": "string"
+        },
+        "[].driver": {
+          "type": "string"
+        },
+        "[].expand": {
+          "type": "string"
+        },
+        "[].id": {
+          "type": "string"
+        },
+        "[].issuesStatusForFixVersion": {
+          "type": "object"
+        },
+        "[].issuesStatusForFixVersion.done": {
+          "type": "integer"
+        },
+        "[].issuesStatusForFixVersion.inProgress": {
+          "type": "integer"
+        },
+        "[].issuesStatusForFixVersion.toDo": {
+          "type": "integer"
+        },
+        "[].issuesStatusForFixVersion.unmapped": {
+          "type": "integer"
+        },
+        "[].moveUnfixedIssuesTo": {
+          "type": "string"
+        },
+        "[].name": {
+          "type": "string"
+        },
+        "[].operations": {
+          "type": "array"
+        },
+        "[].operations[]": {
+          "type": "object"
+        },
+        "[].operations[].href": {
+          "type": "string"
+        },
+        "[].operations[].iconClass": {
+          "type": "string"
+        },
+        "[].operations[].id": {
+          "type": "string"
+        },
+        "[].operations[].label": {
+          "type": "string"
+        },
+        "[].operations[].styleClass": {
+          "type": "string"
+        },
+        "[].operations[].title": {
+          "type": "string"
+        },
+        "[].operations[].weight": {
+          "type": "integer"
+        },
+        "[].overdue": {
+          "type": "boolean"
+        },
+        "[].project": {
+          "type": "string"
+        },
+        "[].projectId": {
+          "type": "integer"
+        },
+        "[].releaseDate": {
+          "type": "string"
+        },
+        "[].released": {
+          "type": "boolean"
+        },
+        "[].self": {
+          "type": "string"
+        },
+        "[].startDate": {
+          "type": "string"
+        },
+        "[].userReleaseDate": {
+          "type": "string"
+        },
+        "[].userStartDate": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getProjectsForIssueTypeScreenScheme": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getProjectsForIssueTypeScreenScheme",
+      "params": {
+        "issueTypeScreenSchemeId": {
+          "in": "path",
+          "required": true
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "query": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/issuetypescreenscheme/{issueTypeScreenSchemeId}/project",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].avatarUrls": {
+          "type": "object"
+        },
+        "values[].avatarUrls.16x16": {
+          "type": "string"
+        },
+        "values[].avatarUrls.24x24": {
+          "type": "string"
+        },
+        "values[].avatarUrls.32x32": {
+          "type": "string"
+        },
+        "values[].avatarUrls.48x48": {
+          "type": "string"
+        },
+        "values[].id": {
+          "type": "string"
+        },
+        "values[].key": {
+          "type": "string"
+        },
+        "values[].name": {
+          "type": "string"
+        },
+        "values[].projectCategory": {
+          "type": "object"
+        },
+        "values[].projectCategory.description": {
+          "type": "string"
+        },
+        "values[].projectCategory.id": {
+          "type": "string"
+        },
+        "values[].projectCategory.name": {
+          "type": "string"
+        },
+        "values[].projectCategory.self": {
+          "type": "string"
+        },
+        "values[].projectTypeKey": {
+          "type": "string"
+        },
+        "values[].self": {
+          "type": "string"
+        },
+        "values[].simplified": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getScreens": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getScreens",
+      "params": {
+        "id": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "orderBy": {
+          "in": "query",
+          "required": false
+        },
+        "queryString": {
+          "in": "query",
+          "required": false
+        },
+        "scope": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/screens",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].description": {
+          "type": "string"
+        },
+        "values[].id": {
+          "type": "integer"
+        },
+        "values[].name": {
+          "type": "string"
+        },
+        "values[].scope": {
+          "type": "object"
+        },
+        "values[].scope.project": {
+          "type": "object"
+        },
+        "values[].scope.type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getSecurityLevelMembers": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getSecurityLevelMembers",
+      "params": {
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "id": {
+          "in": "query",
+          "required": false
+        },
+        "levelId": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "schemeId": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/issuesecurityschemes/level/member",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].holder": {
+          "type": "object"
+        },
+        "values[].holder.expand": {
+          "type": "string"
+        },
+        "values[].holder.parameter": {
+          "type": "string"
+        },
+        "values[].holder.type": {
+          "type": "string"
+        },
+        "values[].holder.value": {
+          "type": "string"
+        },
+        "values[].id": {
+          "type": "string"
+        },
+        "values[].issueSecurityLevelId": {
+          "type": "string"
+        },
+        "values[].issueSecuritySchemeId": {
+          "type": "string"
+        },
+        "values[].managed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getSecurityLevels": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getSecurityLevels",
+      "params": {
+        "id": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "onlyDefault": {
+          "in": "query",
+          "required": false
+        },
+        "schemeId": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/issuesecurityschemes/level",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].description": {
+          "type": "string"
+        },
+        "values[].id": {
+          "type": "string"
+        },
+        "values[].isDefault": {
+          "type": "boolean"
+        },
+        "values[].issueSecuritySchemeId": {
+          "type": "string"
+        },
+        "values[].name": {
+          "type": "string"
+        },
+        "values[].self": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getTeams": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getTeams",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "planId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/rest/api/3/plans/plan/{planId}/team",
+      "response": {
+        "cursor": {
+          "type": "string"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "nextPageCursor": {
+          "type": "string"
+        },
+        "size": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].id": {
+          "type": "string"
+        },
+        "values[].name": {
+          "type": "string"
+        },
+        "values[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:getUiModifications": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:getUiModifications",
+      "params": {
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "maxResults": {
+          "in": "query",
+          "required": false
+        },
+        "startAt": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/uiModifications",
+      "response": {
+        "isLast": {
+          "type": "boolean"
+        },
+        "maxResults": {
+          "type": "integer"
+        },
+        "nextPage": {
+          "type": "string"
+        },
+        "self": {
+          "type": "string"
+        },
+        "startAt": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        },
+        "values": {
+          "type": "array"
+        },
+        "values[]": {
+          "type": "object"
+        },
+        "values[].contexts": {
+          "type": "array"
+        },
+        "values[].contexts[]": {
+          "type": "object"
+        },
+        "values[].data": {
+          "type": "string"
+        },
+        "values[].description": {
+          "type": "string"
+        },
+        "values[].id": {
+          "type": "string"
+        },
+        "values[].name": {
+          "type": "string"
+        },
+        "values[].self": {
+          "type": "string"
+        }
+      }
+    },
+    "op:jira_openapi_v3:workflowCapabilities": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:jira_openapi_v3:workflowCapabilities",
+      "params": {
+        "issueTypeId": {
+          "in": "query",
+          "required": false
+        },
+        "projectId": {
+          "in": "query",
+          "required": false
+        },
+        "workflowId": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/rest/api/3/workflows/capabilities",
+      "response": {
+        "connectRules": {
+          "type": "array"
+        },
+        "connectRules[]": {
+          "type": "object"
+        },
+        "connectRules[].addonKey": {
+          "type": "string"
+        },
+        "connectRules[].createUrl": {
+          "type": "string"
+        },
+        "connectRules[].description": {
+          "type": "string"
+        },
+        "connectRules[].editUrl": {
+          "type": "string"
+        },
+        "connectRules[].moduleKey": {
+          "type": "string"
+        },
+        "connectRules[].name": {
+          "type": "string"
+        },
+        "connectRules[].ruleKey": {
+          "type": "string"
+        },
+        "connectRules[].ruleType": {
+          "type": "string"
+        },
+        "connectRules[].viewUrl": {
+          "type": "string"
+        },
+        "editorScope": {
+          "type": "string"
+        },
+        "forgeRules": {
+          "type": "array"
+        },
+        "forgeRules[]": {
+          "type": "object"
+        },
+        "forgeRules[].description": {
+          "type": "string"
+        },
+        "forgeRules[].id": {
+          "type": "string"
+        },
+        "forgeRules[].name": {
+          "type": "string"
+        },
+        "forgeRules[].ruleKey": {
+          "type": "string"
+        },
+        "forgeRules[].ruleType": {
+          "type": "string"
+        },
+        "projectTypes": {
+          "type": "array"
+        },
+        "projectTypes[]": {
+          "type": "string"
+        },
+        "systemRules": {
+          "type": "array"
+        },
+        "systemRules[]": {
+          "type": "object"
+        },
+        "systemRules[].description": {
+          "type": "string"
+        },
+        "systemRules[].incompatibleRuleKeys": {
+          "type": "array"
+        },
+        "systemRules[].incompatibleRuleKeys[]": {
+          "type": "string"
+        },
+        "systemRules[].isAvailableForInitialTransition": {
+          "type": "boolean"
+        },
+        "systemRules[].isVisible": {
+          "type": "boolean"
+        },
+        "systemRules[].name": {
+          "type": "string"
+        },
+        "systemRules[].ruleKey": {
+          "type": "string"
+        },
+        "systemRules[].ruleType": {
+          "type": "string"
+        },
+        "triggerRules": {
+          "type": "array"
+        },
+        "triggerRules[]": {
+          "type": "object"
+        },
+        "triggerRules[].availableTypes": {
+          "type": "array"
+        },
+        "triggerRules[].availableTypes[]": {
+          "type": "object"
+        },
+        "triggerRules[].ruleKey": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "204ee0854f0c81ef01439b6e30688c374794d09719adf9aec3d64e19d888e2cf",
+  "source": "jira_openapi_v3",
+  "unmatched": [],
+  "version": "1001.0.0-SNAPSHOT-ea70632e0e06e672b6c58852a35aaed86a7d313e"
+}

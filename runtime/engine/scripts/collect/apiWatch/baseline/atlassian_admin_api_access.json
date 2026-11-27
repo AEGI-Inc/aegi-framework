@@ -1,0 +1,130 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:33.672Z",
+  "ops": {
+    "op:atlassian_admin_api_access:listOAuthClients": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:atlassian_admin_api_access:listOAuthClients",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "orgId": {
+          "in": "path",
+          "required": true
+        },
+        "pageSize": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/orgs/{orgId}/oauth-clients",
+      "response": {
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[].clientId": {
+          "type": "string"
+        },
+        "data[].createdAt": {
+          "type": "integer"
+        },
+        "data[].name": {
+          "type": "string"
+        },
+        "data[].status": {
+          "type": "string"
+        },
+        "data[].tokenEndpointAuthMethod": {
+          "type": "string"
+        },
+        "data[].updatedAt": {
+          "type": "integer"
+        },
+        "links": {
+          "type": "object"
+        },
+        "links.next": {
+          "type": "string"
+        },
+        "links.prev": {
+          "type": "string"
+        },
+        "links.self": {
+          "type": "string"
+        }
+      }
+    },
+    "op:atlassian_admin_api_access:listServiceAccounts": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:atlassian_admin_api_access:listServiceAccounts",
+      "params": {
+        "orgId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/orgs/{orgId}/service-accounts",
+      "response": {
+        "items": {
+          "type": "array"
+        },
+        "items[]": {
+          "type": "object"
+        },
+        "items[].atlassianId": {
+          "type": "string"
+        },
+        "items[].container": {
+          "type": "string"
+        },
+        "items[].createdById": {
+          "type": "string"
+        },
+        "items[].description": {
+          "type": "string"
+        },
+        "items[].displayName": {
+          "type": "string"
+        },
+        "items[].email": {
+          "type": "string"
+        },
+        "items[].id": {
+          "type": "string"
+        },
+        "items[].picture": {
+          "type": "string"
+        },
+        "items[].status": {
+          "type": "string"
+        },
+        "items[].updatedAt": {
+          "type": "integer"
+        },
+        "links": {
+          "type": "object"
+        },
+        "links.next": {
+          "type": "string"
+        },
+        "links.prev": {
+          "type": "string"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "52842bc49df958aaf60a0fb54c0355a7b6dbd24fa1c63a214e72d2ce857e68f3",
+  "source": "atlassian_admin_api_access",
+  "unmatched": [],
+  "version": "1.0.0"
+}

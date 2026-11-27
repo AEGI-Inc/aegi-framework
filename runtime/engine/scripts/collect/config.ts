@@ -118,6 +118,9 @@ export interface CollectorConfig {
     tenantId: string
     maxDriveItems?: number
   }
+  snowflake?: {
+    accountIdentifier: string
+  }
 }
 
 export function loadConfig(file: string): CollectorConfig {
@@ -285,9 +288,20 @@ export const CREDENTIAL_KEYS = {
   // 1Password Events Reporting 토큰 (감사 이벤트)
   'CRED-OP-02': ['ONEPASSWORD_EVENTS_TOKEN'],
   'CRED-M365-01': ['m365/collector-app.json'],
+  'CRED-SNOW-01': ['SNOWFLAKE_COLLECTOR_USER', 'SNOWFLAKE_COLLECTOR_PRIVATE_KEY'],
 } as const
 
 export type CredentialId = keyof typeof CREDENTIAL_KEYS
+
+/** 필수는 아니지만 있으면 읽는 키. 없어도 그 호출을 건너뛰지 않는다(예: secret 없는 OAuth client 도 있다) */
+export const CREDENTIAL_OPTIONAL_KEYS: Partial<Record<CredentialId, readonly string[]>> = {
+  'CRED-GCP-01': ['GCP_COLLECTOR_CLIENT_SECRET', 'GCP_COLLECTOR_SA_KEY'],
+}
+
+/** 자격증명들을 불러올 때 읽을 키 이름: 필수 키와 있으면 쓰는 키 */
+export function credentialLoadNames(ids: readonly CredentialId[]): string[] {
+  return [...new Set(ids.flatMap(id => [...CREDENTIAL_KEYS[id], ...(CREDENTIAL_OPTIONAL_KEYS[id] ?? [])]))]
+}
 
 /** OAuth 동의(refresh_token / oauth_token) 경로일 때의 자격증명 키 조합 */
 export const CREDENTIAL_OAUTH_KEYS: Partial<Record<CredentialId, readonly string[]>> = {
@@ -300,6 +314,8 @@ export const CREDENTIAL_OAUTH_KEYS: Partial<Record<CredentialId, readonly string
 
 /** 현재 설정된 인증 경로(기본 키 vs OAuth 토큰)에 맞는 필수 키 목록을 돌려준다 */
 export function credentialKeyNames(creds: Credentials, id: CredentialId): readonly string[] {
+  // 서비스 계정 키가 있으면 사람이 동의한 갱신 토큰 대신 그것을 쓴다(조직 Google Cloud 재인증 정책에 걸리지 않는다)
+  if (id === 'CRED-GCP-01' && creds.get('GCP_COLLECTOR_SA_KEY')) return ['GCP_COLLECTOR_SA_KEY']
   if (id === 'CRED-OK-01' && creds.get('OKTA_API_TOKEN')) {
     return ['OKTA_ORG_URL', 'OKTA_API_TOKEN']
   }

@@ -1,0 +1,67 @@
+format: im-pilot-profile/1
+scope: additive_runtime_projection
+provider: microsoft
+service: entra
+object_type: AuthenticationMethodConfiguration
+interfaces: [Policy]
+identity:
+  primary:
+    - {name: id, expr: id, stability: stable}
+  scope: tenant
+fields: {}
+runtime_key: M365-AMCFG-{id}
+runtime_identifiers:
+  primary: [id]
+  id: {stability: stable}
+runtime_rules:
+  - id: list
+    kind: object
+    sources:
+      - call: M365-23
+        request: {kind: authenticationMethodsPolicy}
+        items: authenticationMethodConfigurations
+    id_expr: id
+    properties:
+      method: id
+      state: state
+      include_target_ids: {op: pluck, field: id, of: includeTargets}
+      exclude_target_ids: {op: pluck, field: id, of: excludeTargets}
+      isUsableOnce: isUsableOnce
+      defaultLifetimeInMinutes: defaultLifetimeInMinutes
+      isAttestationEnforced: isAttestationEnforced
+      keyRestrictions: keyRestrictions
+      featureSettings: featureSettings
+      isSoftwareOathEnabled: isSoftwareOathEnabled
+      isHardwareOathEnabled: isHardwareOathEnabled
+      allowExternalIdToUseEmailOtp: allowExternalIdToUseEmailOtp
+    display: "{id}"
+    relations:
+      - type: contained_in
+        source: $self
+        target: {type: AuthenticationMethodsPolicy, id: {const: authenticationMethodsPolicy}}
+        basis: stated
+        require: [target]
+      - type: applies_to
+        each: includeTargets
+        when:
+          path: $item.id
+          eq: all_users
+        source: $self
+        target: $tenant
+        basis: stated
+        require: [target]
+      - type: applies_to
+        each: includeTargets
+        when:
+          path: $item.id
+          ne: all_users
+        source: $self
+        target: {type: Group, id: $item.id}
+        basis: stated
+        require: [target]
+      - type: excludes
+        each: excludeTargets
+        source: $self
+        target: {type: Group, id: $item.id}
+        basis: stated
+        require: [target]

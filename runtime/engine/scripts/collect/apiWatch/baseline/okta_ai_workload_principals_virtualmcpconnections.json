@@ -1,0 +1,430 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:50.104Z",
+  "ops": {
+    "op:okta_ai_workload_principals_virtualmcpconnections:getVirtualMCPConnection": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_ai_workload_principals_virtualmcpconnections:getVirtualMCPConnection",
+      "params": {
+        "connectionId": {
+          "in": "path",
+          "required": true
+        },
+        "virtualMcpServerId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/workload-principals/api/v1/virtual-mcp-servers/{virtualMcpServerId}/connections/{connectionId}",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "connectionType": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "orn": {
+          "type": "string"
+        },
+        "resource": {
+          "type": "object"
+        },
+        "resource._links": {
+          "type": "object"
+        },
+        "resource._links.self": {
+          "type": "object"
+        },
+        "resource._links.self.hints": {
+          "type": "object"
+        },
+        "resource._links.self.href": {
+          "type": "string"
+        },
+        "resource._links.self.name": {
+          "type": "string"
+        },
+        "resource._links.self.templated": {
+          "type": "boolean"
+        },
+        "resource._links.self.type": {
+          "type": "string"
+        },
+        "resource._links.web": {
+          "type": "object"
+        },
+        "resource._links.web.hints": {
+          "type": "object"
+        },
+        "resource._links.web.href": {
+          "type": "string"
+        },
+        "resource._links.web.name": {
+          "type": "string"
+        },
+        "resource._links.web.templated": {
+          "type": "boolean"
+        },
+        "resource._links.web.type": {
+          "type": "string"
+        },
+        "resource.apiServerId": {
+          "type": "string"
+        },
+        "resource.appInstanceId": {
+          "type": "string"
+        },
+        "resource.appInstanceName": {
+          "type": "string"
+        },
+        "resource.clientAuthSettings": {
+          "type": "object"
+        },
+        "resource.clientAuthSettings._links": {
+          "type": "object"
+        },
+        "resource.clientAuthSettings._links.self": {
+          "type": "object"
+        },
+        "resource.clientAuthSettings._links.web": {
+          "type": "object"
+        },
+        "resource.clientAuthSettings.name": {
+          "type": "string"
+        },
+        "resource.clientAuthSettings.oauthConfiguration": {
+          "type": "object"
+        },
+        "resource.clientAuthSettings.oauthConfiguration.scopes": {
+          "type": "array"
+        },
+        "resource.clientAuthSettings.orn": {
+          "type": "string"
+        },
+        "resource.endpointUrl": {
+          "type": "string"
+        },
+        "resource.logo": {
+          "type": "string"
+        },
+        "resource.mcpServerId": {
+          "type": "string"
+        },
+        "resource.name": {
+          "type": "string"
+        },
+        "resource.orn": {
+          "type": "string"
+        },
+        "resource.resourceType": {
+          "type": "string"
+        },
+        "resource.resourceUrl": {
+          "type": "string"
+        },
+        "resourceIndicator": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_ai_workload_principals_virtualmcpconnections:listVirtualMCPConnectionCapabilities": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_ai_workload_principals_virtualmcpconnections:listVirtualMCPConnectionCapabilities",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "connectionId": {
+          "in": "path",
+          "required": true
+        },
+        "expand": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "virtualMcpServerId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/workload-principals/api/v1/virtual-mcp-servers/{virtualMcpServerId}/connections/{connectionId}/capabilities",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.parent": {
+          "type": "object"
+        },
+        "_links.parent.hints": {
+          "type": "object"
+        },
+        "_links.parent.hints.allow": {
+          "type": "array"
+        },
+        "_links.parent.href": {
+          "type": "string"
+        },
+        "_links.parent.name": {
+          "type": "string"
+        },
+        "_links.parent.templated": {
+          "type": "boolean"
+        },
+        "_links.parent.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[]._embedded": {
+          "type": "object"
+        },
+        "data[]._embedded.inputSchema": {
+          "type": "object"
+        },
+        "data[].connectionOrn": {
+          "type": "string"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].profile": {
+          "type": "object"
+        },
+        "data[].profile.alias": {
+          "type": "string"
+        },
+        "data[].profile.description": {
+          "type": "string"
+        },
+        "data[].profile.name": {
+          "type": "string"
+        },
+        "data[].sourceOrn": {
+          "type": "string"
+        },
+        "data[].status": {
+          "type": "string"
+        },
+        "data[].type": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_ai_workload_principals_virtualmcpconnections:listVirtualMCPConnections": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_ai_workload_principals_virtualmcpconnections:listVirtualMCPConnections",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "virtualMcpServerId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/workload-principals/api/v1/virtual-mcp-servers/{virtualMcpServerId}/connections",
+      "response": {
+        "_links": {
+          "type": "object"
+        },
+        "_links.next": {
+          "type": "object"
+        },
+        "_links.next.hints": {
+          "type": "object"
+        },
+        "_links.next.hints.allow": {
+          "type": "array"
+        },
+        "_links.next.href": {
+          "type": "string"
+        },
+        "_links.next.name": {
+          "type": "string"
+        },
+        "_links.next.templated": {
+          "type": "boolean"
+        },
+        "_links.next.type": {
+          "type": "string"
+        },
+        "_links.self": {
+          "type": "object"
+        },
+        "_links.self.hints": {
+          "type": "object"
+        },
+        "_links.self.hints.allow": {
+          "type": "array"
+        },
+        "_links.self.href": {
+          "type": "string"
+        },
+        "_links.self.name": {
+          "type": "string"
+        },
+        "_links.self.templated": {
+          "type": "boolean"
+        },
+        "_links.self.type": {
+          "type": "string"
+        },
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[]._links": {
+          "type": "object"
+        },
+        "data[]._links.self": {
+          "type": "object"
+        },
+        "data[].connectionType": {
+          "type": "string"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].orn": {
+          "type": "string"
+        },
+        "data[].resource": {
+          "type": "object"
+        },
+        "data[].resource._links": {
+          "type": "object"
+        },
+        "data[].resource.apiServerId": {
+          "type": "string"
+        },
+        "data[].resource.appInstanceId": {
+          "type": "string"
+        },
+        "data[].resource.appInstanceName": {
+          "type": "string"
+        },
+        "data[].resource.clientAuthSettings": {
+          "type": "object"
+        },
+        "data[].resource.endpointUrl": {
+          "type": "string"
+        },
+        "data[].resource.logo": {
+          "type": "string"
+        },
+        "data[].resource.mcpServerId": {
+          "type": "string"
+        },
+        "data[].resource.name": {
+          "type": "string"
+        },
+        "data[].resource.orn": {
+          "type": "string"
+        },
+        "data[].resource.resourceType": {
+          "type": "string"
+        },
+        "data[].resource.resourceUrl": {
+          "type": "string"
+        },
+        "data[].resourceIndicator": {
+          "type": "string"
+        },
+        "data[].status": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "ce3673643b6960569d3913ea55c7ed70443cd5e3b3b71acb2477d16399d2aa0e",
+  "source": "okta_ai_workload_principals_virtualmcpconnections",
+  "unmatched": []
+}

@@ -1,0 +1,151 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:54.689Z",
+  "ops": {
+    "op:okta_oauth_openapi:listClients": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_oauth_openapi:listClients",
+      "params": {
+        "after": {
+          "in": "query",
+          "required": false
+        },
+        "limit": {
+          "in": "query",
+          "required": false
+        },
+        "q": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/oauth2/v1/clients",
+      "response": {
+        "[]": {
+          "type": "object"
+        },
+        "[].application_type": {
+          "type": "string"
+        },
+        "[].client_id": {
+          "type": "string"
+        },
+        "[].client_id_issued_at": {
+          "type": "integer"
+        },
+        "[].client_name": {
+          "type": "string"
+        },
+        "[].client_secret": {
+          "type": "string"
+        },
+        "[].client_secret_expires_at": {
+          "type": "integer"
+        },
+        "[].frontchannel_logout_session_required": {
+          "type": "boolean"
+        },
+        "[].frontchannel_logout_uri": {
+          "type": "string"
+        },
+        "[].grant_types": {
+          "type": "array"
+        },
+        "[].grant_types[]": {
+          "type": "string"
+        },
+        "[].id_token_encrypted_response_alg": {
+          "type": "string"
+        },
+        "[].initiate_login_uri": {
+          "type": "string"
+        },
+        "[].jwks": {
+          "type": "object"
+        },
+        "[].jwks.keys": {
+          "type": "array"
+        },
+        "[].jwks.keys[]": {
+          "type": "object"
+        },
+        "[].jwks_uri": {
+          "type": "string"
+        },
+        "[].logo_uri": {
+          "type": "string"
+        },
+        "[].policy_uri": {
+          "type": "string"
+        },
+        "[].post_logout_redirect_uris": {
+          "type": "string"
+        },
+        "[].post_logout_redirect_uris[]": {
+          "type": "string"
+        },
+        "[].redirect_uris": {
+          "type": "array"
+        },
+        "[].redirect_uris[]": {
+          "type": "string"
+        },
+        "[].request_object_signing_alg": {
+          "type": "string"
+        },
+        "[].response_types": {
+          "type": "array"
+        },
+        "[].response_types[]": {
+          "type": "string"
+        },
+        "[].token_endpoint_auth_method": {
+          "type": "string"
+        },
+        "[].tos_uri": {
+          "type": "string"
+        }
+      }
+    },
+    "op:okta_oauth_openapi:oauthKeys": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:okta_oauth_openapi:oauthKeys",
+      "params": {
+        "client_id": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/oauth2/v1/keys",
+      "response": {
+        "keys": {
+          "type": "array"
+        },
+        "keys[]": {
+          "type": "object"
+        },
+        "keys[].alg": {
+          "type": "string"
+        },
+        "keys[].kid": {
+          "type": "string"
+        },
+        "keys[].kty": {
+          "type": "string"
+        },
+        "keys[].status": {
+          "type": "string"
+        },
+        "keys[].use": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "f925cc3cf13661cd3bc5592eb725eb2ba79de1ffda6c93bd1b1e601a6bd6107a",
+  "source": "okta_oauth_openapi",
+  "unmatched": [],
+  "version": "2026.09.2"
+}

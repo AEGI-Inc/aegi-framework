@@ -38,3 +38,62 @@ runtime_rules:
         target: $tenant
         basis: stated
         require: [target]
+  - id: dns_spf_enrich
+    kind: enrich
+    sources:
+      - call: M365-34
+        request: {kind: dns, record: spf}
+        items: (root)
+    target:
+      type: Domain
+      id: $req.domain
+    set:
+      spf_record: {op: first, of: spf}
+  - id: dns_dmarc_enrich
+    kind: enrich
+    sources:
+      - call: M365-34
+        request: {kind: dns, record: dmarc}
+        items: (root)
+    target:
+      type: Domain
+      id: $req.domain
+    set:
+      dmarc_record: {op: first, of: records}
+      dmarc_policy:
+        op: regex
+        of: {op: first, of: records}
+        pattern: 'p=([a-z]+)'
+  - id: dns_dkim_selector1_enrich
+    kind: enrich
+    sources:
+      - call: M365-34
+        request: {kind: dns, record: dkim_selector1}
+        items: (root)
+    target:
+      type: Domain
+      id: $req.domain
+    set:
+      dkim_selector1_target: {op: first, of: targets}
+  - id: dns_dkim_selector2_enrich
+    kind: enrich
+    sources:
+      - call: M365-34
+        request: {kind: dns, record: dkim_selector2}
+        items: (root)
+    target:
+      type: Domain
+      id: $req.domain
+    set:
+      dkim_selector2_target: {op: first, of: targets}
+  - id: dns_mx_enrich
+    kind: enrich
+    sources:
+      - call: M365-34
+        request: {kind: dns, record: mx}
+        items: (root)
+    target:
+      type: Domain
+      id: $req.domain
+    set:
+      mx_hosts: {op: pluck, field: exchange, of: records}

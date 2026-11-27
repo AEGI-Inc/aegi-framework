@@ -1,0 +1,199 @@
+{
+  "format": "openapi",
+  "made_at": "2026-11-26T05:53:34.175Z",
+  "ops": {
+    "op:atlassian_admin_organization:getDomains": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:atlassian_admin_organization:getDomains",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "orgId": {
+          "in": "path",
+          "required": true
+        }
+      },
+      "path": "/v1/orgs/{orgId}/domains",
+      "response": {
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[].attributes": {
+          "type": "object"
+        },
+        "data[].attributes.claim": {
+          "type": "object"
+        },
+        "data[].attributes.name": {
+          "type": "string"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].links": {
+          "type": "object"
+        },
+        "data[].links.self": {
+          "type": "string"
+        },
+        "data[].type": {
+          "type": "string"
+        },
+        "links": {
+          "type": "object"
+        },
+        "links.next": {
+          "type": "string"
+        },
+        "links.prev": {
+          "type": "string"
+        },
+        "links.self": {
+          "type": "string"
+        }
+      }
+    },
+    "op:atlassian_admin_organization:getOrgs": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:atlassian_admin_organization:getOrgs",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/v1/orgs",
+      "response": {
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[].attributes": {
+          "type": "object"
+        },
+        "data[].attributes.name": {
+          "type": "string"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].links": {
+          "type": "object"
+        },
+        "data[].links.self": {
+          "type": "string"
+        },
+        "data[].relationships": {
+          "type": "object"
+        },
+        "data[].relationships.domains": {
+          "type": "object"
+        },
+        "data[].relationships.users": {
+          "type": "object"
+        },
+        "data[].type": {
+          "type": "string"
+        },
+        "links": {
+          "type": "object"
+        },
+        "links.next": {
+          "type": "string"
+        },
+        "links.prev": {
+          "type": "string"
+        },
+        "links.self": {
+          "type": "string"
+        }
+      }
+    },
+    "op:atlassian_admin_organization:getPolicies": {
+      "deprecated": false,
+      "method": "GET",
+      "op": "op:atlassian_admin_organization:getPolicies",
+      "params": {
+        "cursor": {
+          "in": "query",
+          "required": false
+        },
+        "orgId": {
+          "in": "path",
+          "required": true
+        },
+        "type": {
+          "in": "query",
+          "required": false
+        }
+      },
+      "path": "/v1/orgs/{orgId}/policies",
+      "response": {
+        "data": {
+          "type": "array"
+        },
+        "data[]": {
+          "type": "object"
+        },
+        "data[].attributes": {
+          "type": "object"
+        },
+        "data[].attributes.name": {
+          "type": "string"
+        },
+        "data[].attributes.resources": {
+          "type": "array"
+        },
+        "data[].attributes.rule": {
+          "type": "object"
+        },
+        "data[].attributes.status": {
+          "type": "string"
+        },
+        "data[].attributes.type": {
+          "type": "string"
+        },
+        "data[].id": {
+          "type": "string"
+        },
+        "data[].type": {
+          "type": "string"
+        },
+        "links": {
+          "type": "object"
+        },
+        "links.next": {
+          "type": "string"
+        },
+        "links.prev": {
+          "type": "string"
+        },
+        "links.self": {
+          "type": "string"
+        },
+        "meta": {
+          "type": "object"
+        },
+        "meta.next": {
+          "type": "string"
+        },
+        "meta.page_size": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "snapshot_sha256": "84d325e0640afed8890c7e9e1d258d7ed553eeda24314dc5d20ff75532455485",
+  "source": "atlassian_admin_organization",
+  "unmatched": [],
+  "version": "1.0"
+}

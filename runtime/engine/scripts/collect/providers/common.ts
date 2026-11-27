@@ -2,10 +2,17 @@ import type { CollectorConfig, Credentials } from '../config'
 import type { Transport } from '../lib/http'
 import type { CallApi, CallDef } from '../lib/runner'
 
+export interface DnsResolver {
+  resolveTxt(hostname: string): Promise<string[][]>
+  resolveCname(hostname: string): Promise<string[]>
+  resolveMx(hostname: string): Promise<Array<{ exchange: string; priority: number }>>
+}
+
 export interface ProviderContext {
   config: CollectorConfig
   creds: Credentials
   transport: Transport
+  dnsResolver?: DnsResolver
 }
 
 export type CallFactory = (ctx: ProviderContext) => CallDef[]

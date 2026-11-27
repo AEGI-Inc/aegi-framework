@@ -49,6 +49,7 @@ runtime_rules:
       displayName: displayName
       appDisplayName: appDisplayName
       servicePrincipalType: servicePrincipalType
+      preferredSingleSignOnMode: preferredSingleSignOnMode
       appOwnerOrganizationId: appOwnerOrganizationId
       appRoleAssignmentRequired: appRoleAssignmentRequired
       accountEnabled: accountEnabled
@@ -60,6 +61,8 @@ runtime_rules:
       oauth2PermissionScopes: oauth2PermissionScopes
       tags: tags
       createdDateTime: createdDateTime
+      password_credential_count: {op: count, of: passwordCredentials}
+      key_credential_count: {op: count, of: keyCredentials}
     display: "{displayName|appDisplayName|appId|id}"
     relations:
       - type: contained_in

@@ -108,3 +108,37 @@ runtime_rules:
           sku_id: skuId
           sku_part_number: skuPartNumber
         require: [source, target]
+  - id: mailbox_settings_enrich
+    kind: enrich
+    sources:
+      - call: M365-29
+        request: {kind: mailboxSettings}
+        items: (root)
+    target:
+      type: User
+      id: $req.user
+    set:
+      mailbox_purpose: userPurpose
+      automatic_replies_status: automaticRepliesSetting.status
+      automatic_replies_external_audience: automaticRepliesSetting.externalAudience
+  - id: registration_details_enrich
+    kind: enrich
+    sources:
+      - call: M365-32
+        request: {kind: userRegistrationDetails}
+        items: value
+    require:
+      path: id
+      present: true
+    target:
+      type: User
+      id: id
+    set:
+      mfa_registered: isMfaRegistered
+      mfa_capable: isMfaCapable
+      passwordless_capable: isPasswordlessCapable
+      sspr_registered: isSsprRegistered
+      methods_registered: methodsRegistered
+      default_mfa_method: defaultMfaMethod
+      system_preferred_mfa_methods: systemPreferredAuthenticationMethods
+      registration_is_admin: isAdmin
