@@ -54,7 +54,7 @@ aegi-framework/
 ├── runtime/                       로컬 실행 런타임
 │                                  클라우드나 외부 DB 없이 PC 한 대에서
 │                                  수집, 정규화, 판정, 대시보드, AI 조사 실행
-└── scripts/                       공개 안전성 검사, 링크 검사
+└── scripts/                       공개 안전성 검사, 링크 검사, 문서 정합성 검사
 ```
 
 폴더별 입구 문서: [docs](docs/01-overview/architecture.md), [schema](framework/schema/README.md), [connection-rules](framework/connection-rules/docs/methods.md), [threat-mapping](framework/threat-mapping/README.md), [compliance](framework/compliance/scope/README.md), [specs](specs/IM_PROFILE_PIPELINE.md), [runtime](runtime/README.md), [scripts](scripts/check-public-safety.mjs)
@@ -94,7 +94,7 @@ Workday나 사내 자체 SaaS처럼 지원 목록에 없는 SaaS는 [새 SaaS �
 Node.js 22.13 이상에서 아래 명령으로 확인하세요.
 
 ```bash
-npm run verify          # 아래 안전성 검사, 문서 링크 검사, V3.2 고정본 검증을 한 번에
+npm run verify          # 아래 안전성 검사, 문서 링크 검사, 문서 정합성 검사, V3.2 고정본 검증을 한 번에
 npm run check:safety    # 내부 전용 경로, 개인 경로, 시크릿 유출 검사
 npm run verify:freeze   # IM Object Model V3.2 고정본 40개 파일 해시 검증
 npm run runtime:doctor  # 로컬 런타임 실행 환경과 SaaS 자격증명 준비 상태 점검
