@@ -19,8 +19,8 @@ const { openDb, migrate } = await import('../src/db.ts')
 const { publishEmpty, publishSample } = await import('../src/pipeline.ts')
 const { createLogServices, WORKSPACE_ID } = await import('../src/logs.ts')
 const { splunkSettings, loadWorkspace, checkSplunk } = await import('../src/splunk.ts')
-const { startServer } = await import('../src/server.ts')
-const { handleOAuthCallback, renderCallbackHtml, revokeAndDisconnectProvider, startOAuth, testCredentialConnection } = await import('../src/oauth.ts')
+const { isLoopbackHostHeader, startServer } = await import('../src/server.ts')
+const { handleOAuthCallback, issueGithubSetupState, renderCallbackHtml, revokeAndDisconnectProvider, startOAuth, testCredentialConnection } = await import('../src/oauth.ts')
 const { collectorConfig, missingIdentifiers } = await import('../src/collectorConfig.ts')
 const { failedDetectors, findPython, judgeStandards } = await import('../src/standards.ts')
 const { logCatalog, runLogTool } = await import('../dashboard/server/assistant/logTools.ts')
@@ -537,7 +537,19 @@ test('GitHub App 설치 콜백은 설치 조직 login을 저장하고 개인키�
   const privateKeyPem = privateKey.export({ type: 'pkcs1', format: 'pem' }).toString()
   const env: Record<string, string> = { GITHUB_APP_ID: '12345', GITHUB_APP_PRIVATE_KEY: privateKeyPem }
   const requests: string[] = []
-  const outcome = await handleOAuthCallback(new URLSearchParams({ installation_id: '67890' }), {
+  // 서버가 만든 state 없이 온 설치 콜백(다른 사이트가 링크로 부른 것일 수 있음)은 .env 를 바꾸지 않는다
+  const forged = await handleOAuthCallback(new URLSearchParams({ installation_id: '99999' }), {
+    port: 5199, env, envFile, transport: async () => { throw new Error('state 없는 콜백은 GitHub 를 부르지 않는다') },
+  })
+  assert.equal(forged.ok, false)
+  assert.equal(forged.status, 400)
+  assert.equal(env.GITHUB_APP_INSTALLATION_ID, undefined)
+  assert.ok(!fs.existsSync(envFile) || !fs.readFileSync(envFile, 'utf8').includes('99999'))
+  // 다른 종류(manifest)의 state 로도 설치를 저장하지 않는다
+  const wrongKind = await handleOAuthCallback(new URLSearchParams({ installation_id: '99999', state: issueGithubSetupState('manifest') }), { port: 5199, env, envFile })
+  assert.equal(wrongKind.ok, false)
+
+  const outcome = await handleOAuthCallback(new URLSearchParams({ installation_id: '67890', state: issueGithubSetupState('install') }), {
     port: 5199,
     env,
     envFile,
@@ -552,7 +564,7 @@ test('GitHub App 설치 콜백은 설치 조직 login을 저장하고 개인키�
   assert.ok(!outcome.html.includes(privateKeyPem), '개인키는 콜백 응답에 포함하면 안 된다')
 
   const noKeyEnv: Record<string, string> = { GITHUB_APP_ID: '12345' }
-  const noKey = await handleOAuthCallback(new URLSearchParams({ installation_id: '67891' }), {
+  const noKey = await handleOAuthCallback(new URLSearchParams({ installation_id: '67891', state: issueGithubSetupState('install') }), {
     port: 5199,
     env: noKeyEnv,
     envFile: path.join(dir, 'no-key.env'),
@@ -580,12 +592,25 @@ test('GitHub App 설치 콜백은 설치 조직 login을 저장하고 개인키�
     return new Response(JSON.stringify({ id: 54321, slug: 'aegi-test', client_id: 'client', pem: 'new private key', html_url: 'https://github.com/apps/aegi-test' }), { status: 200 })
   }
   try {
-    const manifest = await handleOAuthCallback(new URLSearchParams({ code: 'manifest-code' }), {
+    // state 없는 Manifest code 는 변환하지 않는다(다른 사이트가 공격자 앱 code 를 넣어 키를 바꿔치기하지 못하게)
+    const noState = await handleOAuthCallback(new URLSearchParams({ code: 'manifest-code' }), { port: 5199, env: {}, envFile: path.join(dir, 'manifest.env') })
+    assert.equal(noState.ok, false)
+    assert.equal(fs.readFileSync(pemPath, 'utf8'), 'old key')
+    const manifestEnv: Record<string, string> = {}
+    const manifestStateValue = issueGithubSetupState('manifest')
+    const manifest = await handleOAuthCallback(new URLSearchParams({ code: 'manifest-code', state: manifestStateValue }), {
       port: 5199,
-      env: {},
+      env: manifestEnv,
       envFile: path.join(dir, 'manifest.env'),
     })
     assert.equal(manifest.ok, true)
+    assert.equal(manifestEnv.GITHUB_APP_ID, '54321')
+    // 설치 링크에는 설치 콜백이 확인할 state 가 붙는다
+    const installState = /installations\/new\?state=([A-Za-z0-9_-]+)/.exec(manifest.html)?.[1]
+    assert.ok(installState, '설치 링크에 state 가 있어야 한다')
+    // 같은 manifest state 는 한 번만 쓴다
+    const reused = await handleOAuthCallback(new URLSearchParams({ code: 'manifest-code', state: manifestStateValue }), { port: 5199, env: {}, envFile: path.join(dir, 'reuse.env') })
+    assert.equal(reused.ok, false)
     assert.equal(fs.readFileSync(pemPath, 'utf8'), 'new private key')
     if (process.platform !== 'win32') {
       assert.equal(fs.statSync(pemPath).mode & 0o777, 0o600)
@@ -2112,3 +2137,48 @@ test('코드 감사 회귀: OAuth XSS 이스케이프, Okta DPoP 기본 스코�
   }
 })
 
+
+test('비밀번호 없는 모드는 이 PC 주소의 Host 만 받는다 (DNS rebinding 차단)', async () => {
+  assert.equal(isLoopbackHostHeader('127.0.0.1:5199'), true)
+  assert.equal(isLoopbackHostHeader('localhost:5199'), true)
+  assert.equal(isLoopbackHostHeader('LOCALHOST'), true)
+  assert.equal(isLoopbackHostHeader('[::1]:5199'), true)
+  assert.equal(isLoopbackHostHeader('attacker.example:5199'), false)
+  assert.equal(isLoopbackHostHeader('127.0.0.1.attacker.example'), false)
+  assert.equal(isLoopbackHostHeader(undefined), false)
+
+  const http = await import('node:http')
+  const local = openDb(':memory:')
+  await migrate(local)
+  await publishSample(local, () => undefined)
+  const get = (port: number, host: string, pathname: string) => new Promise<number>((resolve, reject) => {
+    const req = http.request({ host: '127.0.0.1', port, path: pathname, headers: { Host: host } }, res => { res.resume(); resolve(res.statusCode ?? 0) })
+    req.on('error', reject)
+    req.end()
+  })
+  const open = await startServer({ host: '127.0.0.1', port: 0, env: {}, local, logs: null })
+  try {
+    const port = (open.address() as { port: number }).port
+    assert.equal(await get(port, `127.0.0.1:${port}`, '/api/measured/dataset-v2'), 200)
+    assert.equal(await get(port, `localhost:${port}`, '/api/measured/dataset-v2'), 200)
+    assert.equal(await get(port, `attacker.example:${port}`, '/api/measured/dataset-v2'), 421)
+    assert.equal(await get(port, `attacker.example:${port}`, '/__aegi/local-token'), 421)
+    assert.equal(await get(port, `attacker.example:${port}`, '/'), 421)
+  } finally { open.close() }
+
+  // 비밀번호를 두면 로그인이 지키므로 다른 주소(Host)로도 연다. 세션 없이는 데이터를 주지 않는다
+  const locked = await startServer({ host: '127.0.0.1', port: 0, env: { AEGI_PASSWORD: 'pw-for-test' }, local, logs: null })
+  try {
+    const port = (locked.address() as { port: number }).port
+    assert.equal(await get(port, `aegi.internal.example:${port}`, '/api/measured/dataset-v2'), 401)
+  } finally { locked.close(); local.close() }
+})
+
+test('Microsoft Graph 의 점이 든 키(@odata.type)를 읽어 그룹 구성원 종류를 가린다', async () => {
+  const { getPath, evalExpr } = await import('../engine/scripts/collect/shared/expr.ts')
+  const member = { '@odata.type': '#microsoft.graph.group', id: 'g-1', nested: { a: { b: 1 } } }
+  assert.equal(getPath(member, '@odata.type'), '#microsoft.graph.group')
+  assert.equal(getPath(member, 'nested.a.b'), 1)
+  const kind = evalExpr({ op: 'map', of: '@odata.type', table: { '#microsoft.graph.user': 'user', '#microsoft.graph.group': 'group', '#microsoft.graph.servicePrincipal': 'sp' }, default: { const: 'user' } } as never, { r: member } as never)
+  assert.equal(kind, 'group')
+})

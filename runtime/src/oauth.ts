@@ -41,8 +41,31 @@ const STATE_TTL_MS = 10 * 60 * 1000
 const pendingStates = new Map<string, PendingOAuthState>()
 
 /** 테스트용: 만료된 state 정리 또는 초기화 */
+/**
+ * GitHub App Manifest 생성과 App 설치는 일반 OAuth 가 아니라서 pendingStates 를 쓰지 않는다.
+ * 그래도 콜백은 GET 이라 다른 사이트가 링크나 이미지로 부를 수 있으므로, 서버가 만든 일회용 state 가 있을 때만 .env 를 바꾼다.
+ */
+export type GithubSetupKind = 'manifest' | 'install'
+const githubSetupStates = new Map<string, { kind: GithubSetupKind; createdAt: number }>()
+
+export function issueGithubSetupState(kind: GithubSetupKind, now = Date.now()): string {
+  for (const [k, v] of githubSetupStates.entries()) if (now - v.createdAt > STATE_TTL_MS) githubSetupStates.delete(k)
+  const state = randomBytes(24).toString('base64url')
+  githubSetupStates.set(state, { kind, createdAt: now })
+  return state
+}
+
+/** 맞는 종류의 살아 있는 state 면 소모하고 true. 다른 종류의 state 는 건드리지 않는다 */
+function takeGithubSetupState(state: string, kind: GithubSetupKind, now: number): boolean {
+  const entry = state ? githubSetupStates.get(state) : undefined
+  if (!entry || entry.kind !== kind) return false
+  githubSetupStates.delete(state)
+  return now - entry.createdAt <= STATE_TTL_MS
+}
+
 export function clearPendingOAuthStates(): void {
   pendingStates.clear()
+  githubSetupStates.clear()
 }
 
 function pruneExpiredStates(now = Date.now()): void {
@@ -650,6 +673,12 @@ export async function handleOAuthCallback(query: URLSearchParams, opts: HandleCa
   // GitHub App 설치 흐름 처리 (GitHub 가 installation_id 와 setup_action=install 로 콜백)
   const installationId = query.get('installation_id')
   if (installationId) {
+    // 서버가 설치 링크에 붙인 state 가 없으면 저장하지 않는다(다른 사이트가 설치 ID 를 바꿔 넣지 못하게).
+    // GitHub 화면에서 바로 설치한 경우는 Adapters 의 「감지된 설치 대상」에서 골라 저장한다.
+    if (!takeGithubSetupState(query.get('state') ?? '', 'install', now)) {
+      const error = 'GitHub App 설치를 받았지만 이 화면에서 시작한 설치인지 확인하지 못해 자동으로 저장하지 않았습니다. Adapters의 GitHub 연결에서 감지된 설치 대상을 골라 [설정 저장]을 눌러 주세요.'
+      return { status: 400, ok: false, provider: 'github', error, html: renderCallbackHtml(opts.port, { ok: false, provider: 'github', error }) }
+    }
     const pemContent = resolveGithubAppPem(opts.env)
     const appId = (opts.env.GITHUB_APP_ID ?? '').trim()
     const updates: Record<string, string> = {}
@@ -714,8 +743,13 @@ export async function handleOAuthCallback(query: URLSearchParams, opts: HandleCa
   const state = query.get('state') ?? ''
   const code = query.get('code') ?? ''
 
-  // state 없이 code 만 전달된 경우: GitHub App Manifest 자동 생성 플로우이거나 이미 변환된 코드
-  if (!state && code) {
+  // GitHub App Manifest 생성 플로우: 화면이 받아 간 manifest state 와 함께 돌아온 code 만 변환한다
+  const manifestState = Boolean(state && code) && takeGithubSetupState(state, 'manifest', now)
+  if (code && !state) {
+    const error = 'GitHub App Manifest 요청(state)이 없어 처리하지 않았습니다. Adapters에서 [새 GitHub App 생성 (Manifest)]를 다시 눌러 주세요.'
+    return { status: 400, ok: false, provider: 'github', error, html: renderCallbackHtml(opts.port, { ok: false, provider: 'github', error }) }
+  }
+  if (manifestState) {
     try {
       const manifestRes = await fetch(`https://api.github.com/app-manifests/${code}/conversions`, {
         method: 'POST',
@@ -744,7 +778,7 @@ export async function handleOAuthCallback(query: URLSearchParams, opts: HandleCa
           GITHUB_APP_PRIVATE_KEY: manifestData.pem,
         }
         saveEnvValues(updates, opts.env, opts.envFile ?? ENV_FILE)
-        const installUrl = escapeHtml(`${manifestData.html_url || `https://github.com/apps/${manifestData.slug}`}/installations/new`)
+        const installUrl = escapeHtml(`${manifestData.html_url || `https://github.com/apps/${encodeURIComponent(manifestData.slug)}`}/installations/new?state=${issueGithubSetupState('install', now)}`)
         const safeSlug = escapeHtml(manifestData.slug)
         return {
           status: 200,

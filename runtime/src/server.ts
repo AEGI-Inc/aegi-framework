@@ -16,7 +16,7 @@ import type { LocalDb } from './db.ts'
 import { accessPassword, assistantEnv, localTokenStatus, reloadEnvFromDisk, saveEnvValues, type AiTestRecord } from './env.ts'
 import { fetchAiModels, runAiTest } from './aiTest.ts'
 import { WORKSPACE_ID, createLogServices, type LogServices } from './logs.ts'
-import { handleOAuthCallback, listGitHubOrganizations, renderCallbackHtml, revokeAndDisconnectProvider, startOAuth, testCredentialConnection, type OAuthProvider } from './oauth.ts'
+import { handleOAuthCallback, issueGithubSetupState, listGitHubOrganizations, renderCallbackHtml, revokeAndDisconnectProvider, startOAuth, testCredentialConnection, type OAuthProvider } from './oauth.ts'
 import { ENGINE_DIR, WEB_DIR } from './paths.ts'
 import { collectAndPublish, publishSample } from './pipeline.ts'
 import { findPython } from './standards.ts'
@@ -257,6 +257,9 @@ export async function startServer(o: ServerOptions): Promise<http.Server> {
 
   const server = http.createServer(async (req, res) => {
     try {
+      // 비밀번호 없는 모드는 서버가 세션을 붙여 주므로, 이 PC 주소로 연 요청만 받는다.
+      // Host 를 보지 않으면 DNS rebinding(공격자 도메인이 127.0.0.1 을 가리키게 바꾸기)으로 다른 사이트가 API 를 읽고 쓴다.
+      if (session && !isLoopbackHostHeader(req.headers.host)) return send(res, 421, '{"error":"bad_host"}', TYPES['.json']!)
       const url = new URL(req.url ?? '/', `http://${req.headers.host ?? `${o.host}:${o.port}`}`)
       if (url.pathname.startsWith('/api/measured/')) return await api(req, res, url)
 
@@ -374,6 +377,13 @@ export async function startServer(o: ServerOptions): Promise<http.Server> {
         }
         const result = await listGitHubOrganizations(queryEnv, o.oauthTransport)
         return send(res, 200, JSON.stringify(result), TYPES['.json']!)
+      }
+      if (url.pathname === '/__aegi/github/manifest-state') {
+        // 화면이 GitHub App Manifest 폼에 붙일 일회용 state. 콜백은 이 state 와 함께 온 code 만 변환한다
+        if (!isLoopbackAddress(req.socket.remoteAddress)) return send(res, 403, '{"error":"loopback_only"}', TYPES['.json']!)
+        if (req.method !== 'POST') return send(res, 405, '{"error":"method_not_allowed"}', TYPES['.json']!)
+        if (!isAllowedOrigin(req)) return send(res, 403, '{"error":"bad_origin"}', TYPES['.json']!)
+        return send(res, 200, JSON.stringify({ state: issueGithubSetupState('manifest') }), TYPES['.json']!)
       }
       if (url.pathname === '/__aegi/oauth/done') {
         if (!isLoopbackAddress(req.socket.remoteAddress)) return send(res, 403, 'forbidden', TYPES['.txt']!)
@@ -581,6 +591,15 @@ export async function startServer(o: ServerOptions): Promise<http.Server> {
 }
 
 const isLoopback = (host: string) => ['localhost', '127.0.0.1', '[::1]'].includes(host)
+/** Host 헤더(포트 포함)가 이 PC 주소(127.0.0.1, localhost, [::1])인지 */
+export function isLoopbackHostHeader(host: string | undefined): boolean {
+  if (!host) return false
+  try {
+    return isLoopback(new URL(`http://${host}`).hostname)
+  } catch {
+    return false
+  }
+}
 const isLoopbackAddress = (addr?: string) => !addr || ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(addr)
 
 function isAllowedOrigin(req: http.IncomingMessage): boolean {

@@ -38,6 +38,8 @@ export function permissionName(p: any): string {
 
 export function getPath(obj: any, p: string): unknown {
   if (p === '.' || p === '') return obj
+  // Microsoft Graph 의 "@odata.type" 처럼 이름에 점이 든 키는 그대로 먼저 읽는다
+  if (obj != null && typeof obj === 'object' && Object.prototype.hasOwnProperty.call(obj, p)) return obj[p]
   let cur = obj
   for (const k of p.split('.')) {
     if (cur == null) return undefined
